@@ -34,19 +34,47 @@
       </div>
     </section>
 
+    <!-- ===== Grille des 4 outils ===== -->
+    <section class="container">
+      <div class="cta-grid" style="grid-template-columns: repeat(2,1fr)">
+        <a class="cta-card cta-card--bleu" href="#quiz-section">
+          <h3>Quiz</h3>
+          <p>Teste tes réflexes en 10 situations concrètes.</p>
+          <span class="cta-card__arrow">Commencer →</span>
+        </a>
+        <a class="cta-card cta-card--vert" href="#question">
+          <h3>Question anonyme</h3>
+          <p>Tu as un doute ? Pose ta question, on répond.</p>
+          <span class="cta-card__arrow">Poser une question →</span>
+        </a>
+        <a class="cta-card cta-card--bleu" href="#calendrier">
+          <h3>Événements</h3>
+          <p>Les prochains rendez-vous NAH au lycée.</p>
+          <span class="cta-card__arrow">Voir le calendrier →</span>
+        </a>
+        <a class="cta-card cta-card--bordeaux" href="#signalement">
+          <h3>Signalement</h3>
+          <p>Signale une situation, anonymement si tu veux.</p>
+          <span class="cta-card__arrow">Signaler →</span>
+        </a>
+      </div>
+    </section>
+
     <!-- ===== Quiz ===== -->
-    <section class="container" id="quiz-section">
-      <h2>Quiz : « Réagis-tu bien face au harcèlement ? »</h2>
-      <p class="lead">10 situations concrètes, sans jugement. À la fin : ton score et des conseils.</p>
-      <div class="card quiz-card" id="quiz">
-        <p class="quiz-progress">Question 1</p>
-        <div class="quiz-bar"><div class="quiz-bar__fill"></div></div>
-        <div id="quiz-content"></div>
+    <section class="section-gris" id="quiz-section">
+      <div class="container">
+        <h2>Quiz : « Réagis-tu bien face au harcèlement ? »</h2>
+        <p class="lead">10 situations concrètes, sans jugement. À la fin : ton score et des conseils.</p>
+        <div class="card quiz-card" id="quiz">
+          <p class="quiz-progress">Question 1</p>
+          <div class="quiz-bar"><div class="quiz-bar__fill"></div></div>
+          <div id="quiz-content"></div>
+        </div>
       </div>
     </section>
 
     <!-- ===== Question anonyme ===== -->
-    <section class="section-gris" id="question">
+    <section class="container" id="question">
       <div class="container">
         <h2>Pose ta question, anonymement</h2>
         <p class="lead">Une question sur le harcèlement, une situation, un doute ? Écris-nous.</p>
@@ -64,7 +92,7 @@
     </section>
 
     <!-- ===== Sondage ===== -->
-    <section class="container">
+    <section class="section-gris">
       <h2>Le sondage du moment</h2>
       <p class="lead">Vote anonyme. Ton avis compte et aide l'équipe à agir.</p>
       <div class="card" id="sondage" style="max-width:640px">

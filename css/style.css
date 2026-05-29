@@ -195,8 +195,8 @@ section { padding: 48px 0; }
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 400px;
-  padding: 40px 20px;
+  min-height: 220px;
+  padding: 28px 20px;
   background: linear-gradient(135deg, var(--bleu) 0%, #2c6fbd 100%);
   color: #fff;
 }
@@ -204,14 +204,14 @@ section { padding: 48px 0; }
 /* Voile bleu par-dessus la photo (dégradé translucide) */
 
 @media (max-width: 600px) {
-  .bandeau { min-height: 250px; }
+  .bandeau { min-height: 160px; }
 }
 
 .bandeau__inner { max-width: 760px; }
 
 .bandeau h1 {
   color: #fff;
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   text-shadow: 0 2px 12px rgba(0,0,0,0.35);
 }
 .bandeau p {
@@ -226,9 +226,9 @@ section { padding: 48px 0; }
 }
 
 /* Bandeau secondaire (pages internes, plus court) */
-.bandeau--page { min-height: 240px; }
+.bandeau--page { min-height: 150px; }
 @media (max-width: 600px) {
-  .bandeau--page { min-height: 180px; }
+  .bandeau--page { min-height: 120px; }
 }
 
 /* ---------- Boutons ---------- */

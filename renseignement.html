@@ -9,6 +9,112 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Cartes visuelles spécifiques à cette page ---- */
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .info-card {
+      background: var(--blanc);
+      border: 1px solid var(--gris-bleu);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .info-card .ic-icon { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+    .info-card strong { display: block; color: var(--bleu); margin-bottom: 4px; }
+    .info-card p { margin: 0; font-size: .95rem; color: var(--texte-sec); }
+
+    .versus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 640px) { .versus-grid { grid-template-columns: 1fr; } }
+    .versus-card {
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-size: .95rem;
+    }
+    .versus-card--ok { background: #e6f4ec; border-left: 4px solid var(--vert); }
+    .versus-card--mid { background: #fff9e6; border-left: 4px solid #c89b00; }
+    .versus-card--bad { background: #f7e7e9; border-left: 4px solid var(--bordeaux); }
+    .versus-card .tag {
+      font-weight: 700;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .criteres-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 16px 0;
+    }
+    @media (max-width: 640px) { .criteres-grid { grid-template-columns: 1fr; } }
+    .critere-card {
+      background: var(--bleu);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .critere-card .num { font-size: 2rem; font-family: var(--font-titre); font-weight: 700; display: block; }
+    .critere-card strong { display: block; margin-bottom: 4px; }
+    .critere-card p { margin: 0; font-size: .9rem; opacity: .9; }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .step-card {
+      background: var(--gris-bleu);
+      border-radius: var(--radius);
+      padding: 14px;
+      text-align: center;
+      font-size: .95rem;
+    }
+    .step-card .step-num {
+      width: 34px; height: 34px;
+      background: var(--vert);
+      color: #fff;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      margin: 0 auto 8px;
+    }
+    .step-card strong { display: block; margin-bottom: 4px; color: var(--texte); }
+    .step-card p { margin: 0; color: var(--texte-sec); font-size: .88rem; }
+
+    .temoin-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 640px) { .temoin-row { grid-template-columns: 1fr; } }
+    .temoin-card {
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      font-size: .95rem;
+    }
+    .temoin-card--non { background: #f7e7e9; }
+    .temoin-card--oui { background: #e6f4ec; }
+    .temoin-card .t-icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+    .temoin-card strong { display: block; margin-bottom: 4px; }
+    .temoin-card p { margin: 0; font-size: .88rem; color: var(--texte-sec); }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Aller au contenu principal</a>
@@ -36,35 +142,43 @@
 
     <section class="container">
       <div class="doc-layout">
-        <!-- Sommaire (sticky desktop / accordéon mobile) -->
         <aside class="sommaire" aria-label="Sommaire">
           <details open>
             <summary><h2 style="display:inline">Sommaire</h2></summary>
             <ul>
-              <li><a href="#cest-quoi">C'est quoi le harcèlement ?</a></li>
-              <li><a href="#types">Les types de harcèlement</a></li>
+              <li><a href="#cest-quoi">C'est quoi ?</a></li>
+              <li><a href="#types">Les types</a></li>
               <li><a href="#quand">À partir de quand ?</a></li>
-              <li><a href="#reagir-victime">Réagir si je suis victime</a></li>
-              <li><a href="#reagir-temoin">Réagir si je suis témoin</a></li>
-              <li><a href="#numeros">Numéros &amp; applications</a></li>
+              <li><a href="#reagir-victime">Si je suis victime</a></li>
+              <li><a href="#reagir-temoin">Si je suis témoin</a></li>
+              <li><a href="#numeros">Numéros utiles</a></li>
               <li><a href="#organigramme">L'équipe NAH</a></li>
             </ul>
           </details>
         </aside>
 
         <div>
+
           <!-- C'est quoi -->
           <article class="doc-section" id="cest-quoi">
             <h2>C'est quoi le harcèlement ?</h2>
-            <p>Le harcèlement, c'est quand une personne (ou un groupe) s'en prend à
-              quelqu'un de façon <strong>répétée</strong>, dans le but de lui faire du mal
-              ou de l'humilier. Ça peut être des mots, des gestes, des messages, ou de la mise à l'écart.</p>
-            <p>Attention à ne pas tout confondre :</p>
-            <ul>
-              <li><strong>Une blague</strong> fait rire tout le monde, y compris la personne concernée.</li>
-              <li><strong>Un conflit</strong> oppose deux personnes plutôt à égalité, et il peut se régler.</li>
-              <li><strong>Le harcèlement</strong> est répété, déséquilibré, et fait souffrir une personne.</li>
-            </ul>
+            <p class="lead">Des comportements répétés, intentionnels, qui mettent une personne en position de faiblesse.</p>
+
+            <div class="versus-grid">
+              <div class="versus-card versus-card--ok">
+                <span class="tag" style="color:var(--vert)">✓ Blague</span>
+                <strong>Tout le monde rit</strong>, y compris la personne concernée.
+              </div>
+              <div class="versus-card versus-card--mid">
+                <span class="tag" style="color:#c89b00">≈ Conflit</span>
+                Deux personnes <strong>à égalité</strong> — ça peut se régler.
+              </div>
+              <div class="versus-card versus-card--bad">
+                <span class="tag" style="color:var(--bordeaux)">✗ Harcèlement</span>
+                Répété, déséquilibré — <strong>ça fait souffrir</strong>.
+              </div>
+            </div>
+
             <div class="encadre encadre--bordeaux">
               <strong>À retenir :</strong> le harcèlement n'est <em>jamais</em> ta faute.
             </div>
@@ -73,55 +187,120 @@
           <!-- Types -->
           <article class="doc-section" id="types">
             <h2>Les types de harcèlement</h2>
-            <ul>
-              <li><strong>Verbal</strong> — insultes, moqueries, surnoms blessants répétés.</li>
-              <li><strong>Physique</strong> — coups, bousculades, vols, dégradation d'affaires.</li>
-              <li><strong>Social</strong> — exclusion volontaire, rumeurs, isolement du groupe.</li>
-              <li><strong>Cyberharcèlement</strong> — sur les réseaux et messageries (messages, photos, groupes).</li>
-              <li><strong>Sexuel</strong> — commentaires, gestes ou demandes déplacés.</li>
-              <li><strong>Discriminatoire</strong> — à cause de l'origine, la religion, l'orientation,
-                le handicap ou l'apparence.</li>
-            </ul>
+            <div class="info-cards">
+              <div class="info-card">
+                <span class="ic-icon">🗣️</span>
+                <strong>Verbal</strong>
+                <p>Insultes, moqueries, surnoms blessants répétés.</p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">👊</span>
+                <strong>Physique</strong>
+                <p>Coups, bousculades, vols, dégradation d'affaires.</p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">🚪</span>
+                <strong>Social</strong>
+                <p>Exclusion volontaire, rumeurs, isolement.</p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">📱</span>
+                <strong>Cyber</strong>
+                <p>Messages, photos, groupes sur les réseaux.</p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">⚠️</span>
+                <strong>Sexuel</strong>
+                <p>Commentaires ou gestes déplacés.</p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">🏷️</span>
+                <strong>Discriminatoire</strong>
+                <p>Origine, religion, orientation, apparence…</p>
+              </div>
+            </div>
           </article>
 
           <!-- Quand -->
           <article class="doc-section" id="quand">
             <h2>À partir de quand c'est du harcèlement ?</h2>
-            <p>On parle de harcèlement quand <strong>trois critères</strong> sont réunis :</p>
-            <ol class="etapes">
-              <li><strong>La répétition</strong> — ça se reproduit, ce n'est pas une seule fois.</li>
-              <li><strong>L'intention de nuire</strong> — le but est de blesser ou d'humilier.</li>
-              <li><strong>Le déséquilibre de pouvoir</strong> — la victime se retrouve en position de faiblesse.</li>
-            </ol>
+            <p>3 critères doivent être réunis :</p>
+            <div class="criteres-grid">
+              <div class="critere-card">
+                <span class="num">1</span>
+                <strong>Répétition</strong>
+                <p>Ça se reproduit, c'est pas une seule fois.</p>
+              </div>
+              <div class="critere-card">
+                <span class="num">2</span>
+                <strong>Intention de nuire</strong>
+                <p>Le but est de blesser ou d'humilier.</p>
+              </div>
+              <div class="critere-card">
+                <span class="num">3</span>
+                <strong>Déséquilibre</strong>
+                <p>La victime est en position de faiblesse.</p>
+              </div>
+            </div>
             <div class="encadre">
-              Si tu te sens mal au lycée à cause d'un comportement répété, <strong>parles-en</strong>.
-              Tu n'as pas besoin que « ce soit grave » pour avoir le droit d'en parler.
+              Tu n'as pas besoin que « ce soit grave » pour avoir le droit d'en parler. <strong>Parles-en.</strong>
             </div>
           </article>
 
           <!-- Réagir victime -->
           <article class="doc-section" id="reagir-victime">
-            <h2>Comment réagir si je suis victime</h2>
-            <ol class="etapes">
-              <li>Rappelle-toi : <strong>tu n'es pas seul·e</strong>, et ce n'est pas ta faute.</li>
-              <li><strong>Note les faits</strong> : dates, lieux, ce qui s'est passé, témoins éventuels.</li>
-              <li><strong>Parle à un adulte de confiance</strong> : parent, prof, CPE, infirmière…</li>
-              <li><strong>Contacte le 3020</strong> (ou le <strong>3018</strong> si c'est en ligne).</li>
-              <li><strong>Conserve les preuves</strong> : captures d'écran des messages, photos, etc.</li>
-            </ol>
+            <h2>Si je suis victime — que faire ?</h2>
+            <div class="steps-row">
+              <div class="step-card">
+                <div class="step-num">1</div>
+                <strong>Tu n'es pas seul·e</strong>
+                <p>Ce n'est pas ta faute.</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">2</div>
+                <strong>Note les faits</strong>
+                <p>Dates, lieux, témoins.</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">3</div>
+                <strong>Parle à un adulte</strong>
+                <p>Parent, prof, CPE, infirmière…</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">4</div>
+                <strong>Appelle le 3020</strong>
+                <p>Ou le 3018 si c'est en ligne.</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">5</div>
+                <strong>Garde les preuves</strong>
+                <p>Captures d'écran, messages.</p>
+              </div>
+            </div>
           </article>
 
           <!-- Réagir témoin -->
           <article class="doc-section" id="reagir-temoin">
-            <h2>Comment réagir si je vois un harcèlement (témoin)</h2>
-            <p>En tant que témoin, tu peux vraiment faire la différence.</p>
-            <ul>
-              <li><strong>Ne filme pas</strong> et ne relaie pas les contenus : ça aggrave la situation.</li>
-              <li><strong>Soutiens la victime</strong>, montre-lui qu'elle n'est pas seule (sans te mettre en danger).</li>
-              <li><strong>Alerte un adulte</strong> : ce n'est pas « cafter », c'est protéger.</li>
-            </ul>
+            <h2>Si je suis témoin — que faire ?</h2>
+            <div class="temoin-row">
+              <div class="temoin-card temoin-card--non">
+                <span class="t-icon">🎥</span>
+                <strong style="color:var(--bordeaux)">Ne filme pas</strong>
+                <p>Filmer et relayer aggrave la situation.</p>
+              </div>
+              <div class="temoin-card temoin-card--oui">
+                <span class="t-icon">🤝</span>
+                <strong style="color:var(--vert)">Soutiens la victime</strong>
+                <p>Montre qu'elle n'est pas seule.</p>
+              </div>
+              <div class="temoin-card temoin-card--oui">
+                <span class="t-icon">🔔</span>
+                <strong style="color:var(--vert)">Alerte un adulte</strong>
+                <p>Ce n'est pas "cafter", c'est protéger.</p>
+              </div>
+            </div>
             <div class="encadre encadre--vert">
-              Ne rien faire, c'est laisser le harcèlement continuer. Un seul témoin qui réagit peut tout changer.
+              Un seul témoin qui agit peut tout changer.
             </div>
           </article>
 
@@ -134,22 +313,31 @@
               <div class="urgence-card"><span class="num">119</span><span class="label">Enfance en danger</span><a class="btn btn--bordeaux" href="tel:119">Appeler</a></div>
               <div class="urgence-card"><span class="num">112</span><span class="label">Urgences</span><a class="btn btn--bordeaux" href="tel:112">Appeler</a></div>
             </div>
-            <p style="margin-top:18px"><strong>Applications &amp; plateformes :</strong></p>
-            <ul>
-              <li><strong>App 3018</strong> — disponible sur l'App Store et Google Play.</li>
-              <li><strong>PHAROS</strong> — pour signaler un contenu illégal en ligne
-                (<a href="https://www.internet-signalement.gouv.fr" target="_blank" rel="noopener">internet-signalement.gouv.fr ↗</a>).</li>
-              <li><a href="https://www.education.gouv.fr/non-au-harcelement" target="_blank" rel="noopener">education.gouv.fr/non-au-harcelement ↗</a> — ressources officielles.</li>
-            </ul>
+            <div class="info-cards" style="margin-top:16px">
+              <div class="info-card">
+                <span class="ic-icon">📲</span>
+                <strong>App 3018</strong>
+                <p>App Store &amp; Google Play.</p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">🚨</span>
+                <strong>PHAROS</strong>
+                <p><a href="https://www.internet-signalement.gouv.fr" target="_blank" rel="noopener">Signaler un contenu illégal ↗</a></p>
+              </div>
+              <div class="info-card">
+                <span class="ic-icon">🏫</span>
+                <strong>Éducation nationale</strong>
+                <p><a href="https://www.education.gouv.fr/non-au-harcelement" target="_blank" rel="noopener">Ressources officielles ↗</a></p>
+              </div>
+            </div>
           </article>
 
           <!-- Organigramme -->
           <article class="doc-section" id="organigramme">
             <h2>L'équipe NAH et les personnes-ressources</h2>
-            <p>Au Lycée Marceau, voici les personnes vers qui tu peux te tourner.
-              <em>(Coordonnées à compléter par l'équipe.)</em></p>
+            <p class="form-hint"><em>Coordonnées à compléter par l'équipe.</em></p>
             <div class="organigramme">
-              <div class="organi-card"><span class="role">Élèves référents NAH</span><span class="nom">L'équipe d'élèves</span><span class="meta">Disponibles aux récrés · contact via la page Contact</span></div>
+              <div class="organi-card"><span class="role">Élèves référents NAH</span><span class="nom">L'équipe d'élèves</span><span class="meta">Disponibles aux récrés · page Contact</span></div>
               <div class="organi-card"><span class="role">Professeur référent</span><span class="nom">À compléter</span><span class="meta">email · créneau</span></div>
               <div class="organi-card"><span class="role">CPE référent</span><span class="nom">À compléter</span><span class="meta">Vie scolaire</span></div>
               <div class="organi-card"><span class="role">Infirmière scolaire</span><span class="nom">À compléter</span><span class="meta">Infirmerie · horaires</span></div>
@@ -157,6 +345,7 @@
               <div class="organi-card"><span class="role">Direction</span><span class="nom">À compléter</span><span class="meta">Secrétariat du lycée</span></div>
             </div>
           </article>
+
         </div>
       </div>
     </section>
