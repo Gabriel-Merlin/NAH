@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — NAH · Lycée Marceau</title>
+  <meta name="description" content="Contacte l'équipe NAH du Lycée Marceau : réseaux sociaux, email dédié et adresse du lycée à Chartres.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; outils</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Contact">
+      <div class="bandeau__inner">
+        <h1>Nous contacter</h1>
+        <p>L'équipe NAH est là pour t'écouter.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="cta-grid">
+        <div class="card">
+          <h3>Email dédié</h3>
+          <p>Écris-nous, on te répond sous 48h.</p>
+          <p class="form-hint">Cet email est lu par l'équipe élève + le professeur référent.</p>
+          <a class="btn btn--bleu" href="mailto:contact@nah-marceau.fr">Écrire un email</a>
+          <p class="form-hint" style="margin-top:10px"><em>Adresse définitive à confirmer.</em></p>
+        </div>
+        <div class="card">
+          <h3>Réseaux sociaux</h3>
+          <p>Suis-nous et écris-nous en message privé.</p>
+          <ul>
+            <li><a href="https://instagram.com/nah_marceau" target="_blank" rel="noopener">Instagram : @nah_marceau ↗</a></li>
+            <li><a href="#" target="_blank" rel="noopener">Snapchat : @nah.marceau ↗</a></li>
+          </ul>
+          <p class="form-hint"><em>Comptes à créer / confirmer.</em></p>
+        </div>
+        <div class="card">
+          <h3>Le lycée</h3>
+          <p><strong>Lycée Marceau</strong><br>
+            2 boulevard de la Courtille<br>
+            28000 Chartres</p>
+          <a class="btn btn--ghost" href="https://maps.google.com/?q=Lyc%C3%A9e+Marceau+Chartres" target="_blank" rel="noopener">Voir sur Google Maps ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-gris">
+      <div class="container">
+        <h2>Nous trouver</h2>
+        <div class="card" style="padding:0; overflow:hidden">
+          <iframe
+            title="Carte du Lycée Marceau, Chartres"
+            src="https://www.google.com/maps?q=Lyc%C3%A9e+Marceau+Chartres&output=embed"
+            width="100%" height="380" style="border:0; display:block"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="encadre">
+        <p class="mb-0">Besoin d'aide tout de suite ? Utilise le bouton
+          <strong>« Besoin d'aide ? »</strong> en bas de l'écran, ou appelle le
+          <a href="tel:3020">3020</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>NAH — Non Au Harcèlement</h3>
+          <p>Projet d'élèves du Lycée Marceau, Chartres (28).</p>
+        </div>
+        <div>
+          <h3>Aide immédiate</h3>
+          <ul>
+            <li><a href="tel:3020">3020 — Harcèlement scolaire</a></li>
+            <li><a href="tel:3018">3018 — Violences numériques</a></li>
+            <li><a href="tel:119">119 — Enfance en danger</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Le site</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="renseignement.html">Comprendre</a></li>
+            <li><a href="fonctionnalites.html">Agir &amp; outils</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Infos légales</h3>
+          <ul>
+            <li><a href="mentions-legales.html">Mentions légales</a></li>
+            <li><a href="confidentialite.html">Confidentialité (RGPD)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau · Site sans cookie de pistage.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

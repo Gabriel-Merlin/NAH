@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agir &amp; outils — NAH · Lycée Marceau</title>
+  <meta name="description" content="Quiz, question anonyme, sondage, calendrier des événements et signalement. Les outils NAH pour agir contre le harcèlement au Lycée Marceau.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; outils</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Agir et outils">
+      <div class="bandeau__inner">
+        <h1>Agir &amp; outils</h1>
+        <p>Teste-toi, pose tes questions, donne ton avis, agis.</p>
+      </div>
+    </section>
+
+    <!-- ===== Quiz ===== -->
+    <section class="container" id="quiz-section">
+      <h2>Quiz : « Réagis-tu bien face au harcèlement ? »</h2>
+      <p class="lead">10 situations concrètes, sans jugement. À la fin : ton score et des conseils.</p>
+      <div class="card quiz-card" id="quiz">
+        <p class="quiz-progress">Question 1</p>
+        <div class="quiz-bar"><div class="quiz-bar__fill"></div></div>
+        <div id="quiz-content"></div>
+      </div>
+    </section>
+
+    <!-- ===== Question anonyme ===== -->
+    <section class="section-gris" id="question">
+      <div class="container">
+        <h2>Pose ta question, anonymement</h2>
+        <p class="lead">Une question sur le harcèlement, une situation, un doute ? Écris-nous.</p>
+        <form class="card" id="question-form" style="max-width:640px">
+          <div class="form-field">
+            <label for="q-msg">Ta question</label>
+            <textarea id="q-msg" name="message" rows="4" placeholder="Écris ta question ici…" required></textarea>
+            <div class="char-count">0 / 200</div>
+            <p class="form-hint">Ce message est <strong>anonyme</strong>. Personne ne pourra savoir qui l'a écrit : on ne demande aucune information sur toi.</p>
+          </div>
+          <button class="btn btn--bleu" type="submit">Envoyer ma question</button>
+          <div class="feedback" hidden></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== Sondage ===== -->
+    <section class="container">
+      <h2>Le sondage du moment</h2>
+      <p class="lead">Vote anonyme. Ton avis compte et aide l'équipe à agir.</p>
+      <div class="card" id="sondage" style="max-width:640px">
+        <p>Chargement du sondage…</p>
+      </div>
+    </section>
+
+    <!-- ===== Calendrier ===== -->
+    <section class="section-gris" id="calendrier">
+      <div class="container">
+        <h2>Les prochains rendez-vous</h2>
+        <p class="lead">Les événements et actions NAH au Lycée Marceau.</p>
+        <div id="calendrier-liste"><p>Chargement du calendrier…</p></div>
+      </div>
+    </section>
+
+    <!-- ===== Signalement ===== -->
+    <section class="container" id="signalement">
+      <h2>Faire un signalement</h2>
+      <p class="lead">Tu peux nous signaler une situation, pour toi ou pour quelqu'un d'autre.</p>
+      <div class="encadre encadre--bordeaux">
+        <strong>En cas de danger immédiat</strong>, appelle le <a href="tel:3020">3020</a>,
+        le <a href="tel:119">119</a> ou le <a href="tel:112">112</a>.
+      </div>
+      <form class="card" id="signalement-form" style="max-width:640px">
+        <div class="form-field">
+          <label for="s-msg">Décris la situation</label>
+          <textarea id="s-msg" name="message" rows="5" placeholder="Ce qui se passe, depuis quand, où…" required></textarea>
+        </div>
+        <div class="form-field">
+          <label for="s-contact">Comment te recontacter ? (facultatif)</label>
+          <input type="text" id="s-contact" name="contact" placeholder="Prénom, classe ou email — ou laisse vide pour rester anonyme">
+          <p class="form-hint">Tu peux signaler de façon totalement <strong>anonyme</strong> : ce champ n'est pas obligatoire. Si tu le remplis, l'équipe NAH pourra te recontacter.</p>
+        </div>
+        <button class="btn btn--bordeaux" type="submit">Envoyer le signalement</button>
+        <div class="feedback" hidden></div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>NAH — Non Au Harcèlement</h3>
+          <p>Projet d'élèves du Lycée Marceau, Chartres (28).</p>
+        </div>
+        <div>
+          <h3>Aide immédiate</h3>
+          <ul>
+            <li><a href="tel:3020">3020 — Harcèlement scolaire</a></li>
+            <li><a href="tel:3018">3018 — Violences numériques</a></li>
+            <li><a href="tel:119">119 — Enfance en danger</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Le site</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="renseignement.html">Comprendre</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Infos légales</h3>
+          <ul>
+            <li><a href="mentions-legales.html">Mentions légales</a></li>
+            <li><a href="confidentialite.html">Confidentialité (RGPD)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau · Site sans cookie de pistage.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/functionnalites.js"></script>
+</body>
+</html>

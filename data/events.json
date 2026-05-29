@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2026-11-07",
+    "titre": "Journée nationale contre le harcèlement scolaire",
+    "description": "Mobilisation dans tout le lycée : stands, témoignages et actions de sensibilisation organisés par l'équipe NAH.",
+    "lieu": "Lycée Marceau"
+  },
+  {
+    "date": "2026-09-15",
+    "titre": "Atelier de sensibilisation",
+    "description": "Atelier ouvert à toutes les classes pour reconnaître le harcèlement et apprendre les bons réflexes.",
+    "lieu": "CDI"
+  },
+  {
+    "date": "2026-10-10",
+    "titre": "Intervention d'un professionnel",
+    "description": "Rencontre avec un intervenant spécialisé pour échanger librement sur le harcèlement et le cyberharcèlement.",
+    "lieu": "Salle polyvalente"
+  },
+  {
+    "date": "2026-12-05",
+    "titre": "Boîte à idées NAH",
+    "description": "On récolte vos idées pour les prochaines actions. Toutes les propositions sont les bienvenues !",
+    "lieu": "Hall principal"
+  }
+]

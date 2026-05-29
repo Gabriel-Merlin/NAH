@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mentions légales — NAH · Lycée Marceau</title>
+  <meta name="description" content="Mentions légales du site NAH — Non Au Harcèlement, Lycée Marceau, Chartres.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; outils</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Mentions légales">
+      <div class="bandeau__inner"><h1>Mentions légales</h1></div>
+    </section>
+
+    <section class="container" style="max-width:760px">
+      <h2>Éditeur du site</h2>
+      <p>Ce site est édité par l'équipe d'élèves <strong>NAH (Non Au Harcèlement)</strong>
+        du Lycée Marceau, 2 boulevard de la Courtille, 28000 Chartres.</p>
+      <p>Il s'agit d'un <strong>projet d'élèves</strong>. Le statut officiel (associatif ou
+        institutionnel) et le responsable de publication sont à compléter
+        après validation par l'établissement.</p>
+      <p>Contact : <a href="mailto:contact@nah-marceau.fr">contact@nah-marceau.fr</a></p>
+
+      <h2>Hébergement</h2>
+      <p>Le site est hébergé par <strong>GitHub Pages</strong> — GitHub, Inc.,
+        88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+      <p>La base de données (questions anonymes, sondages, signalements) est gérée via
+        <strong>Supabase</strong>.</p>
+
+      <h2>Conception</h2>
+      <p>Site conçu et développé bénévolement par Gabriel Merlin.</p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>Les contenus de ce site (textes, visuels) sont la propriété de l'équipe NAH,
+        sauf mention contraire. Les numéros et ressources cités renvoient vers les
+        dispositifs officiels (Éducation nationale, 3020, 3018, 119).</p>
+
+      <h2>Signaler un problème</h2>
+      <p>Pour toute question relative à ce site ou pour signaler un contenu,
+        écris à <a href="mailto:contact@nah-marceau.fr">contact@nah-marceau.fr</a>.</p>
+
+      <p><a class="btn btn--ghost" href="confidentialite.html">Voir la politique de confidentialité →</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau ·
+          <a href="confidentialite.html">Confidentialité</a> ·
+          <a href="index.html">Accueil</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

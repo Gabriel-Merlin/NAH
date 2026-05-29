@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confidentialité (RGPD) — NAH · Lycée Marceau</title>
+  <meta name="description" content="Politique de confidentialité du site NAH : aucune donnée personnelle, anonymat tenu, conformité RGPD.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; outils</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Confidentialité">
+      <div class="bandeau__inner"><h1>Politique de confidentialité</h1></div>
+    </section>
+
+    <section class="container" style="max-width:760px">
+      <div class="encadre encadre--vert">
+        <strong>L'essentiel :</strong> ce site ne te piste pas. Pas de pub, pas de
+        traceur, pas de revente de données. L'anonymat est respecté.
+      </div>
+
+      <h2>Aucun cookie de pistage</h2>
+      <p>Ce site n'utilise <strong>aucun cookie publicitaire ni de pistage</strong>, et
+        <strong>aucun outil d'analyse tiers</strong> (pas de Google Analytics). Un petit
+        espace de stockage local de ton navigateur sert uniquement à se souvenir que tu as
+        déjà voté à un sondage ou fermé le bandeau d'information — ces données restent sur
+        ton appareil.</p>
+
+      <h2>Quelles données sont collectées ?</h2>
+      <ul>
+        <li><strong>Question anonyme</strong> : uniquement le texte que tu écris. Aucune
+          information sur toi (pas de nom, pas d'adresse IP enregistrée).</li>
+        <li><strong>Sondage</strong> : ton choix de réponse, de façon anonyme.</li>
+        <li><strong>Quiz</strong> : éventuellement ton score (un pourcentage), de façon
+          anonyme et pour des statistiques globales.</li>
+        <li><strong>Signalement</strong> : le texte que tu écris, et — seulement si tu choisis
+          de le remplir — un moyen de te recontacter. Tu peux signaler de façon totalement
+          anonyme.</li>
+      </ul>
+
+      <h2>Qui peut lire ces messages ?</h2>
+      <p>Uniquement l'équipe NAH (élèves référents + professeur référent), via un accès
+        protégé. Les messages anonymes ne sont jamais reliés à une identité, et nous ne
+        cherchons jamais à savoir qui les a écrits.</p>
+
+      <h2>Combien de temps sont-ils conservés ?</h2>
+      <p>Les signalements et questions sont conservés <strong>6 mois maximum</strong>, puis
+        supprimés. Les données ne sont <strong>jamais utilisées à des fins commerciales</strong>.</p>
+
+      <h2>Tes droits (RGPD)</h2>
+      <p>Tu peux demander l'accès, la rectification ou la suppression de ce que tu as envoyé,
+        en écrivant à <a href="mailto:contact@nah-marceau.fr">contact@nah-marceau.fr</a>.
+        Comme les messages anonymes ne contiennent aucune information sur toi, précise alors
+        des éléments permettant de retrouver ton message.</p>
+
+      <h2>En cas d'urgence</h2>
+      <p>Ce site est un outil de sensibilisation et d'orientation. Il ne remplace pas les
+        secours. En cas de danger, appelle le <a href="tel:3020">3020</a>,
+        le <a href="tel:119">119</a> ou le <a href="tel:112">112</a>.</p>
+
+      <p><a class="btn btn--ghost" href="mentions-legales.html">Voir les mentions légales →</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau ·
+          <a href="mentions-legales.html">Mentions légales</a> ·
+          <a href="index.html">Accueil</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+/* =========================================================
+   NAH — Logique de la page Fonctionnalités
+   Question anonyme · Sondage · Calendrier · Signalement
+   ========================================================= */
+
+(function () {
+  'use strict';
+
+  /* =======================================================
+     1 — QUESTION ANONYME
+     ======================================================= */
+  const qForm = document.getElementById('question-form');
+  if (qForm) {
+    const textarea = qForm.querySelector('textarea');
+    const counter = qForm.querySelector('.char-count');
+    const feedback = qForm.querySelector('.feedback');
+    const MAX = 200;
+
+    function updateCount() {
+      const n = textarea.value.length;
+      counter.textContent = n + ' / ' + MAX;
+    }
+    textarea.setAttribute('maxlength', String(MAX));
+    textarea.addEventListener('input', updateCount);
+    updateCount();
+
+    qForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const msg = textarea.value.trim();
+      if (msg.length < 3) {
+        showFeedback(feedback, 'Écris ta question avant d\'envoyer.', false);
+        return;
+      }
+      const submitBtn = qForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        await window.nahDB.insert('questions_anonymes', { message: msg });
+        qForm.reset();
+        updateCount();
+        showFeedback(feedback,
+          'Merci, ta question a bien été envoyée de façon anonyme. ' +
+          'L\'équipe NAH la lira et pourra y répondre publiquement.', true);
+      } catch (err) {
+        showFeedback(feedback,
+          'Oups, l\'envoi a échoué. Réessaie plus tard ou écris à l\'équipe NAH.', false);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* =======================================================
+     2 — SONDAGE
+     ======================================================= */
+  const pollRoot = document.getElementById('sondage');
+  if (pollRoot) {
+    initPoll(pollRoot);
+  }
+
+  async function initPoll(root) {
+    const VOTE_KEY = 'nah-poll-voted';
+
+    // Sondage par défaut (mode démo / si Supabase non configuré).
+    // En production, il est chargé depuis la table `sondages` (is_active = true).
+    let poll = {
+      id: 'demo',
+      question: 'Penses-tu que le harcèlement est bien pris au sérieux dans ton lycée ?',
+      options: [
+        { id: 'a', label: 'Oui, tout à fait', votes: 0 },
+        { id: 'b', label: 'Plutôt oui', votes: 0 },
+        { id: 'c', label: 'Plutôt non', votes: 0 },
+        { id: 'd', label: 'Non, pas du tout', votes: 0 }
+      ]
+    };
+
+    // Tentative de chargement depuis Supabase
+    try {
+      const rows = await window.nahDB.select('sondages',
+        'select=*&is_active=eq.true&limit=1');
+      if (rows && rows.length) {
+        const r = rows[0];
+        poll = {
+          id: r.id,
+          question: r.question,
+          options: r.options // jsonb [{id,label,votes}]
+        };
+      }
+    } catch (err) { /* on garde le sondage par défaut */ }
+
+    const alreadyVoted = getVoted(VOTE_KEY, poll.id);
+    renderPoll(root, poll, alreadyVoted, VOTE_KEY);
+  }
+
+  function getVoted(key, pollId) {
+    try {
+      const voted = JSON.parse(localStorage.getItem(key) || '{}');
+      return !!voted[pollId];
+    } catch (e) { return false; }
+  }
+  function setVoted(key, pollId) {
+    try {
+      const voted = JSON.parse(localStorage.getItem(key) || '{}');
+      voted[pollId] = true;
+      localStorage.setItem(key, JSON.stringify(voted));
+    } catch (e) {}
+  }
+
+  function renderPoll(root, poll, showResults, voteKey) {
+    const total = poll.options.reduce(function (s, o) { return s + (o.votes || 0); }, 0);
+
+    let html = '<h3>' + poll.question + '</h3>';
+
+    if (showResults) {
+      poll.options.forEach(function (o) {
+        const pct = total ? Math.round((o.votes || 0) / total * 100) : 0;
+        html += '<div class="poll-bar"><div class="poll-bar__fill" style="width:' + pct + '%"></div>' +
+          '<span class="poll-bar__label"><span>' + o.label + '</span><span>' + pct + '%</span></span></div>';
+      });
+      html += '<p class="form-hint">' + total + ' vote' + (total > 1 ? 's' : '') +
+        ' · Merci d\'avoir participé !</p>';
+    } else {
+      html += '<p class="form-hint">Vote anonyme · 1 seul vote par personne.</p>';
+      poll.options.forEach(function (o) {
+        html += '<div class="poll-option"><button class="btn btn--ghost" type="button" data-opt="' +
+          o.id + '">' + o.label + '</button></div>';
+      });
+    }
+    root.innerHTML = html;
+
+    if (!showResults) {
+      root.querySelectorAll('[data-opt]').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+          const optId = btn.getAttribute('data-opt');
+          root.querySelectorAll('[data-opt]').forEach(function (b) { b.disabled = true; });
+          try {
+            await window.nahDB.rpc('vote_sondage', { p_poll: poll.id, p_option: optId });
+          } catch (err) { /* on affiche quand même les résultats locaux */ }
+          // Mise à jour locale immédiate
+          const opt = poll.options.find(function (o) { return o.id === optId; });
+          if (opt) { opt.votes = (opt.votes || 0) + 1; }
+          setVoted(voteKey, poll.id);
+          renderPoll(root, poll, true, voteKey);
+        });
+      });
+    }
+  }
+
+  /* =======================================================
+     3 — CALENDRIER (chargé depuis data/events.json, éditable)
+     ======================================================= */
+  const calRoot = document.getElementById('calendrier-liste');
+  if (calRoot) {
+    fetch('data/events.json')
+      .then(function (r) { return r.json(); })
+      .then(function (events) { renderEvents(calRoot, events); })
+      .catch(function () {
+        calRoot.innerHTML = '<p>Le calendrier n\'a pas pu être chargé pour le moment.</p>';
+      });
+  }
+
+  const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
+    'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+
+  function renderEvents(root, events) {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const upcoming = events
+      .map(function (e) { return Object.assign({}, e, { _d: new Date(e.date) }); })
+      .filter(function (e) { return e._d >= now; })
+      .sort(function (a, b) { return a._d - b._d; });
+
+    if (!upcoming.length) {
+      root.innerHTML = '<p>Aucun événement programmé pour l\'instant. Reviens bientôt !</p>';
+      return;
+    }
+
+    root.innerHTML = upcoming.map(function (e) {
+      const d = e._d;
+      return '<div class="event-card">' +
+        '<div class="event-date"><span class="jour">' + d.getDate() + '</span>' +
+        '<span class="mois">' + MOIS[d.getMonth()] + '</span></div>' +
+        '<div class="event-info"><h3>' + escapeHTML(e.titre) + '</h3>' +
+        '<p>' + escapeHTML(e.description || '') + '</p>' +
+        (e.lieu ? '<p class="lieu">📍 ' + escapeHTML(e.lieu) + '</p>' : '') +
+        '</div></div>';
+    }).join('');
+  }
+
+  /* =======================================================
+     4 — SIGNALEMENT (formulaire, anonyme ou identifié)
+     ======================================================= */
+  const sigForm = document.getElementById('signalement-form');
+  if (sigForm) {
+    const feedback = sigForm.querySelector('.feedback');
+    sigForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const msg = sigForm.querySelector('[name="message"]').value.trim();
+      const contact = sigForm.querySelector('[name="contact"]').value.trim();
+      if (msg.length < 3) {
+        showFeedback(feedback, 'Décris la situation avant d\'envoyer.', false);
+        return;
+      }
+      const submitBtn = sigForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        await window.nahDB.insert('signalements', {
+          message: msg,
+          contact: contact || null
+        });
+        sigForm.reset();
+        showFeedback(feedback,
+          'Ton signalement a été transmis à l\'équipe NAH. ' +
+          (contact ? 'Nous te recontacterons rapidement.' :
+            'Tu peux revenir ici quand tu veux.'), true);
+      } catch (err) {
+        showFeedback(feedback,
+          'L\'envoi a échoué. En cas d\'urgence, appelle le 3020 ou le 119.', false);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* =======================================================
+     Utilitaires
+     ======================================================= */
+  function showFeedback(el, text, ok) {
+    if (!el) { return; }
+    el.textContent = text;
+    el.className = 'feedback ' + (ok ? 'feedback--ok' : 'feedback--err');
+    el.removeAttribute('hidden');
+    el.setAttribute('role', 'status');
+  }
+
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+})();
