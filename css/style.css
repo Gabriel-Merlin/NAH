@@ -197,19 +197,11 @@ section { padding: 48px 0; }
   text-align: center;
   min-height: 400px;
   padding: 40px 20px;
-  background-color: var(--bleu); /* fallback si la photo n'est pas encore ajoutée */
-  background-image: var(--voile-bleu-grad), var(--bandeau-img);
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(135deg, var(--bleu) 0%, #2c6fbd 100%);
   color: #fff;
 }
 
 /* Voile bleu par-dessus la photo (dégradé translucide) */
-:root {
-  --voile-bleu-grad: linear-gradient(var(--voile-bleu), var(--voile-bleu));
-  /* image par défaut : photo de remplacement, à remplacer par la vraie photo du lycée */
-  --bandeau-img: url('../assets/lycee-marceau.jpg');
-}
 
 @media (max-width: 600px) {
   .bandeau { min-height: 250px; }
