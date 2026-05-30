@@ -165,8 +165,9 @@
     try {
       // La fonction edge accepte la candidature ET envoie l'email de bienvenue,
       // quel que soit le mode d'accès (Google ou token).
-      const res = await fetch(ACCEPT_URL + '?token=' + encodeURIComponent(btn.dataset.token), { method: 'GET' });
-      if (!res.ok) { throw new Error('HTTP ' + res.status); }
+      const res = await fetch(ACCEPT_URL + '?token=' + encodeURIComponent(btn.dataset.token), { method: 'GET', redirect: 'manual' });
+      // 302 = redirection vers equipe.html = succès ; opaqueredirect = idem en mode manual
+      if (!res.ok && res.type !== 'opaqueredirect') { throw new Error('HTTP ' + res.status); }
       await loadDashboard();
     } catch (err) {
       alert('Erreur lors de l\'acceptation : ' + err.message);
