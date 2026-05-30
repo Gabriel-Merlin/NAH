@@ -12,8 +12,8 @@
 
 window.NAH_CONFIG = {
   // À remplacer par les vraies valeurs du projet de ta sœur :
-  SUPABASE_URL: 'https://VOTRE-PROJET.supabase.co',
-  SUPABASE_ANON_KEY: 'VOTRE_CLE_ANON_PUBLIQUE',
+  SUPABASE_URL: 'https://csspxsnqobftispxvnmw.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzc3B4c25xb2JmdGlzcHh2bm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3NDQxNzksImV4cCI6MjA5NTMyMDE3OX0.tfRk-xICDPzxsNXNuGE7IqfR7m4HAkC6QybnXD8fNvE',
 
   // Tant que ce n'est pas configuré, les formulaires fonctionnent
   // en mode "démo" (rien n'est envoyé, message de confirmation simulé).
