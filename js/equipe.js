@@ -4,76 +4,67 @@
   const TOKEN_KEY = 'nah-member-token';
 
   async function init() {
-    // 1. Récupère le token depuis l'URL ou le localStorage
+    // 1. Connexion Google ? (prioritaire)
+    try {
+      const state = await window.nahAuth.ready;
+      if (state.loggedIn && state.membership && state.membership.is_member) {
+        showEquipe();
+        return;
+      }
+      // Connecté Google mais pas (encore) accepté
+      if (state.loggedIn && state.membership && state.membership.known && !state.membership.is_member) {
+        showAttente();
+        return;
+      }
+    } catch (e) { /* on tente le token */ }
+
+    // 2. Lien-token reçu par email (secours)
     const params = new URLSearchParams(location.search);
     const urlToken = params.get('token');
     if (urlToken) {
       localStorage.setItem(TOKEN_KEY, urlToken);
-      // Nettoie l'URL sans recharger
       history.replaceState({}, '', location.pathname);
     }
-
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) { showRefus(); return; }
-
-    // 2. Vérifie le token auprès de Supabase
-    try {
-      const valid = await verifyToken(token);
-      if (valid) { showEquipe(); } else { showRefus(); }
-    } catch (e) {
-      showRefus();
+    if (token) {
+      try {
+        const valid = await window.nahDB.rpc('verify_member_token', { p_token: token });
+        if (valid) { showEquipe(); return; }
+      } catch (e) { /* ignore */ }
     }
-  }
 
-  async function verifyToken(token) {
-    if (!window.NAH_CONFIG.isConfigured) return false;
-    const res = await fetch(window.NAH_CONFIG.SUPABASE_URL + '/rest/v1/rpc/verify_member_token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': window.NAH_CONFIG.SUPABASE_ANON_KEY,
-        'Authorization': 'Bearer ' + window.NAH_CONFIG.SUPABASE_ANON_KEY,
-      },
-      body: JSON.stringify({ p_token: token }),
-    });
-    if (!res.ok) return false;
-    return await res.json(); // true ou false
-  }
-
-  async function checkAdmin(token) {
-    try {
-      const isAdmin = await window.nahDB.rpc('verify_admin_token', { p_token: token });
-      if (isAdmin === true) {
-        localStorage.setItem('nah-is-admin', '1');
-        document.querySelectorAll('.nav__admin').forEach(function (el) {
-          el.removeAttribute('hidden');
-        });
-      } else {
-        localStorage.removeItem('nah-is-admin');
-      }
-    } catch (e) { /* pas critique */ }
+    // 3. Sinon : accès refusé + proposition de connexion Google
+    showRefus();
   }
 
   function showEquipe() {
     document.getElementById('contenu-equipe').removeAttribute('hidden');
-    // Montre le lien Équipe dans la nav
-    const navEquipe = document.querySelector('.nav__equipe');
-    if (navEquipe) navEquipe.removeAttribute('hidden');
+    document.querySelectorAll('.nav__equipe').forEach(function (el) { el.removeAttribute('hidden'); });
 
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) { checkAdmin(token); }
+    const logout = document.getElementById('btn-deconnexion');
+    if (logout) {
+      logout.addEventListener('click', function () {
+        localStorage.removeItem(TOKEN_KEY);
+        if (window.nahAuth) { window.nahAuth.signOut(); }
+        else { location.href = 'index.html'; }
+      });
+    }
+  }
 
-    document.getElementById('btn-deconnexion').addEventListener('click', function () {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem('nah-is-admin');
-      location.href = 'index.html';
-    });
+  function showAttente() {
+    const el = document.getElementById('acces-attente');
+    if (el) { el.removeAttribute('hidden'); }
+    else { showRefus(); }
   }
 
   function showRefus() {
-    document.getElementById('acces-refuse').removeAttribute('hidden');
+    const refus = document.getElementById('acces-refuse');
+    if (refus) { refus.removeAttribute('hidden'); }
     localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem('nah-is-admin');
+    const btn = document.getElementById('btn-google');
+    if (btn) {
+      btn.addEventListener('click', function () { window.nahAuth.signInGoogle(location.href); });
+    }
   }
 
   init();
