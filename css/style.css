@@ -591,3 +591,15 @@ section { padding: 48px 0; }
   white-space: nowrap; border: 0;
 }
 .hidden { display: none !important; }
+
+/* =========================================================
+   Admin dashboard
+   ========================================================= */
+.admin-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.admin-stat { background: var(--gris-bleu); border-radius: var(--radius); padding: 20px; text-align: center; }
+.admin-stat__num { font-size: 2.2rem; font-weight: 700; color: var(--bleu); display: block; }
+.admin-stat__label { font-size: 0.85rem; color: var(--texte-leger); }
+.admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+.admin-table th { text-align: left; padding: 10px 12px; background: var(--gris-bleu); font-size: 0.85rem; }
+.admin-table td { padding: 10px 12px; border-bottom: 1px solid var(--gris-bleu); font-size: 0.9rem; vertical-align: middle; }
+.admin-table .actions { display: flex; gap: 8px; flex-wrap: wrap; }

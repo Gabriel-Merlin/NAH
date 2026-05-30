@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — NAH · Lycée Marceau</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; Outils</a></li>
+        <li><a href="rejoindre.html">Nous rejoindre</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav__equipe" hidden><a href="equipe.html">Équipe</a></li>
+        <li class="nav__admin" hidden><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Administration">
+      <div class="bandeau__inner">
+        <h1>Administration NAH</h1>
+        <p>Tableau de bord réservé aux administrateurs.</p>
+      </div>
+    </section>
+
+    <div class="container" style="padding-top:32px; padding-bottom:48px">
+
+      <!-- Erreur éventuelle -->
+      <div id="admin-error" class="encadre encadre--bordeaux" hidden></div>
+
+      <!-- ===== Stats ===== -->
+      <section aria-labelledby="h-stats">
+        <h2 id="h-stats">Vue d'ensemble</h2>
+        <div id="stats-grid" class="admin-stat-grid">
+          <div class="admin-stat"><span class="admin-stat__num">…</span><span class="admin-stat__label">Chargement…</span></div>
+        </div>
+      </section>
+
+      <!-- ===== Membres ===== -->
+      <section aria-labelledby="h-membres" style="margin-top:40px">
+        <h2 id="h-membres">Gestion de l'équipe</h2>
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Membre</th>
+                <th>Classe</th>
+                <th>Email</th>
+                <th>Depuis</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="membres-tbody">
+              <tr><td colspan="5">Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== Candidatures en attente ===== -->
+      <section id="section-attente" aria-labelledby="h-attente" style="margin-top:40px">
+        <h2 id="h-attente">Candidatures en attente</h2>
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Candidat</th>
+                <th>Classe</th>
+                <th>Email</th>
+                <th>Reçue le</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="attente-tbody">
+              <tr><td colspan="5">Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== Événements ===== -->
+      <section aria-labelledby="h-events" style="margin-top:40px">
+        <h2 id="h-events">Événements</h2>
+        <div style="overflow-x:auto">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Titre</th>
+                <th>Description / Lieu</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="events-tbody">
+              <tr><td colspan="4">Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:28px">Ajouter un événement</h3>
+        <form id="event-form" class="encadre" style="max-width:560px">
+          <div class="form-group">
+            <label for="ev-date">Date <span aria-hidden="true">*</span></label>
+            <input id="ev-date" name="date" type="date" required>
+          </div>
+          <div class="form-group">
+            <label for="ev-titre">Titre <span aria-hidden="true">*</span></label>
+            <input id="ev-titre" name="titre" type="text" required placeholder="Ex : Semaine de sensibilisation">
+          </div>
+          <div class="form-group">
+            <label for="ev-desc">Description</label>
+            <textarea id="ev-desc" name="description" rows="3" placeholder="Optionnel"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="ev-lieu">Lieu</label>
+            <input id="ev-lieu" name="lieu" type="text" placeholder="Ex : Hall du lycée">
+          </div>
+          <div class="feedback" hidden></div>
+          <button class="btn btn--bleu" type="submit">Ajouter l'événement</button>
+        </form>
+      </section>
+
+      <!-- ===== Déconnexion ===== -->
+      <div style="margin-top:48px; border-top:1px solid var(--gris-bleu); padding-top:24px">
+        <button class="btn btn--ghost" id="btn-deconnexion">Se déconnecter</button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau ·
+          <a href="mentions-legales.html">Mentions légales</a> ·
+          <a href="confidentialite.html">Confidentialité</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

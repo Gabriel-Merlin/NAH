@@ -40,14 +40,32 @@
     return await res.json(); // true ou false
   }
 
+  async function checkAdmin(token) {
+    try {
+      const isAdmin = await window.nahDB.rpc('verify_admin_token', { p_token: token });
+      if (isAdmin === true) {
+        localStorage.setItem('nah-is-admin', '1');
+        document.querySelectorAll('.nav__admin').forEach(function (el) {
+          el.removeAttribute('hidden');
+        });
+      } else {
+        localStorage.removeItem('nah-is-admin');
+      }
+    } catch (e) { /* pas critique */ }
+  }
+
   function showEquipe() {
     document.getElementById('contenu-equipe').removeAttribute('hidden');
     // Montre le lien Équipe dans la nav
     const navEquipe = document.querySelector('.nav__equipe');
     if (navEquipe) navEquipe.removeAttribute('hidden');
 
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) { checkAdmin(token); }
+
     document.getElementById('btn-deconnexion').addEventListener('click', function () {
       localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem('nah-is-admin');
       location.href = 'index.html';
     });
   }
@@ -55,6 +73,7 @@
   function showRefus() {
     document.getElementById('acces-refuse').removeAttribute('hidden');
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem('nah-is-admin');
   }
 
   init();

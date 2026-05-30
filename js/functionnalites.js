@@ -146,13 +146,15 @@
   }
 
   /* =======================================================
-     3 — CALENDRIER (chargé depuis data/events.json, éditable)
+     3 — CALENDRIER (chargé depuis Supabase table events)
      ======================================================= */
   const calRoot = document.getElementById('calendrier-liste');
   if (calRoot) {
-    fetch('data/events.json')
-      .then(function (r) { return r.json(); })
-      .then(function (events) { renderEvents(calRoot, events); })
+    window.nahDB.select('events', 'select=*&order=date.asc')
+      .then(function (events) {
+        if (events && events.length) { renderEvents(calRoot, events); }
+        else { calRoot.innerHTML = '<p>Aucun événement programmé pour l\'instant. Reviens bientôt !</p>'; }
+      })
       .catch(function () {
         calRoot.innerHTML = '<p>Le calendrier n\'a pas pu être chargé pour le moment.</p>';
       });

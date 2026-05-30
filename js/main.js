@@ -42,6 +42,15 @@
     }
   } catch (e) {}
 
+  /* ---------- Onglet Admin (visible si flag is_admin en cache) ---------- */
+  try {
+    if (localStorage.getItem('nah-is-admin') === '1') {
+      document.querySelectorAll('.nav__admin').forEach(function (el) {
+        el.removeAttribute('hidden');
+      });
+    }
+  } catch (e) {}
+
   /* ---------- Marque le lien de nav actif ---------- */
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__links a').forEach(function (a) {
