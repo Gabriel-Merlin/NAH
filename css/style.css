@@ -642,7 +642,11 @@ section { padding: 48px 0; }
 }
 .cookie-note.is-visible { display: flex; }
 
-/* ---------- Utilitaires ---------- */
+/* Boutons "Appeler" cachés sur desktop, visibles uniquement sur mobile */
+@media (min-width: 821px) {
+  .urgence-card .btn { display: none; }
+}
+
 .text-center { text-align: center; }
 .mt-0 { margin-top: 0; }
 .mb-0 { margin-bottom: 0; }

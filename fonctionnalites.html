@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agir &amp; outils — NAH · Lycée Marceau</title>
+  <title>Agir &amp; Outils — NAH · Lycée Marceau</title>
   <meta name="description" content="Quiz, question anonyme, sondage, calendrier des événements et signalement. Les outils NAH pour agir contre le harcèlement au Lycée Marceau.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
       <ul class="nav__links">
         <li><a href="index.html">Accueil</a></li>
         <li><a href="renseignement.html">Comprendre</a></li>
-        <li><a href="fonctionnalites.html">Agir &amp; outils</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; Outils</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
@@ -29,7 +29,7 @@
   <main id="main">
     <section class="bandeau bandeau--page" aria-label="Agir et outils">
       <div class="bandeau__inner">
-        <h1>Agir &amp; outils</h1>
+        <h1>Agir &amp; Outils</h1>
         <p>Teste-toi, pose tes questions, donne ton avis, agis.</p>
       </div>
     </section>
@@ -37,7 +37,7 @@
     <!-- ===== Grille des 4 outils ===== -->
     <section class="container" style="padding-top:40px">
       <div class="cta-grid" style="grid-template-columns: repeat(2,1fr)">
-        <a class="cta-card cta-card--bleu" href="#quiz-section">
+        <a class="cta-card cta-card--bleu" href="javascript:void(0)" onclick="document.getElementById('quiz-section').scrollIntoView({behavior:'smooth'})">
           <h3>Quiz</h3>
           <p>Teste tes réflexes en 10 situations concrètes.</p>
           <span class="cta-card__arrow">Commencer →</span>
@@ -61,7 +61,7 @@
     </section>
 
     <!-- ===== Quiz ===== -->
-    <section class="section-gris" id="quiz-section">
+    <section class="section-gris" id="quiz-section" style="margin-top:40px">
       <div class="container">
         <h2>Quiz : « Réagis-tu bien face au harcèlement ? »</h2>
         <p class="lead">10 situations concrètes, sans jugement. À la fin : ton score et des conseils.</p>
@@ -75,28 +75,49 @@
 
     <!-- ===== Question anonyme ===== -->
     <section class="container" id="question">
-      <div class="container">
-        <h2>Pose ta question, anonymement</h2>
-        <p class="lead">Une question sur le harcèlement, une situation, un doute ? Écris-nous.</p>
-        <form class="card" id="question-form" style="max-width:640px">
+      <h2>Pose ta question, anonymement</h2>
+      <p class="lead">Une question sur le harcèlement, une situation, un doute ? Écris-nous.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+        <!-- Formulaire -->
+        <form class="card" id="question-form">
           <div class="form-field">
             <label for="q-msg">Ta question</label>
             <textarea id="q-msg" name="message" rows="4" placeholder="Écris ta question ici…" required></textarea>
             <div class="char-count">0 / 200</div>
-            <p class="form-hint">Ce message est <strong>anonyme</strong>. Personne ne pourra savoir qui l'a écrit : on ne demande aucune information sur toi.</p>
+            <p class="form-hint">Ce message est <strong>anonyme</strong>. Personne ne pourra savoir qui l'a écrit.</p>
           </div>
           <button class="btn btn--bleu" type="submit">Envoyer ma question</button>
           <div class="feedback" hidden></div>
         </form>
+        <!-- Réponses de l'équipe NAH -->
+        <div class="card" id="reponses-box">
+          <h3 style="margin-top:0">Réponses de l'équipe NAH</h3>
+          <p class="form-hint">Les questions publiées et leurs réponses apparaîtront ici.</p>
+          <div id="reponses-liste">
+            <!-- Exemple statique en attendant Supabase -->
+            <div style="border-left:4px solid var(--vert);padding:10px 14px;background:var(--gris-bleu);border-radius:8px;margin-bottom:12px">
+              <p style="margin:0 0 6px"><strong>Q :</strong> C'est quoi la différence entre une blague et du harcèlement ?</p>
+              <p style="margin:0;color:var(--vert)"><strong>Réponse NAH :</strong> Une blague fait rire tout le monde, y compris la personne concernée. Dès que c'est répété et que ça blesse, c'est du harcèlement.</p>
+            </div>
+            <p class="form-hint">D'autres réponses seront publiées prochainement.</p>
+          </div>
+        </div>
       </div>
+      <style>
+        @media (max-width: 700px) {
+          #question > div[style*="grid"] { grid-template-columns: 1fr !important; }
+        }
+      </style>
     </section>
 
     <!-- ===== Sondage ===== -->
     <section class="section-gris">
-      <h2>Le sondage du moment</h2>
-      <p class="lead">Vote anonyme. Ton avis compte et aide l'équipe à agir.</p>
-      <div class="card" id="sondage" style="max-width:640px">
-        <p>Chargement du sondage…</p>
+      <div class="container">
+        <h2>Le sondage du moment</h2>
+        <p class="lead">Vote anonyme. Ton avis compte et aide l'équipe à agir.</p>
+        <div class="card" id="sondage" style="max-width:640px">
+          <p>Chargement du sondage…</p>
+        </div>
       </div>
     </section>
 
