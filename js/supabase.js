@@ -12,8 +12,8 @@
 
 window.NAH_CONFIG = {
   // À remplacer par les vraies valeurs du projet de ta sœur :
-  SUPABASE_URL: 'https://csspxsnqobftispxvnmw.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzc3B4c25xb2JmdGlzcHh2bm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3NDQxNzksImV4cCI6MjA5NTMyMDE3OX0.tfRk-xICDPzxsNXNuGE7IqfR7m4HAkC6QybnXD8fNvE',
+  SUPABASE_URL: 'https://wyydagcjkbivtbuhbzon.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5eWRhZ2Nqa2JpdnRidWhiem9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNjUzNjgsImV4cCI6MjA5NTc0MTM2OH0.ZSfHT9Ki6_bZae9yeJm-rh9Nc7TrsJnX08q68KK0xfs',
 
   // Tant que ce n'est pas configuré, les formulaires fonctionnent
   // en mode "démo" (rien n'est envoyé, message de confirmation simulé).
