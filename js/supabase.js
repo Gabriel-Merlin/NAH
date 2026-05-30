@@ -41,13 +41,15 @@ window.nahDB = {
       await new Promise(function (r) { setTimeout(r, 400); }); // simulation
       return { demo: true };
     }
+    const headers = this._headers();
+    headers['Prefer'] = 'return=minimal'; // pas de SELECT après INSERT
     const res = await fetch(window.NAH_CONFIG.SUPABASE_URL + '/rest/v1/' + table, {
       method: 'POST',
-      headers: this._headers(),
+      headers: headers,
       body: JSON.stringify(row)
     });
     if (!res.ok) { throw new Error('Erreur ' + res.status); }
-    return res.json();
+    return {};
   },
 
   // SELECT avec query string PostgREST (ex: 'select=*&order=created_at.desc')
