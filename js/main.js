@@ -6,6 +6,17 @@
 (function () {
   'use strict';
 
+  /* ---------- Ouverture en haut de page (corrige le scroll restauré sur mobile) ---------- */
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  // Si la page est chargée sans ancre (#...), on s'assure d'arriver tout en haut.
+  if (!location.hash) {
+    window.addEventListener('load', function () {
+      window.scrollTo(0, 0);
+    });
+  }
+
   /* ---------- Navigation mobile (burger) ---------- */
   const toggle = document.querySelector('.nav__toggle');
   const links = document.querySelector('.nav__links');
