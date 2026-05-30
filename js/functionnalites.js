@@ -254,8 +254,15 @@
         showFeedback(feedback,
           'Génial ! Ta candidature est enregistrée. L\'équipe NAH te recontactera très vite.', true);
       } catch (err) {
-        showFeedback(feedback,
-          'L\'envoi a échoué. Réessaie plus tard ou écris à l\'équipe NAH.', false);
+        // 409 = email déjà présent (contrainte d'unicité)
+        if (err && /409/.test(err.message)) {
+          showFeedback(feedback,
+            'Tu as déjà envoyé une demande avec cette adresse e-mail : ' +
+            'elle est déjà en cours de traitement. L\'équipe NAH te recontactera.', false);
+        } else {
+          showFeedback(feedback,
+            'L\'envoi a échoué. Réessaie plus tard ou écris à l\'équipe NAH.', false);
+        }
       } finally {
         submitBtn.disabled = false;
       }
