@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Équipe — NAH · Lycée Marceau</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; Outils</a></li>
+        <li><a href="rejoindre.html">Nous rejoindre</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav__equipe" hidden><a href="equipe.html">Équipe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Écran de chargement -->
+    <section class="bandeau bandeau--page" aria-label="Espace équipe">
+      <div class="bandeau__inner">
+        <h1>Espace Équipe NAH</h1>
+        <p>Réservé aux membres de l'équipe.</p>
+      </div>
+    </section>
+
+    <!-- Accès refusé (affiché si token invalide) -->
+    <section class="container" id="acces-refuse" hidden>
+      <div class="encadre encadre--bordeaux">
+        <strong>Accès réservé.</strong> Cette page est réservée aux membres de l'équipe NAH acceptés.
+        Tu dois utiliser le lien reçu par email après acceptation de ta candidature.
+      </div>
+      <p><a class="btn btn--ghost" href="rejoindre.html">Soumettre une candidature →</a></p>
+    </section>
+
+    <!-- Contenu équipe (affiché si token valide) -->
+    <section class="container" id="contenu-equipe" hidden>
+      <div class="encadre encadre--vert">
+        <strong>Bienvenue dans l'équipe NAH !</strong> Tu es bien reconnu(e) comme membre de l'équipe.
+      </div>
+
+      <h2>Ressources internes</h2>
+      <div class="cta-grid">
+        <div class="card">
+          <h3>Tableau de bord</h3>
+          <p>Accède aux questions anonymes, signalements et candidatures reçues via le tableau de bord Supabase.</p>
+          <a class="btn btn--bleu" href="https://supabase.com/dashboard/project/wyydagcjkbivtbuhbzon/editor" target="_blank" rel="noopener">Ouvrir le tableau de bord ↗</a>
+        </div>
+        <div class="card">
+          <h3>Mettre à jour le calendrier</h3>
+          <p>Les événements NAH sont dans le fichier <code>data/events.json</code> du dépôt GitHub.</p>
+          <a class="btn btn--vert" href="https://github.com/gabriel-merlin/NAH/edit/main/data/events.json" target="_blank" rel="noopener">Modifier les événements ↗</a>
+        </div>
+        <div class="card">
+          <h3>Contact équipe</h3>
+          <p>Pour toute question interne, écris à l'adresse de l'équipe.</p>
+          <a class="btn btn--ghost" href="mailto:lou.ann.merlin@gmail.com">Écrire à l'équipe</a>
+        </div>
+      </div>
+
+      <h2 style="margin-top:40px">Rappel RGPD</h2>
+      <div class="encadre">
+        <p class="mb-0">Les données reçues (questions, signalements, candidatures) sont <strong>confidentielles</strong>.
+          Elles ne doivent pas être partagées hors de l'équipe NAH, et seront supprimées après 6 mois conformément à notre politique de confidentialité.</p>
+      </div>
+
+      <p style="margin-top:32px">
+        <button class="btn btn--ghost" id="btn-deconnexion">Se déconnecter de l'espace équipe</button>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau ·
+          <a href="mentions-legales.html">Mentions légales</a> ·
+          <a href="confidentialite.html">Confidentialité</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/equipe.js"></script>
+</body>
+</html>

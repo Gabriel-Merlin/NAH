@@ -33,6 +33,15 @@
     }
   } catch (err) { /* localStorage indisponible : on ignore */ }
 
+  /* ---------- Onglet Équipe (visible si membre accepté) ---------- */
+  try {
+    if (localStorage.getItem('nah-member-token')) {
+      document.querySelectorAll('.nav__equipe').forEach(function (el) {
+        el.removeAttribute('hidden');
+      });
+    }
+  } catch (e) {}
+
   /* ---------- Marque le lien de nav actif ---------- */
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__links a').forEach(function (a) {
