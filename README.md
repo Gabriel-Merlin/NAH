@@ -7,11 +7,19 @@ un groupe d'élèves du **Lycée Marceau** à Chartres (28).
 
 ## ✨ Ce que contient le site
 
-- **Accueil** — bandeau, 3 accès rapides, numéros d'urgence cliquables.
-- **Comprendre** — c'est quoi le harcèlement, les types, les critères, comment
-  réagir (victime / témoin), numéros & applis, équipe NAH.
-- **Agir & outils** — quiz interactif, question anonyme, sondage, calendrier
-  d'événements, formulaire de signalement.
+- **Accueil** — bandeau dégradé bleu, 3 accès rapides (CTA), numéros d'urgence
+  (les boutons « Appeler » n'apparaissent que sur mobile ; sur desktop les numéros
+  sont seulement affichés), slogan.
+- **Comprendre** — contenu présenté en **cartes visuelles** (et non en gros
+  paragraphes) : c'est quoi le harcèlement, blague/conflit/harcèlement, les types
+  (icônes), les 3 critères, réagir victime / témoin, numéros & applis, équipe NAH.
+- **Agir & Outils** — grille des 4 outils en tête de page, puis :
+  - **Quiz** interactif (10 situations) ;
+  - **Question anonyme** avec, à côté, une colonne **« Réponses de l'équipe NAH »** ;
+  - **Sondage** (vote anonyme, 1 vote/personne) ;
+  - **Calendrier** d'événements (éditable via `data/events.json`) ;
+  - **Signalement** (anonyme ou identifié) ;
+  - **Rejoindre NAH** — formulaire de candidature (nom, prénom, classe, téléphone, e-mail).
 - **Contact** — email dédié, réseaux sociaux, adresse + carte du lycée.
 - Pages **Mentions légales** et **Confidentialité (RGPD)**.
 - **Bouton flottant « Besoin d'aide ? »** présent sur toutes les pages.
@@ -52,7 +60,9 @@ Dépose `lycee-marceau.jpg` dans le dossier [`assets/`](assets/) (voir le README
 de ce dossier). ⚠️ Autorisation du chef d'établissement nécessaire.
 
 ### 4. Publier sur GitHub Pages
-Settings → Pages → Source : branche `main` (ou la branche de déploiement) → `/root`.
+Le site est déployé via **« Deploy from a branch »** sur la branche **`gh-pages`**
+(`Settings → Pages → Source : Deploy from a branch → gh-pages → /root`).
+Les branches `main` et `gh-pages` sont tenues identiques au contenu du site.
 
 ## 🔒 Confidentialité & éthique
 

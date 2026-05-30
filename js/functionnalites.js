@@ -222,6 +222,45 @@
   }
 
   /* =======================================================
+     5 — REJOINDRE NAH (candidature à l'équipe)
+     ======================================================= */
+  const joinForm = document.getElementById('rejoindre-form');
+  if (joinForm) {
+    const feedback = joinForm.querySelector('.feedback');
+    joinForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const data = {
+        nom: joinForm.querySelector('[name="nom"]').value.trim(),
+        prenom: joinForm.querySelector('[name="prenom"]').value.trim(),
+        classe: joinForm.querySelector('[name="classe"]').value.trim(),
+        telephone: joinForm.querySelector('[name="telephone"]').value.trim() || null,
+        email: joinForm.querySelector('[name="email"]').value.trim()
+      };
+      if (!data.nom || !data.prenom || !data.classe || !data.email) {
+        showFeedback(feedback, 'Merci de remplir au moins nom, prénom, classe et e-mail.', false);
+        return;
+      }
+      if (data.email.indexOf('@') === -1) {
+        showFeedback(feedback, 'Vérifie ton adresse e-mail.', false);
+        return;
+      }
+      const submitBtn = joinForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        await window.nahDB.insert('candidatures', data);
+        joinForm.reset();
+        showFeedback(feedback,
+          'Génial ! Ta candidature est enregistrée. L\'équipe NAH te recontactera très vite.', true);
+      } catch (err) {
+        showFeedback(feedback,
+          'L\'envoi a échoué. Réessaie plus tard ou écris à l\'équipe NAH.', false);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* =======================================================
      Utilitaires
      ======================================================= */
   function showFeedback(el, text, ok) {

@@ -54,6 +54,28 @@ create policy "insert signalements (public)"
   to anon with check (true);
 
 -- ---------------------------------------------------------
+-- 2bis. CANDIDATURES — élèves qui veulent rejoindre NAH
+--       Contient des données personnelles : AUCUNE lecture publique.
+-- ---------------------------------------------------------
+create table if not exists public.candidatures (
+  id          uuid primary key default gen_random_uuid(),
+  nom         text not null,
+  prenom      text not null,
+  classe      text not null,
+  telephone   text,
+  email       text not null,
+  traite      boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+
+alter table public.candidatures enable row level security;
+
+-- Insertion ouverte au public, AUCUNE lecture publique (pas de policy select).
+create policy "insert candidatures (public)"
+  on public.candidatures for insert
+  to anon with check (true);
+
+-- ---------------------------------------------------------
 -- 3. QUIZ — scores anonymes (statistiques agrégées)
 -- ---------------------------------------------------------
 create table if not exists public.quiz_scores (

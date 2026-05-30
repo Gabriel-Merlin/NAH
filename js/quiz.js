@@ -94,7 +94,7 @@
     }
   ];
 
-  const state = { i: 0, score: 0, max: QUESTIONS.length * 2 };
+  const state = { i: 0, score: 0, max: QUESTIONS.length * 2, started: false };
 
   const bar = root.querySelector('.quiz-bar__fill');
   const content = root.querySelector('#quiz-content');
@@ -124,9 +124,13 @@
         }
       });
     });
-    // Focus sur la 1re option pour le clavier / lecteur d'écran
-    const first = content.querySelector('.quiz-option');
-    if (first) { first.focus(); }
+    // Focus sur la 1re option pour le clavier (mais PAS au tout premier rendu,
+    // sinon la page défile automatiquement jusqu'au quiz au chargement).
+    if (state.started) {
+      const first = content.querySelector('.quiz-option');
+      if (first) { first.focus(); }
+    }
+    state.started = true;
   }
 
   function feedbackText(pct) {
