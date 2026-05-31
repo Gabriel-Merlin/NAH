@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès espace équipe — NAH · Lycée Marceau</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; Outils</a></li>
+        <li><a href="rejoindre.html">Nous rejoindre</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav__equipe" hidden><a href="equipe.html">Équipe</a></li>
+        <li class="nav__admin" hidden><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Accès espace équipe">
+      <div class="bandeau__inner">
+        <h1>Accès espace équipe</h1>
+        <p>Utilise le lien reçu par email pour activer ton accès.</p>
+      </div>
+    </section>
+
+    <div class="container" style="padding-top:40px; padding-bottom:64px; max-width:560px">
+
+      <!-- Validation automatique (token dans l'URL) -->
+      <div id="auto-claim">
+        <div class="encadre">
+          <p class="mb-0">Validation de ton lien en cours…</p>
+        </div>
+      </div>
+
+      <!-- Saisie manuelle du lien -->
+      <div id="saisie-lien" hidden>
+        <p class="lead">Colle ici le lien que tu as reçu par email pour activer ton accès à l'espace équipe NAH.</p>
+        <form class="card" id="lien-form">
+          <div class="form-field">
+            <label for="lien-input">Ton lien d'accès</label>
+            <input type="text" id="lien-input" placeholder="https://gabriel-merlin.github.io/NAH/lien-equipe.html?token=…" autocomplete="off">
+          </div>
+          <p class="form-hint">Ce lien t'a été envoyé par email lors de l'acceptation de ta candidature.</p>
+          <button class="btn btn--vert" type="submit">Activer mon accès</button>
+          <div class="feedback" hidden></div>
+        </form>
+      </div>
+
+      <!-- Lien déjà utilisé -->
+      <div id="deja-utilise" hidden>
+        <div class="encadre encadre--bordeaux">
+          <strong>Ce lien a déjà été utilisé.</strong> Ton accès a été activé lors de ta première connexion.
+          Connecte-toi avec ton email et ton mot de passe.
+        </div>
+        <p><a class="btn btn--bleu" href="rejoindre.html#rejoindre">Se connecter →</a></p>
+      </div>
+
+      <!-- Lien invalide -->
+      <div id="lien-invalide" hidden>
+        <div class="encadre encadre--bordeaux">
+          <strong>Lien invalide.</strong> Ce lien ne correspond à aucune candidature acceptée.
+          Vérifie que tu as bien copié le lien complet depuis ton email, ou contacte l'équipe NAH.
+        </div>
+        <p><a class="btn btn--ghost" href="contact.html">Contacter l'équipe</a></p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau ·
+          <a href="mentions-legales.html">Mentions légales</a> ·
+          <a href="confidentialite.html">Confidentialité</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/lien-equipe.js"></script>
+</body>
+</html>

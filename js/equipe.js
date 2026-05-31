@@ -18,13 +18,15 @@
       }
     } catch (e) { /* on tente le token */ }
 
-    // 2. Lien-token reçu par email (secours)
+    // 2. Token dans l'URL → rediriger vers lien-equipe.html pour activation
     const params = new URLSearchParams(location.search);
     const urlToken = params.get('token');
     if (urlToken) {
-      localStorage.setItem(TOKEN_KEY, urlToken);
-      history.replaceState({}, '', location.pathname);
+      location.href = 'lien-equipe.html?token=' + encodeURIComponent(urlToken);
+      return;
     }
+
+    // 3. Token déjà activé en localStorage
     const token = localStorage.getItem(TOKEN_KEY);
     if (token) {
       try {
@@ -33,7 +35,7 @@
       } catch (e) { /* ignore */ }
     }
 
-    // 3. Sinon : accès refusé + proposition de connexion Google
+    // 4. Sinon : accès refusé + proposition de connexion Google
     showRefus();
   }
 

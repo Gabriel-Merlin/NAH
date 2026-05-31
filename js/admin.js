@@ -113,6 +113,7 @@
         (m.is_admin
           ? '<button class="btn btn--ghost" data-action="retrograder" data-email="' + esc(m.email) + '">Rétrograder</button>'
           : '<button class="btn btn--bleu" data-action="promouvoir" data-email="' + esc(m.email) + '">Promouvoir admin</button>') +
+          '<button class="btn btn--ghost" data-action="regen-lien" data-email="' + esc(m.email) + '">Régénérer lien</button>' +
           '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-action="retirer" data-email="' + esc(m.email) + '">Retirer</button>';
       return '<tr>' +
         '<td>' + esc(m.prenom) + ' ' + esc(m.nom) + badge + '</td>' +
@@ -142,6 +143,19 @@
         if (!confirm('Retirer définitivement ' + email + ' de l\'équipe ?')) { btn.disabled = false; return; }
         await call('admin_remove_member', { p_admin_token: adminToken, p_target_email: email },
                    'admin_remove_member_g', { p_email: email });
+      } else if (action === 'regen-lien') {
+        const result = await call(
+          'admin_regenerate_member_link', { p_admin_token: adminToken, p_target_email: email },
+          'admin_regenerate_member_link_g', { p_email: email }
+        );
+        if (result && result.ok) {
+          const newLink = 'https://gabriel-merlin.github.io/NAH/lien-equipe.html?token=' + result.token;
+          prompt('Nouveau lien d\'accès pour ' + email + ' (copie-le et envoie-le) :', newLink);
+        } else {
+          alert('Erreur : ' + (result && result.error || 'Impossible de régénérer le lien'));
+        }
+        btn.disabled = false;
+        return;
       }
       await loadDashboard();
     } catch (err) {
