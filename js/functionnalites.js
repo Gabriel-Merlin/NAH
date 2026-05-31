@@ -231,6 +231,7 @@
     const feedback = joinForm.querySelector('.feedback');
     joinForm.addEventListener('submit', async function (e) {
       e.preventDefault();
+      const password = joinForm.querySelector('[name="password"]').value;
       const data = {
         nom: joinForm.querySelector('[name="nom"]').value.trim(),
         prenom: joinForm.querySelector('[name="prenom"]').value.trim(),
@@ -246,9 +247,14 @@
         showFeedback(feedback, 'Vérifie ton adresse e-mail.', false);
         return;
       }
+      if (!password || password.length < 6) {
+        showFeedback(feedback, 'Le mot de passe doit faire au moins 6 caractères.', false);
+        return;
+      }
       const submitBtn = joinForm.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
       try {
+        try { await window.nahAuth.signUpWithPassword(data.email, password); } catch (e) { /* compte déjà existant ou auth non dispo */ }
         await window.nahDB.insert('candidatures', data);
         joinForm.reset();
         showFeedback(feedback,
@@ -263,6 +269,38 @@
           showFeedback(feedback,
             'L\'envoi a échoué. Réessaie plus tard ou écris à l\'équipe NAH.', false);
         }
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* =======================================================
+     6 — CONNEXION EMAIL / MOT DE PASSE
+     ======================================================= */
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    const loginFeedback = loginForm.querySelector('.feedback');
+    loginForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const email = loginForm.querySelector('[name="email"]').value.trim();
+      const password = loginForm.querySelector('[name="password"]').value;
+      if (!email || !password) {
+        showFeedback(loginFeedback, 'Remplis ton email et ton mot de passe.', false);
+        return;
+      }
+      const submitBtn = loginForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        const updatedState = await window.nahAuth.signInWithPassword(email, password);
+        if (updatedState.membership && updatedState.membership.is_member) {
+          location.href = 'equipe.html';
+        } else {
+          showFeedback(loginFeedback,
+            'Ton compte existe mais ta candidature n\'a pas encore été acceptée. On te recontactera bientôt.', false);
+        }
+      } catch (err) {
+        showFeedback(loginFeedback, 'Email ou mot de passe incorrect.', false);
       } finally {
         submitBtn.disabled = false;
       }

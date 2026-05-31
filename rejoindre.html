@@ -59,36 +59,69 @@
       </div>
     </section>
 
-    <!-- ===== Formulaire de candidature ===== -->
+    <!-- ===== Formulaire de candidature + Connexion ===== -->
     <section class="section-gris" id="rejoindre">
       <div class="container">
-        <h2>Remplis le formulaire pour nous rejoindre</h2>
-        <p class="lead">On te recontacte rapidement pour faire ta connaissance.</p>
-        <form class="card" id="rejoindre-form" style="max-width:640px">
-          <div class="form-field">
-            <label for="r-nom">Nom</label>
-            <input type="text" id="r-nom" name="nom" required>
+        <div class="rejoindre-grid">
+
+          <!-- Colonne gauche : candidature -->
+          <div>
+            <h2>Remplis le formulaire pour nous rejoindre</h2>
+            <p class="lead">On te recontacte rapidement pour faire ta connaissance.</p>
+            <form class="card" id="rejoindre-form">
+              <div class="form-field">
+                <label for="r-nom">Nom</label>
+                <input type="text" id="r-nom" name="nom" required>
+              </div>
+              <div class="form-field">
+                <label for="r-prenom">Prénom</label>
+                <input type="text" id="r-prenom" name="prenom" required>
+              </div>
+              <div class="form-field">
+                <label for="r-classe">Classe</label>
+                <input type="text" id="r-classe" name="classe" placeholder="ex. 2nde 4, 1ère G…" required>
+              </div>
+              <div class="form-field">
+                <label for="r-tel">Téléphone</label>
+                <input type="text" id="r-tel" name="telephone" inputmode="tel" placeholder="06 12 34 56 78">
+              </div>
+              <div class="form-field">
+                <label for="r-mail">Adresse e-mail</label>
+                <input type="email" id="r-mail" name="email" inputmode="email" placeholder="prenom@exemple.fr" required>
+              </div>
+              <div class="form-field">
+                <label for="r-password">Mot de passe</label>
+                <input type="password" id="r-password" name="password" placeholder="Au moins 6 caractères" required>
+              </div>
+              <p class="form-hint">Ces informations servent uniquement à te recontacter pour rejoindre l'équipe NAH. Elles ne sont jamais partagées ni utilisées à d'autres fins.</p>
+              <button class="btn btn--vert" type="submit">Je veux rejoindre NAH</button>
+              <div class="feedback" hidden></div>
+            </form>
           </div>
-          <div class="form-field">
-            <label for="r-prenom">Prénom</label>
-            <input type="text" id="r-prenom" name="prenom" required>
+
+          <!-- Colonne droite : connexion -->
+          <div>
+            <h2>Se connecter</h2>
+            <p class="lead">Déjà membre ? Connecte-toi avec ton email et ton mot de passe.</p>
+            <form class="card" id="login-form">
+              <div class="form-field">
+                <label for="l-mail">Adresse e-mail</label>
+                <input type="email" id="l-mail" name="email" inputmode="email" placeholder="prenom@exemple.fr" required>
+              </div>
+              <div class="form-field">
+                <label for="l-password">Mot de passe</label>
+                <input type="password" id="l-password" name="password" required>
+              </div>
+              <button class="btn btn--bleu" type="submit">Se connecter</button>
+              <div class="feedback" hidden></div>
+            </form>
+            <div class="encadre" style="margin-top:20px">
+              <p class="mb-0" style="font-size:.9rem">Tu as reçu un lien par email ?
+                <a href="equipe.html">Accède directement à l'espace équipe →</a></p>
+            </div>
           </div>
-          <div class="form-field">
-            <label for="r-classe">Classe</label>
-            <input type="text" id="r-classe" name="classe" placeholder="ex. 2nde 4, 1ère G…" required>
-          </div>
-          <div class="form-field">
-            <label for="r-tel">Téléphone</label>
-            <input type="text" id="r-tel" name="telephone" inputmode="tel" placeholder="06 12 34 56 78">
-          </div>
-          <div class="form-field">
-            <label for="r-mail">Adresse e-mail</label>
-            <input type="text" id="r-mail" name="email" inputmode="email" placeholder="prenom@exemple.fr" required>
-          </div>
-          <p class="form-hint">Ces informations servent uniquement à te recontacter pour rejoindre l'équipe NAH. Elles ne sont jamais partagées ni utilisées à d'autres fins.</p>
-          <button class="btn btn--vert" type="submit">Je veux rejoindre NAH</button>
-          <div class="feedback" hidden></div>
-        </form>
+
+        </div>
       </div>
     </section>
   </main>
