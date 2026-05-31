@@ -68,6 +68,23 @@ window.nahAuth = (function () {
     });
   }
 
+  async function signUpWithPassword(email, password) {
+    if (!client) throw new Error('Auth non initialisée');
+    const { error } = await client.auth.signUp({ email, password });
+    if (error && error.message !== 'User already registered') throw new Error(error.message);
+  }
+
+  async function signInWithPassword(email, password) {
+    if (!client) throw new Error('Auth non initialisée');
+    const { data, error } = await client.auth.signInWithPassword({ email, password });
+    if (error) throw new Error(error.message);
+    if (data.session) {
+      await loadMembership(data.session);
+      revealNav();
+    }
+    return state;
+  }
+
   async function signOut() {
     if (client) { await client.auth.signOut(); }
     location.href = 'index.html';
@@ -86,6 +103,8 @@ window.nahAuth = (function () {
   return {
     ready: ready,
     signInGoogle: signInGoogle,
+    signUpWithPassword: signUpWithPassword,
+    signInWithPassword: signInWithPassword,
     signOut: signOut,
     rpc: rpc,
     getState: function () { return state; }
