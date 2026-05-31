@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transfert d'administration — NAH · Lycée Marceau</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav__logo" href="index.html">NAH <span>·</span> Non Au Harcèlement</a>
+      <button class="nav__toggle" aria-expanded="false" aria-label="Ouvrir le menu">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="renseignement.html">Comprendre</a></li>
+        <li><a href="fonctionnalites.html">Agir &amp; Outils</a></li>
+        <li><a href="rejoindre.html">Nous rejoindre</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav__equipe" hidden><a href="equipe.html">Équipe</a></li>
+        <li class="nav__admin" hidden><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="bandeau bandeau--page" aria-label="Transfert d'administration">
+      <div class="bandeau__inner">
+        <h1>Prise en main de l'administration</h1>
+        <p>Tu as reçu un lien de transfert d'administration NAH.</p>
+      </div>
+    </section>
+
+    <div class="container" style="padding-top:40px; padding-bottom:64px; max-width:560px">
+
+      <!-- Lien invalide / expiré -->
+      <div id="lien-invalide" class="encadre encadre--bordeaux" hidden>
+        <strong>Lien invalide ou expiré.</strong> Ce lien a déjà été utilisé ou a expiré.
+        Demande un nouveau lien à l'administrateur actuel.
+      </div>
+
+      <!-- Formulaire de création de compte admin -->
+      <div id="formulaire-transfert">
+        <div class="encadre encadre--vert" style="margin-bottom:24px">
+          <strong>Lien valide.</strong> Crée ton compte ci-dessous pour prendre en main l'administration NAH.
+          Ton compte sera automatiquement accepté et tu auras les droits d'administration.
+        </div>
+        <form class="card" id="transfert-form">
+          <div class="form-field">
+            <label for="t-nom">Nom</label>
+            <input type="text" id="t-nom" name="nom" required>
+          </div>
+          <div class="form-field">
+            <label for="t-prenom">Prénom</label>
+            <input type="text" id="t-prenom" name="prenom" required>
+          </div>
+          <div class="form-field">
+            <label for="t-classe">Fonction / Classe</label>
+            <input type="text" id="t-classe" name="classe" placeholder="ex. CPE, Proviseur…" required>
+          </div>
+          <div class="form-field">
+            <label for="t-email">Adresse e-mail</label>
+            <input type="email" id="t-email" name="email" required>
+          </div>
+          <div class="form-field">
+            <label for="t-password">Mot de passe</label>
+            <input type="password" id="t-password" name="password" placeholder="Au moins 6 caractères" required>
+          </div>
+          <button class="btn btn--bleu" type="submit">Prendre en main l'administration</button>
+          <div class="feedback" hidden></div>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Projet d'élèves, non officiel · © <span id="year"></span> NAH Lycée Marceau ·
+          <a href="mentions-legales.html">Mentions légales</a> ·
+          <a href="confidentialite.html">Confidentialité</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/transfert.js"></script>
+</body>
+</html>

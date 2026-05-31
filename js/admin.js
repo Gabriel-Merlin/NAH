@@ -51,6 +51,7 @@
     setupLogout();
     setupEventForm();
     setupTirage();
+    setupInvite();
   }
 
   // Appel RPC selon le mode (Google = fonctions _g sans token)
@@ -322,6 +323,41 @@
         showFeedback(feedback, 'Erreur : ' + err.message, false);
       } finally { btnTirage.disabled = false; }
     });
+  }
+
+  /* ---------- Lien de transfert admin ---------- */
+  function setupInvite() {
+    const btn = document.getElementById('btn-gen-invite');
+    const resultDiv = document.getElementById('invite-result');
+    const linkInput = document.getElementById('invite-link');
+    const copyBtn = document.getElementById('btn-copy-invite');
+    if (!btn) return;
+
+    btn.addEventListener('click', async function () {
+      btn.disabled = true;
+      try {
+        const result = await call('admin_generate_invite', { p_admin_token: adminToken },
+                                  'admin_generate_invite_g', {});
+        if (!result || !result.ok) { throw new Error(result && result.error || 'Erreur'); }
+        const link = location.origin + location.pathname.replace('admin.html', '') + 'transfert.html?token=' + result.token;
+        linkInput.value = link;
+        resultDiv.removeAttribute('hidden');
+      } catch (err) {
+        alert('Erreur : ' + err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        linkInput.select();
+        navigator.clipboard.writeText(linkInput.value).then(function () {
+          copyBtn.textContent = 'Copié !';
+          setTimeout(function () { copyBtn.textContent = 'Copier'; }, 2000);
+        });
+      });
+    }
   }
 
   /* ---------- Déconnexion ---------- */
