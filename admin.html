@@ -71,6 +71,24 @@
         </div>
       </section>
 
+      <!-- ===== Tirage au sort ===== -->
+      <section aria-labelledby="h-tirage" style="margin-top:40px">
+        <h2 id="h-tirage">Tirage au sort</h2>
+        <div class="encadre" style="max-width:560px">
+          <p>Définit le nombre de places, puis lance le tirage pour accepter aléatoirement des candidats parmi la liste en attente. Les emails de bienvenue leur seront envoyés automatiquement.</p>
+          <div class="form-group" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+            <div style="flex:1;min-width:140px">
+              <label for="tirage-places" style="display:block;font-weight:600;margin-bottom:6px">Nombre de places</label>
+              <input id="tirage-places" type="number" min="1" max="200" value="16" style="width:100%;padding:10px 12px;border:2px solid var(--gris-bleu);border-radius:8px;font-size:1rem">
+            </div>
+            <button class="btn btn--ghost" id="btn-save-max" type="button">Enregistrer</button>
+          </div>
+          <p id="tirage-hint" class="form-hint" style="margin-top:8px"></p>
+          <button class="btn btn--bleu" id="btn-tirage" type="button" style="margin-top:16px">🎲 Lancer le tirage au sort</button>
+          <div id="tirage-feedback" class="feedback" hidden></div>
+        </div>
+      </section>
+
       <!-- ===== Candidatures en attente ===== -->
       <section id="section-attente" aria-labelledby="h-attente" style="margin-top:40px">
         <h2 id="h-attente">Candidatures en attente</h2>

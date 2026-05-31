@@ -13,6 +13,8 @@
   // Mode d'accès : 'google' ou 'token'
   let mode = null;
   let adminToken = null;
+  let maxMembres = 16;
+  let currentMembresCount = 0;
 
   async function init() {
     // 1. Connexion Google admin ?
@@ -48,6 +50,7 @@
     await loadDashboard();
     setupLogout();
     setupEventForm();
+    setupTirage();
   }
 
   // Appel RPC selon le mode (Google = fonctions _g sans token)
@@ -60,14 +63,21 @@
 
   /* ---------- Dashboard ---------- */
   async function loadDashboard() {
+    try {
+      const cfg = await window.nahDB.select('config', 'select=value&key=eq.max_membres');
+      if (cfg && cfg.length) { maxMembres = parseInt(cfg[0].value, 10) || 16; }
+    } catch (e) { /* garde la valeur par défaut */ }
+
     const data = await call(
       'get_admin_dashboard', { p_token: adminToken },
       'get_admin_dashboard_g', {}
     );
     if (!data || !data.ok) { showError(data && data.error); return; }
+    currentMembresCount = (data.stats && data.stats.total_membres) || 0;
     renderStats(data.stats);
     renderMembres(data.membres || []);
     renderEnAttente(data.en_attente || []);
+    updateTirageHint();
     await loadEvents();
   }
 
@@ -81,7 +91,7 @@
     const grid = document.getElementById('stats-grid');
     if (!grid || !stats) return;
     grid.innerHTML =
-      stat(stats.total_membres, 'Membres actifs') +
+      stat((stats.total_membres || 0) + ' / ' + maxMembres, 'Places utilisées') +
       stat(stats.en_attente, 'Candidatures en attente') +
       stat(stats.total_signalements, 'Signalements') +
       stat(stats.total_questions, 'Questions anonymes');
@@ -145,16 +155,18 @@
   function renderEnAttente(liste) {
     const tbody = document.getElementById('attente-tbody');
     if (!tbody) return;
+    const plafondAtteint = currentMembresCount >= maxMembres;
     if (!liste.length) { tbody.innerHTML = '<tr><td colspan="5">Aucune candidature en attente.</td></tr>'; return; }
     tbody.innerHTML = liste.map(function (c) {
+      const btnAccepter = plafondAtteint
+        ? '<button class="btn btn--ghost" disabled title="Plafond de ' + maxMembres + ' membres atteint">Accepter</button>'
+        : '<button class="btn btn--vert" data-action="accepter" data-token="' + esc(c.token) + '" data-email="' + esc(c.email) + '">Accepter</button>';
       return '<tr>' +
         '<td>' + esc(c.prenom) + ' ' + esc(c.nom) + '</td>' +
         '<td>' + esc(c.classe) + '</td>' +
         '<td>' + esc(c.email) + '</td>' +
         '<td>' + formatDate(c.created_at) + '</td>' +
-        '<td class="actions">' +
-          '<button class="btn btn--vert" data-action="accepter" data-token="' + esc(c.token) + '" data-email="' + esc(c.email) + '">Accepter</button>' +
-        '</td></tr>';
+        '<td class="actions">' + btnAccepter + '</td></tr>';
     }).join('');
     tbody.querySelectorAll('[data-action="accepter"]').forEach(function (btn) {
       btn.addEventListener('click', handleAccepter);
@@ -251,6 +263,66 @@
       } finally {
         submitBtn.disabled = false;
       }
+    });
+  }
+
+  /* ---------- Tirage au sort ---------- */
+  function updateTirageHint() {
+    const hint = document.getElementById('tirage-hint');
+    const input = document.getElementById('tirage-places');
+    if (hint) hint.textContent = currentMembresCount + ' membre(s) accepté(s) sur ' + maxMembres + ' place(s).';
+    if (input) input.value = maxMembres;
+  }
+
+  function setupTirage() {
+    const btnSave = document.getElementById('btn-save-max');
+    const btnTirage = document.getElementById('btn-tirage');
+    const feedback = document.getElementById('tirage-feedback');
+    const input = document.getElementById('tirage-places');
+    if (!btnTirage) return;
+
+    btnSave.addEventListener('click', async function () {
+      const n = parseInt(input.value, 10);
+      if (!n || n < 1) { showFeedback(feedback, 'Nombre invalide.', false); return; }
+      btnSave.disabled = true;
+      try {
+        await call('admin_set_max_membres', { p_admin_token: adminToken, p_max: n },
+                   'admin_set_max_membres_g', { p_max: n });
+        maxMembres = n;
+        updateTirageHint();
+        renderStats({ total_membres: currentMembresCount, en_attente: 0, total_signalements: 0, total_questions: 0 });
+        showFeedback(feedback, 'Nombre de places mis à jour : ' + n + '.', true);
+        await loadDashboard();
+      } catch (err) {
+        showFeedback(feedback, 'Erreur : ' + err.message, false);
+      } finally { btnSave.disabled = false; }
+    });
+
+    btnTirage.addEventListener('click', async function () {
+      const n = parseInt(input.value, 10);
+      if (!n || n < 1) { showFeedback(feedback, 'Nombre invalide.', false); return; }
+      const restant = n - currentMembresCount;
+      if (restant <= 0) { showFeedback(feedback, 'Le plafond est déjà atteint (' + currentMembresCount + '/' + n + ').', false); return; }
+      if (!confirm('Lancer le tirage au sort pour sélectionner ' + restant + ' candidat(s) au hasard parmi les candidatures en attente ?')) return;
+      btnTirage.disabled = true;
+      showFeedback(feedback, 'Tirage en cours…', true);
+      try {
+        const result = await call('admin_tirage_au_sort', { p_admin_token: adminToken, p_nombre: n },
+                                  'admin_tirage_au_sort_g', { p_nombre: n });
+        if (!result || !result.ok) { throw new Error(result && result.error || 'Erreur inconnue'); }
+        const selected = result.selected || [];
+        showFeedback(feedback, selected.length + ' candidat(s) sélectionné(s). Envoi des emails de bienvenue…', true);
+        // Envoyer les emails de bienvenue un par un via l'Edge Function
+        for (var i = 0; i < selected.length; i++) {
+          try {
+            await fetch(ACCEPT_URL + '?token=' + encodeURIComponent(selected[i].token), { method: 'GET' });
+          } catch (e) { /* email optionnel, on continue */ }
+        }
+        showFeedback(feedback, '🎉 Tirage terminé ! ' + selected.length + ' membre(s) accepté(s) et notifié(s).', true);
+        await loadDashboard();
+      } catch (err) {
+        showFeedback(feedback, 'Erreur : ' + err.message, false);
+      } finally { btnTirage.disabled = false; }
     });
   }
 
