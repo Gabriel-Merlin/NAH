@@ -107,16 +107,14 @@
     if (!tbody) return;
     if (!membres.length) { tbody.innerHTML = '<tr><td colspan="5">Aucun membre.</td></tr>'; return; }
     tbody.innerHTML = membres.map(function (m) {
-      const isSuperAdmin = m.email.toLowerCase() === 'lou.ann.merlin@gmail.com';
       const badge = m.is_admin ? ' <span style="color:var(--bleu);font-weight:600">[admin]</span>' : '';
-      const superBadge = isSuperAdmin ? ' <span style="color:var(--bleu);font-weight:600">★</span>' : '';
-      const actions = isSuperAdmin ? '<span class="form-hint" style="font-size:12px">Compte protégé</span>' :
+      const actions =
         (m.is_admin
           ? '<button class="btn btn--ghost" data-action="retrograder" data-email="' + esc(m.email) + '">Rétrograder</button>'
           : '<button class="btn btn--bleu" data-action="promouvoir" data-email="' + esc(m.email) + '">Promouvoir admin</button>') +
           '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-action="retirer" data-email="' + esc(m.email) + '">Retirer</button>';
       return '<tr>' +
-        '<td>' + esc(m.prenom) + ' ' + esc(m.nom) + badge + superBadge + '</td>' +
+        '<td>' + esc(m.prenom) + ' ' + esc(m.nom) + badge + '</td>' +
         '<td>' + esc(m.classe) + '</td>' +
         '<td>' + esc(m.email) + '</td>' +
         '<td>' + formatDate(m.created_at) + '</td>' +
