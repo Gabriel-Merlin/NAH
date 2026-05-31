@@ -78,10 +78,9 @@ window.nahAuth = (function () {
     if (!client) throw new Error('Auth non initialisée');
     const { data, error } = await client.auth.signInWithPassword({ email, password });
     if (error) throw new Error(error.message);
-    if (data.session) {
-      await loadMembership(data.session);
-      revealNav();
-    }
+    if (!data.session) throw new Error('Connexion échouée, réessaie.');
+    await loadMembership(data.session);
+    revealNav();
     return state;
   }
 
