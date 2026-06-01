@@ -82,9 +82,20 @@
         </div>
         <div class="card">
           <h3>Contact équipe</h3>
-          <p>Pour toute question interne, écris à l'adresse de l'équipe.</p>
-          <a class="btn btn--ghost" href="mailto:lou.ann.merlin@gmail.com">Écrire à l'équipe</a>
+          <p>Pour toute question interne, écris dans le chat de groupe réservé aux membres.</p>
+          <a class="btn btn--ghost" href="#chat-equipe">Ouvrir le chat →</a>
         </div>
+      </div>
+
+      <h2 style="margin-top:40px" id="chat-equipe">Chat de l'équipe</h2>
+      <div class="chat-container">
+        <div id="chat-messages" class="chat-messages">
+          <p class="form-hint" style="text-align:center;padding:20px">Chargement…</p>
+        </div>
+        <form id="chat-form" class="chat-form">
+          <textarea name="chat-message" rows="2" placeholder="Écris ton message…" maxlength="1000"></textarea>
+          <button class="btn btn--bleu" type="submit">Envoyer</button>
+        </form>
       </div>
 
       <h2 style="margin-top:40px">Rappel RGPD</h2>
