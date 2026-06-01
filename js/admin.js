@@ -348,6 +348,15 @@
     if (!btn) return;
 
     btn.addEventListener('click', async function () {
+      if (!confirm(
+        '⚠️ Attention — Transfert d\'administration\n\n' +
+        'En générant ce lien, tu t\'apprêtes à transférer l\'administration NAH à une autre personne.\n\n' +
+        'Dès que cette personne accepte le lien :\n' +
+        '• Elle devient administratrice\n' +
+        '• Ton rôle d\'administrateur est retiré automatiquement\n\n' +
+        'Le lien est valable 72 heures et à usage unique.\n\n' +
+        'Confirmes-tu le transfert ?'
+      )) return;
       btn.disabled = true;
       try {
         const result = await call('admin_generate_invite', { p_admin_token: adminToken },
