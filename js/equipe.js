@@ -101,9 +101,64 @@
     if (!panel) return;
     if (!list.length) { panel.innerHTML = '<p class="form-hint">Aucune question pour l\'instant.</p>'; return; }
     panel.innerHTML = list.map(function (q) {
-      return '<div class="tableau-item"><p class="tableau-item__meta">' + dateFr(q.created_at) +
-        '</p><p class="tableau-item__text">' + esc(q.message) + '</p></div>';
+      const repBloc = q.reponse
+        ? '<p class="tableau-item__text" style="margin-top:8px;color:var(--vert)"><strong>Réponse :</strong> ' + esc(q.reponse) + '</p>'
+        : '';
+      const statut = q.is_published ? ' · <span style="color:var(--vert)">Publiée</span>' : '';
+      return '<div class="tableau-item" data-qid="' + esc(q.id) + '">' +
+        '<p class="tableau-item__meta">' + dateFr(q.created_at) + statut + '</p>' +
+        '<p class="tableau-item__text"><strong>Q :</strong> ' + esc(q.message) + '</p>' +
+        repBloc +
+        '<div class="tableau-actions" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
+          '<button class="btn btn--vert" data-q-action="repondre">' + (q.reponse ? 'Modifier la réponse' : 'Répondre') + '</button>' +
+          '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-q-action="supprimer">Supprimer</button>' +
+        '</div>' +
+        '<div class="q-reply-form" hidden style="margin-top:10px">' +
+          '<textarea rows="2" style="width:100%;padding:10px 12px;border:2px solid var(--gris-bleu);border-radius:8px;font-family:var(--font-texte);font-size:.95rem" placeholder="Écris la réponse de l\'équipe…">' + esc(q.reponse || '') + '</textarea>' +
+          '<button class="btn btn--bleu" data-q-action="envoyer" style="margin-top:8px">Publier la réponse</button>' +
+        '</div>' +
+        '</div>';
     }).join('');
+
+    panel.querySelectorAll('[data-q-action]').forEach(function (btn) {
+      btn.addEventListener('click', handleQuestionAction);
+    });
+  }
+
+  async function handleQuestionAction(e) {
+    const btn = e.currentTarget;
+    const item = btn.closest('[data-qid]');
+    const id = item.dataset.qid;
+    const action = btn.dataset.qAction;
+
+    if (action === 'repondre') {
+      const form = item.querySelector('.q-reply-form');
+      form.hidden = !form.hidden;
+      return;
+    }
+
+    if (action === 'supprimer') {
+      if (!confirm('Supprimer définitivement cette question ?')) return;
+      btn.disabled = true;
+      try {
+        if (authMode === 'google') { await window.nahAuth.rpc('delete_question_g', { p_id: id }); }
+        else { await window.nahDB.rpc('delete_question', { p_token: memberToken, p_id: id }); }
+        await initTableau();
+      } catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; }
+      return;
+    }
+
+    if (action === 'envoyer') {
+      const textarea = item.querySelector('.q-reply-form textarea');
+      const reponse = textarea.value.trim();
+      if (!reponse) { alert('Écris une réponse avant de publier.'); return; }
+      btn.disabled = true;
+      try {
+        if (authMode === 'google') { await window.nahAuth.rpc('answer_question_g', { p_id: id, p_reponse: reponse }); }
+        else { await window.nahDB.rpc('answer_question', { p_token: memberToken, p_id: id, p_reponse: reponse }); }
+        await initTableau();
+      } catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; }
+    }
   }
 
   function renderSignalements(list) {

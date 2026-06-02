@@ -50,6 +50,25 @@
   }
 
   /* =======================================================
+     1bis — RÉPONSES PUBLIÉES DE L'ÉQUIPE
+     ======================================================= */
+  const reponsesListe = document.getElementById('reponses-liste');
+  if (reponsesListe) {
+    window.nahDB.rpc('get_published_questions', {})
+      .then(function (rows) {
+        if (rows && rows.length) {
+          reponsesListe.innerHTML = rows.map(function (r) {
+            return '<div style="border-left:4px solid var(--vert);padding:10px 14px;background:var(--gris-bleu);border-radius:8px;margin-bottom:12px">' +
+              '<p style="margin:0 0 6px"><strong>Q :</strong> ' + escapeHTML(r.message) + '</p>' +
+              '<p style="margin:0;color:var(--vert)"><strong>Réponse NAH :</strong> ' + escapeHTML(r.reponse) + '</p>' +
+              '</div>';
+          }).join('');
+        }
+      })
+      .catch(function () { /* on garde l'exemple statique */ });
+  }
+
+  /* =======================================================
      2 — SONDAGE
      ======================================================= */
   const pollRoot = document.getElementById('sondage');
