@@ -123,6 +123,17 @@
 
   async function initPoll(root) {
     const VOTE_KEY = 'nah-poll-voted';
+    const VOTER_KEY = 'nah-voter-id';
+
+    // Identifiant anonyme stable par navigateur (pour déduplication côté serveur)
+    let voterId;
+    try {
+      voterId = localStorage.getItem(VOTER_KEY);
+      if (!voterId) {
+        voterId = 'v-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem(VOTER_KEY, voterId);
+      }
+    } catch (e) { voterId = 'anon'; }
 
     // Sondage par défaut (mode démo / si Supabase non configuré).
     // En production, il est chargé depuis la table `sondages` (is_active = true).
@@ -152,7 +163,7 @@
     } catch (err) { /* on garde le sondage par défaut */ }
 
     const alreadyVoted = getVoted(VOTE_KEY, poll.id);
-    renderPoll(root, poll, alreadyVoted, VOTE_KEY);
+    renderPoll(root, poll, alreadyVoted, VOTE_KEY, voterId);
   }
 
   function getVoted(key, pollId) {
@@ -169,7 +180,7 @@
     } catch (e) {}
   }
 
-  function renderPoll(root, poll, showResults, voteKey) {
+  function renderPoll(root, poll, showResults, voteKey, voterId) {
     const total = poll.options.reduce(function (s, o) { return s + (o.votes || 0); }, 0);
 
     let html = '<h3>' + poll.question + '</h3>';
@@ -197,13 +208,23 @@
           const optId = btn.getAttribute('data-opt');
           root.querySelectorAll('[data-opt]').forEach(function (b) { b.disabled = true; });
           try {
-            await window.nahDB.rpc('vote_sondage', { p_poll: poll.id, p_option: optId });
+            const res = await window.nahDB.rpc('vote_sondage', {
+              p_poll: poll.id,
+              p_option: optId,
+              p_voter_key: voterId
+            });
+            // Si déjà voté côté serveur, afficher les résultats sans incrémenter
+            if (res && res.error === 'already_voted') {
+              setVoted(voteKey, poll.id);
+              renderPoll(root, poll, true, voteKey, voterId);
+              return;
+            }
           } catch (err) { /* on affiche quand même les résultats locaux */ }
           // Mise à jour locale immédiate
           const opt = poll.options.find(function (o) { return o.id === optId; });
           if (opt) { opt.votes = (opt.votes || 0) + 1; }
           setVoted(voteKey, poll.id);
-          renderPoll(root, poll, true, voteKey);
+          renderPoll(root, poll, true, voteKey, voterId);
         });
       });
     }
