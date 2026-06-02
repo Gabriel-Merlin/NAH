@@ -410,7 +410,7 @@
         const slot = grid.querySelector('[data-membres]');
         if (slot) {
           window.nahDB.rpc('get_membres_public', {}).then(function (membres) {
-            const noms = (membres || []).map(function (m) { return (m.prenom || '').trim(); }).filter(Boolean);
+            const noms = (membres || []).map(function (m) { return ((m.prenom || '') + ' ' + (m.nom || '')).trim(); }).filter(Boolean);
             if (noms.length) { slot.textContent = noms.join(' · '); }
           }).catch(function () { /* ignore */ });
         }
