@@ -80,13 +80,25 @@
     function filtrer() {
       const q = normalise(searchInput ? searchInput.value.trim() : '');
       if (!q) { renderReponses(toutesLesReponses); return; }
-      // Priorité aux questions qui commencent par la recherche, puis celles qui la contiennent
-      const debut = toutesLesReponses.filter(function (r) { return normalise(r.message).indexOf(q) === 0; });
-      const contient = toutesLesReponses.filter(function (r) {
-        const m = normalise(r.message);
-        return m.indexOf(q) > 0 || normalise(r.reponse).indexOf(q) !== -1;
-      });
-      renderReponses(debut.concat(contient));
+      // Découpe la recherche en mots (on ignore les mots très courts comme "de", "la", "l'")
+      const mots = q.split(/[^a-z0-9]+/).filter(function (m) { return m.length > 1; });
+      if (!mots.length) { renderReponses(toutesLesReponses); return; }
+
+      // Une réponse correspond si TOUS les mots cherchés sont présents (question ou réponse)
+      const correspondances = toutesLesReponses.map(function (r) {
+        const texte = normalise(r.message) + ' ' + normalise(r.reponse);
+        let score = 0;
+        for (var i = 0; i < mots.length; i++) {
+          if (texte.indexOf(mots[i]) === -1) { return null; }
+          // Bonus si le mot est dans la question elle-même
+          if (normalise(r.message).indexOf(mots[i]) !== -1) { score++; }
+        }
+        return { r: r, score: score };
+      }).filter(Boolean);
+
+      // Trie par pertinence (plus de mots trouvés dans la question = plus haut)
+      correspondances.sort(function (a, b) { return b.score - a.score; });
+      renderReponses(correspondances.map(function (c) { return c.r; }));
     }
 
     window.nahDB.rpc('get_published_questions', {})
