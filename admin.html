@@ -178,6 +178,26 @@
         </div>
       </section>
 
+      <!-- ===== Création de quiz ===== -->
+      <section aria-labelledby="h-quiz" style="margin-top:40px">
+        <h2 id="h-quiz">Création de quiz</h2>
+        <div class="card" style="max-width:700px;padding:24px 28px">
+          <p class="form-hint" style="margin-top:0">Crée un quiz qui remplacera celui affiché sur la page « Agir &amp; Outils ». Chaque question peut avoir 2 à 4 réponses. Attribue une valeur à chaque réponse (0 = mauvaise, 1 = correcte, 2 = très bonne).</p>
+          <form id="quiz-form">
+            <div class="form-field">
+              <label for="quiz-titre">Titre du quiz</label>
+              <input id="quiz-titre" name="titre" type="text" required placeholder="Ex : Réagis-tu bien face au harcèlement ?">
+            </div>
+            <div id="quiz-questions" style="margin-top:16px"></div>
+            <button class="btn btn--ghost" id="btn-add-question" type="button" style="margin-top:8px">+ Ajouter une question</button>
+            <div class="feedback" hidden></div>
+            <div style="margin-top:20px">
+              <button class="btn btn--bleu" type="submit">Publier ce quiz</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
       <!-- ===== Personnes-ressources (organigramme) ===== -->
       <section aria-labelledby="h-ressources" style="margin-top:40px">
         <h2 id="h-ressources">Personnes-ressources</h2>

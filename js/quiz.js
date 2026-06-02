@@ -94,16 +94,34 @@
     }
   ];
 
-  const state = { i: 0, score: 0, max: QUESTIONS.length * 2, started: false };
+  let ACTIVE_QUESTIONS = QUESTIONS;
 
   const bar = root.querySelector('.quiz-bar__fill');
   const content = root.querySelector('#quiz-content');
   const progress = root.querySelector('.quiz-progress');
 
+  // Tente de charger un quiz personnalisé depuis la base
+  (window.nahDB
+    ? window.nahDB.rpc('get_active_quiz', {}).catch(function () { return null; })
+    : Promise.resolve(null)
+  ).then(function (data) {
+    if (data && data.questions && data.questions.length >= 1) {
+      ACTIVE_QUESTIONS = data.questions;
+      if (data.titre) {
+        const h = root.closest('section') && root.closest('section').querySelector('h2,h3');
+        if (h) h.textContent = data.titre;
+      }
+    }
+    startQuiz();
+  });
+
+  function startQuiz() {
+    const state = { i: 0, score: 0, max: ACTIVE_QUESTIONS.length * 2, started: false };
+
   function renderQuestion() {
-    const item = QUESTIONS[state.i];
-    progress.textContent = 'Question ' + (state.i + 1) + ' sur ' + QUESTIONS.length;
-    bar.style.width = (state.i / QUESTIONS.length * 100) + '%';
+    const item = ACTIVE_QUESTIONS[state.i];
+    progress.textContent = 'Question ' + (state.i + 1) + ' sur ' + ACTIVE_QUESTIONS.length;
+    bar.style.width = (state.i / ACTIVE_QUESTIONS.length * 100) + '%';
 
     let html = '<h3>' + item.q + '</h3><ul class="quiz-options">';
     item.options.forEach(function (opt, idx) {
@@ -117,7 +135,7 @@
       btn.addEventListener('click', function () {
         state.score += parseInt(btn.getAttribute('data-v'), 10);
         state.i++;
-        if (state.i < QUESTIONS.length) {
+        if (state.i < ACTIVE_QUESTIONS.length) {
           renderQuestion();
         } else {
           renderResult();
@@ -174,4 +192,5 @@
   }
 
   renderQuestion();
+  } // end startQuiz
 })();

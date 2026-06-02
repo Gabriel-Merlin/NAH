@@ -55,6 +55,7 @@
     setupTirage();
     setupInvite();
     setupSondage();
+    setupQuiz();
     setupRessources();
   }
 
@@ -479,6 +480,124 @@
       } finally {
         submitBtn.disabled = false;
       }
+    });
+  }
+
+  /* ---------- Création de quiz ---------- */
+  function setupQuiz() {
+    const form = document.getElementById('quiz-form');
+    if (!form) return;
+    const feedback = form.querySelector('.feedback');
+    const questionsContainer = document.getElementById('quiz-questions');
+    const addQBtn = document.getElementById('btn-add-question');
+
+    function addQuestion(q) {
+      q = q || { q: '', options: [{ t: '', v: 2 }, { t: '', v: 0 }] };
+      const idx = questionsContainer.children.length + 1;
+      const block = document.createElement('div');
+      block.className = 'quiz-question-block';
+      block.style.cssText = 'border:2px solid var(--gris-bleu);border-radius:10px;padding:16px 18px;margin-bottom:16px';
+      block.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' +
+          '<strong style="color:var(--bleu)">Question ' + idx + '</strong>' +
+          '<button class="btn btn--ghost" type="button" style="color:var(--bordeaux)" data-action="suppr-q">✕ Supprimer</button>' +
+        '</div>' +
+        '<div class="form-field" style="margin-bottom:12px">' +
+          '<input class="q-text" type="text" placeholder="Texte de la question" value="' + esc(q.q) + '" required>' +
+        '</div>' +
+        '<div class="q-options"></div>' +
+        '<button class="btn btn--ghost" type="button" data-action="add-opt" style="margin-top:6px;font-size:.88rem">+ Réponse</button>';
+
+      const optsContainer = block.querySelector('.q-options');
+      q.options.forEach(function (o) { addOption(optsContainer, o); });
+
+      block.querySelector('[data-action="suppr-q"]').addEventListener('click', function () {
+        block.remove(); renumberQuestions();
+      });
+      block.querySelector('[data-action="add-opt"]').addEventListener('click', function () {
+        if (optsContainer.children.length < 4) { addOption(optsContainer, { t: '', v: 0 }); }
+        if (optsContainer.children.length >= 4) { this.hidden = true; }
+      });
+      questionsContainer.appendChild(block);
+    }
+
+    function addOption(container, o) {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:1fr 80px auto;gap:8px;align-items:center;margin-bottom:8px';
+      row.innerHTML =
+        '<input class="opt-text" type="text" placeholder="Texte de la réponse" value="' + esc(o.t) + '">' +
+        '<select class="opt-val" title="Valeur (0=mauvaise, 1=correcte, 2=très bonne)">' +
+          '<option value="0"' + (o.v === 0 ? ' selected' : '') + '>0 — Mauvaise</option>' +
+          '<option value="1"' + (o.v === 1 ? ' selected' : '') + '>1 — Correcte</option>' +
+          '<option value="2"' + (o.v === 2 ? ' selected' : '') + '>2 — Très bonne</option>' +
+        '</select>' +
+        '<button class="btn btn--ghost" type="button" style="color:var(--bordeaux);padding:6px 10px" data-action="suppr-opt">✕</button>';
+      ['input', 'select'].forEach(function (tag) {
+        row.querySelectorAll(tag).forEach(function (el) {
+          el.style.cssText = 'padding:8px 10px;border:2px solid var(--gris-bleu);border-radius:8px;font-size:.92rem;width:100%';
+        });
+      });
+      row.querySelector('[data-action="suppr-opt"]').addEventListener('click', function () {
+        if (container.children.length > 2) { row.remove(); }
+      });
+      container.appendChild(row);
+    }
+
+    function renumberQuestions() {
+      questionsContainer.querySelectorAll('.quiz-question-block strong').forEach(function (el, i) {
+        el.textContent = 'Question ' + (i + 1);
+      });
+    }
+
+    // Pré-charge le quiz actif si existant
+    (async function () {
+      try {
+        const active = await window.nahDB.rpc('get_active_quiz', {});
+        if (active && active.questions && active.questions.length) {
+          const titreEl = document.getElementById('quiz-titre');
+          if (titreEl) titreEl.value = active.titre || '';
+          active.questions.forEach(function (q) { addQuestion(q); });
+          return;
+        }
+      } catch (e) { /* ignore */ }
+      // Pas de quiz en DB : une question vide pour démarrer
+      addQuestion();
+    })();
+
+    addQBtn.addEventListener('click', function () { addQuestion(); });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const titre = (document.getElementById('quiz-titre').value || '').trim();
+      const questions = Array.prototype.map.call(
+        questionsContainer.querySelectorAll('.quiz-question-block'), function (block) {
+          return {
+            q: block.querySelector('.q-text').value.trim(),
+            options: Array.prototype.map.call(block.querySelectorAll('.q-options > div'), function (row) {
+              return {
+                t: row.querySelector('.opt-text').value.trim(),
+                v: parseInt(row.querySelector('.opt-val').value, 10)
+              };
+            }).filter(function (o) { return o.t.length > 0; })
+          };
+        }
+      ).filter(function (q) { return q.q.length > 0 && q.options.length >= 2; });
+
+      if (!titre) { showFeedback(feedback, 'Donne un titre au quiz.', false); return; }
+      if (!questions.length) { showFeedback(feedback, 'Ajoute au moins une question avec 2 réponses.', false); return; }
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        const result = await call(
+          'admin_save_quiz', { p_admin_token: adminToken, p_titre: titre, p_questions: questions },
+          'admin_save_quiz_g', { p_titre: titre, p_questions: questions }
+        );
+        if (!result || !result.ok) { throw new Error(result && result.error || 'Erreur'); }
+        showFeedback(feedback, '✅ Quiz publié ! Il est maintenant visible sur la page Agir & Outils.', true);
+      } catch (err) {
+        showFeedback(feedback, 'Erreur : ' + err.message, false);
+      } finally { submitBtn.disabled = false; }
     });
   }
 
