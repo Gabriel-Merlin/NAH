@@ -325,6 +325,7 @@
             <h2>L'équipe NAH et les personnes-ressources</h2>
             <p class="form-hint"><em>Coordonnées à compléter par l'équipe.</em></p>
             <div class="organigramme">
+              <div class="organi-card" id="organi-admin"><span class="role">Administrateur</span><span class="nom" id="organi-admin-nom">À compléter</span><span class="meta">Responsable de l'espace équipe NAH</span></div>
               <div class="organi-card"><span class="role">Élèves référents NAH</span><span class="nom">L'équipe d'élèves</span><span class="meta">Disponibles aux récrés · page Contact</span></div>
               <div class="organi-card"><span class="role">Professeur référent</span><span class="nom">À compléter</span><span class="meta">email · créneau</span></div>
               <div class="organi-card"><span class="role">CPE référent</span><span class="nom">À compléter</span><span class="meta">Vie scolaire</span></div>
@@ -379,5 +380,19 @@
   <script src="js/supabase.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    (function () {
+      if (!window.nahDB || !window.nahDB.rpc) return;
+      window.nahDB.rpc('get_admins_public', {}).then(function (admins) {
+        if (!admins || !admins.length) return;
+        const card = document.getElementById('organi-admin');
+        const nomEl = document.getElementById('organi-admin-nom');
+        const noms = admins.map(function (a) { return ((a.prenom || '') + ' ' + (a.nom || '')).trim(); }).filter(Boolean);
+        if (!noms.length) return;
+        if (nomEl) nomEl.textContent = noms.join(', ');
+        if (card) card.querySelector('.role').textContent = admins.length > 1 ? 'Administrateurs' : 'Administrateur';
+      }).catch(function () { /* on garde "À compléter" */ });
+    })();
+  </script>
 </body>
 </html>
