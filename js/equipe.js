@@ -5,6 +5,7 @@
   let authMode = null;   // 'google' ou 'token'
   let memberToken = null;
   let chatInterval = null;
+  let viewerIsAdmin = false;
 
   async function init() {
     // 1. Connexion Google ? (prioritaire)
@@ -177,6 +178,7 @@
     try {
       const data = await callMember('get_member_dashboard', 'get_member_dashboard_g', { p_token: memberToken });
       if (!data || !data.ok) { return; }
+      viewerIsAdmin = !!data.viewer_is_admin;
       renderAdmins(data.admins || []);
       renderQuestions(data.questions || []);
       renderSignalements(data.signalements || []);
@@ -226,7 +228,7 @@
         repBloc +
         '<div class="tableau-actions" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
           '<button class="btn btn--vert" data-q-action="repondre">' + (q.reponse ? 'Modifier la réponse' : 'Répondre') + '</button>' +
-          '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-q-action="supprimer">Supprimer</button>' +
+          (viewerIsAdmin ? '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-q-action="supprimer">Supprimer</button>' : '') +
         '</div>' +
         '<div class="q-reply-form" hidden style="margin-top:10px">' +
           '<textarea rows="2" style="width:100%;padding:10px 12px;border:2px solid var(--gris-bleu);border-radius:8px;font-family:var(--font-texte);font-size:.95rem" placeholder="Écris la réponse de l\'équipe…">' + esc(q.reponse || '') + '</textarea>' +
