@@ -52,11 +52,27 @@ window.nahAuth = (function () {
   }
 
   function revealNav() {
-    if (state.membership && state.membership.is_member) {
-      document.querySelectorAll('.nav__equipe').forEach(function (el) { el.removeAttribute('hidden'); });
-    }
-    if (state.membership && state.membership.is_admin) {
-      document.querySelectorAll('.nav__admin').forEach(function (el) { el.removeAttribute('hidden'); });
+    const isMember = !!(state.membership && state.membership.is_member);
+    const isAdmin = !!(state.membership && state.membership.is_admin);
+
+    // Onglet Équipe
+    document.querySelectorAll('.nav__equipe').forEach(function (el) {
+      if (isMember) { el.removeAttribute('hidden'); }
+      else if (state.loggedIn) { el.setAttribute('hidden', ''); }
+    });
+
+    // Onglet Admin — synchronise aussi le cache utilisé par main.js
+    document.querySelectorAll('.nav__admin').forEach(function (el) {
+      if (isAdmin) { el.removeAttribute('hidden'); }
+      else if (state.loggedIn) { el.setAttribute('hidden', ''); }
+    });
+
+    // Si la session Google est active, elle fait foi : on aligne le cache local.
+    if (state.loggedIn) {
+      try {
+        if (isAdmin) { localStorage.setItem('nah-is-admin', '1'); }
+        else { localStorage.removeItem('nah-is-admin'); }
+      } catch (e) { /* ignore */ }
     }
   }
 
