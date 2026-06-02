@@ -168,7 +168,7 @@
       tab.addEventListener('click', function () {
         tabs.forEach(function (t) { t.classList.remove('is-active'); });
         tab.classList.add('is-active');
-        ['questions', 'signalements', 'candidatures'].forEach(function (name) {
+        ['questions', 'repondues', 'signalements', 'candidatures'].forEach(function (name) {
           const panel = document.getElementById('tab-' + name);
           if (panel) { if (name === tab.dataset.tab) panel.removeAttribute('hidden'); else panel.hidden = true; }
         });
@@ -180,7 +180,11 @@
       if (!data || !data.ok) { return; }
       viewerIsAdmin = !!data.viewer_is_admin;
       renderAdmins(data.admins || []);
-      renderQuestions(data.questions || []);
+      const allQ = data.questions || [];
+      const enAttente = allQ.filter(function (q) { return !q.reponse; });
+      const repondues = allQ.filter(function (q) { return !!q.reponse; });
+      renderQuestions(enAttente, 'tab-questions', 'count-questions', 'Aucune question en attente.');
+      renderQuestions(repondues, 'tab-repondues', 'count-repondues', 'Aucune question répondue pour l\'instant.');
       renderSignalements(data.signalements || []);
       renderCandidatures(data.candidatures || []);
     } catch (e) { /* ignore */ }
@@ -212,16 +216,18 @@
     box.hidden = false;
   }
 
-  function renderQuestions(list) {
-    setCount('count-questions', list.length);
-    const panel = document.getElementById('tab-questions');
+  function renderQuestions(list, panelId, countId, emptyMsg) {
+    setCount(countId, list.length);
+    const panel = document.getElementById(panelId);
     if (!panel) return;
-    if (!list.length) { panel.innerHTML = '<p class="form-hint">Aucune question pour l\'instant.</p>'; return; }
+    if (!list.length) { panel.innerHTML = '<p class="form-hint">' + emptyMsg + '</p>'; return; }
     panel.innerHTML = list.map(function (q) {
       const repBloc = q.reponse
         ? '<p class="tableau-item__text" style="margin-top:8px;color:var(--vert)"><strong>Réponse :</strong> ' + esc(q.reponse) + '</p>'
         : '';
-      const statut = q.is_published ? ' · <span style="color:var(--vert)">Publiée</span>' : '';
+      const statut = q.reponse
+        ? ' · <span style="color:var(--vert);font-weight:600">✓ Répondu</span>'
+        : '';
       return '<div class="tableau-item" data-qid="' + esc(q.id) + '">' +
         '<p class="tableau-item__meta">' + dateFr(q.created_at) + statut + '</p>' +
         '<p class="tableau-item__text"><strong>Q :</strong> ' + esc(q.message) + '</p>' +

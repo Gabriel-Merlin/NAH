@@ -73,11 +73,15 @@
       <!-- ===== Tableau de bord sur site ===== -->
       <h2 style="margin-top:40px" id="tableau-bord">Tableau de bord</h2>
       <div class="tableau-tabs" role="tablist">
-        <button class="tableau-tab is-active" data-tab="questions" type="button">Questions anonymes <span class="tableau-count" id="count-questions"></span></button>
+        <button class="tableau-tab is-active" data-tab="questions" type="button">Questions en attente <span class="tableau-count" id="count-questions"></span></button>
+        <button class="tableau-tab" data-tab="repondues" type="button">Questions répondues <span class="tableau-count" id="count-repondues"></span></button>
         <button class="tableau-tab" data-tab="signalements" type="button">Signalements <span class="tableau-count" id="count-signalements"></span></button>
         <button class="tableau-tab" data-tab="candidatures" type="button">Candidatures <span class="tableau-count" id="count-candidatures"></span></button>
       </div>
       <div id="tab-questions" class="tableau-panel">
+        <p class="form-hint">Chargement…</p>
+      </div>
+      <div id="tab-repondues" class="tableau-panel" hidden>
         <p class="form-hint">Chargement…</p>
       </div>
       <div id="tab-signalements" class="tableau-panel" hidden>
