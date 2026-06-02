@@ -55,6 +55,7 @@
     setupTirage();
     setupInvite();
     setupSondage();
+    setupRessources();
   }
 
   // Appel RPC selon le mode (Google = fonctions _g sans token)
@@ -478,6 +479,62 @@
       } finally {
         submitBtn.disabled = false;
       }
+    });
+  }
+
+  /* ---------- Personnes-ressources (organigramme) ---------- */
+  function setupRessources() {
+    const list = document.getElementById('ressources-list');
+    const addBtn = document.getElementById('btn-add-ressource');
+    const saveBtn = document.getElementById('btn-save-ressources');
+    const feedback = document.getElementById('ressources-feedback');
+    if (!list || !saveBtn) return;
+
+    function addRow(r) {
+      r = r || { role: '', nom: '', meta: '' };
+      const row = document.createElement('div');
+      row.className = 'ressource-row';
+      row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:center;margin-bottom:10px';
+      row.innerHTML =
+        '<input class="r-role" type="text" placeholder="Rôle (ex. CPE référent)" value="' + esc(r.role) + '">' +
+        '<input class="r-nom" type="text" placeholder="Nom" value="' + esc(r.nom) + '">' +
+        '<input class="r-meta" type="text" placeholder="Infos (email, créneau…)" value="' + esc(r.meta) + '">' +
+        '<button class="btn btn--ghost" type="button" style="color:var(--bordeaux)" data-action="suppr-ressource">✕</button>';
+      row.querySelectorAll('input').forEach(function (i) {
+        i.style.cssText = 'padding:9px 12px;border:2px solid var(--gris-bleu);border-radius:8px;font-size:.95rem;width:100%';
+      });
+      row.querySelector('[data-action="suppr-ressource"]').addEventListener('click', function () { row.remove(); });
+      list.appendChild(row);
+    }
+
+    (async function load() {
+      try {
+        const rows = await window.nahDB.rpc('get_ressources_public', {});
+        list.innerHTML = '';
+        (rows || []).forEach(addRow);
+        if (!rows || !rows.length) { addRow(); }
+      } catch (e) { addRow(); }
+    })();
+
+    addBtn.addEventListener('click', function () { addRow(); });
+
+    saveBtn.addEventListener('click', async function () {
+      const items = Array.prototype.map.call(list.querySelectorAll('.ressource-row'), function (row) {
+        return {
+          role: row.querySelector('.r-role').value.trim(),
+          nom: row.querySelector('.r-nom').value.trim(),
+          meta: row.querySelector('.r-meta').value.trim()
+        };
+      }).filter(function (it) { return it.role.length > 0; });
+      saveBtn.disabled = true;
+      try {
+        const result = await call('admin_save_ressources', { p_admin_token: adminToken, p_items: items },
+                                  'admin_save_ressources_g', { p_items: items });
+        if (!result || !result.ok) { throw new Error(result && result.error || 'Erreur'); }
+        showFeedback(feedback, '✅ Organigramme mis à jour. Visible sur la page « Comprendre ».', true);
+      } catch (err) {
+        showFeedback(feedback, 'Erreur : ' + err.message, false);
+      } finally { saveBtn.disabled = false; }
     });
   }
 

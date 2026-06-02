@@ -324,14 +324,8 @@
           <article class="doc-section" id="organigramme">
             <h2>L'équipe NAH et les personnes-ressources</h2>
             <p class="form-hint"><em>Coordonnées à compléter par l'équipe.</em></p>
-            <div class="organigramme">
+            <div class="organigramme" id="organigramme">
               <div class="organi-card" id="organi-admin"><span class="role">Administrateur</span><span class="nom" id="organi-admin-nom">À compléter</span><span class="meta">Responsable de l'espace équipe NAH</span></div>
-              <div class="organi-card"><span class="role">Élèves référents NAH</span><span class="nom">L'équipe d'élèves</span><span class="meta">Disponibles aux récrés · page Contact</span></div>
-              <div class="organi-card"><span class="role">Professeur référent</span><span class="nom">À compléter</span><span class="meta">email · créneau</span></div>
-              <div class="organi-card"><span class="role">CPE référent</span><span class="nom">À compléter</span><span class="meta">Vie scolaire</span></div>
-              <div class="organi-card"><span class="role">Infirmière scolaire</span><span class="nom">À compléter</span><span class="meta">Infirmerie · horaires</span></div>
-              <div class="organi-card"><span class="role">Assistante sociale</span><span class="nom">À compléter</span><span class="meta">Sur rendez-vous</span></div>
-              <div class="organi-card"><span class="role">Direction</span><span class="nom">À compléter</span><span class="meta">Secrétariat du lycée</span></div>
             </div>
           </article>
 
@@ -383,6 +377,10 @@
   <script>
     (function () {
       if (!window.nahDB || !window.nahDB.rpc) return;
+      function esc(s) {
+        return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      // Carte Administrateur (depuis les comptes admin)
       window.nahDB.rpc('get_admins_public', {}).then(function (admins) {
         if (!admins || !admins.length) return;
         const card = document.getElementById('organi-admin');
@@ -392,6 +390,20 @@
         if (nomEl) nomEl.textContent = noms.join(', ');
         if (card) card.querySelector('.role').textContent = admins.length > 1 ? 'Administrateurs' : 'Administrateur';
       }).catch(function () { /* on garde "À compléter" */ });
+
+      // Personnes-ressources (modifiables depuis l'espace admin)
+      window.nahDB.rpc('get_ressources_public', {}).then(function (list) {
+        const grid = document.getElementById('organigramme');
+        if (!grid || !list || !list.length) return;
+        list.forEach(function (r) {
+          const div = document.createElement('div');
+          div.className = 'organi-card';
+          div.innerHTML = '<span class="role">' + esc(r.role) + '</span>' +
+            '<span class="nom">' + esc(r.nom) + '</span>' +
+            '<span class="meta">' + esc(r.meta) + '</span>';
+          grid.appendChild(div);
+        });
+      }).catch(function () { /* ignore */ });
     })();
   </script>
 </body>
