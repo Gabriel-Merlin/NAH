@@ -130,25 +130,29 @@
         </div>
 
         <h3 style="margin-top:28px">Ajouter un événement</h3>
-        <form id="event-form" class="encadre" style="max-width:560px">
-          <div class="form-group">
-            <label for="ev-date">Date <span aria-hidden="true">*</span></label>
-            <input id="ev-date" name="date" type="date" required>
+        <form id="event-form" class="card" style="max-width:600px;padding:28px 32px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-field">
+              <label for="ev-date">Date <span aria-hidden="true">*</span></label>
+              <input id="ev-date" name="date" type="date" required>
+            </div>
+            <div class="form-field">
+              <label for="ev-titre">Titre <span aria-hidden="true">*</span></label>
+              <input id="ev-titre" name="titre" type="text" required placeholder="Semaine de sensibilisation">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="ev-titre">Titre <span aria-hidden="true">*</span></label>
-            <input id="ev-titre" name="titre" type="text" required placeholder="Ex : Semaine de sensibilisation">
-          </div>
-          <div class="form-group">
-            <label for="ev-desc">Description</label>
-            <textarea id="ev-desc" name="description" rows="3" placeholder="Optionnel"></textarea>
-          </div>
-          <div class="form-group">
+          <div class="form-field" style="margin-top:16px">
             <label for="ev-lieu">Lieu</label>
             <input id="ev-lieu" name="lieu" type="text" placeholder="Ex : Hall du lycée">
           </div>
+          <div class="form-field" style="margin-top:16px">
+            <label for="ev-desc">Description</label>
+            <textarea id="ev-desc" name="description" rows="3" placeholder="Décris l'événement en quelques mots…"></textarea>
+          </div>
           <div class="feedback" hidden></div>
-          <button class="btn btn--bleu" type="submit">Ajouter l'événement</button>
+          <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
+            <button class="btn btn--bleu" type="submit">Ajouter l'événement</button>
+          </div>
         </form>
       </section>
 
