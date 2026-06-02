@@ -619,6 +619,20 @@ section { padding: 48px 0; }
 .tableau-item__meta { font-size: 0.8rem; color: var(--texte-sec); margin-bottom: 6px; }
 .tableau-item__text { margin: 0; white-space: pre-wrap; word-break: break-word; }
 
+/* Idées de l'équipe */
+.idee-card { display: flex; gap: 16px; align-items: flex-start; padding: 16px; border: 1px solid var(--gris-bleu); border-radius: var(--radius); margin-bottom: 12px; background: var(--blanc); }
+.idee-vote { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 64px; }
+.idee-vote__btn { border: 2px solid var(--bleu); background: var(--blanc); color: var(--bleu); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 1.1rem; line-height: 1; font-weight: 700; }
+.idee-vote__btn.is-voted { background: var(--bleu); color: #fff; }
+.idee-vote__count { font-weight: 700; font-size: 1.2rem; }
+.idee-vote__label { font-size: 0.72rem; color: var(--texte-sec); }
+.idee-body { flex: 1; }
+.idee-cat { display: inline-block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; color: var(--vert); background: var(--gris-bleu); padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+.idee-titre { margin: 0 0 4px; font-size: 1.05rem; }
+.idee-desc { margin: 0 0 6px; white-space: pre-wrap; word-break: break-word; }
+.idee-auteur { font-size: 0.8rem; color: var(--texte-sec); }
+.idee-suppr { background: none; border: none; color: var(--bordeaux); cursor: pointer; font-size: 0.82rem; text-decoration: underline; padding: 0; margin-top: 6px; }
+
 /* Chat équipe */
 .chat-container { border: 2px solid var(--gris-bleu); border-radius: var(--radius); overflow: hidden; }
 .chat-messages { max-height: 420px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--blanc); scroll-behavior: smooth; }

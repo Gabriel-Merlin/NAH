@@ -63,6 +63,96 @@
 
     initChat();
     initTableau();
+    initIdees();
+  }
+
+  /* ---- Idées de l'équipe ---- */
+  const CATEGORIES = { evenement: 'Événement', sondage: 'Sondage', quiz: 'Quiz', autre: 'Autre' };
+
+  function initIdees() {
+    loadIdees();
+    const form = document.getElementById('idee-form');
+    if (!form) return;
+    const feedback = form.querySelector('.feedback');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const categorie = form.querySelector('[name="categorie"]').value;
+      const titre = form.querySelector('[name="titre"]').value.trim();
+      const description = form.querySelector('[name="description"]').value.trim();
+      if (!titre) { showIdeeFeedback(feedback, 'Écris ton idée.', false); return; }
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      try {
+        let ok;
+        if (authMode === 'google') { ok = await window.nahAuth.rpc('add_idee_g', { p_categorie: categorie, p_titre: titre, p_description: description }); }
+        else { ok = await window.nahDB.rpc('add_idee', { p_token: memberToken, p_categorie: categorie, p_titre: titre, p_description: description }); }
+        if (ok) { form.reset(); showIdeeFeedback(feedback, 'Idée proposée ! Tu as automatiquement voté pour.', true); await loadIdees(); }
+      } catch (err) { showIdeeFeedback(feedback, 'Erreur : ' + err.message, false); }
+      finally { btn.disabled = false; }
+    });
+  }
+
+  async function loadIdees() {
+    try {
+      let data;
+      if (authMode === 'google') { data = await window.nahAuth.rpc('get_idees_g', {}); }
+      else { data = await window.nahDB.rpc('get_idees', { p_token: memberToken }); }
+      if (data && data.ok) { renderIdees(data.idees || []); }
+    } catch (e) { /* ignore */ }
+  }
+
+  function renderIdees(list) {
+    const container = document.getElementById('idees-liste');
+    if (!container) return;
+    if (!list.length) { container.innerHTML = '<p class="form-hint">Aucune idée pour l\'instant. Sois le premier à en proposer une !</p>'; return; }
+    container.innerHTML = list.map(function (idee) {
+      const cat = CATEGORIES[idee.categorie] || 'Autre';
+      const desc = idee.description ? '<p class="idee-desc">' + esc(idee.description) + '</p>' : '';
+      return '<div class="idee-card" data-idee-id="' + idee.id + '">' +
+        '<div class="idee-vote">' +
+          '<button class="idee-vote__btn' + (idee.a_vote ? ' is-voted' : '') + '" data-idee-action="vote" title="Voter">▲</button>' +
+          '<span class="idee-vote__count">' + idee.votes + '</span>' +
+          '<span class="idee-vote__label">vote' + (idee.votes > 1 ? 's' : '') + '</span>' +
+        '</div>' +
+        '<div class="idee-body">' +
+          '<span class="idee-cat">' + cat + '</span>' +
+          '<h3 class="idee-titre">' + esc(idee.titre) + '</h3>' +
+          desc +
+          '<p class="idee-auteur">Proposée par ' + esc(idee.prenom) + ' ' + esc(idee.nom) + '</p>' +
+          '<button class="idee-suppr" data-idee-action="supprimer">Supprimer</button>' +
+        '</div>' +
+        '</div>';
+    }).join('');
+    container.querySelectorAll('[data-idee-action]').forEach(function (btn) {
+      btn.addEventListener('click', handleIdeeAction);
+    });
+  }
+
+  async function handleIdeeAction(e) {
+    const btn = e.currentTarget;
+    const card = btn.closest('[data-idee-id]');
+    const id = parseInt(card.dataset.ideeId, 10);
+    const action = btn.dataset.ideeAction;
+
+    if (action === 'supprimer' && !confirm('Supprimer cette idée ?')) return;
+    btn.disabled = true;
+    try {
+      if (action === 'vote') {
+        if (authMode === 'google') { await window.nahAuth.rpc('vote_idee_g', { p_id: id }); }
+        else { await window.nahDB.rpc('vote_idee', { p_token: memberToken, p_id: id }); }
+      } else if (action === 'supprimer') {
+        if (authMode === 'google') { await window.nahAuth.rpc('delete_idee_g', { p_id: id }); }
+        else { await window.nahDB.rpc('delete_idee', { p_token: memberToken, p_id: id }); }
+      }
+      await loadIdees();
+    } catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; }
+  }
+
+  function showIdeeFeedback(el, text, ok) {
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'feedback ' + (ok ? 'feedback--ok' : 'feedback--err');
+    el.removeAttribute('hidden');
   }
 
   /* ---- Tableau de bord membre ---- */

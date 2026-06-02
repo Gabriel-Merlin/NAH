@@ -81,6 +81,50 @@
     renderEnAttente(data.en_attente || []);
     updateTirageHint();
     await loadEvents();
+    await loadIdees();
+  }
+
+  /* ---------- Idées de l'équipe ---------- */
+  const CATEGORIES = { evenement: 'Événement', sondage: 'Sondage', quiz: 'Quiz', autre: 'Autre' };
+
+  async function loadIdees() {
+    try {
+      const data = await call('get_idees', { p_token: adminToken }, 'get_idees_g', {});
+      if (data && data.ok) { renderIdeesAdmin(data.idees || []); }
+    } catch (e) {
+      const tbody = document.getElementById('idees-tbody');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="5">Erreur de chargement.</td></tr>';
+    }
+  }
+
+  function renderIdeesAdmin(list) {
+    const tbody = document.getElementById('idees-tbody');
+    const total = document.getElementById('idees-total');
+    if (total) total.textContent = list.length ? '(' + list.length + ')' : '';
+    if (!tbody) return;
+    if (!list.length) { tbody.innerHTML = '<tr><td colspan="5">Aucune idée proposée.</td></tr>'; return; }
+    tbody.innerHTML = list.map(function (idee) {
+      const cat = CATEGORIES[idee.categorie] || 'Autre';
+      const desc = idee.description ? '<br><span class="form-hint">' + esc(idee.description) + '</span>' : '';
+      return '<tr>' +
+        '<td style="font-weight:700;font-size:1.1rem;color:var(--bleu)">' + idee.votes + '</td>' +
+        '<td>' + cat + '</td>' +
+        '<td><strong>' + esc(idee.titre) + '</strong>' + desc + '</td>' +
+        '<td>' + esc(idee.prenom) + ' ' + esc(idee.nom) + '</td>' +
+        '<td><button class="btn btn--ghost" style="color:var(--bordeaux)" data-action="suppr-idee" data-id="' + idee.id + '">Supprimer</button></td>' +
+        '</tr>';
+    }).join('');
+    tbody.querySelectorAll('[data-action="suppr-idee"]').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        if (!confirm('Supprimer cette idée ?')) return;
+        btn.disabled = true;
+        try {
+          await call('delete_idee', { p_token: adminToken, p_id: parseInt(btn.dataset.id, 10) },
+                     'delete_idee_g', { p_id: parseInt(btn.dataset.id, 10) });
+          await loadIdees();
+        } catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; }
+      });
+    });
   }
 
   function showError(msg) {

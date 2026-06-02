@@ -84,6 +84,36 @@
         <p class="form-hint">Chargement…</p>
       </div>
 
+      <!-- ===== Idées de l'équipe ===== -->
+      <h2 style="margin-top:40px" id="idees-equipe">Idées de l'équipe</h2>
+      <p class="lead">Propose une idée (événement, sondage, quiz…) et vote pour celles des autres. Les mieux notées remontent à l'équipe et aux admins.</p>
+
+      <form class="card" id="idee-form" style="margin-bottom:24px">
+        <div class="form-field">
+          <label for="idee-categorie">Catégorie</label>
+          <select id="idee-categorie" name="categorie">
+            <option value="evenement">Événement</option>
+            <option value="sondage">Sondage</option>
+            <option value="quiz">Quiz</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="idee-titre">Ton idée</label>
+          <input type="text" id="idee-titre" name="titre" placeholder="Ex : Organiser un atelier théâtre-forum" maxlength="120" required>
+        </div>
+        <div class="form-field">
+          <label for="idee-description">Détails (optionnel)</label>
+          <textarea id="idee-description" name="description" rows="2" placeholder="Explique ton idée en quelques mots…" maxlength="500"></textarea>
+        </div>
+        <button class="btn btn--vert" type="submit">Proposer mon idée</button>
+        <div class="feedback" hidden></div>
+      </form>
+
+      <div id="idees-liste">
+        <p class="form-hint">Chargement…</p>
+      </div>
+
       <h2 style="margin-top:40px" id="chat-equipe">Chat de l'équipe</h2>
       <div class="chat-container">
         <div id="chat-messages" class="chat-messages">
