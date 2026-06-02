@@ -32,6 +32,9 @@ window.nahAuth = (function () {
       const { data } = await client.auth.getSession();
       if (data && data.session) {
         await loadMembership(data.session);
+        // Compte sans aucune utilité (ni membre, ni admin, ni candidature) :
+        // on le supprime définitivement (email + mot de passe) puis on déconnecte.
+        if (await cleanupIfOrphan(data.session)) { return; }
       }
     } catch (e) {
       /* en cas de souci, on reste déconnecté */
@@ -49,6 +52,31 @@ window.nahAuth = (function () {
         state.membership = data;
       }
     } catch (e) { /* ignore */ }
+  }
+
+  // Supprime le compte Auth s'il n'a plus aucune utilité.
+  // Renvoie true si le compte a été supprimé (et la session fermée).
+  async function cleanupIfOrphan(session) {
+    if (!state.membership || state.membership.known !== false) return false;
+    try {
+      const res = await fetch(window.NAH_CONFIG.SUPABASE_URL + '/functions/v1/cleanup-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + session.access_token,
+        },
+      });
+      const data = await res.json();
+      if (data && data.deleted) {
+        try { localStorage.removeItem('nah-is-admin'); } catch (e) { /* ignore */ }
+        await client.auth.signOut();
+        state = { loggedIn: false, email: null, membership: { is_member: false, is_admin: false } };
+        revealNav();
+        resolveReady(state);
+        return true;
+      }
+    } catch (e) { /* en cas d'échec, on garde le compte */ }
+    return false;
   }
 
   function revealNav() {
