@@ -15,6 +15,7 @@
   let adminToken = null;
   let maxMembres = 16;
   let currentMembresCount = 0;
+  let currentAdminEmail = null;
 
   async function init() {
     // 1. Connexion Google admin ?
@@ -22,6 +23,7 @@
       const state = await window.nahAuth.ready;
       if (state.loggedIn && state.membership && state.membership.is_admin) {
         mode = 'google';
+        currentAdminEmail = state.email || null;
       }
     } catch (e) { /* on tente le token */ }
 
@@ -154,12 +156,14 @@
     if (!membres.length) { tbody.innerHTML = '<tr><td colspan="5">Aucun membre.</td></tr>'; return; }
     tbody.innerHTML = membres.map(function (m) {
       const badge = m.is_admin ? ' <span style="color:var(--bleu);font-weight:600">[admin]</span>' : '';
-      const actions =
-        (m.is_admin
-          ? '<button class="btn btn--ghost" data-action="retrograder" data-email="' + esc(m.email) + '">Rétrograder</button>'
-          : '<button class="btn btn--bleu" data-action="promouvoir" data-email="' + esc(m.email) + '">Promouvoir admin</button>') +
-          '<button class="btn btn--ghost" data-action="regen-lien" data-email="' + esc(m.email) + '">Régénérer lien</button>' +
-          '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-action="retirer" data-email="' + esc(m.email) + '">Retirer</button>';
+      const isSelf = currentAdminEmail && m.email &&
+        m.email.toLowerCase() === currentAdminEmail.toLowerCase();
+      const roleBtn = m.is_admin
+        ? (isSelf ? '' : '<button class="btn btn--ghost" data-action="retrograder" data-email="' + esc(m.email) + '">Rétrograder</button>')
+        : '<button class="btn btn--bleu" data-action="promouvoir" data-email="' + esc(m.email) + '">Promouvoir admin</button>';
+      const regenBtn = isSelf ? '' : '<button class="btn btn--ghost" data-action="regen-lien" data-email="' + esc(m.email) + '">Régénérer lien</button>';
+      const removeBtn = isSelf ? '' : '<button class="btn btn--ghost" style="color:var(--bordeaux)" data-action="retirer" data-email="' + esc(m.email) + '">Retirer</button>';
+      const actions = roleBtn + regenBtn + removeBtn;
       return '<tr>' +
         '<td>' + esc(m.prenom) + ' ' + esc(m.nom) + badge + '</td>' +
         '<td>' + esc(m.classe) + '</td>' +
