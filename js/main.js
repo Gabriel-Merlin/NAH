@@ -62,6 +62,18 @@
     }
   } catch (e) {}
 
+  /* ---------- Afficher / masquer les mots de passe ---------- */
+  document.querySelectorAll('.password-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const input = document.getElementById(btn.dataset.target);
+      if (!input) return;
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.textContent = show ? '🙈' : '👁️';
+      btn.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+    });
+  });
+
   /* ---------- Marque le lien de nav actif ---------- */
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__links a').forEach(function (a) {

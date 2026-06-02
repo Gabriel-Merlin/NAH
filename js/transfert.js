@@ -23,6 +23,7 @@
     const classe = form.querySelector('[name="classe"]').value.trim();
     const email = form.querySelector('[name="email"]').value.trim();
     const password = form.querySelector('[name="password"]').value;
+    const passwordConfirm = form.querySelector('[name="password_confirm"]').value;
 
     if (!nom || !prenom || !classe || !email) {
       showFeedback(feedback, 'Merci de remplir tous les champs.', false);
@@ -30,6 +31,10 @@
     }
     if (!password || password.length < 6) {
       showFeedback(feedback, 'Le mot de passe doit faire au moins 6 caractères.', false);
+      return;
+    }
+    if (password !== passwordConfirm) {
+      showFeedback(feedback, 'Les deux mots de passe ne correspondent pas.', false);
       return;
     }
 

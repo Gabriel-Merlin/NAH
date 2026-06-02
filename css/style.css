@@ -444,6 +444,22 @@ section { padding: 48px 0; }
 }
 .form-field textarea:focus,
 .form-field input:focus { border-color: var(--bleu); outline: none; }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 46px !important; }
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--texte-sec);
+}
+.password-toggle:hover { color: var(--bleu); }
 .form-hint { font-size: .9rem; color: var(--texte-sec); margin-top: 6px; }
 .char-count { font-size: .85rem; color: var(--texte-sec); text-align: right; }
 

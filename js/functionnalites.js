@@ -296,6 +296,7 @@
     joinForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       const password = joinForm.querySelector('[name="password"]').value;
+      const passwordConfirm = joinForm.querySelector('[name="password_confirm"]').value;
       const data = {
         nom: joinForm.querySelector('[name="nom"]').value.trim(),
         prenom: joinForm.querySelector('[name="prenom"]').value.trim(),
@@ -313,6 +314,10 @@
       }
       if (!password || password.length < 6) {
         showFeedback(feedback, 'Le mot de passe doit faire au moins 6 caractères.', false);
+        return;
+      }
+      if (password !== passwordConfirm) {
+        showFeedback(feedback, 'Les deux mots de passe ne correspondent pas.', false);
         return;
       }
       const submitBtn = joinForm.querySelector('button[type="submit"]');
