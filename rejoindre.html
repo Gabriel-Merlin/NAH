@@ -68,6 +68,10 @@
           <div>
             <h2>Remplis le formulaire pour nous rejoindre</h2>
             <p class="lead">On te recontacte rapidement pour faire ta connaissance.</p>
+            <div class="encadre" style="margin-bottom:18px">
+              <p class="mb-0" style="font-size:.92rem">📅 <strong>Cette candidature concerne l'année scolaire prochaine.</strong> Les membres sont sélectionnés par tirage au sort.<br>
+              ⚠️ Merci d'indiquer ton <strong>vrai nom et prénom</strong>. Toute inscription fantaisiste (ex. « Nik Tamere ») tirée au sort sera <strong>remplacée</strong>.</p>
+            </div>
             <form class="card form-compact" id="rejoindre-form">
               <div class="form-row">
                 <div class="form-field">
@@ -110,6 +114,10 @@
                 </div>
               </div>
               <p class="form-hint">Ces informations servent uniquement à te recontacter pour rejoindre l'équipe NAH.</p>
+              <label class="form-check" style="display:flex;gap:10px;align-items:flex-start;margin:6px 0 14px;font-size:.92rem;cursor:pointer">
+                <input type="checkbox" id="r-annee" name="annee" required style="margin-top:3px;flex-shrink:0">
+                <span>Je comprends que cette candidature est pour <strong>l'année prochaine</strong> et je certifie avoir indiqué mon <strong>vrai nom et prénom</strong>.</span>
+              </label>
               <button class="btn btn--vert" type="submit">Je veux rejoindre NAH</button>
               <div class="feedback" hidden></div>
             </form>

@@ -341,6 +341,11 @@
         showFeedback(feedback, 'Les deux mots de passe ne correspondent pas.', false);
         return;
       }
+      const anneeOk = joinForm.querySelector('[name="annee"]');
+      if (anneeOk && !anneeOk.checked) {
+        showFeedback(feedback, 'Merci de cocher la case de confirmation (année prochaine et vrai nom).', false);
+        return;
+      }
       const submitBtn = joinForm.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
       try {
