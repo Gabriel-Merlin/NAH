@@ -52,6 +52,7 @@
     setupEventForm();
     setupTirage();
     setupInvite();
+    setupSondage();
   }
 
   // Appel RPC selon le mode (Google = fonctions _g sans token)
@@ -381,6 +382,52 @@
         });
       });
     }
+  }
+
+  /* ---------- Création de sondage ---------- */
+  function setupSondage() {
+    const form = document.getElementById('sondage-form');
+    if (!form) return;
+    const feedback = form.querySelector('.feedback');
+    const optionsContainer = document.getElementById('sondage-options');
+    const addBtn = document.getElementById('btn-add-option');
+
+    addBtn.addEventListener('click', function () {
+      const count = optionsContainer.querySelectorAll('.sondage-option').length;
+      if (count >= 6) { showFeedback(feedback, 'Maximum 6 réponses.', false); return; }
+      const group = document.createElement('div');
+      group.className = 'form-group';
+      group.innerHTML = '<label>Réponse ' + (count + 1) + '</label>' +
+        '<input class="sondage-option" type="text" placeholder="Réponse ' + (count + 1) + '">';
+      optionsContainer.appendChild(group);
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const question = form.querySelector('[name="question"]').value.trim();
+      const options = Array.prototype.map.call(form.querySelectorAll('.sondage-option'), function (i) { return i.value.trim(); })
+        .filter(function (v) { return v.length > 0; });
+      if (!question) { showFeedback(feedback, 'Écris une question.', false); return; }
+      if (options.length < 2) { showFeedback(feedback, 'Ajoute au moins 2 réponses.', false); return; }
+      if (!confirm('Publier ce sondage ? Il remplacera définitivement le sondage actuel et ses votes.')) return;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        const result = await call('admin_create_sondage', { p_admin_token: adminToken, p_question: question, p_options: options },
+                                  'admin_create_sondage_g', { p_question: question, p_options: options });
+        if (!result || !result.ok) { throw new Error(result && result.error || 'Erreur'); }
+        form.reset();
+        // Retire les options supplémentaires au-delà des 2 premières
+        const extras = optionsContainer.querySelectorAll('.form-group');
+        for (var i = extras.length - 1; i >= 2; i--) { extras[i].remove(); }
+        showFeedback(feedback, '✅ Sondage publié ! Il est maintenant visible sur la page Agir & Outils.', true);
+      } catch (err) {
+        showFeedback(feedback, 'Erreur : ' + err.message, false);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
   }
 
   /* ---------- Déconnexion ---------- */

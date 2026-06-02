@@ -152,6 +152,33 @@
         </form>
       </section>
 
+      <!-- ===== Création de sondage ===== -->
+      <section aria-labelledby="h-sondage" style="margin-top:40px">
+        <h2 id="h-sondage">Création de sondage</h2>
+        <div class="encadre" style="max-width:560px">
+          <p>Rédige un nouveau sondage. Il remplacera immédiatement le sondage actuellement affiché sur la page « Agir &amp; Outils ».</p>
+          <form id="sondage-form">
+            <div class="form-group">
+              <label for="sondage-question">Question <span aria-hidden="true">*</span></label>
+              <input id="sondage-question" name="question" type="text" required placeholder="Ex : Te sens-tu en sécurité au lycée ?">
+            </div>
+            <div id="sondage-options">
+              <div class="form-group">
+                <label>Réponse 1 <span aria-hidden="true">*</span></label>
+                <input class="sondage-option" type="text" required placeholder="Ex : Oui">
+              </div>
+              <div class="form-group">
+                <label>Réponse 2 <span aria-hidden="true">*</span></label>
+                <input class="sondage-option" type="text" required placeholder="Ex : Non">
+              </div>
+            </div>
+            <button class="btn btn--ghost" id="btn-add-option" type="button">+ Ajouter une réponse</button>
+            <div class="feedback" hidden></div>
+            <p style="margin-top:16px"><button class="btn btn--bleu" type="submit">Publier ce sondage</button></p>
+          </form>
+        </div>
+      </section>
+
       <!-- ===== Transfert d'administration ===== -->
       <section aria-labelledby="h-transfert" style="margin-top:40px">
         <h2 id="h-transfert">Transfert d'administration</h2>
