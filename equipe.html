@@ -71,8 +71,8 @@
       <div class="cta-grid">
         <div class="card">
           <h3>Tableau de bord</h3>
-          <p>Accède aux questions anonymes, signalements et candidatures reçues via le tableau de bord Supabase.</p>
-          <a class="btn btn--bleu" href="https://supabase.com/dashboard/project/wyydagcjkbivtbuhbzon/editor" target="_blank" rel="noopener">Ouvrir le tableau de bord ↗</a>
+          <p>Consulte les questions anonymes, signalements et candidatures reçues, directement sur le site.</p>
+          <a class="btn btn--bleu" href="#tableau-bord">Ouvrir le tableau de bord →</a>
         </div>
         <div class="card">
           <h3>Mettre à jour le calendrier</h3>
@@ -85,6 +85,23 @@
           <p>Pour toute question interne, écris dans le chat de groupe réservé aux membres.</p>
           <a class="btn btn--ghost" href="#chat-equipe">Ouvrir le chat →</a>
         </div>
+      </div>
+
+      <!-- ===== Tableau de bord sur site ===== -->
+      <h2 style="margin-top:40px" id="tableau-bord">Tableau de bord</h2>
+      <div class="tableau-tabs" role="tablist">
+        <button class="tableau-tab is-active" data-tab="questions" type="button">Questions anonymes <span class="tableau-count" id="count-questions"></span></button>
+        <button class="tableau-tab" data-tab="signalements" type="button">Signalements <span class="tableau-count" id="count-signalements"></span></button>
+        <button class="tableau-tab" data-tab="candidatures" type="button">Candidatures <span class="tableau-count" id="count-candidatures"></span></button>
+      </div>
+      <div id="tab-questions" class="tableau-panel">
+        <p class="form-hint">Chargement…</p>
+      </div>
+      <div id="tab-signalements" class="tableau-panel" hidden>
+        <p class="form-hint">Chargement…</p>
+      </div>
+      <div id="tab-candidatures" class="tableau-panel" hidden>
+        <p class="form-hint">Chargement…</p>
       </div>
 
       <h2 style="margin-top:40px" id="chat-equipe">Chat de l'équipe</h2>

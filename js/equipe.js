@@ -62,12 +62,86 @@
     }
 
     initChat();
+    initTableau();
+  }
+
+  /* ---- Tableau de bord membre ---- */
+  async function callMember(fnToken, fnGoogle, args) {
+    if (authMode === 'google') { return await window.nahAuth.rpc(fnGoogle, {}); }
+    return await window.nahDB.rpc(fnToken, args);
+  }
+
+  async function initTableau() {
+    const tabs = document.querySelectorAll('.tableau-tab');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        ['questions', 'signalements', 'candidatures'].forEach(function (name) {
+          const panel = document.getElementById('tab-' + name);
+          if (panel) { if (name === tab.dataset.tab) panel.removeAttribute('hidden'); else panel.hidden = true; }
+        });
+      });
+    });
+
+    try {
+      const data = await callMember('get_member_dashboard', 'get_member_dashboard_g', { p_token: memberToken });
+      if (!data || !data.ok) { return; }
+      renderQuestions(data.questions || []);
+      renderSignalements(data.signalements || []);
+      renderCandidatures(data.candidatures || []);
+    } catch (e) { /* ignore */ }
+  }
+
+  function setCount(id, n) { const el = document.getElementById(id); if (el) el.textContent = n; }
+
+  function renderQuestions(list) {
+    setCount('count-questions', list.length);
+    const panel = document.getElementById('tab-questions');
+    if (!panel) return;
+    if (!list.length) { panel.innerHTML = '<p class="form-hint">Aucune question pour l\'instant.</p>'; return; }
+    panel.innerHTML = list.map(function (q) {
+      return '<div class="tableau-item"><p class="tableau-item__meta">' + dateFr(q.created_at) +
+        '</p><p class="tableau-item__text">' + esc(q.message) + '</p></div>';
+    }).join('');
+  }
+
+  function renderSignalements(list) {
+    setCount('count-signalements', list.length);
+    const panel = document.getElementById('tab-signalements');
+    if (!panel) return;
+    if (!list.length) { panel.innerHTML = '<p class="form-hint">Aucun signalement pour l\'instant.</p>'; return; }
+    panel.innerHTML = list.map(function (s) {
+      const contact = s.contact ? ' · Contact : ' + esc(s.contact) : ' · Anonyme';
+      return '<div class="tableau-item"><p class="tableau-item__meta">' + dateFr(s.created_at) + contact +
+        '</p><p class="tableau-item__text">' + esc(s.message) + '</p></div>';
+    }).join('');
+  }
+
+  function renderCandidatures(list) {
+    setCount('count-candidatures', list.length);
+    const panel = document.getElementById('tab-candidatures');
+    if (!panel) return;
+    if (!list.length) { panel.innerHTML = '<p class="form-hint">Aucune candidature.</p>'; return; }
+    panel.innerHTML = list.map(function (c) {
+      const statut = c.acceptee ? '<span style="color:var(--vert);font-weight:600">Acceptée</span>' : '<span style="color:var(--texte-sec)">En attente</span>';
+      return '<div class="tableau-item"><p class="tableau-item__meta">' + dateFr(c.created_at) + ' · ' + statut +
+        '</p><p class="tableau-item__text"><strong>' + esc(c.prenom) + ' ' + esc(c.nom) + '</strong> — ' +
+        esc(c.classe) + ' · ' + esc(c.email) + '</p></div>';
+    }).join('');
+  }
+
+  function dateFr(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) +
+      ' à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
   }
 
   /* ---- Chat de groupe ---- */
   function initChat() {
     loadMessages();
-    chatInterval = setInterval(loadMessages, 20000);
+    // Quasi temps réel : rafraîchissement toutes les 3 secondes
+    chatInterval = setInterval(loadMessages, 3000);
 
     const form = document.getElementById('chat-form');
     if (!form) return;
