@@ -440,7 +440,8 @@
       const count = optionsContainer.querySelectorAll('.sondage-option').length;
       if (count >= 6) return;
       const group = document.createElement('div');
-      group.className = 'form-group';
+      group.className = 'form-field';
+      group.style.marginTop = '16px';
       group.innerHTML = '<label>Réponse ' + (count + 1) + '</label>' +
         '<input class="sondage-option" type="text" placeholder="Réponse ' + (count + 1) + '">';
       optionsContainer.appendChild(group);
@@ -464,7 +465,7 @@
         if (!result || !result.ok) { throw new Error(result && result.error || 'Erreur'); }
         form.reset();
         // Retire les options supplémentaires au-delà des 2 premières
-        const extras = optionsContainer.querySelectorAll('.form-group');
+        const extras = optionsContainer.querySelectorAll('.form-field');
         for (var i = extras.length - 1; i >= 2; i--) { extras[i].remove(); }
         addBtn.hidden = false;
         showFeedback(feedback, '✅ Sondage publié ! Il est maintenant visible sur la page Agir & Outils.', true);
