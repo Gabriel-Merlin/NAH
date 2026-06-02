@@ -177,6 +177,7 @@
     try {
       const data = await callMember('get_member_dashboard', 'get_member_dashboard_g', { p_token: memberToken });
       if (!data || !data.ok) { return; }
+      renderAdmins(data.admins || []);
       renderQuestions(data.questions || []);
       renderSignalements(data.signalements || []);
       renderCandidatures(data.candidatures || []);
@@ -184,6 +185,30 @@
   }
 
   function setCount(id, n) { const el = document.getElementById(id); if (el) el.textContent = n; }
+
+  function renderAdmins(list) {
+    const box = document.getElementById('admin-presentation');
+    if (!box) return;
+    if (!list.length) { box.hidden = true; box.innerHTML = ''; return; }
+    const titre = list.length > 1 ? 'Vos responsables' : 'Votre responsable';
+    box.innerHTML =
+      '<div class="encadre encadre--bleu">' +
+        '<h2 style="margin-top:0">' + titre + '</h2>' +
+        '<div class="admin-presentation-grid">' +
+          list.map(function (a) {
+            const role = a.classe ? esc(a.classe) : 'Administration';
+            return '<div class="admin-presentation-card">' +
+              '<span class="admin-presentation-badge">Admin</span>' +
+              '<p class="admin-presentation-nom">' + esc(a.prenom) + ' ' + esc(a.nom) + '</p>' +
+              '<p class="admin-presentation-role">' + role + '</p>' +
+              '<p class="admin-presentation-mail"><a href="mailto:' + esc(a.email) + '">' + esc(a.email) + '</a></p>' +
+              '</div>';
+          }).join('') +
+        '</div>' +
+        '<p class="form-hint" style="margin-bottom:0">C\'est la personne qui encadre et administre l\'espace équipe NAH.</p>' +
+      '</div>';
+    box.hidden = false;
+  }
 
   function renderQuestions(list) {
     setCount('count-questions', list.length);
