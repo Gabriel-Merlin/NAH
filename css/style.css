@@ -429,6 +429,7 @@ section { padding: 48px 0; }
 .organi-card .role { font-weight: 700; color: var(--bleu); display: block; margin-bottom: 6px; }
 .organi-card .nom { font-size: 1.05rem; display: block; margin-bottom: 4px; }
 .organi-card .meta { font-size: .9rem; color: var(--texte-sec); display: block; margin-top: 4px; }
+.organi-card .organi-membres { display: block; margin-top: 6px; font-size: .78rem; color: var(--texte-sec); font-style: italic; line-height: 1.4; }
 
 /* ---------- Listes d'étapes ---------- */
 .etapes { counter-reset: step; list-style: none; padding: 0; }

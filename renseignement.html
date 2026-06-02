@@ -398,11 +398,22 @@
         list.forEach(function (r) {
           const div = document.createElement('div');
           div.className = 'organi-card';
+          const isEleves = /élèves\s*référents/i.test(r.role || '');
           div.innerHTML = '<span class="role">' + esc(r.role) + '</span>' +
             '<span class="nom">' + esc(r.nom) + '</span>' +
-            '<span class="meta">' + esc(r.meta) + '</span>';
+            '<span class="meta">' + esc(r.meta) + '</span>' +
+            (isEleves ? '<span class="organi-membres" data-membres></span>' : '');
           grid.appendChild(div);
         });
+
+        // Prénoms réels des élèves de l'équipe, en petit dans la carte « Élèves référents »
+        const slot = grid.querySelector('[data-membres]');
+        if (slot) {
+          window.nahDB.rpc('get_membres_public', {}).then(function (membres) {
+            const noms = (membres || []).map(function (m) { return (m.prenom || '').trim(); }).filter(Boolean);
+            if (noms.length) { slot.textContent = noms.join(' · '); }
+          }).catch(function () { /* ignore */ });
+        }
       }).catch(function () { /* ignore */ });
     })();
   </script>
