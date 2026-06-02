@@ -444,6 +444,11 @@ section { padding: 48px 0; }
 }
 .form-field textarea:focus,
 .form-field input:focus { border-color: var(--bleu); outline: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+.form-compact .form-field { margin-bottom: 12px; }
+.form-compact input,
+.form-compact .password-wrap input { padding-top: 9px !important; padding-bottom: 9px !important; }
 .password-wrap { position: relative; }
 .password-wrap input { padding-right: 46px !important; }
 .password-toggle {

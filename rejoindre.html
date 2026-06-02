@@ -68,42 +68,48 @@
           <div>
             <h2>Remplis le formulaire pour nous rejoindre</h2>
             <p class="lead">On te recontacte rapidement pour faire ta connaissance.</p>
-            <form class="card" id="rejoindre-form">
-              <div class="form-field">
-                <label for="r-nom">Nom</label>
-                <input type="text" id="r-nom" name="nom" required>
+            <form class="card form-compact" id="rejoindre-form">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="r-prenom">Prénom</label>
+                  <input type="text" id="r-prenom" name="prenom" required>
+                </div>
+                <div class="form-field">
+                  <label for="r-nom">Nom</label>
+                  <input type="text" id="r-nom" name="nom" required>
+                </div>
               </div>
-              <div class="form-field">
-                <label for="r-prenom">Prénom</label>
-                <input type="text" id="r-prenom" name="prenom" required>
-              </div>
-              <div class="form-field">
-                <label for="r-classe">Classe</label>
-                <input type="text" id="r-classe" name="classe" placeholder="ex. 2nde 4, 1ère G…" required>
-              </div>
-              <div class="form-field">
-                <label for="r-tel">Téléphone</label>
-                <input type="text" id="r-tel" name="telephone" inputmode="tel" placeholder="06 12 34 56 78">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="r-classe">Classe</label>
+                  <input type="text" id="r-classe" name="classe" placeholder="ex. 2nde 4…" required>
+                </div>
+                <div class="form-field">
+                  <label for="r-tel">Téléphone</label>
+                  <input type="text" id="r-tel" name="telephone" inputmode="tel" placeholder="06 12 34 56 78">
+                </div>
               </div>
               <div class="form-field">
                 <label for="r-mail">Adresse e-mail</label>
                 <input type="email" id="r-mail" name="email" inputmode="email" placeholder="prenom@exemple.fr" required>
               </div>
-              <div class="form-field">
-                <label for="r-password">Mot de passe</label>
-                <div class="password-wrap">
-                  <input type="password" id="r-password" name="password" placeholder="Au moins 6 caractères" required>
-                  <button type="button" class="password-toggle" data-target="r-password" aria-label="Afficher le mot de passe">👁️</button>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="r-password">Mot de passe</label>
+                  <div class="password-wrap">
+                    <input type="password" id="r-password" name="password" placeholder="6 caractères min." required>
+                    <button type="button" class="password-toggle" data-target="r-password" aria-label="Afficher le mot de passe">👁️</button>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="r-password-confirm">Confirme</label>
+                  <div class="password-wrap">
+                    <input type="password" id="r-password-confirm" name="password_confirm" placeholder="Retape-le" required>
+                    <button type="button" class="password-toggle" data-target="r-password-confirm" aria-label="Afficher le mot de passe">👁️</button>
+                  </div>
                 </div>
               </div>
-              <div class="form-field">
-                <label for="r-password-confirm">Confirme le mot de passe</label>
-                <div class="password-wrap">
-                  <input type="password" id="r-password-confirm" name="password_confirm" placeholder="Retape ton mot de passe" required>
-                  <button type="button" class="password-toggle" data-target="r-password-confirm" aria-label="Afficher le mot de passe">👁️</button>
-                </div>
-              </div>
-              <p class="form-hint">Ces informations servent uniquement à te recontacter pour rejoindre l'équipe NAH. Elles ne sont jamais partagées ni utilisées à d'autres fins.</p>
+              <p class="form-hint">Ces informations servent uniquement à te recontacter pour rejoindre l'équipe NAH.</p>
               <button class="btn btn--vert" type="submit">Je veux rejoindre NAH</button>
               <div class="feedback" hidden></div>
             </form>

@@ -43,12 +43,30 @@
     showFeedback(feedback, 'Création du compte en cours…', true);
 
     try {
-      // 1. Créer le compte Supabase Auth
+      // 1. Créer le compte Supabase Auth (ignoré si l'email a déjà un compte)
       try {
         await window.nahAuth.signUpWithPassword(email, password);
       } catch (e) { /* compte existant : on continue */ }
 
-      // 2. Utiliser le lien d'invitation (crée/met à jour la candidature comme admin accepté)
+      // 2. S'authentifier AVANT de consommer le lien.
+      //    Si l'email a déjà un compte avec un autre mot de passe, on s'arrête ici :
+      //    le lien n'est PAS consommé et l'ancien admin garde ses droits (il peut
+      //    régénérer un lien autant de fois que nécessaire).
+      let signedIn = false;
+      try {
+        await window.nahAuth.signInWithPassword(email, password);
+        signedIn = true;
+      } catch (e) { signedIn = false; }
+
+      if (!signedIn) {
+        showFeedback(feedback,
+          'Un compte existe déjà avec cette adresse e-mail, mais le mot de passe saisi ne correspond pas. ' +
+          'Saisis le mot de passe habituel de ce compte, ou demande un nouveau lien à l\'administrateur actuel.', false);
+        submitBtn.disabled = false;
+        return;
+      }
+
+      // 3. Utiliser le lien d'invitation (promotion admin + démission de l'ancien admin)
       const result = await window.nahDB.rpc('use_admin_invite', {
         p_invite_token: inviteToken,
         p_nom: nom,
@@ -61,9 +79,8 @@
         throw new Error(result && result.error || 'Lien invalide ou expiré.');
       }
 
-      // 3. Se connecter et rediriger vers l'admin
-      await window.nahAuth.signInWithPassword(email, password);
-      showFeedback(feedback, 'Compte créé ! Redirection vers l\'administration…', true);
+      // 4. Rediriger vers l'administration
+      showFeedback(feedback, 'Compte validé ! Redirection vers l\'administration…', true);
       setTimeout(function () { location.href = 'admin.html'; }, 1500);
 
     } catch (err) {
