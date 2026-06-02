@@ -54,18 +54,51 @@
      ======================================================= */
   const reponsesListe = document.getElementById('reponses-liste');
   if (reponsesListe) {
+    const searchInput = document.getElementById('reponses-recherche');
+    const aucunMsg = document.getElementById('reponses-aucun');
+    let toutesLesReponses = [];
+
+    function renderReponses(rows) {
+      if (!rows.length) {
+        reponsesListe.innerHTML = '';
+        if (aucunMsg) aucunMsg.removeAttribute('hidden');
+        return;
+      }
+      if (aucunMsg) aucunMsg.hidden = true;
+      reponsesListe.innerHTML = rows.map(function (r) {
+        return '<div style="border-left:4px solid var(--vert);padding:10px 14px;background:var(--gris-bleu);border-radius:8px;margin-bottom:12px">' +
+          '<p style="margin:0 0 6px"><strong>Q :</strong> ' + escapeHTML(r.message) + '</p>' +
+          '<p style="margin:0;color:var(--vert)"><strong>Réponse NAH :</strong> ' + escapeHTML(r.reponse) + '</p>' +
+          '</div>';
+      }).join('');
+    }
+
+    function normalise(s) {
+      return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function filtrer() {
+      const q = normalise(searchInput ? searchInput.value.trim() : '');
+      if (!q) { renderReponses(toutesLesReponses); return; }
+      // Priorité aux questions qui commencent par la recherche, puis celles qui la contiennent
+      const debut = toutesLesReponses.filter(function (r) { return normalise(r.message).indexOf(q) === 0; });
+      const contient = toutesLesReponses.filter(function (r) {
+        const m = normalise(r.message);
+        return m.indexOf(q) > 0 || normalise(r.reponse).indexOf(q) !== -1;
+      });
+      renderReponses(debut.concat(contient));
+    }
+
     window.nahDB.rpc('get_published_questions', {})
       .then(function (rows) {
         if (rows && rows.length) {
-          reponsesListe.innerHTML = rows.map(function (r) {
-            return '<div style="border-left:4px solid var(--vert);padding:10px 14px;background:var(--gris-bleu);border-radius:8px;margin-bottom:12px">' +
-              '<p style="margin:0 0 6px"><strong>Q :</strong> ' + escapeHTML(r.message) + '</p>' +
-              '<p style="margin:0;color:var(--vert)"><strong>Réponse NAH :</strong> ' + escapeHTML(r.reponse) + '</p>' +
-              '</div>';
-          }).join('');
+          toutesLesReponses = rows;
+          renderReponses(toutesLesReponses);
         }
       })
       .catch(function () { /* on garde l'exemple statique */ });
+
+    if (searchInput) { searchInput.addEventListener('input', filtrer); }
   }
 
   /* =======================================================

@@ -96,7 +96,10 @@
         <!-- Réponses de l'équipe NAH -->
         <div class="card" id="reponses-box">
           <h3 style="margin-top:0">Réponses de l'équipe NAH</h3>
-          <p class="form-hint">Les questions publiées et leurs réponses apparaîtront ici.</p>
+          <p class="form-hint">Cherche si ta question a déjà été posée et répondue.</p>
+          <input type="search" id="reponses-recherche" placeholder="Rechercher une question…" autocomplete="off"
+            style="width:100%;padding:10px 14px;border:2px solid var(--gris-bleu);border-radius:8px;font-family:var(--font-texte);font-size:1rem;margin-bottom:16px">
+          <p id="reponses-aucun" class="form-hint" hidden>Aucune question ne correspond à ta recherche. Pose la tienne ci-contre !</p>
           <div id="reponses-liste">
             <!-- Exemple statique en attendant Supabase -->
             <div style="border-left:4px solid var(--vert);padding:10px 14px;background:var(--gris-bleu);border-radius:8px;margin-bottom:12px">
