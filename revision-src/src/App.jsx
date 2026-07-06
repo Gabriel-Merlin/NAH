@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
+import Landing from './pages/Landing.jsx'
 import Home from './pages/Home.jsx'
 import Subject from './pages/Subject.jsx'
 import Chapter from './pages/Chapter.jsx'
@@ -10,7 +11,8 @@ export default function App() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/accueil" element={<Home />} />
         <Route path="/subject/:sid" element={<Subject />} />
         <Route path="/subject/:sid/chapter/:cid" element={<Chapter />} />
         <Route path="/favoris" element={<Favoris />} />
