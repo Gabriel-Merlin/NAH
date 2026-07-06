@@ -16,7 +16,7 @@ export default function Layout({ children }) {
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
-          <Link to="/" className="mr-auto flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
+          <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
             <span className="text-2xl" aria-hidden>🎓</span>
             <span>
               Réviz<span className="text-violet-600 dark:text-violet-400">STMG</span>
@@ -58,7 +58,7 @@ function Breadcrumb() {
   const { pathname } = useLocation()
   const crumbs = useMemo(() => {
     const parts = pathname.split('/').filter(Boolean)
-    const items = [{ label: 'Accueil', to: '/' }]
+    const items = [{ label: 'Accueil', to: '/accueil' }]
     if (parts[0] === 'subject' && parts[1]) {
       const s = getSubject(parts[1])
       if (s) items.push({ label: s.short || s.name, to: `/subject/${s.id}` })

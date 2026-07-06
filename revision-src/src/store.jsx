@@ -16,6 +16,7 @@ const emptyState = () => ({
   chapters: {}, // { [chapterId]: { games: { [gameId]: pct }, quiz: pct } }
   favorites: [], // ids de chapitres marqués « à revoir »
   lastChapter: null, // { subjectId, chapterId }
+  track: null, // { level, specialty } — filière choisie à l'entrée
   theme: null, // 'light' | 'dark' | null (= système)
   totalAnswers: 0,
   correctAnswers: 0,
@@ -138,6 +139,8 @@ export function StoreProvider({ children }) {
 
   const setTheme = useCallback((theme) => setState((p) => ({ ...p, theme })), [])
 
+  const setTrack = useCallback((track) => setState((p) => ({ ...p, track })), [])
+
   const resetAll = useCallback(() => setState(emptyState()), [])
 
   const dismissBadge = useCallback(
@@ -155,6 +158,7 @@ export function StoreProvider({ children }) {
     toggleFavorite,
     setLastChapter,
     setTheme,
+    setTrack,
     resetAll,
     dismissBadge,
   }
