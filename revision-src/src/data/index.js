@@ -9,6 +9,7 @@ import { maths } from './maths.js'
 import { philosophie } from './philosophie.js'
 import { histoire } from './histoire.js'
 import { langues } from './langues.js'
+import { LESSONS } from './lessons.js'
 
 export const SUBJECTS = [
   gestion,
@@ -22,9 +23,18 @@ export const SUBJECTS = [
 ]
 
 // Index chapitre -> { subject, ...chapitre } pour un accès direct par id.
+// Les « cours complets » de lessons.js (facultatifs) enrichissent chaque
+// chapitre : introduction, sections développées, exemples, ressources vidéos.
+// Un chapitre sans entrée dans LESSONS garde son cours d'origine.
 export const ALL_CHAPTERS = {}
 for (const s of SUBJECTS) {
   for (const c of s.chapters) {
+    const lesson = LESSONS[c.id]
+    if (lesson) {
+      if (lesson.intro) c.intro = lesson.intro
+      if (lesson.cours) c.cours = lesson.cours
+      if (lesson.resources) c.resources = lesson.resources
+    }
     ALL_CHAPTERS[c.id] = { ...c, subjectId: s.id, subjectName: s.name, color: s.color }
   }
 }
