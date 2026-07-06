@@ -1,0 +1,66 @@
+import { Link, useParams, Navigate } from 'react-router-dom'
+import { getSubject } from '../data/index.js'
+import { useStore, chapterScore, starsFromScore, subjectScore } from '../store.jsx'
+import { ProgressBar, Stars } from '../components/ui.jsx'
+
+export default function Subject() {
+  const { sid } = useParams()
+  const subject = getSubject(sid)
+  const { state, toggleFavorite } = useStore()
+  if (!subject) return <Navigate to="/" replace />
+  const pct = subjectScore(state, sid)
+
+  return (
+    <div className="space-y-5">
+      <header className="flex items-center gap-4">
+        <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl text-3xl" style={{ backgroundColor: subject.color + '22' }}>{subject.icon}</span>
+        <div className="flex-1">
+          <h1 className="font-display text-2xl font-extrabold leading-tight">{subject.name}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{subject.tagline}</p>
+          <div className="mt-2 flex items-center gap-2">
+            <ProgressBar value={pct} color={subject.color} className="max-w-[200px]" />
+            <span className="text-sm font-bold" style={{ color: subject.color }}>{pct}%</span>
+          </div>
+        </div>
+      </header>
+
+      <div className="space-y-3">
+        {subject.chapters.map((c) => {
+          const score = chapterScore(state, c.id)
+          const stars = starsFromScore(score)
+          const fav = state.favorites.includes(c.id)
+          return (
+            <div key={c.id} className="card relative overflow-hidden p-4">
+              <span className="absolute inset-y-0 left-0 w-1.5" style={{ backgroundColor: subject.color }} />
+              <div className="pl-2">
+                <div className="flex items-start justify-between gap-2">
+                  <Link to={`/subject/${sid}/chapter/${c.id}`} className="min-w-0 flex-1">
+                    <h3 className="font-bold leading-snug hover:underline">{c.name}</h3>
+                    <div className="mt-1 flex items-center gap-2">
+                      <Stars count={stars} />
+                      <span className="text-xs text-slate-500 dark:text-slate-400">{c.games.length} jeux · {score}%</span>
+                    </div>
+                  </Link>
+                  <button
+                    onClick={() => toggleFavorite(c.id)}
+                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full text-lg transition ${fav ? 'text-amber-400' : 'text-slate-300 hover:text-amber-400 dark:text-slate-600'}`}
+                    aria-label={fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                    aria-pressed={fav}
+                  >
+                    {fav ? '★' : '☆'}
+                  </button>
+                </div>
+                <div className="mt-3 flex items-center gap-3">
+                  <ProgressBar value={score} color={subject.color} />
+                  <Link to={`/subject/${sid}/chapter/${c.id}`} className="btn shrink-0 !min-h-0 !px-4 !py-2 text-sm text-white" style={{ backgroundColor: subject.color }}>
+                    Réviser →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
