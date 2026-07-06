@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    /* Zones sûres iPhone (encoche) */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  /* Focus visible net pour la navigation clavier */
+  :focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: #ddd6fe;
+    color: #4c1d95;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800;
+  }
+  /* Gros boutons tactiles */
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-xl px-5 py-3 text-base font-semibold
+           transition active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
+    min-height: 48px;
+  }
+  .btn-primary {
+    @apply btn bg-violet-600 text-white shadow-sm hover:bg-violet-700;
+  }
+  .btn-ghost {
+    @apply btn bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+  .formula {
+    @apply my-3 rounded-xl border-2 border-dashed border-violet-300 bg-violet-50 px-4 py-3 text-center
+           font-semibold text-violet-900 dark:border-violet-700/60 dark:bg-violet-950/40 dark:text-violet-200;
+  }
+}
+
+/* Barre de défilement discrète */
+* {
+  scrollbar-width: thin;
+}
