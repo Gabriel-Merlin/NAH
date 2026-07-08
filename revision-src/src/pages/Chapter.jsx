@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
 import { getChapter, getSubject, buildQuiz } from '../data/index.js'
 import { useStore, chapterScore, starsFromScore } from '../store.jsx'
-import { Rich, ProgressBar, Stars } from '../components/ui.jsx'
+import { ProgressBar, Stars } from '../components/ui.jsx'
+import Course from '../components/Course.jsx'
 import GameHost, { GAME_LABELS } from '../games/GameHost.jsx'
 
 const TABS = [
@@ -86,7 +87,7 @@ export default function Chapter() {
         </div>
       </div>
 
-      {tab === 'cours' && <CoursTab chapter={chapter} color={color} onPlay={() => setTab('jeux')} />}
+      {tab === 'cours' && <Course chapter={chapter} color={color} onPlay={() => setTab('jeux')} />}
 
       {tab === 'jeux' && (
         activeGame ? (
@@ -111,43 +112,6 @@ export default function Chapter() {
       )}
 
       {tab === 'progression' && <ProgressionTab chapter={chapter} rec={rec} color={color} score={score} />}
-    </div>
-  )
-}
-
-function CoursTab({ chapter, color, onPlay }) {
-  return (
-    <div className="space-y-4">
-      {chapter.cours.map((sec, i) => (
-        <section key={i} className="card p-5">
-          <h2 className="mb-2 flex items-center gap-2 font-bold">
-            <span className="h-4 w-1 rounded" style={{ backgroundColor: color }} />
-            {sec.h}
-          </h2>
-          <ul className="space-y-1.5">
-            {sec.points.map((p, j) => (
-              <li key={j} className="flex gap-2 text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />
-                <Rich text={p} />
-              </li>
-            ))}
-          </ul>
-          {sec.formula && <div className="formula mt-3">{sec.formula}</div>}
-        </section>
-      ))}
-
-      {chapter.formulas?.length > 0 && (
-        <section className="card p-5">
-          <h2 className="mb-3 font-bold">🔑 Formules à retenir</h2>
-          <div className="space-y-2">
-            {chapter.formulas.map((f, i) => (
-              <div key={i} className="formula">{f}</div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <button onClick={onPlay} className="btn-primary w-full" style={{ backgroundColor: color }}>🎮 Passer aux jeux</button>
     </div>
   )
 }
