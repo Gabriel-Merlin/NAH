@@ -9,7 +9,7 @@ export const droit = {
   chapters: [
     {
       id: 'droit-t5',
-      name: 'Thème 5 — Le contrat',
+      name: 'Thème 5 — Quel est le rôle du contrat ?',
       short: 'Le contrat',
       keywords: 'contrat consentement vices erreur dol violence capacité force obligatoire nullité inexécution',
       cours: [
@@ -41,7 +41,7 @@ export const droit = {
               q: 'Un contrat est valable si le consentement est…',
               choices: ['libre et éclairé (sans vice)', 'donné oralement uniquement', 'signé devant notaire', 'accompagné d’un paiement'],
               answer: 0,
-              explain: 'Le consentement doit être libre et éclairé : sans erreur, dol ni violence.',
+              explain: 'Le consentement doit être libre et éclairé (sans erreur, dol ni violence). La validité suppose aussi la capacité et un contenu licite et certain (art. 1128 du Code civil).',
             },
             {
               q: 'Le garagiste ment sur l’absence d’accident du véhicule. Il s’agit d’un…',
@@ -88,13 +88,13 @@ export const droit = {
         {
           id: 'droit-t5-assoc',
           type: 'association',
-          title: 'Association — Vice ↔ définition',
+          title: 'Association — Notion du contrat ↔ définition',
           icon: '🔗',
           pairs: [
-            { left: 'Erreur', right: 'Se tromper sur une qualité essentielle' },
-            { left: 'Dol', right: 'Être trompé par un mensonge/une manœuvre' },
-            { left: 'Violence', right: 'Consentement extorqué par la contrainte' },
-            { left: 'Capacité', right: 'Aptitude juridique à contracter' },
+            { left: 'Erreur (vice)', right: 'Se tromper sur une qualité essentielle' },
+            { left: 'Dol (vice)', right: 'Être trompé par un mensonge ou une manœuvre' },
+            { left: 'Violence (vice)', right: 'Consentement extorqué par la contrainte' },
+            { left: 'Capacité (condition)', right: 'Aptitude juridique à s’engager' },
           ],
         },
         {
@@ -112,7 +112,7 @@ export const droit = {
     },
     {
       id: 'droit-t6',
-      name: 'Thème 6 — La responsabilité',
+      name: 'Thème 6 — Qu’est-ce qu’être responsable ?',
       short: 'Responsabilité',
       keywords: 'responsabilité civile délictuelle contractuelle fait générateur dommage préjudice lien de causalité pénale dommages et intérêts',
       cours: [
@@ -152,10 +152,10 @@ export const droit = {
               explain: 'Il faut un fait générateur, un dommage (préjudice) et un lien de causalité.',
             },
             {
-              q: 'Un client glisse sur un sol mouillé non signalé (aucun contrat). C’est une responsabilité civile…',
-              choices: ['délictuelle', 'contractuelle', 'pénale uniquement', 'inexistante'],
+              q: 'Une entreprise de nettoyage laisse un sol mouillé non signalé ; une cliente glisse. Aucun contrat ne lie l’entreprise et la cliente. C’est une responsabilité civile…',
+              choices: ['délictuelle (extracontractuelle)', 'contractuelle', 'pénale uniquement', 'inexistante'],
               answer: 0,
-              explain: 'Sans contrat entre les parties, la responsabilité est délictuelle.',
+              explain: 'Aucun contrat ne lie l’auteur du dommage (l’entreprise de nettoyage) à la victime : la responsabilité civile est donc délictuelle (extracontractuelle).',
             },
             {
               q: 'La responsabilité civile a pour but de…',
@@ -226,7 +226,7 @@ export const droit = {
     },
     {
       id: 'droit-t7',
-      name: 'Thème 7 — Le travail salarié',
+      name: 'Thème 7 — Comment le droit encadre-t-il le travail salarié ?',
       short: 'Travail salarié',
       keywords: 'contrat de travail lien de subordination CDI CDD intérim convention collective licenciement rupture conventionnelle',
       cours: [
@@ -319,7 +319,7 @@ export const droit = {
     },
     {
       id: 'droit-t8',
-      name: 'Thème 8 — Entreprendre',
+      name: 'Thème 8 — Dans quel cadre et comment entreprendre ?',
       short: 'Entreprendre',
       keywords: 'liberté d’entreprendre entreprise individuelle société personne physique morale propriété industrielle concurrence',
       cours: [
