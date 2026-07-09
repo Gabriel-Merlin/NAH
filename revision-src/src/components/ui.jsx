@@ -1,20 +1,24 @@
 // Petits composants d'interface réutilisables.
 import { useEffect, useState } from 'react'
 
-// Rend le gras **ainsi** présent dans les textes du cours.
+// Rend le gras **ainsi** et l'italique *ainsi* présents dans les textes du cours.
 export function Rich({ text, className = '' }) {
-  const parts = String(text).split(/(\*\*[^*]+\*\*)/g)
+  const parts = String(text).split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g)
   return (
     <span className={className}>
-      {parts.map((p, i) =>
-        p.startsWith('**') && p.endsWith('**') ? (
-          <strong key={i} className="font-semibold text-slate-900 dark:text-white">
-            {p.slice(2, -2)}
-          </strong>
-        ) : (
-          <span key={i}>{p}</span>
-        ),
-      )}
+      {parts.map((p, i) => {
+        if (p.startsWith('**') && p.endsWith('**')) {
+          return (
+            <strong key={i} className="font-semibold text-slate-900 dark:text-white">
+              {p.slice(2, -2)}
+            </strong>
+          )
+        }
+        if (p.startsWith('*') && p.endsWith('*') && p.length > 2) {
+          return <em key={i}>{p.slice(1, -1)}</em>
+        }
+        return <span key={i}>{p}</span>
+      })}
     </span>
   )
 }

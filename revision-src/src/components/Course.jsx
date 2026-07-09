@@ -5,9 +5,29 @@
 import { Rich } from './ui.jsx'
 import Infographic from './Infographic.jsx'
 
+// Enregistrer la fiche : on force le thème clair le temps de l'impression
+// (le navigateur permet ensuite « Enregistrer au format PDF »).
+function saveFiche() {
+  const root = document.documentElement
+  const wasDark = root.classList.contains('dark')
+  if (wasDark) root.classList.remove('dark')
+  const restore = () => {
+    if (wasDark) root.classList.add('dark')
+    window.removeEventListener('afterprint', restore)
+  }
+  window.addEventListener('afterprint', restore)
+  window.print()
+}
+
 export default function Course({ chapter, color, onPlay }) {
   return (
     <div className="space-y-4">
+      <div className="no-print flex justify-end">
+        <button onClick={saveFiche} className="btn-ghost !min-h-0 !py-2 text-sm" title="Ouvre la fenêtre d’impression pour enregistrer au format PDF">
+          🖨️ Enregistrer la fiche (PDF)
+        </button>
+      </div>
+
       {chapter.intro && (
         <section className="card border-l-4 p-5" style={{ borderColor: color }}>
           <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
@@ -88,7 +108,9 @@ export default function Course({ chapter, color, onPlay }) {
         </section>
       )}
 
-      <button onClick={onPlay} className="btn-primary w-full" style={{ backgroundColor: color }}>🎮 M'entraîner sur ce chapitre</button>
+      <button onClick={onPlay} className="btn-primary no-print w-full" style={{ backgroundColor: color }}>🎮 M'entraîner sur ce chapitre</button>
+
+      <p className="print-footer">RévizSTMG · {chapter.name} — fiche de révision (contenu généré avec l’aide de l’IA, à recouper avec le cours officiel).</p>
     </div>
   )
 }
