@@ -3,6 +3,7 @@
 // ressources (vidéos, sites officiels). Rétro-compatible avec l'ancien format
 // (section.points), pour migrer les chapitres progressivement.
 import { Rich } from './ui.jsx'
+import Infographic from './Infographic.jsx'
 
 export default function Course({ chapter, color, onPlay }) {
   return (
@@ -43,6 +44,22 @@ export default function Course({ chapter, color, onPlay }) {
               <div key={i} className="formula">{f}</div>
             ))}
           </div>
+        </section>
+      )}
+
+      {chapter.essentiel?.length > 0 && (
+        <section className="rounded-2xl border-2 p-5 shadow-sm" style={{ borderColor: color, background: color + '10' }}>
+          <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">
+            <span>🧠</span> Fiche mémo — l’essentiel
+          </h2>
+          <ul className="space-y-2">
+            {chapter.essentiel.map((e, i) => (
+              <li key={i} className="flex gap-2 text-[15px] leading-relaxed">
+                <span className="mt-0.5 font-bold" style={{ color }}>✔</span>
+                <span><Rich text={e} /></span>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
@@ -97,6 +114,8 @@ function Block({ b, color }) {
       return <Bullets items={b.c} color={color} />
     case 'formula':
       return <div className="formula">{b.c}</div>
+    case 'figure':
+      return <Infographic name={b.name} color={color} />
     case 'example':
       return (
         <div className="rounded-xl border-l-4 border-sky-400 bg-sky-50 p-4 dark:border-sky-500 dark:bg-sky-950/30">

@@ -34,6 +34,7 @@ for (const s of SUBJECTS) {
       if (lesson.intro) c.intro = lesson.intro
       if (lesson.cours) c.cours = lesson.cours
       if (lesson.resources) c.resources = lesson.resources
+      if (lesson.essentiel) c.essentiel = lesson.essentiel
     }
     ALL_CHAPTERS[c.id] = { ...c, subjectId: s.id, subjectName: s.name, color: s.color }
   }

@@ -13,6 +13,12 @@ export const LESSONS = {
   // GESTION ET FINANCE
   // ======================================================================
   'gf-t1': {
+    essentiel: [
+      'La comptabilité en **partie double** : tout enregistrement respecte **débit = crédit**.',
+      '**TVA à décaisser = TVA collectée − TVA déductible** ; si déductible > collectée → **crédit de TVA**.',
+      '**Amortissement** (perte définitive) ≠ **dépréciation** (réversible) ; **VNC = valeur d’origine − amortissements cumulés**.',
+      'Les **4 principes** comptables : prudence · indépendance des exercices · continuité · permanence des méthodes.',
+    ],
     intro:
       "Tout part d'une idée simple : une entreprise doit **garder la trace de tout ce qu'elle achète, vend, possède et doit**. La comptabilité est le langage qui traduit chaque opération en chiffres, pour savoir si l'entreprise gagne de l'argent et si elle est en bonne santé. Ce premier thème pose les **règles du jeu** : comment enregistrer une opération, comment fonctionne la TVA, comment tenir compte de l'usure du matériel (l'amortissement) et quels grands principes garantissent une information honnête.",
     cours: [
@@ -49,6 +55,7 @@ export const LESSONS = {
         blocks: [
           { t: 'p', c: "La **TVA** (taxe sur la valeur ajoutée) est un impôt payé par le **consommateur final**. L'entreprise ne fait que la **collecter** sur ses ventes puis la **reverser** à l'État, après avoir déduit la TVA qu'elle a elle-même payée sur ses achats." },
           { t: 'formula', c: 'TVA à décaisser = TVA collectée (sur ventes) − TVA déductible (sur achats + immobilisations)' },
+          { t: 'figure', name: 'tva' },
           { t: 'example', h: 'Mois de mars (Boisdéco, taux 20 %)', c: "Ventes HT = 90 000 € ; achats de matières HT = 40 000 € ; achat d'une machine HT = 15 000 €.\n• TVA collectée = 90 000 × 20 % = **18 000 €**\n• TVA déductible = (40 000 + 15 000) × 20 % = **11 000 €**\n• TVA à décaisser = 18 000 − 11 000 = **7 000 €**\n→ L'entreprise **doit 7 000 €** à l'État." },
           { t: 'warning', c: "La TVA n'est **ni une charge ni un produit** : elle ne fait que transiter par l'entreprise, ce n'est pas un bénéfice. Si la TVA déductible **dépasse** la collectée, on obtient un **crédit de TVA** : c'est l'État qui doit de l'argent à l'entreprise." },
           { t: 'p', c: "Sur une **facture de doit**, on applique les **réductions commerciales** (rabais, remise, ristourne) puis on ajoute la TVA. Une **facture d'avoir** corrige ou annule une facture (retour de marchandise, geste commercial)." },
@@ -88,6 +95,12 @@ export const LESSONS = {
   },
 
   'gf-t2': {
+    essentiel: [
+      'Cascade des SIG : **Marge → VA → EBE → Résultat d’exploitation → RCAI → Résultat net**.',
+      '**EBE = VA + subventions d’exploitation − impôts et taxes − charges de personnel**.',
+      '**FRNG = ressources stables − emplois stables** ; **BFR = actif circ. − passif circ. d’exploitation** ; **Trésorerie nette = FRNG − BFR**.',
+      'Rentabilité **économique** (Rés. expl. / capitaux investis) ≠ **financière** (Rés. net / capitaux propres) ; **effet de levier** favorable si rentabilité éco. > coût de la dette.',
+    ],
     intro:
       "Après avoir enregistré les opérations, on passe à l'**analyse** : l'entreprise est-elle **performante** ? est-elle **solide** ? Ce thème, le plus fréquent au bac, apprend à lire les résultats (les SIG, l'EBE, la CAF), à mesurer la **rentabilité** et à diagnostiquer la **structure financière** grâce au bilan fonctionnel (FRNG, BFR, trésorerie). L'objectif n'est pas de calculer pour calculer, mais d'**interpréter** ce que disent les chiffres.",
     cours: [
@@ -96,6 +109,7 @@ export const LESSONS = {
         blocks: [
           { t: 'p', c: "Le compte de résultat peut être « découpé » en plusieurs **paliers** : les **SIG**. On part du chiffre d'affaires et, étage par étage, on retire des charges pour comprendre **d'où vient le résultat**." },
           { t: 'formula', c: 'Marge commerciale → Valeur ajoutée → EBE → Résultat d\'exploitation → RCAI → Résultat net' },
+          { t: 'figure', name: 'sig-cascade' },
           { t: 'list', c: [
             "**Valeur ajoutée (VA)** = ce que l'entreprise crée réellement = marge commerciale + production − consommations en provenance des tiers.",
             "**EBE (excédent brut d'exploitation)** = VA + subventions d'exploitation − impôts et taxes − charges de personnel. C'est la **richesse dégagée par l'activité seule**, avant amortissements et financement.",
@@ -134,6 +148,7 @@ export const LESSONS = {
           { t: 'formula', c: 'FRNG = Ressources stables − Emplois stables' },
           { t: 'formula', c: 'BFR = Actif circulant d\'exploitation − Passif circulant d\'exploitation' },
           { t: 'formula', c: 'Trésorerie nette = FRNG − BFR = Trésorerie active − Trésorerie passive' },
+          { t: 'figure', name: 'bilan' },
           { t: 'example', h: 'Lire l\'équilibre financier', c: "Ressources stables 380 000 ; emplois stables 300 000 ; actif circ. d'exploit. 160 000 ; passif circ. d'exploit. 70 000.\n• FRNG = 380 000 − 300 000 = **80 000 €**\n• BFR = 160 000 − 70 000 = **90 000 €**\n• Trésorerie nette = 80 000 − 90 000 = **− 10 000 €**\n→ Le FRNG ne couvre pas tout le BFR : la trésorerie est **négative** (découvert). Il faudrait **réduire le BFR** ou **augmenter le FRNG**." },
           { t: 'tip', c: "Bonne santé = **FRNG > BFR** → trésorerie positive. Le **BFR** représente l'argent « immobilisé » dans les stocks et les créances clients, en attendant d'être encaissé." },
         ],
@@ -160,6 +175,12 @@ export const LESSONS = {
   },
 
   'gf-t3': {
+    essentiel: [
+      'Financements **internes** (autofinancement/CAF) vs **externes** (emprunt, augmentation de capital, subventions).',
+      '**MCV = CA − charges variables** ; **taux de MCV = MCV / CA**.',
+      '**Seuil de rentabilité = charges fixes / taux de MCV** ; au seuil, le résultat est **nul** ; le **point mort** en est la date.',
+      '**Réserve légale** : 5 % du bénéfice jusqu’à 10 % du capital.',
+    ],
     intro:
       "Dernière étape : la comptabilité au service de la **décision**. Comment **financer** un projet ? Comment garder une **trésorerie** saine ? Que faire du **bénéfice** ? Et surtout, à partir de quel niveau de ventes l'entreprise devient-elle **rentable** ? Ce thème mobilise les **coûts** et le célèbre **seuil de rentabilité**.",
     cours: [
@@ -204,6 +225,7 @@ export const LESSONS = {
           { t: 'p', c: "On distingue les **charges variables** (qui dépendent de l'activité : matières, énergie de production) des **charges fixes** (indépendantes du volume : loyer, assurance)." },
           { t: 'formula', c: 'MCV (marge sur coût variable) = CA − charges variables · Taux de MCV = MCV / CA' },
           { t: 'formula', c: 'Seuil de rentabilité = charges fixes / taux de MCV' },
+          { t: 'figure', name: 'seuil' },
           { t: 'example', h: 'Le seuil de rentabilité de Boisdéco', c: "CA = 300 000 € ; charges variables = 180 000 € ; charges fixes = 96 000 €.\n• MCV = 300 000 − 180 000 = **120 000 €** ; taux de MCV = 120 000 / 300 000 = **0,40**\n• Seuil = 96 000 / 0,40 = **240 000 €** de CA\n• Résultat = 120 000 − 96 000 = **24 000 €** (bénéfice)\n• Marge de sécurité = 300 000 − 240 000 = **60 000 €** : le CA peut baisser de 20 % avant les pertes." },
           { t: 'warning', c: "Au **seuil de rentabilité**, le résultat est **nul** (ni perte ni bénéfice). Le **point mort** est la **date** à laquelle ce seuil est atteint dans l'année." },
         ],
@@ -220,6 +242,12 @@ export const LESSONS = {
   // MANAGEMENT (MSGN)
   // ======================================================================
   'mgmt-t1': {
+    essentiel: [
+      'Trois types d’organisations : **privée** (lucrative), **publique** (intérêt général), **société civile** (association, ONG).',
+      '**Efficacité** = atteindre l’objectif ; **efficience** = l’atteindre au **moindre coût**.',
+      'Ressources : financières, humaines, matérielles et **immatérielles** (marque, savoir-faire, brevets).',
+      'Compétitivité **prix** (prix bas) vs **hors-prix** (qualité, innovation, image, délais).',
+    ],
     intro:
       'Le management, c’est l’art de **piloter une organisation** pour qu’elle atteigne ses objectifs. Avant de savoir diriger, il faut comprendre : qu’est-ce qu’une organisation, quelle est sa **finalité**, avec quelles **ressources** crée-t-elle de la valeur, et comment reste-t-elle **compétitive** face aux autres ?',
     cours: [
@@ -274,6 +302,12 @@ export const LESSONS = {
   },
 
   'mgmt-t2': {
+    essentiel: [
+      'Management **stratégique** (long terme, direction) vs **opérationnel** (court terme, encadrement).',
+      '**SWOT** : Forces/Faiblesses = **interne** ; Opportunités/Menaces = **externe**.',
+      'Choix stratégiques : spécialisation/diversification ; croissance **interne/externe** ; coûts/différenciation (**Porter**).',
+      'Motivation : **Maslow** (pyramide) ; **Herzberg** (hygiène/motivation) ; styles de direction de **Likert**.',
+    ],
     intro:
       'Une organisation, ce sont des **acteurs** aux intérêts parfois divergents, qu’il faut **diagnostiquer**, **décider** et **mobiliser**. Ce thème réunit les outils stars du bac : le **SWOT**, les **choix stratégiques** et les théories de la **motivation**.',
     cours: [
@@ -292,6 +326,7 @@ export const LESSONS = {
         h: 'Le diagnostic stratégique : le SWOT',
         blocks: [
           { t: 'p', c: 'Le **SWOT** croise un diagnostic **interne** (ce que l’entreprise maîtrise) et **externe** (ce qu’elle subit).' },
+          { t: 'figure', name: 'swot' },
           { t: 'table', head: ['Interne', 'Externe'], rows: [
             ['**Forces** (Strengths)', '**Opportunités** (Opportunities)'],
             ['**Faiblesses** (Weaknesses)', '**Menaces** (Threats)'],
@@ -319,6 +354,7 @@ export const LESSONS = {
             ['Herzberg', 'Facteurs d’**hygiène** (salaire, conditions : leur absence démotive) vs facteurs de **motivation** (reconnaissance, responsabilités : ils motivent)'],
             ['Likert', 'Styles de direction : autoritaire, paternaliste, consultatif, participatif'],
           ] },
+          { t: 'figure', name: 'maslow' },
           { t: 'tip', c: 'Face à un turnover élevé, on cherche d’abord les facteurs de **motivation** manquants (reconnaissance, perspectives d’évolution), pas seulement le salaire.' },
         ],
       },
@@ -330,6 +366,11 @@ export const LESSONS = {
   },
 
   'mgmt-t3': {
+    essentiel: [
+      '**RSE** = concilier **économique + social + environnemental** (développement durable).',
+      'La RSE = assumer l’**impact** des décisions de l’organisation sur la société et l’environnement.',
+      'Transformation numérique : exploitation des **données**, **cybersécurité**, automatisation, télétravail.',
+    ],
     intro:
       'Une organisation n’évolue pas dans le vide : elle est **responsable** de son impact sur la société et l’environnement (la **RSE**) et bouleversée par le **numérique**. Deux thèmes quasi systématiques au bac.',
     cours: [
@@ -368,6 +409,12 @@ export const LESSONS = {
   // DROIT
   // ======================================================================
   'droit-t5': {
+    essentiel: [
+      'Contrat = **accord de volontés** créant des obligations.',
+      'Validité (art. 1128) : **consentement + capacité + contenu licite et certain**.',
+      'Vices du consentement : **erreur, dol, violence** → **nullité** du contrat.',
+      'Force obligatoire (art. 1103) ; inexécution → **exécution forcée / résolution / dommages et intérêts**.',
+    ],
     intro:
       'Le **contrat** est au cœur de la vie économique : acheter, louer, travailler, tout passe par des accords. Ce thème explique quand un contrat est **valable**, ce qui se passe s’il n’est pas respecté, et comment **raisonner en droit** (le syllogisme juridique).',
     cours: [
@@ -415,6 +462,12 @@ export const LESSONS = {
   },
 
   'droit-t6': {
+    essentiel: [
+      'Responsabilité **civile** = **réparer** un dommage ; **pénale** = **sanctionner** une infraction.',
+      '**Contractuelle** (inexécution d’un contrat) vs **délictuelle** (hors de tout contrat).',
+      '3 conditions : **fait générateur + dommage + lien de causalité** ; réparation = dommages et intérêts.',
+      'Infractions par gravité croissante : **contravention < délit < crime**.',
+    ],
     intro:
       'Quand un dommage est causé à autrui, le droit organise sa **réparation** (responsabilité civile) ou sa **sanction** (responsabilité pénale). Savoir distinguer les deux et vérifier les conditions est essentiel.',
     cours: [
@@ -447,6 +500,12 @@ export const LESSONS = {
   },
 
   'droit-t7': {
+    essentiel: [
+      'Contrat de travail = **prestation de travail + rémunération + lien de subordination** (critère déterminant).',
+      '**CDI** = forme normale ; **CDD** = écrit obligatoire + cas de recours prévu par la loi.',
+      'Rupture : démission / **licenciement** (motif réel et sérieux + procédure) / rupture conventionnelle.',
+      'Sources : **Code du travail**, conventions collectives, règlement intérieur, contrat.',
+    ],
     intro:
       'Le droit du travail encadre la relation entre l’employeur et le salarié. Un critère décisif structure tout le thème : le **lien de subordination**.',
     cours: [
@@ -486,6 +545,12 @@ export const LESSONS = {
   },
 
   'droit-t8': {
+    essentiel: [
+      '**Liberté d’entreprendre** (à valeur constitutionnelle).',
+      'Entreprise individuelle = **personne physique** ; société = **personne morale** distincte des associés.',
+      '**Brevet** protège une invention ; **marque** protège un signe distinctif.',
+      '**Concurrence déloyale** (dénigrement, imitation, parasitisme) sanctionnée en responsabilité civile.',
+    ],
     intro:
       'Entreprendre est une **liberté**, mais elle s’exerce dans un cadre juridique. Le choix de la **structure** a des conséquences majeures sur la responsabilité, et l’activité doit être **protégée**.',
     cours: [
@@ -520,6 +585,11 @@ export const LESSONS = {
   // ÉCONOMIE
   // ======================================================================
   'eco-t6': {
+    essentiel: [
+      'Fonctions de l’État (**Musgrave**) : **allocation · redistribution · stabilisation**.',
+      'Défaillances du marché : **externalités**, biens collectifs, asymétries d’information, monopole.',
+      'Politiques : **budgétaire** et **monétaire** (conjoncturelles), **structurelle** (long terme).',
+    ],
     intro:
       'Le marché ne règle pas tout : l’**État** intervient pour produire ce que le marché ne fournit pas, réduire les inégalités et stabiliser l’économie. Comprendre **pourquoi** et **comment** il agit est la base de ce thème.',
     cours: [
@@ -531,6 +601,7 @@ export const LESSONS = {
             ['Redistribution', 'Réduire les inégalités (prélèvements et prestations)'],
             ['Stabilisation', 'Agir sur la conjoncture (croissance, emploi, prix)'],
           ] },
+          { t: 'figure', name: 'etat-fonctions' },
         ],
       },
       {
@@ -563,6 +634,11 @@ export const LESSONS = {
   },
 
   'eco-t7': {
+    essentiel: [
+      '**Population active = personnes en emploi + chômeurs** ; **taux de chômage = chômeurs / population active**.',
+      'Types de chômage : **conjoncturel**, **structurel**, **frictionnel**.',
+      'Piège : une baisse du taux de chômage peut venir de **chômeurs découragés** quittant la population active.',
+    ],
     intro:
       'Le **chômage** est au cœur du débat économique. Pour en parler juste, il faut d’abord maîtriser le **vocabulaire** (population active, taux de chômage) et savoir **lire les chiffres** sans se tromper.',
     cours: [
@@ -600,6 +676,11 @@ export const LESSONS = {
   },
 
   'eco-t8': {
+    essentiel: [
+      '**Avantages comparatifs** (Ricardo) → spécialisation puis échange = richesse globale.',
+      '**Libre-échange** (ouverture) vs **protectionnisme** (droits de douane, barrières non tarifaires).',
+      'Le libre-échange fait des **perdants** ; régulation par l’**OMC**.',
+    ],
     intro:
       'Pourquoi les pays échangent-ils ? Le **commerce international** repose sur la **spécialisation**, mais oppose partisans du **libre-échange** et du **protectionnisme**. Un classique de la question de réflexion.',
     cours: [
@@ -634,6 +715,11 @@ export const LESSONS = {
   },
 
   'eco-t9': {
+    essentiel: [
+      'La croissance se mesure par le **PIB**, indicateur **limité** du bien-être.',
+      '**Développement durable** = concilier **économique + social + environnemental**.',
+      'Instruments : économie **circulaire**, **collaborative**, taxation, quotas. (Thème surtout utile au **grand oral**.)',
+    ],
     intro:
       'La **croissance** est-elle toujours souhaitable ? Ce thème confronte le PIB à ses **limites** et introduit le **développement durable**. Il n’est pas évalué à l’écrit mais alimente le **grand oral**.',
     cours: [
@@ -758,6 +844,7 @@ export const LESSONS = {
             'Si f’(x) < 0 → f est **décroissante**.',
             'Un **extremum** (maximum ou minimum) apparaît là où f’ **s’annule en changeant de signe**.',
           ] },
+          { t: 'figure', name: 'derivee' },
           { t: 'example', h: 'Maximiser un bénéfice', c: 'f(x) = −x² + 40x − 100 (bénéfice pour x articles).\nf’(x) = −2x + 40.\nf’(x) = 0 ⇔ x = 20 ; f’ passe de + à − : c’est un **maximum**.\nBénéfice maximal : f(20) = −400 + 800 − 100 = **300 €** pour **20 articles**.' },
           { t: 'tip', c: 'Méthode d’optimisation : (1) calculer f’, (2) étudier son signe, (3) dresser le tableau de variation, (4) conclure sur le maximum/minimum.' },
         ],
