@@ -59,3 +59,46 @@
 * {
   scrollbar-width: thin;
 }
+
+/* ---------------------------------------------------------------------------
+   Impression / « Enregistrer la fiche » (PDF)
+   On masque la navigation, les onglets et les boutons de jeu, et on met en
+   page proprement le cours (fiche + infographies + formules + mémo).
+--------------------------------------------------------------------------- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .card,
+  section,
+  figure,
+  .formula {
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  /* Rappel de la source en pied de page imprimé */
+  .print-footer {
+    display: block !important;
+    margin-top: 16px;
+    font-size: 10px;
+    color: #666;
+    text-align: center;
+  }
+}
+.print-footer {
+  display: none;
+}

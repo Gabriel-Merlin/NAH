@@ -14,7 +14,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+      <header className="no-print sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
           <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
             <span className="text-2xl" aria-hidden>🎓</span>
@@ -76,7 +76,7 @@ function Breadcrumb() {
 
   if (crumbs.length <= 1) return null
   return (
-    <nav aria-label="Fil d'Ariane" className="border-t border-slate-100 bg-slate-50/70 dark:border-slate-800/60 dark:bg-slate-900/40">
+    <nav aria-label="Fil d'Ariane" className="no-print border-t border-slate-100 bg-slate-50/70 dark:border-slate-800/60 dark:bg-slate-900/40">
       <ol className="mx-auto flex max-w-4xl flex-wrap items-center gap-1 px-4 py-1.5 text-xs text-slate-500 dark:text-slate-400">
         {crumbs.map((c, i) => (
           <li key={c.to} className="flex items-center gap-1">
@@ -165,7 +165,7 @@ function BadgeToast() {
   return (
     <>
       <Confetti show={!!current} />
-      <div className="fixed inset-x-0 bottom-6 z-[70] flex justify-center px-4" role="status">
+      <div className="no-print fixed inset-x-0 bottom-6 z-[70] flex justify-center px-4" role="status">
         <button
           onClick={() => dismissBadge(current)}
           className="flex animate-bounce-in items-center gap-3 rounded-2xl bg-slate-900 px-5 py-3 text-left text-white shadow-2xl ring-1 ring-white/10 dark:bg-white dark:text-slate-900"

@@ -3,10 +3,31 @@
 // ressources (vidéos, sites officiels). Rétro-compatible avec l'ancien format
 // (section.points), pour migrer les chapitres progressivement.
 import { Rich } from './ui.jsx'
+import Infographic from './Infographic.jsx'
+
+// Enregistrer la fiche : on force le thème clair le temps de l'impression
+// (le navigateur permet ensuite « Enregistrer au format PDF »).
+function saveFiche() {
+  const root = document.documentElement
+  const wasDark = root.classList.contains('dark')
+  if (wasDark) root.classList.remove('dark')
+  const restore = () => {
+    if (wasDark) root.classList.add('dark')
+    window.removeEventListener('afterprint', restore)
+  }
+  window.addEventListener('afterprint', restore)
+  window.print()
+}
 
 export default function Course({ chapter, color, onPlay }) {
   return (
     <div className="space-y-4">
+      <div className="no-print flex justify-end">
+        <button onClick={saveFiche} className="btn-ghost !min-h-0 !py-2 text-sm" title="Ouvre la fenêtre d’impression pour enregistrer au format PDF">
+          🖨️ Enregistrer la fiche (PDF)
+        </button>
+      </div>
+
       {chapter.intro && (
         <section className="card border-l-4 p-5" style={{ borderColor: color }}>
           <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
@@ -46,6 +67,22 @@ export default function Course({ chapter, color, onPlay }) {
         </section>
       )}
 
+      {chapter.essentiel?.length > 0 && (
+        <section className="rounded-2xl border-2 p-5 shadow-sm" style={{ borderColor: color, background: color + '10' }}>
+          <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">
+            <span>🧠</span> Fiche mémo — l’essentiel
+          </h2>
+          <ul className="space-y-2">
+            {chapter.essentiel.map((e, i) => (
+              <li key={i} className="flex gap-2 text-[15px] leading-relaxed">
+                <span className="mt-0.5 font-bold" style={{ color }}>✔</span>
+                <span><Rich text={e} /></span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {chapter.resources?.length > 0 && (
         <section className="card p-5">
           <h2 className="mb-1 text-lg font-bold">🎥 Pour aller plus loin</h2>
@@ -71,7 +108,9 @@ export default function Course({ chapter, color, onPlay }) {
         </section>
       )}
 
-      <button onClick={onPlay} className="btn-primary w-full" style={{ backgroundColor: color }}>🎮 M'entraîner sur ce chapitre</button>
+      <button onClick={onPlay} className="btn-primary no-print w-full" style={{ backgroundColor: color }}>🎮 M'entraîner sur ce chapitre</button>
+
+      <p className="print-footer">RévizSTMG · {chapter.name} — fiche de révision (contenu généré avec l’aide de l’IA, à recouper avec le cours officiel).</p>
     </div>
   )
 }
@@ -97,6 +136,8 @@ function Block({ b, color }) {
       return <Bullets items={b.c} color={color} />
     case 'formula':
       return <div className="formula">{b.c}</div>
+    case 'figure':
+      return <Infographic name={b.name} color={color} />
     case 'example':
       return (
         <div className="rounded-xl border-l-4 border-sky-400 bg-sky-50 p-4 dark:border-sky-500 dark:bg-sky-950/30">

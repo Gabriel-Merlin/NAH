@@ -9,6 +9,7 @@ import { maths } from './maths.js'
 import { philosophie } from './philosophie.js'
 import { histoire } from './histoire.js'
 import { langues } from './langues.js'
+import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
 
 export const SUBJECTS = [
@@ -20,6 +21,7 @@ export const SUBJECTS = [
   philosophie,
   histoire,
   langues,
+  ...premiereSubjects,
 ]
 
 // Index chapitre -> { subject, ...chapitre } pour un accès direct par id.
@@ -34,6 +36,7 @@ for (const s of SUBJECTS) {
       if (lesson.intro) c.intro = lesson.intro
       if (lesson.cours) c.cours = lesson.cours
       if (lesson.resources) c.resources = lesson.resources
+      if (lesson.essentiel) c.essentiel = lesson.essentiel
     }
     ALL_CHAPTERS[c.id] = { ...c, subjectId: s.id, subjectName: s.name, color: s.color }
   }

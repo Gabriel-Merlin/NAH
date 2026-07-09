@@ -20,8 +20,8 @@ export const LEVELS = [
     name: 'Première STMG',
     icon: '📘',
     color: '#f59e0b',
-    desc: 'Sciences de gestion et numérique, droit-éco, management.',
-    available: false,
+    desc: 'Sciences de gestion et numérique, management, droit, économie.',
+    available: true,
   },
   {
     id: 'terminale-stmg',
@@ -84,7 +84,9 @@ function placeholderSubject(spec) {
 
 // Renvoie la liste des matières (objets) à afficher pour la filière choisie.
 export function subjectsForTrack(track) {
-  if (!track || track.level !== 'terminale-stmg') return []
+  if (!track) return []
+  if (track.level === 'premiere-stmg') return SUBJECTS.filter((s) => s.niveau === 'premiere')
+  if (track.level !== 'terminale-stmg') return []
   const common = COMMON_IDS.map((id) => SUBJECTS.find((s) => s.id === id)).filter(Boolean)
   if (track.specialty === 'gestion-finance') {
     const gf = SUBJECTS.find((s) => s.id === 'gestion-finance')

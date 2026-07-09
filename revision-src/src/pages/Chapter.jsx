@@ -27,6 +27,14 @@ export default function Chapter() {
     if (chapter) setLastChapter(sid, cid)
   }, [sid, cid, chapter, setLastChapter])
 
+  // Changement de chapitre (le composant reste monté d'un chapitre à l'autre) :
+  // on repart de l'onglet Cours et on referme tout jeu/quiz ouvert.
+  useEffect(() => {
+    setTab('cours')
+    setActiveGame(null)
+    setQuizOn(false)
+  }, [cid])
+
   useEffect(() => {
     setActiveGame(null)
     setQuizOn(false)
@@ -53,7 +61,7 @@ export default function Chapter() {
           </div>
           <button
             onClick={() => toggleFavorite(cid)}
-            className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-xl ${fav ? 'text-amber-400' : 'text-slate-300 hover:text-amber-400 dark:text-slate-600'}`}
+            className={`no-print grid h-10 w-10 shrink-0 place-items-center rounded-full text-xl ${fav ? 'text-amber-400' : 'text-slate-300 hover:text-amber-400 dark:text-slate-600'}`}
             aria-label={fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
             aria-pressed={fav}
           >
@@ -68,7 +76,7 @@ export default function Chapter() {
       </header>
 
       {/* Onglets */}
-      <div className="sticky top-[52px] z-30 -mx-4 border-b border-slate-200 bg-slate-50/90 px-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
+      <div className="no-print sticky top-[52px] z-30 -mx-4 border-b border-slate-200 bg-slate-50/90 px-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
         <div className="flex gap-1">
           {TABS.map((t) => (
             <button
