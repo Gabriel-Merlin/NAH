@@ -212,6 +212,77 @@ function Derivee({ color }) {
   )
 }
 
+// PESTEL — le macro-environnement.
+function Pestel() {
+  const items = [
+    ['P', 'Politique', '#6366f1'],
+    ['E', 'Économique', '#0ea5e9'],
+    ['S', 'Socioculturel', '#10b981'],
+    ['T', 'Technologique', '#f59e0b'],
+    ['E', 'Écologique', '#22c55e'],
+    ['L', 'Légal', '#ef4444'],
+  ]
+  return (
+    <Frame label="PESTEL : les 6 forces du macro-environnement" ratio="3 / 2">
+      <svg viewBox="0 0 330 210" className="h-full w-full" role="img" aria-label="Méthode PESTEL">
+        {items.map(([l, t, c], i) => {
+          const x = 8 + (i % 3) * 106
+          const y = 10 + Math.floor(i / 3) * 100
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={98} height={88} rx={12} fill={c} opacity="0.14" />
+              <circle cx={x + 22} cy={y + 26} r={15} fill={c} />
+              <text x={x + 22} y={y + 31} textAnchor="middle" className="fill-white" fontSize="15" fontWeight="800">{l}</text>
+              <text x={x + 44} y={y + 31} className={T} fontSize="11.5" fontWeight="700">{t}</text>
+              <line x1={x + 10} y1={y + 48} x2={x + 88} y2={y + 48} stroke={c} strokeWidth="1.5" opacity="0.4" />
+              <text x={x + 49} y={y + 68} textAnchor="middle" className={M} fontSize="9">opportunité</text>
+              <text x={x + 49} y={y + 80} textAnchor="middle" className={M} fontSize="9">ou menace ?</text>
+            </g>
+          )
+        })}
+      </svg>
+    </Frame>
+  )
+}
+
+// Les 5 forces de Porter — le micro-environnement.
+function Porter5({ color }) {
+  const box = (x, y, w, label) => (
+    <g>
+      <rect x={x} y={y} width={w} height={38} rx={9} fill={color} opacity="0.16" />
+      <foreignObject x={x + 3} y={y + 3} width={w - 6} height={32}>
+        <div style={{ fontSize: 9.5, fontWeight: 700, textAlign: 'center', lineHeight: 1.1, color: 'currentColor' }} className={T}>{label}</div>
+      </foreignObject>
+    </g>
+  )
+  return (
+    <Frame label="Les 5 forces de Porter : la pression concurrentielle (micro-environnement)" ratio="3 / 2">
+      <svg viewBox="0 0 330 220" className="h-full w-full" role="img" aria-label="5 forces de Porter">
+        {box(115, 8, 100, 'Nouveaux entrants')}
+        {box(115, 174, 100, 'Produits de substitution')}
+        {box(6, 91, 96, 'Pouvoir des fournisseurs')}
+        {box(228, 91, 96, 'Pouvoir des clients')}
+        <rect x={112} y={86} width={106} height={48} rx={10} fill={color} />
+        <foreignObject x={115} y={90} width={100} height={40}>
+          <div style={{ fontSize: 10.5, fontWeight: 800, textAlign: 'center', lineHeight: 1.1, color: '#fff' }}>Rivalité entre concurrents</div>
+        </foreignObject>
+        {/* flèches vers le centre */}
+        <g stroke={color} strokeWidth="1.5" markerEnd="url(#p5)">
+          <line x1="165" y1="46" x2="165" y2="84" />
+          <line x1="165" y1="172" x2="165" y2="136" />
+          <line x1="104" y1="110" x2="110" y2="110" />
+          <line x1="226" y1="110" x2="220" y2="110" />
+        </g>
+        <defs>
+          <marker id="p5" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 z" fill={color} />
+          </marker>
+        </defs>
+      </svg>
+    </Frame>
+  )
+}
+
 const MAP = {
   'sig-cascade': SigCascade,
   tva: Tva,
@@ -221,6 +292,8 @@ const MAP = {
   maslow: Maslow,
   'etat-fonctions': EtatFonctions,
   derivee: Derivee,
+  pestel: Pestel,
+  porter5: Porter5,
 }
 
 export default function Infographic({ name, color }) {
