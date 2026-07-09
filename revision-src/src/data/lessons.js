@@ -987,21 +987,38 @@ export const LESSONS = {
       'De 1945 à nos jours, l’ordre mondial change deux fois : d’abord figé par la **Guerre froide** (deux blocs), il s’ouvre avec la **décolonisation** puis bascule, après 1991, vers un monde **multipolaire**.',
     cours: [
       {
-        h: 'La Guerre froide (1947-1991)',
+        h: 'La Guerre froide : un monde bipolaire (1947-1991)',
         blocks: [
-          { t: 'p', c: 'Le monde se divise en **deux blocs** — l’Ouest (États-Unis) et l’Est (URSS) — qui s’affrontent **indirectement** (jamais de guerre directe entre les deux), par la **dissuasion** nucléaire et des **crises**.' },
+          { t: 'p', c: 'Après 1945, les deux vainqueurs — les **États-Unis** et l’**URSS** — deviennent rivaux. Le monde se divise en **deux blocs** aux idéologies opposées (capitalisme/démocratie libérale contre communisme). Ils ne s’affrontent **jamais directement** (risque nucléaire) mais **indirectement** : course aux armements, propagande, espionnage, guerres « par procuration » (Corée, Vietnam).' },
+          { t: 'p', c: 'Chaque bloc s’organise militairement : l’**OTAN** (1949) à l’Ouest, le **pacte de Varsovie** (1955) à l’Est. La menace de destruction mutuelle instaure un « **équilibre de la terreur** » (dissuasion nucléaire).' },
+          { t: 'table', head: ['Date', 'Événement clé'], rows: [
+            ['1947', 'Début de la Guerre froide (doctrine Truman, plan Marshall)'],
+            ['1948-1949', 'Blocus de Berlin ; l’Allemagne est divisée (RFA / RDA)'],
+            ['1961', 'Construction du mur de Berlin'],
+            ['1962', 'Crise des missiles de Cuba (point de tension maximal)'],
+            ['1989', 'Chute du mur de Berlin'],
+            ['1991', 'Éclatement de l’URSS : fin de la Guerre froide'],
+          ] },
         ],
       },
       {
-        h: 'La décolonisation et le monde multipolaire',
+        h: 'La décolonisation',
         blocks: [
-          { t: 'p', c: 'Parallèlement, la **décolonisation** donne l’indépendance aux anciennes colonies. La **fin de l’URSS (1991)** met fin au monde bipolaire : émerge un monde **multipolaire** (plusieurs puissances).' },
-          { t: 'tip', c: 'Repère clé : **1991**, disparition de l’URSS = fin de la Guerre froide.' },
+          { t: 'p', c: 'En parallèle, les anciennes **colonies** accèdent à l’**indépendance** : c’est la **décolonisation** (années 1945-1960 surtout). Elle est parfois pacifique (Inde, 1947), parfois violente (guerre d’Algérie, 1954-1962).' },
+          { t: 'p', c: 'De nombreux pays nouvellement indépendants refusent de choisir un camp : c’est le mouvement des **non-alignés** (conférence de Bandung, 1955), à l’origine de l’idée de « **tiers-monde** ».' },
+        ],
+      },
+      {
+        h: 'Vers un monde multipolaire',
+        blocks: [
+          { t: 'p', c: 'La disparition de l’URSS en **1991** met fin au monde **bipolaire**. Les États-Unis restent un temps la seule superpuissance, mais de **nouvelles puissances** émergent (Chine, Inde, Union européenne, etc.) : on parle d’un monde **multipolaire**.' },
+          { t: 'tip', c: 'Repères à mémoriser : **1947** (début) et **1991** (fin) de la Guerre froide ; **1962** (Cuba) et **1989** (chute du mur) comme tournants.' },
         ],
       },
     ],
     resources: [
-      { kind: 'video', label: 'La Guerre froide', note: 'Vidéos — recherche YouTube', url: yt('guerre froide monde bipolaire multipolaire terminale histoire') },
+      { kind: 'video', label: 'La Guerre froide expliquée', note: 'Vidéos — recherche YouTube', url: yt('guerre froide monde bipolaire multipolaire terminale histoire') },
+      { kind: 'video', label: 'La décolonisation', note: 'Vidéos — recherche YouTube', url: yt('décolonisation Inde Algérie tiers monde terminale histoire') },
     ],
   },
 
@@ -1010,20 +1027,34 @@ export const LESSONS = {
       'Depuis 1945, la France cherche une **nouvelle place dans le monde** : elle se reconstruit, participe à la **construction européenne** et affirme un rôle international.',
     cours: [
       {
-        h: 'Reconstruire et construire l’Europe',
+        h: 'La reconstruction et les Trente Glorieuses',
         blocks: [
-          { t: 'p', c: 'Après-guerre, la France connaît une phase de **reconstruction** économique et matérielle, puis devient un **moteur de la construction européenne**.' },
+          { t: 'p', c: 'Au sortir de la guerre, la France se **reconstruit** (aidée notamment par le **plan Marshall**, 1948) et connaît une longue période de forte croissance, les **Trente Glorieuses** (≈ 1945-1975) : modernisation, plein emploi, société de consommation.' },
+          { t: 'p', c: 'Sur le plan politique, la **IVe République** (1946) laisse place à la **Ve République** (**1958**, retour du général de Gaulle), qui renforce le pouvoir présidentiel.' },
         ],
       },
       {
-        h: 'Un rôle international',
+        h: 'La construction européenne',
         blocks: [
-          { t: 'p', c: 'La France affirme ensuite un **rôle international** (diplomatie, dissuasion, influence culturelle). C’est le **thème conclusif** de la partie histoire.' },
+          { t: 'p', c: 'La France est un **moteur de la construction européenne**, pensée pour garantir la paix et la prospérité.' },
+          { t: 'table', head: ['Date', 'Étape'], rows: [
+            ['1957', 'Traité de Rome : création de la CEE'],
+            ['1992', 'Traité de Maastricht : naissance de l’Union européenne'],
+            ['2002', 'Mise en circulation de l’euro'],
+          ] },
+        ],
+      },
+      {
+        h: 'Une puissance à rayonnement mondial',
+        blocks: [
+          { t: 'p', c: 'La France affirme un **rôle international** : membre permanent du **Conseil de sécurité de l’ONU**, dotée de l’**arme nucléaire** (depuis 1960) et d’une importante **influence culturelle** (francophonie). C’est le **thème conclusif** de la partie histoire.' },
+          { t: 'tip', c: 'Repères : **1958** (Ve République), **1957** (traité de Rome), **2002** (euro).' },
         ],
       },
     ],
     resources: [
-      { kind: 'video', label: 'La France depuis 1945', note: 'Vidéos — recherche YouTube', url: yt('France depuis 1945 reconstruction construction européenne terminale') },
+      { kind: 'video', label: 'La France depuis 1945', note: 'Vidéos — recherche YouTube', url: yt('France depuis 1945 reconstruction Trente Glorieuses Ve République terminale') },
+      { kind: 'video', label: 'La construction européenne', note: 'Vidéos — recherche YouTube', url: yt('construction européenne traité de Rome Maastricht euro terminale') },
     ],
   },
 
@@ -1059,15 +1090,18 @@ export const LESSONS = {
       'La mondialisation n’intègre pas les territoires de la même façon : certains concentrent la richesse (**métropolisation**), d’autres restent en **marge**.',
     cours: [
       {
-        h: 'Métropolisation et aires de puissance',
+        h: 'La métropolisation et les aires de puissance',
         blocks: [
-          { t: 'p', c: 'La **métropolisation** concentre les hommes et les activités dans les grandes **métropoles**, qui commandent l’économie mondiale (**aires de puissance**).' },
+          { t: 'p', c: 'La **métropolisation** est la concentration des hommes, des activités et des pouvoirs (économique, politique, culturel) dans les grandes **métropoles**. Ces villes, connectées entre elles, commandent l’économie mondiale et forment des **aires de puissance** (Amérique du Nord, Europe, Asie de l’Est).' },
+          { t: 'p', c: 'Ces métropoles concentrent les **fonctions de commandement** : sièges sociaux, bourses, universités, aéroports internationaux (les « hubs »).' },
         ],
       },
       {
         h: 'Des territoires inégalement intégrés',
         blocks: [
-          { t: 'p', c: 'À l’opposé, des **territoires en marge** restent faiblement connectés aux flux mondiaux. Les **acteurs** (États, firmes multinationales, organisations) façonnent ces inégalités d’intégration.' },
+          { t: 'p', c: 'La mondialisation crée des **gagnants** et des **perdants**. À l’opposé des métropoles, des **territoires en marge** (espaces ruraux isolés, régions industrielles en déclin, pays les moins avancés) restent faiblement connectés aux flux mondiaux.' },
+          { t: 'p', c: 'Différents **acteurs** façonnent ces inégalités : les **États**, les **firmes multinationales (FMN)** qui choisissent où s’implanter, et les **organisations internationales**.' },
+          { t: 'tip', c: 'Idée clé : la mondialisation **hiérarchise** les territoires ; l’intégration est une question de **degré**, du cœur (métropoles) aux marges.' },
         ],
       },
     ],
@@ -1081,10 +1115,17 @@ export const LESSONS = {
       'Dernier thème : la **France** et ses régions dans l’**Union européenne** et la mondialisation — un territoire aux **atouts** réels mais aux **contrastes** marqués.',
     cours: [
       {
-        h: 'Atouts, contrastes et rayonnement',
+        h: 'Les atouts et les contrastes du territoire français',
         blocks: [
-          { t: 'p', c: 'La France dispose d’**atouts** (position, réseaux, influence) mais connaît de fortes **inégalités régionales**. Elle **rayonne** dans plusieurs domaines.' },
-          { t: 'example', h: 'Kourou', c: 'Le centre spatial de **Kourou** (Guyane) illustre le rayonnement **scientifique** et **technologique** de la France, au service de l’Europe spatiale.' },
+          { t: 'p', c: 'La France dispose de nombreux **atouts** : une **position** de carrefour en Europe, de grandes **métropoles** (Paris, ville mondiale), des **façades maritimes**, un vaste domaine grâce à ses territoires **ultramarins**, de bons réseaux de transport.' },
+          { t: 'p', c: 'Mais le territoire est **contrasté** : **inégalités régionales**, opposition entre métropoles dynamiques et espaces ruraux ou industriels en difficulté.' },
+        ],
+      },
+      {
+        h: 'Le rayonnement de la France dans l’UE et le monde',
+        blocks: [
+          { t: 'p', c: 'Intégrée à l’**Union européenne** et à la mondialisation, la France **rayonne** sur les plans économique, scientifique et culturel.' },
+          { t: 'example', h: 'Kourou', c: 'Le centre spatial de **Kourou** (Guyane) illustre le rayonnement **scientifique et technologique** de la France, au service de l’Europe spatiale — un atout majeur situé dans un territoire ultramarin.' },
         ],
       },
     ],
