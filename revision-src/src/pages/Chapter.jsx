@@ -27,6 +27,14 @@ export default function Chapter() {
     if (chapter) setLastChapter(sid, cid)
   }, [sid, cid, chapter, setLastChapter])
 
+  // Changement de chapitre (le composant reste monté d'un chapitre à l'autre) :
+  // on repart de l'onglet Cours et on referme tout jeu/quiz ouvert.
+  useEffect(() => {
+    setTab('cours')
+    setActiveGame(null)
+    setQuizOn(false)
+  }, [cid])
+
   useEffect(() => {
     setActiveGame(null)
     setQuizOn(false)

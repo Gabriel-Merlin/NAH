@@ -461,8 +461,8 @@ export const LESSONS = {
         h: 'Types de contrats et sources du droit',
         blocks: [
           { t: 'list', c: [
-            '**CDI** : le contrat à durée indéterminée, la **norme**.',
-            '**CDD** et **intérim** : l’exception, encadrée par des conditions de recours.',
+            '**CDI** : le contrat à durée indéterminée, la **norme** (forme normale et générale de la relation de travail).',
+            '**CDD** et **intérim** : l’exception, encadrée par des **cas de recours** prévus par la loi ; le CDD doit être **établi par écrit** (à défaut, il peut être requalifié en CDI).',
           ] },
           { t: 'p', c: 'Les règles viennent de plusieurs **sources** : le **Code du travail**, les **conventions collectives** (par branche), les accords d’entreprise, le règlement intérieur et le contrat lui-même.' },
         ],
@@ -492,7 +492,7 @@ export const LESSONS = {
       {
         h: 'La liberté d’entreprendre et le choix de la structure',
         blocks: [
-          { t: 'p', c: 'La **liberté d’entreprendre** (et la liberté du commerce et de l’industrie) permet à chacun de créer et d’exercer une activité économique. Reste à choisir une **structure juridique**.' },
+          { t: 'p', c: 'La **liberté d’entreprendre** (reconnue à **valeur constitutionnelle**) et la liberté du commerce et de l’industrie permettent à chacun de créer et d’exercer une activité économique, dans le respect de la loi. Reste à choisir une **structure juridique**.' },
           { t: 'table', head: ['', 'Entreprise individuelle', 'Société'], rows: [
             ['Nature juridique', 'Personne **physique**', 'Personne **morale**'],
             ['Patrimoine', "Celui de l'entrepreneur", 'Distinct de celui des associés'],
