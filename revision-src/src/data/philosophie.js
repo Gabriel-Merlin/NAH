@@ -1,0 +1,225 @@
+// PHILOSOPHIE — 7 notions + méthode (voie technologique).
+export const philosophie = {
+  id: 'philosophie',
+  name: 'Philosophie',
+  short: 'Philo',
+  icon: '🦉',
+  color: '#9333ea',
+  tagline: 'Réflexion structurée : définir, problématiser, argumenter.',
+  chapters: [
+    {
+      id: 'philo-notions',
+      name: 'Les 7 notions & les repères',
+      short: 'Notions & repères',
+      keywords: 'art justice liberté nature religion technique vérité repères absolu relatif légal légitime',
+      cours: [
+        {
+          h: 'Les 7 notions (pistes de problématisation)',
+          points: [
+            "**L'art** : imitation ou création ? À quoi sert l'art ? Le beau est-il subjectif ?",
+            '**La justice** : se réduit-elle à la loi ? Peut-il être juste de désobéir ?',
+            '**La liberté** : sommes-nous libres ? Liberté et déterminisme.',
+            '**La nature** : l’homme fait-il partie de la nature ? Nature/culture.',
+            '**La religion** : foi et raison sont-elles opposées ?',
+            '**La technique** : nous libère-t-elle ou nous asservit-elle ?',
+            '**La vérité** : peut-on tout démontrer ? Vérité et opinion.',
+          ],
+        },
+        {
+          h: 'Les repères (distinctions à mobiliser)',
+          points: [
+            'absolu / relatif — objectif / subjectif — universel / particulier.',
+            'cause / fin — légal / légitime — en théorie / en pratique.',
+            'croire / savoir — contingent / nécessaire — essentiel / accidentel.',
+          ],
+        },
+      ],
+      formulas: ['3 perspectives : l’existence humaine et la culture · la morale et la politique · la connaissance'],
+      games: [
+        {
+          id: 'philo-notions-flash',
+          type: 'flashcard',
+          title: 'Flashcards — Les 7 notions',
+          icon: '🃏',
+          cards: [
+            { front: 'L’art', back: 'Imitation ou création ? À quoi sert l’art ? Le beau est-il subjectif ?' },
+            { front: 'La justice', back: 'Se réduit-elle à la loi ? Peut-il être juste de désobéir ? Justice = égalité ?' },
+            { front: 'La liberté', back: 'Sommes-nous libres ? Liberté et déterminisme ; liberté et loi.' },
+            { front: 'La nature', back: 'L’homme fait-il partie de la nature ? Faut-il la respecter ? Nature/culture.' },
+            { front: 'La religion', back: 'Foi et raison sont-elles opposées ? La foi exclut-elle le doute ?' },
+            { front: 'La technique', back: 'Nous libère-t-elle ou nous asservit-elle ? Progrès technique = progrès humain ?' },
+            { front: 'La vérité', back: 'Peut-on tout démontrer ? Vérité et opinion ; rôle du doute.' },
+          ],
+        },
+        {
+          id: 'philo-notions-assoc',
+          type: 'association',
+          title: 'Association — Repère ↔ son opposé',
+          icon: '🔗',
+          pairs: [
+            { left: 'Absolu', right: 'Relatif' },
+            { left: 'Objectif', right: 'Subjectif' },
+            { left: 'Légal', right: 'Légitime' },
+            { left: 'Croire', right: 'Savoir' },
+            { left: 'Contingent', right: 'Nécessaire' },
+            { left: 'Universel', right: 'Particulier' },
+          ],
+        },
+        {
+          id: 'philo-notions-qcm',
+          type: 'qcm',
+          title: 'QCM — Notions & repères',
+          icon: '❓',
+          questions: [
+            {
+              q: 'La distinction « légal / légitime » oppose…',
+              choices: [
+                'ce qui est conforme à la loi / ce qui est juste',
+                'le vrai / le faux',
+                'le beau / le laid',
+                'la cause / la fin',
+              ],
+              answer: 0,
+              explain: 'Légal = conforme à la loi ; légitime = conforme à la justice/au droit moral.',
+            },
+            {
+              q: 'La question « la technique nous libère-t-elle ou nous asservit-elle ? » porte sur la notion de…',
+              choices: ['la technique', 'la justice', 'la religion', 'l’art'],
+              answer: 0,
+              explain: 'C’est une problématisation classique de la notion de technique.',
+            },
+            {
+              q: 'Distinguer « croire » et « savoir » est utile pour la notion de…',
+              choices: ['la vérité (et la religion)', 'la nature', 'l’art', 'la liberté'],
+              answer: 0,
+              explain: 'Croire/savoir éclaire les rapports entre foi, opinion et vérité.',
+            },
+            {
+              q: 'Combien de notions au programme de la voie technologique ?',
+              choices: ['7', '5', '10', '12'],
+              answer: 0,
+              explain: 'Le programme de philosophie techno comporte 7 notions.',
+            },
+          ],
+        },
+        {
+          id: 'philo-notions-vf',
+          type: 'vraifaux',
+          title: 'Vrai / Faux rapide',
+          icon: '⚡',
+          questions: [
+            { statement: 'Le programme de philo techno compte 7 notions.', answer: true, explain: 'Vrai : art, justice, liberté, nature, religion, technique, vérité.' },
+            { statement: '« Légal » et « légitime » sont exactement synonymes.', answer: false, explain: 'Faux : une loi peut être légale sans être jugée légitime.' },
+            { statement: 'La liberté peut être interrogée face au déterminisme.', answer: true, explain: 'Vrai : « sommes-nous libres ? » liberté et déterminisme.' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'philo-methode',
+      name: 'Auteurs & méthode',
+      short: 'Auteurs & méthode',
+      keywords: 'dissertation explication de texte problématiser thèse antithèse dépassement Platon Descartes Kant Sartre Arendt',
+      cours: [
+        {
+          h: 'La méthode',
+          points: [
+            '**Dissertation** : analyser le sujet → définir les termes → **problématiser** → plan progressif (souvent thèse / antithèse / dépassement) → argumenter → conclure.',
+            '**Explication de texte** : dégager la thèse, suivre les mouvements du texte, expliquer le raisonnement, en discuter la portée.',
+          ],
+        },
+        {
+          h: 'Les auteurs (3 périodes)',
+          points: [
+            'Antiquité / Moyen Âge : Platon, Aristote, Épicure.',
+            'Moderne : Descartes, Pascal, Rousseau, Kant.',
+            'Contemporaine : Nietzsche, Freud, Bergson, Arendt, Sartre, Beauvoir, Foucault.',
+          ],
+        },
+      ],
+      formulas: ['Plan type : thèse → antithèse → dépassement'],
+      games: [
+        {
+          id: 'philo-methode-ordre',
+          type: 'ordre',
+          title: 'Remise en ordre — Méthode de la dissertation',
+          icon: '🔢',
+          instruction: 'Remets les étapes de la dissertation dans l’ordre.',
+          steps: [
+            'Analyser le sujet',
+            'Définir les termes',
+            'Problématiser (dégager le paradoxe)',
+            'Construire un plan progressif',
+            'Argumenter (notions, repères, auteurs, exemples)',
+            'Conclure',
+          ],
+          explain: 'On analyse, on définit, on problématise, on planifie, on argumente, puis on conclut.',
+        },
+        {
+          id: 'philo-methode-tri',
+          type: 'tri',
+          title: 'Tri — Auteurs par période',
+          icon: '🗂️',
+          instruction: 'Classe chaque auteur dans sa période.',
+          categories: [
+            { id: 'ant', label: 'Antiquité / Moyen Âge' },
+            { id: 'mod', label: 'Moderne' },
+            { id: 'con', label: 'Contemporaine' },
+          ],
+          items: [
+            { text: 'Platon', cat: 'ant' },
+            { text: 'Aristote', cat: 'ant' },
+            { text: 'Descartes', cat: 'mod' },
+            { text: 'Kant', cat: 'mod' },
+            { text: 'Sartre', cat: 'con' },
+            { text: 'Arendt', cat: 'con' },
+          ],
+        },
+        {
+          id: 'philo-methode-qcm',
+          type: 'qcm',
+          title: 'QCM — Méthode & auteurs',
+          icon: '❓',
+          questions: [
+            {
+              q: 'Le cœur de l’introduction d’une dissertation, c’est…',
+              choices: ['problématiser (dégager le paradoxe)', 'donner la conclusion', 'réciter le cours', 'citer dix auteurs'],
+              answer: 0,
+              explain: 'Après avoir défini les termes, on problématise pour dégager le problème.',
+            },
+            {
+              q: 'Un plan classique de dissertation est…',
+              choices: ['thèse / antithèse / dépassement', 'intro / développement seulement', 'liste de définitions', 'résumé du texte'],
+              answer: 0,
+              explain: 'Le plan progressif suit souvent thèse / antithèse / dépassement.',
+            },
+            {
+              q: 'Descartes appartient à la période…',
+              choices: ['moderne', 'antique', 'contemporaine', 'médiévale'],
+              answer: 0,
+              explain: 'Descartes est un auteur moderne (aux côtés de Pascal, Rousseau, Kant).',
+            },
+            {
+              q: 'Pour l’explication de texte, on commence par…',
+              choices: ['dégager la thèse du texte', 'donner son avis personnel', 'résumer le programme', 'compter les lignes'],
+              answer: 0,
+              explain: 'On dégage la thèse, puis on suit les mouvements du texte.',
+            },
+          ],
+        },
+        {
+          id: 'philo-methode-flash',
+          type: 'flashcard',
+          title: 'Flashcards — Méthode',
+          icon: '🃏',
+          cards: [
+            { front: 'Problématiser', back: 'Dégager le paradoxe/le problème que soulève le sujet.' },
+            { front: 'Plan progressif', back: 'Souvent thèse / antithèse / dépassement.' },
+            { front: 'Explication de texte', back: 'Dégager la thèse, suivre les mouvements, expliquer, discuter.' },
+            { front: 'Argumenter', back: 'Mobiliser notions, repères, auteurs et exemples concrets.' },
+          ],
+        },
+      ],
+    },
+  ],
+}
