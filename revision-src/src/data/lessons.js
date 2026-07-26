@@ -410,53 +410,99 @@ export const LESSONS = {
   // ======================================================================
   'droit-t5': {
     essentiel: [
-      'Contrat = **accord de volontés** créant des obligations.',
-      'Validité (art. 1128) : **consentement + capacité + contenu licite et certain**.',
-      'Vices du consentement : **erreur, dol, violence** → **nullité** du contrat.',
-      'Force obligatoire (art. 1103) ; inexécution → **exécution forcée / résolution / dommages et intérêts**.',
+      'Contrat = **accord de volontés** créant des obligations ; parties : **consommateur/professionnel**, **débiteur/créancier**.',
+      'Formation : **offre + acceptation** (échange des consentements) + **consentement, capacité, objet** (art. 1128).',
+      'Vices du consentement (**erreur, dol, violence**) → **nullité relative** ; contenu illicite → **nullité absolue**.',
+      'Principes : **liberté contractuelle, force obligatoire, effet relatif, bonne foi** ; obligation de **moyens** vs de **résultat**.',
+      'Inexécution → **mise en demeure**, **exécution forcée**, **exception d’inexécution**, **résolution/résiliation**, dommages et intérêts (+ **clause pénale**).',
     ],
     intro:
-      'Le **contrat** est au cœur de la vie économique : acheter, louer, travailler, tout passe par des accords. Ce thème explique quand un contrat est **valable**, ce qui se passe s’il n’est pas respecté, et comment **raisonner en droit** (le syllogisme juridique).',
+      'Le **contrat** est au cœur de la vie économique : acheter, louer, travailler, tout passe par des accords. Ce thème explique **comment un contrat se forme**, quand il est **valable**, quelles **obligations** il crée, et ce qui se passe **s’il n’est pas respecté**. Le consommateur y bénéficie d’une protection renforcée.',
     cours: [
       {
-        h: 'Qu’est-ce qu’un contrat ? Ses conditions de validité',
+        h: 'Qu’est-ce qu’un contrat ? Les parties',
         blocks: [
-          { t: 'p', c: 'Un **contrat** est un **accord de volontés** qui crée des **obligations** entre les parties. Pour être valable, il doit réunir trois conditions.' },
+          { t: 'p', c: 'Un **contrat** est un **accord de volontés** destiné à **créer, modifier, transmettre ou éteindre des obligations** entre deux ou plusieurs **parties**. Selon le contrat, les parties portent des qualifications différentes :' },
           { t: 'list', c: [
-            '**Le consentement** : libre et éclairé, c’est-à-dire sans « vice ».',
-            '**La capacité** : être juridiquement apte à s’engager (ex. être majeur).',
-            '**Un contenu licite et certain** : l’objet du contrat doit être légal et déterminé.',
+            'le **consommateur** (qui agit pour un usage personnel) et le **professionnel** (qui agit dans le cadre de son activité) ;',
+            'le **débiteur** (celui qui doit une obligation) et le **créancier** (celui à qui elle est due).',
           ] },
+          { t: 'p', c: 'Avant même de conclure, chaque partie a une **obligation d’information** réciproque ; le professionnel a en plus une **obligation de conseil**, pour que le consentement soit **libre et éclairé**.' },
         ],
       },
       {
-        h: 'Les vices du consentement',
+        h: 'La formation du contrat : offre, acceptation et validité',
         blocks: [
-          { t: 'p', c: 'Si le consentement a été faussé, le contrat peut être **annulé**. Trois vices :' },
+          { t: 'p', c: 'Le contrat se forme par la **rencontre d’une offre et d’une acceptation** : c’est l’**échange des consentements**. Pour être **valablement formé** (art. 1128 du Code civil), il doit réunir trois conditions :' },
+          { t: 'list', c: [
+            '**le consentement** des parties : libre et éclairé, donc sans « vice » ;',
+            '**la capacité** de contracter (ex. être majeur et non protégé) ;',
+            '**un contenu licite et certain** : un **objet** légal et déterminé.',
+          ] },
+          { t: 'tip', c: 'Pour certains contrats (à distance, hors établissement), le consommateur dispose en plus d’un **droit de rétractation** (souvent 14 jours) : il peut revenir sur son accord sans avoir à se justifier.' },
+        ],
+      },
+      {
+        h: 'Les vices du consentement et la nullité',
+        blocks: [
+          { t: 'p', c: 'Si le consentement a été faussé, le contrat peut être **annulé**. Trois **vices du consentement** :' },
           { t: 'table', head: ['Vice', 'Définition'], rows: [
-            ['Erreur', 'Se tromper sur une qualité essentielle du bien'],
-            ['Dol', 'Être trompé par un mensonge ou une manœuvre de l’autre partie'],
-            ['Violence', 'Consentement extorqué par la contrainte (physique ou morale)'],
+            ['Erreur', 'Se tromper sur une qualité essentielle du bien ou de la personne'],
+            ['Dol', 'Être trompé par un mensonge, une manœuvre ou un silence (réticence dolosive)'],
+            ['Violence', 'Consentement extorqué par la contrainte (physique, morale ou économique)'],
+          ] },
+          { t: 'warning', c: 'On distingue deux sanctions : la **nullité relative** protège un intérêt privé (ex. une partie dont le consentement est vicié, ou un incapable) — seule la personne protégée peut la demander ; la **nullité absolue** sanctionne la violation d’une règle d’intérêt général (ex. un contenu illicite) — toute personne intéressée peut l’invoquer. Dans les deux cas, le contrat est **anéanti** et les parties doivent se **restituer** ce qu’elles ont reçu.' },
+        ],
+      },
+      {
+        h: 'Les grands principes du droit des contrats',
+        blocks: [
+          { t: 'p', c: 'Le droit des contrats repose sur quatre principes, hérités de la philosophie des Lumières et codifiés :' },
+          { t: 'list', c: [
+            '**Liberté contractuelle** : on est libre de contracter ou non, de choisir son cocontractant et le contenu (dans le respect de l’ordre public).',
+            '**Force obligatoire** (art. 1103) : « le contrat fait la loi des parties » ; on ne peut le modifier ou le rompre unilatéralement.',
+            '**Effet relatif des conventions** : le contrat ne produit d’effets qu’entre les parties, pas à l’égard des tiers.',
+            '**Bonne foi** : le contrat doit être négocié, formé et exécuté loyalement.',
           ] },
         ],
       },
       {
-        h: 'Force obligatoire et inexécution',
+        h: 'Les obligations et l’exécution du contrat',
         blocks: [
-          { t: 'p', c: 'Une fois formé, « **le contrat fait la loi des parties** » : chacun doit respecter ses engagements (c’est la **force obligatoire**). En cas d’**inexécution**, la victime peut demander : l’**exécution forcée**, la **résolution** (annulation) du contrat, ou des **dommages et intérêts**.' },
+          { t: 'p', c: 'Le contrat met à la charge des parties des **obligations**, précisées par des **clauses**. On distingue deux intensités d’engagement :' },
+          { t: 'table', head: ['Obligation de moyens', 'Obligation de résultat'], rows: [
+            ['S’engager à mettre en œuvre tous les moyens', 'S’engager à atteindre un résultat précis'],
+            ['Ex. le médecin doit soigner (pas guérir)', 'Ex. le transporteur doit livrer à bon port'],
+            ['Le créancier doit prouver la faute', 'La seule absence de résultat suffit'],
+          ] },
+          { t: 'p', c: 'Cette distinction est essentielle pour la **responsabilité** (thème 6).' },
+        ],
+      },
+      {
+        h: 'L’inexécution du contrat et ses sanctions',
+        blocks: [
+          { t: 'p', c: 'Si une partie n’exécute pas ses obligations, le créancier peut réagir. Une **mise en demeure** (rappel formel d’exécuter) est le plus souvent nécessaire. Ensuite, plusieurs sanctions sont possibles :' },
+          { t: 'list', c: [
+            'l’**exécution forcée** (en nature ou par équivalent) ;',
+            'l’**exception d’inexécution** : suspendre sa propre obligation tant que l’autre n’exécute pas (« je ne paie pas tant que tu ne livres pas ») ;',
+            'la **résolution** (anéantissement rétroactif du contrat) ou la **résiliation** (fin du contrat pour l’avenir, pour les contrats à exécution successive) ;',
+            'des **dommages et intérêts** ; les parties peuvent les fixer à l’avance par une **clause pénale**.',
+          ] },
+          { t: 'warning', c: 'Le consommateur est protégé contre les **clauses abusives** : celles qui créent un déséquilibre significatif à son détriment dans un contrat d’adhésion sont **réputées non écrites** (art. 1171 du Code civil).' },
         ],
       },
       {
         h: 'Méthode : le syllogisme juridique',
         blocks: [
           { t: 'p', c: 'En droit, on raisonne en trois temps : la **règle** (majeure), les **faits qualifiés** (mineure), puis la **conclusion**.' },
-          { t: 'example', h: 'Marc et la voiture accidentée', c: '**Règle** : le dol (mensonge déterminant) est une cause de nullité du contrat.\n**Faits** : le garagiste a affirmé par écrit, faussement, que la voiture n’avait jamais eu d’accident — information déterminante pour Marc.\n**Conclusion** : le dol est caractérisé ; Marc peut obtenir la **nullité de la vente** et des dommages et intérêts.' },
+          { t: 'example', h: 'Marc et la voiture accidentée', c: '**Règle** : le dol (mensonge déterminant) est une cause de nullité du contrat.\n**Faits** : le garagiste a affirmé par écrit, faussement, que la voiture n’avait jamais eu d’accident — information déterminante pour Marc.\n**Conclusion** : le dol est caractérisé ; Marc peut obtenir la **nullité (relative) de la vente** et des dommages et intérêts.' },
           { t: 'tip', c: 'Au bac, on attend toujours : **qualifier** juridiquement la situation, puis **appliquer la règle** aux faits pour conclure.' },
         ],
       },
     ],
     resources: [
-      { kind: 'video', label: 'La formation du contrat et sa validité', note: 'Vidéos — recherche YouTube', url: yt('contrat conditions de validité consentement vices droit terminale STMG') },
+      { kind: 'video', label: 'La formation du contrat et sa validité', note: 'Vidéos — recherche YouTube', url: yt('contrat formation offre acceptation conditions de validité vices droit terminale STMG') },
+      { kind: 'video', label: 'L’exécution et l’inexécution du contrat', note: 'Vidéos — recherche YouTube', url: yt('exécution inexécution contrat mise en demeure résolution clause pénale droit terminale STMG') },
       { kind: 'video', label: 'Le syllogisme juridique (méthode)', note: 'Vidéos — recherche YouTube', url: yt('syllogisme juridique méthode cas pratique droit STMG') },
     ],
   },
@@ -464,120 +510,211 @@ export const LESSONS = {
   'droit-t6': {
     essentiel: [
       'Responsabilité **civile** = **réparer** un dommage ; **pénale** = **sanctionner** une infraction.',
-      '**Contractuelle** (inexécution d’un contrat) vs **délictuelle** (hors de tout contrat).',
-      '3 conditions : **fait générateur + dommage + lien de causalité** ; réparation = dommages et intérêts.',
-      'Infractions par gravité croissante : **contravention < délit < crime**.',
+      'Dommage réparable = **certain, direct, personnel et légitime** ; types : **corporel, matériel, moral** (+ **préjudice écologique**).',
+      '3 conditions : **fait générateur + dommage + lien de causalité** ; la plupart des dommages sont pris en charge par l’**assurance** (mutualisation).',
+      'Régimes : **contractuelle** (dont obligation de sécurité), **extracontractuelle** (fait personnel, des choses, d’autrui, des animaux, ruine des bâtiments) et **régimes spéciaux** (accident du travail/circulation, produits défectueux).',
+      'Exonération : **force majeure**, **fait d’un tiers**, **faute de la victime**.',
     ],
     intro:
-      'Quand un dommage est causé à autrui, le droit organise sa **réparation** (responsabilité civile) ou sa **sanction** (responsabilité pénale). Savoir distinguer les deux et vérifier les conditions est essentiel.',
+      'Quand un dommage est causé à autrui, le droit organise sa **réparation** (responsabilité civile) ou sa **sanction** (responsabilité pénale). Ce thème identifie **quel dommage** est réparable, **quel régime** s’applique et comment un responsable peut **s’exonérer**.',
     cours: [
       {
-        h: 'La responsabilité civile : réparer un dommage',
+        h: 'Réparer ou sanctionner : civile ou pénale ?',
         blocks: [
-          { t: 'p', c: 'La **responsabilité civile** vise à **réparer** un dommage causé à autrui, sous forme de **dommages et intérêts**. Elle est **contractuelle** (le dommage vient de l’inexécution d’un contrat) ou **délictuelle** (hors de tout contrat).' },
-          { t: 'p', c: 'Elle suppose la réunion de **trois conditions** :' },
-          { t: 'formula', c: 'Fait générateur + Dommage (préjudice) + Lien de causalité' },
+          { t: 'p', c: 'Il faut distinguer deux grandes responsabilités :' },
+          { t: 'table', head: ['Responsabilité civile', 'Responsabilité pénale'], rows: [
+            ['But : réparer le dommage de la victime', 'But : sanctionner une infraction'],
+            ['Au profit de la victime', 'Au nom de la société'],
+            ['Dommages et intérêts', 'Peine (amende, prison…)'],
+          ] },
+          { t: 'p', c: 'Les **infractions** pénales sont classées par gravité croissante : **contravention**, **délit**, **crime**.' },
+          { t: 'warning', c: 'Un même fait peut engager **les deux** responsabilités (ex. une agression : une peine + des dommages et intérêts à la victime).' },
         ],
       },
       {
-        h: 'Un exemple concret',
+        h: 'Le dommage réparable',
         blocks: [
-          { t: 'example', h: 'La chute au supermarché', c: 'Une entreprise laisse le sol mouillé sans signalisation ; une cliente glisse et se fracture le poignet.\n• **Fait générateur** : le sol mouillé non signalé (la faute).\n• **Dommage** : la fracture, l’opération.\n• **Lien de causalité** : la chute résulte directement de l’absence de signalisation.\n→ Les trois conditions sont réunies : la cliente peut être **indemnisée**. (Aucun contrat entre elle et l’entreprise → responsabilité **délictuelle**.)' },
+          { t: 'p', c: 'La condition première de la responsabilité civile est l’existence d’un **dommage** (ou **préjudice**). On le qualifie selon deux classifications :' },
+          { t: 'list', c: [
+            'dommage **corporel** (atteinte au corps), **matériel** (atteinte aux biens) ou **moral** (souffrance, atteinte à la réputation) ;',
+            'dommage **patrimonial** (évaluable en argent) ou **extrapatrimonial**.',
+          ] },
+          { t: 'p', c: 'Pour être **réparable**, le dommage doit présenter certains caractères : il doit être **certain**, **direct**, **personnel** et **légitime**. Le **préjudice écologique** (atteinte à l’environnement) est désormais reconnu et réparable.' },
         ],
       },
       {
-        h: 'La responsabilité pénale : sanctionner une infraction',
+        h: 'L’assurance et l’indemnisation des victimes',
         blocks: [
-          { t: 'p', c: 'La **responsabilité pénale** ne cherche pas à réparer mais à **sanctionner** l’auteur d’une **infraction**, classée en trois niveaux de gravité : **contravention**, **délit**, **crime**.' },
-          { t: 'warning', c: 'Ne pas confondre : la responsabilité **civile répare** (au profit de la victime) ; la responsabilité **pénale sanctionne** (au nom de la société). Un même fait peut engager les deux.' },
+          { t: 'p', c: 'La plupart des dommages sont pris en charge par un **assureur** grâce à la **mutualisation des risques** : chacun cotise, et l’ensemble des cotisations indemnise ceux qui subissent un sinistre (Sécurité sociale et complémentaires pour le corporel, assureurs de biens et de responsabilité pour le matériel). Des **fonds de garantie**, fondés sur la solidarité, complètent ce système. La recherche de responsabilité intervient dans un **second temps**.' },
+        ],
+      },
+      {
+        h: 'Les conditions de la responsabilité',
+        blocks: [
+          { t: 'p', c: 'Points communs à tous les régimes, la victime doit établir **trois éléments** :' },
+          { t: 'formula', c: 'Fait générateur (ou faute) + Dommage + Lien de causalité' },
+          { t: 'example', h: 'La chute au supermarché', c: 'Une entreprise laisse le sol mouillé sans signalisation ; une cliente glisse et se fracture le poignet.\n• **Fait générateur** : le sol mouillé non signalé.\n• **Dommage** : la fracture, l’opération.\n• **Lien de causalité** : la chute résulte directement de l’absence de signalisation.\n→ Les trois conditions sont réunies : la cliente peut être **indemnisée**.' },
+        ],
+      },
+      {
+        h: 'Les différents régimes de responsabilité',
+        blocks: [
+          { t: 'p', c: 'Selon la situation, on applique un régime différent (on cherche dans cet ordre) :' },
+          { t: 'list', c: [
+            'Les **régimes spéciaux** : **accident du travail**, **accident de la circulation**, **produits défectueux**, **préjudice écologique** — chacun a ses propres règles d’indemnisation.',
+            'La **responsabilité contractuelle** : si le dommage naît de l’**inexécution d’un contrat**. Les obligations peuvent être de **moyens** ou de **résultat** ; le juge peut ajouter une **obligation de sécurité**. Une **clause de limitation ou d’exonération** de responsabilité peut être prévue (mais elle est encadrée).',
+            'La **responsabilité extracontractuelle** (hors contrat) : **fait personnel**, **fait des choses**, **fait d’autrui**, **fait des animaux**, **ruine des bâtiments**.',
+          ] },
+          { t: 'tip', c: 'Beaucoup de ces régimes sont des **responsabilités objectives** : la victime n’a **pas à prouver une faute**, seulement le **fait générateur**, le **dommage** et le **lien de causalité**.' },
+        ],
+      },
+      {
+        h: 'Les moyens d’exonération',
+        blocks: [
+          { t: 'p', c: 'Le responsable peut chercher à s’exonérer **totalement ou partiellement** en prouvant une **cause étrangère** :' },
+          { t: 'list', c: [
+            'la **force majeure** : un événement **imprévisible, irrésistible et extérieur** ;',
+            'le **fait ou la faute d’un tiers** ;',
+            'le **fait ou la faute de la victime** elle-même.',
+          ] },
         ],
       },
     ],
     resources: [
-      { kind: 'video', label: 'La responsabilité civile (conditions)', note: 'Vidéos — recherche YouTube', url: yt('responsabilité civile fait générateur dommage lien de causalité droit STMG') },
-      { kind: 'video', label: 'Responsabilité civile et pénale', note: 'Vidéos — recherche YouTube', url: yt('différence responsabilité civile pénale droit terminale STMG') },
+      { kind: 'video', label: 'Le dommage réparable et la responsabilité civile', note: 'Vidéos — recherche YouTube', url: yt('dommage réparable responsabilité civile fait générateur lien de causalité droit terminale STMG') },
+      { kind: 'video', label: 'Les régimes de responsabilité et l’exonération', note: 'Vidéos — recherche YouTube', url: yt('régimes responsabilité contractuelle extracontractuelle exonération force majeure droit terminale STMG') },
     ],
   },
 
   'droit-t7': {
     essentiel: [
-      'Contrat de travail = **prestation de travail + rémunération + lien de subordination** (critère déterminant).',
-      '**CDI** = forme normale ; **CDD** = écrit obligatoire + cas de recours prévu par la loi.',
-      'Rupture : démission / **licenciement** (motif réel et sérieux + procédure) / rupture conventionnelle.',
-      'Sources : **Code du travail**, conventions collectives, règlement intérieur, contrat.',
+      'Contrat de travail = **prestation de travail + rémunération + lien de subordination** (critère déterminant) ≠ contrat d’entreprise.',
+      'Pouvoirs de l’employeur : **direction**, **réglementaire** (règlement intérieur), **disciplinaire**.',
+      '**CDI** = norme (clauses générales + spécifiques : mobilité, non-concurrence, télétravail) ; **CDD, chantier, saisonnier, intérim** = l’exception écrite.',
+      'Rupture : **démission**, **licenciement** (motif personnel ou économique, **cause réelle et sérieuse** + procédure), **rupture conventionnelle** (individuelle/collective).',
+      'Libertés du salarié : **vie privée**, **liberté d’expression** (+ devoir de loyauté), **droit de grève**, **liberté syndicale** ; représentants : **CSE**, **délégué syndical**.',
     ],
     intro:
-      'Le droit du travail encadre la relation entre l’employeur et le salarié. Un critère décisif structure tout le thème : le **lien de subordination**.',
+      'Le droit du travail est un **droit protecteur du salarié**. Il organise la relation de travail autour d’un critère décisif — le **lien de subordination** — puis encadre le contrat, sa **rupture** et les **libertés** du salarié.',
     cours: [
       {
-        h: 'Le contrat de travail et le lien de subordination',
+        h: 'Le contrat de travail et les pouvoirs de l’employeur',
         blocks: [
-          { t: 'p', c: 'Le **contrat de travail** existe dès lors qu’une personne **travaille** contre une **rémunération** sous l’**autorité** d’un employeur. Ce dernier élément — le **lien de subordination juridique** (donner des ordres, en contrôler l’exécution, sanctionner) — est le **critère décisif**.' },
-          { t: 'example', h: 'Le cas de Sonia', c: 'Sonia suit les consignes du chef, a des horaires imposés et un salaire, mais aucun écrit. L’employeur la dit « indépendante ».\n→ La **subordination** est bien présente : la relation est un **contrat de travail** (un **CDI**, faute d’écrit prévoyant un terme). Sonia bénéficie donc de toute la protection du droit du travail.' },
-        ],
-      },
-      {
-        h: 'Types de contrats et sources du droit',
-        blocks: [
+          { t: 'p', c: 'Le **contrat de travail** existe dès qu’une personne fournit une **prestation de travail** contre une **rémunération** sous l’**autorité** d’un employeur. Ce dernier élément — le **lien de subordination juridique** — est le **critère déterminant** : il se manifeste par les **pouvoirs de l’employeur** :' },
           { t: 'list', c: [
-            '**CDI** : le contrat à durée indéterminée, la **norme** (forme normale et générale de la relation de travail).',
-            '**CDD** et **intérim** : l’exception, encadrée par des **cas de recours** prévus par la loi ; le CDD doit être **établi par écrit** (à défaut, il peut être requalifié en CDI).',
+            'le **pouvoir de direction** : donner des ordres et des directives ;',
+            'le **pouvoir réglementaire** : fixer des règles collectives dans le **règlement intérieur** ;',
+            'le **pouvoir disciplinaire** : contrôler l’exécution et **sanctionner** les manquements.',
           ] },
-          { t: 'p', c: 'Les règles viennent de plusieurs **sources** : le **Code du travail**, les **conventions collectives** (par branche), les accords d’entreprise, le règlement intérieur et le contrat lui-même.' },
+          { t: 'p', c: 'Ce lien de subordination distingue le contrat de travail du **contrat d’entreprise** (ou contrat de prestation de service), conclu avec un **prestataire indépendant** qui n’est pas soumis à cette autorité.' },
+          { t: 'example', h: 'Le cas de Sonia', c: 'Sonia suit les consignes du chef, a des horaires imposés et un salaire, mais aucun écrit. L’employeur la dit « indépendante ».\n→ La **subordination** est présente : c’est un **contrat de travail** (un **CDI**, faute d’écrit prévoyant un terme). Sonia bénéficie de toute la protection du droit du travail.' },
         ],
       },
       {
-        h: 'La rupture du contrat',
+        h: 'Les formes du contrat de travail',
+        blocks: [
+          { t: 'p', c: 'Le **CDI** (contrat à durée indéterminée) est la **forme normale et générale** de la relation de travail. Il comporte :' },
+          { t: 'list', c: [
+            'des **clauses générales** : période d’essai, lieu, horaires et durée du travail, rémunération, qualification, missions ;',
+            'des **clauses spécifiques**, qui individualisent la relation et dont la validité est encadrée : clause de **mobilité**, clause de **non-concurrence**, clause de **télétravail**.',
+          ] },
+          { t: 'p', c: 'À côté du CDI existent d’**autres formes**, adaptées à certains besoins et **établies par écrit** : le **CDD**, le **CDI de chantier**, le **contrat saisonnier** et le **contrat de travail temporaire (intérim)**. À défaut d’écrit ou de cas de recours valable, un CDD peut être **requalifié en CDI**.' },
+        ],
+      },
+      {
+        h: 'Les sources et la négociation collective',
+        blocks: [
+          { t: 'p', c: 'La relation de travail est régie par plusieurs **sources** : le **Code du travail**, les **conventions et accords collectifs** (négociés par branche ou par entreprise), le **règlement intérieur** et le **contrat**. La **négociation collective**, menée par les **partenaires sociaux** (syndicats de salariés et d’employeurs), joue un rôle croissant pour adapter les règles à chaque entreprise ou branche.' },
+        ],
+      },
+      {
+        h: 'La rupture du contrat de travail',
         blocks: [
           { t: 'table', head: ['Mode de rupture', 'À l’initiative de…'], rows: [
             ['Démission', 'Le salarié'],
-            ['Licenciement', "L’employeur (motif réel et sérieux + procédure)"],
-            ['Rupture conventionnelle', 'Un commun accord'],
+            ['Licenciement', 'L’employeur (cause réelle et sérieuse + procédure)'],
+            ['Rupture conventionnelle', 'Un commun accord (individuelle ou collective)'],
+            ['Départ / mise à la retraite', 'Le salarié ou l’employeur'],
           ] },
-          { t: 'warning', c: 'Un licenciement sans **motif réel et sérieux** ou sans respect de la **procédure** est abusif.' },
+          { t: 'p', c: 'Le **licenciement** doit reposer sur une **cause réelle et sérieuse** et respecter une **procédure**. On distingue le licenciement pour **motif personnel** (lié au salarié) du licenciement pour **motif économique** (lié à l’entreprise). Ses conséquences : indemnité de licenciement, préavis, solde de tout compte, droits à l’assurance chômage.' },
+          { t: 'warning', c: 'Un licenciement sans **cause réelle et sérieuse** ou sans respect de la **procédure** est **abusif** : le juge peut le sanctionner.' },
+        ],
+      },
+      {
+        h: 'Les libertés individuelles et collectives',
+        blocks: [
+          { t: 'p', c: 'Le salarié conserve ses **libertés fondamentales** au travail ; l’employeur ne peut les limiter que si c’est **justifié par la tâche et proportionné**.' },
+          { t: 'list', c: [
+            'le respect de la **vie privée** (y compris face aux outils numériques et aux réseaux sociaux) ;',
+            'la **liberté d’expression**, tempérée par un **devoir de loyauté** envers l’employeur ;',
+            'le **droit de grève** (reconnu par la Constitution) — mais une grève **illicite** ne protège pas le salarié ;',
+            'la **liberté syndicale**.',
+          ] },
+          { t: 'p', c: 'Les salariés sont représentés par le **Comité social et économique (CSE)** — expression des salariés, organisation, santé et sécurité, droit d’alerte — et par les **délégués syndicaux**, qui négocient les accords.' },
         ],
       },
     ],
     resources: [
-      { kind: 'video', label: 'Le contrat de travail et la subordination', note: 'Vidéos — recherche YouTube', url: yt('contrat de travail lien de subordination CDI CDD droit terminale STMG') },
-      { kind: 'video', label: 'La rupture du contrat de travail', note: 'Vidéos — recherche YouTube', url: yt('rupture contrat de travail licenciement rupture conventionnelle STMG') },
+      { kind: 'video', label: 'Le contrat de travail et ses clauses', note: 'Vidéos — recherche YouTube', url: yt('contrat de travail lien de subordination clauses CDI CDD droit terminale STMG') },
+      { kind: 'video', label: 'La rupture du contrat de travail', note: 'Vidéos — recherche YouTube', url: yt('rupture contrat de travail licenciement motif personnel économique rupture conventionnelle STMG') },
+      { kind: 'video', label: 'Les libertés du salarié, la grève et le CSE', note: 'Vidéos — recherche YouTube', url: yt('libertés salarié droit de grève CSE délégué syndical droit terminale STMG') },
     ],
   },
 
   'droit-t8': {
     essentiel: [
-      '**Liberté d’entreprendre** (à valeur constitutionnelle).',
-      'Entreprise individuelle = **personne physique** ; société = **personne morale** distincte des associés.',
-      '**Brevet** protège une invention ; **marque** protège un signe distinctif.',
-      '**Concurrence déloyale** (dénigrement, imitation, parasitisme) sanctionnée en responsabilité civile.',
+      '**Liberté d’entreprendre** et **liberté du commerce et de l’industrie** ; choix : **entreprise individuelle** ou **société**.',
+      'Entreprise individuelle : **unicité du patrimoine** (responsabilité sur tout le patrimoine), protégé par la **déclaration d’insaisissabilité** / le **patrimoine d’affectation** ; l’**EURL** crée une personne morale.',
+      'Société = personne morale née d’un **contrat de société** (art. 1832) : **apports** + **affectio societatis** + partage des bénéfices ; **responsabilité limitée aux apports** ; forme coopérative = **SCOP**.',
+      '**Concurrence déloyale** (parasitisme, dénigrement, imitation, désorganisation) → **action** fondée sur la responsabilité civile ; **entente** et **abus de position dominante** interdits (Autorité de la concurrence).',
+      'Partenariats : **contrat d’entreprise (sous-traitance)**, **franchise** — sans lien de subordination.',
     ],
     intro:
-      'Entreprendre est une **liberté**, mais elle s’exerce dans un cadre juridique. Le choix de la **structure** a des conséquences majeures sur la responsabilité, et l’activité doit être **protégée**.',
+      'Entreprendre est une **liberté**, mais elle s’exerce dans un cadre juridique. Le choix de la **structure** a des conséquences majeures sur le **patrimoine** et la **responsabilité** ; l’activité se développe dans le respect de la **concurrence** et peut s’organiser par des **partenariats**.',
     cours: [
       {
-        h: 'La liberté d’entreprendre et le choix de la structure',
+        h: 'La liberté d’entreprendre et l’entreprise individuelle',
         blocks: [
-          { t: 'p', c: 'La **liberté d’entreprendre** (reconnue à **valeur constitutionnelle**) et la liberté du commerce et de l’industrie permettent à chacun de créer et d’exercer une activité économique, dans le respect de la loi. Reste à choisir une **structure juridique**.' },
-          { t: 'table', head: ['', 'Entreprise individuelle', 'Société'], rows: [
-            ['Nature juridique', 'Personne **physique**', 'Personne **morale**'],
-            ['Patrimoine', "Celui de l'entrepreneur", 'Distinct de celui des associés'],
-          ] },
-          { t: 'p', c: 'Ce choix conditionne la **responsabilité** de l’entrepreneur et la séparation (ou non) des **patrimoines**.' },
+          { t: 'p', c: 'La **liberté d’entreprendre** (à valeur constitutionnelle) et la **liberté du commerce et de l’industrie** permettent à chacun de créer et d’exercer une activité économique. La forme la plus simple est l’**entreprise individuelle** : il n’y a **pas** de nouvelle personne juridique.' },
+          { t: 'warning', c: 'Par le **principe d’unicité du patrimoine**, l’entrepreneur individuel répond des dettes de son activité sur **l’ensemble de son patrimoine personnel**. Pour le protéger, la loi prévoit la **déclaration d’insaisissabilité** et le **patrimoine d’affectation** (séparer les biens professionnels des biens personnels).' },
+          { t: 'p', c: 'Autre solution : créer une **EURL** (entreprise unipersonnelle à responsabilité limitée). C’est une **société à associé unique** : une **personne morale** distincte est créée, ce qui **protège le patrimoine** du gérant.' },
         ],
       },
       {
-        h: 'Protéger l’activité',
+        h: 'La société commerciale',
         blocks: [
+          { t: 'p', c: 'La **société** naît d’un **contrat de société** (article **1832** du Code civil) : plusieurs associés **affectent à une entreprise commune des biens ou leur industrie en vue de partager le bénéfice** ou de profiter de l’économie qui en résulte. Trois éléments clés :' },
           { t: 'list', c: [
-            '**Propriété industrielle** : le **brevet** protège une invention technique ; la **marque** protège un signe distinctif (nom, logo).',
-            '**Concurrence** : elle doit rester **loyale**. Le dénigrement, l’imitation trompeuse ou le parasitisme relèvent de la **concurrence déloyale**, sanctionnée.',
+            'l’**apport** de chaque associé (en argent, en nature ou en industrie) ;',
+            'l’**affectio societatis** : la volonté commune de collaborer ;',
+            'la vocation à **partager les bénéfices** (au prorata des apports) et à **contribuer aux pertes**.',
           ] },
+          { t: 'p', c: 'Généralement, la **responsabilité des associés est limitée à leurs apports**. Les décisions relèvent d’**organes de gestion courante** (dirigeants) ou d’**organes délibératifs** (assemblées). La **société coopérative (SCOP)** est une forme particulière, porteuse d’une **éthique coopérative** (économie sociale et solidaire).' },
+        ],
+      },
+      {
+        h: 'Le respect de la concurrence',
+        blocks: [
+          { t: 'p', c: 'La **libre concurrence** découle de la liberté du commerce et de l’industrie : produire et vendre librement, sans monopole. Elle est toutefois **encadrée** pour éviter les comportements déloyaux ou anti-concurrentiels.' },
+          { t: 'p', c: 'La **concurrence déloyale** engage la **responsabilité civile** de son auteur. La victime doit établir : un **fait générateur** (comportement déloyal : **parasitisme, dénigrement, imitation, désorganisation**), un **préjudice** (perte de clientèle, baisse de notoriété) et un **lien de causalité** — c’est l’**action en concurrence déloyale**.' },
+          { t: 'p', c: 'Certaines pratiques sont spécifiquement interdites : l’**entente** (accord faussant la concurrence) et l’**abus de position dominante**. L’**Autorité de la concurrence** veille au respect des règles en France ; au niveau européen, les **articles 101 et 102 du TFUE** s’appliquent.' },
+        ],
+      },
+      {
+        h: 'Les partenariats contractuels',
+        blocks: [
+          { t: 'p', c: 'Une entreprise peut organiser son activité en contractant avec des **partenaires**, sans créer de lien de subordination :' },
+          { t: 'list', c: [
+            'le **contrat d’entreprise (sous-traitance)** : un entrepreneur confie tout ou partie de son activité à un autre entrepreneur ;',
+            'le **contrat de franchise** : un franchisé exploite le concept, la marque et le savoir-faire d’un franchiseur, en échange d’une redevance.',
+          ] },
+          { t: 'tip', c: 'Ces partenariats se distinguent du **contrat de travail** : il n’y a **pas de lien de subordination** entre les entreprises partenaires.' },
         ],
       },
     ],
     resources: [
-      { kind: 'video', label: 'Entreprise individuelle ou société ?', note: 'Vidéos — recherche YouTube', url: yt('entreprise individuelle société personne physique morale droit STMG') },
-      { kind: 'video', label: 'Protéger l’entreprise : marques et brevets', note: 'Vidéos — recherche YouTube', url: yt('propriété industrielle marque brevet concurrence déloyale STMG') },
+      { kind: 'video', label: 'Entreprise individuelle, EURL et société', note: 'Vidéos — recherche YouTube', url: yt('entreprise individuelle EURL société contrat de société apports affectio societatis droit terminale STMG') },
+      { kind: 'video', label: 'Concurrence déloyale et partenariats (franchise, sous-traitance)', note: 'Vidéos — recherche YouTube', url: yt('concurrence déloyale entente abus position dominante franchise sous-traitance droit terminale STMG') },
     ],
   },
 

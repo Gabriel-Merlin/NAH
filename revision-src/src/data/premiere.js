@@ -425,28 +425,34 @@ const managementP = {
   chapters: [
     {
       id: 'p1-mgmt-t1',
-      name: 'Thème 1 — Le rôle du management dans la gestion des organisations',
-      short: 'Le rôle du management',
-      keywords: 'organisation but ressources structure frontière management performance pérennité stratégique opérationnel',
+      name: 'Thème 1 — À la rencontre du management des organisations',
+      short: 'Management & organisations',
+      keywords: 'organisation groupe individus ressources structure hiérarchie statut juridique but commun pérennité management performance stratégique opérationnel entreprise privée organisation publique société civile finalité lucrative intérêt général non lucrative parties prenantes RSE',
       intro:
-        'Le management, c’est l’**art de conduire une organisation** pour qu’elle atteigne ses buts et **dure** dans le temps. En première, on définit les notions de base.',
+        'Une **organisation** naît du besoin de **structurer une action collective**. Le **management** est l’art de la **conduire** pour qu’elle atteigne ses buts et **dure**. On découvre aussi les grandes **formes** d’organisations et leurs **finalités**.',
       cours: [
         {
           h: 'Qu’est-ce qu’une organisation ?',
           blocks: [
-            { t: 'p', c: 'Une organisation naît de la nécessité de **structurer une action collective**. Elle se reconnaît à **quatre éléments** :' },
+            { t: 'p', c: 'Une organisation est un **groupe d’individus** qui met en commun et **pilote des ressources**, autour d’un **but commun**, et qui est **voué à durer** dans le temps. On la reconnaît à plusieurs caractéristiques :' },
             { t: 'list', c: [
-              'un **but** (ce qu’elle veut accomplir),',
-              'des **ressources** (humaines, matérielles, financières, immatérielles),',
-              'une **structure** (répartition des rôles, hiérarchie),',
-              'une **frontière** (ce qui la distingue de son environnement).',
+              'un **but commun** (le projet collectif qui réunit les membres),',
+              'des **ressources pilotées** (humaines, matérielles, financières, immatérielles),',
+              'une **structure hiérarchisée** (répartition des rôles, des pouvoirs et des responsabilités),',
+              'un **statut juridique** (entreprise, association, administration…),',
+              'la volonté de **durer** dans le temps (la **pérennité**).',
             ] },
+            { t: 'tip', c: 'À retenir : une organisation, ce sont des **individus** qui **coordonnent des ressources** vers un **but commun**, dans une **structure** dotée d’un **statut juridique**.' },
           ],
         },
         {
           h: 'Qu’est-ce que le management ?',
           blocks: [
-            { t: 'p', c: 'Le management est la **conduite de l’action collective** dans un environnement en perpétuel changement (numérique, écologie, attentes sociales). Manager, c’est fixer des objectifs, organiser les ressources, animer les équipes et contrôler les résultats, pour assurer **performance** (atteindre les objectifs) et **pérennité** (durer).' },
+            { t: 'p', c: 'Le management est la **conduite de l’action collective** dans un environnement en perpétuel changement (numérique, écologie, attentes sociales). Manager, c’est **fixer des objectifs**, **organiser les ressources**, **animer les équipes** et **contrôler les résultats**, pour assurer :' },
+            { t: 'list', c: [
+              'la **performance** : atteindre les objectifs fixés (efficacité + efficience) ;',
+              'la **pérennité** : permettre à l’organisation de durer.',
+            ] },
           ],
         },
         {
@@ -460,33 +466,74 @@ const managementP = {
             { t: 'tip', c: 'Les deux sont complémentaires : la **stratégie fixe le cap**, l’**opérationnel le met en pratique**.' },
           ],
         },
+        {
+          h: 'Les différentes formes d’organisations',
+          blocks: [
+            { t: 'p', c: 'Les organisations se distinguent surtout par leur **finalité** (leur raison d’être). On en distingue **trois grandes formes** :' },
+            { t: 'table', head: ['Type', 'Finalité', 'Exemples'], rows: [
+              ['Entreprise privée', 'Lucrative (profit) + dimension sociétale (RSE)', 'Boulangerie, start-up, multinationale'],
+              ['Organisation publique', 'Intérêt général (service public, non marchand)', 'Mairie, hôpital, lycée, police'],
+              ['Organisation de la société civile', 'Non lucrative (objet social)', 'Association, ONG, syndicat, mutuelle'],
+            ] },
+            { t: 'p', c: 'Les **entreprises privées** cherchent le **profit** tout en intégrant des enjeux sociaux et environnementaux (**RSE**). Les **organisations publiques** rendent un **service public** financé par l’**impôt**. Les **organisations de la société civile** poursuivent un **objet social** sans but de profit ; leur enjeu est de **pérenniser leurs ressources** (bénévoles, cotisations, subventions, dons).' },
+            { t: 'list', c: [
+              '**Parties prenantes** : tous ceux qui ont un intérêt dans l’organisation (salariés, clients, actionnaires, État, fournisseurs, riverains…).',
+              '**Champ d’action** : local, national ou international ; **marchand** ou **non marchand**.',
+              'La **performance** se mesure selon la **finalité** : un profit pour l’entreprise, un service rendu pour l’organisation publique.',
+            ] },
+          ],
+        },
       ],
       essentiel: [
-        'Une **organisation** = un **but** + des **ressources** + une **structure** + une **frontière**.',
+        'Une **organisation** = des **individus** + des **ressources pilotées** + une **structure hiérarchisée** + un **statut juridique** + un **but commun**, **vouée à durer**.',
         'Le **management** conduit l’action collective pour assurer **performance** et **pérennité**.',
         'Management **stratégique** (long terme, direction) vs **opérationnel** (court terme, encadrement).',
+        'Trois formes : **entreprise privée** (lucrative + RSE), **organisation publique** (intérêt général), **société civile** (non lucrative).',
       ],
       resources: [
-        { kind: 'video', label: 'Le rôle du management (1re)', note: 'Vidéos — recherche YouTube', url: yt('rôle du management organisation stratégique opérationnel première STMG') },
+        { kind: 'video', label: 'À la rencontre du management des organisations', note: 'Vidéos — recherche YouTube', url: yt('à la rencontre du management des organisations première STMG') },
+        { kind: 'video', label: 'Types et finalités des organisations', note: 'Vidéos — recherche YouTube', url: yt('finalités organisations entreprise publique association première STMG management') },
       ],
       games: [
         {
           id: 'p1-mgmt-t1-qcm',
           type: 'qcm',
-          title: 'QCM — Le rôle du management',
+          title: 'QCM — Management et organisations',
           icon: '❓',
           questions: [
-            { q: 'Parmi les 4 éléments d’une organisation :', choices: ['un but, des ressources, une structure, une frontière', 'un logo, un slogan, une couleur, un site', 'un impôt, une TVA, une marge, un stock', 'un juge, une loi, un contrat, une preuve'], answer: 0, explain: 'But, ressources, structure, frontière caractérisent une organisation.' },
-            { q: 'Le management vise deux objectifs :', choices: ['la performance et la pérennité', 'le profit et l’impôt', 'la publicité et la vente', 'le risque et le temps'], answer: 0, explain: 'Atteindre les objectifs (performance) et durer (pérennité).' },
+            { q: 'Une organisation se définit comme…', choices: ['un groupe d’individus pilotant des ressources vers un but commun, voué à durer', 'un logo, un slogan et une couleur', 'un impôt, une TVA et une marge', 'un juge, une loi et une preuve'], answer: 0, explain: 'Des individus coordonnent des ressources, dans une structure dotée d’un statut juridique, vers un but commun et dans la durée.' },
+            { q: 'Le management vise deux grands objectifs :', choices: ['la performance et la pérennité', 'le profit et l’impôt', 'la publicité et la vente', 'le risque et le temps'], answer: 0, explain: 'Atteindre les objectifs (performance) et durer (pérennité).' },
             { q: 'Ouvrir une filiale à l’étranger est une décision de management…', choices: ['stratégique', 'opérationnel', 'quotidien', 'comptable'], answer: 0, explain: 'Décision de long terme prise par la direction générale.' },
-            { q: 'Organiser les plannings de la semaine relève du management…', choices: ['opérationnel', 'stratégique', 'financier', 'juridique'], answer: 0, explain: 'Mise en œuvre de court terme, par l’encadrement.' },
+            { q: 'La finalité d’une organisation publique est…', choices: ['l’intérêt général (service public)', 'le profit', 'la spéculation', 'la publicité'], answer: 0, explain: 'Les organisations publiques rendent un service public, financé par l’impôt.' },
+            { q: 'Une association relève des organisations…', choices: ['de la société civile (non lucratives)', 'privées lucratives', 'publiques', 'multinationales'], answer: 0, explain: 'Associations, ONG, syndicats, mutuelles = société civile, non lucratives.' },
+            { q: 'Salariés, clients, actionnaires et État sont des…', choices: ['parties prenantes', 'concurrents', 'indicateurs', 'ressources matérielles'], answer: 0, explain: 'Ce sont les parties prenantes de l’organisation.' },
           ],
         },
         {
           id: 'p1-mgmt-t1-tri',
           type: 'tri',
-          title: 'Tri — Stratégique ou opérationnel ?',
+          title: 'Tri — Type d’organisation',
           icon: '🗂️',
+          instruction: 'Classe chaque organisation selon sa forme.',
+          categories: [
+            { id: 'priv', label: 'Entreprise privée' },
+            { id: 'pub', label: 'Organisation publique' },
+            { id: 'civ', label: 'Société civile' },
+          ],
+          items: [
+            { text: 'Une start-up', cat: 'priv' },
+            { text: 'Un hôpital public', cat: 'pub' },
+            { text: 'Une ONG humanitaire', cat: 'civ' },
+            { text: 'Une multinationale', cat: 'priv' },
+            { text: 'Un syndicat', cat: 'civ' },
+            { text: 'Une mairie', cat: 'pub' },
+          ],
+        },
+        {
+          id: 'p1-mgmt-t1-tri2',
+          type: 'tri',
+          title: 'Tri — Stratégique ou opérationnel ?',
+          icon: '🎯',
           instruction: 'Classe chaque décision.',
           categories: [
             { id: 'str', label: 'Stratégique' },
@@ -503,191 +550,96 @@ const managementP = {
         {
           id: 'p1-mgmt-t1-flash',
           type: 'flashcard',
-          title: 'Flashcards — Management',
+          title: 'Flashcards — Management & organisations',
           icon: '🃏',
           cards: [
-            { front: 'Organisation', back: 'But + ressources + structure + frontière.' },
+            { front: 'Organisation', back: 'Groupe d’individus pilotant des ressources vers un but commun, structuré, doté d’un statut juridique, voué à durer.' },
             { front: 'Management', back: 'Conduire l’action collective (performance + pérennité).' },
-            { front: 'Management stratégique', back: 'Long terme, direction générale.' },
-            { front: 'Management opérationnel', back: 'Court terme, encadrement intermédiaire.' },
+            { front: 'Stratégique / opérationnel', back: 'Long terme (direction) / court terme (encadrement).' },
+            { front: 'Entreprise privée', back: 'Finalité lucrative (profit) + dimension sociétale (RSE).' },
+            { front: 'Organisation publique', back: 'Finalité d’intérêt général (service public).' },
+            { front: 'Société civile', back: 'Non lucrative (association, ONG, syndicat, mutuelle).' },
           ],
         },
       ],
     },
     {
       id: 'p1-mgmt-t2',
-      name: 'Thème 2 — Les critères de différenciation des organisations',
-      short: 'Types d’organisations',
-      keywords: 'entreprise privée organisation publique société civile finalité lucrative intérêt général non lucrative parties prenantes champ d’action RSE',
+      name: 'Thème 2 — Le management stratégique, du diagnostic à la fixation des objectifs',
+      short: 'Diagnostic stratégique',
+      keywords: 'stratégie diagnostic externe interne PESTEL macro-environnement micro-environnement opportunités menaces ressources compétences distinctives forces faiblesses SWOT finalité objectifs stratégiques',
       intro:
-        'Toutes les organisations ne se ressemblent pas. On les classe selon leurs **finalités** (leur raison d’être) et leurs contraintes. On distingue **trois grandes formes**.',
+        'Pour atteindre ses finalités, une organisation met en place une **stratégie**. Avant de décider, elle réalise un **diagnostic stratégique** : se connaître (interne) et connaître son environnement (externe). Ce diagnostic débouche sur la **fixation des objectifs**.',
       cours: [
         {
-          h: 'Trois grandes formes d’organisations',
+          h: 'La démarche stratégique',
           blocks: [
-            { t: 'table', head: ['Type', 'Finalité', 'Exemples'], rows: [
-              ['Entreprise privée', 'Lucrative (profit) + dimension sociétale (RSE)', 'Boulangerie, multinationale, start-up'],
-              ['Organisation publique', 'Intérêt général (service public, non marchand)', 'Mairie, hôpital, lycée, police'],
-              ['Société civile', 'Non lucrative (objet social)', 'Association, ONG, syndicat, mutuelle'],
-            ] },
-            { t: 'p', c: 'Les **entreprises privées** cherchent le **profit** mais intègrent de plus en plus des enjeux sociaux et environnementaux (**RSE**). Les **organisations publiques** rendent un **service public** financé par l’**impôt**. Les **organisations de la société civile** poursuivent un **objet social** sans but de profit ; leur enjeu est de **pérenniser leurs ressources** (bénévoles, cotisations, subventions, dons).' },
+            { t: 'p', c: 'La démarche stratégique enchaîne plusieurs étapes : (1) **diagnostic stratégique** (interne + externe), (2) **fixation des objectifs** en cohérence avec les **finalités**, (3) **mise en œuvre**, (4) **contrôle** des résultats et **ajustement**. C’est un processus permanent.' },
           ],
         },
         {
-          h: 'Les notions à maîtriser',
+          h: 'Le diagnostic externe : l’environnement de l’organisation',
           blocks: [
+            { t: 'p', c: 'Le **macro-environnement** regroupe les grandes forces générales qui s’imposent à **toutes** les organisations et sur lesquelles une entreprise seule **n’a pas de prise**. On l’analyse avec la méthode **PESTEL** :' },
+            { t: 'figure', name: 'pestel' },
             { t: 'list', c: [
-              '**Finalité** : lucrative / intérêt général / non lucrative.',
-              '**Parties prenantes** : tous ceux qui ont un intérêt dans l’organisation (salariés, clients, actionnaires, État, fournisseurs, riverains…).',
-              '**Champ d’action** : local, national, international ; **marchand** ou **non marchand**.',
-              'La **performance** se mesure différemment selon la finalité (un profit pour l’entreprise, un service rendu pour l’organisation publique).',
+              '**P** olitique · **E** conomique · **S** ocioculturel · **T** echnologique · **E** cologique · **L** égal.',
             ] },
+            { t: 'p', c: 'Le **micro-environnement** regroupe les **acteurs proches** en relation directe avec l’organisation : les **concurrents** actuels, les **clients**, les **fournisseurs**, les **nouveaux entrants** potentiels et les **produits de substitution**. Le diagnostic externe fait ressortir des **opportunités** (favorables) et des **menaces** (défavorables).' },
+          ],
+        },
+        {
+          h: 'Le diagnostic interne',
+          blocks: [
+            { t: 'p', c: 'Le **diagnostic interne** analyse ce que l’organisation possède et sait faire :' },
+            { t: 'list', c: [
+              'ses **ressources** : financières, humaines, matérielles et immatérielles (marque, savoir-faire, brevets…) ;',
+              'ses **compétences distinctives** : ce qu’elle sait faire **mieux** que ses concurrents.',
+            ] },
+            { t: 'p', c: 'Il révèle les **forces** (atouts) et les **faiblesses** (points faibles) de l’organisation.' },
+          ],
+        },
+        {
+          h: 'La synthèse : la matrice SWOT',
+          blocks: [
+            { t: 'p', c: 'On réunit les résultats des deux diagnostics dans une matrice **SWOT** : **Forces / Faiblesses** (issues du diagnostic **interne**) et **Opportunités / Menaces** (issues du diagnostic **externe**).' },
+            { t: 'figure', name: 'swot' },
+          ],
+        },
+        {
+          h: 'Des finalités aux objectifs stratégiques',
+          blocks: [
+            { t: 'p', c: 'Le diagnostic permet de fixer des **objectifs stratégiques** cohérents avec la **finalité** de l’organisation (ex. conquérir un nouveau marché, améliorer un service public, développer l’action d’une association). Ces objectifs guideront ensuite les **choix stratégiques** (thème 3).' },
+            { t: 'tip', c: 'Un bon objectif s’appuie sur les **forces** de l’organisation pour saisir une **opportunité**, ou pour réduire une **faiblesse** face à une **menace**.' },
           ],
         },
       ],
       essentiel: [
-        'Trois formes : **entreprise privée** (lucrative + RSE), **organisation publique** (intérêt général), **société civile** (non lucrative).',
-        '**Parties prenantes** = tous ceux qui ont un intérêt dans l’organisation.',
-        'La **performance** se mesure selon la **finalité** (profit vs service rendu).',
+        'Démarche : **diagnostic → objectifs → mise en œuvre → contrôle** (ajustement permanent).',
+        'Diagnostic **externe** : **PESTEL** (macro) + acteurs du **micro-environnement** → **opportunités / menaces**.',
+        'Diagnostic **interne** : **ressources** + **compétences distinctives** → **forces / faiblesses**.',
+        'Synthèse = **SWOT** ; le diagnostic débouche sur les **objectifs stratégiques** liés à la **finalité**.',
       ],
       resources: [
-        { kind: 'video', label: 'Types et finalités des organisations', note: 'Vidéos — recherche YouTube', url: yt('finalités organisations entreprise publique association première STMG management') },
+        { kind: 'video', label: 'Le diagnostic stratégique : PESTEL et SWOT', note: 'Vidéos — recherche YouTube', url: yt('diagnostic stratégique PESTEL SWOT interne externe première STMG') },
       ],
       games: [
         {
           id: 'p1-mgmt-t2-qcm',
           type: 'qcm',
-          title: 'QCM — Types d’organisations',
+          title: 'QCM — Diagnostic stratégique',
           icon: '❓',
           questions: [
-            { q: 'La finalité d’une organisation publique est…', choices: ['l’intérêt général (service public)', 'le profit', 'la spéculation', 'la publicité'], answer: 0, explain: 'Les organisations publiques rendent un service public, financé par l’impôt.' },
-            { q: 'Une association relève des organisations…', choices: ['de la société civile (non lucratives)', 'privées lucratives', 'publiques', 'multinationales'], answer: 0, explain: 'Associations, ONG, syndicats, mutuelles = société civile, non lucratives.' },
-            { q: 'La prise en compte des enjeux sociaux et environnementaux par une entreprise s’appelle…', choices: ['la RSE', 'le PIB', 'le PGI', 'le MARC'], answer: 0, explain: 'RSE = Responsabilité Sociétale des Entreprises.' },
-            { q: 'Salariés, clients, actionnaires et État sont des…', choices: ['parties prenantes', 'concurrents', 'indicateurs', 'ressources matérielles'], answer: 0, explain: 'Ce sont les parties prenantes de l’organisation.' },
-            { q: 'Les ressources d’une association reposent souvent sur…', choices: ['des bénévoles, cotisations, subventions, dons', 'des dividendes', 'la TVA collectée', 'des actions cotées'], answer: 0, explain: 'Son enjeu est de pérenniser ces ressources humaines et financières.' },
+            { q: 'La méthode PESTEL analyse…', choices: ['le macro-environnement', 'les ressources internes', 'la comptabilité', 'les salariés'], answer: 0, explain: 'PESTEL = Politique, Économique, Socioculturel, Technologique, Écologique, Légal (macro-environnement).' },
+            { q: 'Le « L » de PESTEL correspond à la dimension…', choices: ['Légale', 'Logistique', 'Locale', 'Libérale'], answer: 0, explain: 'L = Légal (lois, réglementations, RGPD).' },
+            { q: 'Une compétence distinctive est ce que l’organisation sait faire…', choices: ['mieux que ses concurrents', 'comme tout le monde', 'sans ressources', 'à perte'], answer: 0, explain: 'C’est une force du diagnostic interne, source d’avantage concurrentiel.' },
+            { q: 'Les forces et les faiblesses relèvent du diagnostic…', choices: ['interne', 'externe', 'macro-économique', 'légal'], answer: 0, explain: 'Interne = forces/faiblesses ; externe = opportunités/menaces.' },
+            { q: 'Une nouvelle réglementation favorable est, pour l’organisation, une…', choices: ['opportunité', 'faiblesse', 'ressource', 'compétence'], answer: 0, explain: 'C’est un élément externe favorable : une opportunité.' },
+            { q: 'La matrice SWOT réunit…', choices: ['forces/faiblesses (interne) et opportunités/menaces (externe)', 'seulement les forces', 'les seules données comptables', 'les concurrents uniquement'], answer: 0, explain: 'SWOT = synthèse du diagnostic interne et externe.' },
           ],
         },
         {
           id: 'p1-mgmt-t2-tri',
-          type: 'tri',
-          title: 'Tri — Type d’organisation',
-          icon: '🗂️',
-          instruction: 'Classe chaque organisation.',
-          categories: [
-            { id: 'priv', label: 'Entreprise privée' },
-            { id: 'pub', label: 'Organisation publique' },
-            { id: 'civ', label: 'Société civile' },
-          ],
-          items: [
-            { text: 'Une start-up', cat: 'priv' },
-            { text: 'Un hôpital public', cat: 'pub' },
-            { text: 'Une ONG humanitaire', cat: 'civ' },
-            { text: 'Une multinationale', cat: 'priv' },
-            { text: 'Un syndicat', cat: 'civ' },
-            { text: 'Une mairie', cat: 'pub' },
-          ],
-        },
-        {
-          id: 'p1-mgmt-t2-flash',
-          type: 'flashcard',
-          title: 'Flashcards — Organisations',
-          icon: '🃏',
-          cards: [
-            { front: 'Entreprise privée', back: 'Finalité lucrative (profit) + dimension sociétale (RSE).' },
-            { front: 'Organisation publique', back: 'Finalité d’intérêt général (service public, non marchand).' },
-            { front: 'Société civile', back: 'Non lucrative (association, ONG, syndicat, mutuelle).' },
-            { front: 'Parties prenantes', back: 'Tous ceux qui ont un intérêt dans l’organisation.' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'p1-mgmt-t3',
-      name: 'Thème 3 — Le management stratégique : diagnostiquer, décider, piloter',
-      short: 'Diagnostic stratégique',
-      keywords: 'stratégie diagnostic SWOT PESTEL macro-environnement 5 forces de Porter micro-environnement ressources compétences distinctives avantage concurrentiel domination coûts différenciation DAS',
-      intro:
-        'Pour atteindre ses finalités, une organisation met en place une **stratégie**. Avant de décider, elle réalise un **diagnostic** : se connaître (interne) et connaître son environnement (externe). C’est le cœur du management de première.',
-      cours: [
-        {
-          h: 'La démarche stratégique',
-          blocks: [
-            { t: 'p', c: 'Trois étapes : (1) **diagnostic stratégique** (interne + externe), (2) **fixation des objectifs**, (3) **pilotage** (suivre les résultats avec des indicateurs et s’adapter). C’est un processus permanent d’ajustement.' },
-          ],
-        },
-        {
-          h: 'Le diagnostic externe MACRO : PESTEL',
-          blocks: [
-            { t: 'p', c: 'Le **macro-environnement** regroupe les grandes forces générales qui s’imposent à **toutes** les organisations, sur lesquelles une entreprise seule **n’a aucune prise**. On l’analyse avec **PESTEL** :' },
-            { t: 'figure', name: 'pestel' },
-            { t: 'list', c: [
-              '**P** olitique · **E** conomique · **S** ocioculturel · **T** echnologique · **E** cologique · **L** égal.',
-              'Chaque dimension révèle des **opportunités** (favorables) ou des **menaces** (défavorables).',
-            ] },
-          ],
-        },
-        {
-          h: 'Le diagnostic externe MICRO : les 5 forces de Porter',
-          blocks: [
-            { t: 'p', c: 'Le **micro-environnement** regroupe les **acteurs proches** en relation directe avec l’organisation. On mesure la **pression concurrentielle** avec les **5 forces de Porter** :' },
-            { t: 'figure', name: 'porter5' },
-            { t: 'list', c: [
-              'l’**intensité de la concurrence** entre acteurs présents,',
-              'le **pouvoir de négociation des clients**,',
-              'le **pouvoir de négociation des fournisseurs**,',
-              'la **menace des nouveaux entrants** (barrières à l’entrée),',
-              'la **menace des produits de substitution**.',
-            ] },
-          ],
-        },
-        {
-          h: 'Le diagnostic INTERNE et la synthèse SWOT',
-          blocks: [
-            { t: 'p', c: 'Le **diagnostic interne** analyse les **ressources** (financières, humaines, matérielles, immatérielles) et les **compétences distinctives** (ce que l’organisation sait faire **mieux** que ses concurrents). Il révèle **forces** et **faiblesses**.' },
-            { t: 'figure', name: 'swot' },
-            { t: 'p', c: 'La synthèse forme le **SWOT** (Forces/Faiblesses = interne ; Opportunités/Menaces = externe).' },
-          ],
-        },
-        {
-          h: 'L’avantage concurrentiel (Porter)',
-          blocks: [
-            { t: 'p', c: 'L’objectif est un **avantage concurrentiel** : se distinguer **durablement**. Selon **Porter**, deux stratégies génériques :' },
-            { t: 'table', head: ['Domination par les coûts', 'Différenciation'], rows: [
-              ['Prix plus bas que les concurrents', 'Offre perçue comme unique'],
-              ['Économies d’échelle, productivité', 'Qualité, image, innovation, service'],
-              ['Ex. enseigne discount', 'Ex. marque de luxe / haut de gamme'],
-            ] },
-            { t: 'warning', c: 'On choisit son terrain : difficile d’être à la fois **le moins cher** et **le plus différencié**. Autre notion : le **DAS** (Domaine d’Activité Stratégique).' },
-          ],
-        },
-      ],
-      essentiel: [
-        'Démarche : **diagnostic → objectifs → pilotage** (ajustement permanent).',
-        'Externe **macro** = **PESTEL** ; externe **micro** = **5 forces de Porter** ; **interne** = ressources + compétences distinctives.',
-        'Synthèse = **SWOT** (Forces/Faiblesses internes ; Opportunités/Menaces externes).',
-        'Avantage concurrentiel (**Porter**) : **domination par les coûts** ou **différenciation**.',
-      ],
-      resources: [
-        { kind: 'video', label: 'PESTEL, 5 forces de Porter, SWOT', note: 'Vidéos — recherche YouTube', url: yt('diagnostic stratégique PESTEL 5 forces de Porter SWOT première STMG') },
-        { kind: 'video', label: 'Domination par les coûts vs différenciation', note: 'Vidéos — recherche YouTube', url: yt('stratégies génériques Porter domination coûts différenciation avantage concurrentiel') },
-      ],
-      games: [
-        {
-          id: 'p1-mgmt-t3-qcm',
-          type: 'qcm',
-          title: 'QCM — Diagnostic stratégique',
-          icon: '❓',
-          questions: [
-            { q: 'La méthode PESTEL analyse…', choices: ['le macro-environnement', 'le micro-environnement', 'les ressources internes', 'la comptabilité'], answer: 0, explain: 'PESTEL = Politique, Économique, Socioculturel, Technologique, Écologique, Légal (macro).' },
-            { q: 'Les 5 forces de Porter analysent…', choices: ['la pression concurrentielle (micro-environnement)', 'les grandes forces générales', 'les forces internes', 'le PIB'], answer: 0, explain: 'Elles mesurent la pression concurrentielle du micro-environnement.' },
-            { q: 'Le « L » de PESTEL correspond à la dimension…', choices: ['Légale', 'Logistique', 'Locale', 'Libérale'], answer: 0, explain: 'L = Légal (lois, réglementations, RGPD).' },
-            { q: 'La menace des nouveaux entrants est limitée par…', choices: ['des barrières à l’entrée', 'une baisse des prix', 'la publicité', 'la médiation'], answer: 0, explain: 'Coûts élevés, brevets, réglementation freinent les nouveaux entrants.' },
-            { q: 'Une compétence distinctive est ce que l’organisation sait faire…', choices: ['mieux que ses concurrents', 'comme tout le monde', 'sans ressources', 'à perte'], answer: 0, explain: 'C’est une force du diagnostic interne, source d’avantage concurrentiel.' },
-            { q: 'Proposer une offre unique justifiant un prix élevé, c’est une stratégie de…', choices: ['différenciation', 'domination par les coûts', 'imitation', 'délocalisation'], answer: 0, explain: 'Différenciation (qualité, image, innovation) ; l’autre voie est la domination par les coûts.' },
-          ],
-        },
-        {
-          id: 'p1-mgmt-t3-tri',
           type: 'tri',
           title: 'Tri — Diagnostic interne ou externe ?',
           icon: '🗂️',
@@ -706,25 +658,136 @@ const managementP = {
           ],
         },
         {
-          id: 'p1-mgmt-t3-ordre',
+          id: 'p1-mgmt-t2-ordre',
           type: 'ordre',
           title: 'Remise en ordre — La démarche stratégique',
           icon: '🔢',
           instruction: 'Remets les étapes dans l’ordre.',
-          steps: ['Diagnostic stratégique (interne + externe)', 'Fixation des objectifs', 'Mise en œuvre et pilotage', 'Adaptation si écart'],
-          explain: 'On diagnostique, on fixe des objectifs, on pilote, puis on adapte.',
+          steps: ['Diagnostic stratégique (interne + externe)', 'Fixation des objectifs', 'Mise en œuvre', 'Contrôle et ajustement'],
+          explain: 'On diagnostique, on fixe des objectifs, on met en œuvre, puis on contrôle et on ajuste.',
+        },
+        {
+          id: 'p1-mgmt-t2-flash',
+          type: 'flashcard',
+          title: 'Flashcards — Diagnostic',
+          icon: '🃏',
+          cards: [
+            { front: 'PESTEL', back: 'Diagnostic du macro-environnement (P, E, S, T, E, L).' },
+            { front: 'Micro-environnement', back: 'Acteurs proches : concurrents, clients, fournisseurs, entrants, substituts.' },
+            { front: 'Diagnostic interne', back: 'Ressources + compétences distinctives → forces/faiblesses.' },
+            { front: 'SWOT', back: 'Forces/Faiblesses (interne) + Opportunités/Menaces (externe).' },
+            { front: 'Compétence distinctive', back: 'Ce que l’organisation sait faire mieux que les concurrents.' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'p1-mgmt-t3',
+      name: 'Thème 3 — Les choix stratégiques des organisations',
+      short: 'Choix stratégiques',
+      keywords: 'avantage concurrentiel stratégie domination par les coûts différenciation spécialisation diversification intégration externalisation sous-traitance DAS domaine d’activité stratégique organisation publique société civile',
+      intro:
+        'Une fois le diagnostic posé et les objectifs fixés, l’organisation doit faire des **choix stratégiques** pour se donner un **avantage concurrentiel** durable. Ces choix diffèrent selon la **finalité** de l’organisation.',
+      cours: [
+        {
+          h: 'Rechercher un avantage concurrentiel',
+          blocks: [
+            { t: 'p', c: 'L’objectif d’une stratégie est d’obtenir un **avantage concurrentiel** : un atout qui permet à l’organisation de se distinguer **durablement** de ses concurrents et d’être préférée par les clients. Il repose souvent sur une **compétence distinctive** identifiée lors du diagnostic interne.' },
+          ],
+        },
+        {
+          h: 'Les stratégies de domaine : coûts ou différenciation',
+          blocks: [
+            { t: 'p', c: 'Pour un domaine d’activité donné, l’organisation choisit **comment** affronter la concurrence :' },
+            { t: 'table', head: ['Domination par les coûts', 'Différenciation'], rows: [
+              ['Prix plus bas que les concurrents', 'Offre perçue comme unique'],
+              ['Économies d’échelle, productivité', 'Qualité, image, innovation, service'],
+              ['Ex. enseigne discount', 'Ex. marque de luxe / haut de gamme'],
+            ] },
+            { t: 'warning', c: 'On choisit son terrain : il est difficile d’être à la fois **le moins cher** et **le plus différencié**.' },
+          ],
+        },
+        {
+          h: 'Les stratégies globales : spécialisation ou diversification',
+          blocks: [
+            { t: 'p', c: 'À l’échelle de toute l’organisation, deux grandes orientations :' },
+            { t: 'list', c: [
+              '**Spécialisation** : se concentrer sur **un seul métier / marché** pour y devenir performant.',
+              '**Diversification** : se développer sur **de nouveaux métiers ou marchés** pour répartir les risques et saisir des opportunités.',
+            ] },
+            { t: 'p', c: 'Un **DAS** (Domaine d’Activité Stratégique) est un sous-ensemble homogène d’activités pour lequel on peut définir une stratégie propre.' },
+          ],
+        },
+        {
+          h: 'Faire seul ou avec d’autres : intégration ou externalisation',
+          blocks: [
+            { t: 'list', c: [
+              '**Intégration** : réaliser soi-même une activité (la « faire »), pour la maîtriser.',
+              '**Externalisation** : confier une activité à un partenaire extérieur (la « faire faire », ex. **sous-traitance**), pour se recentrer sur son cœur de métier.',
+            ] },
+          ],
+        },
+        {
+          h: 'Les choix des organisations publiques et de la société civile',
+          blocks: [
+            { t: 'p', c: 'Les **organisations publiques** et de la **société civile** font elles aussi des choix stratégiques, mais tournés vers leur **finalité** (intérêt général, objet social) : développer de **nouveaux services**, **mutualiser** des moyens, nouer des **partenariats**, moderniser leur fonctionnement. La logique n’est pas le profit mais le **service rendu**.' },
+          ],
+        },
+      ],
+      essentiel: [
+        'But d’une stratégie : obtenir un **avantage concurrentiel** durable.',
+        'Stratégies de domaine : **domination par les coûts** OU **différenciation**.',
+        'Stratégies globales : **spécialisation** OU **diversification** (+ notion de **DAS**).',
+        'Modalités : **intégration** (faire) vs **externalisation** (faire faire, sous-traitance).',
+        'Les organisations publiques et de la société civile choisissent selon leur **finalité** (service rendu).',
+      ],
+      resources: [
+        { kind: 'video', label: 'Les choix stratégiques : coûts, différenciation, diversification', note: 'Vidéos — recherche YouTube', url: yt('choix stratégiques domination coûts différenciation spécialisation diversification première STMG') },
+      ],
+      games: [
+        {
+          id: 'p1-mgmt-t3-qcm',
+          type: 'qcm',
+          title: 'QCM — Choix stratégiques',
+          icon: '❓',
+          questions: [
+            { q: 'Un avantage concurrentiel est un atout qui permet…', choices: ['de se distinguer durablement des concurrents', 'de payer moins d’impôts', 'd’éviter tout contrat', 'de fixer la loi'], answer: 0, explain: 'Il rend l’organisation préférable aux yeux des clients, dans la durée.' },
+            { q: 'Proposer une offre unique justifiant un prix élevé, c’est une stratégie de…', choices: ['différenciation', 'domination par les coûts', 'diversification', 'externalisation'], answer: 0, explain: 'Différenciation : qualité, image, innovation, service.' },
+            { q: 'Vendre moins cher que les concurrents grâce à des économies d’échelle, c’est…', choices: ['la domination par les coûts', 'la différenciation', 'la spécialisation', 'l’intégration'], answer: 0, explain: 'On mise sur la productivité et les volumes pour baisser les prix.' },
+            { q: 'Se développer sur de nouveaux métiers ou marchés, c’est une stratégie de…', choices: ['diversification', 'spécialisation', 'domination par les coûts', 'externalisation'], answer: 0, explain: 'Diversification : on répartit les risques sur plusieurs activités.' },
+            { q: 'Confier une activité à un partenaire extérieur (sous-traitance), c’est…', choices: ['l’externalisation', 'l’intégration', 'la spécialisation', 'la différenciation'], answer: 0, explain: 'Externaliser = « faire faire » pour se recentrer sur son cœur de métier.' },
+            { q: 'Un DAS (Domaine d’Activité Stratégique) est…', choices: ['un sous-ensemble homogène d’activités avec une stratégie propre', 'un impôt sur les sociétés', 'un service public', 'un type de contrat'], answer: 0, explain: 'On peut définir une stratégie spécifique pour chaque DAS.' },
+          ],
+        },
+        {
+          id: 'p1-mgmt-t3-tri',
+          type: 'tri',
+          title: 'Tri — Coûts ou différenciation ?',
+          icon: '🗂️',
+          instruction: 'Classe chaque situation selon la stratégie de domaine.',
+          categories: [
+            { id: 'cout', label: 'Domination par les coûts' },
+            { id: 'diff', label: 'Différenciation' },
+          ],
+          items: [
+            { text: 'Une enseigne discount aux prix cassés', cat: 'cout' },
+            { text: 'Une marque de luxe haut de gamme', cat: 'diff' },
+            { text: 'Produire en très grande quantité pour baisser le coût unitaire', cat: 'cout' },
+            { text: 'Un produit innovant à l’image forte', cat: 'diff' },
+            { text: 'Un service client très personnalisé', cat: 'diff' },
+          ],
         },
         {
           id: 'p1-mgmt-t3-flash',
           type: 'flashcard',
-          title: 'Flashcards — Stratégie',
+          title: 'Flashcards — Choix stratégiques',
           icon: '🃏',
           cards: [
-            { front: 'PESTEL', back: 'Diagnostic du macro-environnement (P,E,S,T,E,L).' },
-            { front: '5 forces de Porter', back: 'Pression concurrentielle du micro-environnement.' },
-            { front: 'SWOT', back: 'Forces/Faiblesses (interne) + Opportunités/Menaces (externe).' },
-            { front: 'Avantage concurrentiel', back: 'Domination par les coûts OU différenciation (Porter).' },
-            { front: 'Compétence distinctive', back: 'Ce que l’organisation sait faire mieux que les concurrents.' },
+            { front: 'Avantage concurrentiel', back: 'Atout qui permet de se distinguer durablement des concurrents.' },
+            { front: 'Domination par les coûts', back: 'Prix plus bas grâce aux économies d’échelle et à la productivité.' },
+            { front: 'Différenciation', back: 'Offre unique (qualité, image, innovation) justifiant un prix plus élevé.' },
+            { front: 'Spécialisation / diversification', back: 'Un seul métier / plusieurs métiers et marchés.' },
+            { front: 'Intégration / externalisation', back: 'Faire soi-même / faire faire (sous-traitance).' },
           ],
         },
       ],
@@ -748,14 +811,25 @@ const droitP = {
       id: 'p1-droit-t1',
       name: 'Thème 1 — Qu’est-ce que le droit ?',
       short: 'Qu’est-ce que le droit ?',
-      keywords: 'règle de droit générale impersonnelle obligatoire sanctionnée règle morale sources hiérarchie des normes jurisprudence coutume droit privé public',
+      keywords: 'droit fonctions État de droit laïcité ordre public règle de droit générale impersonnelle obligatoire sanctionnée règle morale religieuse sources hiérarchie des normes Constitution traités UE lois règlements jurisprudence coutume Cour de cassation Conseil constitutionnel QPC contrôle de constitutionnalité droit privé public',
       intro:
-        'Le droit, ce sont les **règles qui organisent la vie en société** et que l’État fait respecter. Sans droit, ce serait la loi du plus fort. Méthode clé : le **syllogisme juridique** (règle → faits → conclusion).',
+        'Le droit, ce sont les **règles qui organisent la vie en société** et que l’État fait respecter. Sans droit, ce serait la loi du plus fort. On découvre ses **fonctions**, les **caractères** de la règle et les **sources** qui la produisent.',
       cours: [
         {
-          h: 'Définition et fonctions',
+          h: 'Les fonctions du droit et l’État de droit',
           blocks: [
-            { t: 'p', c: 'Le droit est l’ensemble des **règles générales et obligatoires** qui régissent les rapports entre les personnes, dont le respect est **garanti par la puissance publique** (l’État). Ses fonctions : **organiser** la société, **pacifier** les relations, **protéger** les personnes et **sanctionner**.' },
+            { t: 'p', c: 'Le droit est l’ensemble des **règles générales et obligatoires** qui régissent les rapports entre les personnes, dont le respect est **garanti par la puissance publique** (l’État). Ses **fonctions** :' },
+            { t: 'list', c: [
+              '**organiser** la société et l’activité économique,',
+              '**pacifier** et **sécuriser** les relations (éviter la loi du plus fort),',
+              '**protéger** les personnes et leurs droits,',
+              '**arbitrer** les conflits et **sanctionner** les manquements.',
+            ] },
+            { t: 'p', c: 'Dans un **État de droit**, la puissance publique elle-même est **soumise au droit** : personne n’est au-dessus de la loi. Deux principes structurants s’y rattachent :' },
+            { t: 'list', c: [
+              'la **laïcité** : l’État est neutre en matière religieuse et garantit la liberté de conscience ;',
+              'l’**ordre public** : l’ensemble des règles essentielles (sécurité, salubrité, tranquillité, dignité) auxquelles on ne peut pas déroger par contrat.',
+            ] },
           ],
         },
         {
@@ -766,27 +840,35 @@ const droitP = {
           ],
         },
         {
-          h: 'Les sources du droit (hiérarchie des normes)',
+          h: 'Les sources du droit et la hiérarchie des normes',
           blocks: [
+            { t: 'p', c: 'Les règles proviennent de plusieurs **sources**, hiérarchisées : une norme inférieure doit **respecter** les normes supérieures.' },
             { t: 'table', head: ['Niveau', 'Source'], rows: [
-              ['1', 'La Constitution (organise l’État, garantit les libertés)'],
+              ['1', 'Bloc de constitutionnalité (la Constitution, la DDHC…)'],
               ['2', 'Traités internationaux et droit de l’Union européenne'],
               ['3', 'La loi (votée par le Parlement)'],
               ['4', 'Les règlements (décrets, arrêtés)'],
             ] },
-            { t: 'p', c: 'S’y ajoutent la **jurisprudence** (décisions des tribunaux qui interprètent la règle) et la **coutume** (usages anciens et acceptés). Une norme inférieure doit **respecter** les normes supérieures.' },
-            { t: 'p', c: 'Grandes distinctions : **droit privé** (rapports entre particuliers : civil, commercial, travail) vs **droit public** (État et ses rapports avec les citoyens).' },
+            { t: 'p', c: 'Le **droit de l’Union européenne** occupe une place importante : ses **règlements** et **directives** s’imposent aux États membres. S’ajoutent des sources **non écrites** : la **jurisprudence** (décisions des tribunaux qui interprètent la règle) et la **coutume** (usages anciens et acceptés).' },
+            { t: 'p', c: 'Le respect de la hiérarchie est contrôlé : le **Conseil constitutionnel** vérifie qu’une loi est conforme à la Constitution. Depuis 2010, tout justiciable peut soulever une **QPC** (Question Prioritaire de Constitutionnalité) pour contester une loi déjà en vigueur. Au sommet de l’ordre judiciaire, la **Cour de cassation** unifie l’interprétation du droit.' },
+          ],
+        },
+        {
+          h: 'Droit privé et droit public',
+          blocks: [
+            { t: 'p', c: 'Grande distinction : le **droit privé** régit les rapports entre **particuliers** (droit civil, commercial, du travail) ; le **droit public** régit l’**État** et ses rapports avec les citoyens (droit constitutionnel, administratif).' },
           ],
         },
       ],
       essentiel: [
-        'Règle de droit = **générale, impersonnelle, obligatoire, sanctionnée par l’État**.',
-        'La **sanction par l’État** la distingue de la règle morale ou religieuse.',
-        'Sources : **Constitution > traités/UE > lois > règlements** (+ jurisprudence, coutume).',
+        'Fonctions du droit : **organiser, pacifier, protéger, sanctionner** ; dans l’**État de droit**, l’État est soumis au droit (+ **laïcité**, **ordre public**).',
+        'Règle de droit = **générale, impersonnelle, obligatoire, sanctionnée par l’État** (≠ règle morale/religieuse).',
+        'Sources : **Constitution > traités/UE > lois > règlements** (+ jurisprudence, coutume) ; contrôle par le **Conseil constitutionnel** et la **QPC**.',
         '**Droit privé** (particuliers) vs **droit public** (État).',
       ],
       resources: [
-        { kind: 'video', label: 'Qu’est-ce que le droit ?', note: 'Vidéos — recherche YouTube', url: yt('qu est ce que le droit règle sources hiérarchie des normes première STMG') },
+        { kind: 'video', label: 'Qu’est-ce que le droit ? Fonctions et sources', note: 'Vidéos — recherche YouTube', url: yt('qu est ce que le droit fonctions règle sources hiérarchie des normes première STMG') },
+        { kind: 'video', label: 'État de droit, hiérarchie des normes, QPC', note: 'Vidéos — recherche YouTube', url: yt('État de droit hiérarchie des normes QPC Conseil constitutionnel première STMG') },
       ],
       games: [
         {
@@ -797,7 +879,10 @@ const droitP = {
           questions: [
             { q: 'La règle de droit est générale, impersonnelle, obligatoire et…', choices: ['sanctionnée par l’État', 'facultative', 'religieuse', 'secrète'], answer: 0, explain: 'La sanction étatique la distingue des règles morales ou religieuses.' },
             { q: 'Ce qui distingue une règle de droit d’une règle morale, c’est…', choices: ['la sanction par l’État', 'sa longueur', 'son ancienneté', 'sa langue'], answer: 0, explain: 'La règle morale relève de la conscience, non sanctionnée par l’État.' },
-            { q: 'Au sommet de la hiérarchie des normes :', choices: ['la Constitution', 'un arrêté municipal', 'un contrat', 'un règlement intérieur'], answer: 0, explain: 'La Constitution prime sur toutes les autres normes.' },
+            { q: 'Dans un État de droit…', choices: ['l’État lui-même est soumis au droit', 'l’État est au-dessus des lois', 'seuls les citoyens obéissent au droit', 'le droit n’existe pas'], answer: 0, explain: 'Personne n’est au-dessus de la loi, pas même la puissance publique.' },
+            { q: 'La neutralité de l’État en matière religieuse s’appelle…', choices: ['la laïcité', 'l’ordre public', 'la jurisprudence', 'la coutume'], answer: 0, explain: 'La laïcité garantit la liberté de conscience et la neutralité de l’État.' },
+            { q: 'Au sommet de la hiérarchie des normes :', choices: ['la Constitution', 'un arrêté municipal', 'un contrat', 'un règlement intérieur'], answer: 0, explain: 'La Constitution (bloc de constitutionnalité) prime sur toutes les autres normes.' },
+            { q: 'La QPC permet à un justiciable de…', choices: ['contester une loi qu’il juge contraire à la Constitution', 'écrire une nouvelle loi', 'juger un crime', 'signer un contrat'], answer: 0, explain: 'La Question Prioritaire de Constitutionnalité conduit au Conseil constitutionnel.' },
             { q: 'L’ensemble des décisions des tribunaux qui interprètent la règle s’appelle…', choices: ['la jurisprudence', 'la coutume', 'la doctrine', 'la loi'], answer: 0, explain: 'La jurisprudence précise et interprète la règle de droit.' },
             { q: 'Le droit du travail relève du droit…', choices: ['privé', 'public', 'constitutionnel', 'international'], answer: 0, explain: 'Le droit privé régit les rapports entre particuliers (dont employeur/salarié).' },
           ],
@@ -818,8 +903,9 @@ const droitP = {
           icon: '⚡',
           questions: [
             { statement: 'Une règle de droit vise une personne en particulier.', answer: false, explain: 'Faux : elle est générale et impersonnelle.' },
+            { statement: 'Dans un État de droit, l’État est soumis au droit.', answer: true, explain: 'Vrai : nul n’est au-dessus de la loi.' },
             { statement: 'La jurisprudence est une source du droit.', answer: true, explain: 'Vrai : les décisions des tribunaux interprètent la règle.' },
-            { statement: 'Une loi peut être contraire à la Constitution.', answer: false, explain: 'Faux : elle doit respecter la norme supérieure.' },
+            { statement: 'Une loi peut être contraire à la Constitution.', answer: false, explain: 'Faux : elle doit respecter la norme supérieure (contrôle du Conseil constitutionnel).' },
           ],
         },
         {
@@ -828,10 +914,12 @@ const droitP = {
           title: 'Flashcards — La règle de droit',
           icon: '🃏',
           cards: [
+            { front: 'Fonctions du droit', back: 'Organiser, pacifier/sécuriser, protéger, arbitrer et sanctionner.' },
+            { front: 'État de droit', back: 'La puissance publique est elle-même soumise au droit.' },
+            { front: 'Laïcité / ordre public', back: 'Neutralité religieuse de l’État / règles essentielles auxquelles on ne peut déroger.' },
             { front: 'Caractères de la règle de droit', back: 'Générale, impersonnelle, obligatoire, sanctionnée par l’État.' },
-            { front: 'Règle morale vs de droit', back: 'La morale relève de la conscience ; le droit est sanctionné par l’État.' },
             { front: 'Hiérarchie des normes', back: 'Constitution > traités/UE > lois > règlements.' },
-            { front: 'Jurisprudence', back: 'Ensemble des décisions des tribunaux qui interprètent la règle.' },
+            { front: 'QPC', back: 'Question Prioritaire de Constitutionnalité : contester une loi en vigueur.' },
           ],
         },
       ],
@@ -840,16 +928,32 @@ const droitP = {
       id: 'p1-droit-t2',
       name: 'Thème 2 — Comment le droit permet-il de régler un litige ?',
       short: 'Le litige',
-      keywords: 'litige preuve charge preuve parfaite imparfaite organisation judiciaire ordre judiciaire administratif appel cassation MARC conciliation médiation arbitrage',
+      keywords: 'litige demandeur défendeur prétentions acte juridique fait juridique preuve charge de la preuve objet preuve parfaite imparfaite acte authentique acte sous signature privée aveu serment témoignage présomption preuve électronique organisation judiciaire ordre judiciaire administratif juridictions civiles pénales procès civil pénal premier degré appel pourvoi cassation accord amiable CJUE CEDH',
       intro:
-        'Quand un désaccord dégénère, il devient un **litige**. Le droit offre des moyens de le résoudre pacifiquement : par la preuve, par le juge, ou à l’amiable.',
+        'Quand un désaccord dégénère, il devient un **litige**. Le droit offre des moyens de le résoudre : d’abord en **prouvant** son droit, puis, si besoin, en **saisissant le juge** — dont les décisions peuvent faire l’objet de **voies de recours**.',
       cours: [
         {
-          h: 'Le litige et la preuve',
+          h: 'Le litige et les parties',
           blocks: [
-            { t: 'p', c: 'Un **litige** est un **désaccord juridique** entre deux parties aux prétentions opposées. Pour faire valoir un droit, il faut le **prouver**.' },
-            { t: 'p', c: 'La **charge de la preuve** pèse sur celui qui **réclame** l’exécution d’une obligation. Les modes de preuve : la **preuve parfaite** (l’**écrit signé**, qui s’impose au juge) et les **preuves imparfaites** (témoignages, indices, que le juge apprécie librement). La preuve doit être **loyale**.' },
-            { t: 'tip', c: 'D’où l’importance de conserver des **écrits** (contrats, reçus, factures), surtout pour les sommes importantes.' },
+            { t: 'p', c: 'Un **litige** est un **désaccord juridique** entre deux parties aux **prétentions** opposées. Devant le juge, celui qui saisit la justice pour réclamer un droit est le **demandeur** ; celui contre qui l’action est dirigée est le **défendeur**.' },
+            { t: 'p', c: 'À l’origine des droits et obligations, on distingue :' },
+            { t: 'table', head: ['Acte juridique', 'Fait juridique'], rows: [
+              ['Volonté de produire des effets de droit', 'Événement qui produit des effets de droit sans les avoir voulus'],
+              ['Ex. un contrat, un testament', 'Ex. un accident, un dommage, une naissance'],
+            ] },
+          ],
+        },
+        {
+          h: 'La preuve : charge, objet et modes',
+          blocks: [
+            { t: 'p', c: 'Pour faire valoir un droit, il faut le **prouver**. La **charge de la preuve** pèse sur le **demandeur** : c’est à celui qui réclame l’exécution d’une obligation d’en apporter la preuve. La preuve doit porter sur l’**objet** du litige et être obtenue **loyalement**.' },
+            { t: 'p', c: 'On classe les modes de preuve en deux catégories selon leur **force probante** :' },
+            { t: 'table', head: ['Preuves parfaites', 'Preuves imparfaites'], rows: [
+              ['Valeur fixée par la loi : elles s’imposent au juge, qui doit les admettre', 'Laissées à la libre appréciation du juge (intime conviction)'],
+              ['Acte authentique, acte sous signature privée, aveu judiciaire, serment', 'Témoignage, indice, présomption'],
+            ] },
+            { t: 'warning', c: 'Attention : une preuve parfaite n’est pas « n’importe quel écrit ». C’est un mode de preuve dont la **valeur est déterminée par la loi**. L’**acte authentique** est reçu par un **officier public** (ex. un notaire) ; l’**acte sous signature privée** est un écrit **signé par les parties**. La **preuve électronique** est admise si l’on peut identifier son auteur et en garantir l’intégrité.' },
+            { t: 'tip', c: 'D’où l’importance de conserver des **écrits** (contrats, reçus, factures), surtout pour les engagements importants.' },
           ],
         },
         {
@@ -858,26 +962,33 @@ const droitP = {
             { t: 'p', c: 'La justice est organisée en **deux ordres** :' },
             { t: 'list', c: [
               '**Ordre judiciaire** : litiges entre particuliers (**juridictions civiles**) et infractions (**juridictions pénales**).',
-              '**Ordre administratif** : litiges impliquant l’administration.',
+              '**Ordre administratif** : litiges impliquant l’**administration**.',
             ] },
-            { t: 'p', c: 'Plusieurs **degrés** : le **premier degré** (le tribunal juge l’affaire), l’**appel** (une nouvelle juridiction rejuge), la **cassation** (la Cour de cassation vérifie la bonne application du droit, sans rejuger les faits).' },
+            { t: 'p', c: 'Il faut distinguer le **procès civil** (il oppose des particuliers et vise à **réparer** : dommages et intérêts) du **procès pénal** (il vise à **sanctionner** une infraction au nom de la société).' },
           ],
         },
         {
-          h: 'Les modes alternatifs (MARC)',
+          h: 'Les voies de recours et l’accord amiable',
           blocks: [
-            { t: 'p', c: 'Avant ou à la place d’un procès (long et coûteux), on peut recourir aux **modes alternatifs de règlement des conflits (MARC)** : la **conciliation** et la **médiation** (un tiers aide les parties à trouver un accord) et l’**arbitrage** (un arbitre privé tranche). Souvent plus rapides et apaisés.' },
+            { t: 'p', c: 'Une décision de justice peut être contestée par les **voies de recours** :' },
+            { t: 'list', c: [
+              '**premier degré** : le tribunal juge l’affaire (les faits et le droit) ;',
+              '**appel** : une **cour d’appel** rejuge entièrement l’affaire (faits + droit) ;',
+              '**pourvoi en cassation** : la **Cour de cassation** vérifie seulement la **bonne application du droit**, sans rejuger les faits.',
+            ] },
+            { t: 'p', c: 'Un litige peut aussi se terminer par un **accord amiable** entre les parties, sans aller jusqu’au jugement. Enfin, deux **juridictions européennes** peuvent intervenir : la **CJUE** (Cour de justice de l’Union européenne, respect du droit de l’UE) et la **CEDH** (Cour européenne des droits de l’homme, respect des libertés fondamentales).' },
           ],
         },
       ],
       essentiel: [
-        '**Litige** = désaccord juridique aux prétentions opposées ; il faut **prouver**.',
-        '**Charge de la preuve** sur celui qui réclame ; **preuve parfaite** (écrit signé) vs **imparfaites**.',
-        'Deux ordres : **judiciaire** (civil/pénal) et **administratif** ; degrés : **1er → appel → cassation**.',
-        '**MARC** : conciliation, médiation, arbitrage (avant/à la place du procès).',
+        '**Litige** = désaccord aux prétentions opposées ; **demandeur** (qui réclame) vs **défendeur**.',
+        '**Acte juridique** (volonté, ex. contrat) vs **fait juridique** (événement non voulu, ex. accident).',
+        '**Charge de la preuve** sur le **demandeur** ; **preuves parfaites** (valeur fixée par la loi : acte authentique, acte sous signature privée, aveu, serment) vs **imparfaites** (témoignage, indice, présomption).',
+        'Deux ordres (**judiciaire** civil/pénal, **administratif**) ; voies de recours : **1er degré → appel → pourvoi en cassation** (+ CJUE, CEDH).',
       ],
       resources: [
-        { kind: 'video', label: 'Le litige, la preuve, les MARC', note: 'Vidéos — recherche YouTube', url: yt('litige preuve organisation judiciaire MARC conciliation médiation première STMG') },
+        { kind: 'video', label: 'Le litige et la preuve', note: 'Vidéos — recherche YouTube', url: yt('litige charge de la preuve preuve parfaite imparfaite première STMG droit') },
+        { kind: 'video', label: 'Organisation judiciaire et voies de recours', note: 'Vidéos — recherche YouTube', url: yt('organisation judiciaire ordre judiciaire administratif appel cassation première STMG') },
       ],
       games: [
         {
@@ -886,29 +997,31 @@ const droitP = {
           title: 'QCM — Le litige',
           icon: '❓',
           questions: [
-            { q: 'La charge de la preuve pèse en principe sur…', choices: ['celui qui réclame', 'le juge', 'le témoin', 'l’avocat adverse'], answer: 0, explain: 'C’est à celui qui réclame l’exécution d’une obligation de prouver.' },
-            { q: 'La preuve « parfaite » est…', choices: ['l’écrit signé (qui s’impose au juge)', 'un témoignage', 'un simple indice', 'une rumeur'], answer: 0, explain: 'L’écrit signé est une preuve parfaite ; témoignages et indices sont imparfaits.' },
+            { q: 'La charge de la preuve pèse en principe sur…', choices: ['le demandeur', 'le juge', 'le témoin', 'le défendeur'], answer: 0, explain: 'C’est au demandeur, celui qui réclame l’exécution d’une obligation, de prouver.' },
+            { q: 'Un contrat, conclu volontairement pour produire des effets de droit, est un…', choices: ['acte juridique', 'fait juridique', 'témoignage', 'pourvoi'], answer: 0, explain: 'Acte juridique = manifestation de volonté ; le fait juridique (ex. accident) n’est pas voulu.' },
+            { q: 'Une preuve parfaite se définit par le fait que…', choices: ['sa valeur est fixée par la loi et s’impose au juge', 'c’est n’importe quel écrit', 'c’est un simple témoignage', 'le juge peut l’ignorer'], answer: 0, explain: 'Acte authentique, acte sous signature privée, aveu, serment : le juge doit les admettre.' },
+            { q: 'Un témoignage ou un indice est une preuve…', choices: ['imparfaite (libre appréciation du juge)', 'parfaite', 'interdite', 'authentique'], answer: 0, explain: 'Les preuves imparfaites sont appréciées librement par le juge (intime conviction).' },
             { q: 'Un litige avec l’administration relève de l’ordre…', choices: ['administratif', 'judiciaire', 'pénal', 'européen'], answer: 0, explain: 'L’ordre administratif juge les litiges impliquant l’administration.' },
             { q: 'La Cour de cassation…', choices: ['vérifie la bonne application du droit (sans rejuger les faits)', 'rejuge entièrement l’affaire', 'écrit les lois', 'gère l’administration'], answer: 0, explain: 'Elle contrôle le droit ; l’appel, lui, rejuge les faits.' },
-            { q: 'La médiation et la conciliation sont des…', choices: ['modes alternatifs de règlement des conflits (MARC)', 'peines pénales', 'sources du droit', 'juridictions administratives'], answer: 0, explain: 'Un tiers aide les parties à trouver un accord, sans jugement.' },
+            { q: 'Le procès pénal vise à…', choices: ['sanctionner une infraction au nom de la société', 'réparer un dommage entre particuliers', 'signer un contrat', 'écrire une loi'], answer: 0, explain: 'Le procès civil répare ; le procès pénal sanctionne.' },
           ],
         },
         {
           id: 'p1-droit-t2-tri',
           type: 'tri',
-          title: 'Tri — Amiable (MARC) ou juge ?',
+          title: 'Tri — Preuve parfaite ou imparfaite ?',
           icon: '🗂️',
-          instruction: 'Classe chaque mode de résolution.',
+          instruction: 'Classe chaque mode de preuve.',
           categories: [
-            { id: 'marc', label: 'MARC (amiable)' },
-            { id: 'juge', label: 'Recours au juge' },
+            { id: 'parf', label: 'Preuve parfaite' },
+            { id: 'imp', label: 'Preuve imparfaite' },
           ],
           items: [
-            { text: 'La médiation', cat: 'marc' },
-            { text: 'La conciliation', cat: 'marc' },
-            { text: 'Saisir le tribunal judiciaire', cat: 'juge' },
-            { text: 'L’arbitrage', cat: 'marc' },
-            { text: 'Faire appel d’un jugement', cat: 'juge' },
+            { text: 'Un acte notarié (acte authentique)', cat: 'parf' },
+            { text: 'Un contrat écrit signé par les parties', cat: 'parf' },
+            { text: 'Le témoignage d’un voisin', cat: 'imp' },
+            { text: 'Un aveu fait devant le juge', cat: 'parf' },
+            { text: 'Un simple indice', cat: 'imp' },
           ],
         },
         {
@@ -917,10 +1030,12 @@ const droitP = {
           title: 'Flashcards — Le litige',
           icon: '🃏',
           cards: [
-            { front: 'Charge de la preuve', back: 'Pèse sur celui qui réclame l’exécution d’une obligation.' },
-            { front: 'Preuve parfaite / imparfaite', back: 'Écrit signé (s’impose au juge) / témoignages, indices.' },
-            { front: 'Deux ordres de juridiction', back: 'Judiciaire (civil/pénal) et administratif.' },
-            { front: 'MARC', back: 'Conciliation, médiation, arbitrage (règlement amiable).' },
+            { front: 'Demandeur / défendeur', back: 'Celui qui réclame en justice / celui contre qui l’action est dirigée.' },
+            { front: 'Acte / fait juridique', back: 'Manifestation de volonté (contrat) / événement non voulu (accident).' },
+            { front: 'Charge de la preuve', back: 'Elle pèse sur le demandeur.' },
+            { front: 'Preuve parfaite', back: 'Valeur fixée par la loi (acte authentique, acte sous signature privée, aveu, serment) : s’impose au juge.' },
+            { front: 'Preuve imparfaite', back: 'Témoignage, indice, présomption : libre appréciation du juge.' },
+            { front: 'Voies de recours', back: '1er degré → appel (rejuge) → pourvoi en cassation (droit seulement).' },
           ],
         },
       ],
@@ -929,9 +1044,9 @@ const droitP = {
       id: 'p1-droit-t3',
       name: 'Thème 3 — Qui peut faire valoir ses droits ?',
       short: 'Les personnes',
-      keywords: 'personnalité juridique personne physique morale capacité jouissance exercice mineur majeur protégé patrimoine droits patrimoniaux extrapatrimoniaux',
+      keywords: 'personnalité juridique personne physique morale nom domicile statut de l’animal capacité jouissance exercice incapacité mineur majeur protégé tutelle curatelle sauvegarde de justice représentation acte de disposition administration patrimoine actif passif unicité universalité indivisibilité incessibilité patrimoine d’affectation droits patrimoniaux extrapatrimoniaux',
       intro:
-        'Pour avoir des droits, il faut être un **sujet de droit**, c’est-à-dire disposer de la **personnalité juridique**.',
+        'Pour avoir des droits, il faut être un **sujet de droit**, c’est-à-dire disposer de la **personnalité juridique**. On étudie qui la possède, dans quelle mesure on peut agir seul (la **capacité**), et ce qu’est le **patrimoine**.',
       cours: [
         {
           h: 'La personnalité juridique',
@@ -939,36 +1054,51 @@ const droitP = {
             { t: 'p', c: 'C’est l’**aptitude à être titulaire de droits et d’obligations**. Elle est reconnue à deux catégories :' },
             { t: 'table', head: ['Personne physique', 'Personne morale'], rows: [
               ['Un être humain', 'Un groupement (société, association déclarée, État)'],
-              ['De la naissance à la mort', 'Nom, siège, patrimoine propres'],
+              ['De la naissance à la mort', 'Créée par l’immatriculation / la déclaration'],
+              ['Identifiée par un nom et un domicile', 'Identifiée par une dénomination et un siège'],
             ] },
-            { t: 'p', c: 'Une personne morale a un patrimoine **distinct** de celui de ses membres et peut agir en justice.' },
+            { t: 'p', c: 'Toute personne est identifiée par des **éléments d’état civil** : notamment un **nom** et un **domicile** (le lieu de son principal établissement). Une personne morale a un **patrimoine distinct** de celui de ses membres et peut agir en justice.' },
+            { t: 'tip', c: 'Le **statut de l’animal** : depuis 2015, la loi reconnaît l’animal comme un **être vivant doué de sensibilité** ; il reste toutefois soumis, pour l’essentiel, au **régime des biens**.' },
           ],
         },
         {
           h: 'La capacité juridique',
           blocks: [
-            { t: 'p', c: 'On distingue la **capacité de jouissance** (avoir des droits) et la **capacité d’exercice** (pouvoir les exercer soi-même). Certaines personnes sont **incapables** et doivent être représentées ou assistées : les **mineurs** (représentés par leurs parents) et les **majeurs protégés** (tutelle, curatelle).' },
+            { t: 'p', c: 'On distingue la **capacité de jouissance** (avoir des droits) et la **capacité d’exercice** (pouvoir les exercer soi-même). Certaines personnes sont **incapables** et doivent être **représentées** ou **assistées** :' },
+            { t: 'list', c: [
+              'les **mineurs** non émancipés (représentés par leurs parents, titulaires de l’autorité parentale) ;',
+              'les **majeurs protégés**, selon la gravité : **sauvegarde de justice** (protection légère et temporaire), **curatelle** (le majeur est **assisté**), **tutelle** (le majeur est **représenté**).',
+            ] },
+            { t: 'p', c: 'On distingue aussi les **actes d’administration** (gestion courante, ex. encaisser un loyer) des **actes de disposition** (qui engagent le patrimoine, ex. vendre un bien), pour lesquels la protection est plus forte.' },
           ],
         },
         {
           h: 'Le patrimoine',
           blocks: [
-            { t: 'p', c: 'Le **patrimoine** est l’ensemble des **droits et obligations** d’une personne **évaluables en argent** (actif et passif). On distingue :' },
+            { t: 'p', c: 'Le **patrimoine** est l’ensemble des **droits et obligations** d’une personne **évaluables en argent** : un **actif** (les biens) et un **passif** (les dettes). Il obéit à des **principes** :' },
+            { t: 'list', c: [
+              '**unicité** : toute personne a un patrimoine et un seul ;',
+              '**universalité** : l’actif répond du passif (les biens garantissent les dettes) ;',
+              '**indivisibilité** : le patrimoine forme un tout ;',
+              '**incessibilité** : on ne peut céder son patrimoine de son vivant (il se transmet à la mort).',
+            ] },
+            { t: 'p', c: 'Par exception, la loi admet un **patrimoine d’affectation** : une personne peut isoler certains biens pour une activité (ex. l’entrepreneur individuel), afin de **protéger son patrimoine personnel**. Enfin, on distingue les droits **patrimoniaux** des droits **extrapatrimoniaux** :' },
             { t: 'table', head: ['Droits patrimoniaux', 'Droits extrapatrimoniaux'], rows: [
               ['Valeur monétaire, cessibles, saisissables', 'Hors commerce, attachés à la personne, non cessibles'],
-              ['Ex. droit de propriété', 'Ex. vie privée, image, nom'],
+              ['Ex. droit de propriété, créances', 'Ex. vie privée, image, nom'],
             ] },
           ],
         },
       ],
       essentiel: [
-        '**Personnalité juridique** = aptitude à être titulaire de droits et d’obligations.',
-        '**Personne physique** (naissance→mort) vs **personne morale** (patrimoine propre distinct).',
-        '**Capacité de jouissance** (avoir des droits) vs **d’exercice** (les exercer seul) ; mineurs et majeurs protégés = incapables.',
-        'Droits **patrimoniaux** (cessibles) vs **extrapatrimoniaux** (vie privée, image).',
+        '**Personnalité juridique** = aptitude à être titulaire de droits et d’obligations ; **personne physique** (naissance→mort, nom, domicile) vs **personne morale** (patrimoine propre).',
+        'Animal = **être vivant doué de sensibilité**, mais soumis au régime des biens.',
+        '**Capacité de jouissance** vs **d’exercice** ; incapables : mineurs, majeurs protégés (**sauvegarde / curatelle / tutelle**).',
+        '**Patrimoine** = actif + passif ; principes **unicité, universalité, indivisibilité, incessibilité** (+ **patrimoine d’affectation**).',
       ],
       resources: [
-        { kind: 'video', label: 'La personnalité juridique', note: 'Vidéos — recherche YouTube', url: yt('personnalité juridique personne physique morale capacité patrimoine première STMG') },
+        { kind: 'video', label: 'La personnalité juridique et la capacité', note: 'Vidéos — recherche YouTube', url: yt('personnalité juridique personne physique morale capacité mineur majeur protégé première STMG') },
+        { kind: 'video', label: 'Le patrimoine et ses principes', note: 'Vidéos — recherche YouTube', url: yt('patrimoine actif passif unicité patrimoine d’affectation première STMG droit') },
       ],
       games: [
         {
@@ -979,8 +1109,10 @@ const droitP = {
           questions: [
             { q: 'La personnalité juridique est l’aptitude à…', choices: ['être titulaire de droits et d’obligations', 'voter une loi', 'juger un litige', 'produire des biens'], answer: 0, explain: 'Elle fait de l’être un sujet de droit.' },
             { q: 'Une association déclarée est une personne…', choices: ['morale', 'physique', 'publique par nature', 'sans patrimoine'], answer: 0, explain: 'Elle a un patrimoine propre, distinct de celui de ses membres.' },
-            { q: 'Un mineur non émancipé a…', choices: ['la capacité de jouissance mais pas la pleine capacité d’exercice', 'aucune personnalité juridique', 'la pleine capacité pour tout acte', 'le droit de voter'], answer: 0, explain: 'Il a des droits mais doit être représenté pour les actes importants.' },
-            { q: 'Le droit à l’image est un droit…', choices: ['extrapatrimonial', 'patrimonial', 'cessible', 'saisissable'], answer: 0, explain: 'Les droits de la personnalité sont extrapatrimoniaux.' },
+            { q: 'Un majeur placé sous tutelle est…', choices: ['représenté par son tuteur', 'totalement libre de tout acte', 'privé de personnalité juridique', 'un mineur'], answer: 0, explain: 'La tutelle représente le majeur ; la curatelle, elle, l’assiste.' },
+            { q: 'Vendre un bien important est un acte…', choices: ['de disposition', 'd’administration', 'de jouissance', 'de procédure'], answer: 0, explain: 'Les actes de disposition engagent le patrimoine ; les actes d’administration sont la gestion courante.' },
+            { q: 'Depuis 2015, l’animal est reconnu comme…', choices: ['un être vivant doué de sensibilité', 'une personne morale', 'une personne physique', 'un majeur protégé'], answer: 0, explain: 'Il reste néanmoins soumis pour l’essentiel au régime des biens.' },
+            { q: 'Le principe selon lequel chaque personne n’a qu’un seul patrimoine est…', choices: ['l’unicité', 'l’universalité', 'l’indivisibilité', 'l’incessibilité'], answer: 0, explain: 'Unicité = un seul patrimoine par personne (sauf patrimoine d’affectation).' },
             { q: 'Le patrimoine comprend…', choices: ['les droits et obligations évaluables en argent (actif et passif)', 'seulement les revenus', 'les opinions', 'la nationalité'], answer: 0, explain: 'Actif (biens) + passif (dettes), évaluables en argent.' },
           ],
         },
@@ -1011,7 +1143,8 @@ const droitP = {
             { front: 'Personnalité juridique', back: 'Aptitude à être titulaire de droits et d’obligations.' },
             { front: 'Personne morale', back: 'Groupement au patrimoine propre distinct de ses membres.' },
             { front: 'Capacité de jouissance / d’exercice', back: 'Avoir des droits / pouvoir les exercer soi-même.' },
-            { front: 'Patrimoine', back: 'Droits et obligations évaluables en argent (actif + passif).' },
+            { front: 'Majeurs protégés', back: 'Sauvegarde de justice, curatelle (assistance), tutelle (représentation).' },
+            { front: 'Patrimoine (principes)', back: 'Unicité, universalité, indivisibilité, incessibilité (+ patrimoine d’affectation).' },
           ],
         },
       ],
@@ -1020,46 +1153,52 @@ const droitP = {
       id: 'p1-droit-t4',
       name: 'Thème 4 — Quels sont les droits reconnus aux personnes ?',
       short: 'Les droits des personnes',
-      keywords: 'droit de propriété usus fructus abusus limites obligations contrat responsabilité droits de la personnalité vie privée image dignité',
+      keywords: 'droit de propriété usus fructus abusus caractères absolu exclusif perpétuel bien corporel incorporel trouble anormal du voisinage propriété intellectuelle industrielle marque brevet monopole d’exploitation action en contrefaçon droit d’auteur droit moral patrimonial droits de la personnalité vie privée image dignité protection des données RGPD CNIL inaliénable insaisissable imprescriptible',
       intro:
-        'Les personnes disposent de **droits**. On étudie ici le **droit de propriété**, les **sources d’obligations** (contrat, responsabilité) et les **droits de la personnalité**.',
+        'Les personnes disposent de **droits**. On étudie ici le **droit de propriété** (y compris la **propriété intellectuelle**) et les **droits de la personnalité**, essentiels à l’ère numérique (**données personnelles**).',
       cours: [
         {
           h: 'Le droit de propriété',
           blocks: [
-            { t: 'p', c: 'C’est le droit le plus complet sur un bien. Il comporte **trois attributs** :' },
+            { t: 'p', c: 'Le droit de propriété est le droit le plus complet sur un **bien** (qui peut être **corporel** — une maison, une voiture — ou **incorporel** — une créance, une marque). Il comporte **trois attributs** :' },
             { t: 'list', c: [
               '**Usus** : le droit d’**utiliser** le bien.',
               '**Fructus** : le droit d’en **percevoir les revenus** (ex. un loyer).',
               '**Abusus** : le droit d’en **disposer** (vendre, détruire).',
             ] },
-            { t: 'warning', c: 'Le droit de propriété n’est **pas absolu** : il connaît des **limites** (respect du voisinage, intérêt général, réglementation). Ex. : le **trouble anormal du voisinage** engage la responsabilité.' },
+            { t: 'p', c: 'On lui reconnaît trois **caractères** : **absolu** (le plus large possible), **exclusif** (le propriétaire est seul à en jouir) et **perpétuel** (il dure tant que le bien existe).' },
+            { t: 'warning', c: 'Ces caractères connaissent des **limites** : respect de l’**intérêt général** (expropriation, urbanisme) et du voisinage. Ainsi, un **trouble anormal du voisinage** (bruit, nuisances excessives) engage la responsabilité de son auteur.' },
           ],
         },
         {
-          h: 'Les sources d’obligations',
+          h: 'La propriété intellectuelle',
           blocks: [
-            { t: 'p', c: 'Une **obligation** est un lien de droit par lequel une personne (le **débiteur**) doit quelque chose à une autre (le **créancier**). Deux grandes sources, **approfondies en terminale** :' },
-            { t: 'list', c: [
-              'Le **contrat** : un **accord de volontés** qui crée des obligations (ex. la vente).',
-              'La **responsabilité** : l’obligation de **réparer un dommage** causé à autrui.',
+            { t: 'p', c: 'Les **créations de l’esprit** sont protégées. On distingue deux ensembles :' },
+            { t: 'table', head: ['Propriété industrielle', 'Droit d’auteur'], rows: [
+              ['Protège les créations utiles à l’activité économique', 'Protège les œuvres de l’esprit (livre, musique, logiciel)'],
+              ['Marque (signe distinctif), brevet (invention)', 'Naît sans formalité, dès la création'],
+              ['Confère un monopole d’exploitation', 'Droit moral (perpétuel) + droits patrimoniaux (limités dans le temps)'],
             ] },
+            { t: 'p', c: 'La **marque** et le **brevet** confèrent à leur titulaire un **monopole d’exploitation**. Toute atteinte (copie, reproduction sans autorisation) constitue une **contrefaçon**, sanctionnée par une **action en contrefaçon**. Le **droit d’auteur** comprend un **droit moral** (respect du nom et de l’œuvre, inaliénable et perpétuel) et des **droits patrimoniaux** (exploiter l’œuvre et en tirer des revenus).' },
           ],
         },
         {
-          h: 'Les droits de la personnalité',
+          h: 'Les droits de la personnalité et la protection des données',
           blocks: [
-            { t: 'p', c: 'Ce sont les droits qui protègent la personne elle-même : droit au respect de la **vie privée**, droit à l’**image**, droit à la **dignité**. Ils sont **extrapatrimoniaux** et particulièrement importants à l’ère numérique (données, réseaux sociaux).' },
+            { t: 'p', c: 'Les **droits de la personnalité** protègent la personne elle-même : droit au respect de la **vie privée**, droit à l’**image**, droit à la **dignité** et au **nom**. Ce sont des droits **extrapatrimoniaux**, aux caractères particuliers : **inaliénables** (on ne peut les vendre), **insaisissables** et **imprescriptibles**.' },
+            { t: 'p', c: 'À l’ère numérique, la **protection des données personnelles** est renforcée. Le **RGPD** (règlement européen) encadre la collecte et l’usage des données ; en France, la **CNIL** veille à leur respect et peut sanctionner les manquements.' },
           ],
         },
       ],
       essentiel: [
-        'Droit de propriété = **usus** (utiliser) + **fructus** (revenus) + **abusus** (disposer), avec des **limites**.',
-        'Sources d’obligations : le **contrat** (accord de volontés) et la **responsabilité** (réparer un dommage).',
-        '**Droits de la personnalité** (vie privée, image, dignité) = extrapatrimoniaux.',
+        'Droit de propriété = **usus** + **fructus** + **abusus** ; caractères **absolu, exclusif, perpétuel** (avec des **limites** : trouble anormal du voisinage, intérêt général).',
+        'Biens **corporels** vs **incorporels**.',
+        'Propriété intellectuelle : **marque / brevet** (propriété industrielle, monopole d’exploitation, **action en contrefaçon**) et **droit d’auteur** (droit **moral** + droits **patrimoniaux**).',
+        '**Droits de la personnalité** (vie privée, image, dignité) = extrapatrimoniaux, **inaliénables, insaisissables, imprescriptibles** ; données protégées par le **RGPD** et la **CNIL**.',
       ],
       resources: [
-        { kind: 'video', label: 'Droit de propriété et droits de la personnalité', note: 'Vidéos — recherche YouTube', url: yt('droit de propriété usus fructus abusus droits personnalité première STMG') },
+        { kind: 'video', label: 'Le droit de propriété (usus, fructus, abusus)', note: 'Vidéos — recherche YouTube', url: yt('droit de propriété usus fructus abusus caractères absolu exclusif perpétuel première STMG') },
+        { kind: 'video', label: 'Propriété intellectuelle, RGPD et données personnelles', note: 'Vidéos — recherche YouTube', url: yt('propriété intellectuelle marque brevet contrefaçon RGPD CNIL première STMG droit') },
       ],
       games: [
         {
@@ -1070,21 +1209,24 @@ const droitP = {
           questions: [
             { q: 'Le droit de percevoir les revenus d’un bien (ex. un loyer) est…', choices: ['le fructus', 'l’usus', 'l’abusus', 'l’usufruit du voisin'], answer: 0, explain: 'Usus = utiliser ; fructus = revenus ; abusus = disposer.' },
             { q: 'Vendre ou détruire un bien correspond à…', choices: ['l’abusus', 'l’usus', 'le fructus', 'la médiation'], answer: 0, explain: 'L’abusus est le droit de disposer du bien.' },
-            { q: 'Le droit de propriété…', choices: ['n’est pas absolu (il a des limites)', 'permet tout sans limite', 'appartient à l’État', 'est extrapatrimonial'], answer: 0, explain: 'Respect du voisinage, intérêt général, réglementation le limitent.' },
-            { q: 'Un accord de volontés créant des obligations est…', choices: ['un contrat', 'une responsabilité', 'une coutume', 'un patrimoine'], answer: 0, explain: 'Le contrat est une source d’obligations ; la responsabilité en est une autre.' },
-            { q: 'Publier la photo de quelqu’un sans son accord porte atteinte…', choices: ['au droit à l’image (droit de la personnalité)', 'au droit de propriété', 'à la hiérarchie des normes', 'au fructus'], answer: 0, explain: 'Le droit à l’image est un droit de la personnalité, extrapatrimonial.' },
+            { q: 'Les caractères du droit de propriété sont…', choices: ['absolu, exclusif, perpétuel', 'général, impersonnel, obligatoire', 'certain, direct, personnel', 'oral, écrit, tacite'], answer: 0, explain: 'Absolu (le plus large), exclusif (seul à en jouir), perpétuel (dure tant que le bien existe).' },
+            { q: 'Une marque protège…', choices: ['un signe distinctif, avec un monopole d’exploitation', 'une invention technique uniquement', 'une œuvre littéraire', 'un salaire'], answer: 0, explain: 'La marque (propriété industrielle) donne un monopole d’exploitation ; le brevet protège l’invention.' },
+            { q: 'Reproduire une œuvre sans autorisation constitue…', choices: ['une contrefaçon', 'un acte authentique', 'un trouble du voisinage', 'une preuve parfaite'], answer: 0, explain: 'La contrefaçon est sanctionnée par une action en contrefaçon.' },
+            { q: 'Le droit d’auteur comprend…', choices: ['un droit moral et des droits patrimoniaux', 'seulement un droit à réparation', 'un monopole d’État', 'une preuve imparfaite'], answer: 0, explain: 'Droit moral (respect de l’œuvre, perpétuel) + droits patrimoniaux (exploiter, tirer des revenus).' },
+            { q: 'En France, l’organisme qui veille à la protection des données personnelles est…', choices: ['la CNIL', 'la Cour de cassation', 'l’INSEE', 'l’Autorité de la concurrence'], answer: 0, explain: 'La CNIL applique le RGPD et peut sanctionner les manquements.' },
           ],
         },
         {
           id: 'p1-droit-t4-assoc',
           type: 'association',
-          title: 'Association — Attribut de la propriété ↔ sens',
+          title: 'Association — Notion ↔ sens',
           icon: '🔗',
           pairs: [
             { left: 'Usus', right: 'Utiliser le bien' },
             { left: 'Fructus', right: 'Percevoir les revenus (loyer)' },
             { left: 'Abusus', right: 'Disposer (vendre, détruire)' },
-            { left: 'Contrat', right: 'Accord de volontés créant des obligations' },
+            { left: 'Brevet', right: 'Protège une invention (monopole d’exploitation)' },
+            { left: 'RGPD / CNIL', right: 'Protection des données personnelles' },
           ],
         },
         {
@@ -1094,8 +1236,9 @@ const droitP = {
           icon: '⚡',
           questions: [
             { statement: 'Le droit de propriété autorise à causer un trouble anormal du voisinage.', answer: false, explain: 'Faux : c’est une limite au droit de propriété.' },
-            { statement: 'La responsabilité oblige à réparer un dommage causé à autrui.', answer: true, explain: 'Vrai : c’est une source d’obligations.' },
-            { statement: 'Le droit à la vie privée est un droit de la personnalité.', answer: true, explain: 'Vrai, extrapatrimonial.' },
+            { statement: 'La marque et le brevet confèrent un monopole d’exploitation.', answer: true, explain: 'Vrai : leur titulaire est seul à pouvoir les exploiter.' },
+            { statement: 'Le droit à la vie privée est un droit de la personnalité, inaliénable.', answer: true, explain: 'Vrai : extrapatrimonial, inaliénable, insaisissable, imprescriptible.' },
+            { statement: 'Une donnée personnelle peut être collectée et utilisée sans aucune règle.', answer: false, explain: 'Faux : le RGPD encadre la collecte et l’usage ; la CNIL veille.' },
           ],
         },
         {
@@ -1105,9 +1248,11 @@ const droitP = {
           icon: '🃏',
           cards: [
             { front: 'Usus / fructus / abusus', back: 'Utiliser / percevoir les revenus / disposer.' },
-            { front: 'Obligation', back: 'Lien de droit : le débiteur doit quelque chose au créancier.' },
-            { front: 'Sources d’obligations', back: 'Le contrat et la responsabilité.' },
-            { front: 'Droits de la personnalité', back: 'Vie privée, image, dignité (extrapatrimoniaux).' },
+            { front: 'Caractères de la propriété', back: 'Absolu, exclusif, perpétuel (avec des limites).' },
+            { front: 'Propriété industrielle', back: 'Marque et brevet : monopole d’exploitation, protégé par l’action en contrefaçon.' },
+            { front: 'Droit d’auteur', back: 'Droit moral (perpétuel) + droits patrimoniaux (exploitation).' },
+            { front: 'Droits de la personnalité', back: 'Vie privée, image, dignité : inaliénables, insaisissables, imprescriptibles.' },
+            { front: 'RGPD / CNIL', back: 'Cadre européen des données / autorité française de contrôle.' },
           ],
         },
       ],
@@ -1290,8 +1435,9 @@ const economieP = {
         {
           h: 'Répartition primaire et redistribution',
           blocks: [
-            { t: 'p', c: 'La **répartition primaire** partage la VA entre les **revenus du travail** (salaires), les **revenus du capital** (intérêts, loyers, dividendes) et les **revenus mixtes** (indépendants).' },
-            { t: 'p', c: 'L’État corrige ensuite par la **redistribution** : il **prélève** (impôts, cotisations) et **verse** des prestations (allocations, retraites). Résultat : le **revenu disponible** des ménages (ce qui reste pour consommer ou épargner).' },
+            { t: 'p', c: 'La **répartition primaire** partage la VA entre les **revenus primaires** : les **revenus du travail** (salaires), les **revenus du capital** (intérêts, loyers, dividendes) et les **revenus mixtes** (indépendants, qui rémunèrent à la fois travail et capital).' },
+            { t: 'p', c: 'L’État corrige ensuite par la **redistribution** : il opère des **prélèvements obligatoires** (impôts, cotisations sociales) et verse des **revenus de transfert** (prestations : allocations, retraites, aides sociales). On obtient alors le **revenu disponible** des ménages (ce qui reste pour consommer ou épargner).' },
+            { t: 'formula', c: 'Revenu disponible = Revenus primaires − Prélèvements obligatoires + Revenus de transfert' },
           ],
         },
         {
@@ -1305,8 +1451,8 @@ const economieP = {
         },
       ],
       essentiel: [
-        'Répartition **primaire** : revenus du **travail**, du **capital**, **mixtes**.',
-        '**Redistribution** = prélèvements (impôts, cotisations) + prestations → **revenu disponible**.',
+        'Répartition **primaire** : **revenus primaires** = travail + capital + mixtes.',
+        '**Revenu disponible = revenus primaires − prélèvements obligatoires + revenus de transfert**.',
         '**Taux d’épargne = épargne / revenu disponible** ; notions de **pouvoir d’achat** et de **patrimoine**.',
       ],
       resources: [
@@ -1320,8 +1466,8 @@ const economieP = {
           icon: '❓',
           questions: [
             { q: 'Les salaires sont des revenus…', choices: ['du travail', 'du capital', 'mixtes', 'de transfert'], answer: 0, explain: 'Travail = salaires ; capital = intérêts, loyers, dividendes ; mixtes = indépendants.' },
-            { q: 'La redistribution consiste à…', choices: ['prélever (impôts, cotisations) et verser des prestations', 'produire des biens', 'fixer les prix', 'créer de la monnaie'], answer: 0, explain: 'Elle corrige la répartition primaire pour réduire les inégalités.' },
-            { q: 'Le revenu disponible est ce qui reste…', choices: ['après impôts et prestations, pour consommer ou épargner', 'avant tout prélèvement', 'après avoir tout épargné', 'après la TVA seulement'], answer: 0, explain: 'C’est le revenu disponible des ménages.' },
+            { q: 'La redistribution consiste à…', choices: ['prélever des prélèvements obligatoires et verser des revenus de transfert', 'produire des biens', 'fixer les prix', 'créer de la monnaie'], answer: 0, explain: 'Elle corrige la répartition primaire pour réduire les inégalités.' },
+            { q: 'La formule du revenu disponible est…', choices: ['revenus primaires − prélèvements obligatoires + revenus de transfert', 'revenus primaires + prélèvements obligatoires', 'salaires − TVA', 'consommation + épargne − impôts'], answer: 0, explain: 'Revenu disponible = revenus primaires − prélèvements obligatoires (impôts, cotisations) + revenus de transfert (prestations).' },
             { q: 'Revenu disponible 2 500 €, consommation 2 100 €. Taux d’épargne ?', choices: ['16 %', '84 %', '40 %', '4 %'], answer: 0, explain: 'Épargne = 400 ; 400/2 500 = 0,16 = 16 %.' },
           ],
         },
@@ -1349,9 +1495,9 @@ const economieP = {
           title: 'Flashcards — Revenus',
           icon: '🃏',
           cards: [
-            { front: 'Répartition primaire', back: 'Partage de la VA : revenus du travail, du capital, mixtes.' },
-            { front: 'Redistribution', back: 'Prélèvements + prestations pour réduire les inégalités.' },
-            { front: 'Revenu disponible', back: 'Ce qui reste après impôts et prestations.' },
+            { front: 'Répartition primaire', back: 'Partage de la VA en revenus primaires : travail, capital, mixtes.' },
+            { front: 'Redistribution', back: 'Prélèvements obligatoires + revenus de transfert pour réduire les inégalités.' },
+            { front: 'Revenu disponible', back: 'Revenus primaires − prélèvements obligatoires + revenus de transfert.' },
             { front: 'Pouvoir d’achat', back: 'Ce que le revenu permet réellement d’acheter.' },
           ],
         },
