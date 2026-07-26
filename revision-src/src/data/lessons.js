@@ -489,6 +489,7 @@ export const LESSONS = {
             'des **dommages et intérêts** ; les parties peuvent les fixer à l’avance par une **clause pénale**.',
           ] },
           { t: 'warning', c: 'Le consommateur est protégé contre les **clauses abusives** : celles qui créent un déséquilibre significatif à son détriment dans un contrat d’adhésion sont **réputées non écrites** (art. 1171 du Code civil).' },
+          { t: 'example', h: 'La cuisine livrée non conforme', c: 'Un cuisiniste s’engage à installer une cuisine avant le 1er mars (obligation de **résultat**). Au 15 mars, rien n’est posé. \n→ Le client adresse une **mise en demeure**. Comme il devait verser le solde à la pose, il peut invoquer l’**exception d’inexécution** (« je ne paie pas tant que ce n’est pas installé »). Si le retard persiste, il demande la **résolution** du contrat (remboursement) et des **dommages et intérêts** — dont le montant peut être fixé d’avance par une **clause pénale**.' },
         ],
       },
       {
@@ -577,6 +578,7 @@ export const LESSONS = {
             'le **fait ou la faute d’un tiers** ;',
             'le **fait ou la faute de la victime** elle-même.',
           ] },
+          { t: 'example', h: 'L’accident de la circulation', c: 'Un automobiliste renverse un piéton : c’est un **régime spécial** (accident de la circulation), une **responsabilité objective** — la victime n’a pas à prouver de **faute**, seulement le **fait générateur**, le **dommage** (corporel) et le **lien de causalité**. \n→ Le conducteur pourra difficilement s’**exonérer** ; il peut seulement invoquer une **faute de la victime** (ex. le piéton a traversé volontairement une autoroute). L’**assurance** indemnise la victime au titre de la mutualisation des risques.' },
         ],
       },
     ],
@@ -638,6 +640,7 @@ export const LESSONS = {
           ] },
           { t: 'p', c: 'Le **licenciement** doit reposer sur une **cause réelle et sérieuse** et respecter une **procédure**. On distingue le licenciement pour **motif personnel** (lié au salarié) du licenciement pour **motif économique** (lié à l’entreprise). Ses conséquences : indemnité de licenciement, préavis, solde de tout compte, droits à l’assurance chômage.' },
           { t: 'warning', c: 'Un licenciement sans **cause réelle et sérieuse** ou sans respect de la **procédure** est **abusif** : le juge peut le sanctionner.' },
+          { t: 'example', h: 'Le licenciement contesté de Karim', c: 'Karim est licencié du jour au lendemain, sans entretien préalable, parce que son responsable « ne l’apprécie pas ». \n→ Ce **motif personnel** n’est pas une **cause réelle et sérieuse** (elle doit être objective et vérifiable) et la **procédure** n’a pas été respectée. Le licenciement est **abusif** : saisi, le conseil de prud’hommes peut condamner l’employeur à verser des indemnités. Une **rupture conventionnelle** (accord commun) aurait été une voie légale.' },
         ],
       },
       {
@@ -678,6 +681,7 @@ export const LESSONS = {
           { t: 'p', c: 'La **liberté d’entreprendre** (à valeur constitutionnelle) et la **liberté du commerce et de l’industrie** permettent à chacun de créer et d’exercer une activité économique. La forme la plus simple est l’**entreprise individuelle** : il n’y a **pas** de nouvelle personne juridique.' },
           { t: 'warning', c: 'Par le **principe d’unicité du patrimoine**, l’entrepreneur individuel répond des dettes de son activité sur **l’ensemble de son patrimoine personnel**. Pour le protéger, la loi prévoit la **déclaration d’insaisissabilité** et le **patrimoine d’affectation** (séparer les biens professionnels des biens personnels).' },
           { t: 'p', c: 'Autre solution : créer une **EURL** (entreprise unipersonnelle à responsabilité limitée). C’est une **société à associé unique** : une **personne morale** distincte est créée, ce qui **protège le patrimoine** du gérant.' },
+          { t: 'example', h: 'Léa hésite : entreprise individuelle ou EURL ?', c: 'Léa ouvre un salon de coiffure et emprunte 40 000 €. \n→ En **entreprise individuelle**, par l’**unicité du patrimoine**, ses biens personnels (voiture, épargne) peuvent servir à payer les dettes en cas de faillite — sauf **déclaration d’insaisissabilité** ou **patrimoine d’affectation**. En **EURL**, une **personne morale** distincte est créée : sa responsabilité est en principe **limitée à ses apports**, ce qui protège mieux son patrimoine personnel.' },
         ],
       },
       {
@@ -698,6 +702,7 @@ export const LESSONS = {
           { t: 'p', c: 'La **libre concurrence** découle de la liberté du commerce et de l’industrie : produire et vendre librement, sans monopole. Elle est toutefois **encadrée** pour éviter les comportements déloyaux ou anti-concurrentiels.' },
           { t: 'p', c: 'La **concurrence déloyale** engage la **responsabilité civile** de son auteur. La victime doit établir : un **fait générateur** (comportement déloyal : **parasitisme, dénigrement, imitation, désorganisation**), un **préjudice** (perte de clientèle, baisse de notoriété) et un **lien de causalité** — c’est l’**action en concurrence déloyale**.' },
           { t: 'p', c: 'Certaines pratiques sont spécifiquement interdites : l’**entente** (accord faussant la concurrence) et l’**abus de position dominante**. L’**Autorité de la concurrence** veille au respect des règles en France ; au niveau européen, les **articles 101 et 102 du TFUE** s’appliquent.' },
+          { t: 'example', h: 'Le concurrent dénigré', c: 'Un commerçant diffuse de fausses rumeurs affirmant que les produits d’un concurrent sont dangereux, et copie son enseigne pour semer la confusion. \n→ Ce sont des actes de **concurrence déloyale** (**dénigrement** et **imitation**). Le concurrent lésé engage une **action en concurrence déloyale** fondée sur la **responsabilité civile** : il doit prouver le **fait générateur** (le comportement déloyal), le **préjudice** (perte de clientèle) et le **lien de causalité**, pour obtenir réparation.' },
         ],
       },
       {

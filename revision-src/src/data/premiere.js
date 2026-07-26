@@ -851,6 +851,7 @@ const droitP = {
             ] },
             { t: 'p', c: 'Le **droit de l’Union européenne** occupe une place importante : ses **règlements** et **directives** s’imposent aux États membres. S’ajoutent des sources **non écrites** : la **jurisprudence** (décisions des tribunaux qui interprètent la règle) et la **coutume** (usages anciens et acceptés).' },
             { t: 'p', c: 'Le respect de la hiérarchie est contrôlé : le **Conseil constitutionnel** vérifie qu’une loi est conforme à la Constitution. Depuis 2010, tout justiciable peut soulever une **QPC** (Question Prioritaire de Constitutionnalité) pour contester une loi déjà en vigueur. Au sommet de l’ordre judiciaire, la **Cour de cassation** unifie l’interprétation du droit.' },
+            { t: 'example', h: 'Un maire face à la hiérarchie des normes', c: 'Un maire prend un **arrêté** (un règlement) interdisant totalement de manifester dans sa commune. Un habitant le conteste. \n→ L’arrêté est une **norme inférieure** : il doit respecter la **loi** et la **Constitution**, qui garantissent la liberté de manifester. Une interdiction générale et absolue est donc **illégale** : le juge administratif peut l’annuler. La **hiérarchie des normes** protège ainsi les libertés.' },
           ],
         },
         {
@@ -928,7 +929,7 @@ const droitP = {
       id: 'p1-droit-t2',
       name: 'Thème 2 — Comment le droit permet-il de régler un litige ?',
       short: 'Le litige',
-      keywords: 'litige demandeur défendeur prétentions acte juridique fait juridique preuve charge de la preuve objet preuve parfaite imparfaite acte authentique acte sous signature privée aveu serment témoignage présomption preuve électronique organisation judiciaire ordre judiciaire administratif juridictions civiles pénales procès civil pénal premier degré appel pourvoi cassation accord amiable CJUE CEDH',
+      keywords: 'litige demandeur défendeur prétentions acte juridique fait juridique preuve charge de la preuve objet preuve parfaite imparfaite acte authentique acte sous signature privée aveu serment témoignage présomption preuve électronique organisation judiciaire ordre judiciaire administratif juridictions civiles pénales procès civil pénal instance assignation audience délibéré jugement arrêt mise en examen partie civile premier degré appel pourvoi cassation accord amiable CJUE CEDH',
       intro:
         'Quand un désaccord dégénère, il devient un **litige**. Le droit offre des moyens de le résoudre : d’abord en **prouvant** son droit, puis, si besoin, en **saisissant le juge** — dont les décisions peuvent faire l’objet de **voies de recours**.',
       cours: [
@@ -965,6 +966,14 @@ const droitP = {
               '**Ordre administratif** : litiges impliquant l’**administration**.',
             ] },
             { t: 'p', c: 'Il faut distinguer le **procès civil** (il oppose des particuliers et vise à **réparer** : dommages et intérêts) du **procès pénal** (il vise à **sanctionner** une infraction au nom de la société).' },
+          ],
+        },
+        {
+          h: 'Le déroulement d’une instance',
+          blocks: [
+            { t: 'p', c: 'Une fois le tribunal saisi, l’affaire suit une **instance** (la procédure en cours). En matière civile, le procès débute souvent par une **assignation** : l’acte par lequel le demandeur informe le défendeur qu’un procès est engagé et le convoque devant le juge. L’affaire est examinée lors d’une **audience** (où les parties, souvent par leurs avocats, présentent leurs arguments), puis les juges se retirent en **délibéré** pour rendre leur décision.' },
+            { t: 'p', c: 'La décision s’appelle un **jugement** (rendu par un tribunal) ou un **arrêt** (rendu par une cour d’appel ou la Cour de cassation). En matière pénale, une personne soupçonnée peut être **mise en examen** lorsqu’il existe contre elle des indices graves ou concordants ; la victime peut se constituer **partie civile** pour demander, au cours du procès pénal, la réparation de son préjudice.' },
+            { t: 'example', h: 'Un litige de voisinage', c: 'Léa (la **demanderesse**) reproche à son voisin (le **défendeur**) un dégât des eaux. Elle le fait **assigner** devant le tribunal judiciaire : l’**instance** est ouverte. Lors de l’**audience**, chacun présente ses **preuves**. Après le **délibéré**, le tribunal rend un **jugement** condamnant le voisin à l’indemniser. Mécontent, celui-ci fait **appel** : la cour d’appel rejugera l’affaire et rendra un **arrêt**.' },
           ],
         },
         {
@@ -1035,6 +1044,8 @@ const droitP = {
             { front: 'Charge de la preuve', back: 'Elle pèse sur le demandeur.' },
             { front: 'Preuve parfaite', back: 'Valeur fixée par la loi (acte authentique, acte sous signature privée, aveu, serment) : s’impose au juge.' },
             { front: 'Preuve imparfaite', back: 'Témoignage, indice, présomption : libre appréciation du juge.' },
+            { front: 'Déroulement (civil)', back: 'Assignation → instance → audience → délibéré → jugement (ou arrêt en appel).' },
+            { front: 'Mise en examen / partie civile', back: 'Indices graves contre une personne (pénal) / victime qui demande réparation au procès pénal.' },
             { front: 'Voies de recours', back: '1er degré → appel (rejuge) → pourvoi en cassation (droit seulement).' },
           ],
         },
@@ -1070,6 +1081,7 @@ const droitP = {
               'les **majeurs protégés**, selon la gravité : **sauvegarde de justice** (protection légère et temporaire), **curatelle** (le majeur est **assisté**), **tutelle** (le majeur est **représenté**).',
             ] },
             { t: 'p', c: 'On distingue aussi les **actes d’administration** (gestion courante, ex. encaisser un loyer) des **actes de disposition** (qui engagent le patrimoine, ex. vendre un bien), pour lesquels la protection est plus forte.' },
+            { t: 'example', h: 'Le scooter de Tom, 16 ans', c: 'Tom, **mineur**, achète seul un scooter d’occasion à 1 500 €. \n→ Tom a la **capacité de jouissance** (il peut être propriétaire) mais pas la pleine **capacité d’exercice** : cet **acte de disposition** dépasse la gestion courante d’un mineur. Ses **parents** (ses représentants) peuvent demander l’**annulation** de la vente. En revanche, acheter une place de cinéma (acte de la vie courante) resterait valable.' },
           ],
         },
         {
@@ -1180,6 +1192,7 @@ const droitP = {
               ['Confère un monopole d’exploitation', 'Droit moral (perpétuel) + droits patrimoniaux (limités dans le temps)'],
             ] },
             { t: 'p', c: 'La **marque** et le **brevet** confèrent à leur titulaire un **monopole d’exploitation**. Toute atteinte (copie, reproduction sans autorisation) constitue une **contrefaçon**, sanctionnée par une **action en contrefaçon**. Le **droit d’auteur** comprend un **droit moral** (respect du nom et de l’œuvre, inaliénable et perpétuel) et des **droits patrimoniaux** (exploiter l’œuvre et en tirer des revenus).' },
+          { t: 'example', h: 'Le faux sac de marque', c: 'Une boutique vend des sacs imitant le **logo** et le **nom** d’une grande marque. \n→ La marque est protégée par un **monopole d’exploitation** : reproduire son signe distinctif sans autorisation est une **contrefaçon**. Le titulaire peut engager une **action en contrefaçon** pour faire cesser la vente et obtenir des dommages et intérêts.' },
           ],
         },
         {
@@ -1187,6 +1200,7 @@ const droitP = {
           blocks: [
             { t: 'p', c: 'Les **droits de la personnalité** protègent la personne elle-même : droit au respect de la **vie privée**, droit à l’**image**, droit à la **dignité** et au **nom**. Ce sont des droits **extrapatrimoniaux**, aux caractères particuliers : **inaliénables** (on ne peut les vendre), **insaisissables** et **imprescriptibles**.' },
             { t: 'p', c: 'À l’ère numérique, la **protection des données personnelles** est renforcée. Le **RGPD** (règlement européen) encadre la collecte et l’usage des données ; en France, la **CNIL** veille à leur respect et peut sanctionner les manquements.' },
+          { t: 'example', h: 'La photo publiée sans accord', c: 'Un ami publie sur un réseau social une photo de Sarah, prise en soirée, sans lui demander. \n→ Le **droit à l’image** (droit de la personnalité, **inaliénable**) suppose l’**accord** de la personne. Sarah peut exiger le **retrait** de la photo et, en cas de préjudice, une réparation. Si le site conserve ses données, le **RGPD** lui donne aussi un droit d’**effacement**, dont la **CNIL** garantit le respect.' },
           ],
         },
       ],
