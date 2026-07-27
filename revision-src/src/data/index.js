@@ -53,6 +53,69 @@ export function chapterGameCount(chapterId) {
   return c ? (c.games?.length || 0) : 0
 }
 
+// ---------------------------------------------------------------------------
+// Découpage Thème → Chapitres.
+// Chaque « thème » (ex. « Thème 5 — Le contrat ») est découpé en chapitres,
+// un par section du cours. Les mini-jeux du thème sont répartis sur ses
+// chapitres (round-robin). La progression reste indexée par id de thème.
+// ---------------------------------------------------------------------------
+export function themeChapters(theme) {
+  if (!theme) return []
+  const cours = theme.cours || []
+  const games = theme.games || []
+  const chapters = cours.map((sec, i) => ({
+    id: `${theme.id}::${i}`,
+    themeId: theme.id,
+    idx: i,
+    title: sec.h || `Partie ${i + 1}`,
+    section: sec,
+    games: [],
+  }))
+  if (chapters.length) {
+    games.forEach((g, k) => chapters[k % chapters.length].games.push(g))
+  }
+  return chapters
+}
+
+export function getThemeChapter(themeId, idx) {
+  const theme = ALL_CHAPTERS[themeId]
+  if (!theme) return null
+  const chs = themeChapters(theme)
+  return chs[Number(idx)] || null
+}
+
+// Construit le « Test du thème » : un mélange de QCM (auto-corrigés),
+// de questions à rédiger (dérivées des flashcards) et de cas pratiques
+// (dérivés des exemples travaillés du cours). Aucune saisie manuelle :
+// tout est reconstruit à partir du contenu existant, pour toutes les matières.
+export function buildThemeTest(themeId) {
+  const theme = ALL_CHAPTERS[themeId]
+  if (!theme) return { qcm: [], redac: [], cas: [] }
+  const qcm = []
+  const redac = []
+  for (const g of theme.games || []) {
+    if (g.type === 'qcm') {
+      for (const q of g.questions) qcm.push({ ...q })
+    } else if (g.type === 'vraifaux') {
+      for (const q of g.questions)
+        qcm.push({ q: q.statement, choices: ['Vrai', 'Faux'], answer: q.answer ? 0 : 1, explain: q.explain })
+    } else if (g.type === 'flashcard') {
+      for (const c of g.cards) redac.push({ prompt: c.front, answer: c.back })
+    }
+  }
+  const cas = []
+  for (const sec of theme.cours || []) {
+    for (const b of sec.blocks || []) {
+      if (b.t === 'example') cas.push({ prompt: b.h || 'Analyse ce cas', answer: b.c })
+    }
+  }
+  return {
+    qcm: shuffle(qcm).slice(0, 8),
+    redac: shuffle(redac).slice(0, 5),
+    cas: cas.slice(0, 3),
+  }
+}
+
 // Construit le jeu de questions du Quiz noté d'un chapitre à partir de tous
 // les items « qcm » et « vraifaux » présents dans ses mini-jeux.
 export function buildQuiz(chapterId) {
