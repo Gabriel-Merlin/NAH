@@ -128,7 +128,15 @@ function WrittenPart({ items, color, onExit, onDone }) {
   const [answer, setAnswer] = useState('')
   const it = items[i]
   const isCas = it.kind === 'cas'
-  const prompt = isCas ? `Analyse ce cas : ${it.prompt}` : `Définis / explique : ${it.prompt}`
+  const style = it.style
+  const prompt = isCas
+    ? `Analyse ce cas : ${it.prompt}`
+    : style === 'tri'
+      ? `Classe et justifie : ${it.prompt}`
+      : style === 'section'
+        ? `Présente et explique : ${it.prompt}`
+        : `Définis / explique : ${it.prompt}`
+  const badge = isCas ? '⚖️ Cas pratique' : style === 'tri' ? '🗂️ Classement justifié' : style === 'section' ? '📝 Développement' : '✍️ Rédaction'
 
   const rate = (good) => {
     const nextOk = ok + (good ? 1 : 0)
@@ -150,7 +158,7 @@ function WrittenPart({ items, color, onExit, onDone }) {
       </div>
       <div className="card p-5">
         <div className="mb-2 flex items-center justify-between text-xs font-semibold text-slate-400">
-          <span>{isCas ? '⚖️ Cas pratique' : '✍️ Rédaction'}</span>
+          <span>{badge}</span>
           <span>{i + 1} / {items.length}</span>
         </div>
         <h3 className="mb-3 text-lg font-semibold leading-snug">{prompt}</h3>

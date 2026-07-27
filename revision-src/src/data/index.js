@@ -92,7 +92,7 @@ export function buildThemeTest(themeId) {
   const theme = ALL_CHAPTERS[themeId]
   if (!theme) return { qcm: [], redac: [], cas: [] }
   const qcm = []
-  const redac = []
+  const redac = [] // questions à rédiger : { prompt, answer, style }
   for (const g of theme.games || []) {
     if (g.type === 'qcm') {
       for (const q of g.questions) qcm.push({ ...q })
@@ -100,9 +100,38 @@ export function buildThemeTest(themeId) {
       for (const q of g.questions)
         qcm.push({ q: q.statement, choices: ['Vrai', 'Faux'], answer: q.answer ? 0 : 1, explain: q.explain })
     } else if (g.type === 'flashcard') {
-      for (const c of g.cards) redac.push({ prompt: c.front, answer: c.back })
+      for (const c of g.cards) redac.push({ prompt: c.front, answer: c.back, style: 'def' })
+    } else if (g.type === 'association') {
+      for (const p of g.pairs) redac.push({ prompt: p.left, answer: p.right, style: 'def' })
+    } else if (g.type === 'tri') {
+      const labels = Object.fromEntries((g.categories || []).map((c) => [c.id, c.label]))
+      for (const it of g.items || [])
+        redac.push({ prompt: it.text, answer: labels[it.cat] || '', style: 'tri' })
     }
   }
+  // Questions « développe ce sous-thème » : à partir de chaque section du
+  // cours (intitulé → texte de la section comme corrigé). Garantit des
+  // questions à rédiger pour TOUS les thèmes, même sans flashcards.
+  const sectionRedac = []
+  for (const sec of theme.cours || []) {
+    const txt = sectionPlainText(sec)
+    if (sec.h && txt.length > 40) sectionRedac.push({ prompt: sec.h, answer: txt, style: 'section' })
+  }
+
+  // Assemblage : on garantit quelques questions de développement, puis on
+  // complète avec les définitions/classements, en évitant les doublons.
+  const seen = new Set()
+  const out = []
+  const push = (r) => {
+    const k = (r.prompt || '').toLowerCase().trim()
+    if (!k || !r.answer || seen.has(k)) return
+    seen.add(k)
+    out.push(r)
+  }
+  sectionRedac.slice(0, 3).forEach(push)
+  shuffle(redac).forEach(push)
+  sectionRedac.slice(3).forEach(push)
+
   const cas = []
   for (const sec of theme.cours || []) {
     for (const b of sec.blocks || []) {
@@ -111,9 +140,27 @@ export function buildThemeTest(themeId) {
   }
   return {
     qcm: shuffle(qcm).slice(0, 8),
-    redac: shuffle(redac).slice(0, 5),
-    cas: cas.slice(0, 3),
+    redac: out.slice(0, 10),
+    cas: cas.slice(0, 4),
   }
+}
+
+// Extrait un texte lisible (avec markdown) d'une section de cours, pour servir
+// de corrigé à une question à rédiger. Gère le format « blocks » et l'ancien
+// format « points ».
+function sectionPlainText(sec) {
+  const parts = []
+  if (sec.blocks) {
+    for (const b of sec.blocks) {
+      if (b.t === 'p' || b.t === 'formula' || b.t === 'tip' || b.t === 'warning') parts.push(b.c)
+      else if (b.t === 'list') parts.push(b.c.map((x) => '• ' + x).join('\n'))
+    }
+  } else {
+    if (sec.intro) parts.push(sec.intro)
+    if (sec.points) parts.push(sec.points.map((x) => '• ' + x).join('\n'))
+    if (sec.formula) parts.push(sec.formula)
+  }
+  return parts.join('\n')
 }
 
 // Construit le jeu de questions du Quiz noté d'un chapitre à partir de tous
