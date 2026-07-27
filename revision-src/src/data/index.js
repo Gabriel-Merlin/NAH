@@ -154,6 +154,11 @@ function sectionPlainText(sec) {
     for (const b of sec.blocks) {
       if (b.t === 'p' || b.t === 'formula' || b.t === 'tip' || b.t === 'warning') parts.push(b.c)
       else if (b.t === 'list') parts.push(b.c.map((x) => '• ' + x).join('\n'))
+      else if (b.t === 'table') {
+        const head = (b.head || []).filter(Boolean).join(' · ')
+        const rows = (b.rows || []).map((r) => '• ' + r.map(String).join(' — ')).join('\n')
+        parts.push([head, rows].filter(Boolean).join('\n'))
+      }
     }
   } else {
     if (sec.intro) parts.push(sec.intro)
