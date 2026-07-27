@@ -62,9 +62,9 @@ function Breadcrumb() {
     if (parts[0] === 'subject' && parts[1]) {
       const s = getSubject(parts[1])
       if (s) items.push({ label: s.short || s.name, to: `/subject/${s.id}` })
-      if (parts[2] === 'chapter' && parts[3]) {
+      if (parts[2] === 'theme' && parts[3]) {
         const c = getChapter(parts[3])
-        if (c) items.push({ label: c.short || c.name, to: `/subject/${parts[1]}/chapter/${c.id}` })
+        if (c) items.push({ label: c.short || c.name, to: `/subject/${parts[1]}/theme/${c.id}` })
       }
     } else if (parts[0] === 'favoris') {
       items.push({ label: 'Favoris', to: '/favoris' })
@@ -108,7 +108,7 @@ function SearchOverlay({ onClose }) {
 
   const go = (r) => {
     onClose()
-    navigate(r.type === 'subject' ? `/subject/${r.id}` : `/subject/${r.subjectId}/chapter/${r.id}`)
+    navigate(r.type === 'subject' ? `/subject/${r.id}` : `/subject/${r.subjectId}/theme/${r.id}`)
   }
 
   return (
