@@ -176,7 +176,7 @@ function WrittenPart({ items, color, onExit, onDone }) {
           <>
             <div className="mt-3 rounded-xl border-l-4 border-emerald-400 bg-emerald-50 p-4 dark:border-emerald-500 dark:bg-emerald-950/30">
               <p className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">✅ Corrigé</p>
-              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><Rich text={it.answer} /></p>
+              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><Rich text={style === 'tri' ? `Catégorie : **${it.answer}**` : it.answer} /></p>
             </div>
             <p className="mt-3 text-center text-sm font-semibold">Ta réponse était-elle correcte ?</p>
             <div className="mt-2 grid grid-cols-2 gap-2">
