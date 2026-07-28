@@ -11,6 +11,7 @@ import { histoire } from './histoire.js'
 import { langues } from './langues.js'
 import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
+import { DOC_STUDIES } from './docstudies.js'
 
 export const SUBJECTS = [
   gestion,
@@ -37,6 +38,11 @@ for (const s of SUBJECTS) {
       if (lesson.cours) c.cours = lesson.cours
       if (lesson.resources) c.resources = lesson.resources
       if (lesson.essentiel) c.essentiel = lesson.essentiel
+    }
+    // Étude de documents (Droit & Économie) : ajoutée aux jeux du thème.
+    const docStudy = DOC_STUDIES[c.id]
+    if (docStudy && !(c.games || []).some((g) => g.id === docStudy.id)) {
+      c.games = [...(c.games || []), docStudy]
     }
     ALL_CHAPTERS[c.id] = { ...c, subjectId: s.id, subjectName: s.name, color: s.color }
   }
