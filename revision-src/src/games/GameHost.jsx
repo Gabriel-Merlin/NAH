@@ -10,6 +10,7 @@ import Trou from './Trou.jsx'
 import Ordre from './Ordre.jsx'
 import Calcul from './Calcul.jsx'
 import Memory from './Memory.jsx'
+import DocStudy from './DocStudy.jsx'
 
 const COMPONENTS = {
   qcm: Qcm,
@@ -21,6 +22,7 @@ const COMPONENTS = {
   ordre: Ordre,
   calcul: Calcul,
   memory: Memory,
+  doc: DocStudy,
 }
 
 export const GAME_LABELS = {
@@ -33,7 +35,11 @@ export const GAME_LABELS = {
   ordre: 'Remise en ordre',
   calcul: 'Calcul express',
   memory: 'Memory',
+  doc: 'Étude de documents',
 }
+
+// Types sans « mode » (Entraînement / Défi) : on entre directement dans le jeu.
+const NO_MODE = new Set(['doc'])
 
 // Jeux « auto-corrigés en continu » où le mode Entraînement montre l'explication
 // après chaque réponse (les autres se corrigent surtout à la fin).
@@ -41,7 +47,7 @@ const HAS_MODES = true
 
 export default function GameHost({ game, chapterId, color, quiz = false, onExit }) {
   const { recordResult } = useStore()
-  const [mode, setMode] = useState(null)
+  const [mode, setMode] = useState(NO_MODE.has(game.type) ? 'solo' : null)
   const [result, setResult] = useState(null)
   const [runKey, setRunKey] = useState(0)
 
@@ -99,7 +105,7 @@ export default function GameHost({ game, chapterId, color, quiz = false, onExit 
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           <button onClick={replay} className="btn-primary" style={{ backgroundColor: color }}>Rejouer</button>
-          <button onClick={() => { setMode(null); setResult(null) }} className="btn-ghost">Changer de mode</button>
+          {!NO_MODE.has(game.type) && <button onClick={() => { setMode(null); setResult(null) }} className="btn-ghost">Changer de mode</button>}
           <button onClick={onExit} className="btn-ghost">Terminé</button>
         </div>
       </div>
