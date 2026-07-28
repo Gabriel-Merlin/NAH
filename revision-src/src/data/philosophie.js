@@ -35,6 +35,11 @@ export const philosophie = {
         },
       ],
       formulas: ['3 perspectives : l’existence humaine et la culture · la morale et la politique · la connaissance'],
+      essentiel: [
+        '**7 notions** au programme : art, justice, liberté, nature, religion, technique, vérité.',
+        'Chaque notion se traite par une **problématisation** (une question, un paradoxe), jamais par une simple définition.',
+        '**Repères** à mobiliser : absolu/relatif, objectif/subjectif, **légal/légitime**, croire/savoir, universel/particulier, cause/fin.',
+      ],
       games: [
         {
           id: 'philo-notions-flash',
@@ -138,6 +143,11 @@ export const philosophie = {
         },
       ],
       formulas: ['Plan type : thèse → antithèse → dépassement'],
+      essentiel: [
+        '**Dissertation** : analyser le sujet → définir les termes → **problématiser** → plan progressif (thèse / antithèse / dépassement) → argumenter → conclure.',
+        '**Explication de texte** : dégager la **thèse**, suivre les mouvements du texte, expliquer le raisonnement, en discuter la portée.',
+        '**Auteurs** en 3 périodes : Antiquité/Moyen Âge (Platon, Aristote) · Moderne (Descartes, Kant) · Contemporaine (Sartre, Arendt).',
+      ],
       games: [
         {
           id: 'philo-methode-ordre',

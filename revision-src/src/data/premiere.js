@@ -1810,6 +1810,14 @@ const mathsP = {
             { statement: 'La parabole n’a aucun axe de symétrie.', answer: false, explain: 'Faux : elle est symétrique par rapport à la verticale passant par le sommet.' },
           ],
         },
+        {
+          id: 'p1-math-c3-flash', type: 'flashcard', title: 'Flashcards — Second degré', icon: '🃏',
+          cards: [
+            { front: 'f(x) = ax² + bx + c', back: 'Sa courbe est une parabole.' },
+            { front: 'Signe de a', back: 'a > 0 : minimum (∪) ; a < 0 : maximum (∩).' },
+            { front: 'Sommet', back: 'Donne l’extremum ; axe de symétrie vertical passant par lui.' },
+          ],
+        },
       ],
     },
     {
@@ -1843,6 +1851,14 @@ const mathsP = {
             { q: 'La dérivée de ax² + bx + c est…', choices: ['2ax + b', 'ax + b', '2ax', 'a x² + b'], answer: 0, explain: '(ax² + bx + c)’ = 2ax + b.' },
             { q: 'Si f’(x) > 0 sur un intervalle, alors f est…', choices: ['croissante', 'décroissante', 'constante', 'négative'], answer: 0, explain: 'f’ > 0 ⇒ f croissante.' },
             { q: 'f(x) = −2x² + 12x. f’(x) s’annule en…', choices: ['x = 3', 'x = 6', 'x = 12', 'x = 0'], answer: 0, explain: '−4x + 12 = 0 ⇔ x = 3 (maximum).' },
+          ],
+        },
+        {
+          id: 'p1-math-c4-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La dérivée de ax² + bx + c est 2ax + b.', answer: true, explain: 'Vrai.' },
+            { statement: 'Si f’(x) < 0, la fonction est croissante.', answer: false, explain: 'Faux : f’ < 0 ⇒ décroissante.' },
+            { statement: 'Un extremum est atteint là où f’ s’annule en changeant de signe.', answer: true, explain: 'Vrai : max ou min.' },
           ],
         },
       ],
@@ -1885,6 +1901,14 @@ const mathsP = {
             { front: 'Écart-type', back: 'Mesure la dispersion autour de la moyenne.' },
           ],
         },
+        {
+          id: 'p1-math-c5-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La médiane partage la série en deux moitiés.', answer: true, explain: 'Vrai : 50 % de part et d’autre.' },
+            { statement: 'L’étendue vaut Q3 − Q1.', answer: false, explain: 'Faux : étendue = max − min ; Q3 − Q1 = écart interquartile.' },
+            { statement: 'Un écart-type plus grand signifie des valeurs plus dispersées.', answer: true, explain: 'Vrai.' },
+          ],
+        },
       ],
     },
     {
@@ -1913,6 +1937,14 @@ const mathsP = {
             { q: 'La probabilité conditionnelle P_A(B) vaut…', choices: ['P(A ∩ B) / P(A)', 'P(A) × P(B)', 'P(A) + P(B)', 'P(B) − P(A)'], answer: 0, explain: 'Probabilité de B sachant A.' },
             { q: '60 % font anglais, dont 30 % font espagnol. P(anglais et espagnol) ?', choices: ['0,18', '0,90', '0,30', '0,50'], answer: 0, explain: '0,60 × 0,30 = 0,18.' },
             { q: 'A et B sont indépendants si…', choices: ['P(A ∩ B) = P(A) × P(B)', 'P(A) = P(B)', 'P(A ∩ B) = 0', 'P(A) + P(B) = 1'], answer: 0, explain: 'Définition de l’indépendance.' },
+          ],
+        },
+        {
+          id: 'p1-math-c6-flash', type: 'flashcard', title: 'Flashcards — Probabilités', icon: '🃏',
+          cards: [
+            { front: 'Probabilité conditionnelle', back: 'P_A(B) = P(A ∩ B) / P(A).' },
+            { front: 'Indépendance', back: 'P(A ∩ B) = P(A) × P(B).' },
+            { front: 'Espérance E(X)', back: 'Somme des (valeur × probabilité) : la moyenne attendue.' },
           ],
         },
       ],
@@ -1955,6 +1987,14 @@ const mathsP = {
             { front: 'Boucle (for / while)', back: 'Répète des instructions.' },
             { front: 'Condition (if / else)', back: 'Fait un choix selon une condition.' },
             { front: 'Liste', back: 'Stocke plusieurs valeurs.' },
+          ],
+        },
+        {
+          id: 'p1-math-c7-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La boucle for sert à répéter des instructions.', answer: true, explain: 'Vrai (nombre de répétitions connu).' },
+            { statement: 'if / else sert à répéter à l’infini.', answer: false, explain: 'Faux : if/else fait un choix ; c’est la boucle qui répète.' },
+            { statement: 'Une liste peut stocker plusieurs valeurs.', answer: true, explain: 'Vrai.' },
           ],
         },
       ],
@@ -2101,6 +2141,14 @@ const francaisP = {
             { front: 'Explication linéaire', back: 'Expliquer le texte dans l’ordre, au fil de la lecture.' },
           ],
         },
+        {
+          id: 'p1-fr-2-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'À l’écrit techno, on choisit entre le commentaire et la contraction + essai.', answer: true, explain: 'Vrai : deux sujets au choix.' },
+            { statement: 'La contraction consiste à donner son avis sur le texte.', answer: false, explain: 'Faux : on résume fidèlement au quart, sans commenter.' },
+            { statement: 'L’explication linéaire suit le texte dans l’ordre.', answer: true, explain: 'Vrai : au fil de la lecture, sans plaquer un plan thématique.' },
+          ],
+        },
       ],
     },
   ],
@@ -2159,6 +2207,14 @@ const histoireP = {
             { front: '1804-1815', back: 'Empire de Napoléon (Code civil).' },
           ],
         },
+        {
+          id: 'p1-hg-h1-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La Révolution française commence en 1789.', answer: true, explain: 'Vrai : fin de la monarchie absolue, DDHC.' },
+            { statement: 'Napoléon devient empereur en 1789.', answer: false, explain: 'Faux : en 1804 (Empire 1804-1815).' },
+            { statement: 'Le Code civil est une œuvre napoléonienne.', answer: true, explain: 'Vrai : 1804.' },
+          ],
+        },
       ],
     },
     {
@@ -2192,6 +2248,14 @@ const histoireP = {
           questions: [
             { statement: 'Le suffrage universel de 1848 incluait les femmes.', answer: false, explain: 'Faux : il était masculin.' },
             { statement: 'L’industrialisation a favorisé l’urbanisation.', answer: true, explain: 'Vrai : afflux vers les villes industrielles.' },
+          ],
+        },
+        {
+          id: 'p1-hg-h2-flash', type: 'flashcard', title: 'Flashcards — Repères', icon: '🃏',
+          cards: [
+            { front: '1848', back: 'IIe République : suffrage universel masculin, abolition de l’esclavage.' },
+            { front: 'Industrialisation', back: 'Urbanisation, bourgeoisie, classe ouvrière, tensions sociales.' },
+            { front: 'Révolutions de 1830 et 1848', back: 'Instabilité politique de la France après 1815.' },
           ],
         },
       ],
@@ -2235,6 +2299,14 @@ const histoireP = {
             { front: 'Guerre totale', back: 'Mobilisation militaire, économique et des esprits (1914-1918).' },
           ],
         },
+        {
+          id: 'p1-hg-h3-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Les lois Ferry rendent l’école gratuite et obligatoire.', answer: true, explain: 'Vrai (IIIe République).' },
+            { statement: 'La séparation des Églises et de l’État date de 1789.', answer: false, explain: 'Faux : 1905.' },
+            { statement: 'La Première Guerre mondiale est une guerre totale.', answer: true, explain: 'Vrai : mobilisation des sociétés entières.' },
+          ],
+        },
       ],
     },
     {
@@ -2268,6 +2340,14 @@ const histoireP = {
             { front: 'Métropolisation', back: 'Concentration des populations, activités et pouvoirs dans les métropoles.' },
             { front: 'Fonctions de commandement', back: 'Sièges, bourses, universités, aéroports internationaux.' },
             { front: 'Processus différencié', back: 'Touche inégalement les territoires → inégalités.' },
+          ],
+        },
+        {
+          id: 'p1-hg-g1-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La métropolisation concentre hommes, activités et pouvoirs dans les grandes villes.', answer: true, explain: 'Vrai.' },
+            { statement: 'La métropolisation touche tous les territoires de la même façon.', answer: false, explain: 'Faux : processus différencié, source d’inégalités.' },
+            { statement: 'Les fonctions de commandement se concentrent dans les métropoles.', answer: true, explain: 'Vrai : sièges, bourses, aéroports internationaux.' },
           ],
         },
       ],
@@ -2305,6 +2385,14 @@ const histoireP = {
             { front: 'FMN', back: 'Firme multinationale, acteur clé de la production mondialisée.' },
           ],
         },
+        {
+          id: 'p1-hg-g2-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Les services prennent une place croissante dans la production.', answer: true, explain: 'Vrai : tertiarisation.' },
+            { statement: 'Les firmes multinationales ne jouent aucun rôle dans la production.', answer: false, explain: 'Faux : ce sont des acteurs clés.' },
+            { statement: 'Un technopôle concentre des activités de haute technologie.', answer: true, explain: 'Vrai : technologie et recherche.' },
+          ],
+        },
       ],
     },
     {
@@ -2337,6 +2425,14 @@ const histoireP = {
           cards: [
             { front: 'Multifonctionnalité', back: 'Plusieurs fonctions : résidentielle, touristique, écologique, économique.' },
             { front: 'Périurbanisation', back: 'Extension de l’habitat autour des villes.' },
+          ],
+        },
+        {
+          id: 'p1-hg-g3-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Les espaces ruraux sont aujourd’hui multifonctionnels.', answer: true, explain: 'Vrai : résidentiel, tourisme, écologie, économie.' },
+            { statement: 'La périurbanisation est l’extension de l’habitat autour des villes.', answer: true, explain: 'Vrai.' },
+            { statement: 'La multifonctionnalité des espaces ruraux ne crée aucune tension.', answer: false, explain: 'Faux : tensions sur l’usage des sols.' },
           ],
         },
       ],
@@ -2522,6 +2618,14 @@ const languesP = {
           instruction: 'Remets les 4 premiers axes dans l’ordre officiel.',
           steps: ['Identités et échanges', 'Espace privé et espace public', 'Art et pouvoir', 'Citoyenneté et mondes virtuels'],
           explain: 'Les axes 1 à 4 dans l’ordre du programme.',
+        },
+        {
+          id: 'p1-lng-axes-flash', type: 'flashcard', title: 'Flashcards — Axes & activités', icon: '🃏',
+          cards: [
+            { front: 'Nombre d’axes', back: '8 axes culturels (« Gestes fondateurs et mondes en mouvement »).' },
+            { front: 'Médiation', back: 'Reformuler, traduire ou expliquer un document à quelqu’un.' },
+            { front: '6 activités langagières', back: 'CO, CE, EO (continu + interaction), EE, médiation.' },
+          ],
         },
       ],
     },
