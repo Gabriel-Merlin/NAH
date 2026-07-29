@@ -279,4 +279,193 @@ export const DOC_STUDIES = {
       { doc: 3, type: 'redac', q: 'Décris brièvement les étapes du procès civil que va suivre l’affaire de Sophie.', answer: 'Sophie va d’abord faire **assigner** son ami (acte qui l’informe du procès et le convoque). L’affaire sera ensuite examinée lors d’une **audience**, où chacun présente ses arguments et ses preuves. Les juges se retireront en **délibéré**, puis rendront un **jugement**. Si l’une des parties n’est pas satisfaite, elle pourra faire **appel**, la cour d’appel rendant alors un **arrêt**.' },
     ],
   },
+
+  // ======================================================================
+  // DROIT — Première · Thème 1 : Qu'est-ce que le droit ?
+  // ======================================================================
+  'p1-droit-t1': {
+    id: 'p1-droit-t1-doc',
+    type: 'doc',
+    title: 'Étude de documents — La règle de droit et ses sources',
+    icon: '📑',
+    intro: 'Qu’est-ce qui distingue une règle de droit des autres règles, et comment s’organisent les sources ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — Les caractères de la règle de droit', text: 'La règle de droit présente quatre caractères : elle est **générale** (elle s’applique à tous), **impersonnelle** (elle ne vise personne nommément), **obligatoire** et **sanctionnée par l’État**. Ses fonctions : organiser la société, pacifier les relations, protéger les personnes et sanctionner les manquements.' },
+      { id: 2, title: 'Document 2 — Règle de droit et règle morale', text: 'La règle **morale** relève de la conscience individuelle ; la règle **religieuse** relève de la croyance. Ni l’une ni l’autre n’est **sanctionnée par l’État**. C’est précisément la **sanction étatique** qui distingue la règle de droit de ces autres règles de conduite.' },
+      { id: 3, title: 'Document 3 — La hiérarchie des normes', text: 'Les sources du droit sont hiérarchisées : au sommet la **Constitution** (bloc de constitutionnalité), puis les **traités internationaux et le droit de l’Union européenne**, puis les **lois** (votées par le Parlement), enfin les **règlements** (décrets, arrêtés). Une norme inférieure doit respecter les normes supérieures. Le **Conseil constitutionnel** en contrôle le respect ; depuis 2010, la **QPC** permet à un justiciable de contester une loi en vigueur.' },
+      { id: 4, title: 'Document 4 — L’arrêté du maire', text: 'Un maire prend un **arrêté** (un règlement municipal) interdisant totalement et en toute circonstance de manifester dans sa commune. Un habitant conteste cet arrêté, estimant qu’il porte atteinte à la liberté de manifester garantie par la Constitution.' },
+    ],
+    questions: [
+      { doc: 1, q: 'La règle de droit est générale, impersonnelle, obligatoire et…', choices: ['sanctionnée par l’État', 'facultative', 'secrète', 'religieuse'], answer: 0, explain: 'La sanction étatique est le 4ᵉ caractère.' },
+      { doc: 2, q: 'Ce qui distingue une règle de droit d’une règle morale, c’est…', choices: ['la sanction par l’État', 'sa longueur', 'son ancienneté', 'sa langue'], answer: 0, explain: 'La morale relève de la conscience, non sanctionnée par l’État.' },
+      { doc: 3, q: 'Au sommet de la hiérarchie des normes se trouve…', choices: ['la Constitution', 'un arrêté municipal', 'une loi ordinaire', 'un contrat'], answer: 0, explain: 'La Constitution prime sur toutes les autres normes.' },
+      { doc: 3, q: 'La QPC permet à un justiciable de…', choices: ['contester une loi qu’il juge contraire à la Constitution', 'écrire une nouvelle loi', 'juger un crime', 'signer un contrat'], answer: 0, explain: 'Question Prioritaire de Constitutionnalité (depuis 2010).' },
+      { doc: [3, 4], q: 'L’arrêté du maire est illégal car…', choices: ['une norme inférieure doit respecter la loi et la Constitution', 'un maire ne peut jamais prendre d’arrêté', 'la manifestation est interdite partout', 'l’arrêté est trop court'], answer: 0, explain: 'L’arrêté (règlement) ne peut contredire la Constitution, norme supérieure.' },
+      { doc: [1, 2], type: 'redac', q: 'Qu’est-ce qui distingue la règle de droit d’une simple règle morale ?', answer: 'La règle de droit partage certains caractères avec la règle morale (elle guide les conduites), mais elle est **générale, impersonnelle, obligatoire** et surtout **sanctionnée par l’État**. La règle **morale**, elle, relève de la **conscience** et n’est pas sanctionnée par la puissance publique. C’est donc la **sanction étatique** qui distingue le droit de la morale.' },
+      { doc: [3, 4], type: 'redac', q: 'En t’appuyant sur la hiérarchie des normes, explique pourquoi l’arrêté du maire peut être annulé.', answer: 'La **hiérarchie des normes** impose qu’une norme inférieure respecte les normes supérieures. L’**arrêté** du maire est un **règlement**, tout en bas de la pyramide : il doit respecter la **loi** et la **Constitution**, qui garantissent la liberté de manifester. Une interdiction **générale et absolue** est disproportionnée et **contraire** à ces normes supérieures : le juge administratif peut donc **annuler** l’arrêté. La hiérarchie des normes protège ainsi les libertés.' },
+      { doc: 1, type: 'redac', q: 'Cite et explique deux fonctions du droit.', answer: 'Le droit **organise** la société et l’activité économique (il fixe des règles communes) et **pacifie** les relations en évitant la loi du plus fort (il permet de régler les conflits par le juge plutôt que par la force). On peut aussi citer sa fonction de **protection** des personnes et de leurs droits, et sa fonction de **sanction** des manquements.' },
+    ],
+  },
+
+  // ======================================================================
+  // DROIT — Première · Thème 3 : Les personnes
+  // ======================================================================
+  'p1-droit-t3': {
+    id: 'p1-droit-t3-doc',
+    type: 'doc',
+    title: 'Étude de documents — Les personnes et leur capacité',
+    icon: '📑',
+    intro: 'Qui est sujet de droit et dans quelle mesure peut-on agir seul ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — La personnalité juridique', text: 'La **personnalité juridique** est l’aptitude à être **titulaire de droits et d’obligations**. Elle est reconnue aux **personnes physiques** (les êtres humains, de la naissance à la mort, identifiés par un nom et un domicile) et aux **personnes morales** (groupements — société, association déclarée, État — dotés d’un patrimoine propre distinct de celui de leurs membres).' },
+      { id: 2, title: 'Document 2 — La capacité juridique', text: 'On distingue la **capacité de jouissance** (avoir des droits) de la **capacité d’exercice** (pouvoir les exercer seul). Certaines personnes sont **incapables** et doivent être **représentées** ou **assistées** : les **mineurs** non émancipés (représentés par leurs parents) et les **majeurs protégés** (sauvegarde de justice, curatelle, tutelle).' },
+      { id: 3, title: 'Document 3 — Le patrimoine', text: 'Le **patrimoine** est l’ensemble des **droits et obligations** d’une personne **évaluables en argent** : un **actif** (les biens) et un **passif** (les dettes). Principe d’**unicité** : toute personne a un patrimoine, et un seul. On distingue les droits **patrimoniaux** (cessibles, saisissables) des droits **extrapatrimoniaux** (vie privée, image, nom).' },
+      { id: 4, title: 'Document 4 — Le scooter de Tom', text: 'Tom, **16 ans** (mineur non émancipé), achète seul un scooter d’occasion à 1 500 € auprès d’un particulier, sans en parler à ses parents. Ceux-ci, mécontents, souhaitent revenir sur cette opération.' },
+    ],
+    questions: [
+      { doc: 1, q: 'La personnalité juridique est l’aptitude à…', choices: ['être titulaire de droits et d’obligations', 'voter une loi', 'juger un litige', 'produire des biens'], answer: 0, explain: 'Elle fait de l’être un sujet de droit.' },
+      { doc: 1, q: 'Une association déclarée est une personne…', choices: ['morale', 'physique', 'sans patrimoine', 'incapable'], answer: 0, explain: 'Elle a un patrimoine propre, distinct de celui de ses membres.' },
+      { doc: 2, q: 'Pouvoir exercer soi-même ses droits, c’est la capacité…', choices: ['d’exercice', 'de jouissance', 'de propriété', 'd’ester'], answer: 0, explain: 'Jouissance = avoir des droits ; exercice = les exercer seul.' },
+      { doc: 3, q: 'Le droit à l’image est un droit…', choices: ['extrapatrimonial', 'patrimonial', 'cessible', 'saisissable'], answer: 0, explain: 'Les droits de la personnalité sont extrapatrimoniaux.' },
+      { doc: [2, 4], q: 'L’achat du scooter par Tom peut être remis en cause car…', choices: ['mineur, il n’a pas la pleine capacité d’exercice pour un tel acte', 'un mineur n’a aucun droit', 'le scooter est trop cher pour exister', 'les parents sont incapables'], answer: 0, explain: 'Le mineur doit être représenté pour les actes importants.' },
+      { doc: 1, type: 'redac', q: 'Distingue la personne physique de la personne morale.', answer: 'La **personne physique** est un **être humain**, sujet de droit de la **naissance à la mort**, identifié par un nom et un domicile. La **personne morale** est un **groupement** (société, association déclarée, État) auquel la loi reconnaît la personnalité juridique : elle a un **nom**, un **siège** et surtout un **patrimoine propre**, distinct de celui de ses membres, et peut agir en justice.' },
+      { doc: [2, 4], type: 'redac', q: 'Les parents de Tom peuvent-ils faire annuler l’achat du scooter ? Justifie.', answer: 'Oui, en principe. Tom, **mineur non émancipé**, a la **capacité de jouissance** (il peut être propriétaire) mais pas la pleine **capacité d’exercice** : l’achat d’un scooter à 1 500 € est un **acte de disposition** qui dépasse la gestion courante d’un mineur. Ses **parents**, qui le **représentent**, peuvent donc demander l’**annulation** de la vente. En revanche, un acte de la vie courante (acheter une place de cinéma) resterait valable.' },
+      { doc: 3, type: 'redac', q: 'Qu’est-ce que le patrimoine ? Explique le principe d’unicité.', answer: 'Le **patrimoine** est l’ensemble des **droits et obligations** d’une personne **évaluables en argent** : un **actif** (ses biens) et un **passif** (ses dettes). Le principe d’**unicité** signifie que **toute personne a un patrimoine, et un seul** : ses biens répondent de ses dettes. La loi admet toutefois des exceptions (patrimoine d’affectation) pour protéger le patrimoine personnel de l’entrepreneur.' },
+    ],
+  },
+
+  // ======================================================================
+  // DROIT — Première · Thème 4 : Les droits reconnus aux personnes
+  // ======================================================================
+  'p1-droit-t4': {
+    id: 'p1-droit-t4-doc',
+    type: 'doc',
+    title: 'Étude de documents — Propriété, création et vie privée',
+    icon: '📑',
+    intro: 'Comment le droit protège-t-il les biens, les créations et la personne ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — Le droit de propriété', text: 'Le droit de propriété comporte trois attributs : l’**usus** (utiliser le bien), le **fructus** (en percevoir les revenus, ex. un loyer) et l’**abusus** (en disposer : vendre, détruire). On lui reconnaît trois caractères : **absolu, exclusif et perpétuel**. Il connaît toutefois des **limites** : intérêt général et respect du voisinage.' },
+      { id: 2, title: 'Document 2 — Le trouble anormal du voisinage', text: 'Nul ne doit causer à autrui un **trouble anormal du voisinage**. Des nuisances excessives (bruit, odeurs, fumées) qui dépassent les inconvénients normaux de la vie en collectivité engagent la **responsabilité** de leur auteur, même s’il ne commet aucune faute : c’est une **limite** au droit de propriété.' },
+      { id: 3, title: 'Document 3 — La propriété intellectuelle', text: 'Les créations sont protégées. La **propriété industrielle** protège la **marque** (signe distinctif) et le **brevet** (invention), en conférant un **monopole d’exploitation** ; toute copie constitue une **contrefaçon**, sanctionnée par une **action en contrefaçon**. Le **droit d’auteur** protège les œuvres et comprend un **droit moral** (respect de l’œuvre) et des **droits patrimoniaux** (en tirer des revenus).' },
+      { id: 4, title: 'Document 4 — La photo de Sarah', text: 'Un ami publie sur un réseau social une photo de Sarah, prise en soirée, **sans lui demander son accord**. Sarah, gênée, veut obtenir le retrait de la photo. Le droit au respect de la **vie privée** et le **droit à l’image** sont des droits de la personnalité ; le **RGPD** encadre l’usage des données personnelles, sous le contrôle de la **CNIL**.' },
+    ],
+    questions: [
+      { doc: 1, q: 'Le droit de percevoir les revenus d’un bien (ex. un loyer) est…', choices: ['le fructus', 'l’usus', 'l’abusus', 'l’usufruit'], answer: 0, explain: 'Usus = utiliser ; fructus = revenus ; abusus = disposer.' },
+      { doc: 1, q: 'Les caractères du droit de propriété sont…', choices: ['absolu, exclusif, perpétuel', 'général, impersonnel, obligatoire', 'certain, direct, personnel', 'oral, écrit, tacite'], answer: 0, explain: 'Trois caractères, avec toutefois des limites.' },
+      { doc: 3, q: 'Reproduire une marque sans autorisation constitue…', choices: ['une contrefaçon', 'un trouble du voisinage', 'un acte authentique', 'une preuve parfaite'], answer: 0, explain: 'La contrefaçon est sanctionnée par une action en contrefaçon.' },
+      { doc: 4, q: 'En France, l’organisme qui veille à la protection des données personnelles est…', choices: ['la CNIL', 'la Cour de cassation', 'l’INSEE', 'l’Autorité de la concurrence'], answer: 0, explain: 'La CNIL applique le RGPD.' },
+      { doc: [2, 1], q: 'Un voisin qui cause un bruit excessif et permanent…', choices: ['dépasse les limites du droit de propriété (trouble anormal)', 'exerce normalement sa propriété', 'commet une contrefaçon', 'exerce son fructus'], answer: 0, explain: 'Le trouble anormal du voisinage est une limite au droit de propriété.' },
+      { doc: 1, type: 'redac', q: 'Présente les trois attributs du droit de propriété avec un exemple pour chacun.', answer: 'Le droit de propriété comporte : l’**usus** — le droit d’**utiliser** le bien (habiter sa maison) ; le **fructus** — le droit d’en **percevoir les revenus** (louer la maison et encaisser le loyer) ; l’**abusus** — le droit d’en **disposer** (vendre ou détruire le bien). Réunis, ces trois attributs font du propriétaire le maître le plus complet de son bien, sous réserve des limites (voisinage, intérêt général).' },
+      { doc: [3], type: 'redac', q: 'Distingue la propriété industrielle du droit d’auteur.', answer: 'La **propriété industrielle** protège les créations utiles à l’activité économique — la **marque** (signe distinctif) et le **brevet** (invention) — en conférant un **monopole d’exploitation**, et suppose un dépôt. Le **droit d’auteur** protège les **œuvres de l’esprit** (livre, musique, logiciel) **dès leur création**, sans formalité ; il comprend un **droit moral** (perpétuel, respect de l’œuvre et du nom) et des **droits patrimoniaux** (exploiter l’œuvre et en tirer des revenus).' },
+      { doc: 4, type: 'redac', q: 'Sarah peut-elle exiger le retrait de la photo publiée sans son accord ? Justifie.', answer: 'Oui. Le **droit à l’image** et le droit au respect de la **vie privée** sont des **droits de la personnalité**, **inaliénables** : publier l’image d’une personne suppose son **accord**. Comme Sarah n’a pas consenti, elle peut exiger le **retrait** de la photo et, en cas de préjudice, une réparation. Le **RGPD** lui donne en outre un droit à l’**effacement** de ses données, dont la **CNIL** garantit le respect.' },
+    ],
+  },
+
+  // ======================================================================
+  // ÉCONOMIE — Première · Thème 1 : Les grandes questions économiques
+  // ======================================================================
+  'p1-eco-t1': {
+    id: 'p1-eco-t1-doc',
+    type: 'doc',
+    title: 'Étude de documents — Rareté, choix et agents économiques',
+    icon: '📑',
+    intro: 'Pourquoi doit-on faire des choix, et qui sont les acteurs de l’économie ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — La rareté et les choix', text: 'Les **besoins** des individus sont illimités, mais les **ressources** pour les satisfaire sont **limitées** : c’est la **rareté**. Elle oblige à faire des **choix** et à renoncer à d’autres emplois des ressources. L’économie répond à trois grandes questions : **que produire ?**, **comment produire ?**, **pour qui produire ?**.' },
+      { id: 2, title: 'Document 2 — Le coût d’opportunité', text: 'Choisir, c’est renoncer. Le **coût d’opportunité** d’un choix est la valeur de la **meilleure option à laquelle on renonce**. Exemple : consacrer une soirée à réviser, c’est renoncer à la soirée de loisir que l’on aurait pu passer à la place.' },
+      { id: 3, title: 'Document 3 — Les agents économiques', text: 'L’économie est animée par des **agents** aux rôles différents : les **ménages** (consomment, épargnent, offrent du travail), les **entreprises** (produisent des biens et services), les **administrations publiques** (fournissent des services non marchands, prélèvent, redistribuent), les **banques** (financent), et le **reste du monde** (échanges extérieurs).' },
+      { id: 4, title: 'Document 4 — Le circuit économique', text: 'Les agents sont reliés par un **circuit** : à un **flux réel** (biens, services, travail) correspond un **flux monétaire** en sens inverse. Ainsi, un ménage fournit du travail à une entreprise (flux réel) et reçoit un salaire (flux monétaire) ; il achète des biens (flux réel) et paie un prix (flux monétaire).' },
+    ],
+    questions: [
+      { doc: 1, q: 'La rareté vient du fait que les besoins sont… et les ressources…', choices: ['illimités / limitées', 'limités / illimitées', 'nuls / infinies', 'égaux / égales'], answer: 0, explain: 'Besoins illimités face à des ressources limitées → nécessité de choisir.' },
+      { doc: 1, q: '« Pour qui produire ? » est…', choices: ['l’une des trois grandes questions économiques', 'une loi fiscale', 'un agent économique', 'un flux monétaire'], answer: 0, explain: 'Que / comment / pour qui produire.' },
+      { doc: 2, q: 'Le coût d’opportunité d’un choix est…', choices: ['la valeur de la meilleure option à laquelle on renonce', 'le prix d’achat en euros', 'un impôt', 'un salaire'], answer: 0, explain: 'Choisir, c’est renoncer : le coût est l’option abandonnée.' },
+      { doc: 3, q: 'Les administrations publiques ont notamment pour rôle de…', choices: ['fournir des services non marchands et redistribuer', 'produire uniquement pour l’export', 'fixer les prix de tous les biens', 'remplacer les ménages'], answer: 0, explain: 'Services non marchands, prélèvements, redistribution.' },
+      { doc: 4, q: 'Dans le circuit économique, à un flux réel correspond…', choices: ['un flux monétaire en sens inverse', 'un autre flux réel identique', 'aucun échange', 'un impôt uniquement'], answer: 0, explain: 'Flux réel (travail, biens) ↔ flux monétaire (salaire, prix).' },
+      { doc: 2, type: 'redac', q: 'Explique la notion de coût d’opportunité à l’aide d’un exemple.', answer: 'Le **coût d’opportunité** d’un choix est la valeur de la **meilleure option sacrifiée**. Comme les ressources (temps, argent) sont **rares**, choisir une chose, c’est **renoncer** à une autre. Exemple : un élève qui passe sa soirée à réviser renonce à la soirée entre amis qu’il aurait pu vivre à la place ; cette soirée perdue est le coût d’opportunité de sa révision.' },
+      { doc: 3, type: 'redac', q: 'Cite trois agents économiques et précise leur rôle principal.', answer: 'Les **ménages** consomment, épargnent et offrent leur travail. Les **entreprises** produisent des biens et des services marchands. Les **administrations publiques** fournissent des services non marchands, prélèvent des impôts et redistribuent les revenus. On peut ajouter les **banques** (qui financent) et le **reste du monde** (échanges extérieurs).' },
+      { doc: 4, type: 'redac', q: 'À l’aide du circuit économique, montre la relation entre un ménage et une entreprise.', answer: 'Le **circuit économique** relie les agents par des flux de sens opposés. Un **ménage** fournit son **travail** à l’**entreprise** (flux réel) et reçoit en retour un **salaire** (flux monétaire). Avec ce revenu, il **achète** des biens et services produits par l’entreprise (flux réel) et paie un **prix** (flux monétaire). À chaque flux réel correspond donc un flux monétaire inverse.' },
+    ],
+  },
+
+  // ======================================================================
+  // ÉCONOMIE — Première · Thème 2 : Créer et mesurer la richesse
+  // ======================================================================
+  'p1-eco-t2': {
+    id: 'p1-eco-t2-doc',
+    type: 'doc',
+    title: 'Étude de documents — Créer et mesurer la richesse',
+    icon: '📑',
+    intro: 'Comment mesure-t-on la richesse réellement créée par une entreprise et par un pays ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — Production marchande et non marchande', text: 'La **production marchande** est vendue sur un marché à un prix couvrant les coûts (une baguette, une coupe de cheveux). La **production non marchande** est fournie gratuitement ou quasi gratuitement, financée par l’impôt (l’école publique, la justice). La production combine deux **facteurs** : le **travail** et le **capital**.' },
+      { id: 2, title: 'Document 2 — La valeur ajoutée', text: 'La richesse réellement créée par une entreprise se mesure par sa **valeur ajoutée** : la valeur de sa **production** diminuée des **consommations intermédiaires** (biens et services achetés à d’autres et détruits dans la production).', source: 'VA = Production − Consommations intermédiaires' },
+      { id: 3, title: 'Document 3 — Le PIB et la croissance', text: 'Le **PIB** (produit intérieur brut) mesure la richesse créée dans un pays sur une année : c’est la **somme des valeurs ajoutées**. La **croissance économique** est l’augmentation durable du PIB, mesurée par un **taux de croissance** d’une année sur l’autre.' },
+      { id: 4, title: 'Document 4 — La boulangerie de M. Léon', text: 'Sur un mois, la boulangerie de M. Léon vend pour **20 000 €** de pains et viennoiseries. Pour produire, elle a acheté pour **7 000 €** de farine, d’œufs, d’électricité et d’emballages (consommations intermédiaires).' },
+    ],
+    questions: [
+      { doc: 1, q: 'L’école publique gratuite relève de la production…', choices: ['non marchande', 'marchande', 'industrielle exportée', 'intermédiaire'], answer: 0, explain: 'Fournie gratuitement, financée par l’impôt.' },
+      { doc: 1, q: 'Les deux facteurs de production sont…', choices: ['le travail et le capital', 'l’offre et la demande', 'l’impôt et l’épargne', 'le prix et le salaire'], answer: 0, explain: 'Travail + capital.' },
+      { doc: 2, q: 'La valeur ajoutée se calcule…', choices: ['production − consommations intermédiaires', 'production + salaires', 'chiffre d’affaires + impôts', 'production × prix'], answer: 0, explain: 'VA = production − consommations intermédiaires.' },
+      { doc: 3, q: 'Le PIB d’un pays est…', choices: ['la somme des valeurs ajoutées', 'le total des salaires seulement', 'la somme des importations', 'le montant des impôts'], answer: 0, explain: 'PIB = somme des VA.' },
+      { doc: [2, 4], q: 'La valeur ajoutée de la boulangerie de M. Léon est de…', choices: ['13 000 €', '20 000 €', '7 000 €', '27 000 €'], answer: 0, explain: 'VA = 20 000 − 7 000 = 13 000 €.' },
+      { doc: 1, type: 'redac', q: 'Distingue production marchande et production non marchande, avec un exemple de chacune.', answer: 'La production **marchande** est **vendue sur un marché** à un prix destiné à couvrir les coûts : par exemple une baguette de pain ou une coupe de cheveux. La production **non marchande** est fournie **gratuitement ou quasi gratuitement** et financée par l’**impôt** : par exemple l’enseignement public ou la justice. Les deux créent de la richesse mais ne se vendent pas de la même façon.' },
+      { doc: [2, 4], type: 'redac', q: 'Calcule la valeur ajoutée de la boulangerie et explique ce qu’elle représente.', answer: 'La **valeur ajoutée** = **production − consommations intermédiaires** = 20 000 − 7 000 = **13 000 €**. Elle représente la **richesse réellement créée** par la boulangerie : ce n’est pas tout le chiffre d’affaires (20 000 €), car une partie (7 000 €) correspond à des biens achetés à d’autres et « consommés » dans la production. La VA servira notamment à rémunérer le travail et le capital.' },
+      { doc: 3, type: 'redac', q: 'Qu’est-ce que la croissance économique et comment la mesure-t-on ?', answer: 'La **croissance économique** est l’**augmentation durable de la production** d’un pays. On la mesure par l’évolution du **PIB** (somme des valeurs ajoutées) d’une année sur l’autre : le **taux de croissance** indique de combien de pour cent le PIB a augmenté. Une croissance positive signifie que le pays a créé plus de richesses que l’année précédente.' },
+    ],
+  },
+
+  // ======================================================================
+  // ÉCONOMIE — Première · Thème 3 : Répartir les revenus et la richesse
+  // ======================================================================
+  'p1-eco-t3': {
+    id: 'p1-eco-t3-doc',
+    type: 'doc',
+    title: 'Étude de documents — La répartition des revenus',
+    icon: '📑',
+    intro: 'Comment la richesse créée est-elle partagée, puis corrigée par l’État ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — La répartition primaire', text: 'La valeur ajoutée est d’abord partagée entre ceux qui ont participé à la production : c’est la **répartition primaire**. On distingue les **revenus du travail** (salaires), les **revenus du capital** (intérêts, loyers, dividendes) et les **revenus mixtes** (indépendants, qui rémunèrent à la fois travail et capital).' },
+      { id: 2, title: 'Document 2 — La redistribution', text: 'L’État corrige ensuite cette répartition pour réduire les inégalités : c’est la **redistribution**. Il opère des **prélèvements obligatoires** (impôts, cotisations sociales) et verse des **revenus de transfert** (allocations, retraites, aides). On obtient alors le **revenu disponible** des ménages.', source: 'Revenu disponible = Revenus primaires − Prélèvements obligatoires + Revenus de transfert' },
+      { id: 3, title: 'Document 3 — Consommer ou épargner', text: 'Avec son revenu disponible, le ménage arbitre entre **consommer** (dépenser) et **épargner** (mettre de côté). Le **taux d’épargne** = épargne / revenu disponible. Notions liées : le **pouvoir d’achat** (ce que le revenu permet réellement d’acheter compte tenu des prix) et le **patrimoine** (accumulation de l’épargne).' },
+      { id: 4, title: 'Document 4 — Le budget de la famille Diallo', text: 'La famille Diallo perçoit **2 800 €** de revenus primaires (salaires). Elle paie **600 €** de prélèvements obligatoires et reçoit **200 €** d’allocations. Ce mois-ci, elle consomme **2 100 €**.' },
+    ],
+    questions: [
+      { doc: 1, q: 'Les salaires sont des revenus…', choices: ['du travail', 'du capital', 'mixtes', 'de transfert'], answer: 0, explain: 'Travail = salaires ; capital = intérêts, loyers, dividendes.' },
+      { doc: 2, q: 'La redistribution consiste à…', choices: ['prélever des prélèvements obligatoires et verser des revenus de transfert', 'produire des biens', 'fixer les prix', 'créer de la monnaie'], answer: 0, explain: 'Elle corrige la répartition primaire.' },
+      { doc: 2, q: 'La formule du revenu disponible est…', choices: ['revenus primaires − prélèvements obligatoires + revenus de transfert', 'revenus primaires + prélèvements obligatoires', 'salaires − TVA', 'consommation + épargne'], answer: 0, explain: 'On retranche les prélèvements et on ajoute les transferts.' },
+      { doc: 3, q: 'Le taux d’épargne se calcule…', choices: ['épargne / revenu disponible', 'consommation / revenu', 'revenu / dépenses', 'épargne × prix'], answer: 0, explain: 'Taux d’épargne = épargne / revenu disponible.' },
+      { doc: [2, 4], q: 'Le revenu disponible de la famille Diallo est de…', choices: ['2 400 €', '2 800 €', '3 600 €', '2 000 €'], answer: 0, explain: '2 800 − 600 + 200 = 2 400 €.' },
+      { doc: 1, type: 'redac', q: 'Présente les trois types de revenus de la répartition primaire.', answer: 'La **répartition primaire** partage la valeur ajoutée entre : les **revenus du travail** (les **salaires** des salariés) ; les **revenus du capital** (les **intérêts, loyers et dividendes** perçus par ceux qui détiennent du capital) ; et les **revenus mixtes** (ceux des **indépendants**, qui rémunèrent à la fois leur travail et leur capital).' },
+      { doc: [2, 4], type: 'redac', q: 'Calcule le revenu disponible de la famille Diallo, puis son taux d’épargne.', answer: '**Revenu disponible** = revenus primaires − prélèvements obligatoires + revenus de transfert = 2 800 − 600 + 200 = **2 400 €**. L’**épargne** = revenu disponible − consommation = 2 400 − 2 100 = **300 €**. Le **taux d’épargne** = épargne / revenu disponible = 300 / 2 400 = **12,5 %**.' },
+      { doc: 3, type: 'redac', q: 'Explique la différence entre revenu disponible et pouvoir d’achat.', answer: 'Le **revenu disponible** est la somme d’argent dont dispose réellement le ménage pour consommer ou épargner (après prélèvements et transferts). Le **pouvoir d’achat** est ce que ce revenu permet **réellement d’acheter**, compte tenu du **niveau des prix** : si les prix augmentent plus vite que le revenu, le pouvoir d’achat baisse même si le revenu disponible progresse.' },
+    ],
+  },
+
+  // ======================================================================
+  // ÉCONOMIE — Première · Thème 4 : Le financement des agents
+  // ======================================================================
+  'p1-eco-t4': {
+    id: 'p1-eco-t4-doc',
+    type: 'doc',
+    title: 'Étude de documents — Le financement de l’économie',
+    icon: '📑',
+    intro: 'Comment les agents qui ont besoin d’argent trouvent-ils leur financement ? Lis les documents puis réponds.',
+    documents: [
+      { id: 1, title: 'Document 1 — Besoin et capacité de financement', text: 'Un agent a un **besoin de financement** lorsque ses dépenses (notamment d’investissement) dépassent ses ressources : il doit se financer. À l’inverse, un agent dont les ressources excèdent les dépenses a une **capacité de financement** : il peut prêter ou placer son épargne. Le système financier met en relation les deux.' },
+      { id: 2, title: 'Document 2 — Financement interne ou externe', text: 'Une entreprise peut se financer par ses **ressources propres** : l’**autofinancement** (financement interne, à partir de ses bénéfices). Quand cela ne suffit pas, elle recourt à un **financement externe** : emprunter ou faire appel à des investisseurs.' },
+      { id: 3, title: 'Document 3 — Financement direct ou indirect', text: 'Le financement externe prend deux formes. Le **financement direct** : l’agent se procure des fonds **directement sur les marchés financiers** en émettant des **actions** (parts de propriété) ou des **obligations** (titres de dette). Le **financement indirect** : l’agent emprunte auprès d’une **banque**, qui joue un rôle d’**intermédiaire** ; l’emprunt est remboursé avec des **intérêts**.' },
+      { id: 4, title: 'Document 4 — L’investissement de l’entreprise Novéo', text: 'L’entreprise Novéo veut investir **500 000 €** dans une nouvelle machine. Ses bénéfices mis en réserve ne couvrent que **150 000 €**. Pour le reste, elle hésite entre émettre des titres sur les marchés financiers et solliciter un prêt auprès de sa banque.' },
+    ],
+    questions: [
+      { doc: 1, q: 'Un agent dont les dépenses dépassent les ressources a…', choices: ['un besoin de financement', 'une capacité de financement', 'un excédent', 'un patrimoine'], answer: 0, explain: 'Besoin de financement = dépenses > ressources.' },
+      { doc: 2, q: 'L’autofinancement est un financement…', choices: ['interne (ressources propres)', 'externe direct', 'externe indirect', 'public'], answer: 0, explain: 'L’entreprise se finance sur ses propres bénéfices.' },
+      { doc: 3, q: 'Emprunter auprès d’une banque est un financement…', choices: ['indirect', 'direct', 'interne', 'gratuit'], answer: 0, explain: 'La banque sert d’intermédiaire : financement indirect.' },
+      { doc: 3, q: 'Une action est…', choices: ['une part de propriété de l’entreprise', 'un titre de dette', 'un crédit bancaire', 'un impôt'], answer: 0, explain: 'Action = propriété ; obligation = dette.' },
+      { doc: [1, 4], q: 'Novéo, dont l’investissement dépasse ses ressources propres, se trouve en situation de…', choices: ['besoin de financement', 'capacité de financement', 'autofinancement total', 'épargne excédentaire'], answer: 0, explain: '500 000 € à financer, 150 000 € disponibles → besoin de financement.' },
+      { doc: [1], type: 'redac', q: 'Distingue besoin de financement et capacité de financement.', answer: 'Un agent a un **besoin de financement** quand ses **dépenses dépassent ses ressources** (par exemple une entreprise qui investit plus qu’elle ne dégage de bénéfices) : il doit trouver des fonds. Un agent a une **capacité de financement** quand ses **ressources dépassent ses dépenses** : il dispose d’une épargne qu’il peut **prêter ou placer**. Le système financier met en relation ceux qui ont un besoin et ceux qui ont une capacité.' },
+      { doc: 3, type: 'redac', q: 'Distingue financement direct et financement indirect.', answer: 'Le financement **direct** se fait **sur les marchés financiers** : l’agent se procure des fonds directement auprès des investisseurs en émettant des **actions** (parts de propriété) ou des **obligations** (titres de dette). Le financement **indirect** passe par un **intermédiaire**, la **banque**, qui accorde un **crédit** remboursé avec des **intérêts**. Dans le premier cas prêteur et emprunteur se rencontrent directement, dans le second la banque s’interpose.' },
+      { doc: [2, 4], type: 'redac', q: 'Quelles solutions de financement s’offrent à Novéo pour son investissement ?', answer: 'Novéo peut d’abord utiliser son **autofinancement** (150 000 € de bénéfices mis en réserve) : c’est un financement **interne**. Comme cela ne suffit pas (besoin de 500 000 €), elle doit recourir à un **financement externe** : soit **direct**, en émettant des **actions** ou des **obligations** sur les marchés financiers, soit **indirect**, en sollicitant un **prêt bancaire** remboursable avec intérêts. Le choix dépendra du coût et de sa volonté d’ouvrir ou non son capital.' },
+    ],
+  },
 }
