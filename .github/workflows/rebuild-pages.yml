@@ -1,10 +1,12 @@
 name: Rebuild Pages
 
-# Déclenche manuellement une reconstruction de GitHub Pages.
-# Utile car les publications automatiques (push par un automate) ne
-# déclenchent pas toujours la reconstruction du site « deploy from branch ».
+# Force une reconstruction de GitHub Pages.
+# Se déclenche à chaque push sur main (les publications automatiques par un
+# automate ne déclenchent pas toujours la reconstruction « deploy from branch »).
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
