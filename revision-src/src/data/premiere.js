@@ -20,51 +20,359 @@ const sgn = {
       id: 'p1-sgn-t1',
       name: 'Thème 1 — De l’individu à l’acteur',
       short: 'De l’individu à l’acteur',
-      keywords: 'individu acteur perception émotion compétence qualification communication formelle informelle groupe cohésion conflit coopération',
+      keywords: 'individu acteur personnalité perception sélective stéréotype émotion attitude comportement statut rôle socialisation communication interpersonnelle verbale non verbale para-verbale schéma émetteur récepteur canal message feedback code référent bruit écoute active formelle informelle réseau activité de travail travail prescrit réel compétence savoir savoir-faire savoir-être qualification classification expérience potentiel compétence collective rémunération salaire prime périphériques rétribution reconnaissance ressource charge coût du travail investissement immatériel capital humain formation GPEC motivation Maslow besoins Herzberg facteurs hygiène satisfaction implication QVT groupe formel informel dynamique cohésion norme conflit coopération décision leadership styles Lewin autoritaire démocratique',
       intro:
-        'Une organisation n’est pas qu’un organigramme : c’est avant tout un **collectif humain**. Chaque individu y arrive avec sa personnalité et ses compétences, et devient peu à peu un **acteur** qui influence l’organisation autant qu’il en est influencé.',
+        'C’est **le thème le plus important de l’année** en sciences de gestion. Une organisation n’est pas qu’un organigramme : c’est avant tout un **collectif humain**. On y étudie comment un **individu** — avec sa personnalité, ses perceptions, ses émotions et ses compétences — **devient un acteur** qui communique, agit et interagit, jusqu’à influencer l’organisation autant qu’il en est influencé. Trois grandes questions de gestion structurent le thème : **① Comment un individu devient-il acteur ? ② L’activité humaine est-elle une ressource ou une charge ? ③ Le groupe et les relations font-ils la force de l’organisation ?**',
       cours: [
         {
-          h: 'L’individu et ses caractéristiques',
+          h: 'L’organisation, un collectif humain',
           blocks: [
-            { t: 'p', c: 'Chaque personne a une **perception** subjective : deux individus vivent le même événement différemment. Elle ressent des **émotions** (joie, stress, colère) qui influencent son comportement au travail.' },
-            { t: 'example', h: 'Exemple', c: 'Un salarié stressé par une surcharge de travail communiquera moins bien et fera plus d’erreurs. Comprendre les émotions aide donc à mieux gérer les équipes.' },
-          ],
-        },
-        {
-          h: 'Compétences et activité de travail',
-          blocks: [
-            { t: 'p', c: 'L’individu apporte ses **compétences** = **savoirs** (connaissances) + **savoir-faire** (pratique) + **savoir-être** (comportement). Sa **qualification** (diplômes, expérience) le situe dans l’**organigramme** (la représentation de la structure hiérarchique).' },
-          ],
-        },
-        {
-          h: 'La communication',
-          blocks: [
-            { t: 'p', c: 'Elle fait tenir le collectif. On distingue :' },
-            { t: 'table', head: ['Communication formelle', 'Communication informelle'], rows: [
-              ['Officielle, organisée par l’entreprise', 'Spontanée, non prévue'],
-              ['Réunions, notes de service, mails pros', 'Discussions à la pause, messages entre collègues'],
-              ['Assure la coordination', 'Crée du lien, fait circuler l’information'],
+            { t: 'p', c: 'Une **organisation** (entreprise, association, administration) n’est pas seulement un organigramme, des machines ou des capitaux : c’est d’abord un **ensemble d’êtres humains** qui coopèrent pour atteindre un **but commun**. Sans les femmes et les hommes qui la composent, une organisation ne produit rien.' },
+            { t: 'p', c: 'Or, chaque être humain est **unique** et **complexe** : il arrive avec une histoire, une personnalité, des émotions, des compétences et des attentes. Le management doit donc **connaître et comprendre l’individu** pour transformer ce potentiel en **performance collective**.' },
+            { t: 'p', c: 'Tout le thème répond à trois grandes **questions de gestion** :' },
+            { t: 'list', c: [
+              '**① Comment un individu devient-il acteur** au sein d’une organisation ? (personnalité, perception, communication, statut et rôle)',
+              '**② L’activité humaine est-elle une ressource ou une charge** pour l’organisation ? (compétences, qualification, rémunération, coût, motivation)',
+              '**③ Comment les relations et le groupe** contribuent-ils à la dynamique de l’organisation ? (cohésion, conflits, coopération, leadership)',
             ] },
-            { t: 'p', c: 'On distingue aussi la communication **interpersonnelle** (entre deux personnes) et de **groupe**.' },
+            { t: 'tip', c: 'Fil directeur à garder en tête tout le thème : on part de l’**individu** (ce qu’il est), on le voit devenir **acteur** (ce qu’il fait et les relations qu’il noue), pour comprendre comment il crée de la **valeur** au sein d’un **collectif**.' },
+          ],
+        },
+        {
+          h: 'La personnalité de l’individu',
+          blocks: [
+            { t: 'p', c: 'La **personnalité** est l’ensemble **stable et propre** des manières de penser, de ressentir et d’agir qui caractérisent un individu et le distinguent des autres. Elle explique pourquoi, face à une même situation, deux personnes réagissent différemment.' },
+            { t: 'p', c: 'Elle se compose de plusieurs éléments :' },
+            { t: 'table', head: ['Élément', 'Définition', 'Exemple'], rows: [
+              ['Traits de caractère', 'Des dispositions durables', 'Être calme, sociable, rigoureux, anxieux'],
+              ['Tempérament', 'La part liée au « naturel », à la sensibilité', 'Être plutôt réservé ou plutôt expansif'],
+              ['Valeurs', 'Ce qui compte pour la personne, ses priorités', 'L’honnêteté, la réussite, la solidarité, la sécurité'],
+              ['Besoins', 'Ce que la personne cherche à satisfaire', 'Être reconnu, être autonome, appartenir à un groupe'],
+            ] },
+            { t: 'p', c: 'La personnalité **se construit tout au long de la vie** par la **socialisation** : la **socialisation primaire** (famille, école, dans l’enfance) puis la **socialisation secondaire** (travail, groupes fréquentés, expériences à l’âge adulte). On n’a donc pas une personnalité « figée » : le milieu professionnel lui-même façonne l’individu.' },
+            { t: 'warning', c: 'Connaître la personnalité des collaborateurs n’est **pas** un moyen de les « ranger dans des cases » définitives. C’est un outil pour mieux **communiquer**, **confier les bonnes missions** et **anticiper les tensions**. Réduire quelqu’un à une étiquette est une erreur de management.' },
+            { t: 'example', h: 'Personnalité et poste de travail', c: 'Pour un poste d’accueil, un manager recherche une personnalité **sociable, patiente et à l’écoute**. Pour un poste de contrôle qualité, il privilégie la **rigueur** et le sens du détail. \n→ Le même individu très sociable mais peu minutieux sera excellent à l’accueil et en difficulté au contrôle : il n’y a pas de « bonne » ou de « mauvaise » personnalité en soi, mais une adéquation avec le poste.' },
+          ],
+        },
+        {
+          h: 'La perception : un filtre subjectif',
+          blocks: [
+            { t: 'p', c: 'La **perception** est le processus par lequel un individu **sélectionne, organise et interprète** les informations qu’il reçoit de son environnement pour lui donner un sens. C’est notre « fenêtre » sur la réalité — mais une fenêtre **déformante**.' },
+            { t: 'p', c: 'La perception se déroule en trois étapes :' },
+            { t: 'list', c: [
+              '**Sélection** : on ne retient qu’une **partie** des informations (on ne peut pas tout traiter) ;',
+              '**Organisation** : le cerveau **classe** et relie ces informations entre elles ;',
+              '**Interprétation** : on leur donne un **sens**, en fonction de qui l’on est.',
+            ] },
+            { t: 'p', c: 'La perception est donc **subjective** : elle dépend de facteurs propres à la personne (**expériences passées, valeurs, humeur, attentes**), au message (**intensité, nouveauté**) et au **contexte**. Deux individus vivant exactement la même scène en gardent des souvenirs différents.' },
+            { t: 'example', h: 'Même fait, deux perceptions', c: 'Un manager réunit son équipe un vendredi soir sans prévenir. \n→ Un salarié le **perçoit** comme une marque de considération (« il nous fait confiance pour régler un problème important »). \n→ Un autre le **perçoit** comme un manque de respect (« il empiète sur ma vie personnelle »). \nLe fait est identique ; la **perception** — donc la réaction — diffère selon les valeurs de chacun.' },
+          ],
+        },
+        {
+          h: 'Les biais de perception',
+          blocks: [
+            { t: 'p', c: 'Parce qu’elle est subjective, la perception produit des **biais** : des **erreurs de jugement** systématiques dont il faut se méfier, surtout en management (recrutement, évaluation, relation client).' },
+            { t: 'table', head: ['Biais', 'Mécanisme'], rows: [
+              ['Stéréotype', 'Attribuer à une personne les caractéristiques supposées de son groupe (âge, origine, sexe…)'],
+              ['Effet de halo', 'Se fier à un seul trait (une bonne présentation) pour juger toute la personne'],
+              ['Première impression', 'Se forger un avis dès les premières secondes et ne plus en changer'],
+              ['Projection', 'Prêter à l’autre ses propres pensées ou intentions'],
+              ['Effet de contexte', 'Juger différemment selon l’ambiance ou l’ordre des informations'],
+            ] },
+            { t: 'p', c: 'Ces biais peuvent conduire à des **discriminations** (à l’embauche par exemple) et à des **injustices**. Les connaître permet de **prendre du recul** et d’objectiver ses décisions (grilles d’évaluation, plusieurs évaluateurs, faits plutôt qu’impressions).' },
+            { t: 'warning', c: 'Un stéréotype n’est pas neutre : « les jeunes ne sont pas fiables », « les seniors ne savent pas utiliser le numérique »… sont des jugements **faux et discriminatoires** qui privent l’organisation de talents et sont **interdits par la loi**.' },
+          ],
+        },
+        {
+          h: 'Les émotions et le stress au travail',
+          blocks: [
+            { t: 'p', c: 'Une **émotion** est une réaction **courte et intense** face à un événement (joie, peur, colère, tristesse, surprise, dégoût). Contrairement à ce qu’on pense parfois, les émotions ne s’arrêtent pas à la porte de l’entreprise : elles **influencent directement** la concentration, les relations et les décisions.' },
+            { t: 'list', c: [
+              'Des émotions **positives** (satisfaction, enthousiasme) favorisent l’engagement, la créativité et la coopération ;',
+              'des émotions **négatives** (stress, colère, peur) peuvent dégrader la communication, augmenter les erreurs et l’absentéisme.',
+            ] },
+            { t: 'p', c: 'Le **stress** est une réaction de l’organisme face à une pression perçue. Un stress **ponctuel** peut être mobilisateur ; un stress **chronique** (surcharge, manque de reconnaissance, conflits) nuit à la santé et à la performance : on parle de **risques psychosociaux (RPS)**.' },
+            { t: 'p', c: 'L’**intelligence émotionnelle** est la capacité à **identifier et gérer** ses propres émotions et celles des autres. C’est aujourd’hui une compétence très recherchée, en particulier chez les managers.' },
+            { t: 'example', h: 'Le coût des émotions négatives', c: 'Un salarié régulièrement stressé par des délais intenables communique mal, s’isole et fait des erreurs. \n→ Résultat : baisse de qualité, tensions dans l’équipe, arrêt maladie. \nComprendre et **réguler les émotions** (charge réaliste, écoute, reconnaissance) n’est donc pas « du confort » : c’est un enjeu de **performance**.' },
+          ],
+        },
+        {
+          h: 'Attitudes et comportements',
+          blocks: [
+            { t: 'p', c: 'L’**attitude** est une **disposition intérieure** stable : une manière de penser, de juger ou de se préparer à agir face à quelque chose ou quelqu’un (« je trouve cette tâche intéressante »). Elle ne se voit pas directement.' },
+            { t: 'p', c: 'Le **comportement** est l’**action observable** qui découle de l’attitude (« je m’implique dans la tâche, j’arrive en avance »). C’est ce que l’on peut réellement **constater**.' },
+            { t: 'table', head: ['', 'Attitude', 'Comportement'], rows: [
+              ['Nature', 'Intérieure, cachée', 'Extérieure, observable'],
+              ['Exemple', 'Aimer le travail en équipe', 'Proposer son aide à un collègue'],
+              ['Se mesure par', 'Ce que la personne ressent / pense', 'Ce que la personne fait'],
+            ] },
+            { t: 'p', c: 'Attitude et comportement sont **liés** mais pas identiques : une même attitude peut donner des comportements différents selon la situation (on peut aimer une tâche mais mal la réaliser un jour de fatigue). Parfois, il y a même une **contradiction** entre ce que l’on pense et ce que l’on fait.' },
+            { t: 'warning', c: 'Erreur classique en devoir : écrire « attitude » à la place de « comportement ». Retiens : **attitude = intérieur** (opinion, intention) ; **comportement = extérieur** (action visible).' },
+          ],
+        },
+        {
+          h: 'De l’individu à l’acteur : statut et rôle',
+          blocks: [
+            { t: 'p', c: 'Un individu ne reste pas passif : dès qu’il **agit, communique et interagit** dans l’organisation, il en devient un **acteur** — une personne qui **influence** le fonctionnement de l’organisation autant qu’elle en est influencée. On passe ainsi « de l’individu à l’acteur ».' },
+            { t: 'table', head: ['Notion', 'Définition', 'Exemple'], rows: [
+              ['Statut', 'La **position** occupée dans l’organisation (fonction, place hiérarchique, reconnaissance)', 'Chef de rayon, comptable, apprenti, délégué du personnel'],
+              ['Rôle', 'L’ensemble des **comportements attendus** de celui qui occupe ce statut', 'On attend d’un chef de rayon qu’il anime, organise et contrôle son équipe'],
+            ] },
+            { t: 'p', c: 'À chaque **statut** correspondent un ou plusieurs **rôles**. Un même individu occupe souvent **plusieurs statuts** en même temps (salarié, tuteur d’un apprenti, représentant syndical, membre d’un club sportif de l’entreprise…) et joue donc **plusieurs rôles**.' },
+            { t: 'p', c: 'Ces rôles peuvent entrer en **conflit** : un chef d’équipe apprécié de ses collègues (rôle de « copain ») doit aussi les évaluer et parfois les sanctionner (rôle de « responsable »). C’est un **conflit de rôles**, source de tension pour l’individu.' },
+            { t: 'tip', c: 'L’individu devient acteur par les **compétences** qu’il mobilise et par les **relations** (formelles et informelles) qu’il noue. La performance de l’organisation dépend donc largement de la **qualité des relations humaines**, pas seulement des procédures écrites.' },
+          ],
+        },
+        {
+          h: 'La communication interpersonnelle : le schéma',
+          blocks: [
+            { t: 'p', c: 'La **communication** est l’**échange d’informations** entre des personnes. C’est elle qui fait « tenir » le collectif : sans communication, pas de coordination ni de relations. La **communication interpersonnelle** (entre deux individus) obéit à un **schéma** que l’on doit savoir décrire et repérer sur un cas.' },
+            { t: 'table', head: ['Élément', 'Rôle'], rows: [
+              ['Émetteur', 'Celui qui **envoie** le message (l’expéditeur)'],
+              ['Récepteur', 'Celui qui **reçoit** le message (le destinataire)'],
+              ['Message', 'L’**information** transmise (le contenu)'],
+              ['Code', 'Le système de signes commun : langue, symboles, jargon'],
+              ['Canal', 'Le **support** : voix, téléphone, mail, affichage, visioconférence'],
+              ['Feedback', 'La **rétroaction** : la réponse du récepteur, qui devient à son tour émetteur'],
+              ['Référent', 'Le **sujet**, le contexte de l’échange'],
+              ['Bruit', 'Tout ce qui **gêne** ou déforme le message (bruit réel, stress, malentendu)'],
+            ] },
+            { t: 'p', c: 'Le **feedback** est essentiel : sans retour du récepteur, l’émetteur ne sait pas si son message a été **compris**. Une communication réussie est une communication où le message **reçu** correspond au message **voulu**.' },
+            { t: 'warning', c: 'Communiquer ≠ informer. **Informer**, c’est envoyer un message dans un seul sens (une note de service). **Communiquer**, c’est un **échange** avec du feedback : le récepteur réagit et l’émetteur ajuste.' },
+          ],
+        },
+        {
+          h: 'Les registres : verbal, non verbal, para-verbal',
+          blocks: [
+            { t: 'p', c: 'Quand on communique, on utilise **trois registres en même temps**, et le message perçu dépend surtout de leur **cohérence**.' },
+            { t: 'table', head: ['Registre', 'De quoi s’agit-il ?', 'Exemples'], rows: [
+              ['Verbal', 'Les **mots**, ce que l’on dit ou écrit', 'Le vocabulaire, les phrases, le message écrit'],
+              ['Non verbal', 'Le **corps**', 'Gestes, regard, posture, expressions du visage, tenue, distance'],
+              ['Para-verbal', 'La **voix**', 'Ton, débit, volume, intonation, silences'],
+            ] },
+            { t: 'p', c: 'La **proxémie** (la distance physique que l’on met entre soi et l’autre) fait partie du non-verbal : trop proche, on met mal à l’aise ; trop loin, on paraît distant.' },
+            { t: 'p', c: 'Le non-verbal et le para-verbal représentent une **très grande part** du message perçu. Quand les mots disent une chose et le corps une autre, c’est le **non-verbal** qui l’emporte dans la perception du récepteur.' },
+            { t: 'example', h: 'Quand le non-verbal contredit les mots', c: 'Un manager dit « je vous fais totalement confiance » (verbal), mais regarde sa montre, croise les bras (non-verbal) et parle d’un ton sec (para-verbal). \n→ Le récepteur retient surtout le **non-verbal** et le **para-verbal** : il perçoit de la méfiance. Le message réellement reçu est l’inverse du message voulu.' },
+          ],
+        },
+        {
+          h: 'Les obstacles à la communication et l’écoute active',
+          blocks: [
+            { t: 'p', c: 'De nombreux **obstacles (« bruits »)** peuvent perturber la communication et créer des **malentendus** :' },
+            { t: 'list', c: [
+              'des bruits **matériels** : un environnement bruyant, une mauvaise connexion ;',
+              'des bruits **liés au code** : un jargon incompris, une langue mal maîtrisée ;',
+              'des bruits **psychologiques** : le stress, les émotions, les préjugés, la fatigue ;',
+              'des bruits **liés au canal** : un mail ambigu, sans le ton de la voix ni le visage.',
+            ] },
+            { t: 'p', c: 'Pour communiquer efficacement, on pratique l’**écoute active** : montrer de l’attention, **reformuler** (« si je comprends bien, tu veux dire que… »), **questionner**, ne pas couper la parole, tenir compte du non-verbal de l’autre. L’écoute active **réduit les malentendus** et renforce la relation.' },
+            { t: 'tip', c: 'Méthode pour limiter les bruits : choisir le **bon canal** (un sujet sensible se traite en face-à-face, pas par mail), un **code partagé** (éviter le jargon), un **moment adapté**, et **vérifier la compréhension** par le feedback.' },
+          ],
+        },
+        {
+          h: 'Communication formelle, informelle et réseaux',
+          blocks: [
+            { t: 'p', c: 'Dans une organisation, la communication circule de deux façons **complémentaires** :' },
+            { t: 'table', head: ['Communication formelle', 'Communication informelle'], rows: [
+              ['Officielle, **organisée** par l’entreprise', 'Spontanée, **non prévue**'],
+              ['Réunions, notes de service, mails pros, affichage', 'Discussions à la pause, messages entre collègues, « bruits de couloir »'],
+              ['Suit les **canaux hiérarchiques**', 'Suit les **affinités** et les réseaux personnels'],
+              ['Assure la **coordination** et la traçabilité', 'Crée du **lien**, fait circuler vite l’information, renforce la cohésion'],
+            ] },
+            { t: 'p', c: 'La communication formelle a plusieurs **sens** : **descendante** (de la direction vers les salariés : consignes), **ascendante** (des salariés vers la direction : remontées, propositions) et **transversale** (entre services de même niveau).' },
+            { t: 'p', c: 'On classe aussi la communication selon le **nombre de personnes** : **interpersonnelle** (2 personnes), de **groupe** (une équipe, une réunion) ou de **masse** (vers un large public, ex. une campagne interne).' },
+            { t: 'p', c: 'Enfin, les échanges dessinent des **réseaux de communication** : **centralisés** (tout passe par un chef — rapide mais dépendant d’une seule personne, peu motivant) ou **décentralisés** (chacun échange avec chacun — plus lent mais plus riche, plus motivant).' },
+            { t: 'warning', c: 'La communication informelle n’est **pas inutile** : elle fait circuler énormément d’informations et soude le groupe. Mais mal maîtrisée, elle diffuse aussi des **rumeurs** qui déforment les messages : le manager a intérêt à bien informer pour éviter que la rumeur ne remplace l’information officielle.' },
+          ],
+        },
+        {
+          h: 'L’activité de travail : prescrit et réel',
+          blocks: [
+            { t: 'p', c: 'L’**activité de travail** est l’ensemble des **tâches** réalisées par un individu pour l’organisation, en mobilisant ses compétences. On distingue deux niveaux essentiels :' },
+            { t: 'table', head: ['Travail prescrit', 'Travail réel'], rows: [
+              ['Ce qui est **demandé** : la consigne, la procédure officielle, la fiche de poste', 'Ce que la personne **fait vraiment** pour atteindre le résultat'],
+              ['Défini à l’avance par l’organisation', 'S’adapte aux imprévus, aux clients, aux pannes'],
+              ['« Ce qu’il faudrait faire »', '« Ce qu’on fait réellement »'],
+            ] },
+            { t: 'p', c: 'Il existe presque toujours un **écart** entre le prescrit et le réel : la réalité ne se laisse pas enfermer dans une procédure. Cet écart n’est pas un défaut — au contraire, il révèle l’**intelligence**, l’**expérience** et les **compétences** du salarié, qui bricole, ajuste et invente des solutions.' },
+            { t: 'example', h: 'L’écart prescrit / réel', c: 'La procédure prescrit à un vendeur de suivre un script de vente précis. \n→ Face à un client pressé, le vendeur **raccourcit** le script et va à l’essentiel ; face à un client hésitant, il **développe** et rassure. \nCe **travail réel**, adapté à chaque situation, fait la différence — et n’apparaît nulle part dans la fiche de poste.' },
+          ],
+        },
+        {
+          h: 'Les compétences : savoirs, savoir-faire, savoir-être',
+          blocks: [
+            { t: 'p', c: 'Une **compétence** est la capacité à **combiner et mobiliser des ressources** (connaissances, expérience, moyens) pour réaliser une tâche **avec succès** dans une situation donnée. Elle ne se voit vraiment qu’**en action**.' },
+            { t: 'p', c: 'On la décompose classiquement en **trois savoirs** :' },
+            { t: 'table', head: ['Composante', 'Signification', 'Exemple (un vendeur)'], rows: [
+              ['**Savoirs**', 'Les **connaissances** théoriques', 'Connaître les produits, les prix, la réglementation'],
+              ['**Savoir-faire**', 'La **pratique**, les gestes techniques, la méthode', 'Utiliser le logiciel de caisse, présenter un produit, encaisser'],
+              ['**Savoir-être**', 'Le **comportement**, les attitudes relationnelles', 'Être souriant, patient, à l’écoute, ponctuel'],
+            ] },
+            { t: 'p', c: 'À ces trois savoirs on ajoute souvent le **potentiel** (les compétences qu’un individu **pourrait** développer) et l’**expérience** (les compétences acquises par la pratique et le temps).' },
+            { t: 'p', c: 'Les compétences **se construisent** : par la **formation** (initiale et continue), par l’**expérience** de terrain, et par l’**organisation elle-même** (tutorat, échanges entre collègues, missions confiées). Elles peuvent aussi se **perdre** si elles ne sont pas entretenues.' },
+            { t: 'warning', c: 'Une compétence n’est pas une simple connaissance : **connaître** le code de la route (savoir) ne rend pas **capable de conduire** en ville (savoir-faire + savoir-être). C’est la **mise en action** qui fait la compétence.' },
+          ],
+        },
+        {
+          h: 'De la compétence individuelle à la compétence collective',
+          blocks: [
+            { t: 'p', c: 'Une organisation ne se contente pas d’additionner des compétences individuelles. Quand des individus **travaillent ensemble**, échangent et se coordonnent, il émerge une **compétence collective** : l’équipe devient capable de réaliser ce qu’aucun de ses membres ne pourrait faire seul.' },
+            { t: 'p', c: 'La compétence collective repose sur :' },
+            { t: 'list', c: [
+              'un **langage commun** et une bonne **communication** ;',
+              'la **coordination** et l’**entraide** entre les membres ;',
+              'le **partage des connaissances** (chacun apprend des autres) ;',
+              'une **mémoire collective** (les façons de faire de l’équipe).',
+            ] },
+            { t: 'p', c: 'On dit que « **le tout est supérieur à la somme des parties** » : c’est l’effet de **synergie**. Développer la compétence collective est un enjeu majeur pour l’organisation, car elle est **difficile à copier** par les concurrents.' },
+            { t: 'example', h: 'La compétence collective', c: 'Dans un restaurant, le cuisinier, le serveur et le responsable de salle ont chacun leurs compétences individuelles. \n→ C’est leur **coordination** (communication, anticipation, coup de feu géré ensemble) qui crée la **compétence collective** : servir 80 couverts en une heure sans erreur. \nRetirez la coordination et chacun, pris isolément, n’y arriverait pas.' },
+          ],
+        },
+        {
+          h: 'La qualification et sa reconnaissance',
+          blocks: [
+            { t: 'p', c: 'La **qualification** est la **reconnaissance officielle** du niveau de compétences d’un individu. Alors que la compétence est ce que l’on **sait faire** (réel), la qualification est la **reconnaissance** de ce niveau par l’organisation et la société.' },
+            { t: 'p', c: 'Elle repose sur plusieurs éléments :' },
+            { t: 'list', c: [
+              'les **diplômes** et **certifications** obtenus ;',
+              'l’**expérience professionnelle** acquise ;',
+              'la **classification** prévue par la **convention collective** (grille qui situe chaque poste et fixe un **salaire minimum**).',
+            ] },
+            { t: 'p', c: 'La qualification **situe l’individu dans l’organigramme** (sa place dans la hiérarchie) et sert de base à sa **rémunération**. La **VAE** (validation des acquis de l’expérience) permet même de faire reconnaître par un diplôme des compétences acquises sans formation initiale.' },
+            { t: 'warning', c: 'Ne confonds pas **compétence** et **qualification** : on peut être très **compétent sans être qualifié** (un autodidacte doué mais sans diplôme), ou **qualifié sans être compétent** dans une situation précise (un diplômé qui débute et manque de pratique). Compétence = réel ; qualification = reconnaissance.' },
+          ],
+        },
+        {
+          h: 'La rémunération et la rétribution globale',
+          blocks: [
+            { t: 'p', c: 'En échange de son activité, l’individu reçoit une **contrepartie**. La **rémunération** en est la partie **financière**, mais la **rétribution** est bien plus large.' },
+            { t: 'p', c: 'La **rémunération** se compose de plusieurs éléments :' },
+            { t: 'table', head: ['Élément', 'Description'], rows: [
+              ['Salaire de base', 'La partie **fixe**, prévue au contrat (souvent liée à la qualification)'],
+              ['Primes / part variable', 'Liées à la **performance**, aux résultats, à l’ancienneté'],
+              ['Périphériques', 'Mutuelle, tickets restaurant, **intéressement**, participation, avantages en nature'],
+            ] },
+            { t: 'p', c: 'La **rétribution** (ou rétribution globale) est **tout ce que l’individu retire de son travail** : la rémunération **plus** des éléments **non financiers** — la **reconnaissance**, les **perspectives de carrière**, la **formation**, l’**autonomie**, l’**ambiance** et les **conditions de travail**.' },
+            { t: 'p', c: 'Un salarié compare en permanence sa **rétribution** (ce qu’il reçoit) à sa **contribution** (ce qu’il apporte) : c’est le **sentiment d’équité**. S’il se sent traité **équitablement** (par rapport à ses efforts et aux autres), il s’implique davantage ; sinon, il se démotive.' },
+            { t: 'example', h: 'Rétribution et équité', c: 'Deux salariés font le même travail avec les mêmes résultats, mais l’un est mieux payé sans raison apparente. \n→ Le second ressent un **sentiment d’injustice** (iniquité) : sa motivation baisse, même si son salaire n’a pas changé. \nLa **perception d’équité** compte parfois autant que le montant lui-même.' },
+          ],
+        },
+        {
+          h: 'L’activité humaine : ressource ou charge ?',
+          blocks: [
+            { t: 'p', c: 'C’est la **deuxième grande question** du thème. L’activité humaine peut être vue de deux façons opposées… qui sont en réalité **complémentaires**.' },
+            { t: 'table', head: ['Le travail vu comme une CHARGE', 'Le travail vu comme une RESSOURCE'], rows: [
+              ['Une **charge de personnel** à payer (coût du travail)', 'Un **capital humain**, source de valeur et de performance'],
+              ['Vision **comptable**, à court terme', 'Vision **stratégique**, à long terme'],
+              ['On cherche à **réduire** le coût', 'On cherche à **développer** et à fidéliser'],
+            ] },
+            { t: 'p', c: 'Le **coût du travail** ne se limite pas au salaire net : il comprend le salaire brut **plus** les **cotisations sociales** (part salariale et **part patronale**). C’est une **charge** importante et bien réelle pour l’organisation.' },
+            { t: 'p', c: 'Mais dépenser pour les salariés est aussi un **investissement immatériel** : la **formation**, l’amélioration des **conditions de travail** et la **fidélisation** développent les compétences et la motivation, donc la **performance future**. La **GPEC** (gestion prévisionnelle des emplois et des compétences) sert à **anticiper** les besoins futurs en compétences.' },
+            { t: 'example', h: 'Charge ou investissement ?', c: 'Une entreprise dépense 3 000 € pour former un salarié à un nouveau logiciel. \n→ **À court terme**, c’est une **charge** (coût de la formation + temps non travaillé). \n→ **À long terme**, c’est un **investissement** : le salarié est plus efficace, fait moins d’erreurs, forme ses collègues et reste dans l’entreprise. \nConsidérer l’humain comme une simple charge à réduire est souvent **contre-productif**.' },
+          ],
+        },
+        {
+          h: 'La motivation et ses théories (Maslow, Herzberg)',
+          blocks: [
+            { t: 'p', c: 'La **motivation** est ce qui **pousse un individu à agir et à s’investir** dans son travail, et à y **persévérer**. Un salarié motivé est plus **performant**, plus **fidèle** et de meilleure humeur. Deux grandes théories sont au programme.' },
+            { t: 'p', c: '**Abraham Maslow** classe les besoins humains dans une **pyramide** : on ne cherche à satisfaire un besoin **supérieur** qu’une fois les besoins **inférieurs** globalement comblés.' },
+            { t: 'table', head: ['Niveau (de la base au sommet)', 'Besoin', 'Au travail'], rows: [
+              ['1. Physiologiques', 'Manger, dormir, vivre', 'Salaire suffisant, pauses, cantine'],
+              ['2. Sécurité', 'Se protéger', 'CDI, sécurité de l’emploi, conditions sûres'],
+              ['3. Appartenance', 'Faire partie d’un groupe', 'Bonne ambiance, esprit d’équipe, intégration'],
+              ['4. Estime', 'Être reconnu, respecté', 'Reconnaissance, responsabilités, statut, titres'],
+              ['5. Accomplissement', 'Se réaliser, se dépasser', 'Autonomie, projets, développement personnel'],
+            ] },
+            { t: 'p', c: '**Frederick Herzberg** distingue deux catégories de facteurs, ce qui complète Maslow :' },
+            { t: 'list', c: [
+              'les **facteurs d’hygiène** (salaire, conditions de travail, relations, sécurité) : s’ils sont **mauvais**, ils créent de l’**insatisfaction** ; mais s’ils sont bons, ils ne motivent pas vraiment — ils **évitent seulement le mécontentement** ;',
+              'les **facteurs de motivation** (intérêt du travail, reconnaissance, responsabilités, évolution, accomplissement) : ce sont eux qui **motivent réellement** et durablement.',
+            ] },
+            { t: 'p', c: 'On distingue aussi la motivation **intrinsèque** (le plaisir de l’activité elle-même, l’intérêt de la tâche) et la motivation **extrinsèque** (les récompenses externes : salaire, prime, statut).' },
+            { t: 'warning', c: 'Conséquence de Herzberg à bien comprendre : **augmenter le salaire** supprime l’insatisfaction mais **ne motive pas durablement**. La vraie motivation vient surtout de l’**intérêt du travail** et de la **reconnaissance**.' },
+          ],
+        },
+        {
+          h: 'Reconnaissance, implication et qualité de vie au travail',
+          blocks: [
+            { t: 'p', c: 'Au-delà des théories, plusieurs **leviers concrets** entretiennent la motivation au quotidien.' },
+            { t: 'table', head: ['Notion', 'Définition'], rows: [
+              ['Reconnaissance', 'Le fait de **valoriser** l’individu et son travail (remerciements, feedback positif, promotion)'],
+              ['Implication', 'Le **degré d’attachement** et d’engagement du salarié envers son organisation'],
+              ['Satisfaction', 'Le sentiment de **contentement** tiré du travail et de ses conditions'],
+              ['QVT', 'La **qualité de vie au travail** : conditions, ambiance, équilibre vie pro / perso, sens'],
+            ] },
+            { t: 'p', c: 'Un salarié **reconnu** et **impliqué** est plus productif, plus créatif et **reste** dans l’entreprise (moins de turnover). À l’inverse, le manque de reconnaissance est l’une des premières causes de **démotivation** et de **départ**.' },
+            { t: 'p', c: 'Améliorer la **QVT** (télétravail, aménagement des horaires, écoute, prévention des risques psychosociaux, sens donné au travail) est devenu un enjeu stratégique : c’est bon pour les salariés **et** pour la performance.' },
+            { t: 'tip', c: 'La reconnaissance ne coûte pas forcément de l’argent : un **merci sincère**, un **feedback constructif**, de l’**autonomie** ou une **responsabilité** confiée sont des marques de reconnaissance puissantes (facteurs de motivation au sens de Herzberg).' },
           ],
         },
         {
           h: 'Le groupe et sa dynamique',
           blocks: [
-            { t: 'p', c: 'Travailler ensemble crée une **dynamique de groupe** : des relations, une **cohésion** (le sentiment d’appartenance qui soude l’équipe), mais aussi parfois des **conflits**. Bien gérés, les conflits peuvent être constructifs ; mal gérés, ils nuisent à la performance. Le rôle du management est de favoriser la **coopération**.' },
-            { t: 'tip', c: 'L’individu devient **acteur** par les **relations** (formelles et informelles) qu’il noue et les **compétences** qu’il mobilise : la performance dépend largement de la qualité des relations humaines.' },
+            { t: 'p', c: 'Un **groupe** est un ensemble d’individus **en interaction**, qui poursuivent un **but commun** et partagent un **sentiment d’appartenance**. On travaille rarement seul : l’organisation est faite de multiples groupes.' },
+            { t: 'table', head: ['Groupe formel', 'Groupe informel'], rows: [
+              ['**Créé par l’organisation**', 'Né **spontanément** des affinités'],
+              ['Un service, une équipe projet, un comité', 'Des collègues qui déjeunent ensemble, un groupe d’amis au travail'],
+              ['A un objectif officiel et des règles écrites', 'A des règles implicites, fondées sur la sympathie'],
+            ] },
+            { t: 'p', c: 'La vie du groupe crée une **dynamique de groupe** : des **relations**, des **rôles** (le meneur, le médiateur, l’expert…), des **normes** (règles de fonctionnement, souvent implicites) et une **cohésion** — le **sentiment d’appartenance** qui **soude** l’équipe.' },
+            { t: 'p', c: 'Une forte **cohésion** améliore en général la **performance**, l’entraide et le bien-être. Mais une cohésion trop forte peut aussi pousser au **conformisme** (ne plus oser exprimer un avis différent).' },
+            { t: 'example', h: 'La force du groupe', c: 'Une équipe soudée où chacun connaît son rôle et se fait confiance encaisse mieux les coups durs (surcharge, imprévu) qu’un ensemble d’individus talentueux mais isolés. \n→ La **cohésion** transforme un groupe en véritable **équipe** : c’est un atout que le management cherche à construire (intégration, projets communs, moments d’échange).' },
+          ],
+        },
+        {
+          h: 'Conflits, coopération et décision de groupe',
+          blocks: [
+            { t: 'p', c: 'La vie de groupe fait naître des **conflits**. Un conflit est une **opposition** entre des personnes ou des groupes. Il peut porter sur les **objectifs**, les **méthodes**, les **personnes**, les **ressources** ou les **valeurs**.' },
+            { t: 'p', c: 'Le conflit **n’est pas forcément négatif** :' },
+            { t: 'table', head: ['Conflit mal géré', 'Conflit bien géré'], rows: [
+              ['Dégrade l’ambiance et la performance', 'Fait **émerger des idées**, clarifie les désaccords'],
+              ['Blocage, démotivation, départs', 'Débouche sur une **solution nouvelle** ou un compromis'],
+            ] },
+            { t: 'p', c: 'Il existe plusieurs **modes de résolution** :' },
+            { t: 'list', c: [
+              '**l’évitement** : on ignore le conflit (il ressurgit souvent plus tard) ;',
+              '**l’imposition** (rapport de force) : l’un gagne, l’autre perd ;',
+              '**le compromis** : chacun fait une concession ;',
+              '**la coopération** : on cherche **ensemble** une solution qui satisfait tout le monde — la plus **constructive** (gagnant-gagnant) ;',
+              '**le recours à un tiers** : médiation, arbitrage.',
+            ] },
+            { t: 'p', c: 'Le groupe doit aussi **décider**. La **décision de groupe** est souvent **plus riche** qu’une décision individuelle (plusieurs points de vue, meilleure adhésion), mais elle est plus **lente** et exposée au **conformisme** (chacun se rallie à l’avis dominant, on n’ose plus contredire).' },
+            { t: 'tip', c: 'Un bon manager ne cherche pas à **supprimer** tous les conflits (impossible et parfois nuisible), mais à les **réguler** et à favoriser la **coopération** pour en tirer du positif.' },
+          ],
+        },
+        {
+          h: 'Le leadership et les styles de direction',
+          blocks: [
+            { t: 'p', c: 'Un groupe est souvent animé par un **leadership** : l’**influence** exercée par une personne sur le groupe. Le **leader** est celui dont l’influence est **reconnue** par les membres — ce n’est **pas toujours le chef officiel** ! On peut être chef sans être leader, et leader sans être chef.' },
+            { t: 'p', c: 'Le psychologue **Kurt Lewin** distingue **trois styles** de leadership :' },
+            { t: 'table', head: ['Style', 'Fonctionnement', 'Effets'], rows: [
+              ['Autoritaire (directif)', 'Le leader **décide seul** et donne des ordres', 'Efficace dans l’urgence, mais **démotivant** sur la durée'],
+              ['Démocratique (participatif)', 'Le leader **associe** le groupe aux décisions', 'Le plus favorable à la **motivation** et à la **cohésion**'],
+              ['Laisser-faire (délégatif)', 'Le leader laisse une **grande autonomie**', 'Efficace avec une équipe **experte**, risqué (flou) sinon'],
+            ] },
+            { t: 'p', c: 'Il n’y a pas **un** bon style dans l’absolu : le style efficace dépend de la **situation**, de l’**urgence** et de la **maturité** de l’équipe. Un bon manager sait **adapter** son style (on parle de **management situationnel**).' },
+            { t: 'tip', c: 'Bilan du thème : l’**individu** (personnalité, perception, émotions) **devient acteur** en communiquant, en mobilisant ses **compétences** et en nouant des **relations** au sein d’un **groupe**. Bien managée (motivation, reconnaissance, cohésion, gestion des conflits, leadership adapté), l’activité humaine est la **première ressource** de l’organisation.' },
           ],
         },
       ],
       essentiel: [
-        '**Perception** subjective + **émotions** influencent le comportement au travail.',
-        '**Compétence** = savoirs + savoir-faire + savoir-être ; la **qualification** situe dans l’organigramme.',
-        'Communication **formelle** (officielle) vs **informelle** (spontanée) ; interpersonnelle vs de groupe.',
-        'La **dynamique de groupe** : cohésion, conflits, coopération.',
+        '**Individu** = personnalité + **perception** (subjective, sélective) + **émotions** ; l’**attitude** (intérieure) ≠ le **comportement** (observable).',
+        'L’individu devient **acteur** : il agit, communique, interagit. **Statut** = position occupée ; **rôle** = comportements attendus.',
+        '**Communication interpersonnelle** : émetteur, message, code, canal, récepteur, **feedback**, bruits ; registres **verbal / non verbal / para-verbal** ; **écoute active**.',
+        'Communication **formelle** (officielle, coordination) vs **informelle** (spontanée, lien) ; interpersonnelle / de groupe / de masse ; **réseaux**.',
+        '**Compétence** = **savoirs** + **savoir-faire** + **savoir-être** ; travail **prescrit** ≠ **réel** ; les compétences partagées créent une **compétence collective**.',
+        '**Qualification** = reconnaissance officielle (diplôme, expérience, classification) ≠ compétence (savoir-faire réel).',
+        '**Rétribution** = **rémunération** (salaire + primes + périphériques) **+** reconnaissance, carrière, conditions ; l’**équité** motive.',
+        'Le travail est à la fois une **charge** (coût du travail : salaires + cotisations) et une **ressource** (capital humain, **investissement** en formation, GPEC).',
+        '**Motivation** : **Maslow** (pyramide des besoins), **Herzberg** (facteurs d’hygiène ≠ facteurs de motivation) ; reconnaissance, implication, QVT.',
+        '**Groupe** (formel/informel) : **dynamique**, **cohésion**, **normes** ; **conflit** (constructif si bien géré), **coopération**, **décision de groupe** ; **leadership** (Lewin : autoritaire / démocratique / laisser-faire).',
       ],
       resources: [
-        { kind: 'video', label: 'De l’individu à l’acteur (1re STMG)', note: 'Vidéos — recherche YouTube', url: yt('sciences de gestion de l individu à l acteur première STMG') },
+        { kind: 'video', label: 'De l’individu à l’acteur — le thème en entier', note: 'Vidéos — recherche YouTube', url: yt('sciences de gestion de l individu à l acteur première STMG') },
+        { kind: 'video', label: 'Compétences, qualification, motivation', note: 'Vidéos — recherche YouTube', url: yt('compétence qualification motivation Maslow Herzberg première STMG sciences de gestion') },
+        { kind: 'video', label: 'Communication & dynamique de groupe', note: 'Vidéos — recherche YouTube', url: yt('communication formelle informelle dynamique de groupe cohésion conflit première STMG') },
       ],
       games: [
         {
@@ -73,15 +381,26 @@ const sgn = {
           title: 'QCM — De l’individu à l’acteur',
           icon: '❓',
           questions: [
-            { q: 'La compétence d’un individu combine…', choices: ['savoirs, savoir-faire et savoir-être', 'salaire, prime et statut', 'perception, émotion et humeur', 'offre, demande et prix'], answer: 0, explain: 'Compétence = connaissances (savoirs) + pratique (savoir-faire) + comportement (savoir-être).' },
+            { q: 'La **perception** d’une situation est…', choices: ['subjective et sélective (propre à chacun)', 'toujours identique pour tous', 'une donnée comptable', 'un contrat'], answer: 0, explain: 'La perception sélectionne et interprète : deux personnes perçoivent différemment un même événement.' },
+            { q: 'Une **attitude** se distingue d’un **comportement** car…', choices: ['l’attitude est intérieure, le comportement est observable', 'ce sont des synonymes', 'l’attitude est une action, le comportement une opinion', 'seul le comportement existe'], answer: 0, explain: 'L’attitude est une disposition intérieure ; le comportement est l’action visible qui en découle.' },
+            { q: 'Le **statut** d’un individu désigne…', choices: ['la position qu’il occupe dans l’organisation', 'les comportements attendus de lui', 'son salaire', 'sa personnalité'], answer: 0, explain: 'Statut = position occupée ; le rôle = comportements attendus de celui qui occupe ce statut.' },
+            { q: 'Dans le schéma de la communication, la réponse du récepteur s’appelle…', choices: ['le feedback (rétroaction)', 'le canal', 'le code', 'le bruit'], answer: 0, explain: 'Le feedback est la rétroaction : le récepteur devient à son tour émetteur.' },
+            { q: 'Le ton, le débit et le volume de la voix relèvent de la communication…', choices: ['para-verbale', 'verbale', 'non verbale', 'écrite'], answer: 0, explain: 'Para-verbal = la voix ; verbal = les mots ; non verbal = le corps (gestes, regard).' },
             { q: 'Une réunion hebdomadaire officielle relève de la communication…', choices: ['formelle', 'informelle', 'de masse', 'publicitaire'], answer: 0, explain: 'La communication formelle est officielle et organisée ; l’informelle est spontanée.' },
-            { q: 'Le sentiment d’appartenance qui soude une équipe s’appelle…', choices: ['la cohésion', 'la qualification', 'la perception', 'la marge'], answer: 0, explain: 'La cohésion renforce la coopération et la performance du groupe.' },
-            { q: 'La perception d’une situation est…', choices: ['subjective (propre à chacun)', 'toujours identique pour tous', 'une donnée comptable', 'un contrat'], answer: 0, explain: 'Deux personnes perçoivent différemment un même événement.' },
-            { q: 'Le rôle du management face aux conflits est de favoriser…', choices: ['la coopération', 'la rupture', 'l’isolement', 'le silence'], answer: 0, explain: 'Bien gérés, les conflits peuvent être constructifs ; le management favorise la coopération.' },
+            { q: 'La **compétence** d’un individu combine…', choices: ['savoirs, savoir-faire et savoir-être', 'salaire, prime et statut', 'perception, émotion et humeur', 'offre, demande et prix'], answer: 0, explain: 'Compétence = connaissances (savoirs) + pratique (savoir-faire) + comportement (savoir-être).' },
+            { q: 'Le **travail réel** désigne…', choices: ['ce que le salarié fait vraiment, en s’adaptant', 'la consigne officielle donnée', 'le salaire versé', 'l’organigramme'], answer: 0, explain: 'Travail prescrit = ce qui est demandé ; travail réel = ce qui est réellement fait.' },
+            { q: 'La **qualification** se distingue de la compétence car elle est…', choices: ['la reconnaissance officielle (diplôme, classification)', 'le savoir-faire réel', 'une émotion', 'un canal de communication'], answer: 0, explain: 'On peut être compétent sans être qualifié : la qualification reconnaît officiellement le niveau.' },
+            { q: 'La **rétribution** est plus large que la rémunération car elle inclut…', choices: ['la reconnaissance et les conditions de travail', 'seulement le salaire de base', 'uniquement les primes', 'les cotisations sociales'], answer: 0, explain: 'Rétribution = rémunération (argent) + éléments non financiers (reconnaissance, carrière, ambiance).' },
+            { q: 'Considérer la formation comme un **investissement** signifie…', choices: ['qu’elle développe des compétences utiles à long terme', 'qu’il faut la supprimer pour réduire les coûts', 'qu’elle ne sert à rien', 'qu’elle est une cotisation'], answer: 0, explain: 'À court terme c’est une charge, mais à long terme un investissement immatériel (capital humain).' },
+            { q: 'Selon **Herzberg**, augmenter le salaire…', choices: ['évite l’insatisfaction mais ne motive pas durablement', 'suffit toujours à motiver', 'démotive systématiquement', 'n’a aucun effet'], answer: 0, explain: 'Le salaire est un facteur d’hygiène ; la vraie motivation vient de l’intérêt du travail et de la reconnaissance.' },
+            { q: 'À la base de la **pyramide de Maslow** se trouvent les besoins…', choices: ['physiologiques', 'd’estime', 'd’accomplissement', 'd’appartenance'], answer: 0, explain: 'Ordre : physiologiques → sécurité → appartenance → estime → accomplissement.' },
+            { q: 'Le **sentiment d’appartenance** qui soude une équipe s’appelle…', choices: ['la cohésion', 'la qualification', 'la perception', 'la marge'], answer: 0, explain: 'La cohésion renforce la coopération et la performance du groupe.' },
+            { q: 'Le mode de résolution de conflit le plus **constructif** est…', choices: ['la coopération (solution qui satisfait tout le monde)', 'l’évitement', 'l’imposition par la force', 'le silence'], answer: 0, explain: 'La coopération cherche ensemble une solution gagnant-gagnant.' },
+            { q: 'Selon **Lewin**, le style de leadership le plus favorable à la motivation est…', choices: ['démocratique (participatif)', 'autoritaire', 'laisser-faire', 'aucun'], answer: 0, explain: 'Le style démocratique associe le groupe aux décisions : meilleur pour la cohésion et la motivation.' },
           ],
         },
         {
-          id: 'p1-sgn-t1-tri',
+          id: 'p1-sgn-t1-tri-comm',
           type: 'tri',
           title: 'Tri — Communication formelle ou informelle ?',
           icon: '🗂️',
@@ -94,8 +413,71 @@ const sgn = {
             { text: 'Une note de service affichée', cat: 'form' },
             { text: 'Une discussion à la machine à café', cat: 'inf' },
             { text: 'Un mail professionnel de la direction', cat: 'form' },
-            { text: 'Un message entre collègues sur une appli', cat: 'inf' },
+            { text: 'Un « bruit de couloir » entre collègues', cat: 'inf' },
             { text: 'Une réunion d’équipe planifiée', cat: 'form' },
+            { text: 'Un entretien annuel d’évaluation', cat: 'form' },
+            { text: 'Un déjeuner improvisé entre services', cat: 'inf' },
+          ],
+        },
+        {
+          id: 'p1-sgn-t1-tri-comp',
+          type: 'tri',
+          title: 'Tri — Savoir, savoir-faire ou savoir-être ?',
+          icon: '🗂️',
+          instruction: 'Classe chaque élément de compétence.',
+          categories: [
+            { id: 'sav', label: 'Savoir' },
+            { id: 'sf', label: 'Savoir-faire' },
+            { id: 'se', label: 'Savoir-être' },
+          ],
+          items: [
+            { text: 'Connaître la réglementation d’hygiène', cat: 'sav' },
+            { text: 'Savoir utiliser le logiciel de caisse', cat: 'sf' },
+            { text: 'Être souriant et à l’écoute du client', cat: 'se' },
+            { text: 'Maîtriser les tables de conjugaison comptable (débit/crédit)', cat: 'sav' },
+            { text: 'Rédiger une facture sans erreur', cat: 'sf' },
+            { text: 'Rester calme face à un client mécontent', cat: 'se' },
+          ],
+        },
+        {
+          id: 'p1-sgn-t1-tri-rc',
+          type: 'tri',
+          title: 'Tri — Le travail : ressource ou charge ?',
+          icon: '🗂️',
+          instruction: 'Classe chaque affirmation selon la vision du travail.',
+          categories: [
+            { id: 'res', label: 'Ressource' },
+            { id: 'cha', label: 'Charge' },
+          ],
+          items: [
+            { text: 'Le capital humain, source de performance', cat: 'res' },
+            { text: 'Les salaires et cotisations à payer', cat: 'cha' },
+            { text: 'Un investissement en formation', cat: 'res' },
+            { text: 'Un coût du travail à réduire', cat: 'cha' },
+            { text: 'Des compétences à développer et fidéliser', cat: 'res' },
+          ],
+        },
+        {
+          id: 'p1-sgn-t1-ordre',
+          type: 'ordre',
+          title: 'Remise en ordre — La pyramide de Maslow',
+          icon: '🔢',
+          instruction: 'Classe les besoins de la base de la pyramide vers le sommet.',
+          steps: ['Besoins physiologiques', 'Besoin de sécurité', 'Besoin d’appartenance', 'Besoin d’estime', 'Besoin d’accomplissement'],
+          explain: 'Maslow : on cherche à satisfaire un besoin supérieur une fois les besoins inférieurs comblés.',
+        },
+        {
+          id: 'p1-sgn-t1-assoc',
+          type: 'association',
+          title: 'Association — Notion ↔ définition',
+          icon: '🔗',
+          pairs: [
+            { left: 'Statut', right: 'La position occupée dans l’organisation' },
+            { left: 'Rôle', right: 'Les comportements attendus d’une personne' },
+            { left: 'Feedback', right: 'La réponse du récepteur dans la communication' },
+            { left: 'Qualification', right: 'La reconnaissance officielle des compétences' },
+            { left: 'Compétence collective', right: 'Ce que l’équipe sait faire ensemble, au-delà des individus' },
+            { left: 'Leadership', right: 'L’influence reconnue par le groupe' },
           ],
         },
         {
@@ -104,21 +486,50 @@ const sgn = {
           title: 'Vrai / Faux rapide',
           icon: '⚡',
           questions: [
-            { statement: 'La communication informelle est inutile à l’organisation.', answer: false, explain: 'Faux : elle crée du lien et fait circuler des informations utiles.' },
+            { statement: 'La perception est objective : tout le monde voit la même chose.', answer: false, explain: 'Faux : la perception est subjective et sélective, filtrée par nos expériences.' },
             { statement: 'Le savoir-être fait partie des compétences.', answer: true, explain: 'Vrai : savoirs + savoir-faire + savoir-être.' },
-            { statement: 'Les émotions n’ont aucun effet sur le travail.', answer: false, explain: 'Faux : le stress, par exemple, dégrade la communication et augmente les erreurs.' },
+            { statement: 'La communication informelle est inutile à l’organisation.', answer: false, explain: 'Faux : elle crée du lien et fait circuler des informations utiles (mais peut diffuser des rumeurs).' },
+            { statement: 'On peut être compétent sans être qualifié.', answer: true, explain: 'Vrai : la qualification est la reconnaissance officielle, distincte du savoir-faire réel.' },
+            { statement: 'Pour Herzberg, le salaire est le principal facteur de motivation durable.', answer: false, explain: 'Faux : c’est un facteur d’hygiène ; la motivation vient de l’intérêt du travail et de la reconnaissance.' },
+            { statement: 'Un conflit bien géré peut être constructif pour le groupe.', answer: true, explain: 'Vrai : il peut clarifier les désaccords et faire émerger des solutions nouvelles.' },
+            { statement: 'Le leader d’un groupe est toujours le chef officiel.', answer: false, explain: 'Faux : le leadership est une influence reconnue par le groupe, pas forcément le statut hiérarchique.' },
+          ],
+        },
+        {
+          id: 'p1-sgn-t1-trou',
+          type: 'trou',
+          title: 'Texte à trous — Vocabulaire du thème',
+          icon: '✏️',
+          questions: [
+            { text: 'La ____ est le processus subjectif par lequel on interprète l’information.', answer: 'perception', explain: 'La perception est sélective et propre à chacun.' },
+            { text: 'Le ____ est la position occupée dans l’organisation ; le rôle en est le comportement attendu.', answer: 'statut', explain: 'Statut = position ; rôle = comportements attendus.' },
+            { text: 'Dans la communication, la réponse du récepteur s’appelle le ____.', answer: 'feedback', alt: ['retour', 'rétroaction'], explain: 'Le feedback (rétroaction) referme la boucle de communication.' },
+            { text: 'La compétence combine savoirs, ____ et savoir-être.', answer: 'savoir-faire', explain: 'Savoirs (connaissances) + savoir-faire (pratique) + savoir-être (comportement).' },
+            { text: 'La ____ est la reconnaissance officielle des compétences (diplôme, classification).', answer: 'qualification', explain: 'À distinguer de la compétence, qui est le savoir-faire réel.' },
+            { text: 'Pour Herzberg, le salaire est un facteur d’____ : il évite l’insatisfaction sans motiver durablement.', answer: 'hygiène', explain: 'Les facteurs de motivation sont l’intérêt du travail et la reconnaissance.' },
           ],
         },
         {
           id: 'p1-sgn-t1-flash',
           type: 'flashcard',
-          title: 'Flashcards — Notions clés',
+          title: 'Flashcards — Toutes les notions',
           icon: '🃏',
           cards: [
-            { front: 'Compétence', back: 'Savoirs + savoir-faire + savoir-être mobilisés au travail.' },
-            { front: 'Qualification', back: 'Reconnaissance (diplômes, expérience) qui situe dans l’organigramme.' },
+            { front: 'Perception', back: 'Processus subjectif et sélectif par lequel on interprète l’information.' },
+            { front: 'Attitude vs comportement', back: 'Attitude = disposition intérieure ; comportement = action observable.' },
+            { front: 'Statut / rôle', back: 'Statut = position occupée ; rôle = comportements attendus.' },
+            { front: 'Schéma de communication', back: 'Émetteur, message, code, canal, récepteur, feedback, bruits.' },
+            { front: 'Verbal / non verbal / para-verbal', back: 'Les mots / le corps (gestes, regard) / la voix (ton, débit).' },
             { front: 'Communication formelle / informelle', back: 'Officielle et organisée / spontanée et non prévue.' },
+            { front: 'Compétence', back: 'Savoirs + savoir-faire + savoir-être mobilisés au travail.' },
+            { front: 'Travail prescrit / réel', back: 'Ce qui est demandé / ce qui est réellement fait en s’adaptant.' },
+            { front: 'Qualification', back: 'Reconnaissance officielle des compétences (diplôme, expérience, classification).' },
+            { front: 'Rétribution', back: 'Rémunération (salaire + primes + périphériques) + reconnaissance et conditions.' },
+            { front: 'Ressource ou charge ?', back: 'Charge = coût du travail ; ressource = capital humain, investissement en formation.' },
+            { front: 'Maslow', back: 'Pyramide : physiologiques → sécurité → appartenance → estime → accomplissement.' },
+            { front: 'Herzberg', back: 'Facteurs d’hygiène (évitent l’insatisfaction) ≠ facteurs de motivation.' },
             { front: 'Cohésion', back: 'Sentiment d’appartenance qui soude le groupe.' },
+            { front: 'Leadership (Lewin)', back: 'Autoritaire / démocratique / laisser-faire.' },
           ],
         },
       ],
@@ -425,28 +836,34 @@ const managementP = {
   chapters: [
     {
       id: 'p1-mgmt-t1',
-      name: 'Thème 1 — Le rôle du management dans la gestion des organisations',
-      short: 'Le rôle du management',
-      keywords: 'organisation but ressources structure frontière management performance pérennité stratégique opérationnel',
+      name: 'Thème 1 — À la rencontre du management des organisations',
+      short: 'Management & organisations',
+      keywords: 'organisation groupe individus ressources structure hiérarchie statut juridique but commun pérennité management performance stratégique opérationnel entreprise privée organisation publique société civile finalité lucrative intérêt général non lucrative parties prenantes RSE',
       intro:
-        'Le management, c’est l’**art de conduire une organisation** pour qu’elle atteigne ses buts et **dure** dans le temps. En première, on définit les notions de base.',
+        'Une **organisation** naît du besoin de **structurer une action collective**. Le **management** est l’art de la **conduire** pour qu’elle atteigne ses buts et **dure**. On découvre aussi les grandes **formes** d’organisations et leurs **finalités**.',
       cours: [
         {
           h: 'Qu’est-ce qu’une organisation ?',
           blocks: [
-            { t: 'p', c: 'Une organisation naît de la nécessité de **structurer une action collective**. Elle se reconnaît à **quatre éléments** :' },
+            { t: 'p', c: 'Une organisation est un **groupe d’individus** qui met en commun et **pilote des ressources**, autour d’un **but commun**, et qui est **voué à durer** dans le temps. On la reconnaît à plusieurs caractéristiques :' },
             { t: 'list', c: [
-              'un **but** (ce qu’elle veut accomplir),',
-              'des **ressources** (humaines, matérielles, financières, immatérielles),',
-              'une **structure** (répartition des rôles, hiérarchie),',
-              'une **frontière** (ce qui la distingue de son environnement).',
+              'un **but commun** (le projet collectif qui réunit les membres),',
+              'des **ressources pilotées** (humaines, matérielles, financières, immatérielles),',
+              'une **structure hiérarchisée** (répartition des rôles, des pouvoirs et des responsabilités),',
+              'un **statut juridique** (entreprise, association, administration…),',
+              'la volonté de **durer** dans le temps (la **pérennité**).',
             ] },
+            { t: 'tip', c: 'À retenir : une organisation, ce sont des **individus** qui **coordonnent des ressources** vers un **but commun**, dans une **structure** dotée d’un **statut juridique**.' },
           ],
         },
         {
           h: 'Qu’est-ce que le management ?',
           blocks: [
-            { t: 'p', c: 'Le management est la **conduite de l’action collective** dans un environnement en perpétuel changement (numérique, écologie, attentes sociales). Manager, c’est fixer des objectifs, organiser les ressources, animer les équipes et contrôler les résultats, pour assurer **performance** (atteindre les objectifs) et **pérennité** (durer).' },
+            { t: 'p', c: 'Le management est la **conduite de l’action collective** dans un environnement en perpétuel changement (numérique, écologie, attentes sociales). Manager, c’est **fixer des objectifs**, **organiser les ressources**, **animer les équipes** et **contrôler les résultats**, pour assurer :' },
+            { t: 'list', c: [
+              'la **performance** : atteindre les objectifs fixés (efficacité + efficience) ;',
+              'la **pérennité** : permettre à l’organisation de durer.',
+            ] },
           ],
         },
         {
@@ -460,33 +877,74 @@ const managementP = {
             { t: 'tip', c: 'Les deux sont complémentaires : la **stratégie fixe le cap**, l’**opérationnel le met en pratique**.' },
           ],
         },
+        {
+          h: 'Les différentes formes d’organisations',
+          blocks: [
+            { t: 'p', c: 'Les organisations se distinguent surtout par leur **finalité** (leur raison d’être). On en distingue **trois grandes formes** :' },
+            { t: 'table', head: ['Type', 'Finalité', 'Exemples'], rows: [
+              ['Entreprise privée', 'Lucrative (profit) + dimension sociétale (RSE)', 'Boulangerie, start-up, multinationale'],
+              ['Organisation publique', 'Intérêt général (service public, non marchand)', 'Mairie, hôpital, lycée, police'],
+              ['Organisation de la société civile', 'Non lucrative (objet social)', 'Association, ONG, syndicat, mutuelle'],
+            ] },
+            { t: 'p', c: 'Les **entreprises privées** cherchent le **profit** tout en intégrant des enjeux sociaux et environnementaux (**RSE**). Les **organisations publiques** rendent un **service public** financé par l’**impôt**. Les **organisations de la société civile** poursuivent un **objet social** sans but de profit ; leur enjeu est de **pérenniser leurs ressources** (bénévoles, cotisations, subventions, dons).' },
+            { t: 'list', c: [
+              '**Parties prenantes** : tous ceux qui ont un intérêt dans l’organisation (salariés, clients, actionnaires, État, fournisseurs, riverains…).',
+              '**Champ d’action** : local, national ou international ; **marchand** ou **non marchand**.',
+              'La **performance** se mesure selon la **finalité** : un profit pour l’entreprise, un service rendu pour l’organisation publique.',
+            ] },
+          ],
+        },
       ],
       essentiel: [
-        'Une **organisation** = un **but** + des **ressources** + une **structure** + une **frontière**.',
+        'Une **organisation** = des **individus** + des **ressources pilotées** + une **structure hiérarchisée** + un **statut juridique** + un **but commun**, **vouée à durer**.',
         'Le **management** conduit l’action collective pour assurer **performance** et **pérennité**.',
         'Management **stratégique** (long terme, direction) vs **opérationnel** (court terme, encadrement).',
+        'Trois formes : **entreprise privée** (lucrative + RSE), **organisation publique** (intérêt général), **société civile** (non lucrative).',
       ],
       resources: [
-        { kind: 'video', label: 'Le rôle du management (1re)', note: 'Vidéos — recherche YouTube', url: yt('rôle du management organisation stratégique opérationnel première STMG') },
+        { kind: 'video', label: 'À la rencontre du management des organisations', note: 'Vidéos — recherche YouTube', url: yt('à la rencontre du management des organisations première STMG') },
+        { kind: 'video', label: 'Types et finalités des organisations', note: 'Vidéos — recherche YouTube', url: yt('finalités organisations entreprise publique association première STMG management') },
       ],
       games: [
         {
           id: 'p1-mgmt-t1-qcm',
           type: 'qcm',
-          title: 'QCM — Le rôle du management',
+          title: 'QCM — Management et organisations',
           icon: '❓',
           questions: [
-            { q: 'Parmi les 4 éléments d’une organisation :', choices: ['un but, des ressources, une structure, une frontière', 'un logo, un slogan, une couleur, un site', 'un impôt, une TVA, une marge, un stock', 'un juge, une loi, un contrat, une preuve'], answer: 0, explain: 'But, ressources, structure, frontière caractérisent une organisation.' },
-            { q: 'Le management vise deux objectifs :', choices: ['la performance et la pérennité', 'le profit et l’impôt', 'la publicité et la vente', 'le risque et le temps'], answer: 0, explain: 'Atteindre les objectifs (performance) et durer (pérennité).' },
+            { q: 'Une organisation se définit comme…', choices: ['un groupe d’individus pilotant des ressources vers un but commun, voué à durer', 'un logo, un slogan et une couleur', 'un impôt, une TVA et une marge', 'un juge, une loi et une preuve'], answer: 0, explain: 'Des individus coordonnent des ressources, dans une structure dotée d’un statut juridique, vers un but commun et dans la durée.' },
+            { q: 'Le management vise deux grands objectifs :', choices: ['la performance et la pérennité', 'le profit et l’impôt', 'la publicité et la vente', 'le risque et le temps'], answer: 0, explain: 'Atteindre les objectifs (performance) et durer (pérennité).' },
             { q: 'Ouvrir une filiale à l’étranger est une décision de management…', choices: ['stratégique', 'opérationnel', 'quotidien', 'comptable'], answer: 0, explain: 'Décision de long terme prise par la direction générale.' },
-            { q: 'Organiser les plannings de la semaine relève du management…', choices: ['opérationnel', 'stratégique', 'financier', 'juridique'], answer: 0, explain: 'Mise en œuvre de court terme, par l’encadrement.' },
+            { q: 'La finalité d’une organisation publique est…', choices: ['l’intérêt général (service public)', 'le profit', 'la spéculation', 'la publicité'], answer: 0, explain: 'Les organisations publiques rendent un service public, financé par l’impôt.' },
+            { q: 'Une association relève des organisations…', choices: ['de la société civile (non lucratives)', 'privées lucratives', 'publiques', 'multinationales'], answer: 0, explain: 'Associations, ONG, syndicats, mutuelles = société civile, non lucratives.' },
+            { q: 'Salariés, clients, actionnaires et État sont des…', choices: ['parties prenantes', 'concurrents', 'indicateurs', 'ressources matérielles'], answer: 0, explain: 'Ce sont les parties prenantes de l’organisation.' },
           ],
         },
         {
           id: 'p1-mgmt-t1-tri',
           type: 'tri',
-          title: 'Tri — Stratégique ou opérationnel ?',
+          title: 'Tri — Type d’organisation',
           icon: '🗂️',
+          instruction: 'Classe chaque organisation selon sa forme.',
+          categories: [
+            { id: 'priv', label: 'Entreprise privée' },
+            { id: 'pub', label: 'Organisation publique' },
+            { id: 'civ', label: 'Société civile' },
+          ],
+          items: [
+            { text: 'Une start-up', cat: 'priv' },
+            { text: 'Un hôpital public', cat: 'pub' },
+            { text: 'Une ONG humanitaire', cat: 'civ' },
+            { text: 'Une multinationale', cat: 'priv' },
+            { text: 'Un syndicat', cat: 'civ' },
+            { text: 'Une mairie', cat: 'pub' },
+          ],
+        },
+        {
+          id: 'p1-mgmt-t1-tri2',
+          type: 'tri',
+          title: 'Tri — Stratégique ou opérationnel ?',
+          icon: '🎯',
           instruction: 'Classe chaque décision.',
           categories: [
             { id: 'str', label: 'Stratégique' },
@@ -503,191 +961,96 @@ const managementP = {
         {
           id: 'p1-mgmt-t1-flash',
           type: 'flashcard',
-          title: 'Flashcards — Management',
+          title: 'Flashcards — Management & organisations',
           icon: '🃏',
           cards: [
-            { front: 'Organisation', back: 'But + ressources + structure + frontière.' },
+            { front: 'Organisation', back: 'Groupe d’individus pilotant des ressources vers un but commun, structuré, doté d’un statut juridique, voué à durer.' },
             { front: 'Management', back: 'Conduire l’action collective (performance + pérennité).' },
-            { front: 'Management stratégique', back: 'Long terme, direction générale.' },
-            { front: 'Management opérationnel', back: 'Court terme, encadrement intermédiaire.' },
+            { front: 'Stratégique / opérationnel', back: 'Long terme (direction) / court terme (encadrement).' },
+            { front: 'Entreprise privée', back: 'Finalité lucrative (profit) + dimension sociétale (RSE).' },
+            { front: 'Organisation publique', back: 'Finalité d’intérêt général (service public).' },
+            { front: 'Société civile', back: 'Non lucrative (association, ONG, syndicat, mutuelle).' },
           ],
         },
       ],
     },
     {
       id: 'p1-mgmt-t2',
-      name: 'Thème 2 — Les critères de différenciation des organisations',
-      short: 'Types d’organisations',
-      keywords: 'entreprise privée organisation publique société civile finalité lucrative intérêt général non lucrative parties prenantes champ d’action RSE',
+      name: 'Thème 2 — Le management stratégique, du diagnostic à la fixation des objectifs',
+      short: 'Diagnostic stratégique',
+      keywords: 'stratégie diagnostic externe interne PESTEL macro-environnement micro-environnement opportunités menaces ressources compétences distinctives forces faiblesses SWOT finalité objectifs stratégiques',
       intro:
-        'Toutes les organisations ne se ressemblent pas. On les classe selon leurs **finalités** (leur raison d’être) et leurs contraintes. On distingue **trois grandes formes**.',
+        'Pour atteindre ses finalités, une organisation met en place une **stratégie**. Avant de décider, elle réalise un **diagnostic stratégique** : se connaître (interne) et connaître son environnement (externe). Ce diagnostic débouche sur la **fixation des objectifs**.',
       cours: [
         {
-          h: 'Trois grandes formes d’organisations',
+          h: 'La démarche stratégique',
           blocks: [
-            { t: 'table', head: ['Type', 'Finalité', 'Exemples'], rows: [
-              ['Entreprise privée', 'Lucrative (profit) + dimension sociétale (RSE)', 'Boulangerie, multinationale, start-up'],
-              ['Organisation publique', 'Intérêt général (service public, non marchand)', 'Mairie, hôpital, lycée, police'],
-              ['Société civile', 'Non lucrative (objet social)', 'Association, ONG, syndicat, mutuelle'],
-            ] },
-            { t: 'p', c: 'Les **entreprises privées** cherchent le **profit** mais intègrent de plus en plus des enjeux sociaux et environnementaux (**RSE**). Les **organisations publiques** rendent un **service public** financé par l’**impôt**. Les **organisations de la société civile** poursuivent un **objet social** sans but de profit ; leur enjeu est de **pérenniser leurs ressources** (bénévoles, cotisations, subventions, dons).' },
+            { t: 'p', c: 'La démarche stratégique enchaîne plusieurs étapes : (1) **diagnostic stratégique** (interne + externe), (2) **fixation des objectifs** en cohérence avec les **finalités**, (3) **mise en œuvre**, (4) **contrôle** des résultats et **ajustement**. C’est un processus permanent.' },
           ],
         },
         {
-          h: 'Les notions à maîtriser',
+          h: 'Le diagnostic externe : l’environnement de l’organisation',
           blocks: [
+            { t: 'p', c: 'Le **macro-environnement** regroupe les grandes forces générales qui s’imposent à **toutes** les organisations et sur lesquelles une entreprise seule **n’a pas de prise**. On l’analyse avec la méthode **PESTEL** :' },
+            { t: 'figure', name: 'pestel' },
             { t: 'list', c: [
-              '**Finalité** : lucrative / intérêt général / non lucrative.',
-              '**Parties prenantes** : tous ceux qui ont un intérêt dans l’organisation (salariés, clients, actionnaires, État, fournisseurs, riverains…).',
-              '**Champ d’action** : local, national, international ; **marchand** ou **non marchand**.',
-              'La **performance** se mesure différemment selon la finalité (un profit pour l’entreprise, un service rendu pour l’organisation publique).',
+              '**P** olitique · **E** conomique · **S** ocioculturel · **T** echnologique · **E** cologique · **L** égal.',
             ] },
+            { t: 'p', c: 'Le **micro-environnement** regroupe les **acteurs proches** en relation directe avec l’organisation : les **concurrents** actuels, les **clients**, les **fournisseurs**, les **nouveaux entrants** potentiels et les **produits de substitution**. Le diagnostic externe fait ressortir des **opportunités** (favorables) et des **menaces** (défavorables).' },
+          ],
+        },
+        {
+          h: 'Le diagnostic interne',
+          blocks: [
+            { t: 'p', c: 'Le **diagnostic interne** analyse ce que l’organisation possède et sait faire :' },
+            { t: 'list', c: [
+              'ses **ressources** : financières, humaines, matérielles et immatérielles (marque, savoir-faire, brevets…) ;',
+              'ses **compétences distinctives** : ce qu’elle sait faire **mieux** que ses concurrents.',
+            ] },
+            { t: 'p', c: 'Il révèle les **forces** (atouts) et les **faiblesses** (points faibles) de l’organisation.' },
+          ],
+        },
+        {
+          h: 'La synthèse : la matrice SWOT',
+          blocks: [
+            { t: 'p', c: 'On réunit les résultats des deux diagnostics dans une matrice **SWOT** : **Forces / Faiblesses** (issues du diagnostic **interne**) et **Opportunités / Menaces** (issues du diagnostic **externe**).' },
+            { t: 'figure', name: 'swot' },
+          ],
+        },
+        {
+          h: 'Des finalités aux objectifs stratégiques',
+          blocks: [
+            { t: 'p', c: 'Le diagnostic permet de fixer des **objectifs stratégiques** cohérents avec la **finalité** de l’organisation (ex. conquérir un nouveau marché, améliorer un service public, développer l’action d’une association). Ces objectifs guideront ensuite les **choix stratégiques** (thème 3).' },
+            { t: 'tip', c: 'Un bon objectif s’appuie sur les **forces** de l’organisation pour saisir une **opportunité**, ou pour réduire une **faiblesse** face à une **menace**.' },
           ],
         },
       ],
       essentiel: [
-        'Trois formes : **entreprise privée** (lucrative + RSE), **organisation publique** (intérêt général), **société civile** (non lucrative).',
-        '**Parties prenantes** = tous ceux qui ont un intérêt dans l’organisation.',
-        'La **performance** se mesure selon la **finalité** (profit vs service rendu).',
+        'Démarche : **diagnostic → objectifs → mise en œuvre → contrôle** (ajustement permanent).',
+        'Diagnostic **externe** : **PESTEL** (macro) + acteurs du **micro-environnement** → **opportunités / menaces**.',
+        'Diagnostic **interne** : **ressources** + **compétences distinctives** → **forces / faiblesses**.',
+        'Synthèse = **SWOT** ; le diagnostic débouche sur les **objectifs stratégiques** liés à la **finalité**.',
       ],
       resources: [
-        { kind: 'video', label: 'Types et finalités des organisations', note: 'Vidéos — recherche YouTube', url: yt('finalités organisations entreprise publique association première STMG management') },
+        { kind: 'video', label: 'Le diagnostic stratégique : PESTEL et SWOT', note: 'Vidéos — recherche YouTube', url: yt('diagnostic stratégique PESTEL SWOT interne externe première STMG') },
       ],
       games: [
         {
           id: 'p1-mgmt-t2-qcm',
           type: 'qcm',
-          title: 'QCM — Types d’organisations',
+          title: 'QCM — Diagnostic stratégique',
           icon: '❓',
           questions: [
-            { q: 'La finalité d’une organisation publique est…', choices: ['l’intérêt général (service public)', 'le profit', 'la spéculation', 'la publicité'], answer: 0, explain: 'Les organisations publiques rendent un service public, financé par l’impôt.' },
-            { q: 'Une association relève des organisations…', choices: ['de la société civile (non lucratives)', 'privées lucratives', 'publiques', 'multinationales'], answer: 0, explain: 'Associations, ONG, syndicats, mutuelles = société civile, non lucratives.' },
-            { q: 'La prise en compte des enjeux sociaux et environnementaux par une entreprise s’appelle…', choices: ['la RSE', 'le PIB', 'le PGI', 'le MARC'], answer: 0, explain: 'RSE = Responsabilité Sociétale des Entreprises.' },
-            { q: 'Salariés, clients, actionnaires et État sont des…', choices: ['parties prenantes', 'concurrents', 'indicateurs', 'ressources matérielles'], answer: 0, explain: 'Ce sont les parties prenantes de l’organisation.' },
-            { q: 'Les ressources d’une association reposent souvent sur…', choices: ['des bénévoles, cotisations, subventions, dons', 'des dividendes', 'la TVA collectée', 'des actions cotées'], answer: 0, explain: 'Son enjeu est de pérenniser ces ressources humaines et financières.' },
+            { q: 'La méthode PESTEL analyse…', choices: ['le macro-environnement', 'les ressources internes', 'la comptabilité', 'les salariés'], answer: 0, explain: 'PESTEL = Politique, Économique, Socioculturel, Technologique, Écologique, Légal (macro-environnement).' },
+            { q: 'Le « L » de PESTEL correspond à la dimension…', choices: ['Légale', 'Logistique', 'Locale', 'Libérale'], answer: 0, explain: 'L = Légal (lois, réglementations, RGPD).' },
+            { q: 'Une compétence distinctive est ce que l’organisation sait faire…', choices: ['mieux que ses concurrents', 'comme tout le monde', 'sans ressources', 'à perte'], answer: 0, explain: 'C’est une force du diagnostic interne, source d’avantage concurrentiel.' },
+            { q: 'Les forces et les faiblesses relèvent du diagnostic…', choices: ['interne', 'externe', 'macro-économique', 'légal'], answer: 0, explain: 'Interne = forces/faiblesses ; externe = opportunités/menaces.' },
+            { q: 'Une nouvelle réglementation favorable est, pour l’organisation, une…', choices: ['opportunité', 'faiblesse', 'ressource', 'compétence'], answer: 0, explain: 'C’est un élément externe favorable : une opportunité.' },
+            { q: 'La matrice SWOT réunit…', choices: ['forces/faiblesses (interne) et opportunités/menaces (externe)', 'seulement les forces', 'les seules données comptables', 'les concurrents uniquement'], answer: 0, explain: 'SWOT = synthèse du diagnostic interne et externe.' },
           ],
         },
         {
           id: 'p1-mgmt-t2-tri',
-          type: 'tri',
-          title: 'Tri — Type d’organisation',
-          icon: '🗂️',
-          instruction: 'Classe chaque organisation.',
-          categories: [
-            { id: 'priv', label: 'Entreprise privée' },
-            { id: 'pub', label: 'Organisation publique' },
-            { id: 'civ', label: 'Société civile' },
-          ],
-          items: [
-            { text: 'Une start-up', cat: 'priv' },
-            { text: 'Un hôpital public', cat: 'pub' },
-            { text: 'Une ONG humanitaire', cat: 'civ' },
-            { text: 'Une multinationale', cat: 'priv' },
-            { text: 'Un syndicat', cat: 'civ' },
-            { text: 'Une mairie', cat: 'pub' },
-          ],
-        },
-        {
-          id: 'p1-mgmt-t2-flash',
-          type: 'flashcard',
-          title: 'Flashcards — Organisations',
-          icon: '🃏',
-          cards: [
-            { front: 'Entreprise privée', back: 'Finalité lucrative (profit) + dimension sociétale (RSE).' },
-            { front: 'Organisation publique', back: 'Finalité d’intérêt général (service public, non marchand).' },
-            { front: 'Société civile', back: 'Non lucrative (association, ONG, syndicat, mutuelle).' },
-            { front: 'Parties prenantes', back: 'Tous ceux qui ont un intérêt dans l’organisation.' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'p1-mgmt-t3',
-      name: 'Thème 3 — Le management stratégique : diagnostiquer, décider, piloter',
-      short: 'Diagnostic stratégique',
-      keywords: 'stratégie diagnostic SWOT PESTEL macro-environnement 5 forces de Porter micro-environnement ressources compétences distinctives avantage concurrentiel domination coûts différenciation DAS',
-      intro:
-        'Pour atteindre ses finalités, une organisation met en place une **stratégie**. Avant de décider, elle réalise un **diagnostic** : se connaître (interne) et connaître son environnement (externe). C’est le cœur du management de première.',
-      cours: [
-        {
-          h: 'La démarche stratégique',
-          blocks: [
-            { t: 'p', c: 'Trois étapes : (1) **diagnostic stratégique** (interne + externe), (2) **fixation des objectifs**, (3) **pilotage** (suivre les résultats avec des indicateurs et s’adapter). C’est un processus permanent d’ajustement.' },
-          ],
-        },
-        {
-          h: 'Le diagnostic externe MACRO : PESTEL',
-          blocks: [
-            { t: 'p', c: 'Le **macro-environnement** regroupe les grandes forces générales qui s’imposent à **toutes** les organisations, sur lesquelles une entreprise seule **n’a aucune prise**. On l’analyse avec **PESTEL** :' },
-            { t: 'figure', name: 'pestel' },
-            { t: 'list', c: [
-              '**P** olitique · **E** conomique · **S** ocioculturel · **T** echnologique · **E** cologique · **L** égal.',
-              'Chaque dimension révèle des **opportunités** (favorables) ou des **menaces** (défavorables).',
-            ] },
-          ],
-        },
-        {
-          h: 'Le diagnostic externe MICRO : les 5 forces de Porter',
-          blocks: [
-            { t: 'p', c: 'Le **micro-environnement** regroupe les **acteurs proches** en relation directe avec l’organisation. On mesure la **pression concurrentielle** avec les **5 forces de Porter** :' },
-            { t: 'figure', name: 'porter5' },
-            { t: 'list', c: [
-              'l’**intensité de la concurrence** entre acteurs présents,',
-              'le **pouvoir de négociation des clients**,',
-              'le **pouvoir de négociation des fournisseurs**,',
-              'la **menace des nouveaux entrants** (barrières à l’entrée),',
-              'la **menace des produits de substitution**.',
-            ] },
-          ],
-        },
-        {
-          h: 'Le diagnostic INTERNE et la synthèse SWOT',
-          blocks: [
-            { t: 'p', c: 'Le **diagnostic interne** analyse les **ressources** (financières, humaines, matérielles, immatérielles) et les **compétences distinctives** (ce que l’organisation sait faire **mieux** que ses concurrents). Il révèle **forces** et **faiblesses**.' },
-            { t: 'figure', name: 'swot' },
-            { t: 'p', c: 'La synthèse forme le **SWOT** (Forces/Faiblesses = interne ; Opportunités/Menaces = externe).' },
-          ],
-        },
-        {
-          h: 'L’avantage concurrentiel (Porter)',
-          blocks: [
-            { t: 'p', c: 'L’objectif est un **avantage concurrentiel** : se distinguer **durablement**. Selon **Porter**, deux stratégies génériques :' },
-            { t: 'table', head: ['Domination par les coûts', 'Différenciation'], rows: [
-              ['Prix plus bas que les concurrents', 'Offre perçue comme unique'],
-              ['Économies d’échelle, productivité', 'Qualité, image, innovation, service'],
-              ['Ex. enseigne discount', 'Ex. marque de luxe / haut de gamme'],
-            ] },
-            { t: 'warning', c: 'On choisit son terrain : difficile d’être à la fois **le moins cher** et **le plus différencié**. Autre notion : le **DAS** (Domaine d’Activité Stratégique).' },
-          ],
-        },
-      ],
-      essentiel: [
-        'Démarche : **diagnostic → objectifs → pilotage** (ajustement permanent).',
-        'Externe **macro** = **PESTEL** ; externe **micro** = **5 forces de Porter** ; **interne** = ressources + compétences distinctives.',
-        'Synthèse = **SWOT** (Forces/Faiblesses internes ; Opportunités/Menaces externes).',
-        'Avantage concurrentiel (**Porter**) : **domination par les coûts** ou **différenciation**.',
-      ],
-      resources: [
-        { kind: 'video', label: 'PESTEL, 5 forces de Porter, SWOT', note: 'Vidéos — recherche YouTube', url: yt('diagnostic stratégique PESTEL 5 forces de Porter SWOT première STMG') },
-        { kind: 'video', label: 'Domination par les coûts vs différenciation', note: 'Vidéos — recherche YouTube', url: yt('stratégies génériques Porter domination coûts différenciation avantage concurrentiel') },
-      ],
-      games: [
-        {
-          id: 'p1-mgmt-t3-qcm',
-          type: 'qcm',
-          title: 'QCM — Diagnostic stratégique',
-          icon: '❓',
-          questions: [
-            { q: 'La méthode PESTEL analyse…', choices: ['le macro-environnement', 'le micro-environnement', 'les ressources internes', 'la comptabilité'], answer: 0, explain: 'PESTEL = Politique, Économique, Socioculturel, Technologique, Écologique, Légal (macro).' },
-            { q: 'Les 5 forces de Porter analysent…', choices: ['la pression concurrentielle (micro-environnement)', 'les grandes forces générales', 'les forces internes', 'le PIB'], answer: 0, explain: 'Elles mesurent la pression concurrentielle du micro-environnement.' },
-            { q: 'Le « L » de PESTEL correspond à la dimension…', choices: ['Légale', 'Logistique', 'Locale', 'Libérale'], answer: 0, explain: 'L = Légal (lois, réglementations, RGPD).' },
-            { q: 'La menace des nouveaux entrants est limitée par…', choices: ['des barrières à l’entrée', 'une baisse des prix', 'la publicité', 'la médiation'], answer: 0, explain: 'Coûts élevés, brevets, réglementation freinent les nouveaux entrants.' },
-            { q: 'Une compétence distinctive est ce que l’organisation sait faire…', choices: ['mieux que ses concurrents', 'comme tout le monde', 'sans ressources', 'à perte'], answer: 0, explain: 'C’est une force du diagnostic interne, source d’avantage concurrentiel.' },
-            { q: 'Proposer une offre unique justifiant un prix élevé, c’est une stratégie de…', choices: ['différenciation', 'domination par les coûts', 'imitation', 'délocalisation'], answer: 0, explain: 'Différenciation (qualité, image, innovation) ; l’autre voie est la domination par les coûts.' },
-          ],
-        },
-        {
-          id: 'p1-mgmt-t3-tri',
           type: 'tri',
           title: 'Tri — Diagnostic interne ou externe ?',
           icon: '🗂️',
@@ -706,25 +1069,136 @@ const managementP = {
           ],
         },
         {
-          id: 'p1-mgmt-t3-ordre',
+          id: 'p1-mgmt-t2-ordre',
           type: 'ordre',
           title: 'Remise en ordre — La démarche stratégique',
           icon: '🔢',
           instruction: 'Remets les étapes dans l’ordre.',
-          steps: ['Diagnostic stratégique (interne + externe)', 'Fixation des objectifs', 'Mise en œuvre et pilotage', 'Adaptation si écart'],
-          explain: 'On diagnostique, on fixe des objectifs, on pilote, puis on adapte.',
+          steps: ['Diagnostic stratégique (interne + externe)', 'Fixation des objectifs', 'Mise en œuvre', 'Contrôle et ajustement'],
+          explain: 'On diagnostique, on fixe des objectifs, on met en œuvre, puis on contrôle et on ajuste.',
+        },
+        {
+          id: 'p1-mgmt-t2-flash',
+          type: 'flashcard',
+          title: 'Flashcards — Diagnostic',
+          icon: '🃏',
+          cards: [
+            { front: 'PESTEL', back: 'Diagnostic du macro-environnement (P, E, S, T, E, L).' },
+            { front: 'Micro-environnement', back: 'Acteurs proches : concurrents, clients, fournisseurs, entrants, substituts.' },
+            { front: 'Diagnostic interne', back: 'Ressources + compétences distinctives → forces/faiblesses.' },
+            { front: 'SWOT', back: 'Forces/Faiblesses (interne) + Opportunités/Menaces (externe).' },
+            { front: 'Compétence distinctive', back: 'Ce que l’organisation sait faire mieux que les concurrents.' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'p1-mgmt-t3',
+      name: 'Thème 3 — Les choix stratégiques des organisations',
+      short: 'Choix stratégiques',
+      keywords: 'avantage concurrentiel stratégie domination par les coûts différenciation spécialisation diversification intégration externalisation sous-traitance DAS domaine d’activité stratégique organisation publique société civile',
+      intro:
+        'Une fois le diagnostic posé et les objectifs fixés, l’organisation doit faire des **choix stratégiques** pour se donner un **avantage concurrentiel** durable. Ces choix diffèrent selon la **finalité** de l’organisation.',
+      cours: [
+        {
+          h: 'Rechercher un avantage concurrentiel',
+          blocks: [
+            { t: 'p', c: 'L’objectif d’une stratégie est d’obtenir un **avantage concurrentiel** : un atout qui permet à l’organisation de se distinguer **durablement** de ses concurrents et d’être préférée par les clients. Il repose souvent sur une **compétence distinctive** identifiée lors du diagnostic interne.' },
+          ],
+        },
+        {
+          h: 'Les stratégies de domaine : coûts ou différenciation',
+          blocks: [
+            { t: 'p', c: 'Pour un domaine d’activité donné, l’organisation choisit **comment** affronter la concurrence :' },
+            { t: 'table', head: ['Domination par les coûts', 'Différenciation'], rows: [
+              ['Prix plus bas que les concurrents', 'Offre perçue comme unique'],
+              ['Économies d’échelle, productivité', 'Qualité, image, innovation, service'],
+              ['Ex. enseigne discount', 'Ex. marque de luxe / haut de gamme'],
+            ] },
+            { t: 'warning', c: 'On choisit son terrain : il est difficile d’être à la fois **le moins cher** et **le plus différencié**.' },
+          ],
+        },
+        {
+          h: 'Les stratégies globales : spécialisation ou diversification',
+          blocks: [
+            { t: 'p', c: 'À l’échelle de toute l’organisation, deux grandes orientations :' },
+            { t: 'list', c: [
+              '**Spécialisation** : se concentrer sur **un seul métier / marché** pour y devenir performant.',
+              '**Diversification** : se développer sur **de nouveaux métiers ou marchés** pour répartir les risques et saisir des opportunités.',
+            ] },
+            { t: 'p', c: 'Un **DAS** (Domaine d’Activité Stratégique) est un sous-ensemble homogène d’activités pour lequel on peut définir une stratégie propre.' },
+          ],
+        },
+        {
+          h: 'Faire seul ou avec d’autres : intégration ou externalisation',
+          blocks: [
+            { t: 'list', c: [
+              '**Intégration** : réaliser soi-même une activité (la « faire »), pour la maîtriser.',
+              '**Externalisation** : confier une activité à un partenaire extérieur (la « faire faire », ex. **sous-traitance**), pour se recentrer sur son cœur de métier.',
+            ] },
+          ],
+        },
+        {
+          h: 'Les choix des organisations publiques et de la société civile',
+          blocks: [
+            { t: 'p', c: 'Les **organisations publiques** et de la **société civile** font elles aussi des choix stratégiques, mais tournés vers leur **finalité** (intérêt général, objet social) : développer de **nouveaux services**, **mutualiser** des moyens, nouer des **partenariats**, moderniser leur fonctionnement. La logique n’est pas le profit mais le **service rendu**.' },
+          ],
+        },
+      ],
+      essentiel: [
+        'But d’une stratégie : obtenir un **avantage concurrentiel** durable.',
+        'Stratégies de domaine : **domination par les coûts** OU **différenciation**.',
+        'Stratégies globales : **spécialisation** OU **diversification** (+ notion de **DAS**).',
+        'Modalités : **intégration** (faire) vs **externalisation** (faire faire, sous-traitance).',
+        'Les organisations publiques et de la société civile choisissent selon leur **finalité** (service rendu).',
+      ],
+      resources: [
+        { kind: 'video', label: 'Les choix stratégiques : coûts, différenciation, diversification', note: 'Vidéos — recherche YouTube', url: yt('choix stratégiques domination coûts différenciation spécialisation diversification première STMG') },
+      ],
+      games: [
+        {
+          id: 'p1-mgmt-t3-qcm',
+          type: 'qcm',
+          title: 'QCM — Choix stratégiques',
+          icon: '❓',
+          questions: [
+            { q: 'Un avantage concurrentiel est un atout qui permet…', choices: ['de se distinguer durablement des concurrents', 'de payer moins d’impôts', 'd’éviter tout contrat', 'de fixer la loi'], answer: 0, explain: 'Il rend l’organisation préférable aux yeux des clients, dans la durée.' },
+            { q: 'Proposer une offre unique justifiant un prix élevé, c’est une stratégie de…', choices: ['différenciation', 'domination par les coûts', 'diversification', 'externalisation'], answer: 0, explain: 'Différenciation : qualité, image, innovation, service.' },
+            { q: 'Vendre moins cher que les concurrents grâce à des économies d’échelle, c’est…', choices: ['la domination par les coûts', 'la différenciation', 'la spécialisation', 'l’intégration'], answer: 0, explain: 'On mise sur la productivité et les volumes pour baisser les prix.' },
+            { q: 'Se développer sur de nouveaux métiers ou marchés, c’est une stratégie de…', choices: ['diversification', 'spécialisation', 'domination par les coûts', 'externalisation'], answer: 0, explain: 'Diversification : on répartit les risques sur plusieurs activités.' },
+            { q: 'Confier une activité à un partenaire extérieur (sous-traitance), c’est…', choices: ['l’externalisation', 'l’intégration', 'la spécialisation', 'la différenciation'], answer: 0, explain: 'Externaliser = « faire faire » pour se recentrer sur son cœur de métier.' },
+            { q: 'Un DAS (Domaine d’Activité Stratégique) est…', choices: ['un sous-ensemble homogène d’activités avec une stratégie propre', 'un impôt sur les sociétés', 'un service public', 'un type de contrat'], answer: 0, explain: 'On peut définir une stratégie spécifique pour chaque DAS.' },
+          ],
+        },
+        {
+          id: 'p1-mgmt-t3-tri',
+          type: 'tri',
+          title: 'Tri — Coûts ou différenciation ?',
+          icon: '🗂️',
+          instruction: 'Classe chaque situation selon la stratégie de domaine.',
+          categories: [
+            { id: 'cout', label: 'Domination par les coûts' },
+            { id: 'diff', label: 'Différenciation' },
+          ],
+          items: [
+            { text: 'Une enseigne discount aux prix cassés', cat: 'cout' },
+            { text: 'Une marque de luxe haut de gamme', cat: 'diff' },
+            { text: 'Produire en très grande quantité pour baisser le coût unitaire', cat: 'cout' },
+            { text: 'Un produit innovant à l’image forte', cat: 'diff' },
+            { text: 'Un service client très personnalisé', cat: 'diff' },
+          ],
         },
         {
           id: 'p1-mgmt-t3-flash',
           type: 'flashcard',
-          title: 'Flashcards — Stratégie',
+          title: 'Flashcards — Choix stratégiques',
           icon: '🃏',
           cards: [
-            { front: 'PESTEL', back: 'Diagnostic du macro-environnement (P,E,S,T,E,L).' },
-            { front: '5 forces de Porter', back: 'Pression concurrentielle du micro-environnement.' },
-            { front: 'SWOT', back: 'Forces/Faiblesses (interne) + Opportunités/Menaces (externe).' },
-            { front: 'Avantage concurrentiel', back: 'Domination par les coûts OU différenciation (Porter).' },
-            { front: 'Compétence distinctive', back: 'Ce que l’organisation sait faire mieux que les concurrents.' },
+            { front: 'Avantage concurrentiel', back: 'Atout qui permet de se distinguer durablement des concurrents.' },
+            { front: 'Domination par les coûts', back: 'Prix plus bas grâce aux économies d’échelle et à la productivité.' },
+            { front: 'Différenciation', back: 'Offre unique (qualité, image, innovation) justifiant un prix plus élevé.' },
+            { front: 'Spécialisation / diversification', back: 'Un seul métier / plusieurs métiers et marchés.' },
+            { front: 'Intégration / externalisation', back: 'Faire soi-même / faire faire (sous-traitance).' },
           ],
         },
       ],
@@ -748,45 +1222,65 @@ const droitP = {
       id: 'p1-droit-t1',
       name: 'Thème 1 — Qu’est-ce que le droit ?',
       short: 'Qu’est-ce que le droit ?',
-      keywords: 'règle de droit générale impersonnelle obligatoire sanctionnée règle morale sources hiérarchie des normes jurisprudence coutume droit privé public',
+      keywords: 'droit fonctions État de droit laïcité ordre public règle de droit générale impersonnelle obligatoire coercitive contrainte sanction étatique règle morale religieuse sources hiérarchie des normes Constitution traités UE lois règlements jurisprudence coutume Cour de cassation Conseil constitutionnel QPC contrôle de constitutionnalité droit privé public',
       intro:
-        'Le droit, ce sont les **règles qui organisent la vie en société** et que l’État fait respecter. Sans droit, ce serait la loi du plus fort. Méthode clé : le **syllogisme juridique** (règle → faits → conclusion).',
+        'Le droit, ce sont les **règles qui organisent la vie en société** et que l’État fait respecter. Sans droit, ce serait la loi du plus fort. On découvre ses **fonctions**, les **caractères** de la règle et les **sources** qui la produisent.',
       cours: [
         {
-          h: 'Définition et fonctions',
+          h: 'Les fonctions du droit et l’État de droit',
           blocks: [
-            { t: 'p', c: 'Le droit est l’ensemble des **règles générales et obligatoires** qui régissent les rapports entre les personnes, dont le respect est **garanti par la puissance publique** (l’État). Ses fonctions : **organiser** la société, **pacifier** les relations, **protéger** les personnes et **sanctionner**.' },
+            { t: 'p', c: 'Le droit est l’ensemble des **règles générales et obligatoires** qui régissent les rapports entre les personnes, dont le respect est **garanti par la puissance publique** (l’État). Ses **fonctions** :' },
+            { t: 'list', c: [
+              '**organiser** la société et l’activité économique,',
+              '**pacifier** et **sécuriser** les relations (éviter la loi du plus fort),',
+              '**protéger** les personnes et leurs droits,',
+              '**arbitrer** les conflits et **sanctionner** les manquements.',
+            ] },
+            { t: 'p', c: 'Dans un **État de droit**, la puissance publique elle-même est **soumise au droit** : personne n’est au-dessus de la loi. Deux principes structurants s’y rattachent :' },
+            { t: 'list', c: [
+              'la **laïcité** : l’État est neutre en matière religieuse et garantit la liberté de conscience ;',
+              'l’**ordre public** : l’ensemble des règles essentielles (sécurité, salubrité, tranquillité, dignité) auxquelles on ne peut pas déroger par contrat.',
+            ] },
           ],
         },
         {
           h: 'Les caractères de la règle de droit',
           blocks: [
-            { t: 'p', c: 'Une règle de droit est **générale** (elle s’applique à tous), **impersonnelle** (elle ne vise personne nommément), **obligatoire** et **sanctionnée par l’État**.' },
-            { t: 'warning', c: 'C’est la **sanction par l’État** qui la distingue d’une **règle morale** (qui relève de la conscience) ou **religieuse** (qui relève de la croyance) : celles-ci ne sont pas sanctionnées par l’État.' },
+            { t: 'p', c: 'Une règle de droit est **générale** (elle s’applique à tous), **impersonnelle** (elle ne vise personne nommément), **obligatoire** et **coercitive** (assortie de la **contrainte / sanction de l’État** en cas de non-respect).' },
+            { t: 'warning', c: 'C’est ce caractère **coercitif** (la **contrainte étatique**) qui la distingue d’une **règle morale** (qui relève de la conscience) ou **religieuse** (qui relève de la croyance) : celles-ci ne sont pas sanctionnées par l’État.' },
           ],
         },
         {
-          h: 'Les sources du droit (hiérarchie des normes)',
+          h: 'Les sources du droit et la hiérarchie des normes',
           blocks: [
+            { t: 'p', c: 'Les règles proviennent de plusieurs **sources**, hiérarchisées : une norme inférieure doit **respecter** les normes supérieures.' },
             { t: 'table', head: ['Niveau', 'Source'], rows: [
-              ['1', 'La Constitution (organise l’État, garantit les libertés)'],
+              ['1', 'Bloc de constitutionnalité (la Constitution, la DDHC…)'],
               ['2', 'Traités internationaux et droit de l’Union européenne'],
               ['3', 'La loi (votée par le Parlement)'],
               ['4', 'Les règlements (décrets, arrêtés)'],
             ] },
-            { t: 'p', c: 'S’y ajoutent la **jurisprudence** (décisions des tribunaux qui interprètent la règle) et la **coutume** (usages anciens et acceptés). Une norme inférieure doit **respecter** les normes supérieures.' },
-            { t: 'p', c: 'Grandes distinctions : **droit privé** (rapports entre particuliers : civil, commercial, travail) vs **droit public** (État et ses rapports avec les citoyens).' },
+            { t: 'p', c: 'Le **droit de l’Union européenne** occupe une place importante : ses **règlements** et **directives** s’imposent aux États membres. S’ajoutent des sources **non écrites** : la **jurisprudence** (décisions des tribunaux qui interprètent la règle) et la **coutume** (usages anciens et acceptés).' },
+            { t: 'p', c: 'Le respect de la hiérarchie est contrôlé : le **Conseil constitutionnel** vérifie qu’une loi est conforme à la Constitution. Depuis 2010, tout justiciable peut soulever une **QPC** (Question Prioritaire de Constitutionnalité) pour contester une loi déjà en vigueur. Au sommet de l’ordre judiciaire, la **Cour de cassation** unifie l’interprétation du droit.' },
+            { t: 'example', h: 'Un maire face à la hiérarchie des normes', c: 'Un maire prend un **arrêté** (un règlement) interdisant totalement de manifester dans sa commune. Un habitant le conteste. \n→ L’arrêté est une **norme inférieure** : il doit respecter la **loi** et la **Constitution**, qui garantissent la liberté de manifester. Une interdiction générale et absolue est donc **illégale** : le juge administratif peut l’annuler. La **hiérarchie des normes** protège ainsi les libertés.' },
+          ],
+        },
+        {
+          h: 'Droit privé et droit public',
+          blocks: [
+            { t: 'p', c: 'Grande distinction : le **droit privé** régit les rapports entre **particuliers** (droit civil, commercial, du travail) ; le **droit public** régit l’**État** et ses rapports avec les citoyens (droit constitutionnel, administratif).' },
           ],
         },
       ],
       essentiel: [
-        'Règle de droit = **générale, impersonnelle, obligatoire, sanctionnée par l’État**.',
-        'La **sanction par l’État** la distingue de la règle morale ou religieuse.',
-        'Sources : **Constitution > traités/UE > lois > règlements** (+ jurisprudence, coutume).',
+        'Fonctions du droit : **organiser, pacifier, protéger, sanctionner** ; dans l’**État de droit**, l’État est soumis au droit (+ **laïcité**, **ordre public**).',
+        'Règle de droit = **générale, impersonnelle, obligatoire, coercitive** (contrainte / sanction de l’État) (≠ règle morale/religieuse).',
+        'Sources : **Constitution > traités/UE > lois > règlements** (+ jurisprudence, coutume) ; contrôle par le **Conseil constitutionnel** et la **QPC**.',
         '**Droit privé** (particuliers) vs **droit public** (État).',
       ],
       resources: [
-        { kind: 'video', label: 'Qu’est-ce que le droit ?', note: 'Vidéos — recherche YouTube', url: yt('qu est ce que le droit règle sources hiérarchie des normes première STMG') },
+        { kind: 'video', label: 'Qu’est-ce que le droit ? Fonctions et sources', note: 'Vidéos — recherche YouTube', url: yt('qu est ce que le droit fonctions règle sources hiérarchie des normes première STMG') },
+        { kind: 'video', label: 'État de droit, hiérarchie des normes, QPC', note: 'Vidéos — recherche YouTube', url: yt('État de droit hiérarchie des normes QPC Conseil constitutionnel première STMG') },
       ],
       games: [
         {
@@ -795,9 +1289,12 @@ const droitP = {
           title: 'QCM — La règle de droit',
           icon: '❓',
           questions: [
-            { q: 'La règle de droit est générale, impersonnelle, obligatoire et…', choices: ['sanctionnée par l’État', 'facultative', 'religieuse', 'secrète'], answer: 0, explain: 'La sanction étatique la distingue des règles morales ou religieuses.' },
-            { q: 'Ce qui distingue une règle de droit d’une règle morale, c’est…', choices: ['la sanction par l’État', 'sa longueur', 'son ancienneté', 'sa langue'], answer: 0, explain: 'La règle morale relève de la conscience, non sanctionnée par l’État.' },
-            { q: 'Au sommet de la hiérarchie des normes :', choices: ['la Constitution', 'un arrêté municipal', 'un contrat', 'un règlement intérieur'], answer: 0, explain: 'La Constitution prime sur toutes les autres normes.' },
+            { q: 'La règle de droit est générale, impersonnelle, obligatoire et…', choices: ['coercitive', 'facultative', 'religieuse', 'secrète'], answer: 0, explain: 'Coercitive : elle est assortie de la contrainte / sanction de l’État en cas de non-respect. C’est le 4ᵉ caractère.' },
+            { q: 'Ce qui distingue une règle de droit d’une règle morale, c’est…', choices: ['son caractère coercitif (la sanction de l’État)', 'sa longueur', 'son ancienneté', 'sa langue'], answer: 0, explain: 'La règle morale relève de la conscience : elle n’est pas assortie de la contrainte étatique.' },
+            { q: 'Dans un État de droit…', choices: ['l’État lui-même est soumis au droit', 'l’État est au-dessus des lois', 'seuls les citoyens obéissent au droit', 'le droit n’existe pas'], answer: 0, explain: 'Personne n’est au-dessus de la loi, pas même la puissance publique.' },
+            { q: 'La neutralité de l’État en matière religieuse s’appelle…', choices: ['la laïcité', 'l’ordre public', 'la jurisprudence', 'la coutume'], answer: 0, explain: 'La laïcité garantit la liberté de conscience et la neutralité de l’État.' },
+            { q: 'Au sommet de la hiérarchie des normes :', choices: ['la Constitution', 'un arrêté municipal', 'un contrat', 'un règlement intérieur'], answer: 0, explain: 'La Constitution (bloc de constitutionnalité) prime sur toutes les autres normes.' },
+            { q: 'La QPC permet à un justiciable de…', choices: ['contester une loi qu’il juge contraire à la Constitution', 'écrire une nouvelle loi', 'juger un crime', 'signer un contrat'], answer: 0, explain: 'La Question Prioritaire de Constitutionnalité conduit au Conseil constitutionnel.' },
             { q: 'L’ensemble des décisions des tribunaux qui interprètent la règle s’appelle…', choices: ['la jurisprudence', 'la coutume', 'la doctrine', 'la loi'], answer: 0, explain: 'La jurisprudence précise et interprète la règle de droit.' },
             { q: 'Le droit du travail relève du droit…', choices: ['privé', 'public', 'constitutionnel', 'international'], answer: 0, explain: 'Le droit privé régit les rapports entre particuliers (dont employeur/salarié).' },
           ],
@@ -807,9 +1304,9 @@ const droitP = {
           type: 'ordre',
           title: 'Remise en ordre — Hiérarchie des normes',
           icon: '🔢',
-          instruction: 'Classe les sources de la plus élevée à la plus basse.',
+          instruction: 'Classe les sources **écrites** de la plus élevée à la plus basse.',
           steps: ['Constitution', 'Traités et droit de l’UE', 'Lois', 'Règlements (décrets, arrêtés)'],
-          explain: 'Constitution > traités/UE > lois > règlements.',
+          explain: 'Constitution > traités/UE > lois > règlements. La **jurisprudence** et la **coutume** sont aussi des sources du droit, mais **non écrites** : elles n’apparaissent pas dans cette hiérarchie des normes écrites (d’où leur absence ici), ce qui n’enlève rien à leur valeur de source.',
         },
         {
           id: 'p1-droit-t1-vf',
@@ -818,8 +1315,9 @@ const droitP = {
           icon: '⚡',
           questions: [
             { statement: 'Une règle de droit vise une personne en particulier.', answer: false, explain: 'Faux : elle est générale et impersonnelle.' },
-            { statement: 'La jurisprudence est une source du droit.', answer: true, explain: 'Vrai : les décisions des tribunaux interprètent la règle.' },
-            { statement: 'Une loi peut être contraire à la Constitution.', answer: false, explain: 'Faux : elle doit respecter la norme supérieure.' },
+            { statement: 'Dans un État de droit, l’État est soumis au droit.', answer: true, explain: 'Vrai : nul n’est au-dessus de la loi.' },
+            { statement: 'La jurisprudence est une source du droit.', answer: true, explain: 'Vrai : les décisions des tribunaux interprètent la règle. C’est une source **non écrite** (comme la coutume) : elle ne figure pas dans la hiérarchie des normes écrites, mais reste bien une source du droit.' },
+            { statement: 'Une loi peut être contraire à la Constitution.', answer: false, explain: 'Faux : elle doit respecter la norme supérieure (contrôle du Conseil constitutionnel).' },
           ],
         },
         {
@@ -828,10 +1326,12 @@ const droitP = {
           title: 'Flashcards — La règle de droit',
           icon: '🃏',
           cards: [
-            { front: 'Caractères de la règle de droit', back: 'Générale, impersonnelle, obligatoire, sanctionnée par l’État.' },
-            { front: 'Règle morale vs de droit', back: 'La morale relève de la conscience ; le droit est sanctionné par l’État.' },
+            { front: 'Fonctions du droit', back: 'Organiser, pacifier/sécuriser, protéger, arbitrer et sanctionner.' },
+            { front: 'État de droit', back: 'La puissance publique est elle-même soumise au droit.' },
+            { front: 'Laïcité / ordre public', back: 'Neutralité religieuse de l’État / règles essentielles auxquelles on ne peut déroger.' },
+            { front: 'Caractères de la règle de droit', back: 'Générale, impersonnelle, obligatoire, coercitive (contrainte / sanction de l’État).' },
             { front: 'Hiérarchie des normes', back: 'Constitution > traités/UE > lois > règlements.' },
-            { front: 'Jurisprudence', back: 'Ensemble des décisions des tribunaux qui interprètent la règle.' },
+            { front: 'QPC', back: 'Question Prioritaire de Constitutionnalité : contester une loi en vigueur.' },
           ],
         },
       ],
@@ -840,16 +1340,32 @@ const droitP = {
       id: 'p1-droit-t2',
       name: 'Thème 2 — Comment le droit permet-il de régler un litige ?',
       short: 'Le litige',
-      keywords: 'litige preuve charge preuve parfaite imparfaite organisation judiciaire ordre judiciaire administratif appel cassation MARC conciliation médiation arbitrage',
+      keywords: 'litige demandeur défendeur prétentions acte juridique fait juridique preuve charge de la preuve objet preuve parfaite imparfaite acte authentique acte sous signature privée aveu serment témoignage présomption preuve électronique organisation judiciaire ordre judiciaire administratif juridictions civiles pénales procès civil pénal instance assignation audience délibéré jugement arrêt mise en examen partie civile premier degré appel pourvoi cassation accord amiable CJUE CEDH',
       intro:
-        'Quand un désaccord dégénère, il devient un **litige**. Le droit offre des moyens de le résoudre pacifiquement : par la preuve, par le juge, ou à l’amiable.',
+        'Quand un désaccord dégénère, il devient un **litige**. Le droit offre des moyens de le résoudre : d’abord en **prouvant** son droit, puis, si besoin, en **saisissant le juge** — dont les décisions peuvent faire l’objet de **voies de recours**.',
       cours: [
         {
-          h: 'Le litige et la preuve',
+          h: 'Le litige et les parties',
           blocks: [
-            { t: 'p', c: 'Un **litige** est un **désaccord juridique** entre deux parties aux prétentions opposées. Pour faire valoir un droit, il faut le **prouver**.' },
-            { t: 'p', c: 'La **charge de la preuve** pèse sur celui qui **réclame** l’exécution d’une obligation. Les modes de preuve : la **preuve parfaite** (l’**écrit signé**, qui s’impose au juge) et les **preuves imparfaites** (témoignages, indices, que le juge apprécie librement). La preuve doit être **loyale**.' },
-            { t: 'tip', c: 'D’où l’importance de conserver des **écrits** (contrats, reçus, factures), surtout pour les sommes importantes.' },
+            { t: 'p', c: 'Un **litige** est un **désaccord juridique** entre deux parties aux **prétentions** opposées. Devant le juge, celui qui saisit la justice pour réclamer un droit est le **demandeur** ; celui contre qui l’action est dirigée est le **défendeur**.' },
+            { t: 'p', c: 'À l’origine des droits et obligations, on distingue :' },
+            { t: 'table', head: ['Acte juridique', 'Fait juridique'], rows: [
+              ['Volonté de produire des effets de droit', 'Événement qui produit des effets de droit sans les avoir voulus'],
+              ['Ex. un contrat, un testament', 'Ex. un accident, un dommage, une naissance'],
+            ] },
+          ],
+        },
+        {
+          h: 'La preuve : charge, objet et modes',
+          blocks: [
+            { t: 'p', c: 'Pour faire valoir un droit, il faut le **prouver**. La **charge de la preuve** pèse sur le **demandeur** : c’est à celui qui réclame l’exécution d’une obligation d’en apporter la preuve. La preuve doit porter sur l’**objet** du litige et être obtenue **loyalement**.' },
+            { t: 'p', c: 'On classe les modes de preuve en deux catégories selon leur **force probante** :' },
+            { t: 'table', head: ['Preuves parfaites', 'Preuves imparfaites'], rows: [
+              ['Valeur fixée par la loi : elles s’imposent au juge, qui doit les admettre', 'Laissées à la libre appréciation du juge (intime conviction)'],
+              ['Acte authentique, acte sous signature privée, aveu judiciaire, serment', 'Témoignage, indice, présomption'],
+            ] },
+            { t: 'warning', c: 'Attention : une preuve parfaite n’est pas « n’importe quel écrit ». C’est un mode de preuve dont la **valeur est déterminée par la loi**. L’**acte authentique** est reçu par un **officier public** (ex. un notaire) ; l’**acte sous signature privée** est un écrit **signé par les parties**. La **preuve électronique** est admise si l’on peut identifier son auteur et en garantir l’intégrité.' },
+            { t: 'tip', c: 'D’où l’importance de conserver des **écrits** (contrats, reçus, factures), surtout pour les engagements importants.' },
           ],
         },
         {
@@ -858,26 +1374,41 @@ const droitP = {
             { t: 'p', c: 'La justice est organisée en **deux ordres** :' },
             { t: 'list', c: [
               '**Ordre judiciaire** : litiges entre particuliers (**juridictions civiles**) et infractions (**juridictions pénales**).',
-              '**Ordre administratif** : litiges impliquant l’administration.',
+              '**Ordre administratif** : litiges impliquant l’**administration**.',
             ] },
-            { t: 'p', c: 'Plusieurs **degrés** : le **premier degré** (le tribunal juge l’affaire), l’**appel** (une nouvelle juridiction rejuge), la **cassation** (la Cour de cassation vérifie la bonne application du droit, sans rejuger les faits).' },
+            { t: 'p', c: 'Il faut distinguer le **procès civil** (il oppose des particuliers et vise à **réparer** : dommages et intérêts) du **procès pénal** (il vise à **sanctionner** une infraction au nom de la société).' },
           ],
         },
         {
-          h: 'Les modes alternatifs (MARC)',
+          h: 'Le déroulement d’une instance',
           blocks: [
-            { t: 'p', c: 'Avant ou à la place d’un procès (long et coûteux), on peut recourir aux **modes alternatifs de règlement des conflits (MARC)** : la **conciliation** et la **médiation** (un tiers aide les parties à trouver un accord) et l’**arbitrage** (un arbitre privé tranche). Souvent plus rapides et apaisés.' },
+            { t: 'p', c: 'Une fois le tribunal saisi, l’affaire suit une **instance** (la procédure en cours). En matière civile, le procès débute souvent par une **assignation** : l’acte par lequel le demandeur informe le défendeur qu’un procès est engagé et le convoque devant le juge. L’affaire est examinée lors d’une **audience** (où les parties, souvent par leurs avocats, présentent leurs arguments), puis les juges se retirent en **délibéré** pour rendre leur décision.' },
+            { t: 'p', c: 'La décision s’appelle un **jugement** (rendu par un tribunal) ou un **arrêt** (rendu par une cour d’appel ou la Cour de cassation). En matière pénale, une personne soupçonnée peut être **mise en examen** lorsqu’il existe contre elle des indices graves ou concordants ; la victime peut se constituer **partie civile** pour demander, au cours du procès pénal, la réparation de son préjudice.' },
+            { t: 'example', h: 'Un litige de voisinage', c: 'Léa (la **demanderesse**) reproche à son voisin (le **défendeur**) un dégât des eaux. Elle le fait **assigner** devant le tribunal judiciaire : l’**instance** est ouverte. Lors de l’**audience**, chacun présente ses **preuves**. Après le **délibéré**, le tribunal rend un **jugement** condamnant le voisin à l’indemniser. Mécontent, celui-ci fait **appel** : la cour d’appel rejugera l’affaire et rendra un **arrêt**.' },
+          ],
+        },
+        {
+          h: 'Les voies de recours et l’accord amiable',
+          blocks: [
+            { t: 'p', c: 'Une décision de justice peut être contestée par les **voies de recours** :' },
+            { t: 'list', c: [
+              '**premier degré** : le tribunal juge l’affaire (les faits et le droit) ;',
+              '**appel** : une **cour d’appel** rejuge entièrement l’affaire (faits + droit) ;',
+              '**pourvoi en cassation** : la **Cour de cassation** vérifie seulement la **bonne application du droit**, sans rejuger les faits.',
+            ] },
+            { t: 'p', c: 'Un litige peut aussi se terminer par un **accord amiable** entre les parties, sans aller jusqu’au jugement. Enfin, deux **juridictions européennes** peuvent intervenir : la **CJUE** (Cour de justice de l’Union européenne, respect du droit de l’UE) et la **CEDH** (Cour européenne des droits de l’homme, respect des libertés fondamentales).' },
           ],
         },
       ],
       essentiel: [
-        '**Litige** = désaccord juridique aux prétentions opposées ; il faut **prouver**.',
-        '**Charge de la preuve** sur celui qui réclame ; **preuve parfaite** (écrit signé) vs **imparfaites**.',
-        'Deux ordres : **judiciaire** (civil/pénal) et **administratif** ; degrés : **1er → appel → cassation**.',
-        '**MARC** : conciliation, médiation, arbitrage (avant/à la place du procès).',
+        '**Litige** = désaccord aux prétentions opposées ; **demandeur** (qui réclame) vs **défendeur**.',
+        '**Acte juridique** (volonté, ex. contrat) vs **fait juridique** (événement non voulu, ex. accident).',
+        '**Charge de la preuve** sur le **demandeur** ; **preuves parfaites** (valeur fixée par la loi : acte authentique, acte sous signature privée, aveu, serment) vs **imparfaites** (témoignage, indice, présomption).',
+        'Deux ordres (**judiciaire** civil/pénal, **administratif**) ; voies de recours : **1er degré → appel → pourvoi en cassation** (+ CJUE, CEDH).',
       ],
       resources: [
-        { kind: 'video', label: 'Le litige, la preuve, les MARC', note: 'Vidéos — recherche YouTube', url: yt('litige preuve organisation judiciaire MARC conciliation médiation première STMG') },
+        { kind: 'video', label: 'Le litige et la preuve', note: 'Vidéos — recherche YouTube', url: yt('litige charge de la preuve preuve parfaite imparfaite première STMG droit') },
+        { kind: 'video', label: 'Organisation judiciaire et voies de recours', note: 'Vidéos — recherche YouTube', url: yt('organisation judiciaire ordre judiciaire administratif appel cassation première STMG') },
       ],
       games: [
         {
@@ -886,29 +1417,31 @@ const droitP = {
           title: 'QCM — Le litige',
           icon: '❓',
           questions: [
-            { q: 'La charge de la preuve pèse en principe sur…', choices: ['celui qui réclame', 'le juge', 'le témoin', 'l’avocat adverse'], answer: 0, explain: 'C’est à celui qui réclame l’exécution d’une obligation de prouver.' },
-            { q: 'La preuve « parfaite » est…', choices: ['l’écrit signé (qui s’impose au juge)', 'un témoignage', 'un simple indice', 'une rumeur'], answer: 0, explain: 'L’écrit signé est une preuve parfaite ; témoignages et indices sont imparfaits.' },
+            { q: 'La charge de la preuve pèse en principe sur…', choices: ['le demandeur', 'le juge', 'le témoin', 'le défendeur'], answer: 0, explain: 'C’est au demandeur, celui qui réclame l’exécution d’une obligation, de prouver.' },
+            { q: 'Un contrat, conclu volontairement pour produire des effets de droit, est un…', choices: ['acte juridique', 'fait juridique', 'témoignage', 'pourvoi'], answer: 0, explain: 'Acte juridique = manifestation de volonté ; le fait juridique (ex. accident) n’est pas voulu.' },
+            { q: 'Une preuve parfaite se définit par le fait que…', choices: ['sa valeur est fixée par la loi et s’impose au juge', 'c’est n’importe quel écrit', 'c’est un simple témoignage', 'le juge peut l’ignorer'], answer: 0, explain: 'Acte authentique, acte sous signature privée, aveu, serment : le juge doit les admettre.' },
+            { q: 'Un témoignage ou un indice est une preuve…', choices: ['imparfaite (libre appréciation du juge)', 'parfaite', 'interdite', 'authentique'], answer: 0, explain: 'Les preuves imparfaites sont appréciées librement par le juge (intime conviction).' },
             { q: 'Un litige avec l’administration relève de l’ordre…', choices: ['administratif', 'judiciaire', 'pénal', 'européen'], answer: 0, explain: 'L’ordre administratif juge les litiges impliquant l’administration.' },
             { q: 'La Cour de cassation…', choices: ['vérifie la bonne application du droit (sans rejuger les faits)', 'rejuge entièrement l’affaire', 'écrit les lois', 'gère l’administration'], answer: 0, explain: 'Elle contrôle le droit ; l’appel, lui, rejuge les faits.' },
-            { q: 'La médiation et la conciliation sont des…', choices: ['modes alternatifs de règlement des conflits (MARC)', 'peines pénales', 'sources du droit', 'juridictions administratives'], answer: 0, explain: 'Un tiers aide les parties à trouver un accord, sans jugement.' },
+            { q: 'Le procès pénal vise à…', choices: ['sanctionner une infraction au nom de la société', 'réparer un dommage entre particuliers', 'signer un contrat', 'écrire une loi'], answer: 0, explain: 'Le procès civil répare ; le procès pénal sanctionne.' },
           ],
         },
         {
           id: 'p1-droit-t2-tri',
           type: 'tri',
-          title: 'Tri — Amiable (MARC) ou juge ?',
+          title: 'Tri — Preuve parfaite ou imparfaite ?',
           icon: '🗂️',
-          instruction: 'Classe chaque mode de résolution.',
+          instruction: 'Classe chaque mode de preuve.',
           categories: [
-            { id: 'marc', label: 'MARC (amiable)' },
-            { id: 'juge', label: 'Recours au juge' },
+            { id: 'parf', label: 'Preuve parfaite' },
+            { id: 'imp', label: 'Preuve imparfaite' },
           ],
           items: [
-            { text: 'La médiation', cat: 'marc' },
-            { text: 'La conciliation', cat: 'marc' },
-            { text: 'Saisir le tribunal judiciaire', cat: 'juge' },
-            { text: 'L’arbitrage', cat: 'marc' },
-            { text: 'Faire appel d’un jugement', cat: 'juge' },
+            { text: 'Un acte notarié (acte authentique)', cat: 'parf' },
+            { text: 'Un contrat écrit signé par les parties', cat: 'parf' },
+            { text: 'Le témoignage d’un voisin', cat: 'imp' },
+            { text: 'Un aveu fait devant le juge', cat: 'parf' },
+            { text: 'Un simple indice', cat: 'imp' },
           ],
         },
         {
@@ -917,10 +1450,14 @@ const droitP = {
           title: 'Flashcards — Le litige',
           icon: '🃏',
           cards: [
-            { front: 'Charge de la preuve', back: 'Pèse sur celui qui réclame l’exécution d’une obligation.' },
-            { front: 'Preuve parfaite / imparfaite', back: 'Écrit signé (s’impose au juge) / témoignages, indices.' },
-            { front: 'Deux ordres de juridiction', back: 'Judiciaire (civil/pénal) et administratif.' },
-            { front: 'MARC', back: 'Conciliation, médiation, arbitrage (règlement amiable).' },
+            { front: 'Demandeur / défendeur', back: 'Celui qui réclame en justice / celui contre qui l’action est dirigée.' },
+            { front: 'Acte / fait juridique', back: 'Manifestation de volonté (contrat) / événement non voulu (accident).' },
+            { front: 'Charge de la preuve', back: 'Elle pèse sur le demandeur.' },
+            { front: 'Preuve parfaite', back: 'Valeur fixée par la loi (acte authentique, acte sous signature privée, aveu, serment) : s’impose au juge.' },
+            { front: 'Preuve imparfaite', back: 'Témoignage, indice, présomption : libre appréciation du juge.' },
+            { front: 'Déroulement (civil)', back: 'Assignation → instance → audience → délibéré → jugement (ou arrêt en appel).' },
+            { front: 'Mise en examen / partie civile', back: 'Indices graves contre une personne (pénal) / victime qui demande réparation au procès pénal.' },
+            { front: 'Voies de recours', back: '1er degré → appel (rejuge) → pourvoi en cassation (droit seulement).' },
           ],
         },
       ],
@@ -929,9 +1466,9 @@ const droitP = {
       id: 'p1-droit-t3',
       name: 'Thème 3 — Qui peut faire valoir ses droits ?',
       short: 'Les personnes',
-      keywords: 'personnalité juridique personne physique morale capacité jouissance exercice mineur majeur protégé patrimoine droits patrimoniaux extrapatrimoniaux',
+      keywords: 'personnalité juridique personne physique morale nom domicile statut de l’animal capacité jouissance exercice incapacité mineur majeur protégé tutelle curatelle sauvegarde de justice représentation acte de disposition administration patrimoine actif passif unicité universalité indivisibilité incessibilité patrimoine d’affectation droits patrimoniaux extrapatrimoniaux',
       intro:
-        'Pour avoir des droits, il faut être un **sujet de droit**, c’est-à-dire disposer de la **personnalité juridique**.',
+        'Pour avoir des droits, il faut être un **sujet de droit**, c’est-à-dire disposer de la **personnalité juridique**. On étudie qui la possède, dans quelle mesure on peut agir seul (la **capacité**), et ce qu’est le **patrimoine**.',
       cours: [
         {
           h: 'La personnalité juridique',
@@ -939,36 +1476,52 @@ const droitP = {
             { t: 'p', c: 'C’est l’**aptitude à être titulaire de droits et d’obligations**. Elle est reconnue à deux catégories :' },
             { t: 'table', head: ['Personne physique', 'Personne morale'], rows: [
               ['Un être humain', 'Un groupement (société, association déclarée, État)'],
-              ['De la naissance à la mort', 'Nom, siège, patrimoine propres'],
+              ['De la naissance à la mort', 'Créée par l’immatriculation / la déclaration'],
+              ['Identifiée par un nom et un domicile', 'Identifiée par une dénomination et un siège'],
             ] },
-            { t: 'p', c: 'Une personne morale a un patrimoine **distinct** de celui de ses membres et peut agir en justice.' },
+            { t: 'p', c: 'Toute personne est identifiée par des **éléments d’état civil** : notamment un **nom** et un **domicile** (le lieu de son principal établissement). Une personne morale a un **patrimoine distinct** de celui de ses membres et peut agir en justice.' },
+            { t: 'tip', c: 'Le **statut de l’animal** : depuis 2015, la loi reconnaît l’animal comme un **être vivant doué de sensibilité** ; il reste toutefois soumis, pour l’essentiel, au **régime des biens**.' },
           ],
         },
         {
           h: 'La capacité juridique',
           blocks: [
-            { t: 'p', c: 'On distingue la **capacité de jouissance** (avoir des droits) et la **capacité d’exercice** (pouvoir les exercer soi-même). Certaines personnes sont **incapables** et doivent être représentées ou assistées : les **mineurs** (représentés par leurs parents) et les **majeurs protégés** (tutelle, curatelle).' },
+            { t: 'p', c: 'On distingue la **capacité de jouissance** (avoir des droits) et la **capacité d’exercice** (pouvoir les exercer soi-même). Certaines personnes sont **incapables** et doivent être **représentées** ou **assistées** :' },
+            { t: 'list', c: [
+              'les **mineurs** non émancipés (représentés par leurs parents, titulaires de l’autorité parentale) ;',
+              'les **majeurs protégés**, selon la gravité : **sauvegarde de justice** (protection légère et temporaire), **curatelle** (le majeur est **assisté**), **tutelle** (le majeur est **représenté**).',
+            ] },
+            { t: 'p', c: 'On distingue aussi les **actes d’administration** (gestion courante, ex. encaisser un loyer) des **actes de disposition** (qui engagent le patrimoine, ex. vendre un bien), pour lesquels la protection est plus forte.' },
+            { t: 'example', h: 'Le scooter de Tom, 16 ans', c: 'Tom, **mineur**, achète seul un scooter d’occasion à 1 500 €. \n→ Tom a la **capacité de jouissance** (il peut être propriétaire) mais pas la pleine **capacité d’exercice** : cet **acte de disposition** dépasse la gestion courante d’un mineur. Ses **parents** (ses représentants) peuvent demander l’**annulation** de la vente. En revanche, acheter une place de cinéma (acte de la vie courante) resterait valable.' },
           ],
         },
         {
           h: 'Le patrimoine',
           blocks: [
-            { t: 'p', c: 'Le **patrimoine** est l’ensemble des **droits et obligations** d’une personne **évaluables en argent** (actif et passif). On distingue :' },
+            { t: 'p', c: 'Le **patrimoine** est l’ensemble des **droits et obligations** d’une personne **évaluables en argent** : un **actif** (les biens) et un **passif** (les dettes). Il obéit à des **principes** :' },
+            { t: 'list', c: [
+              '**unicité** : toute personne a un patrimoine et un seul ;',
+              '**universalité** : l’actif répond du passif (les biens garantissent les dettes) ;',
+              '**indivisibilité** : le patrimoine forme un tout ;',
+              '**incessibilité** : on ne peut céder son patrimoine de son vivant (il se transmet à la mort).',
+            ] },
+            { t: 'p', c: 'Par exception, la loi admet un **patrimoine d’affectation** : une personne peut isoler certains biens pour une activité (ex. l’entrepreneur individuel), afin de **protéger son patrimoine personnel**. Enfin, on distingue les droits **patrimoniaux** des droits **extrapatrimoniaux** :' },
             { t: 'table', head: ['Droits patrimoniaux', 'Droits extrapatrimoniaux'], rows: [
               ['Valeur monétaire, cessibles, saisissables', 'Hors commerce, attachés à la personne, non cessibles'],
-              ['Ex. droit de propriété', 'Ex. vie privée, image, nom'],
+              ['Ex. droit de propriété, créances', 'Ex. vie privée, image, nom'],
             ] },
           ],
         },
       ],
       essentiel: [
-        '**Personnalité juridique** = aptitude à être titulaire de droits et d’obligations.',
-        '**Personne physique** (naissance→mort) vs **personne morale** (patrimoine propre distinct).',
-        '**Capacité de jouissance** (avoir des droits) vs **d’exercice** (les exercer seul) ; mineurs et majeurs protégés = incapables.',
-        'Droits **patrimoniaux** (cessibles) vs **extrapatrimoniaux** (vie privée, image).',
+        '**Personnalité juridique** = aptitude à être titulaire de droits et d’obligations ; **personne physique** (naissance→mort, nom, domicile) vs **personne morale** (patrimoine propre).',
+        'Animal = **être vivant doué de sensibilité**, mais soumis au régime des biens.',
+        '**Capacité de jouissance** vs **d’exercice** ; incapables : mineurs, majeurs protégés (**sauvegarde / curatelle / tutelle**).',
+        '**Patrimoine** = actif + passif ; principes **unicité, universalité, indivisibilité, incessibilité** (+ **patrimoine d’affectation**).',
       ],
       resources: [
-        { kind: 'video', label: 'La personnalité juridique', note: 'Vidéos — recherche YouTube', url: yt('personnalité juridique personne physique morale capacité patrimoine première STMG') },
+        { kind: 'video', label: 'La personnalité juridique et la capacité', note: 'Vidéos — recherche YouTube', url: yt('personnalité juridique personne physique morale capacité mineur majeur protégé première STMG') },
+        { kind: 'video', label: 'Le patrimoine et ses principes', note: 'Vidéos — recherche YouTube', url: yt('patrimoine actif passif unicité patrimoine d’affectation première STMG droit') },
       ],
       games: [
         {
@@ -979,8 +1532,10 @@ const droitP = {
           questions: [
             { q: 'La personnalité juridique est l’aptitude à…', choices: ['être titulaire de droits et d’obligations', 'voter une loi', 'juger un litige', 'produire des biens'], answer: 0, explain: 'Elle fait de l’être un sujet de droit.' },
             { q: 'Une association déclarée est une personne…', choices: ['morale', 'physique', 'publique par nature', 'sans patrimoine'], answer: 0, explain: 'Elle a un patrimoine propre, distinct de celui de ses membres.' },
-            { q: 'Un mineur non émancipé a…', choices: ['la capacité de jouissance mais pas la pleine capacité d’exercice', 'aucune personnalité juridique', 'la pleine capacité pour tout acte', 'le droit de voter'], answer: 0, explain: 'Il a des droits mais doit être représenté pour les actes importants.' },
-            { q: 'Le droit à l’image est un droit…', choices: ['extrapatrimonial', 'patrimonial', 'cessible', 'saisissable'], answer: 0, explain: 'Les droits de la personnalité sont extrapatrimoniaux.' },
+            { q: 'Un majeur placé sous tutelle est…', choices: ['représenté par son tuteur', 'totalement libre de tout acte', 'privé de personnalité juridique', 'un mineur'], answer: 0, explain: 'La tutelle représente le majeur ; la curatelle, elle, l’assiste.' },
+            { q: 'Vendre un bien important est un acte…', choices: ['de disposition', 'd’administration', 'de jouissance', 'de procédure'], answer: 0, explain: 'Les actes de disposition engagent le patrimoine ; les actes d’administration sont la gestion courante.' },
+            { q: 'Depuis 2015, l’animal est reconnu comme…', choices: ['un être vivant doué de sensibilité', 'une personne morale', 'une personne physique', 'un majeur protégé'], answer: 0, explain: 'Il reste néanmoins soumis pour l’essentiel au régime des biens.' },
+            { q: 'Le principe selon lequel chaque personne n’a qu’un seul patrimoine est…', choices: ['l’unicité', 'l’universalité', 'l’indivisibilité', 'l’incessibilité'], answer: 0, explain: 'Unicité = un seul patrimoine par personne (sauf patrimoine d’affectation).' },
             { q: 'Le patrimoine comprend…', choices: ['les droits et obligations évaluables en argent (actif et passif)', 'seulement les revenus', 'les opinions', 'la nationalité'], answer: 0, explain: 'Actif (biens) + passif (dettes), évaluables en argent.' },
           ],
         },
@@ -1011,7 +1566,8 @@ const droitP = {
             { front: 'Personnalité juridique', back: 'Aptitude à être titulaire de droits et d’obligations.' },
             { front: 'Personne morale', back: 'Groupement au patrimoine propre distinct de ses membres.' },
             { front: 'Capacité de jouissance / d’exercice', back: 'Avoir des droits / pouvoir les exercer soi-même.' },
-            { front: 'Patrimoine', back: 'Droits et obligations évaluables en argent (actif + passif).' },
+            { front: 'Majeurs protégés', back: 'Sauvegarde de justice, curatelle (assistance), tutelle (représentation).' },
+            { front: 'Patrimoine (principes)', back: 'Unicité, universalité, indivisibilité, incessibilité (+ patrimoine d’affectation).' },
           ],
         },
       ],
@@ -1020,46 +1576,54 @@ const droitP = {
       id: 'p1-droit-t4',
       name: 'Thème 4 — Quels sont les droits reconnus aux personnes ?',
       short: 'Les droits des personnes',
-      keywords: 'droit de propriété usus fructus abusus limites obligations contrat responsabilité droits de la personnalité vie privée image dignité',
+      keywords: 'droit de propriété usus fructus abusus caractères absolu exclusif perpétuel bien corporel incorporel trouble anormal du voisinage propriété intellectuelle industrielle marque brevet monopole d’exploitation action en contrefaçon droit d’auteur droit moral patrimonial droits de la personnalité vie privée image dignité protection des données RGPD CNIL inaliénable insaisissable imprescriptible',
       intro:
-        'Les personnes disposent de **droits**. On étudie ici le **droit de propriété**, les **sources d’obligations** (contrat, responsabilité) et les **droits de la personnalité**.',
+        'Les personnes disposent de **droits**. On étudie ici le **droit de propriété** (y compris la **propriété intellectuelle**) et les **droits de la personnalité**, essentiels à l’ère numérique (**données personnelles**).',
       cours: [
         {
           h: 'Le droit de propriété',
           blocks: [
-            { t: 'p', c: 'C’est le droit le plus complet sur un bien. Il comporte **trois attributs** :' },
+            { t: 'p', c: 'Le droit de propriété est le droit le plus complet sur un **bien** (qui peut être **corporel** — une maison, une voiture — ou **incorporel** — une créance, une marque). Il comporte **trois attributs** :' },
             { t: 'list', c: [
               '**Usus** : le droit d’**utiliser** le bien.',
               '**Fructus** : le droit d’en **percevoir les revenus** (ex. un loyer).',
               '**Abusus** : le droit d’en **disposer** (vendre, détruire).',
             ] },
-            { t: 'warning', c: 'Le droit de propriété n’est **pas absolu** : il connaît des **limites** (respect du voisinage, intérêt général, réglementation). Ex. : le **trouble anormal du voisinage** engage la responsabilité.' },
+            { t: 'p', c: 'On lui reconnaît trois **caractères** : **absolu** (le plus large possible), **exclusif** (le propriétaire est seul à en jouir) et **perpétuel** (il dure tant que le bien existe).' },
+            { t: 'warning', c: 'Ces caractères connaissent des **limites** : respect de l’**intérêt général** (expropriation, urbanisme) et du voisinage. Ainsi, un **trouble anormal du voisinage** (bruit, nuisances excessives) engage la responsabilité de son auteur.' },
           ],
         },
         {
-          h: 'Les sources d’obligations',
+          h: 'La propriété intellectuelle',
           blocks: [
-            { t: 'p', c: 'Une **obligation** est un lien de droit par lequel une personne (le **débiteur**) doit quelque chose à une autre (le **créancier**). Deux grandes sources, **approfondies en terminale** :' },
-            { t: 'list', c: [
-              'Le **contrat** : un **accord de volontés** qui crée des obligations (ex. la vente).',
-              'La **responsabilité** : l’obligation de **réparer un dommage** causé à autrui.',
+            { t: 'p', c: 'Les **créations de l’esprit** sont protégées. On distingue deux ensembles :' },
+            { t: 'table', head: ['Propriété industrielle', 'Droit d’auteur'], rows: [
+              ['Protège les créations utiles à l’activité économique', 'Protège les œuvres de l’esprit (livre, musique, logiciel)'],
+              ['Marque (signe distinctif), brevet (invention)', 'Naît sans formalité, dès la création'],
+              ['Confère un monopole d’exploitation', 'Droit moral (perpétuel) + droits patrimoniaux (limités dans le temps)'],
             ] },
+            { t: 'p', c: 'La **marque** et le **brevet** confèrent à leur titulaire un **monopole d’exploitation**. Toute atteinte (copie, reproduction sans autorisation) constitue une **contrefaçon**, sanctionnée par une **action en contrefaçon**. Le **droit d’auteur** comprend un **droit moral** (respect du nom et de l’œuvre, inaliénable et perpétuel) et des **droits patrimoniaux** (exploiter l’œuvre et en tirer des revenus).' },
+          { t: 'example', h: 'Le faux sac de marque', c: 'Une boutique vend des sacs imitant le **logo** et le **nom** d’une grande marque. \n→ La marque est protégée par un **monopole d’exploitation** : reproduire son signe distinctif sans autorisation est une **contrefaçon**. Le titulaire peut engager une **action en contrefaçon** pour faire cesser la vente et obtenir des dommages et intérêts.' },
           ],
         },
         {
-          h: 'Les droits de la personnalité',
+          h: 'Les droits de la personnalité et la protection des données',
           blocks: [
-            { t: 'p', c: 'Ce sont les droits qui protègent la personne elle-même : droit au respect de la **vie privée**, droit à l’**image**, droit à la **dignité**. Ils sont **extrapatrimoniaux** et particulièrement importants à l’ère numérique (données, réseaux sociaux).' },
+            { t: 'p', c: 'Les **droits de la personnalité** protègent la personne elle-même : droit au respect de la **vie privée**, droit à l’**image**, droit à la **dignité** et au **nom**. Ce sont des droits **extrapatrimoniaux**, aux caractères particuliers : **inaliénables** (on ne peut les vendre), **insaisissables** et **imprescriptibles**.' },
+            { t: 'p', c: 'À l’ère numérique, la **protection des données personnelles** est renforcée. Le **RGPD** (règlement européen) encadre la collecte et l’usage des données ; en France, la **CNIL** veille à leur respect et peut sanctionner les manquements.' },
+          { t: 'example', h: 'La photo publiée sans accord', c: 'Un ami publie sur un réseau social une photo de Sarah, prise en soirée, sans lui demander. \n→ Le **droit à l’image** (droit de la personnalité, **inaliénable**) suppose l’**accord** de la personne. Sarah peut exiger le **retrait** de la photo et, en cas de préjudice, une réparation. Si le site conserve ses données, le **RGPD** lui donne aussi un droit d’**effacement**, dont la **CNIL** garantit le respect.' },
           ],
         },
       ],
       essentiel: [
-        'Droit de propriété = **usus** (utiliser) + **fructus** (revenus) + **abusus** (disposer), avec des **limites**.',
-        'Sources d’obligations : le **contrat** (accord de volontés) et la **responsabilité** (réparer un dommage).',
-        '**Droits de la personnalité** (vie privée, image, dignité) = extrapatrimoniaux.',
+        'Droit de propriété = **usus** + **fructus** + **abusus** ; caractères **absolu, exclusif, perpétuel** (avec des **limites** : trouble anormal du voisinage, intérêt général).',
+        'Biens **corporels** vs **incorporels**.',
+        'Propriété intellectuelle : **marque / brevet** (propriété industrielle, monopole d’exploitation, **action en contrefaçon**) et **droit d’auteur** (droit **moral** + droits **patrimoniaux**).',
+        '**Droits de la personnalité** (vie privée, image, dignité) = extrapatrimoniaux, **inaliénables, insaisissables, imprescriptibles** ; données protégées par le **RGPD** et la **CNIL**.',
       ],
       resources: [
-        { kind: 'video', label: 'Droit de propriété et droits de la personnalité', note: 'Vidéos — recherche YouTube', url: yt('droit de propriété usus fructus abusus droits personnalité première STMG') },
+        { kind: 'video', label: 'Le droit de propriété (usus, fructus, abusus)', note: 'Vidéos — recherche YouTube', url: yt('droit de propriété usus fructus abusus caractères absolu exclusif perpétuel première STMG') },
+        { kind: 'video', label: 'Propriété intellectuelle, RGPD et données personnelles', note: 'Vidéos — recherche YouTube', url: yt('propriété intellectuelle marque brevet contrefaçon RGPD CNIL première STMG droit') },
       ],
       games: [
         {
@@ -1070,21 +1634,24 @@ const droitP = {
           questions: [
             { q: 'Le droit de percevoir les revenus d’un bien (ex. un loyer) est…', choices: ['le fructus', 'l’usus', 'l’abusus', 'l’usufruit du voisin'], answer: 0, explain: 'Usus = utiliser ; fructus = revenus ; abusus = disposer.' },
             { q: 'Vendre ou détruire un bien correspond à…', choices: ['l’abusus', 'l’usus', 'le fructus', 'la médiation'], answer: 0, explain: 'L’abusus est le droit de disposer du bien.' },
-            { q: 'Le droit de propriété…', choices: ['n’est pas absolu (il a des limites)', 'permet tout sans limite', 'appartient à l’État', 'est extrapatrimonial'], answer: 0, explain: 'Respect du voisinage, intérêt général, réglementation le limitent.' },
-            { q: 'Un accord de volontés créant des obligations est…', choices: ['un contrat', 'une responsabilité', 'une coutume', 'un patrimoine'], answer: 0, explain: 'Le contrat est une source d’obligations ; la responsabilité en est une autre.' },
-            { q: 'Publier la photo de quelqu’un sans son accord porte atteinte…', choices: ['au droit à l’image (droit de la personnalité)', 'au droit de propriété', 'à la hiérarchie des normes', 'au fructus'], answer: 0, explain: 'Le droit à l’image est un droit de la personnalité, extrapatrimonial.' },
+            { q: 'Les caractères du droit de propriété sont…', choices: ['absolu, exclusif, perpétuel', 'général, impersonnel, obligatoire', 'certain, direct, personnel', 'oral, écrit, tacite'], answer: 0, explain: 'Absolu (le plus large), exclusif (seul à en jouir), perpétuel (dure tant que le bien existe).' },
+            { q: 'Une marque protège…', choices: ['un signe distinctif, avec un monopole d’exploitation', 'une invention technique uniquement', 'une œuvre littéraire', 'un salaire'], answer: 0, explain: 'La marque (propriété industrielle) donne un monopole d’exploitation ; le brevet protège l’invention.' },
+            { q: 'Reproduire une œuvre sans autorisation constitue…', choices: ['une contrefaçon', 'un acte authentique', 'un trouble du voisinage', 'une preuve parfaite'], answer: 0, explain: 'La contrefaçon est sanctionnée par une action en contrefaçon.' },
+            { q: 'Le droit d’auteur comprend…', choices: ['un droit moral et des droits patrimoniaux', 'seulement un droit à réparation', 'un monopole d’État', 'une preuve imparfaite'], answer: 0, explain: 'Droit moral (respect de l’œuvre, perpétuel) + droits patrimoniaux (exploiter, tirer des revenus).' },
+            { q: 'En France, l’organisme qui veille à la protection des données personnelles est…', choices: ['la CNIL', 'la Cour de cassation', 'l’INSEE', 'l’Autorité de la concurrence'], answer: 0, explain: 'La CNIL applique le RGPD et peut sanctionner les manquements.' },
           ],
         },
         {
           id: 'p1-droit-t4-assoc',
           type: 'association',
-          title: 'Association — Attribut de la propriété ↔ sens',
+          title: 'Association — Notion ↔ sens',
           icon: '🔗',
           pairs: [
             { left: 'Usus', right: 'Utiliser le bien' },
             { left: 'Fructus', right: 'Percevoir les revenus (loyer)' },
             { left: 'Abusus', right: 'Disposer (vendre, détruire)' },
-            { left: 'Contrat', right: 'Accord de volontés créant des obligations' },
+            { left: 'Brevet', right: 'Protège une invention (monopole d’exploitation)' },
+            { left: 'RGPD / CNIL', right: 'Protection des données personnelles' },
           ],
         },
         {
@@ -1094,8 +1661,9 @@ const droitP = {
           icon: '⚡',
           questions: [
             { statement: 'Le droit de propriété autorise à causer un trouble anormal du voisinage.', answer: false, explain: 'Faux : c’est une limite au droit de propriété.' },
-            { statement: 'La responsabilité oblige à réparer un dommage causé à autrui.', answer: true, explain: 'Vrai : c’est une source d’obligations.' },
-            { statement: 'Le droit à la vie privée est un droit de la personnalité.', answer: true, explain: 'Vrai, extrapatrimonial.' },
+            { statement: 'La marque et le brevet confèrent un monopole d’exploitation.', answer: true, explain: 'Vrai : leur titulaire est seul à pouvoir les exploiter.' },
+            { statement: 'Le droit à la vie privée est un droit de la personnalité, inaliénable.', answer: true, explain: 'Vrai : extrapatrimonial, inaliénable, insaisissable, imprescriptible.' },
+            { statement: 'Une donnée personnelle peut être collectée et utilisée sans aucune règle.', answer: false, explain: 'Faux : le RGPD encadre la collecte et l’usage ; la CNIL veille.' },
           ],
         },
         {
@@ -1105,9 +1673,11 @@ const droitP = {
           icon: '🃏',
           cards: [
             { front: 'Usus / fructus / abusus', back: 'Utiliser / percevoir les revenus / disposer.' },
-            { front: 'Obligation', back: 'Lien de droit : le débiteur doit quelque chose au créancier.' },
-            { front: 'Sources d’obligations', back: 'Le contrat et la responsabilité.' },
-            { front: 'Droits de la personnalité', back: 'Vie privée, image, dignité (extrapatrimoniaux).' },
+            { front: 'Caractères de la propriété', back: 'Absolu, exclusif, perpétuel (avec des limites).' },
+            { front: 'Propriété industrielle', back: 'Marque et brevet : monopole d’exploitation, protégé par l’action en contrefaçon.' },
+            { front: 'Droit d’auteur', back: 'Droit moral (perpétuel) + droits patrimoniaux (exploitation).' },
+            { front: 'Droits de la personnalité', back: 'Vie privée, image, dignité : inaliénables, insaisissables, imprescriptibles.' },
+            { front: 'RGPD / CNIL', back: 'Cadre européen des données / autorité française de contrôle.' },
           ],
         },
       ],
@@ -1290,8 +1860,9 @@ const economieP = {
         {
           h: 'Répartition primaire et redistribution',
           blocks: [
-            { t: 'p', c: 'La **répartition primaire** partage la VA entre les **revenus du travail** (salaires), les **revenus du capital** (intérêts, loyers, dividendes) et les **revenus mixtes** (indépendants).' },
-            { t: 'p', c: 'L’État corrige ensuite par la **redistribution** : il **prélève** (impôts, cotisations) et **verse** des prestations (allocations, retraites). Résultat : le **revenu disponible** des ménages (ce qui reste pour consommer ou épargner).' },
+            { t: 'p', c: 'La **répartition primaire** partage la VA entre les **revenus primaires** : les **revenus du travail** (salaires), les **revenus du capital** (intérêts, loyers, dividendes) et les **revenus mixtes** (indépendants, qui rémunèrent à la fois travail et capital).' },
+            { t: 'p', c: 'L’État corrige ensuite par la **redistribution** : il opère des **prélèvements obligatoires** (impôts, cotisations sociales) et verse des **revenus de transfert** (prestations : allocations, retraites, aides sociales). On obtient alors le **revenu disponible** des ménages (ce qui reste pour consommer ou épargner).' },
+            { t: 'formula', c: 'Revenu disponible = Revenus primaires − Prélèvements obligatoires + Revenus de transfert' },
           ],
         },
         {
@@ -1305,8 +1876,8 @@ const economieP = {
         },
       ],
       essentiel: [
-        'Répartition **primaire** : revenus du **travail**, du **capital**, **mixtes**.',
-        '**Redistribution** = prélèvements (impôts, cotisations) + prestations → **revenu disponible**.',
+        'Répartition **primaire** : **revenus primaires** = travail + capital + mixtes.',
+        '**Revenu disponible = revenus primaires − prélèvements obligatoires + revenus de transfert**.',
         '**Taux d’épargne = épargne / revenu disponible** ; notions de **pouvoir d’achat** et de **patrimoine**.',
       ],
       resources: [
@@ -1320,8 +1891,8 @@ const economieP = {
           icon: '❓',
           questions: [
             { q: 'Les salaires sont des revenus…', choices: ['du travail', 'du capital', 'mixtes', 'de transfert'], answer: 0, explain: 'Travail = salaires ; capital = intérêts, loyers, dividendes ; mixtes = indépendants.' },
-            { q: 'La redistribution consiste à…', choices: ['prélever (impôts, cotisations) et verser des prestations', 'produire des biens', 'fixer les prix', 'créer de la monnaie'], answer: 0, explain: 'Elle corrige la répartition primaire pour réduire les inégalités.' },
-            { q: 'Le revenu disponible est ce qui reste…', choices: ['après impôts et prestations, pour consommer ou épargner', 'avant tout prélèvement', 'après avoir tout épargné', 'après la TVA seulement'], answer: 0, explain: 'C’est le revenu disponible des ménages.' },
+            { q: 'La redistribution consiste à…', choices: ['prélever des prélèvements obligatoires et verser des revenus de transfert', 'produire des biens', 'fixer les prix', 'créer de la monnaie'], answer: 0, explain: 'Elle corrige la répartition primaire pour réduire les inégalités.' },
+            { q: 'La formule du revenu disponible est…', choices: ['revenus primaires − prélèvements obligatoires + revenus de transfert', 'revenus primaires + prélèvements obligatoires', 'salaires − TVA', 'consommation + épargne − impôts'], answer: 0, explain: 'Revenu disponible = revenus primaires − prélèvements obligatoires (impôts, cotisations) + revenus de transfert (prestations).' },
             { q: 'Revenu disponible 2 500 €, consommation 2 100 €. Taux d’épargne ?', choices: ['16 %', '84 %', '40 %', '4 %'], answer: 0, explain: 'Épargne = 400 ; 400/2 500 = 0,16 = 16 %.' },
           ],
         },
@@ -1349,9 +1920,9 @@ const economieP = {
           title: 'Flashcards — Revenus',
           icon: '🃏',
           cards: [
-            { front: 'Répartition primaire', back: 'Partage de la VA : revenus du travail, du capital, mixtes.' },
-            { front: 'Redistribution', back: 'Prélèvements + prestations pour réduire les inégalités.' },
-            { front: 'Revenu disponible', back: 'Ce qui reste après impôts et prestations.' },
+            { front: 'Répartition primaire', back: 'Partage de la VA en revenus primaires : travail, capital, mixtes.' },
+            { front: 'Redistribution', back: 'Prélèvements obligatoires + revenus de transfert pour réduire les inégalités.' },
+            { front: 'Revenu disponible', back: 'Revenus primaires − prélèvements obligatoires + revenus de transfert.' },
             { front: 'Pouvoir d’achat', back: 'Ce que le revenu permet réellement d’acheter.' },
           ],
         },
@@ -1580,14 +2151,19 @@ const mathsP = {
       intro: 'Une **suite** est une liste ordonnée de nombres. Deux modèles clés en gestion : arithmétique et géométrique.',
       cours: [
         {
-          h: 'Arithmétique et géométrique',
+          h: 'La suite arithmétique',
           blocks: [
-            { t: 'table', head: ['Arithmétique', 'Géométrique'], rows: [
-              ['On ajoute la raison r', 'On multiplie par la raison q'],
-              ['u_n = u_0 + n × r', 'u_n = u_0 × q^n'],
-              ['Croissance linéaire', 'Croissance exponentielle'],
-            ] },
-            { t: 'example', h: 'Exemple', c: 'Capital 1 000 € placé à 3 %/an → q = 1,03, u_5 = 1 000 × 1,03⁵ ≈ **1 159 €**. Astuce : évolution en % fixe → suite **géométrique**.' },
+            { t: 'p', c: 'Dans une suite **arithmétique**, on passe d’un terme au suivant en **ajoutant** toujours le même nombre, la **raison r** : u_{n+1} = u_n + r.' },
+            { t: 'formula', c: 'Terme général : u_n = u_0 + n × r — croissance **linéaire**.' },
+            { t: 'example', h: 'Exemple', c: 'Un salaire de 1 500 € augmente de 50 €/an : c’est arithmétique (r = 50). Au bout de 4 ans : u_4 = 1 500 + 4 × 50 = **1 700 €**.' },
+          ],
+        },
+        {
+          h: 'La suite géométrique',
+          blocks: [
+            { t: 'p', c: 'Dans une suite **géométrique**, on passe d’un terme au suivant en **multipliant** toujours par le même nombre, la **raison q** : u_{n+1} = u_n × q.' },
+            { t: 'formula', c: 'Terme général : u_n = u_0 × q^n — croissance **exponentielle**.' },
+            { t: 'example', h: 'Exemple', c: 'Capital de 1 000 € placé à 3 %/an → q = 1,03 : u_5 = 1 000 × 1,03⁵ ≈ **1 159 €**. Astuce : toute évolution en **% fixe** donne une suite **géométrique** (q = 1 + t).' },
           ],
         },
       ],
@@ -1621,14 +2197,22 @@ const mathsP = {
       intro: 'La fonction du **second degré** modélise beaucoup de situations d’optimisation (bénéfice max, coût min).',
       cours: [
         {
-          h: 'La parabole',
+          h: 'La parabole et le sens de la concavité',
           blocks: [
-            { t: 'p', c: 'f(x) = ax² + bx + c (a ≠ 0) a pour courbe une **parabole**.' },
+            { t: 'p', c: 'La fonction du **second degré** s’écrit f(x) = ax² + bx + c (avec a ≠ 0) et sa courbe est une **parabole**.' },
             { t: 'list', c: [
-              'Si **a > 0** : parabole vers le haut (∪), la fonction a un **minimum**.',
-              'Si **a < 0** : parabole vers le bas (∩), la fonction a un **maximum**.',
+              'Si **a > 0** : parabole tournée vers le haut (∪), la fonction admet un **minimum**.',
+              'Si **a < 0** : parabole tournée vers le bas (∩), la fonction admet un **maximum**.',
             ] },
-            { t: 'p', c: 'Le **sommet** donne l’extremum ; la courbe est symétrique par rapport à l’axe vertical passant par le sommet.' },
+            { t: 'p', c: 'La courbe est **symétrique** par rapport à l’axe vertical qui passe par le sommet.' },
+          ],
+        },
+        {
+          h: 'Le sommet et l’optimisation',
+          blocks: [
+            { t: 'p', c: 'Le **sommet** de la parabole est le point où la fonction atteint son **extremum** (maximum si a < 0, minimum si a > 0).' },
+            { t: 'p', c: 'C’est ce qui rend le second degré très utile en gestion : il modélise un **bénéfice à maximiser** ou un **coût à minimiser**.' },
+            { t: 'example', h: 'Exemple', c: 'Un bénéfice B(x) = −2x² + 12x (en centaines d’€) est maximal au sommet, en x = 3 : B(3) = **18** → 1 800 € pour 3 unités.' },
           ],
         },
       ],
@@ -1650,6 +2234,14 @@ const mathsP = {
             { statement: 'La parabole n’a aucun axe de symétrie.', answer: false, explain: 'Faux : elle est symétrique par rapport à la verticale passant par le sommet.' },
           ],
         },
+        {
+          id: 'p1-math-c3-flash', type: 'flashcard', title: 'Flashcards — Second degré', icon: '🃏',
+          cards: [
+            { front: 'f(x) = ax² + bx + c', back: 'Sa courbe est une parabole.' },
+            { front: 'Signe de a', back: 'a > 0 : minimum (∪) ; a < 0 : maximum (∩).' },
+            { front: 'Sommet', back: 'Donne l’extremum ; axe de symétrie vertical passant par lui.' },
+          ],
+        },
       ],
     },
     {
@@ -1660,16 +2252,24 @@ const mathsP = {
       intro: 'La **dérivée** mesure comment une fonction varie. C’est l’outil de l’**optimisation**.',
       cours: [
         {
-          h: 'Nombre dérivé et variations',
+          h: 'Le nombre dérivé et la tangente',
           blocks: [
-            { t: 'p', c: 'f’(a) est le **coefficient directeur de la tangente** en a. Équation de la tangente : y = f’(a)(x − a) + f(a).' },
-            { t: 'p', c: 'Dérivées utiles : (constante)’ = 0 ; (x²)’ = 2x ; (ax² + bx + c)’ = **2ax + b**.' },
+            { t: 'p', c: 'Le **nombre dérivé** f’(a) est le **coefficient directeur de la tangente** à la courbe au point d’abscisse a : il mesure la « pente » de la courbe en ce point.' },
+            { t: 'formula', c: 'Équation de la tangente en a : y = f’(a)(x − a) + f(a).' },
+            { t: 'p', c: 'Dérivées à connaître : (constante)’ = 0 ; (x²)’ = 2x ; **(ax² + bx + c)’ = 2ax + b**.' },
             { t: 'figure', name: 'derivee' },
+          ],
+        },
+        {
+          h: 'Signe de la dérivée, variations et extremum',
+          blocks: [
             { t: 'list', c: [
-              'f’(x) > 0 → f **croissante** ; f’(x) < 0 → f **décroissante**.',
-              'f’(x) = 0 en changeant de signe → **extremum**.',
+              'f’(x) > 0 sur un intervalle → f est **croissante** ;',
+              'f’(x) < 0 sur un intervalle → f est **décroissante** ;',
+              'f’(x) = 0 en **changeant de signe** → la fonction atteint un **extremum** (max ou min).',
             ] },
-            { t: 'example', h: 'Exemple', c: 'f(x) = −2x² + 12x → f’(x) = −4x + 12, s’annule en x = 3 : maximum f(3) = **18**.' },
+            { t: 'p', c: 'C’est l’outil de l’**optimisation** : on cherche où la dérivée s’annule pour trouver un maximum (bénéfice) ou un minimum (coût).' },
+            { t: 'example', h: 'Exemple', c: 'f(x) = −2x² + 12x → f’(x) = −4x + 12, qui s’annule en x = 3. La dérivée passe du + au −, donc **maximum** : f(3) = **18**.' },
           ],
         },
       ],
@@ -1685,6 +2285,14 @@ const mathsP = {
             { q: 'f(x) = −2x² + 12x. f’(x) s’annule en…', choices: ['x = 3', 'x = 6', 'x = 12', 'x = 0'], answer: 0, explain: '−4x + 12 = 0 ⇔ x = 3 (maximum).' },
           ],
         },
+        {
+          id: 'p1-math-c4-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La dérivée de ax² + bx + c est 2ax + b.', answer: true, explain: 'Vrai.' },
+            { statement: 'Si f’(x) < 0, la fonction est croissante.', answer: false, explain: 'Faux : f’ < 0 ⇒ décroissante.' },
+            { statement: 'Un extremum est atteint là où f’ s’annule en changeant de signe.', answer: true, explain: 'Vrai : max ou min.' },
+          ],
+        },
       ],
     },
     {
@@ -1695,11 +2303,24 @@ const mathsP = {
       intro: 'On résume une série de données par des **indicateurs** de position et de dispersion.',
       cours: [
         {
-          h: 'Position et dispersion',
+          h: 'Les indicateurs de position',
           blocks: [
+            { t: 'p', c: 'Les indicateurs de **position** résument « où se situe » la série :' },
             { t: 'list', c: [
-              '**Position** : la **moyenne** (somme / effectif), la **médiane** (partage la série en deux), les **quartiles** Q1 et Q3.',
-              '**Dispersion** : l’**étendue** (max − min), l’**écart interquartile** (Q3 − Q1), l’**écart-type** (dispersion autour de la moyenne).',
+              'la **moyenne** = somme des valeurs / effectif ;',
+              'la **médiane** partage la série ordonnée en **deux moitiés** (50 % en dessous, 50 % au-dessus) ;',
+              'les **quartiles** Q1 et Q3 délimitent les 25 % les plus bas et les 25 % les plus hauts.',
+            ] },
+          ],
+        },
+        {
+          h: 'Les indicateurs de dispersion et la boîte à moustaches',
+          blocks: [
+            { t: 'p', c: 'Les indicateurs de **dispersion** mesurent à quel point les valeurs sont **étalées** :' },
+            { t: 'list', c: [
+              'l’**étendue** = max − min ;',
+              'l’**écart interquartile** = Q3 − Q1 (dispersion des 50 % centraux) ;',
+              'l’**écart-type** mesure la dispersion autour de la moyenne.',
             ] },
             { t: 'p', c: 'Le **diagramme en boîte** (boîte à moustaches) visualise min, Q1, médiane, Q3, max. Deux séries de même moyenne mais d’écarts-types différents n’ont pas la même **homogénéité**.' },
           ],
@@ -1725,6 +2346,14 @@ const mathsP = {
             { front: 'Écart-type', back: 'Mesure la dispersion autour de la moyenne.' },
           ],
         },
+        {
+          id: 'p1-math-c5-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La médiane partage la série en deux moitiés.', answer: true, explain: 'Vrai : 50 % de part et d’autre.' },
+            { statement: 'L’étendue vaut Q3 − Q1.', answer: false, explain: 'Faux : étendue = max − min ; Q3 − Q1 = écart interquartile.' },
+            { statement: 'Un écart-type plus grand signifie des valeurs plus dispersées.', answer: true, explain: 'Vrai.' },
+          ],
+        },
       ],
     },
     {
@@ -1735,11 +2364,18 @@ const mathsP = {
       intro: 'Les probabilités mesurent le **hasard**. Outils clés : la probabilité conditionnelle et l’espérance.',
       cours: [
         {
-          h: 'Conditionnelle, indépendance, espérance',
+          h: 'Probabilité conditionnelle et arbre pondéré',
           blocks: [
-            { t: 'formula', c: 'P_A(B) = P(A ∩ B) / P(A) · A et B indépendants ⇔ P(A ∩ B) = P(A) × P(B)' },
-            { t: 'p', c: 'On visualise avec un **arbre pondéré** (on multiplie le long des branches ; la somme des branches d’un nœud vaut 1). Une **variable aléatoire** prend des valeurs selon le hasard ; son **espérance** E(X) = somme des (valeur × probabilité) est la « moyenne » attendue.' },
-            { t: 'example', h: 'Exemple', c: '60 % font anglais, dont 30 % font aussi espagnol → P(anglais ∩ espagnol) = 0,60 × 0,30 = **0,18**.' },
+            { t: 'formula', c: 'Probabilité de B sachant A : P_A(B) = P(A ∩ B) / P(A).' },
+            { t: 'p', c: 'On visualise la situation avec un **arbre pondéré** : on **multiplie** les probabilités le long des branches, et la **somme** des branches partant d’un même nœud vaut **1**.' },
+            { t: 'example', h: 'Exemple', c: '60 % des élèves font anglais ; parmi eux, 30 % font aussi espagnol → P(anglais ∩ espagnol) = 0,60 × 0,30 = **0,18**.' },
+          ],
+        },
+        {
+          h: 'Indépendance et espérance',
+          blocks: [
+            { t: 'formula', c: 'A et B indépendants ⇔ P(A ∩ B) = P(A) × P(B).' },
+            { t: 'p', c: 'Deux événements sont **indépendants** quand la réalisation de l’un ne change pas la probabilité de l’autre. Une **variable aléatoire** prend des valeurs selon le hasard ; son **espérance** E(X) = somme des (valeur × probabilité) est la « moyenne » attendue sur un grand nombre de répétitions.' },
           ],
         },
       ],
@@ -1755,6 +2391,14 @@ const mathsP = {
             { q: 'A et B sont indépendants si…', choices: ['P(A ∩ B) = P(A) × P(B)', 'P(A) = P(B)', 'P(A ∩ B) = 0', 'P(A) + P(B) = 1'], answer: 0, explain: 'Définition de l’indépendance.' },
           ],
         },
+        {
+          id: 'p1-math-c6-flash', type: 'flashcard', title: 'Flashcards — Probabilités', icon: '🃏',
+          cards: [
+            { front: 'Probabilité conditionnelle', back: 'P_A(B) = P(A ∩ B) / P(A).' },
+            { front: 'Indépendance', back: 'P(A ∩ B) = P(A) × P(B).' },
+            { front: 'Espérance E(X)', back: 'Somme des (valeur × probabilité) : la moyenne attendue.' },
+          ],
+        },
       ],
     },
     {
@@ -1765,15 +2409,23 @@ const mathsP = {
       intro: 'On consolide les bases de la **programmation** en Python, pour automatiser des calculs et simuler le hasard.',
       cours: [
         {
-          h: 'Les briques de base',
+          h: 'Variables, conditions et boucles',
           blocks: [
             { t: 'list', c: [
-              'Les **variables** (stocker une valeur),',
-              'les **conditions** (`if / else`, pour faire des choix),',
-              'les **boucles** (`for`, `while`, pour répéter),',
-              'les **fonctions** (regrouper des instructions), les **listes** (stocker plusieurs valeurs).',
+              'Les **variables** stockent une valeur (`x = 5`) ;',
+              'les **conditions** (`if / else`) permettent de faire un **choix** selon qu’une condition est vraie ou fausse ;',
+              'les **boucles** répètent des instructions : `for` (nombre de répétitions **connu**), `while` (tant qu’une condition reste vraie).',
             ] },
-            { t: 'p', c: 'Applications : **simuler** une expérience aléatoire, calculer les termes d’une suite, automatiser un calcul répétitif.' },
+          ],
+        },
+        {
+          h: 'Fonctions, listes et applications',
+          blocks: [
+            { t: 'list', c: [
+              'les **fonctions** (`def`) regroupent des instructions réutilisables ;',
+              'les **listes** stockent plusieurs valeurs dans une seule variable.',
+            ] },
+            { t: 'p', c: 'Applications concrètes : **simuler** une expérience aléatoire, calculer les termes d’une **suite**, automatiser un **calcul répétitif**.' },
           ],
         },
       ],
@@ -1795,6 +2447,14 @@ const mathsP = {
             { front: 'Boucle (for / while)', back: 'Répète des instructions.' },
             { front: 'Condition (if / else)', back: 'Fait un choix selon une condition.' },
             { front: 'Liste', back: 'Stocke plusieurs valeurs.' },
+          ],
+        },
+        {
+          id: 'p1-math-c7-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La boucle for sert à répéter des instructions.', answer: true, explain: 'Vrai (nombre de répétitions connu).' },
+            { statement: 'if / else sert à répéter à l’infini.', answer: false, explain: 'Faux : if/else fait un choix ; c’est la boucle qui répète.' },
+            { statement: 'Une liste peut stocker plusieurs valeurs.', answer: true, explain: 'Vrai.' },
           ],
         },
       ],
@@ -1941,6 +2601,14 @@ const francaisP = {
             { front: 'Explication linéaire', back: 'Expliquer le texte dans l’ordre, au fil de la lecture.' },
           ],
         },
+        {
+          id: 'p1-fr-2-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'À l’écrit techno, on choisit entre le commentaire et la contraction + essai.', answer: true, explain: 'Vrai : deux sujets au choix.' },
+            { statement: 'La contraction consiste à donner son avis sur le texte.', answer: false, explain: 'Faux : on résume fidèlement au quart, sans commenter.' },
+            { statement: 'L’explication linéaire suit le texte dans l’ordre.', answer: true, explain: 'Vrai : au fil de la lecture, sans plaquer un plan thématique.' },
+          ],
+        },
       ],
     },
   ],
@@ -1966,10 +2634,16 @@ const histoireP = {
       intro: 'En 1789, la Révolution met fin à la **monarchie absolue** et proclame des principes nouveaux qui bouleversent l’Europe.',
       cours: [
         {
-          h: 'La Révolution puis l’Empire',
+          h: 'La Révolution française (1789)',
           blocks: [
-            { t: 'p', c: 'La **Révolution française (1789)** proclame **liberté, égalité, souveraineté de la nation** (Déclaration des droits de l’homme et du citoyen). Elle passe par plusieurs phases (monarchie constitutionnelle, République, Terreur).' },
-            { t: 'p', c: '**Napoléon Bonaparte** bâtit ensuite un **Empire (1804-1815)** qui réorganise la France (**Code civil**, administration) et diffuse — par la guerre — certains principes révolutionnaires en Europe.' },
+            { t: 'p', c: 'La **Révolution française (1789)** met fin à la **monarchie absolue** et proclame des principes nouveaux : **liberté, égalité, souveraineté de la nation** (Déclaration des droits de l’homme et du citoyen).' },
+            { t: 'p', c: 'Elle passe par plusieurs **phases** : monarchie constitutionnelle, proclamation de la **Ire République (1792)**, puis la **Terreur**.' },
+          ],
+        },
+        {
+          h: 'L’Empire napoléonien (1804-1815)',
+          blocks: [
+            { t: 'p', c: '**Napoléon Bonaparte** bâtit ensuite un **Empire (1804-1815)** qui réorganise la France (**Code civil**, administration centralisée) et diffuse — par la guerre — certains principes révolutionnaires en Europe.' },
             { t: 'table', head: ['Date', 'Repère'], rows: [
               ['1789', 'Révolution française (DDHC)'],
               ['1792', 'Proclamation de la Ire République'],
@@ -1999,6 +2673,14 @@ const histoireP = {
             { front: '1804-1815', back: 'Empire de Napoléon (Code civil).' },
           ],
         },
+        {
+          id: 'p1-hg-h1-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La Révolution française commence en 1789.', answer: true, explain: 'Vrai : fin de la monarchie absolue, DDHC.' },
+            { statement: 'Napoléon devient empereur en 1789.', answer: false, explain: 'Faux : en 1804 (Empire 1804-1815).' },
+            { statement: 'Le Code civil est une œuvre napoléonienne.', answer: true, explain: 'Vrai : 1804.' },
+          ],
+        },
       ],
     },
     {
@@ -2009,10 +2691,17 @@ const histoireP = {
       intro: 'Après 1815, la France connaît une grande **instabilité politique** et une profonde **transformation sociale** liée à l’industrialisation.',
       cours: [
         {
-          h: 'Instabilité et transformations',
+          h: 'Une grande instabilité politique',
           blocks: [
-            { t: 'p', c: 'Retour de la monarchie, puis **révolutions (1830, 1848)**. En **1848**, la **IIe République** instaure le **suffrage universel masculin** et **abolit l’esclavage**.' },
-            { t: 'p', c: 'Parallèlement, l’**industrialisation** transforme la société : **urbanisation**, essor de la **bourgeoisie** et d’une **classe ouvrière**, nouvelles **tensions sociales**.' },
+            { t: 'p', c: 'Après 1815, la France alterne les régimes : retour de la **monarchie**, puis **révolutions (1830, 1848)**.' },
+            { t: 'p', c: 'En **1848**, la **IIe République** marque une avancée majeure : elle instaure le **suffrage universel masculin** et **abolit l’esclavage**.' },
+          ],
+        },
+        {
+          h: 'L’industrialisation et ses transformations sociales',
+          blocks: [
+            { t: 'p', c: 'Parallèlement, l’**industrialisation** transforme profondément la société : **urbanisation** (afflux vers les villes industrielles), essor de la **bourgeoisie** d’affaires et d’une **classe ouvrière**.' },
+            { t: 'p', c: 'Cette nouvelle organisation fait naître de fortes **tensions sociales** (conditions de travail, premières revendications ouvrières).' },
           ],
         },
       ],
@@ -2034,6 +2723,14 @@ const histoireP = {
             { statement: 'L’industrialisation a favorisé l’urbanisation.', answer: true, explain: 'Vrai : afflux vers les villes industrielles.' },
           ],
         },
+        {
+          id: 'p1-hg-h2-flash', type: 'flashcard', title: 'Flashcards — Repères', icon: '🃏',
+          cards: [
+            { front: '1848', back: 'IIe République : suffrage universel masculin, abolition de l’esclavage.' },
+            { front: 'Industrialisation', back: 'Urbanisation, bourgeoisie, classe ouvrière, tensions sociales.' },
+            { front: 'Révolutions de 1830 et 1848', back: 'Instabilité politique de la France après 1815.' },
+          ],
+        },
       ],
     },
     {
@@ -2044,10 +2741,16 @@ const histoireP = {
       intro: 'À partir de **1870**, la IIIe République s’enracine et associe la République à des valeurs concrètes, avant l’épreuve de la **Grande Guerre**.',
       cours: [
         {
-          h: 'La IIIe République puis la guerre totale',
+          h: 'La IIIe République s’enracine',
           blocks: [
-            { t: 'p', c: 'La **IIIe République** (à partir de **1870**) installe la **laïcité**, l’**école gratuite et obligatoire** (lois Ferry) et les libertés fondamentales (presse, syndicats). La France se dote aussi d’un vaste **empire colonial**.' },
-            { t: 'p', c: 'La **Première Guerre mondiale (1914-1918)** est une **guerre totale** : elle mobilise les sociétés entières (soldats, économie de guerre, civils, propagande).' },
+            { t: 'p', c: 'La **IIIe République** (à partir de **1870**) installe durablement la République : **laïcité**, **école gratuite et obligatoire** (lois **Ferry**), libertés fondamentales (presse, syndicats).' },
+            { t: 'p', c: 'La **loi de 1905** consacre la **séparation des Églises et de l’État**, pilier de la laïcité. La France se dote aussi d’un vaste **empire colonial**.' },
+          ],
+        },
+        {
+          h: 'La Première Guerre mondiale, une guerre totale',
+          blocks: [
+            { t: 'p', c: 'La **Première Guerre mondiale (1914-1918)** est une **guerre totale** : elle mobilise les sociétés entières — soldats au front, **économie de guerre**, civils à l’arrière, **propagande**.' },
             { t: 'table', head: ['Date', 'Repère'], rows: [
               ['1870-1871', 'Début de la IIIe République'],
               ['1905', 'Séparation des Églises et de l’État'],
@@ -2075,6 +2778,14 @@ const histoireP = {
             { front: 'Guerre totale', back: 'Mobilisation militaire, économique et des esprits (1914-1918).' },
           ],
         },
+        {
+          id: 'p1-hg-h3-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Les lois Ferry rendent l’école gratuite et obligatoire.', answer: true, explain: 'Vrai (IIIe République).' },
+            { statement: 'La séparation des Églises et de l’État date de 1789.', answer: false, explain: 'Faux : 1905.' },
+            { statement: 'La Première Guerre mondiale est une guerre totale.', answer: true, explain: 'Vrai : mobilisation des sociétés entières.' },
+          ],
+        },
       ],
     },
     {
@@ -2085,9 +2796,17 @@ const histoireP = {
       intro: 'La **métropolisation** est la concentration croissante des populations, des activités et des pouvoirs dans les grandes villes.',
       cours: [
         {
-          h: 'Un processus mondial différencié',
+          h: 'Des métropoles qui concentrent hommes et pouvoirs',
           blocks: [
-            { t: 'p', c: 'Plus de la moitié de l’humanité vit en ville. Quelques **métropoles mondiales** (New York, Londres, Tokyo, Paris) concentrent richesse et **fonctions de commandement**, tandis que d’autres espaces restent en marge : le processus est **différencié** et accentue les **inégalités** entre territoires.' },
+            { t: 'p', c: 'Plus de la moitié de l’humanité vit désormais **en ville**. La **métropolisation** concentre les populations, les activités et les pouvoirs dans les grandes villes.' },
+            { t: 'p', c: 'Quelques **métropoles mondiales** (New York, Londres, Tokyo, Paris) concentrent la richesse et les **fonctions de commandement** : sièges sociaux, bourses, universités, aéroports internationaux.' },
+          ],
+        },
+        {
+          h: 'Un processus différencié et inégalitaire',
+          blocks: [
+            { t: 'p', c: 'Toutes les villes ne sont pas touchées de la même façon : le processus est **différencié**. Certaines métropoles dominent, tandis que d’autres espaces restent **en marge**.' },
+            { t: 'p', c: 'La métropolisation accentue donc les **inégalités** entre territoires, à toutes les échelles (mondiale, nationale, locale).' },
           ],
         },
       ],
@@ -2110,6 +2829,14 @@ const histoireP = {
             { front: 'Processus différencié', back: 'Touche inégalement les territoires → inégalités.' },
           ],
         },
+        {
+          id: 'p1-hg-g1-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'La métropolisation concentre hommes, activités et pouvoirs dans les grandes villes.', answer: true, explain: 'Vrai.' },
+            { statement: 'La métropolisation touche tous les territoires de la même façon.', answer: false, explain: 'Faux : processus différencié, source d’inégalités.' },
+            { statement: 'Les fonctions de commandement se concentrent dans les métropoles.', answer: true, explain: 'Vrai : sièges, bourses, aéroports internationaux.' },
+          ],
+        },
       ],
     },
     {
@@ -2120,9 +2847,15 @@ const histoireP = {
       intro: 'Les **espaces productifs** se recomposent sous l’effet de la **mondialisation** et du numérique.',
       cours: [
         {
-          h: 'Une diversification des espaces et des acteurs',
+          h: 'Des espaces productifs qui se recomposent',
           blocks: [
-            { t: 'p', c: 'L’industrie se réorganise (délocalisations, **technopôles**), les **services** prennent une place croissante, l’agriculture se modernise. De nombreux **acteurs** interviennent : entreprises (dont les **firmes multinationales**), État, collectivités, acteurs locaux.' },
+            { t: 'p', c: 'Sous l’effet de la **mondialisation** et du **numérique**, les espaces productifs se transforment : l’**industrie** se réorganise (délocalisations, **technopôles**), les **services** prennent une place croissante (**tertiarisation**), l’**agriculture** se modernise.' },
+          ],
+        },
+        {
+          h: 'Une multiplicité d’acteurs',
+          blocks: [
+            { t: 'p', c: 'De nombreux **acteurs** interviennent dans la production et son organisation : les **entreprises** (dont les **firmes multinationales**, acteurs clés de la mondialisation), l’**État**, les **collectivités** territoriales et les **acteurs locaux**.' },
           ],
         },
       ],
@@ -2145,6 +2878,14 @@ const histoireP = {
             { front: 'FMN', back: 'Firme multinationale, acteur clé de la production mondialisée.' },
           ],
         },
+        {
+          id: 'p1-hg-g2-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Les services prennent une place croissante dans la production.', answer: true, explain: 'Vrai : tertiarisation.' },
+            { statement: 'Les firmes multinationales ne jouent aucun rôle dans la production.', answer: false, explain: 'Faux : ce sont des acteurs clés.' },
+            { statement: 'Un technopôle concentre des activités de haute technologie.', answer: true, explain: 'Vrai : technologie et recherche.' },
+          ],
+        },
       ],
     },
     {
@@ -2157,7 +2898,15 @@ const histoireP = {
         {
           h: 'Une multifonctionnalité croissante',
           blocks: [
-            { t: 'p', c: 'Les espaces ruraux ont des fonctions **résidentielle, touristique, écologique, économique**. Certains, proches des villes, se **périurbanisent** (habitat pavillonnaire) ; d’autres, isolés, déclinent ou se tournent vers le tourisme. Cette **multifonctionnalité** crée des **tensions** (usage des sols, cohabitation d’activités).' },
+            { t: 'p', c: 'Les espaces ruraux ne sont plus seulement agricoles : ils remplissent aujourd’hui **plusieurs fonctions** — **résidentielle**, **touristique**, **écologique** et **économique**.' },
+            { t: 'p', c: 'Certains, proches des villes, se **périurbanisent** (extension de l’habitat pavillonnaire) ; d’autres, isolés, **déclinent** ou se tournent vers le **tourisme**.' },
+          ],
+        },
+        {
+          h: 'Des tensions dans l’usage des sols',
+          blocks: [
+            { t: 'p', c: 'Cette **multifonctionnalité** fait cohabiter des usages parfois concurrents (agriculture, logement, loisirs, protection de la nature).' },
+            { t: 'p', c: 'Elle crée donc des **tensions** : conflits d’usage des sols, pression foncière près des villes, difficulté à maintenir les services dans les espaces isolés.' },
           ],
         },
       ],
@@ -2177,6 +2926,14 @@ const histoireP = {
           cards: [
             { front: 'Multifonctionnalité', back: 'Plusieurs fonctions : résidentielle, touristique, écologique, économique.' },
             { front: 'Périurbanisation', back: 'Extension de l’habitat autour des villes.' },
+          ],
+        },
+        {
+          id: 'p1-hg-g3-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Les espaces ruraux sont aujourd’hui multifonctionnels.', answer: true, explain: 'Vrai : résidentiel, tourisme, écologie, économie.' },
+            { statement: 'La périurbanisation est l’extension de l’habitat autour des villes.', answer: true, explain: 'Vrai.' },
+            { statement: 'La multifonctionnalité des espaces ruraux ne crée aucune tension.', answer: false, explain: 'Faux : tensions sur l’usage des sols.' },
           ],
         },
       ],
@@ -2334,15 +3091,27 @@ const languesP = {
       intro: 'Le programme s’organise autour de **8 axes culturels** (« Gestes fondateurs et mondes en mouvement ») et de **6 activités langagières**.',
       cours: [
         {
-          h: 'Les 8 axes',
+          h: 'Les 8 axes culturels',
           blocks: [
+            { t: 'p', c: 'Le programme s’organise autour de la thématique « **Gestes fondateurs et mondes en mouvement** », déclinée en **8 axes culturels** :' },
             { t: 'list', c: [
               '1. Identités et échanges — 2. Espace privé et espace public',
               '3. Art et pouvoir — 4. Citoyenneté et mondes virtuels',
               '5. Fictions et réalités — 6. Innovations scientifiques et responsabilité',
               '7. Diversité et inclusion — 8. Territoire et mémoire',
             ] },
-            { t: 'p', c: '**6 activités langagières** : compréhension orale/écrite, expression orale (continu et interaction), expression écrite, et **médiation** (reformuler, traduire ou expliquer un document).' },
+          ],
+        },
+        {
+          h: 'Les 6 activités langagières',
+          blocks: [
+            { t: 'p', c: 'On est évalué sur **6 activités langagières** :' },
+            { t: 'list', c: [
+              'la **compréhension** de l’oral et de l’écrit ;',
+              'l’**expression orale** en continu et en interaction ;',
+              'l’**expression écrite** ;',
+              'la **médiation** : reformuler, traduire ou expliquer un document à quelqu’un.',
+            ] },
           ],
         },
       ],
@@ -2362,6 +3131,14 @@ const languesP = {
           instruction: 'Remets les 4 premiers axes dans l’ordre officiel.',
           steps: ['Identités et échanges', 'Espace privé et espace public', 'Art et pouvoir', 'Citoyenneté et mondes virtuels'],
           explain: 'Les axes 1 à 4 dans l’ordre du programme.',
+        },
+        {
+          id: 'p1-lng-axes-flash', type: 'flashcard', title: 'Flashcards — Axes & activités', icon: '🃏',
+          cards: [
+            { front: 'Nombre d’axes', back: '8 axes culturels (« Gestes fondateurs et mondes en mouvement »).' },
+            { front: 'Médiation', back: 'Reformuler, traduire ou expliquer un document à quelqu’un.' },
+            { front: '6 activités langagières', back: 'CO, CE, EO (continu + interaction), EE, médiation.' },
+          ],
         },
       ],
     },

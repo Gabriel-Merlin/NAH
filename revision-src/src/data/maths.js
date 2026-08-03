@@ -30,6 +30,12 @@ export const maths = {
         'CM = 1 + t · CM global = produit des CM',
         'Indice = (valeur / référence) × 100',
       ],
+      essentiel: [
+        '**Taux d’évolution** : t = (V arrivée − V départ) / V départ ; **coefficient multiplicateur CM = 1 + t**.',
+        'Évolutions successives : on **multiplie** les CM (surtout ne pas additionner les taux).',
+        '**Taux moyen** : CM moyen = (CM global)^(1/n) ; **évolution réciproque** : 1/CM.',
+        '**Indice base 100** = (valeur / valeur de référence) × 100.',
+      ],
       games: [
         {
           id: 'math-c1-calc-t',
@@ -109,6 +115,11 @@ export const maths = {
         },
       ],
       formulas: ['Arithmétique : u_n = u_0 + n·r', 'Géométrique : u_n = u_0 × q^n'],
+      essentiel: [
+        'Suite **arithmétique** : on ajoute la raison r → u_n = u_0 + n·r (croissance **linéaire**).',
+        'Suite **géométrique** : on multiplie par la raison q → u_n = u_0 × q^n (croissance **exponentielle**).',
+        'Hausse/baisse de p % ⇒ raison **q = 1 ± p/100** (ex. −8 % → q = 0,92).',
+      ],
       games: [
         {
           id: 'math-c2-calc',
@@ -180,6 +191,12 @@ export const maths = {
         },
       ],
       formulas: ['Tangente : y = f’(a)(x − a) + f(a)', 'f’ > 0 ⇒ croissante · f’ < 0 ⇒ décroissante'],
+      essentiel: [
+        '**Nombre dérivé** f’(a) = coefficient directeur de la **tangente** en a.',
+        'Équation de la tangente : **y = f’(a)(x − a) + f(a)**.',
+        'Signe de f’ → variations : **f’ > 0 ⇒ croissante**, **f’ < 0 ⇒ décroissante**.',
+        '**Extremum** (optimisation coût/bénéfice) quand f’ **s’annule en changeant de signe**.',
+      ],
       games: [
         {
           id: 'math-c3-calc',
@@ -250,6 +267,11 @@ export const maths = {
         },
       ],
       formulas: ['Droite d’ajustement : y = ax + b (moindres carrés)'],
+      essentiel: [
+        '**Nuage de points** + **point moyen G** (coordonnées = moyennes de x et de y).',
+        '**Ajustement affine** par la méthode des **moindres carrés** : droite y = ax + b (calculatrice).',
+        '**Interpoler** (à l’intérieur des données) vs **extrapoler** (au-delà) pour faire des prévisions.',
+      ],
       games: [
         {
           id: 'math-c4-qcm',
@@ -317,6 +339,11 @@ export const maths = {
         },
       ],
       formulas: ['P_A(B) = P(A ∩ B) / P(A)', 'Indépendance : P(A ∩ B) = P(A) × P(B)'],
+      essentiel: [
+        '**Probabilité conditionnelle** : P_A(B) = P(A ∩ B) / P(A).',
+        '**Arbre pondéré** : on **multiplie** le long des branches ; les branches d’un même nœud **somment à 1**.',
+        '**Formule des probabilités totales** ; **indépendance** : P(A ∩ B) = P(A) × P(B).',
+      ],
       games: [
         {
           id: 'math-c5-calc',
@@ -378,14 +405,28 @@ export const maths = {
       keywords: 'épreuve de Bernoulli succès échec loi binomiale espérance n p',
       cours: [
         {
-          h: 'Bernoulli et binomiale',
+          h: 'L’épreuve de Bernoulli',
           points: [
-            'Épreuve de Bernoulli (succès p / échec 1 − p), schéma de n épreuves identiques et indépendantes.',
-            'Loi binomiale B(n ; p) ; espérance E(X) = n·p (calculs à la calculatrice).',
+            'Une **épreuve de Bernoulli** n’a que **deux issues** : le **succès** (probabilité p) et l’**échec** (probabilité 1 − p).',
+            'On répète cette même épreuve **n fois**, de façon **identique** et **indépendante** : c’est un **schéma de Bernoulli**.',
+            'Exemple : lancer une pièce truquée qui tombe sur pile (succès) avec p = 0,6, répété 10 fois.',
+          ],
+        },
+        {
+          h: 'La loi binomiale B(n ; p) et son espérance',
+          points: [
+            'Si X compte le **nombre de succès** sur les n épreuves du schéma, X suit la **loi binomiale B(n ; p)**.',
+            'On calcule P(X = k), P(X ⩽ k) directement à la **calculatrice** (menu loi binomiale).',
+            'L’**espérance** est **E(X) = n × p** : c’est le nombre moyen de succès attendu.',
           ],
         },
       ],
       formulas: ['E(X) = n × p pour X suivant B(n ; p)'],
+      essentiel: [
+        '**Épreuve de Bernoulli** : deux issues seulement, **succès (p)** / **échec (1 − p)**.',
+        '**Loi binomiale B(n ; p)** : nombre de succès sur n épreuves **identiques et indépendantes**.',
+        '**Espérance : E(X) = n × p**.',
+      ],
       games: [
         {
           id: 'math-c6-calc',
@@ -455,6 +496,11 @@ export const maths = {
         },
       ],
       formulas: ['Courbe en cloche : symétrique autour de la moyenne μ, dispersion σ'],
+      essentiel: [
+        '**Loi normale** : courbe **en cloche** symétrique autour de la moyenne **μ**.',
+        '**σ** (écart-type) règle la **dispersion** autour de μ.',
+        '**Intervalle de confiance** : estime une **proportion** (niveau ~95 %) — sondages, contrôle qualité.',
+      ],
       games: [
         {
           id: 'math-c7-qcm',

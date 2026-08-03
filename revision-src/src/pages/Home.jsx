@@ -22,7 +22,7 @@ export default function Home() {
     const chapters = realSubjects.flatMap((s) => s.chapters.map((c) => ({ sid: s.id, cid: c.id })))
     if (!chapters.length) return
     const pick = chapters[Math.floor(Math.random() * chapters.length)]
-    navigate(`/subject/${pick.sid}/chapter/${pick.cid}`)
+    navigate(`/subject/${pick.sid}/theme/${pick.cid}`)
   }
 
   const last = state.lastChapter ? getChapter(state.lastChapter.chapterId) : null
@@ -50,7 +50,7 @@ export default function Home() {
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {last ? (
-            <Link to={`/subject/${last.subjectId}/chapter/${last.id}`} className="btn bg-white/95 text-violet-700 hover:bg-white !py-2.5">
+            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn bg-white/95 text-violet-700 hover:bg-white !py-2.5">
               ▶ Reprendre : {last.short || last.name}
             </Link>
           ) : realSubjects[0] ? (

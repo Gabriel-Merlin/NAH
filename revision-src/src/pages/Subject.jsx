@@ -34,11 +34,11 @@ export default function Subject() {
               <span className="absolute inset-y-0 left-0 w-1.5" style={{ backgroundColor: subject.color }} />
               <div className="pl-2">
                 <div className="flex items-start justify-between gap-2">
-                  <Link to={`/subject/${sid}/chapter/${c.id}`} className="min-w-0 flex-1">
+                  <Link to={`/subject/${sid}/theme/${c.id}`} className="min-w-0 flex-1">
                     <h3 className="font-bold leading-snug hover:underline">{c.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
                       <Stars count={stars} />
-                      <span className="text-xs text-slate-500 dark:text-slate-400">{c.games.length} jeux · {score}%</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">{c.cours?.length || 0} chapitres · {c.games.length} jeux · {score}%</span>
                     </div>
                   </Link>
                   <button
@@ -52,7 +52,7 @@ export default function Subject() {
                 </div>
                 <div className="mt-3 flex items-center gap-3">
                   <ProgressBar value={score} color={subject.color} />
-                  <Link to={`/subject/${sid}/chapter/${c.id}`} className="btn shrink-0 !min-h-0 !px-4 !py-2 text-sm text-white" style={{ backgroundColor: subject.color }}>
+                  <Link to={`/subject/${sid}/theme/${c.id}`} className="btn shrink-0 !min-h-0 !px-4 !py-2 text-sm text-white" style={{ backgroundColor: subject.color }}>
                     Réviser →
                   </Link>
                 </div>

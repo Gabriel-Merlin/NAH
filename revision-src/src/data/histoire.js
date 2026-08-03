@@ -25,6 +25,12 @@ export const histoire = {
         },
       ],
       formulas: ['Repère : 1939-1945 · Shoah = génocide planifié et industrialisé'],
+      essentiel: [
+        'Repère : **Seconde Guerre mondiale, 1939-1945** ; idéologies totalitaires (**nazisme, stalinisme**).',
+        '**Guerre d’anéantissement** : violence de masse visant aussi les **civils**.',
+        '**Shoah** : génocide des Juifs et des Tsiganes, **planifié et industrialisé**.',
+        'La France : **Vichy collabore**, la **Résistance** combat ; bilan humain sans précédent + arme nucléaire (1945).',
+      ],
       games: [
         {
           id: 'hg-h1-qcm',
@@ -109,6 +115,11 @@ export const histoire = {
         },
       ],
       formulas: ['Repère : fin de l’URSS en 1991'],
+      essentiel: [
+        '**Guerre froide** : affrontement **indirect** Est/Ouest (deux blocs, dissuasion, crises).',
+        '**Décolonisation** : accès à l’indépendance des anciennes colonies.',
+        '**Fin de l’URSS en 1991** → passage d’un monde **bipolaire** à un monde **multipolaire**.',
+      ],
       games: [
         {
           id: 'hg-h2-qcm',
@@ -182,6 +193,11 @@ export const histoire = {
         },
       ],
       formulas: ['Thème conclusif : la France, une nouvelle place dans le monde (1945 → nos jours)'],
+      essentiel: [
+        'Après 1945 : **reconstruction** économique et matérielle de la France.',
+        'La France, **moteur de la construction européenne**.',
+        'Thème **conclusif** : la France cherche une **nouvelle place** dans le monde depuis 1945.',
+      ],
       games: [
         {
           id: 'hg-h3-qcm',
@@ -256,6 +272,11 @@ export const histoire = {
         },
       ],
       formulas: ['≈ 80 % du commerce mondial par voie maritime'],
+      essentiel: [
+        '**≈ 80 % du commerce mondial** transite par la mer : c’est la **maritimisation**.',
+        '**Conteneurisation**, grandes routes (**Suez, Panama, Malacca**), façades maritimes majeures.',
+        'Espaces d’**enjeux et de tensions** : ressources, **câbles sous-marins** (données), rivalités (mer de Chine méridionale), environnement (surpêche, pollution).',
+      ],
       games: [
         {
           id: 'hg-g1-qcm',
@@ -330,6 +351,11 @@ export const histoire = {
         },
       ],
       formulas: ['Métropolisation = concentration des hommes et des activités dans les métropoles'],
+      essentiel: [
+        '**Métropolisation** : concentration des hommes et des activités dans les **métropoles**.',
+        'Intégration **inégale** : **aires de puissance** vs **territoires en marge**.',
+        '**Acteurs** de la mondialisation : États, **firmes multinationales**, organisations.',
+      ],
       games: [
         {
           id: 'hg-g2-qcm',
@@ -406,6 +432,11 @@ export const histoire = {
         },
       ],
       formulas: ['Thème conclusif : la France et ses régions dans l’UE et la mondialisation'],
+      essentiel: [
+        'Territoires français : des **atouts** mais aussi des **inégalités régionales** et des contrastes.',
+        '**Rayonnement** de la France (ex. centre spatial de **Kourou**, en Guyane).',
+        'Thème **conclusif** : la France et ses régions dans l’**UE** et la **mondialisation**.',
+      ],
       games: [
         {
           id: 'hg-g3-qcm',

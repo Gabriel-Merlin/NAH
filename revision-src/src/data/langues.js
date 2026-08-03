@@ -39,6 +39,11 @@ export const langues = {
         'Conditionnel 2 : If + preterit, would + base verbale',
         'Passif = be + participe passé',
       ],
+      essentiel: [
+        '**Present perfect** (have/has + PP) = lien passé-présent (for, since, yet) ; **preterit** = action passée datée et terminée.',
+        '**Modaux** + base verbale ; **conditionnels** : type 1 (present → will), type 2 (preterit → would), type 3 (past perfect → would have).',
+        '**Passif** = be + participe passé ; **comparatifs** (cheaper / more expensive ; good → better → best).',
+      ],
       games: [
         {
           id: 'lng-en-gram-trou',
@@ -144,6 +149,11 @@ export const langues = {
         },
       ],
       formulas: ['Astuce : ficher le vocabulaire par axe et le réviser en flashcards.'],
+      essentiel: [
+        'Vocabulaire **management / ETLV** : turnover = CA, balance sheet = bilan, cash flow = trésorerie, break-even = seuil de rentabilité, shareholders = actionnaires, CSR = RSE.',
+        'Vocabulaire **par axe** : identités & échanges, innovations & responsabilité, citoyenneté & mondes virtuels.',
+        '**Méthode** : ficher le vocabulaire par axe et le mémoriser en flashcards.',
+      ],
       games: [
         {
           id: 'lng-en-voc-memory',
@@ -248,6 +258,11 @@ export const langues = {
         'Ser = permanent · Estar = état/lieu temporaire',
         'Indefinido = action datée · Imperfecto = décor/habitude',
       ],
+      essentiel: [
+        '**Ser** = permanent (identité, origine, heure, profession) ; **Estar** = état, lieu, situation temporaire.',
+        '**Indefinido** = action passée datée et ponctuelle ; **Imperfecto** = description, habitude, arrière-plan.',
+        '**Futur** (infinitif + terminaisons) ; **obligation** : tener que / hay que / deber ; tournures en **gustar** (accord avec la chose aimée).',
+      ],
       games: [
         {
           id: 'lng-es-gram-tri-serestar',
@@ -339,15 +354,28 @@ export const langues = {
       keywords: 'vocabulario migración memoria trabajo empresa paro sueldo medio ambiente',
       cours: [
         {
-          h: 'Vocabulaire par axes',
+          h: 'Identités, échanges, territoire et mémoire',
           points: [
-            'Identités & échanges : la migración, la frontera, el exilio, la integración, las raíces.',
-            'Territoire & mémoire : la memoria, la dictadura, la democracia, el patrimonio.',
-            'Monde du travail (utile en STMG) : la empresa, el trabajo, el paro (chômage), el sueldo (salaire), el cliente.',
+            'Identités & échanges : **la migración** (la migration), **la frontera** (la frontière), **el exilio** (l’exil), **la integración**, **las raíces** (les racines).',
+            'Territoire & mémoire : **la memoria** (la mémoire), **la dictadura**, **la democracia**, **el patrimonio** (le patrimoine).',
+            'Environnement : **el medio ambiente** (l’environnement), **el cambio climático** (le changement climatique).',
+          ],
+        },
+        {
+          h: 'Le monde du travail et de l’entreprise (utile en STMG)',
+          points: [
+            'Entreprise & emploi : **la empresa** (l’entreprise), **el trabajo** (le travail), **el paro** (le chômage), **el sueldo** (le salaire).',
+            'Échanges & marché : **el cliente** (le client), **el mercado** (le marché), **la venta** (la vente).',
+            '**Méthode** : voir chaque mot en **contexte** (WordReference / Linguee), puis le fixer en **flashcards**.',
           ],
         },
       ],
       formulas: ['Astuce : WordReference / Linguee pour voir les mots en contexte.'],
+      essentiel: [
+        'Vocabulaire par **axes** : migration & échanges, territoire & mémoire, monde du travail.',
+        'Utile en STMG : **la empresa** (entreprise), **el trabajo**, **el paro** (chômage), **el sueldo** (salaire), **el cliente**.',
+        '**Méthode** : voir les mots en contexte (WordReference / Linguee) et les fixer en flashcards.',
+      ],
       games: [
         {
           id: 'lng-es-voc-memory',
@@ -449,6 +477,11 @@ export const langues = {
         },
       ],
       formulas: ['Session 2026 : le programme à 8 axes fait foi.'],
+      essentiel: [
+        '**8 axes culturels** : identités & échanges · espace privé/public · art & pouvoir · citoyenneté & mondes virtuels · fictions & réalités · innovations & responsabilité · diversité & inclusion · territoire & mémoire.',
+        '**6 activités langagières** : CO, CE, EO en continu, EO en interaction, EE, médiation.',
+        '**Oral** : 20 min dont 10 de préparation ; choix entre 3 axes.',
+      ],
       games: [
         {
           id: 'lng-axes-qcm',
