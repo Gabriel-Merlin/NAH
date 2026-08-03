@@ -354,11 +354,19 @@ export const langues = {
       keywords: 'vocabulario migración memoria trabajo empresa paro sueldo medio ambiente',
       cours: [
         {
-          h: 'Vocabulaire par axes',
+          h: 'Identités, échanges, territoire et mémoire',
           points: [
-            'Identités & échanges : la migración, la frontera, el exilio, la integración, las raíces.',
-            'Territoire & mémoire : la memoria, la dictadura, la democracia, el patrimonio.',
-            'Monde du travail (utile en STMG) : la empresa, el trabajo, el paro (chômage), el sueldo (salaire), el cliente.',
+            'Identités & échanges : **la migración** (la migration), **la frontera** (la frontière), **el exilio** (l’exil), **la integración**, **las raíces** (les racines).',
+            'Territoire & mémoire : **la memoria** (la mémoire), **la dictadura**, **la democracia**, **el patrimonio** (le patrimoine).',
+            'Environnement : **el medio ambiente** (l’environnement), **el cambio climático** (le changement climatique).',
+          ],
+        },
+        {
+          h: 'Le monde du travail et de l’entreprise (utile en STMG)',
+          points: [
+            'Entreprise & emploi : **la empresa** (l’entreprise), **el trabajo** (le travail), **el paro** (le chômage), **el sueldo** (le salaire).',
+            'Échanges & marché : **el cliente** (le client), **el mercado** (le marché), **la venta** (la vente).',
+            '**Méthode** : voir chaque mot en **contexte** (WordReference / Linguee), puis le fixer en **flashcards**.',
           ],
         },
       ],

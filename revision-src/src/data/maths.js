@@ -405,10 +405,19 @@ export const maths = {
       keywords: 'épreuve de Bernoulli succès échec loi binomiale espérance n p',
       cours: [
         {
-          h: 'Bernoulli et binomiale',
+          h: 'L’épreuve de Bernoulli',
           points: [
-            'Épreuve de Bernoulli (succès p / échec 1 − p), schéma de n épreuves identiques et indépendantes.',
-            'Loi binomiale B(n ; p) ; espérance E(X) = n·p (calculs à la calculatrice).',
+            'Une **épreuve de Bernoulli** n’a que **deux issues** : le **succès** (probabilité p) et l’**échec** (probabilité 1 − p).',
+            'On répète cette même épreuve **n fois**, de façon **identique** et **indépendante** : c’est un **schéma de Bernoulli**.',
+            'Exemple : lancer une pièce truquée qui tombe sur pile (succès) avec p = 0,6, répété 10 fois.',
+          ],
+        },
+        {
+          h: 'La loi binomiale B(n ; p) et son espérance',
+          points: [
+            'Si X compte le **nombre de succès** sur les n épreuves du schéma, X suit la **loi binomiale B(n ; p)**.',
+            'On calcule P(X = k), P(X ⩽ k) directement à la **calculatrice** (menu loi binomiale).',
+            'L’**espérance** est **E(X) = n × p** : c’est le nombre moyen de succès attendu.',
           ],
         },
       ],
