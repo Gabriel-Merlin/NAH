@@ -543,35 +543,121 @@ const sgn = {
         'Les technologies numériques transforment l’**information** en véritable **ressource** stratégique et permettent de travailler collectivement mieux et plus vite.',
       cours: [
         {
-          h: 'La chaîne donnée → information → connaissance',
+          h: 'De la donnée à la connaissance',
           blocks: [
-            { t: 'list', c: [
-              '**Donnée** : élément brut, isolé, sans interprétation (ex. « 35 »).',
-              '**Information** : donnée **mise en contexte**, qui a du sens (« le projet X a nécessité 35 heures »).',
-              '**Connaissance** : information **assimilée et mobilisable** pour agir (« nos projets de ce type prennent ~35 h, il faut donc les facturer au moins tel montant »).',
+            { t: 'p', c: 'Le numérique manipule d’abord des **données**, qui deviennent utiles lorsqu’elles sont mises en sens. Trois niveaux à bien distinguer :' },
+            { t: 'table', head: ['Niveau', 'Définition', 'Exemple'], rows: [
+              ['**Donnée**', 'Élément **brut**, isolé, sans interprétation', '« 35 »'],
+              ['**Information**', 'Donnée **mise en contexte**, qui a du sens', '« Le projet X a nécessité 35 heures »'],
+              ['**Connaissance**', 'Information **assimilée et mobilisable** pour agir', '« Nos projets de ce type prennent ~35 h : il faut les facturer au moins tel montant »'],
             ] },
+            { t: 'p', c: 'La **connaissance** appartient aux personnes et à l’organisation : c’est elle qui permet de **décider** et d’**agir**. Tout l’enjeu du numérique est de faire circuler la donnée jusqu’à la connaissance.' },
           ],
         },
         {
-          h: 'Le système d’information et le PGI',
+          h: 'Les caractéristiques et la qualité de l’information',
           blocks: [
-            { t: 'p', c: 'Le **système d’information (SI)** est l’ensemble organisé des ressources (matériels, logiciels, données, procédures, personnes) qui **collecte, stocke, traite et diffuse** l’information. Il **structure** l’organisation et relie les services.' },
-            { t: 'p', c: 'Le **PGI (ERP)** est un logiciel unique reposant sur une **base de données unique** partagée par toutes les fonctions.' },
-            { t: 'example', h: 'Exemple', c: 'Une vente enregistrée met automatiquement à jour le stock, la facturation et la comptabilité → plus de **double saisie**, information **fiabilisée**.' },
+            { t: 'p', c: 'Une information n’a de valeur que si elle est de **qualité**. On juge sa qualité selon plusieurs critères :' },
+            { t: 'list', c: [
+              '**exacte / fiable** : elle correspond à la réalité ;',
+              '**pertinente** : elle est utile à la décision à prendre ;',
+              '**disponible à temps** : une information juste mais trop tardive est inutile ;',
+              '**complète** et **compréhensible** par son destinataire.',
+            ] },
+            { t: 'p', c: 'On distingue aussi l’information selon son **origine** (interne / externe) et sa **nature** (formelle, écrite / informelle, orale).' },
+            { t: 'warning', c: 'Une information de **mauvaise qualité** (fausse, incomplète, en retard) conduit à de **mauvaises décisions**. « Garbage in, garbage out » : des données pourries en entrée donnent des résultats pourris en sortie.' },
           ],
         },
         {
-          h: 'Intelligence collective et risques',
+          h: 'L’information, une ressource stratégique',
           blocks: [
-            { t: 'p', c: 'Les outils numériques (messagerie, agendas partagés, cloud) permettent l’**intelligence collective** : le groupe, en partageant idées et connaissances, produit **mieux que la somme des individus isolés**.' },
-            { t: 'warning', c: 'Risques : **sécurité** des données (piratage, virus), **protection des données personnelles** (vie privée, **RGPD**), dépendance technologique. Il faut protéger la **disponibilité**, l’**intégrité** et la **confidentialité** des informations.' },
+            { t: 'p', c: 'Aujourd’hui, l’**information** est une **ressource** au même titre que les hommes, les machines ou le capital. Bien exploitée, elle procure un **avantage** : mieux connaître ses clients, anticiper le marché, piloter l’activité.' },
+            { t: 'p', c: 'Les organisations collectent d’énormes volumes de données (**big data**) qu’elles analysent pour aider la décision. La donnée est parfois qualifiée d’« **or noir** » du XXIᵉ siècle.' },
+            { t: 'example', h: 'La donnée qui crée de la valeur', c: 'Un site e-commerce enregistre les achats et la navigation de ses clients. \n→ En **analysant** ces données, il recommande des produits pertinents, ajuste ses stocks et ses prix : l’information brute est transformée en **valeur** et en performance commerciale.' },
+          ],
+        },
+        {
+          h: 'Le système d’information (SI) : définition et rôles',
+          blocks: [
+            { t: 'p', c: 'Le **système d’information (SI)** est l’ensemble **organisé** des ressources — **matériels, logiciels, données, procédures et personnes** — qui gère l’information dans l’organisation. Attention : le SI ne se réduit **pas** à l’informatique ; il inclut les humains et les procédures.' },
+            { t: 'p', c: 'Le SI remplit **quatre fonctions** principales :' },
+            { t: 'table', head: ['Fonction', 'Rôle'], rows: [
+              ['**Collecter**', 'Saisir / acquérir les données (ventes, stocks…)'],
+              ['**Stocker**', 'Conserver durablement et en sécurité (bases de données)'],
+              ['**Traiter**', 'Trier, calculer, croiser les données'],
+              ['**Diffuser**', 'Mettre l’information à disposition des bonnes personnes'],
+            ] },
+            { t: 'p', c: 'Le SI **structure** l’organisation, **relie les services** entre eux et sert de support à la **prise de décision** à tous les niveaux.' },
+          ],
+        },
+        {
+          h: 'Les bases de données',
+          blocks: [
+            { t: 'p', c: 'Le cœur d’un SI est souvent une **base de données** : un ensemble de données **organisées** et **structurées**, stockées de façon à être facilement **recherchées** et **mises à jour**.' },
+            { t: 'p', c: 'Elle évite la **redondance** (une même information stockée en double, source d’erreurs) et garantit la **cohérence** : l’information est saisie **une seule fois** et partagée.' },
+            { t: 'tip', c: 'Une base de données bien conçue, c’est comme un classeur parfaitement rangé : chaque information a **une place unique**, on la retrouve vite et on est sûr qu’elle est à jour partout.' },
+          ],
+        },
+        {
+          h: 'Le PGI (ERP) : un système intégré',
+          blocks: [
+            { t: 'p', c: 'Le **PGI** (Progiciel de Gestion Intégré, en anglais **ERP**) est un **logiciel unique** qui gère toutes les fonctions de l’entreprise (ventes, achats, stocks, comptabilité, paie…) en s’appuyant sur une **base de données unique** partagée.' },
+            { t: 'table', head: ['Avantages du PGI', 'Limites du PGI'], rows: [
+              ['Une **seule saisie** (pas de double saisie)', 'Coût d’achat et d’installation élevé'],
+              ['Information **cohérente** et à jour partout', 'Projet long et complexe à déployer'],
+              ['Meilleure **coordination** entre services', 'Rigidité, forte dépendance au logiciel'],
+            ] },
+            { t: 'example', h: 'L’effet d’un PGI', c: 'Une vente saisie en caisse met **automatiquement** à jour le stock, déclenche la facturation et l’écriture comptable. \n→ Plus de **double saisie**, information **fiabilisée** et disponible en temps réel pour tous les services.' },
+          ],
+        },
+        {
+          h: 'Le travail collaboratif',
+          blocks: [
+            { t: 'p', c: 'Le **travail collaboratif** consiste à travailler **ensemble** sur un même objectif grâce à des **outils numériques** partagés : messagerie, **agendas partagés**, **cloud** (documents en ligne), visioconférence, outils de gestion de projet.' },
+            { t: 'list', c: [
+              'on travaille à **plusieurs sur un même document**, en même temps ;',
+              'l’information est **centralisée** et accessible partout, à distance ;',
+              'la **coordination** est plus rapide (notifications, historique des versions).',
+            ] },
+            { t: 'p', c: 'Ces outils permettent aussi le **télétravail** et le travail entre équipes éloignées géographiquement.' },
+          ],
+        },
+        {
+          h: 'L’intelligence collective',
+          blocks: [
+            { t: 'p', c: 'L’**intelligence collective** est la capacité d’un groupe à produire, en **partageant** idées et connaissances, un résultat **supérieur à la somme des contributions individuelles**. Le numérique la démultiplie.' },
+            { t: 'p', c: 'Elle repose sur le **partage des connaissances**, la **coopération** et des outils qui gardent la **mémoire** collective (wikis, forums internes, réseaux sociaux d’entreprise).' },
+            { t: 'example', h: 'Intelligence collective en action', c: 'Sur un forum interne, un technicien pose une question ; trois collègues de sites différents répondent, un quatrième complète. \n→ La solution, meilleure que ce que chacun aurait trouvé seul, reste **archivée** et profite à toute l’entreprise plus tard.' },
+          ],
+        },
+        {
+          h: 'La sécurité du système d’information',
+          blocks: [
+            { t: 'p', c: 'Concentrer l’information crée des **risques** : panne, piratage, virus, vol ou perte de données, erreur humaine. Protéger le SI, c’est garantir **trois exigences** (le triptyque **DIC**) :' },
+            { t: 'table', head: ['Exigence', 'Signification'], rows: [
+              ['**Disponibilité**', 'L’information est accessible **quand on en a besoin**'],
+              ['**Intégrité**', 'L’information est **exacte** et non modifiée par erreur ou malveillance'],
+              ['**Confidentialité**', 'Seules les **personnes autorisées** y ont accès'],
+            ] },
+            { t: 'p', c: 'Moyens de protection : **mots de passe** et droits d’accès, **antivirus** et pare-feu, **sauvegardes** régulières, **chiffrement**, sensibilisation des salariés.' },
+          ],
+        },
+        {
+          h: 'Données personnelles, RGPD et éthique',
+          blocks: [
+            { t: 'p', c: 'Une **donnée personnelle** est toute information permettant d’identifier une personne (nom, e-mail, adresse IP, photo…). Leur usage est strictement encadré.' },
+            { t: 'p', c: 'Le **RGPD** (Règlement Général sur la Protection des Données, 2018) impose notamment : le **consentement** de la personne, le droit d’**accès**, de **rectification** et à l’**oubli**, la **minimisation** (ne collecter que le nécessaire). En France, la **CNIL** veille à son respect et peut sanctionner.' },
+            { t: 'warning', c: 'Chaque personne laisse une **identité numérique** (traces, publications) qui la suit durablement. Enjeux **éthiques** : respect de la **vie privée**, lutte contre la **surveillance** abusive et contre les usages discriminatoires des données.' },
           ],
         },
       ],
       essentiel: [
         '**Donnée** (brute) → **information** (mise en sens) → **connaissance** (mobilisable pour agir).',
-        'Le **SI** collecte, stocke, traite et diffuse l’information ; le **PGI** repose sur une base unique.',
-        '**Intelligence collective** grâce aux outils collaboratifs ; enjeux de **sécurité** et de **RGPD**.',
+        'Une information utile est de **qualité** : fiable, pertinente, disponible à temps ; c’est une **ressource** stratégique (big data).',
+        'Le **SI** (matériels + logiciels + données + procédures + **personnes**) **collecte, stocke, traite, diffuse** l’information ; il s’appuie sur des **bases de données**.',
+        'Le **PGI (ERP)** = logiciel unique à **base de données unique** : une seule saisie, information cohérente (mais coûteux, rigide).',
+        '**Travail collaboratif** et **intelligence collective** : produire mieux ensemble grâce aux outils partagés (cloud, agendas, réseaux).',
+        'Sécurité = **Disponibilité, Intégrité, Confidentialité** (DIC) ; **données personnelles** protégées par le **RGPD** (CNIL, consentement, droit à l’oubli).',
       ],
       resources: [
         { kind: 'video', label: 'Donnée, information, connaissance', note: 'Vidéos — recherche YouTube', url: yt('donnée information connaissance système information PGI première STMG') },
@@ -610,6 +696,49 @@ const sgn = {
           ],
         },
         {
+          id: 'p1-sgn-t2-tri',
+          type: 'tri',
+          title: 'Tri — Donnée, information ou connaissance ?',
+          icon: '🗂️',
+          instruction: 'Classe chaque élément.',
+          categories: [
+            { id: 'd', label: 'Donnée' },
+            { id: 'i', label: 'Information' },
+            { id: 'c', label: 'Connaissance' },
+          ],
+          items: [
+            { text: '« 35 »', cat: 'd' },
+            { text: '« Le projet X a nécessité 35 heures »', cat: 'i' },
+            { text: '« Nos projets de ce type prennent ~35 h, facturons en conséquence »', cat: 'c' },
+            { text: 'Une température : « 8 »', cat: 'd' },
+            { text: '« Il fait 8 °C ce matin à l’entrepôt »', cat: 'i' },
+          ],
+        },
+        {
+          id: 'p1-sgn-t2-assoc',
+          type: 'association',
+          title: 'Association — Notion ↔ définition',
+          icon: '🔗',
+          pairs: [
+            { left: 'Système d’information', right: 'Collecte, stocke, traite et diffuse l’information' },
+            { left: 'Base de données', right: 'Données structurées, saisies une seule fois' },
+            { left: 'PGI / ERP', right: 'Logiciel unique à base de données unique' },
+            { left: 'RGPD', right: 'Protège les données personnelles' },
+            { left: 'Intelligence collective', right: 'Produire mieux ensemble en partageant' },
+          ],
+        },
+        {
+          id: 'p1-sgn-t2-trou',
+          type: 'trou',
+          title: 'Texte à trous — Sécurité & données',
+          icon: '✏️',
+          questions: [
+            { text: 'La sécurité du SI protège la disponibilité, l’intégrité et la ____.', answer: 'confidentialité', explain: 'Le triptyque DIC : Disponibilité, Intégrité, Confidentialité.' },
+            { text: 'Le ____ encadre l’usage des données personnelles depuis 2018.', answer: 'RGPD', explain: 'Règlement Général sur la Protection des Données ; la CNIL veille à son respect.' },
+            { text: 'Le PGI repose sur une base de données ____.', answer: 'unique', explain: 'Une base unique évite les doubles saisies et fiabilise l’information.' },
+          ],
+        },
+        {
           id: 'p1-sgn-t2-flash',
           type: 'flashcard',
           title: 'Flashcards — Numérique',
@@ -632,42 +761,95 @@ const sgn = {
         'Toute organisation cherche à **créer de la valeur** et à mesurer sa **performance**, c’est-à-dire à vérifier qu’elle atteint bien ses objectifs.',
       cours: [
         {
-          h: 'Les formes de valeur',
+          h: 'Qu’est-ce que la valeur ?',
           blocks: [
-            { t: 'list', c: [
-              '**Valeur marchande** : le prix qu’un client accepte de payer.',
-              '**Valeur perçue** : la valeur que le client **croit** obtenir (image, qualité ressentie, marque) — parfois supérieure au coût réel.',
-              '**Valeur partenariale** : la valeur créée et **partagée** entre toutes les **parties prenantes** (salariés, actionnaires, État, fournisseurs, clients).',
+            { t: 'p', c: 'Toute organisation existe pour **créer de la valeur** : produire quelque chose d’**utile** pour lequel quelqu’un est prêt à payer ou qui rend un service. Mais « la valeur » n’a pas un seul sens — elle se regarde sous plusieurs angles.' },
+            { t: 'p', c: 'On distingue notamment la valeur **du point de vue du marché** (le prix), **du point de vue du client** (ce qu’il ressent) et **du point de vue de tous les acteurs** (la valeur partagée). Les trois se complètent.' },
+          ],
+        },
+        {
+          h: 'La valeur marchande et le prix',
+          blocks: [
+            { t: 'p', c: 'La **valeur marchande** est le **prix** qu’un client accepte de payer pour un bien ou un service. Sur un marché, ce prix résulte de la rencontre entre l’**offre** et la **demande**.' },
+            { t: 'p', c: 'Le prix envoie un signal : trop élevé, il fait fuir les clients ; trop bas, il réduit la marge et peut faire douter de la qualité. Le fixer est un **arbitrage** stratégique.' },
+          ],
+        },
+        {
+          h: 'La valeur perçue par le client',
+          blocks: [
+            { t: 'p', c: 'La **valeur perçue** est la valeur que le client **croit** obtenir : elle dépend de l’**image**, de la **marque**, de la **qualité ressentie**, du service, de l’expérience d’achat. Elle est **subjective** et peut être très supérieure au coût réel.' },
+            { t: 'example', h: 'La force de la valeur perçue', c: 'Deux tee-shirts de qualité identique : l’un sans marque à 8 €, l’autre floqué d’un logo réputé à 45 €. \n→ La différence de prix ne vient pas du coût de production mais de la **valeur perçue** (image, statut). Travailler cette valeur perçue permet de vendre plus cher.' },
+          ],
+        },
+        {
+          h: 'La valeur ajoutée',
+          blocks: [
+            { t: 'p', c: 'La **valeur ajoutée** mesure la **richesse réellement créée** par l’organisation : c’est la différence entre ce qu’elle produit et ce qu’elle a dû acheter à d’autres pour le produire (les consommations intermédiaires).' },
+            { t: 'formula', c: 'Valeur ajoutée = production − consommations intermédiaires' },
+            { t: 'p', c: 'Cette valeur ajoutée est ensuite **répartie** entre ceux qui ont contribué : salariés (salaires), État (impôts), banques (intérêts), propriétaires (bénéfices), et l’entreprise elle-même (autofinancement).' },
+          ],
+        },
+        {
+          h: 'La valeur partenariale et les parties prenantes',
+          blocks: [
+            { t: 'p', c: 'La **valeur partenariale** est la valeur créée puis **partagée** entre toutes les **parties prenantes** de l’organisation, et pas seulement les propriétaires.' },
+            { t: 'p', c: 'Une **partie prenante** est tout acteur concerné par l’activité de l’organisation :' },
+            { t: 'table', head: ['Parties prenantes internes', 'Parties prenantes externes'], rows: [
+              ['Salariés, dirigeants, actionnaires', 'Clients, fournisseurs, banques'],
+              ['', 'État, collectivités, associations, riverains'],
             ] },
+            { t: 'p', c: 'Chaque partie prenante attend sa part : salaire, dividende, impôt, produit de qualité… Créer de la valeur **partenariale**, c’est chercher à satisfaire durablement cet ensemble d’acteurs.' },
           ],
         },
         {
-          h: 'Prix, coût, marge',
+          h: 'Coût, prix et marge',
           blocks: [
-            { t: 'p', c: 'Le **coût** est ce que dépense l’entreprise pour produire (les **charges**). Le **prix** est ce que paie le client, largement fixé par le **marché**.' },
+            { t: 'p', c: 'Le **coût** est ce que l’organisation **dépense** pour produire (l’ensemble des **charges** : matières, salaires, énergie…). Le **prix** est ce que **paie le client**, largement fixé par le marché.' },
             { t: 'formula', c: 'Marge = prix de vente − coût' },
-            { t: 'example', h: 'Exemple', c: 'Un site vitrine vendu 900 € qui coûte 560 € dégage une marge de **340 €**. Baisser le prix à 750 € réduit la marge à **190 €** : c’est un arbitrage entre compétitivité et rentabilité.' },
+            { t: 'example', h: 'L’arbitrage prix / marge', c: 'Un site vitrine vendu 900 € qui coûte 560 € dégage une marge de **340 €**. \n→ Baisser le prix à 750 € pour être plus compétitif réduit la marge à **190 €**. \nC’est un **arbitrage** permanent entre compétitivité (attirer le client) et rentabilité (gagner de l’argent).' },
           ],
         },
         {
-          h: 'Efficacité, efficience et indicateurs',
+          h: 'La performance : efficacité et efficience',
           blocks: [
-            { t: 'p', c: '**Efficacité** = atteindre l’objectif fixé. **Efficience** = l’atteindre **au moindre coût**. Une organisation performante est efficace **et** efficiente.' },
-            { t: 'p', c: 'On pilote avec des **indicateurs**, réunis dans un **tableau de bord**. La performance a plusieurs dimensions :' },
-            { t: 'table', head: ['Dimension', 'Indicateurs'], rows: [
-              ['Commerciale', 'Clients, part de marché, satisfaction'],
-              ['Financière', 'Résultat, marge, chiffre d’affaires'],
-              ['Sociale', 'Satisfaction des salariés, turnover, formation'],
+            { t: 'p', c: 'La **performance**, c’est atteindre ses **objectifs**. Mais bien piloter suppose de distinguer deux notions souvent confondues :' },
+            { t: 'table', head: ['Efficacité', 'Efficience'], rows: [
+              ['**Atteindre l’objectif** fixé', 'Atteindre l’objectif **au moindre coût** (moins de moyens)'],
+              ['« Ai-je réussi ? »', '« À quel prix / avec quels moyens ai-je réussi ? »'],
+            ] },
+            { t: 'p', c: 'Une organisation **performante** est à la fois **efficace** ET **efficiente** : elle atteint ses buts en utilisant au mieux ses ressources.' },
+            { t: 'warning', c: 'On peut être **efficace sans être efficient** : livrer à temps (efficace) mais en gaspillant énormément de moyens (peu efficient). La vraie performance combine les deux.' },
+          ],
+        },
+        {
+          h: 'Mesurer la performance : indicateurs et tableau de bord',
+          blocks: [
+            { t: 'p', c: 'Pour piloter, on utilise des **indicateurs** : des mesures chiffrées (**quantitatifs** : CA, part de marché) ou d’appréciation (**qualitatifs** : satisfaction). On compare le **réalisé** à l’**objectif**.' },
+            { t: 'p', c: 'Ces indicateurs sont réunis dans un **tableau de bord** : un outil de **pilotage** synthétique qui permet, d’un coup d’œil, de voir si l’organisation va dans la bonne direction et de **réagir** vite.' },
+            { t: 'tip', c: 'Un bon indicateur est **utile** (lié à un objectif), **fiable** et **disponible à temps**. Trop d’indicateurs noient l’information : mieux vaut quelques indicateurs bien choisis.' },
+          ],
+        },
+        {
+          h: 'Les dimensions de la performance (dont la RSE)',
+          blocks: [
+            { t: 'p', c: 'La performance n’est pas que financière : elle est **globale** et se mesure sur plusieurs dimensions.' },
+            { t: 'table', head: ['Dimension', 'Exemples d’indicateurs'], rows: [
+              ['Commerciale', 'Clients, part de marché, satisfaction, fidélité'],
+              ['Financière', 'Résultat, marge, chiffre d’affaires, rentabilité'],
+              ['Sociale', 'Satisfaction des salariés, turnover, formation, climat'],
               ['Environnementale', 'Énergie, déchets, empreinte carbone'],
             ] },
+            { t: 'p', c: 'Prendre en compte les dimensions **sociale** et **environnementale** relève de la **RSE** (Responsabilité Sociétale des Entreprises) : l’organisation intègre volontairement des préoccupations sociales et écologiques, au-delà du seul profit. C’est un axe de **valeur partenariale** durable.' },
           ],
         },
       ],
       essentiel: [
-        'Trois valeurs : **marchande** (prix payé), **perçue** (crue par le client), **partenariale** (partagée entre parties prenantes).',
-        '**Marge = prix de vente − coût** ; le prix est largement fixé par le marché.',
-        '**Efficacité** (atteindre l’objectif) vs **efficience** (au moindre coût).',
-        'Indicateurs (commerciaux, financiers, **sociaux**, environnementaux) réunis dans un **tableau de bord**.',
+        'La **valeur** se regarde sous plusieurs angles : **marchande** (prix payé), **perçue** (crue par le client : image, marque), **ajoutée** (richesse créée), **partenariale** (partagée entre parties prenantes).',
+        '**Valeur ajoutée = production − consommations intermédiaires** ; elle est répartie entre salariés, État, banques, propriétaires.',
+        '**Parties prenantes** : internes (salariés, actionnaires) et externes (clients, fournisseurs, État…).',
+        '**Marge = prix de vente − coût** ; le prix est largement fixé par le marché (arbitrage compétitivité / rentabilité).',
+        '**Efficacité** (atteindre l’objectif) vs **efficience** (au moindre coût) : la performance combine les deux.',
+        'On pilote avec des **indicateurs** (quantitatifs / qualitatifs) réunis dans un **tableau de bord** ; performance **globale** : commerciale, financière, **sociale**, **environnementale** (**RSE**).',
       ],
       resources: [
         { kind: 'video', label: 'Création de valeur et performance', note: 'Vidéos — recherche YouTube', url: yt('création de valeur performance efficacité efficience première STMG') },
@@ -729,35 +911,109 @@ const sgn = {
         'Gérer, c’est agir dans un monde incertain. Deux contraintes s’imposent toujours : le **temps** et le **risque**. Les ignorer, c’est s’exposer à l’échec.',
       cours: [
         {
-          h: 'Le temps',
+          h: 'Le temps, ressource et contrainte',
           blocks: [
-            { t: 'p', c: 'Le temps est à la fois une **ressource** (qu’on peut organiser, planifier) et une **contrainte** (les délais s’imposent). Il intervient via les **délais de réaction**, les **cycles** (production, vie d’un produit) et les **échéances** (livraison, paiement).' },
-            { t: 'tip', c: 'Bien gérer le temps, c’est **anticiper** : planifier les commandes pour ne jamais être en rupture, étaler les paiements pour préserver la trésorerie.' },
+            { t: 'p', c: 'Gérer, c’est agir **dans le temps**. Le temps a une double nature :' },
+            { t: 'table', head: ['Le temps comme RESSOURCE', 'Le temps comme CONTRAINTE'], rows: [
+              ['On peut l’**organiser** et le **planifier**', 'Les **délais** s’imposent à nous'],
+              ['« De combien de temps je dispose ? »', '« La commande doit partir vendredi »'],
+            ] },
+            { t: 'p', c: 'Le temps intervient partout : **délais** de réaction et de livraison, **cycles** (production, vie d’un produit), **échéances** (paiement, déclaration). Bien le gérer, c’est un **avantage concurrentiel** (livrer plus vite, réagir avant les autres).' },
           ],
         },
         {
-          h: 'Le risque',
+          h: 'Les horizons de décision : court, moyen, long terme',
           blocks: [
-            { t: 'p', c: 'Un **risque** est un **événement incertain aux conséquences négatives possibles**. Gérer, c’est nécessairement en prendre. Les principaux types :' },
+            { t: 'p', c: 'Une décision ne se raisonne pas sur la même durée selon son importance. On distingue trois **horizons** :' },
+            { t: 'table', head: ['Horizon', 'Durée', 'Exemple de décision'], rows: [
+              ['Court terme', 'Jours à un an', 'Gérer les stocks, planifier la semaine'],
+              ['Moyen terme', 'De 1 à ~3 ans', 'Recruter, lancer un produit'],
+              ['Long terme', 'Plusieurs années', 'Ouvrir une usine, changer de stratégie'],
+            ] },
+            { t: 'p', c: 'Plus l’horizon est **lointain**, plus l’avenir est **incertain** — donc plus la décision comporte de **risque**. C’est le lien entre les deux notions du thème.' },
+          ],
+        },
+        {
+          h: 'Planifier et organiser le temps',
+          blocks: [
+            { t: 'p', c: 'La **planification** consiste à **prévoir** les actions dans le temps : quoi faire, quand, avec quels moyens. Elle évite l’improvisation et les retards.' },
+            { t: 'p', c: 'Des outils aident à visualiser le temps : le **planning**, le **rétroplanning** (partir de la date finale et remonter), le **diagramme de Gantt** (les tâches sur une frise), les **agendas partagés**.' },
+            { t: 'tip', c: 'Anticiper, c’est planifier les commandes pour ne **jamais être en rupture**, et étaler les paiements pour préserver la **trésorerie**. « Un bon gestionnaire ne subit pas le temps, il l’organise. »' },
+          ],
+        },
+        {
+          h: 'Les cycles et le cycle de vie',
+          blocks: [
+            { t: 'p', c: 'Beaucoup de phénomènes se répètent dans le temps : ce sont des **cycles**. En gestion, on suit notamment le **cycle d’exploitation** (acheter → produire → vendre → encaisser) et le **cycle de vie d’un produit**.' },
+            { t: 'table', head: ['Phase du cycle de vie', 'Enjeu'], rows: [
+              ['Lancement', 'Faire connaître, investir'],
+              ['Croissance', 'Augmenter les ventes, la capacité'],
+              ['Maturité', 'Défendre sa position, optimiser'],
+              ['Déclin', 'Retirer ou relancer le produit'],
+            ] },
+            { t: 'p', c: 'Connaître la phase permet d’**anticiper** : préparer un nouveau produit **avant** que l’actuel ne décline.' },
+          ],
+        },
+        {
+          h: 'Qu’est-ce qu’un risque ?',
+          blocks: [
+            { t: 'p', c: 'Un **risque** est un **événement incertain aux conséquences négatives possibles**. Il combine une **probabilité** (chances qu’il survienne) et un **impact** (gravité s’il survient).' },
+            { t: 'p', c: 'Le risque naît de l’**incertitude** : comme on décide pour l’avenir, on ne connaît jamais toutes les conséquences. **Gérer, c’est nécessairement prendre des risques** — ne rien risquer, c’est aussi renoncer à toute opportunité.' },
+            { t: 'warning', c: 'Ne confonds pas **risque** et **incertitude subie** : le risque peut être **identifié, évalué et géré**. Le nier ne le fait pas disparaître ; l’anticiper permet de le maîtriser.' },
+          ],
+        },
+        {
+          h: 'Les types de risques',
+          blocks: [
+            { t: 'p', c: 'Une organisation est exposée à de nombreux risques, qu’on classe par nature :' },
             { t: 'table', head: ['Type de risque', 'Exemples'], rows: [
-              ['Financier', 'Client qui ne paie pas, manque de trésorerie'],
+              ['Financier', 'Client qui ne paie pas (impayé), manque de trésorerie'],
               ['Commercial', 'Produit qui ne se vend pas, perte d’un gros client'],
-              ['Humain', 'Accident, départ d’un salarié clé, conflit'],
-              ['Numérique', 'Perte de données, cyberattaque, panne'],
+              ['Humain / social', 'Accident du travail, départ d’un salarié clé, conflit, grève'],
+              ['Numérique', 'Perte de données, cyberattaque, panne informatique'],
+              ['Environnemental / juridique', 'Pollution, procès, changement de réglementation'],
             ] },
           ],
         },
         {
-          h: 'Anticiper et limiter les risques',
+          h: 'Risque et opportunité',
           blocks: [
-            { t: 'p', c: 'On ne supprime jamais totalement le risque, mais on peut le **réduire** : demander un **acompte** (impayés), **diversifier** ses clients, faire des **sauvegardes**, souscrire des **assurances**, **planifier**. La bonne gestion consiste à **prévoir** les risques et à préparer des réponses **avant** qu’ils ne surviennent.' },
+            { t: 'p', c: 'Le risque n’a pas qu’une face négative. Toute prise de risque maîtrisée est aussi une **opportunité** : lancer un nouveau produit, c’est risqué, mais c’est aussi la chance de **gagner un marché**.' },
+            { t: 'p', c: 'La question n’est donc pas « faut-il prendre des risques ? » (il le faut) mais « **quels risques**, pour **quelle espérance de gain**, et **suis-je prêt à les assumer** ? ». C’est l’arbitrage **risque / rendement**.' },
+            { t: 'example', h: 'Prendre un risque calculé', c: 'Une entreprise hésite à ouvrir une boutique en ligne : investissement, risque d’échec. \n→ Mais ne rien faire est aussi un risque (être dépassé par les concurrents). \nElle décide d’un **test à petite échelle** : elle prend un **risque calculé** pour saisir une **opportunité** de croissance.' },
+          ],
+        },
+        {
+          h: 'Anticiper et prévenir les risques',
+          blocks: [
+            { t: 'p', c: 'On ne **supprime** jamais totalement un risque, mais on peut le **réduire** en agissant **avant** qu’il ne survienne. La démarche : **identifier** les risques → les **évaluer** (probabilité × impact) → décider comment les **traiter**.' },
+            { t: 'list', c: [
+              '**Prévenir / réduire** : sauvegardes informatiques, contrôles qualité, sécurité au travail ;',
+              '**Éviter** : renoncer à une activité trop dangereuse ;',
+              '**Réduire l’exposition** : demander un **acompte**, **diversifier** ses clients et fournisseurs.',
+            ] },
+          ],
+        },
+        {
+          h: 'Transférer et couvrir le risque',
+          blocks: [
+            { t: 'p', c: 'Certains risques ne peuvent qu’être **transférés** ou **couverts** financièrement :' },
+            { t: 'list', c: [
+              '**l’assurance** : contre un accident, un incendie, un impayé (assurance-crédit) ;',
+              '**la diversification** : ne pas dépendre d’un seul client, produit ou marché ;',
+              '**la constitution de réserves** (trésorerie de précaution) pour absorber un coup dur.',
+            ] },
+            { t: 'tip', c: 'À retenir : la bonne gestion du risque, c’est **prévoir** l’imprévisible autant que possible et **préparer des réponses à l’avance** — comme on installe un détecteur de fumée avant l’incendie, pas après.' },
           ],
         },
       ],
       essentiel: [
-        'Le **temps** est une **ressource** (à planifier) et une **contrainte** (délais, cycles, échéances).',
-        'Un **risque** = événement incertain aux conséquences négatives : financier, commercial, humain, numérique.',
-        'On **anticipe** : acompte, diversification, sauvegardes, assurances, planification.',
+        'Le **temps** est une **ressource** (à planifier) et une **contrainte** (délais, cycles, échéances) ; il s’organise (planning, rétroplanning, Gantt).',
+        'Trois **horizons** de décision : **court, moyen, long terme** ; plus c’est lointain, plus c’est **incertain** (donc risqué).',
+        'Le **cycle de vie** d’un produit (lancement, croissance, maturité, déclin) s’anticipe.',
+        'Un **risque** = événement **incertain** aux conséquences négatives (probabilité × impact) : financier, commercial, humain, numérique, juridique.',
+        'Le risque est aussi une **opportunité** : arbitrage **risque / rendement**.',
+        'On **anticipe** : prévention, **acompte**, **diversification**, **sauvegardes**, **assurances**, planification.',
       ],
       resources: [
         { kind: 'video', label: 'Temps et risque en gestion', note: 'Vidéos — recherche YouTube', url: yt('sciences de gestion temps et risque première STMG') },
