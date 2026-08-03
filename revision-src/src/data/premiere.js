@@ -2665,14 +2665,18 @@ const mathsP = {
       ],
       resources: [{ kind: 'video', label: 'Taux d’évolution et coefficient multiplicateur', note: 'Vidéos — recherche YouTube', url: yt('taux évolution coefficient multiplicateur première STMG maths') }],
       games: [
-        { id: 'p1-math-c1-calc', type: 'calcul', title: 'Calcul express — Taux d’évolution', icon: '⚡', gen: 'taux_evolution', count: 5 },
-        { id: 'p1-math-c1-calc2', type: 'calcul', title: 'Calcul express — Évolutions successives', icon: '⚡', gen: 'cm_successif', count: 5 },
+        { id: 'p1-math-c1-calc', type: 'calcul', title: 'Exercices — Taux d’évolution', icon: '✍️', gen: 'taux_evolution', count: 8 },
+        { id: 'p1-math-c1-calc2', type: 'calcul', title: 'Exercices — Évolutions successives', icon: '✍️', gen: 'cm_successif', count: 6 },
+        { id: 'p1-math-c1-calc3', type: 'calcul', title: 'Exercices — Valeur après évolution', icon: '✍️', gen: 'valeur_apres_evolution', count: 6 },
+        { id: 'p1-math-c1-calc4', type: 'calcul', title: 'Exercices — Indice base 100', icon: '✍️', gen: 'indice_base100', count: 6 },
+        { id: 'p1-math-c1-calc5', type: 'calcul', title: 'Exercices — Taux moyen', icon: '✍️', gen: 'taux_moyen', count: 5 },
         {
-          id: 'p1-math-c1-qcm', type: 'qcm', title: 'QCM — Information chiffrée', icon: '❓',
-          questions: [
-            { q: 'Un prix passe de 200 € à 250 €. Taux d’évolution ?', choices: ['+25 %', '+50 %', '+20 %', '+5 %'], answer: 0, explain: 't = 50/200 = 0,25 = +25 %.' },
-            { q: 'Le CM d’une baisse de 10 % est…', choices: ['0,90', '1,10', '0,10', '10'], answer: 0, explain: 'CM = 1 − 0,10 = 0,90.' },
-            { q: '+20 % puis −10 % donne au total…', choices: ['+8 %', '+10 %', '−8 %', '+30 %'], answer: 0, explain: '1,20 × 0,90 = 1,08 → +8 %.' },
+          id: 'p1-math-c1-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
+          cards: [
+            { front: 'Taux d’évolution', back: 't = (arrivée − départ) / départ.' },
+            { front: 'Coefficient multiplicateur', back: 'CM = 1 + t.' },
+            { front: 'Évolutions successives', back: 'On multiplie les CM (jamais additionner les taux).' },
+            { front: 'Indice base 100', back: '(valeur / référence) × 100.' },
           ],
         },
       ],
@@ -2704,17 +2708,11 @@ const mathsP = {
       essentiel: ['Arithmétique : **u_n = u_0 + n·r** (linéaire).', 'Géométrique : **u_n = u_0 × q^n** (exponentielle).', 'Évolution en % constant → suite **géométrique** (q = 1 + t).'],
       resources: [{ kind: 'video', label: 'Suites arithmétiques et géométriques', note: 'Vidéos — recherche YouTube', url: yt('suites arithmétiques géométriques première STMG maths') }],
       games: [
-        { id: 'p1-math-c2-calc', type: 'calcul', title: 'Calcul express — Suite géométrique', icon: '⚡', gen: 'suite_geo', count: 5 },
+        { id: 'p1-math-c2-calc-arith', type: 'calcul', title: 'Exercices — Suite arithmétique', icon: '✍️', gen: 'suite_arith', count: 8 },
+        { id: 'p1-math-c2-calc-geo', type: 'calcul', title: 'Exercices — Suite géométrique', icon: '✍️', gen: 'suite_geo_terme', count: 8 },
+        { id: 'p1-math-c2-calc-baisse', type: 'calcul', title: 'Exercices — Placement / évolution en %', icon: '✍️', gen: 'suite_geo', count: 6 },
         {
-          id: 'p1-math-c2-qcm', type: 'qcm', title: 'QCM — Suites', icon: '❓',
-          questions: [
-            { q: 'Un capital placé à taux fixe forme une suite…', choices: ['géométrique', 'arithmétique', 'constante', 'aléatoire'], answer: 0, explain: 'Évolution en % constant → géométrique (q = 1 + t).' },
-            { q: 'Pour une suite arithmétique, u_n = …', choices: ['u_0 + n·r', 'u_0 × q^n', 'u_0 − r', 'n × q'], answer: 0, explain: 'Suite arithmétique : on ajoute la raison r.' },
-            { q: 'Un salaire de 1 500 € + 50 €/an au bout de 4 ans :', choices: ['1 700 €', '1 650 €', '2 000 €', '1 550 €'], answer: 0, explain: 'u_4 = 1 500 + 4×50 = 1 700 €.' },
-          ],
-        },
-        {
-          id: 'p1-math-c2-flash', type: 'flashcard', title: 'Flashcards — Suites', icon: '🃏',
+          id: 'p1-math-c2-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
           cards: [
             { front: 'Suite arithmétique', back: 'On ajoute la raison r : u_n = u_0 + n·r.' },
             { front: 'Suite géométrique', back: 'On multiplie par la raison q : u_n = u_0 × q^n.' },
@@ -2753,27 +2751,16 @@ const mathsP = {
       essentiel: ['f(x) = ax² + bx + c → **parabole**.', '**a > 0** : minimum (∪) ; **a < 0** : maximum (∩).', 'Le **sommet** donne l’extremum ; sert à l’**optimisation**.'],
       resources: [{ kind: 'video', label: 'Fonctions du second degré', note: 'Vidéos — recherche YouTube', url: yt('fonction second degré parabole sommet première STMG maths') }],
       games: [
+        { id: 'p1-math-c3-calc-img', type: 'calcul', title: 'Exercices — Image f(x)', icon: '✍️', gen: 'image_fonction', count: 8 },
+        { id: 'p1-math-c3-calc-delta', type: 'calcul', title: 'Exercices — Discriminant Δ', icon: '✍️', gen: 'discriminant', count: 6 },
+        { id: 'p1-math-c3-calc-sommet', type: 'calcul', title: 'Exercices — Abscisse du sommet', icon: '✍️', gen: 'sommet_abscisse', count: 6 },
         {
-          id: 'p1-math-c3-qcm', type: 'qcm', title: 'QCM — Second degré', icon: '❓',
-          questions: [
-            { q: 'La courbe de f(x) = ax² + bx + c est…', choices: ['une parabole', 'une droite', 'un cercle', 'une hyperbole'], answer: 0, explain: 'Le second degré donne une parabole.' },
-            { q: 'Si a < 0, la fonction du second degré a un…', choices: ['maximum', 'minimum', 'ni max ni min', 'point d’inflexion'], answer: 0, explain: 'a < 0 : parabole vers le bas (∩) → maximum.' },
-            { q: 'Le point qui donne l’extremum de la parabole est…', choices: ['le sommet', 'l’origine', 'l’axe des x', 'le foyer'], answer: 0, explain: 'Le sommet donne le minimum ou le maximum.' },
-          ],
-        },
-        {
-          id: 'p1-math-c3-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
-          questions: [
-            { statement: 'Si a > 0, la parabole est tournée vers le haut.', answer: true, explain: 'Vrai : ∪, la fonction a un minimum.' },
-            { statement: 'La parabole n’a aucun axe de symétrie.', answer: false, explain: 'Faux : elle est symétrique par rapport à la verticale passant par le sommet.' },
-          ],
-        },
-        {
-          id: 'p1-math-c3-flash', type: 'flashcard', title: 'Flashcards — Second degré', icon: '🃏',
+          id: 'p1-math-c3-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
           cards: [
             { front: 'f(x) = ax² + bx + c', back: 'Sa courbe est une parabole.' },
+            { front: 'Discriminant', back: 'Δ = b² − 4ac.' },
+            { front: 'Abscisse du sommet', back: 'α = −b / (2a).' },
             { front: 'Signe de a', back: 'a > 0 : minimum (∪) ; a < 0 : maximum (∩).' },
-            { front: 'Sommet', back: 'Donne l’extremum ; axe de symétrie vertical passant par lui.' },
           ],
         },
       ],
@@ -2810,21 +2797,16 @@ const mathsP = {
       essentiel: ['f’(a) = pente de la **tangente** en a ; tangente : y = f’(a)(x − a) + f(a).', '(ax² + bx + c)’ = **2ax + b**.', 'f’ > 0 croissante · f’ < 0 décroissante · f’ = 0 (change de signe) → extremum.'],
       resources: [{ kind: 'video', label: 'Dérivation et variations', note: 'Vidéos — recherche YouTube', url: yt('dérivation nombre dérivé signe variations première STMG maths') }],
       games: [
-        { id: 'p1-math-c4-calc', type: 'calcul', title: 'Calcul express — Nombre dérivé', icon: '⚡', gen: 'derivee_affine', count: 5 },
+        { id: 'p1-math-c4-calc-der', type: 'calcul', title: 'Exercices — Nombre dérivé f’(x)', icon: '✍️', gen: 'derivee_affine', count: 8 },
+        { id: 'p1-math-c4-calc-img', type: 'calcul', title: 'Exercices — Image f(x)', icon: '✍️', gen: 'image_fonction', count: 6 },
+        { id: 'p1-math-c4-calc-graph', type: 'calcul', title: 'Exercices — Lecture graphique', icon: '📈', gen: 'lecture_graphique_affine', count: 6 },
         {
-          id: 'p1-math-c4-qcm', type: 'qcm', title: 'QCM — Dérivation', icon: '❓',
-          questions: [
-            { q: 'La dérivée de ax² + bx + c est…', choices: ['2ax + b', 'ax + b', '2ax', 'a x² + b'], answer: 0, explain: '(ax² + bx + c)’ = 2ax + b.' },
-            { q: 'Si f’(x) > 0 sur un intervalle, alors f est…', choices: ['croissante', 'décroissante', 'constante', 'négative'], answer: 0, explain: 'f’ > 0 ⇒ f croissante.' },
-            { q: 'f(x) = −2x² + 12x. f’(x) s’annule en…', choices: ['x = 3', 'x = 6', 'x = 12', 'x = 0'], answer: 0, explain: '−4x + 12 = 0 ⇔ x = 3 (maximum).' },
-          ],
-        },
-        {
-          id: 'p1-math-c4-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
-          questions: [
-            { statement: 'La dérivée de ax² + bx + c est 2ax + b.', answer: true, explain: 'Vrai.' },
-            { statement: 'Si f’(x) < 0, la fonction est croissante.', answer: false, explain: 'Faux : f’ < 0 ⇒ décroissante.' },
-            { statement: 'Un extremum est atteint là où f’ s’annule en changeant de signe.', answer: true, explain: 'Vrai : max ou min.' },
+          id: 'p1-math-c4-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
+          cards: [
+            { front: 'Dérivée de ax² + bx + c', back: 'f’(x) = 2ax + b.' },
+            { front: 'Nombre dérivé f’(a)', back: 'Pente de la tangente en a.' },
+            { front: 'Tangente en a', back: 'y = f’(a)(x − a) + f(a).' },
+            { front: 'Signe de f’', back: 'f’ > 0 croissante · f’ < 0 décroissante.' },
           ],
         },
       ],
@@ -2863,29 +2845,16 @@ const mathsP = {
       essentiel: ['Position : **moyenne**, **médiane**, **quartiles** Q1/Q3.', 'Dispersion : **étendue**, **écart interquartile** (Q3 − Q1), **écart-type**.', 'La **boîte à moustaches** visualise min, Q1, médiane, Q3, max.'],
       resources: [{ kind: 'video', label: 'Statistiques : médiane, quartiles, écart-type', note: 'Vidéos — recherche YouTube', url: yt('statistiques médiane quartiles écart type boîte à moustaches première STMG') }],
       games: [
+        { id: 'p1-math-c5-calc-moy', type: 'calcul', title: 'Exercices — Moyenne', icon: '✍️', gen: 'moyenne_serie', count: 6 },
+        { id: 'p1-math-c5-calc-med', type: 'calcul', title: 'Exercices — Médiane', icon: '✍️', gen: 'mediane_serie', count: 6 },
+        { id: 'p1-math-c5-calc-etendue', type: 'calcul', title: 'Exercices — Étendue', icon: '✍️', gen: 'etendue_serie', count: 6 },
         {
-          id: 'p1-math-c5-qcm', type: 'qcm', title: 'QCM — Statistiques', icon: '❓',
-          questions: [
-            { q: 'La valeur qui partage une série en deux moitiés est…', choices: ['la médiane', 'la moyenne', 'l’étendue', 'le maximum'], answer: 0, explain: '50 % des valeurs sont en dessous de la médiane.' },
-            { q: 'L’écart interquartile est…', choices: ['Q3 − Q1', 'max − min', 'la moyenne', 'Q1 + Q3'], answer: 0, explain: 'Il mesure la dispersion des 50 % centraux.' },
-            { q: 'Plus l’écart-type est grand, plus les valeurs sont…', choices: ['dispersées', 'égales', 'proches', 'nulles'], answer: 0, explain: 'L’écart-type mesure la dispersion autour de la moyenne.' },
-            { q: 'La boîte à moustaches visualise…', choices: ['min, Q1, médiane, Q3, max', 'seulement la moyenne', 'l’écart-type seul', 'la somme'], answer: 0, explain: 'Ce sont ses cinq repères.' },
-          ],
-        },
-        {
-          id: 'p1-math-c5-flash', type: 'flashcard', title: 'Flashcards — Statistiques', icon: '🃏',
+          id: 'p1-math-c5-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
           cards: [
+            { front: 'Moyenne', back: 'Somme des valeurs / effectif.' },
             { front: 'Médiane', back: 'Valeur qui partage la série en deux moitiés.' },
+            { front: 'Étendue', back: 'max − min.' },
             { front: 'Écart interquartile', back: 'Q3 − Q1 (dispersion des 50 % centraux).' },
-            { front: 'Écart-type', back: 'Mesure la dispersion autour de la moyenne.' },
-          ],
-        },
-        {
-          id: 'p1-math-c5-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
-          questions: [
-            { statement: 'La médiane partage la série en deux moitiés.', answer: true, explain: 'Vrai : 50 % de part et d’autre.' },
-            { statement: 'L’étendue vaut Q3 − Q1.', answer: false, explain: 'Faux : étendue = max − min ; Q3 − Q1 = écart interquartile.' },
-            { statement: 'Un écart-type plus grand signifie des valeurs plus dispersées.', answer: true, explain: 'Vrai.' },
           ],
         },
       ],
@@ -2916,17 +2885,11 @@ const mathsP = {
       essentiel: ['**P_A(B) = P(A ∩ B) / P(A)** ; sur un arbre, on multiplie le long des branches.', 'Indépendance : **P(A ∩ B) = P(A) × P(B)**.', '**E(X)** = somme des (valeur × probabilité) : la moyenne attendue.'],
       resources: [{ kind: 'video', label: 'Probabilités conditionnelles', note: 'Vidéos — recherche YouTube', url: yt('probabilités conditionnelles arbre espérance première STMG') }],
       games: [
-        { id: 'p1-math-c6-calc', type: 'calcul', title: 'Calcul express — Probabilités totales', icon: '⚡', gen: 'proba_totale', count: 5 },
+        { id: 'p1-math-c6-calc-cond', type: 'calcul', title: 'Exercices — Probabilité conditionnelle', icon: '✍️', gen: 'proba_cond', count: 8 },
+        { id: 'p1-math-c6-calc-tot', type: 'calcul', title: 'Exercices — Probabilités totales', icon: '✍️', gen: 'proba_totale', count: 6 },
+        { id: 'p1-math-c6-calc-esp', type: 'calcul', title: 'Exercices — Espérance E(X)', icon: '✍️', gen: 'esperance_va', count: 6 },
         {
-          id: 'p1-math-c6-qcm', type: 'qcm', title: 'QCM — Probabilités', icon: '❓',
-          questions: [
-            { q: 'La probabilité conditionnelle P_A(B) vaut…', choices: ['P(A ∩ B) / P(A)', 'P(A) × P(B)', 'P(A) + P(B)', 'P(B) − P(A)'], answer: 0, explain: 'Probabilité de B sachant A.' },
-            { q: '60 % font anglais, dont 30 % font espagnol. P(anglais et espagnol) ?', choices: ['0,18', '0,90', '0,30', '0,50'], answer: 0, explain: '0,60 × 0,30 = 0,18.' },
-            { q: 'A et B sont indépendants si…', choices: ['P(A ∩ B) = P(A) × P(B)', 'P(A) = P(B)', 'P(A ∩ B) = 0', 'P(A) + P(B) = 1'], answer: 0, explain: 'Définition de l’indépendance.' },
-          ],
-        },
-        {
-          id: 'p1-math-c6-flash', type: 'flashcard', title: 'Flashcards — Probabilités', icon: '🃏',
+          id: 'p1-math-c6-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
           cards: [
             { front: 'Probabilité conditionnelle', back: 'P_A(B) = P(A ∩ B) / P(A).' },
             { front: 'Indépendance', back: 'P(A ∩ B) = P(A) × P(B).' },
@@ -2966,14 +2929,9 @@ const mathsP = {
       essentiel: ['**Variables**, **conditions** (if/else), **boucles** (for/while), **fonctions**, **listes**.', 'Applications : simuler le hasard, calculer des suites, automatiser.'],
       resources: [{ kind: 'video', label: 'Python : bases (variables, boucles, conditions)', note: 'Vidéos — recherche YouTube', url: yt('python bases variables boucles conditions première STMG maths') }],
       games: [
-        {
-          id: 'p1-math-c7-qcm', type: 'qcm', title: 'QCM — Python', icon: '❓',
-          questions: [
-            { q: 'Pour répéter des instructions un nombre connu de fois, on utilise…', choices: ['une boucle for', 'un if', 'une variable', 'une liste'], answer: 0, explain: 'La boucle for répète ; while répète tant qu’une condition est vraie.' },
-            { q: '`if / else` sert à…', choices: ['faire un choix selon une condition', 'répéter à l’infini', 'stocker plusieurs valeurs', 'afficher une image'], answer: 0, explain: 'C’est l’instruction conditionnelle.' },
-            { q: 'Une **liste** permet de…', choices: ['stocker plusieurs valeurs', 'faire un seul calcul', 'créer une condition', 'arrêter le programme'], answer: 0, explain: 'La liste regroupe plusieurs valeurs.' },
-          ],
-        },
+        { id: 'p1-math-c7-calc-somme', type: 'calcul', title: 'Exercices — Que renvoie la boucle (somme) ?', icon: '✍️', gen: 'trace_somme', count: 6 },
+        { id: 'p1-math-c7-calc-produit', type: 'calcul', title: 'Exercices — Que renvoie la boucle (produit) ?', icon: '✍️', gen: 'trace_produit', count: 6 },
+        { id: 'p1-math-c7-calc-compteur', type: 'calcul', title: 'Exercices — Que renvoie la boucle (compteur) ?', icon: '✍️', gen: 'trace_compteur', count: 6 },
         {
           id: 'p1-math-c7-flash', type: 'flashcard', title: 'Flashcards — Python', icon: '🃏',
           cards: [
@@ -2981,14 +2939,6 @@ const mathsP = {
             { front: 'Boucle (for / while)', back: 'Répète des instructions.' },
             { front: 'Condition (if / else)', back: 'Fait un choix selon une condition.' },
             { front: 'Liste', back: 'Stocke plusieurs valeurs.' },
-          ],
-        },
-        {
-          id: 'p1-math-c7-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
-          questions: [
-            { statement: 'La boucle for sert à répéter des instructions.', answer: true, explain: 'Vrai (nombre de répétitions connu).' },
-            { statement: 'if / else sert à répéter à l’infini.', answer: false, explain: 'Faux : if/else fait un choix ; c’est la boucle qui répète.' },
-            { statement: 'Une liste peut stocker plusieurs valeurs.', answer: true, explain: 'Vrai.' },
           ],
         },
       ],
