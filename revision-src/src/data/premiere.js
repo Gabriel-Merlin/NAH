@@ -3019,8 +3019,8 @@ const francaisP = {
         {
           h: 'Comprendre l’épreuve du commentaire',
           blocks: [
-            { t: 'p', c: 'Le commentaire porte sur un **texte littéraire** court, accompagné d’une **consigne** (parfois un axe imposé). On dispose d’environ **4 heures** ; le commentaire vaut la note de l’écrit (**coef. 5**).' },
-            { t: 'p', c: 'On attend une **analyse organisée** : un devoir en **plusieurs parties** (souvent 2 ou 3 **axes**), chaque partie prouvant une idée par des **citations** du texte et l’analyse de **procédés**.' },
+            { t: 'p', c: 'Le commentaire porte sur un **texte littéraire** court, accompagné d’une **consigne** (**deux axes donnés**). On dispose de **4 heures** ; le commentaire vaut la note de l’écrit (**coef. 5**).' },
+            { t: 'p', c: 'On attend une **analyse organisée** : un devoir en **plusieurs parties** (souvent **2 ou trois parties de 2-5 paragraphes**), chaque **paragraphe** doit contenir des **citations** du texte et l’analyse de **procédés**.' },
             { t: 'warning', c: 'Le piège n°1 est la **paraphrase** : redire le texte avec d’autres mots (« l’auteur dit que… »). Ce n’est pas commenter. Commenter, c’est expliquer **comment** c’est écrit et **quel effet** cela produit.' },
           ],
         },
