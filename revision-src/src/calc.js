@@ -203,10 +203,271 @@ export const CALC = {
       )} = ${round(res * 100, 1)} %.`,
     }
   },
+
+  // --- Information chiffrée (compléments) ---------------------------------
+  valeur_apres_evolution: () => {
+    const v = ri(50, 500) * 10
+    const t = ri(-30, 40) || 10
+    const res = round(v * (1 + t / 100), 2)
+    return {
+      prompt: `Une valeur de ${fmt(v)} € évolue de ${t} %.\nCalcule la nouvelle valeur (arrondi au centime).`,
+      answer: res, unit: '€', tolerance: 0.5,
+      explain: `Nouvelle valeur = ${fmt(v)} × (1 ${t < 0 ? '−' : '+'} ${Math.abs(t)}/100) = ${fmt(v)} × ${round(1 + t / 100, 3)} = ${fmt(res)} €.`,
+    }
+  },
+  indice_base100: () => {
+    const ref = ri(80, 200) * 10
+    const val = ri(60, 260) * 10
+    const indice = round((val / ref) * 100, 1)
+    return {
+      prompt: `Valeur de référence (base 100) : ${fmt(ref)}.\nValeur observée : ${fmt(val)}.\nCalcule l'indice (base 100, arrondi à 0,1).`,
+      answer: indice, unit: '', tolerance: 0.2,
+      explain: `Indice = (valeur / référence) × 100 = (${fmt(val)} / ${fmt(ref)}) × 100 = ${indice}.`,
+    }
+  },
+  taux_moyen: () => {
+    const n = ri(2, 5)
+    const tg = ri(10, 80)
+    const cmG = 1 + tg / 100
+    const cmM = cmG ** (1 / n)
+    const tM = round((cmM - 1) * 100, 1)
+    return {
+      prompt: `Sur ${n} ans, une grandeur augmente globalement de ${tg} %.\nCalcule le taux d'évolution annuel moyen (en %, arrondi 0,1).`,
+      answer: tM, unit: '%', tolerance: 0.2,
+      explain: `CM global = 1 + ${tg}/100 = ${round(cmG, 3)}.\nCM moyen = (CM global)^(1/${n}) = ${round(cmM, 4)}.\nTaux moyen = (CM moyen − 1) × 100 ≈ ${tM} %.`,
+    }
+  },
+  taux_reciproque: () => {
+    const t = ri(5, 40)
+    const cm = 1 + t / 100
+    const rec = round((1 / cm - 1) * 100, 1)
+    return {
+      prompt: `Un prix augmente de ${t} %.\nQuel taux d'évolution (en %, arrondi 0,1) annulerait exactement cette hausse (retour au prix initial) ?`,
+      answer: rec, unit: '%', tolerance: 0.2,
+      explain: `CM = 1 + ${t}/100 = ${round(cm, 3)}.\nCM réciproque = 1/${round(cm, 3)} = ${round(1 / cm, 4)}.\nTaux réciproque = (1/CM − 1) × 100 ≈ ${rec} % (c'est une baisse).`,
+    }
+  },
+
+  // --- Suites -------------------------------------------------------------
+  suite_arith: () => {
+    const u0 = ri(5, 50)
+    const r = ri(-8, 12) || 3
+    const n = ri(3, 12)
+    const un = u0 + n * r
+    return {
+      prompt: `Suite arithmétique : u₀ = ${u0}, raison r = ${r}.\nCalcule le terme u_${n}.`,
+      answer: un, unit: '', tolerance: 0.01,
+      explain: `u_n = u₀ + n × r = ${u0} + ${n} × ${r} = ${un}.`,
+    }
+  },
+  suite_geo_terme: () => {
+    const u0 = ri(100, 2000)
+    const hausse = ri(2, 12)
+    const q = round(1 + hausse / 100, 2)
+    const n = ri(2, 6)
+    const un = u0 * q ** n
+    return {
+      prompt: `Suite géométrique : u₀ = ${fmt(u0)}, raison q = ${q} (soit +${hausse} %/an).\nCalcule u_${n} (arrondi à l'unité).`,
+      answer: round(un, 0), unit: '', tolerance: 1,
+      explain: `u_n = u₀ × qⁿ = ${fmt(u0)} × ${q}^${n} = ${fmt(round(un, 2))} ≈ ${fmt(round(un, 0))}.`,
+    }
+  },
+
+  // --- Fonctions & dérivation --------------------------------------------
+  image_fonction: () => {
+    const a = ri(-4, 4) || 1
+    const b = ri(-8, 8)
+    const c = ri(-10, 10)
+    const x0 = ri(-5, 5)
+    const y = a * x0 * x0 + b * x0 + c
+    return {
+      prompt: `Soit f(x) = ${poly(a, b, c)}.\nCalcule f(${x0}).`,
+      answer: y, unit: '', tolerance: 0.01,
+      explain: `f(${x0}) = ${a}·(${x0})² ${signc(b)}·(${x0}) ${signc(c)} = ${y}.`,
+    }
+  },
+  discriminant: () => {
+    const a = ri(1, 4)
+    const b = ri(-8, 8)
+    const c = ri(-6, 6)
+    const d = b * b - 4 * a * c
+    return {
+      prompt: `Soit f(x) = ${poly(a, b, c)}.\nCalcule le discriminant Δ = b² − 4ac.`,
+      answer: d, unit: '', tolerance: 0.01,
+      explain: `Δ = b² − 4ac = (${b})² − 4×${a}×(${c}) = ${b * b} − ${4 * a * c} = ${d}.`,
+    }
+  },
+  sommet_abscisse: () => {
+    const a = ri(1, 5)
+    const b = ri(-8, 8) * 2
+    const c = ri(-8, 8)
+    const alpha = round(-b / (2 * a), 2)
+    return {
+      prompt: `Soit f(x) = ${poly(a, b, c)}.\nCalcule l'abscisse du sommet : α = −b/(2a) (arrondi 0,01).`,
+      answer: alpha, unit: '', tolerance: 0.02,
+      explain: `α = −b/(2a) = −(${b})/(2×${a}) = ${alpha}.`,
+    }
+  },
+  lecture_graphique_affine: () => {
+    const a = ri(1, 2)
+    const b = ri(0, 4)
+    const xmax = 6
+    const x0 = ri(1, xmax)
+    const y = a * x0 + b
+    const ymax = Math.max(10, a * xmax + b + 1)
+    return {
+      prompt: `Lis graphiquement l'image de ${x0} par la fonction f représentée ci-dessus : f(${x0}) = ?`,
+      answer: y, unit: '', tolerance: 0.01,
+      figure: { type: 'grid', xmax, ymax, lines: [{ a, b }], markX: x0 },
+      explain: `On lit sur le graphique : à l'abscisse x = ${x0}, la droite atteint l'ordonnée ${y}.\n(Vérification : f(x) = ${a}x ${signc(b)}, donc f(${x0}) = ${a}×${x0} ${signc(b)} = ${y}.)`,
+    }
+  },
+
+  // --- Statistiques -------------------------------------------------------
+  moyenne_serie: () => {
+    const vals = Array.from({ length: 5 }, () => ri(2, 20))
+    const somme = vals.reduce((s, x) => s + x, 0)
+    const m = round(somme / vals.length, 2)
+    return {
+      prompt: `Série : ${vals.join(' ; ')}.\nCalcule la moyenne (arrondi 0,01).`,
+      answer: m, unit: '', tolerance: 0.02,
+      explain: `Moyenne = (${vals.join(' + ')}) / ${vals.length} = ${somme} / ${vals.length} = ${m}.`,
+    }
+  },
+  mediane_serie: () => {
+    const vals = Array.from({ length: 7 }, () => ri(2, 30)).sort((x, y) => x - y)
+    const med = vals[3]
+    return {
+      prompt: `Série ordonnée : ${vals.join(' ; ')}.\nCalcule la médiane.`,
+      answer: med, unit: '', tolerance: 0.01,
+      explain: `7 valeurs → la médiane est la 4ᵉ valeur = ${med} (autant de valeurs avant qu'après).`,
+    }
+  },
+  etendue_serie: () => {
+    const vals = Array.from({ length: 6 }, () => ri(3, 40))
+    const e = Math.max(...vals) - Math.min(...vals)
+    return {
+      prompt: `Série : ${vals.join(' ; ')}.\nCalcule l'étendue (max − min).`,
+      answer: e, unit: '', tolerance: 0.01,
+      explain: `Étendue = max − min = ${Math.max(...vals)} − ${Math.min(...vals)} = ${e}.`,
+    }
+  },
+  nuage_point_moyen: () => {
+    const k = 5
+    const points = Array.from({ length: k }, (_, i) => ({ x: 2 * (i + 1), y: ri(2, 10) }))
+    const my = round(points.reduce((s, p) => s + p.y, 0) / k, 2)
+    const mx = points.reduce((s, p) => s + p.x, 0) / k
+    return {
+      prompt: `Voici un nuage de ${k} points (ci-dessus).\nCalcule l'ordonnée ȳ du point moyen G (moyenne des y, arrondi 0,01).`,
+      answer: my, unit: '', tolerance: 0.05,
+      figure: { type: 'scatter', xmax: 12, ymax: 12, points },
+      explain: `ȳ = (${points.map((p) => p.y).join(' + ')}) / ${k} = ${my}.\nLe point moyen est G(x̄ ; ȳ) = G(${mx} ; ${my}).`,
+    }
+  },
+
+  // --- Probabilités -------------------------------------------------------
+  proba_cond: () => {
+    const pa = ri(30, 70) / 100
+    const pab = round(ri(10, Math.round(pa * 100) - 5) / 100, 2)
+    const res = round(pab / pa, 3)
+    return {
+      prompt: `P(A) = ${pa} et P(A∩B) = ${pab}.\nCalcule P_A(B) = P(A∩B) / P(A) (arrondi 0,001).`,
+      answer: res, unit: '', tolerance: 0.005,
+      explain: `P_A(B) = P(A∩B) / P(A) = ${pab} / ${pa} = ${res}.`,
+    }
+  },
+  esperance_va: () => {
+    const x = [ri(0, 3), ri(4, 7), ri(8, 12)]
+    const p1 = ri(2, 5) / 10
+    const p2 = ri(2, 4) / 10
+    const p3 = round(1 - p1 - p2, 2)
+    const e = round(x[0] * p1 + x[1] * p2 + x[2] * p3, 2)
+    return {
+      prompt: `Variable aléatoire X :\nvaleurs : ${x[0]} / ${x[1]} / ${x[2]}\nprobabilités : ${p1} / ${p2} / ${p3}.\nCalcule l'espérance E(X) (arrondi 0,01).`,
+      answer: e, unit: '', tolerance: 0.02,
+      explain: `E(X) = Σ xᵢ·pᵢ = ${x[0]}×${p1} + ${x[1]}×${p2} + ${x[2]}×${p3} = ${e}.`,
+    }
+  },
+  variance_binomiale: () => {
+    const n = ri(10, 50)
+    const p = ri(20, 80) / 100
+    const v = round(n * p * (1 - p), 2)
+    return {
+      prompt: `X suit la loi binomiale B(${n} ; ${p}).\nCalcule la variance V(X) = n·p·(1−p) (arrondi 0,01).`,
+      answer: v, unit: '', tolerance: 0.05,
+      explain: `V(X) = n·p·(1−p) = ${n} × ${p} × ${round(1 - p, 2)} = ${v}.`,
+    }
+  },
+
+  // --- Loi normale & estimation ------------------------------------------
+  amplitude_ic: () => {
+    const n = ri(100, 2500)
+    const amp = round(2 / Math.sqrt(n), 3)
+    return {
+      prompt: `Un sondage porte sur un échantillon de n = ${fmt(n)} personnes.\nCalcule l'amplitude de l'intervalle de confiance à 95 % : 2/√n (arrondi 0,001).`,
+      answer: amp, unit: '', tolerance: 0.002,
+      explain: `Amplitude = 2/√n = 2/√${fmt(n)} = 2/${round(Math.sqrt(n), 2)} = ${amp}.`,
+    }
+  },
+  borne_ic: () => {
+    const n = ri(100, 1000)
+    const f = ri(30, 70) / 100
+    const r = round(1 / Math.sqrt(n), 3)
+    const low = round(f - r, 3)
+    return {
+      prompt: `Fréquence observée f = ${f} sur n = ${fmt(n)}.\nIntervalle de confiance : [f − 1/√n ; f + 1/√n].\nCalcule la borne inférieure (arrondi 0,001).`,
+      answer: low, unit: '', tolerance: 0.003,
+      explain: `1/√n = 1/√${fmt(n)} = ${r}.\nBorne inférieure = f − 1/√n = ${f} − ${r} = ${low}.`,
+    }
+  },
+
+  // --- Algorithmique & Python --------------------------------------------
+  trace_somme: () => {
+    const n = ri(4, 12)
+    const s = (n * (n + 1)) / 2
+    return {
+      prompt: `On exécute cet algorithme :\nS = 0\nPour i allant de 1 à ${n} :\n    S = S + i\nQue vaut S à la fin ?`,
+      answer: s, unit: '', tolerance: 0.01,
+      explain: `On additionne 1 + 2 + … + ${n} = ${n}×(${n}+1)/2 = ${s}.`,
+    }
+  },
+  trace_produit: () => {
+    const n = ri(2, 6)
+    const k = ri(2, 4)
+    let p = 1
+    for (let i = 0; i < n; i++) p *= k
+    return {
+      prompt: `On exécute cet algorithme :\nP = 1\nPour i allant de 1 à ${n} :\n    P = P × ${k}\nQue vaut P à la fin ?`,
+      answer: p, unit: '', tolerance: 0.01,
+      explain: `On multiplie ${n} fois par ${k} : P = ${k}^${n} = ${p}.`,
+    }
+  },
+  trace_compteur: () => {
+    const start = ri(20, 60)
+    const step = ri(3, 8)
+    const times = ri(3, 6)
+    const res = start - step * times
+    return {
+      prompt: `On exécute cet algorithme :\nN = ${start}\nRépéter ${times} fois :\n    N = N − ${step}\nQue vaut N à la fin ?`,
+      answer: res, unit: '', tolerance: 0.01,
+      explain: `On retire ${step}, ${times} fois : N = ${start} − ${step}×${times} = ${res}.`,
+    }
+  },
 }
 
 function fmt(n) {
   return Number(n).toLocaleString('fr-FR')
+}
+
+// Formate un polynôme du second degré « ax² + bx + c » proprement.
+function poly(a, b, c) {
+  const bx = b === 0 ? '' : b > 0 ? ` + ${b}x` : ` − ${-b}x`
+  const cc = c === 0 ? '' : c > 0 ? ` + ${c}` : ` − ${-c}`
+  return `${a}x²${bx}${cc}`
+}
+// Signe explicite d'un nombre pour une substitution (« + 3 » / « − 3 »).
+function signc(v) {
+  return v >= 0 ? `+ ${v}` : `− ${-v}`
 }
 
 // Renvoie `count` exercices tirés du générateur `id`.
