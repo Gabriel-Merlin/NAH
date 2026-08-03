@@ -811,7 +811,7 @@ const droitP = {
       id: 'p1-droit-t1',
       name: 'Thème 1 — Qu’est-ce que le droit ?',
       short: 'Qu’est-ce que le droit ?',
-      keywords: 'droit fonctions État de droit laïcité ordre public règle de droit générale impersonnelle obligatoire sanctionnée règle morale religieuse sources hiérarchie des normes Constitution traités UE lois règlements jurisprudence coutume Cour de cassation Conseil constitutionnel QPC contrôle de constitutionnalité droit privé public',
+      keywords: 'droit fonctions État de droit laïcité ordre public règle de droit générale impersonnelle obligatoire coercitive contrainte sanction étatique règle morale religieuse sources hiérarchie des normes Constitution traités UE lois règlements jurisprudence coutume Cour de cassation Conseil constitutionnel QPC contrôle de constitutionnalité droit privé public',
       intro:
         'Le droit, ce sont les **règles qui organisent la vie en société** et que l’État fait respecter. Sans droit, ce serait la loi du plus fort. On découvre ses **fonctions**, les **caractères** de la règle et les **sources** qui la produisent.',
       cours: [
@@ -835,8 +835,8 @@ const droitP = {
         {
           h: 'Les caractères de la règle de droit',
           blocks: [
-            { t: 'p', c: 'Une règle de droit est **générale** (elle s’applique à tous), **impersonnelle** (elle ne vise personne nommément), **obligatoire** et **sanctionnée par l’État**.' },
-            { t: 'warning', c: 'C’est la **sanction par l’État** qui la distingue d’une **règle morale** (qui relève de la conscience) ou **religieuse** (qui relève de la croyance) : celles-ci ne sont pas sanctionnées par l’État.' },
+            { t: 'p', c: 'Une règle de droit est **générale** (elle s’applique à tous), **impersonnelle** (elle ne vise personne nommément), **obligatoire** et **coercitive** (assortie de la **contrainte / sanction de l’État** en cas de non-respect).' },
+            { t: 'warning', c: 'C’est ce caractère **coercitif** (la **contrainte étatique**) qui la distingue d’une **règle morale** (qui relève de la conscience) ou **religieuse** (qui relève de la croyance) : celles-ci ne sont pas sanctionnées par l’État.' },
           ],
         },
         {
@@ -863,7 +863,7 @@ const droitP = {
       ],
       essentiel: [
         'Fonctions du droit : **organiser, pacifier, protéger, sanctionner** ; dans l’**État de droit**, l’État est soumis au droit (+ **laïcité**, **ordre public**).',
-        'Règle de droit = **générale, impersonnelle, obligatoire, sanctionnée par l’État** (≠ règle morale/religieuse).',
+        'Règle de droit = **générale, impersonnelle, obligatoire, coercitive** (contrainte / sanction de l’État) (≠ règle morale/religieuse).',
         'Sources : **Constitution > traités/UE > lois > règlements** (+ jurisprudence, coutume) ; contrôle par le **Conseil constitutionnel** et la **QPC**.',
         '**Droit privé** (particuliers) vs **droit public** (État).',
       ],
@@ -878,8 +878,8 @@ const droitP = {
           title: 'QCM — La règle de droit',
           icon: '❓',
           questions: [
-            { q: 'La règle de droit est générale, impersonnelle, obligatoire et…', choices: ['sanctionnée par l’État', 'facultative', 'religieuse', 'secrète'], answer: 0, explain: 'La sanction étatique la distingue des règles morales ou religieuses.' },
-            { q: 'Ce qui distingue une règle de droit d’une règle morale, c’est…', choices: ['la sanction par l’État', 'sa longueur', 'son ancienneté', 'sa langue'], answer: 0, explain: 'La règle morale relève de la conscience, non sanctionnée par l’État.' },
+            { q: 'La règle de droit est générale, impersonnelle, obligatoire et…', choices: ['coercitive', 'facultative', 'religieuse', 'secrète'], answer: 0, explain: 'Coercitive : elle est assortie de la contrainte / sanction de l’État en cas de non-respect. C’est le 4ᵉ caractère.' },
+            { q: 'Ce qui distingue une règle de droit d’une règle morale, c’est…', choices: ['son caractère coercitif (la sanction de l’État)', 'sa longueur', 'son ancienneté', 'sa langue'], answer: 0, explain: 'La règle morale relève de la conscience : elle n’est pas assortie de la contrainte étatique.' },
             { q: 'Dans un État de droit…', choices: ['l’État lui-même est soumis au droit', 'l’État est au-dessus des lois', 'seuls les citoyens obéissent au droit', 'le droit n’existe pas'], answer: 0, explain: 'Personne n’est au-dessus de la loi, pas même la puissance publique.' },
             { q: 'La neutralité de l’État en matière religieuse s’appelle…', choices: ['la laïcité', 'l’ordre public', 'la jurisprudence', 'la coutume'], answer: 0, explain: 'La laïcité garantit la liberté de conscience et la neutralité de l’État.' },
             { q: 'Au sommet de la hiérarchie des normes :', choices: ['la Constitution', 'un arrêté municipal', 'un contrat', 'un règlement intérieur'], answer: 0, explain: 'La Constitution (bloc de constitutionnalité) prime sur toutes les autres normes.' },
@@ -918,7 +918,7 @@ const droitP = {
             { front: 'Fonctions du droit', back: 'Organiser, pacifier/sécuriser, protéger, arbitrer et sanctionner.' },
             { front: 'État de droit', back: 'La puissance publique est elle-même soumise au droit.' },
             { front: 'Laïcité / ordre public', back: 'Neutralité religieuse de l’État / règles essentielles auxquelles on ne peut déroger.' },
-            { front: 'Caractères de la règle de droit', back: 'Générale, impersonnelle, obligatoire, sanctionnée par l’État.' },
+            { front: 'Caractères de la règle de droit', back: 'Générale, impersonnelle, obligatoire, coercitive (contrainte / sanction de l’État).' },
             { front: 'Hiérarchie des normes', back: 'Constitution > traités/UE > lois > règlements.' },
             { front: 'QPC', back: 'Question Prioritaire de Constitutionnalité : contester une loi en vigueur.' },
           ],
