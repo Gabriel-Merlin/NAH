@@ -45,9 +45,19 @@ export default function Chapter() {
         <span className="font-semibold">Chapitre {i + 1}</span>
       </nav>
 
-      <header>
-        <p className="text-xs font-semibold uppercase tracking-wide" style={{ color }}>{theme.name} · Chapitre {i + 1}/{chapters.length}</p>
-        <h1 className="font-display text-xl font-extrabold leading-tight">{chapter.title}</h1>
+      <header className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-wide" style={{ color }}>{theme.name} · Chapitre {i + 1}/{chapters.length}</p>
+          <h1 className="font-display text-xl font-extrabold leading-tight">{chapter.title}</h1>
+        </div>
+        <Link
+          to={`/subject/${sid}/theme/${tid}`}
+          aria-label="Fermer et revenir à la liste des chapitres"
+          title="Revenir aux chapitres"
+          className="no-print grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-lg text-slate-500 transition hover:bg-slate-200 hover:text-slate-800 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
+        >
+          ✕
+        </Link>
       </header>
 
       <div className="no-print flex justify-end">
