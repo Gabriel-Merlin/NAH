@@ -3520,14 +3520,36 @@ const francaisP = {
         {
           h: 'La question de grammaire',
           blocks: [
-            { t: 'p', c: 'Après l’explication, l’examinateur pose une **question de grammaire** sur une phrase du texte. Les points au programme les plus fréquents :' },
-            { t: 'list', c: [
-              'l’analyse des **propositions** (indépendante, principale, subordonnée) ;',
-              'les **subordonnées** (relative, conjonctive, interrogative indirecte) ;',
-              'la **négation** (totale / partielle) ;',
-              'l’**interrogation** (directe / indirecte, totale / partielle).',
+            { t: 'p', c: 'Après l’explication, l’examinateur pose une **question de grammaire** sur une phrase du texte. On distingue d’abord trois types de **propositions** : **indépendante** (elle se suffit à elle-même), **principale** (elle commande une subordonnée) et **subordonnée** (elle dépend d’une autre).' },
+            { t: 'p', c: 'Voici, pour **chaque cas**, un **exemple** et la **phrase type à dire** à l’oral (à adapter au texte donné).' },
+            { t: 'p', c: '**① L’interrogation**' },
+            { t: 'table', head: ['Type', 'Exemple', 'Phrase type à dire à l’oral'], rows: [
+              ['Interrogation **totale**', '« Viendras-tu à la fête ? »', 'C’est une interrogation **totale** : elle porte sur **toute la phrase** et appelle une réponse par **oui ou par non** ; elle est marquée par l’**inversion du sujet** (« viendras-tu »).'],
+              ['Interrogation **partielle**', '« **Où** vas-tu ? »', 'C’est une interrogation **partielle** : elle porte sur **un seul élément** (ici le lieu) et est introduite par le **mot interrogatif** « où ».'],
+              ['Interrogation **directe**', '« Que veux-tu ? »', 'C’est une interrogation **directe** : la question est posée telle quelle, avec un **point d’interrogation** et l’**inversion du sujet**.'],
+              ['Interrogation **indirecte**', '« Je me demande **ce que** tu veux. »', 'C’est une interrogation **indirecte** : la question est **enchâssée dans une subordonnée**, **sans** point d’interrogation ni inversion (introduite par « ce que »).'],
             ] },
-            { t: 'tip', c: 'Méthode : **repérer le verbe conjugué** (autant de verbes conjugués = autant de propositions), puis **nommer** la nature de chaque proposition et sa fonction.' },
+            { t: 'p', c: '**② La négation**' },
+            { t: 'table', head: ['Type', 'Exemple', 'Phrase type à dire à l’oral'], rows: [
+              ['Négation **totale**', '« Il **ne** viendra **pas**. »', 'C’est une négation **totale** : elle nie **toute la phrase**, marquée par l’adverbe de négation « **ne… pas** ».'],
+              ['Négation **partielle**', '« Il **ne** voit **personne**. »', 'C’est une négation **partielle** : elle ne nie qu’**une partie** de la phrase, marquée ici par « ne… **personne** » (on pourrait avoir *jamais, rien, aucun, plus*).'],
+              ['Négation **restrictive**', '« Il **ne** mange **que** des fruits. »', 'Ce n’est pas une vraie négation mais une **restriction** : « ne… **que** » signifie « **seulement** ».'],
+              ['Négation **lexicale**', '« Ce projet est **irréalisable**. »', 'La négation est **lexicale** : elle est portée par un **mot** (le préfixe « ir- »), et non par une tournure grammaticale.'],
+            ] },
+            { t: 'p', c: '**③ Les propositions subordonnées** (chaque type, avec sa fonction)' },
+            { t: 'table', head: ['Type de subordonnée', 'Exemple', 'Phrase type à dire à l’oral'], rows: [
+              ['**Relative**', '« Le livre **que** je lis est passionnant. »', 'C’est une subordonnée **relative** : introduite par le **pronom relatif** « que », elle complète le nom « livre » (son **antécédent**) ; fonction : **complément de l’antécédent** (comme un adjectif épithète).'],
+              ['**Conjonctive complétive**', '« Je pense **que** tu as raison. »', 'C’est une subordonnée **conjonctive complétive** : introduite par la conjonction « que », elle est **COD** du verbe « pense ».'],
+              ['**Interrogative indirecte**', '« Je me demande **si** tu viendras. »', 'C’est une subordonnée **interrogative indirecte** : introduite par « si » (ou un mot interrogatif), elle est **COD** du verbe « me demande ».'],
+              ['Circonstancielle de **temps**', '« **Quand** le jour se lève, les oiseaux chantent. »', 'C’est une subordonnée circonstancielle de **temps** : introduite par « quand », elle indique le **moment** de l’action (**CC de temps**).'],
+              ['Circonstancielle de **cause**', '« Il reste chez lui **parce qu’**il est malade. »', 'C’est une circonstancielle de **cause** : introduite par « parce que », elle exprime la **raison** de l’action (**CC de cause**).'],
+              ['Circonstancielle de **conséquence**', '« Il pleut **si** fort **qu’**il inonde la rue. »', 'C’est une circonstancielle de **conséquence** : introduite par « si… que / si bien que », elle exprime le **résultat** (**CC de conséquence**).'],
+              ['Circonstancielle de **but**', '« Il travaille **afin qu’**elle réussisse. »', 'C’est une circonstancielle de **but** : introduite par « afin que / pour que » (+ **subjonctif**), elle exprime l’**objectif** visé (**CC de but**).'],
+              ['Circonstancielle de **condition**', '« **Si** tu viens, je serai content. »', 'C’est une circonstancielle de **condition** : introduite par « si / à condition que », elle pose une **hypothèse** (**CC de condition**).'],
+              ['Circonstancielle de **concession**', '« **Bien qu’**il pleuve, il sort. »', 'C’est une circonstancielle de **concession** (opposition) : introduite par « bien que / quoique » (+ **subjonctif**), elle exprime un **obstacle** qui n’empêche pas l’action.'],
+              ['Circonstancielle de **comparaison**', '« Il agit **comme** son père agissait. »', 'C’est une circonstancielle de **comparaison** : introduite par « comme / ainsi que », elle établit une **comparaison** (**CC de comparaison**).'],
+            ] },
+            { t: 'tip', c: 'Méthode : **repérer les verbes conjugués** (autant de verbes conjugués = autant de propositions), puis, pour chaque proposition, **nommer sa nature** (à l’aide du tableau) et **donner sa fonction** en citant le **mot qui l’introduit**.' },
           ],
         },
         {
