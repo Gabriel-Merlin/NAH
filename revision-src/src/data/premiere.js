@@ -893,9 +893,9 @@ const droitP = {
           type: 'ordre',
           title: 'Remise en ordre — Hiérarchie des normes',
           icon: '🔢',
-          instruction: 'Classe les sources de la plus élevée à la plus basse.',
+          instruction: 'Classe les sources **écrites** de la plus élevée à la plus basse.',
           steps: ['Constitution', 'Traités et droit de l’UE', 'Lois', 'Règlements (décrets, arrêtés)'],
-          explain: 'Constitution > traités/UE > lois > règlements.',
+          explain: 'Constitution > traités/UE > lois > règlements. La **jurisprudence** et la **coutume** sont aussi des sources du droit, mais **non écrites** : elles n’apparaissent pas dans cette hiérarchie des normes écrites (d’où leur absence ici), ce qui n’enlève rien à leur valeur de source.',
         },
         {
           id: 'p1-droit-t1-vf',
@@ -905,7 +905,7 @@ const droitP = {
           questions: [
             { statement: 'Une règle de droit vise une personne en particulier.', answer: false, explain: 'Faux : elle est générale et impersonnelle.' },
             { statement: 'Dans un État de droit, l’État est soumis au droit.', answer: true, explain: 'Vrai : nul n’est au-dessus de la loi.' },
-            { statement: 'La jurisprudence est une source du droit.', answer: true, explain: 'Vrai : les décisions des tribunaux interprètent la règle.' },
+            { statement: 'La jurisprudence est une source du droit.', answer: true, explain: 'Vrai : les décisions des tribunaux interprètent la règle. C’est une source **non écrite** (comme la coutume) : elle ne figure pas dans la hiérarchie des normes écrites, mais reste bien une source du droit.' },
             { statement: 'Une loi peut être contraire à la Constitution.', answer: false, explain: 'Faux : elle doit respecter la norme supérieure (contrôle du Conseil constitutionnel).' },
           ],
         },
@@ -1740,14 +1740,19 @@ const mathsP = {
       intro: 'Une **suite** est une liste ordonnée de nombres. Deux modèles clés en gestion : arithmétique et géométrique.',
       cours: [
         {
-          h: 'Arithmétique et géométrique',
+          h: 'La suite arithmétique',
           blocks: [
-            { t: 'table', head: ['Arithmétique', 'Géométrique'], rows: [
-              ['On ajoute la raison r', 'On multiplie par la raison q'],
-              ['u_n = u_0 + n × r', 'u_n = u_0 × q^n'],
-              ['Croissance linéaire', 'Croissance exponentielle'],
-            ] },
-            { t: 'example', h: 'Exemple', c: 'Capital 1 000 € placé à 3 %/an → q = 1,03, u_5 = 1 000 × 1,03⁵ ≈ **1 159 €**. Astuce : évolution en % fixe → suite **géométrique**.' },
+            { t: 'p', c: 'Dans une suite **arithmétique**, on passe d’un terme au suivant en **ajoutant** toujours le même nombre, la **raison r** : u_{n+1} = u_n + r.' },
+            { t: 'formula', c: 'Terme général : u_n = u_0 + n × r — croissance **linéaire**.' },
+            { t: 'example', h: 'Exemple', c: 'Un salaire de 1 500 € augmente de 50 €/an : c’est arithmétique (r = 50). Au bout de 4 ans : u_4 = 1 500 + 4 × 50 = **1 700 €**.' },
+          ],
+        },
+        {
+          h: 'La suite géométrique',
+          blocks: [
+            { t: 'p', c: 'Dans une suite **géométrique**, on passe d’un terme au suivant en **multipliant** toujours par le même nombre, la **raison q** : u_{n+1} = u_n × q.' },
+            { t: 'formula', c: 'Terme général : u_n = u_0 × q^n — croissance **exponentielle**.' },
+            { t: 'example', h: 'Exemple', c: 'Capital de 1 000 € placé à 3 %/an → q = 1,03 : u_5 = 1 000 × 1,03⁵ ≈ **1 159 €**. Astuce : toute évolution en **% fixe** donne une suite **géométrique** (q = 1 + t).' },
           ],
         },
       ],
@@ -1781,14 +1786,22 @@ const mathsP = {
       intro: 'La fonction du **second degré** modélise beaucoup de situations d’optimisation (bénéfice max, coût min).',
       cours: [
         {
-          h: 'La parabole',
+          h: 'La parabole et le sens de la concavité',
           blocks: [
-            { t: 'p', c: 'f(x) = ax² + bx + c (a ≠ 0) a pour courbe une **parabole**.' },
+            { t: 'p', c: 'La fonction du **second degré** s’écrit f(x) = ax² + bx + c (avec a ≠ 0) et sa courbe est une **parabole**.' },
             { t: 'list', c: [
-              'Si **a > 0** : parabole vers le haut (∪), la fonction a un **minimum**.',
-              'Si **a < 0** : parabole vers le bas (∩), la fonction a un **maximum**.',
+              'Si **a > 0** : parabole tournée vers le haut (∪), la fonction admet un **minimum**.',
+              'Si **a < 0** : parabole tournée vers le bas (∩), la fonction admet un **maximum**.',
             ] },
-            { t: 'p', c: 'Le **sommet** donne l’extremum ; la courbe est symétrique par rapport à l’axe vertical passant par le sommet.' },
+            { t: 'p', c: 'La courbe est **symétrique** par rapport à l’axe vertical qui passe par le sommet.' },
+          ],
+        },
+        {
+          h: 'Le sommet et l’optimisation',
+          blocks: [
+            { t: 'p', c: 'Le **sommet** de la parabole est le point où la fonction atteint son **extremum** (maximum si a < 0, minimum si a > 0).' },
+            { t: 'p', c: 'C’est ce qui rend le second degré très utile en gestion : il modélise un **bénéfice à maximiser** ou un **coût à minimiser**.' },
+            { t: 'example', h: 'Exemple', c: 'Un bénéfice B(x) = −2x² + 12x (en centaines d’€) est maximal au sommet, en x = 3 : B(3) = **18** → 1 800 € pour 3 unités.' },
           ],
         },
       ],
@@ -1828,16 +1841,24 @@ const mathsP = {
       intro: 'La **dérivée** mesure comment une fonction varie. C’est l’outil de l’**optimisation**.',
       cours: [
         {
-          h: 'Nombre dérivé et variations',
+          h: 'Le nombre dérivé et la tangente',
           blocks: [
-            { t: 'p', c: 'f’(a) est le **coefficient directeur de la tangente** en a. Équation de la tangente : y = f’(a)(x − a) + f(a).' },
-            { t: 'p', c: 'Dérivées utiles : (constante)’ = 0 ; (x²)’ = 2x ; (ax² + bx + c)’ = **2ax + b**.' },
+            { t: 'p', c: 'Le **nombre dérivé** f’(a) est le **coefficient directeur de la tangente** à la courbe au point d’abscisse a : il mesure la « pente » de la courbe en ce point.' },
+            { t: 'formula', c: 'Équation de la tangente en a : y = f’(a)(x − a) + f(a).' },
+            { t: 'p', c: 'Dérivées à connaître : (constante)’ = 0 ; (x²)’ = 2x ; **(ax² + bx + c)’ = 2ax + b**.' },
             { t: 'figure', name: 'derivee' },
+          ],
+        },
+        {
+          h: 'Signe de la dérivée, variations et extremum',
+          blocks: [
             { t: 'list', c: [
-              'f’(x) > 0 → f **croissante** ; f’(x) < 0 → f **décroissante**.',
-              'f’(x) = 0 en changeant de signe → **extremum**.',
+              'f’(x) > 0 sur un intervalle → f est **croissante** ;',
+              'f’(x) < 0 sur un intervalle → f est **décroissante** ;',
+              'f’(x) = 0 en **changeant de signe** → la fonction atteint un **extremum** (max ou min).',
             ] },
-            { t: 'example', h: 'Exemple', c: 'f(x) = −2x² + 12x → f’(x) = −4x + 12, s’annule en x = 3 : maximum f(3) = **18**.' },
+            { t: 'p', c: 'C’est l’outil de l’**optimisation** : on cherche où la dérivée s’annule pour trouver un maximum (bénéfice) ou un minimum (coût).' },
+            { t: 'example', h: 'Exemple', c: 'f(x) = −2x² + 12x → f’(x) = −4x + 12, qui s’annule en x = 3. La dérivée passe du + au −, donc **maximum** : f(3) = **18**.' },
           ],
         },
       ],
@@ -1871,11 +1892,24 @@ const mathsP = {
       intro: 'On résume une série de données par des **indicateurs** de position et de dispersion.',
       cours: [
         {
-          h: 'Position et dispersion',
+          h: 'Les indicateurs de position',
           blocks: [
+            { t: 'p', c: 'Les indicateurs de **position** résument « où se situe » la série :' },
             { t: 'list', c: [
-              '**Position** : la **moyenne** (somme / effectif), la **médiane** (partage la série en deux), les **quartiles** Q1 et Q3.',
-              '**Dispersion** : l’**étendue** (max − min), l’**écart interquartile** (Q3 − Q1), l’**écart-type** (dispersion autour de la moyenne).',
+              'la **moyenne** = somme des valeurs / effectif ;',
+              'la **médiane** partage la série ordonnée en **deux moitiés** (50 % en dessous, 50 % au-dessus) ;',
+              'les **quartiles** Q1 et Q3 délimitent les 25 % les plus bas et les 25 % les plus hauts.',
+            ] },
+          ],
+        },
+        {
+          h: 'Les indicateurs de dispersion et la boîte à moustaches',
+          blocks: [
+            { t: 'p', c: 'Les indicateurs de **dispersion** mesurent à quel point les valeurs sont **étalées** :' },
+            { t: 'list', c: [
+              'l’**étendue** = max − min ;',
+              'l’**écart interquartile** = Q3 − Q1 (dispersion des 50 % centraux) ;',
+              'l’**écart-type** mesure la dispersion autour de la moyenne.',
             ] },
             { t: 'p', c: 'Le **diagramme en boîte** (boîte à moustaches) visualise min, Q1, médiane, Q3, max. Deux séries de même moyenne mais d’écarts-types différents n’ont pas la même **homogénéité**.' },
           ],
@@ -1919,11 +1953,18 @@ const mathsP = {
       intro: 'Les probabilités mesurent le **hasard**. Outils clés : la probabilité conditionnelle et l’espérance.',
       cours: [
         {
-          h: 'Conditionnelle, indépendance, espérance',
+          h: 'Probabilité conditionnelle et arbre pondéré',
           blocks: [
-            { t: 'formula', c: 'P_A(B) = P(A ∩ B) / P(A) · A et B indépendants ⇔ P(A ∩ B) = P(A) × P(B)' },
-            { t: 'p', c: 'On visualise avec un **arbre pondéré** (on multiplie le long des branches ; la somme des branches d’un nœud vaut 1). Une **variable aléatoire** prend des valeurs selon le hasard ; son **espérance** E(X) = somme des (valeur × probabilité) est la « moyenne » attendue.' },
-            { t: 'example', h: 'Exemple', c: '60 % font anglais, dont 30 % font aussi espagnol → P(anglais ∩ espagnol) = 0,60 × 0,30 = **0,18**.' },
+            { t: 'formula', c: 'Probabilité de B sachant A : P_A(B) = P(A ∩ B) / P(A).' },
+            { t: 'p', c: 'On visualise la situation avec un **arbre pondéré** : on **multiplie** les probabilités le long des branches, et la **somme** des branches partant d’un même nœud vaut **1**.' },
+            { t: 'example', h: 'Exemple', c: '60 % des élèves font anglais ; parmi eux, 30 % font aussi espagnol → P(anglais ∩ espagnol) = 0,60 × 0,30 = **0,18**.' },
+          ],
+        },
+        {
+          h: 'Indépendance et espérance',
+          blocks: [
+            { t: 'formula', c: 'A et B indépendants ⇔ P(A ∩ B) = P(A) × P(B).' },
+            { t: 'p', c: 'Deux événements sont **indépendants** quand la réalisation de l’un ne change pas la probabilité de l’autre. Une **variable aléatoire** prend des valeurs selon le hasard ; son **espérance** E(X) = somme des (valeur × probabilité) est la « moyenne » attendue sur un grand nombre de répétitions.' },
           ],
         },
       ],
@@ -1957,15 +1998,23 @@ const mathsP = {
       intro: 'On consolide les bases de la **programmation** en Python, pour automatiser des calculs et simuler le hasard.',
       cours: [
         {
-          h: 'Les briques de base',
+          h: 'Variables, conditions et boucles',
           blocks: [
             { t: 'list', c: [
-              'Les **variables** (stocker une valeur),',
-              'les **conditions** (`if / else`, pour faire des choix),',
-              'les **boucles** (`for`, `while`, pour répéter),',
-              'les **fonctions** (regrouper des instructions), les **listes** (stocker plusieurs valeurs).',
+              'Les **variables** stockent une valeur (`x = 5`) ;',
+              'les **conditions** (`if / else`) permettent de faire un **choix** selon qu’une condition est vraie ou fausse ;',
+              'les **boucles** répètent des instructions : `for` (nombre de répétitions **connu**), `while` (tant qu’une condition reste vraie).',
             ] },
-            { t: 'p', c: 'Applications : **simuler** une expérience aléatoire, calculer les termes d’une suite, automatiser un calcul répétitif.' },
+          ],
+        },
+        {
+          h: 'Fonctions, listes et applications',
+          blocks: [
+            { t: 'list', c: [
+              'les **fonctions** (`def`) regroupent des instructions réutilisables ;',
+              'les **listes** stockent plusieurs valeurs dans une seule variable.',
+            ] },
+            { t: 'p', c: 'Applications concrètes : **simuler** une expérience aléatoire, calculer les termes d’une **suite**, automatiser un **calcul répétitif**.' },
           ],
         },
       ],
@@ -2174,10 +2223,16 @@ const histoireP = {
       intro: 'En 1789, la Révolution met fin à la **monarchie absolue** et proclame des principes nouveaux qui bouleversent l’Europe.',
       cours: [
         {
-          h: 'La Révolution puis l’Empire',
+          h: 'La Révolution française (1789)',
           blocks: [
-            { t: 'p', c: 'La **Révolution française (1789)** proclame **liberté, égalité, souveraineté de la nation** (Déclaration des droits de l’homme et du citoyen). Elle passe par plusieurs phases (monarchie constitutionnelle, République, Terreur).' },
-            { t: 'p', c: '**Napoléon Bonaparte** bâtit ensuite un **Empire (1804-1815)** qui réorganise la France (**Code civil**, administration) et diffuse — par la guerre — certains principes révolutionnaires en Europe.' },
+            { t: 'p', c: 'La **Révolution française (1789)** met fin à la **monarchie absolue** et proclame des principes nouveaux : **liberté, égalité, souveraineté de la nation** (Déclaration des droits de l’homme et du citoyen).' },
+            { t: 'p', c: 'Elle passe par plusieurs **phases** : monarchie constitutionnelle, proclamation de la **Ire République (1792)**, puis la **Terreur**.' },
+          ],
+        },
+        {
+          h: 'L’Empire napoléonien (1804-1815)',
+          blocks: [
+            { t: 'p', c: '**Napoléon Bonaparte** bâtit ensuite un **Empire (1804-1815)** qui réorganise la France (**Code civil**, administration centralisée) et diffuse — par la guerre — certains principes révolutionnaires en Europe.' },
             { t: 'table', head: ['Date', 'Repère'], rows: [
               ['1789', 'Révolution française (DDHC)'],
               ['1792', 'Proclamation de la Ire République'],
@@ -2225,10 +2280,17 @@ const histoireP = {
       intro: 'Après 1815, la France connaît une grande **instabilité politique** et une profonde **transformation sociale** liée à l’industrialisation.',
       cours: [
         {
-          h: 'Instabilité et transformations',
+          h: 'Une grande instabilité politique',
           blocks: [
-            { t: 'p', c: 'Retour de la monarchie, puis **révolutions (1830, 1848)**. En **1848**, la **IIe République** instaure le **suffrage universel masculin** et **abolit l’esclavage**.' },
-            { t: 'p', c: 'Parallèlement, l’**industrialisation** transforme la société : **urbanisation**, essor de la **bourgeoisie** et d’une **classe ouvrière**, nouvelles **tensions sociales**.' },
+            { t: 'p', c: 'Après 1815, la France alterne les régimes : retour de la **monarchie**, puis **révolutions (1830, 1848)**.' },
+            { t: 'p', c: 'En **1848**, la **IIe République** marque une avancée majeure : elle instaure le **suffrage universel masculin** et **abolit l’esclavage**.' },
+          ],
+        },
+        {
+          h: 'L’industrialisation et ses transformations sociales',
+          blocks: [
+            { t: 'p', c: 'Parallèlement, l’**industrialisation** transforme profondément la société : **urbanisation** (afflux vers les villes industrielles), essor de la **bourgeoisie** d’affaires et d’une **classe ouvrière**.' },
+            { t: 'p', c: 'Cette nouvelle organisation fait naître de fortes **tensions sociales** (conditions de travail, premières revendications ouvrières).' },
           ],
         },
       ],
@@ -2268,10 +2330,16 @@ const histoireP = {
       intro: 'À partir de **1870**, la IIIe République s’enracine et associe la République à des valeurs concrètes, avant l’épreuve de la **Grande Guerre**.',
       cours: [
         {
-          h: 'La IIIe République puis la guerre totale',
+          h: 'La IIIe République s’enracine',
           blocks: [
-            { t: 'p', c: 'La **IIIe République** (à partir de **1870**) installe la **laïcité**, l’**école gratuite et obligatoire** (lois Ferry) et les libertés fondamentales (presse, syndicats). La France se dote aussi d’un vaste **empire colonial**.' },
-            { t: 'p', c: 'La **Première Guerre mondiale (1914-1918)** est une **guerre totale** : elle mobilise les sociétés entières (soldats, économie de guerre, civils, propagande).' },
+            { t: 'p', c: 'La **IIIe République** (à partir de **1870**) installe durablement la République : **laïcité**, **école gratuite et obligatoire** (lois **Ferry**), libertés fondamentales (presse, syndicats).' },
+            { t: 'p', c: 'La **loi de 1905** consacre la **séparation des Églises et de l’État**, pilier de la laïcité. La France se dote aussi d’un vaste **empire colonial**.' },
+          ],
+        },
+        {
+          h: 'La Première Guerre mondiale, une guerre totale',
+          blocks: [
+            { t: 'p', c: 'La **Première Guerre mondiale (1914-1918)** est une **guerre totale** : elle mobilise les sociétés entières — soldats au front, **économie de guerre**, civils à l’arrière, **propagande**.' },
             { t: 'table', head: ['Date', 'Repère'], rows: [
               ['1870-1871', 'Début de la IIIe République'],
               ['1905', 'Séparation des Églises et de l’État'],
@@ -2317,9 +2385,17 @@ const histoireP = {
       intro: 'La **métropolisation** est la concentration croissante des populations, des activités et des pouvoirs dans les grandes villes.',
       cours: [
         {
-          h: 'Un processus mondial différencié',
+          h: 'Des métropoles qui concentrent hommes et pouvoirs',
           blocks: [
-            { t: 'p', c: 'Plus de la moitié de l’humanité vit en ville. Quelques **métropoles mondiales** (New York, Londres, Tokyo, Paris) concentrent richesse et **fonctions de commandement**, tandis que d’autres espaces restent en marge : le processus est **différencié** et accentue les **inégalités** entre territoires.' },
+            { t: 'p', c: 'Plus de la moitié de l’humanité vit désormais **en ville**. La **métropolisation** concentre les populations, les activités et les pouvoirs dans les grandes villes.' },
+            { t: 'p', c: 'Quelques **métropoles mondiales** (New York, Londres, Tokyo, Paris) concentrent la richesse et les **fonctions de commandement** : sièges sociaux, bourses, universités, aéroports internationaux.' },
+          ],
+        },
+        {
+          h: 'Un processus différencié et inégalitaire',
+          blocks: [
+            { t: 'p', c: 'Toutes les villes ne sont pas touchées de la même façon : le processus est **différencié**. Certaines métropoles dominent, tandis que d’autres espaces restent **en marge**.' },
+            { t: 'p', c: 'La métropolisation accentue donc les **inégalités** entre territoires, à toutes les échelles (mondiale, nationale, locale).' },
           ],
         },
       ],
@@ -2360,9 +2436,15 @@ const histoireP = {
       intro: 'Les **espaces productifs** se recomposent sous l’effet de la **mondialisation** et du numérique.',
       cours: [
         {
-          h: 'Une diversification des espaces et des acteurs',
+          h: 'Des espaces productifs qui se recomposent',
           blocks: [
-            { t: 'p', c: 'L’industrie se réorganise (délocalisations, **technopôles**), les **services** prennent une place croissante, l’agriculture se modernise. De nombreux **acteurs** interviennent : entreprises (dont les **firmes multinationales**), État, collectivités, acteurs locaux.' },
+            { t: 'p', c: 'Sous l’effet de la **mondialisation** et du **numérique**, les espaces productifs se transforment : l’**industrie** se réorganise (délocalisations, **technopôles**), les **services** prennent une place croissante (**tertiarisation**), l’**agriculture** se modernise.' },
+          ],
+        },
+        {
+          h: 'Une multiplicité d’acteurs',
+          blocks: [
+            { t: 'p', c: 'De nombreux **acteurs** interviennent dans la production et son organisation : les **entreprises** (dont les **firmes multinationales**, acteurs clés de la mondialisation), l’**État**, les **collectivités** territoriales et les **acteurs locaux**.' },
           ],
         },
       ],
@@ -2405,7 +2487,15 @@ const histoireP = {
         {
           h: 'Une multifonctionnalité croissante',
           blocks: [
-            { t: 'p', c: 'Les espaces ruraux ont des fonctions **résidentielle, touristique, écologique, économique**. Certains, proches des villes, se **périurbanisent** (habitat pavillonnaire) ; d’autres, isolés, déclinent ou se tournent vers le tourisme. Cette **multifonctionnalité** crée des **tensions** (usage des sols, cohabitation d’activités).' },
+            { t: 'p', c: 'Les espaces ruraux ne sont plus seulement agricoles : ils remplissent aujourd’hui **plusieurs fonctions** — **résidentielle**, **touristique**, **écologique** et **économique**.' },
+            { t: 'p', c: 'Certains, proches des villes, se **périurbanisent** (extension de l’habitat pavillonnaire) ; d’autres, isolés, **déclinent** ou se tournent vers le **tourisme**.' },
+          ],
+        },
+        {
+          h: 'Des tensions dans l’usage des sols',
+          blocks: [
+            { t: 'p', c: 'Cette **multifonctionnalité** fait cohabiter des usages parfois concurrents (agriculture, logement, loisirs, protection de la nature).' },
+            { t: 'p', c: 'Elle crée donc des **tensions** : conflits d’usage des sols, pression foncière près des villes, difficulté à maintenir les services dans les espaces isolés.' },
           ],
         },
       ],
@@ -2590,15 +2680,27 @@ const languesP = {
       intro: 'Le programme s’organise autour de **8 axes culturels** (« Gestes fondateurs et mondes en mouvement ») et de **6 activités langagières**.',
       cours: [
         {
-          h: 'Les 8 axes',
+          h: 'Les 8 axes culturels',
           blocks: [
+            { t: 'p', c: 'Le programme s’organise autour de la thématique « **Gestes fondateurs et mondes en mouvement** », déclinée en **8 axes culturels** :' },
             { t: 'list', c: [
               '1. Identités et échanges — 2. Espace privé et espace public',
               '3. Art et pouvoir — 4. Citoyenneté et mondes virtuels',
               '5. Fictions et réalités — 6. Innovations scientifiques et responsabilité',
               '7. Diversité et inclusion — 8. Territoire et mémoire',
             ] },
-            { t: 'p', c: '**6 activités langagières** : compréhension orale/écrite, expression orale (continu et interaction), expression écrite, et **médiation** (reformuler, traduire ou expliquer un document).' },
+          ],
+        },
+        {
+          h: 'Les 6 activités langagières',
+          blocks: [
+            { t: 'p', c: 'On est évalué sur **6 activités langagières** :' },
+            { t: 'list', c: [
+              'la **compréhension** de l’oral et de l’écrit ;',
+              'l’**expression orale** en continu et en interaction ;',
+              'l’**expression écrite** ;',
+              'la **médiation** : reformuler, traduire ou expliquer un document à quelqu’un.',
+            ] },
           ],
         },
       ],

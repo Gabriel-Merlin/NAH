@@ -1054,12 +1054,16 @@ export const LESSONS = {
       'La **loi binomiale** modélise une expérience répétée un certain nombre de fois, où l’on compte les **succès** (ex. : nombre de pièces défectueuses sur 20). C’est un incontournable, à maîtriser à la calculatrice.',
     cours: [
       {
-        h: 'De l’épreuve de Bernoulli à la loi binomiale',
+        h: 'L’épreuve de Bernoulli et le schéma de Bernoulli',
         blocks: [
-          { t: 'list', c: [
-            'Une **épreuve de Bernoulli** n’a que deux issues : **succès** (probabilité p) ou **échec** (1 − p).',
-            'Répéter n fois cette épreuve, de façon **identique et indépendante**, et compter les succès, donne la **loi binomiale B(n ; p)**.',
-          ] },
+          { t: 'p', c: 'Une **épreuve de Bernoulli** n’a que **deux issues** : le **succès** (probabilité p) et l’**échec** (probabilité 1 − p).' },
+          { t: 'p', c: 'Quand on **répète n fois** cette même épreuve, de façon **identique** et **indépendante**, on obtient un **schéma de Bernoulli** (ex. : lancer 20 fois la même pièce).' },
+        ],
+      },
+      {
+        h: 'La loi binomiale B(n ; p) et son espérance',
+        blocks: [
+          { t: 'p', c: 'Si X compte le **nombre de succès** dans un schéma de n épreuves de Bernoulli, alors X suit la **loi binomiale B(n ; p)**. On calcule P(X = k) et P(X ⩽ k) à la **calculatrice**.' },
           { t: 'formula', c: 'Espérance : E(X) = n × p' },
           { t: 'example', h: 'Espérance', c: 'X suit B(20 ; 0,3). En moyenne, on attend E(X) = 20 × 0,3 = **6** succès.' },
         ],
@@ -1476,17 +1480,31 @@ export const LESSONS = {
       'Comme en anglais, le vocabulaire espagnol se travaille par **axes**, avec un lexique **du travail** très utile en STMG.',
     cours: [
       {
-        h: 'Vocabulaire par axes',
+        h: 'Le lexique du travail et de l’entreprise (STMG)',
         blocks: [
           { t: 'table', head: ['Espagnol', 'Français'], rows: [
             ['el paro', 'le chômage'],
             ['el sueldo', 'le salaire'],
             ['la empresa', "l'entreprise"],
-            ['la migración', 'la migration'],
-            ['la memoria', 'la mémoire'],
-            ['el medio ambiente', "l'environnement"],
+            ['el trabajo', 'le travail'],
+            ['el cliente', 'le client'],
+            ['el mercado', 'le marché'],
           ] },
           { t: 'tip', c: 'Utilise **WordReference** ou **Linguee** pour voir les mots **en contexte**, pas seulement traduits.' },
+        ],
+      },
+      {
+        h: 'Société, mémoire et environnement',
+        blocks: [
+          { t: 'table', head: ['Espagnol', 'Français'], rows: [
+            ['la migración', 'la migration'],
+            ['la memoria', 'la mémoire'],
+            ['la democracia', 'la démocratie'],
+            ['el medio ambiente', "l'environnement"],
+            ['el cambio climático', 'le changement climatique'],
+            ['las raíces', 'les racines'],
+          ] },
+          { t: 'tip', c: 'Range chaque mot sous l’**axe culturel** qui lui correspond : c’est plus facile à réutiliser à l’oral.' },
         ],
       },
     ],
