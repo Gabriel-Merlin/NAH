@@ -3010,137 +3010,616 @@ const francaisP = {
   chapters: [
     {
       id: 'p1-fr-1',
-      name: 'Objets d’étude & figures de style',
-      short: 'Objets d’étude',
-      keywords: 'poésie littérature d’idées roman théâtre figures de style métaphore personnification hyperbole anaphore ironie',
+      name: 'Méthode — Le commentaire littéraire',
+      short: 'Le commentaire',
+      keywords: 'commentaire littéraire méthode analyse procédé effet problématique plan axe paragraphe introduction conclusion citation transition rédaction paraphrase interprétation brouillon',
       intro:
-        'Le programme repose sur **4 objets d’étude**, chacun associé à une **œuvre** et à un **parcours**. Pour analyser un texte, il faut repérer et **nommer** les procédés, puis expliquer leur **effet**.',
+        'Le **commentaire littéraire** est l’un des deux sujets possibles à l’écrit. Objectif : montrer, de façon **organisée**, **comment** un texte produit du sens et des effets sur le lecteur. Ce n’est **ni un résumé, ni une paraphrase** : on **analyse** (le « comment ») et on **interprète** (le « pourquoi »).',
       cours: [
         {
-          h: 'Les 4 objets d’étude',
+          h: 'Comprendre l’épreuve du commentaire',
           blocks: [
-            { t: 'list', c: [
-              '**La poésie** (XIXe-XXIe) : travail du langage (images, sonorités, rythme).',
-              '**La littérature d’idées** (XVIe-XVIIIe) : textes qui défendent des idées, argumentent (humanisme, Lumières).',
-              '**Le roman et le récit** (Moyen Âge-XXIe) : l’art de raconter (personnages, intrigue, point de vue).',
-              '**Le théâtre** (XVIIe-XXIe) : le texte **et** sa représentation (dialogue, monologue, didascalies).',
-            ] },
-            { t: 'warning', c: 'Un **programme national d’œuvres** est fixé chaque année et renouvelé par quart : **vérifie toujours la liste donnée par ton professeur** (elle change selon l’année).' },
+            { t: 'p', c: 'Le commentaire porte sur un **texte littéraire** court, accompagné d’une **consigne** (parfois un axe imposé). On dispose d’environ **4 heures** ; le commentaire vaut la note de l’écrit (**coef. 5**).' },
+            { t: 'p', c: 'On attend une **analyse organisée** : un devoir en **plusieurs parties** (souvent 2 ou 3 **axes**), chaque partie prouvant une idée par des **citations** du texte et l’analyse de **procédés**.' },
+            { t: 'warning', c: 'Le piège n°1 est la **paraphrase** : redire le texte avec d’autres mots (« l’auteur dit que… »). Ce n’est pas commenter. Commenter, c’est expliquer **comment** c’est écrit et **quel effet** cela produit.' },
           ],
         },
         {
-          h: 'Les figures de style (boîte à outils)',
+          h: 'Étape 1 — Analyser le texte au brouillon',
           blocks: [
-            { t: 'table', head: ['Figure', 'Définition'], rows: [
-              ['Comparaison', 'Rapproche deux éléments avec un outil (« comme »)'],
-              ['Métaphore', 'Rapprochement sans outil (« une mer de larmes »)'],
-              ['Personnification', 'Donne des traits humains à une chose (« le vent murmure »)'],
-              ['Hyperbole', 'Exagération (« mourir de faim »)'],
-              ['Anaphore', 'Répétition en début de vers/phrase (insistance)'],
-              ['Antithèse / oxymore', 'Opposition d’idées / deux mots contradictoires (« soleil noir »)'],
-              ['Ironie', 'Dire le contraire de ce qu’on pense pour critiquer'],
+            { t: 'p', c: 'Avant de rédiger, on passe du temps à **lire et annoter** le texte. On repère et on **surligne** :' },
+            { t: 'list', c: [
+              'le **thème** et le **ton** général (registre : lyrique, tragique, comique, polémique…) ;',
+              'les **procédés d’écriture** : figures de style, champs lexicaux, ponctuation, rythme, temps verbaux ;',
+              'la **construction** du texte (mouvements, progression) et le **point de vue**.',
             ] },
-            { t: 'tip', c: 'Toujours associer **le procédé + son effet** : « la personnification rend la nature vivante et crée une atmosphère mélancolique ».' },
+            { t: 'tip', c: 'Méthode efficace : trace un **tableau à deux colonnes** — à gauche le **procédé relevé + la citation**, à droite son **effet / interprétation**. C’est la matière première de tout le commentaire.' },
+          ],
+        },
+        {
+          h: 'Étape 2 — Problématique et plan',
+          blocks: [
+            { t: 'p', c: 'La **problématique** est la **question centrale** à laquelle tout le commentaire répond (ex. : « En quoi ce poème transforme-t-il la douleur en beauté ? »). Elle donne une **direction** au devoir.' },
+            { t: 'p', c: 'Le **plan** regroupe tes remarques en **2 ou 3 axes** (grandes parties), chacun divisé en **sous-parties**. Un axe = une **grande idée** qui répond à la problématique.' },
+            { t: 'table', head: ['Bon axe', 'Mauvais axe'], rows: [
+              ['Une **idée d’interprétation** (« un éloge paradoxal »)', 'Un simple thème (« la nature »)'],
+              ['Se prouve par des procédés variés', 'Se contente de lister le texte'],
+            ] },
+            { t: 'warning', c: 'Évite le plan « procédés / puis effets » ou « forme / puis fond » : mélange toujours **le fond et la forme** dans chaque partie.' },
+          ],
+        },
+        {
+          h: 'Étape 3 — L’introduction et la conclusion',
+          blocks: [
+            { t: 'p', c: 'L’**introduction** (un paragraphe) suit 4 mouvements :' },
+            { t: 'list', c: [
+              '**amorce** : une phrase de contexte (auteur, époque, mouvement, genre) ;',
+              '**présentation** du texte (titre, situation dans l’œuvre) ;',
+              '**problématique** clairement formulée ;',
+              '**annonce du plan** (les axes, dans l’ordre).',
+            ] },
+            { t: 'p', c: 'La **conclusion** fait le **bilan** (réponse à la problématique en reprenant les axes) puis propose une **ouverture** (rapprochement avec une autre œuvre, un autre texte, une portée plus large).' },
+          ],
+        },
+        {
+          h: 'Étape 4 — Rédiger les paragraphes',
+          blocks: [
+            { t: 'p', c: 'Chaque **paragraphe** de développement suit la structure **AIE** :' },
+            { t: 'table', head: ['Étape', 'Contenu'], rows: [
+              ['**A — Affirmation**', 'L’idée que je vais prouver (phrase claire)'],
+              ['**I — Illustration**', 'La **citation** exacte du texte (entre guillemets)'],
+              ['**E — Explication**', 'Le **procédé** repéré + l’**effet** produit / l’interprétation'],
+            ] },
+            { t: 'p', c: 'On soigne les **transitions** entre les parties (une phrase qui relie l’axe qui s’achève à celui qui commence) et on **saute des lignes** entre les grandes parties.' },
+            { t: 'tip', c: 'Cite **court et exact** : quelques mots entre guillemets suffisent. Toute citation doit être **analysée** (jamais posée seule).' },
+          ],
+        },
+        {
+          h: 'Exemple guidé + erreurs à éviter',
+          blocks: [
+            { t: 'example', h: 'Un paragraphe modèle (structure AIE)', c: 'Idée : le poète rend la ville menaçante. \n→ « La rue assourdissante autour de moi hurlait » : la **personnification** (« la rue… hurlait ») et l’**hyperbole** sonore transforment la ville en monstre agressif, traduisant l’angoisse du poète face à la modernité. \n(Affirmation → citation → procédé + effet.)' },
+            { t: 'warning', c: 'Les erreurs les plus sanctionnées : **paraphraser** (redire le texte), citer **sans analyser**, faire un plan **forme/fond**, oublier la **problématique**, employer le **« je »** (on préfère « on », « le lecteur », « le texte »).' },
           ],
         },
       ],
       essentiel: [
-        '4 objets d’étude : **poésie, littérature d’idées, roman, théâtre** (chacun = 1 œuvre + 1 parcours).',
-        'La liste des **œuvres change chaque année** : se fier au professeur.',
-        'Analyser = **nommer le procédé + expliquer son effet**.',
+        'Le **commentaire** = analyse **organisée** de **comment** un texte fait sens (≠ résumé, ≠ **paraphrase**).',
+        'Au brouillon : repérer **procédé + effet** (tableau 2 colonnes), le **ton**, la construction.',
+        '**Problématique** (question centrale) + **plan** en 2-3 **axes** (idées, pas de simples thèmes ; mêler fond et forme).',
+        'Intro = amorce + présentation + problématique + annonce ; conclusion = bilan + **ouverture**.',
+        'Chaque paragraphe suit **AIE** : Affirmation → Illustration (citation) → Explication (procédé + effet) ; soigner les **transitions**.',
       ],
-      resources: [{ kind: 'video', label: 'Les figures de style', note: 'Vidéos — recherche YouTube', url: yt('figures de style métaphore personnification hyperbole première français') }],
+      resources: [{ kind: 'video', label: 'Méthode du commentaire littéraire', note: 'Vidéos — recherche YouTube', url: yt('méthode commentaire littéraire première français problématique plan') }],
       games: [
         {
-          id: 'p1-fr-1-qcm', type: 'qcm', title: 'QCM — Figures de style', icon: '❓',
+          id: 'p1-fr-1-qcm', type: 'qcm', title: 'QCM — Le commentaire', icon: '❓',
           questions: [
-            { q: '« Le vent murmure » est une…', choices: ['personnification', 'hyperbole', 'litote', 'anaphore'], answer: 0, explain: 'On donne un trait humain (murmurer) au vent.' },
-            { q: '« Une mer de larmes » est une…', choices: ['métaphore', 'comparaison', 'ironie', 'antithèse'], answer: 0, explain: 'Rapprochement sans outil de comparaison → métaphore.' },
-            { q: 'Dire le contraire de ce qu’on pense pour critiquer, c’est…', choices: ['l’ironie', 'la métaphore', 'l’anaphore', 'l’hyperbole'], answer: 0, explain: 'L’ironie critique en disant l’inverse.' },
-            { q: 'Combien d’objets d’étude au programme ?', choices: ['4', '3', '6', '8'], answer: 0, explain: 'Poésie, littérature d’idées, roman, théâtre.' },
+            { q: 'Commenter un texte, ce n’est pas…', choices: ['le paraphraser (le redire)', 'analyser les procédés', 'expliquer les effets', 'l’interpréter'], answer: 0, explain: 'La paraphrase (redire le texte) est l’erreur n°1 à éviter.' },
+            { q: 'La problématique du commentaire est…', choices: ['la question centrale à laquelle il répond', 'le résumé du texte', 'la biographie de l’auteur', 'la liste des figures'], answer: 0, explain: 'Elle donne une direction à tout le devoir.' },
+            { q: 'Un bon axe de commentaire est…', choices: ['une idée d’interprétation', 'un simple thème', 'une citation', 'un procédé isolé'], answer: 0, explain: 'Un axe est une grande idée qui répond à la problématique.' },
+            { q: 'La structure d’un paragraphe (AIE) est…', choices: ['Affirmation, Illustration, Explication', 'Analyse, Introduction, Exemple', 'Amorce, Idée, Écriture', 'Argument, Image, Effet'], answer: 0, explain: 'Idée → citation → procédé + effet.' },
+            { q: 'Dans un commentaire, on évite d’écrire…', choices: ['« je »', '« on »', '« le texte »', '« le lecteur »'], answer: 0, explain: 'On préfère « on », « le lecteur », « le texte ».' },
           ],
         },
         {
-          id: 'p1-fr-1-assoc', type: 'association', title: 'Association — Figure ↔ définition', icon: '🔗',
-          pairs: [
-            { left: 'Comparaison', right: 'Rapprochement avec « comme »' },
-            { left: 'Hyperbole', right: 'Exagération' },
-            { left: 'Anaphore', right: 'Répétition en début de vers' },
-            { left: 'Oxymore', right: 'Deux mots contradictoires côte à côte' },
-          ],
+          id: 'p1-fr-1-ordre', type: 'ordre', title: 'Remise en ordre — Les étapes du commentaire', icon: '🔢',
+          instruction: 'Remets les étapes dans l’ordre.',
+          steps: ['Lire et analyser le texte au brouillon', 'Dégager une problématique', 'Bâtir un plan en axes', 'Rédiger l’introduction', 'Rédiger les paragraphes (AIE)', 'Rédiger la conclusion et l’ouverture'],
+          explain: 'On analyse, on problématise, on planifie, puis on rédige (intro → développement → conclusion).',
         },
         {
-          id: 'p1-fr-1-flash', type: 'flashcard', title: 'Flashcards — Objets d’étude', icon: '🃏',
+          id: 'p1-fr-1-ordre-intro', type: 'ordre', title: 'Remise en ordre — L’introduction', icon: '🔢',
+          instruction: 'Remets les 4 mouvements de l’introduction.',
+          steps: ['Amorce (contexte)', 'Présentation du texte', 'Problématique', 'Annonce du plan'],
+          explain: 'Amorce → présentation → problématique → annonce du plan.',
+        },
+        {
+          id: 'p1-fr-1-flash', type: 'flashcard', title: 'Flashcards — Méthode du commentaire', icon: '🃏',
           cards: [
-            { front: 'Poésie', back: 'Travail du langage : images, sonorités, rythme.' },
-            { front: 'Littérature d’idées', back: 'Argumenter, défendre des idées (humanisme, Lumières).' },
-            { front: 'Roman et récit', back: 'L’art de raconter (personnages, intrigue, point de vue).' },
-            { front: 'Théâtre', back: 'Le texte et sa représentation (dialogue, didascalies).' },
+            { front: 'Paraphrase', back: 'Redire le texte avec d’autres mots : l’erreur à éviter absolument.' },
+            { front: 'Problématique', back: 'La question centrale à laquelle répond tout le commentaire.' },
+            { front: 'Axe', back: 'Une grande partie = une idée d’interprétation à prouver.' },
+            { front: 'AIE', back: 'Affirmation → Illustration (citation) → Explication (procédé + effet).' },
+            { front: 'Ouverture', back: 'Élargissement en fin de conclusion (autre œuvre, portée plus large).' },
           ],
         },
       ],
     },
     {
       id: 'p1-fr-2',
-      name: 'Les épreuves & la méthode',
-      short: 'Épreuves & méthode',
-      keywords: 'EAF écrit commentaire contraction essai oral explication linéaire question de grammaire entretien',
+      name: 'Méthode — Contraction de texte & essai',
+      short: 'Contraction & essai',
+      keywords: 'contraction de texte résumé quart fidélité reformulation essai argumentation thèse arguments exemples plan dialectique introduction conclusion connecteurs EAF écrit',
       intro:
-        'Le français se joue au bac **dès la première** : un **écrit (coef. 5)** et un **oral (coef. 5)**. La note récompense la **méthode**.',
+        'Le deuxième sujet possible à l’écrit associe une **contraction de texte** (résumer fidèlement au **quart**) et un **essai** (une réflexion **argumentée** sur une question liée au texte). Deux exercices très **codifiés** : la note récompense la **méthode** et la **rigueur**.',
       cours: [
         {
-          h: 'L’écrit (4 h, coef. 5) — voie technologique',
+          h: 'La contraction de texte : principe et règles',
           blocks: [
-            { t: 'p', c: 'Au **choix** entre deux sujets :' },
-            { t: 'list', c: [
-              'un **commentaire** de texte littéraire, OU',
-              'une **contraction de texte** (résumer au **¼**, fidèlement) **suivie d’un essai** (réflexion argumentée).',
+            { t: 'p', c: 'La **contraction** consiste à **réduire un texte au quart** (¼) de sa longueur, **sans le trahir**. On garde **les idées essentielles** et leur **enchaînement**, on supprime les exemples, les répétitions et les détails.' },
+            { t: 'table', head: ['On GARDE', 'On SUPPRIME'], rows: [
+              ['La **thèse** et les idées principales', 'Les exemples et illustrations'],
+              ['L’**ordre** et la logique du texte', 'Les répétitions, les digressions'],
+              ['Le système de **l’auteur** (le « je » de l’auteur)', 'Ses propres commentaires / avis'],
             ] },
-            { t: 'tip', c: '**Contraction** : respecter le sens et l’ordre des idées, garder le « je » de l’auteur, ne rien commenter. **Essai** : intro (reformuler la question), 2 parties argumentées, conclusion nuancée.' },
+            { t: 'warning', c: 'Règles d’or : rester **fidèle** (ne rien ajouter, ne rien commenter), **reformuler avec ses propres mots** (pas de copié-collé de phrases), respecter le **nombre de mots** imposé (± 10 %) et l’**indiquer** à la fin.' },
           ],
         },
         {
-          h: 'L’oral (coef. 5)',
+          h: 'La contraction : méthode pas à pas',
           blocks: [
+            { t: 'p', c: 'Une démarche efficace en plusieurs temps :' },
             { t: 'list', c: [
-              '**Partie 1 (12 min)** : **explication linéaire** d’un texte du descriptif + une **question de grammaire**.',
-              '**Partie 2 (8 min)** : **présentation d’une œuvre** choisie + **entretien**.',
+              '**Lire** le texte deux fois pour saisir la **thèse** et le **plan** de l’auteur ;',
+              '**découper** le texte en **paragraphes / mouvements** et donner à chacun un titre (l’idée) ;',
+              'pour chaque partie, **reformuler l’idée essentielle** en une ou deux phrases ;',
+              '**relier** ces idées avec des **connecteurs logiques** (donc, cependant, en effet…).',
             ] },
-            { t: 'p', c: '**Explication linéaire** : expliquer le texte **dans l’ordre**, en analysant les procédés au fil de la lecture (sans plaquer un plan thématique).' },
+            { t: 'tip', c: 'Astuce : compte tes mots par tranches (barre tous les 20 mots). Vise le quart : un texte de 800 mots se contracte en **~200 mots** (± 20).' },
+          ],
+        },
+        {
+          h: 'La contraction : rédiger et respecter le quart',
+          blocks: [
+            { t: 'p', c: 'On rédige un texte **suivi et cohérent** (pas une liste), qui « sonne » comme un mini-texte autonome. On **respecte le point de vue de l’auteur** : s’il écrit « je pense que », on garde ce « je » (celui de l’auteur, pas le tien).' },
+            { t: 'example', h: 'Contracter une phrase', c: 'Texte : « De nos jours, force est de constater que les écrans, qu’il s’agisse des téléphones, des tablettes ou des ordinateurs, occupent une place absolument démesurée dans le quotidien des adolescents. » (30 mots) \n→ Contraction : « Aujourd’hui, les écrans envahissent le quotidien des adolescents. » (8 mots) — on garde l’idée, on supprime l’énumération et l’insistance.' },
+          ],
+        },
+        {
+          h: 'L’essai : analyser le sujet',
+          blocks: [
+            { t: 'p', c: 'L’**essai** est une **réflexion argumentée** qui répond à une **question** en lien avec le thème du texte contracté. Ce n’est pas un avis « au fil de la plume » : c’est un devoir **organisé** avec une **thèse** défendue et **nuancée**.' },
+            { t: 'p', c: 'Premier réflexe : **analyser la question**. Repère les **mots-clés**, le type de question (« Pensez-vous que… ? » appelle une réponse **nuancée**), et **reformule-la** pour être sûr de la comprendre.' },
+            { t: 'warning', c: 'Ne réponds pas seulement « oui » ou « non » : la plupart des sujets attendent une réflexion **nuancée** (des arguments pour, des arguments contre, puis un dépassement).' },
+          ],
+        },
+        {
+          h: 'L’essai : bâtir l’argumentation',
+          blocks: [
+            { t: 'p', c: 'On construit un **plan** (souvent en **2 parties**, parfois dialectique). Chaque partie contient des **arguments**, et chaque argument est **appuyé par un exemple** précis :' },
+            { t: 'table', head: ['Élément', 'Rôle'], rows: [
+              ['**Thèse**', 'L’idée générale que tu défends'],
+              ['**Argument**', 'Une raison qui soutient la thèse'],
+              ['**Exemple**', 'Un fait précis : œuvre, actualité, expérience, histoire'],
+            ] },
+            { t: 'p', c: 'Les **exemples** peuvent venir de la **littérature**, de l’**actualité**, de l’**histoire**, de ta **culture personnelle**. Plus ils sont précis, plus l’argument est convaincant.' },
+          ],
+        },
+        {
+          h: 'L’essai : rédiger + erreurs à éviter',
+          blocks: [
+            { t: 'p', c: 'L’**introduction** amène le sujet, **reformule la question** et **annonce le plan**. Le **développement** enchaîne les paragraphes argumentés (un argument + un exemple par paragraphe), reliés par des **connecteurs**. La **conclusion** répond clairement à la question, de façon **nuancée**, et peut ouvrir.' },
+            { t: 'warning', c: 'Erreurs fréquentes : rédiger un essai **désorganisé** (idées en vrac), **sans exemples** (arguments abstraits), oublier de **reformuler la question**, ou faire une contraction qui **commente** au lieu de résumer. Soigne aussi l’**orthographe** et les **connecteurs logiques**.' },
           ],
         },
       ],
       essentiel: [
-        'Écrit (coef. 5) : **commentaire** OU **contraction (¼) + essai**.',
-        'Oral (coef. 5) : **explication linéaire** + question de grammaire, puis **présentation d’œuvre** + entretien.',
-        'Contraction : fidèle, ¼ du texte, garder le « je », ne pas commenter.',
+        '**Contraction** = réduire le texte au **quart**, **fidèlement**, avec ses **propres mots**, en gardant l’**ordre** et le « je » de **l’auteur** (jamais de commentaire) ; indiquer le **nombre de mots**.',
+        'Méthode contraction : repérer la **thèse** et le **plan**, reformuler l’idée de chaque partie, relier par des **connecteurs**.',
+        '**Essai** = réflexion **argumentée** et **nuancée** sur une question ; d’abord **analyser** et **reformuler** le sujet.',
+        'Argumenter = **thèse** → **arguments** → **exemples** précis (littérature, actualité, histoire, expérience).',
+        'Essai : intro (reformuler + annoncer) → développement (argument + exemple par § + connecteurs) → conclusion nuancée.',
       ],
-      resources: [{ kind: 'video', label: 'Méthode du commentaire et de la contraction', note: 'Vidéos — recherche YouTube', url: yt('méthode commentaire contraction essai EAF première voie technologique') }],
+      resources: [{ kind: 'video', label: 'Méthode de la contraction et de l’essai', note: 'Vidéos — recherche YouTube', url: yt('méthode contraction de texte essai EAF première voie technologique') }],
       games: [
         {
-          id: 'p1-fr-2-qcm', type: 'qcm', title: 'QCM — Les épreuves', icon: '❓',
+          id: 'p1-fr-2-qcm', type: 'qcm', title: 'QCM — Contraction & essai', icon: '❓',
           questions: [
-            { q: 'À l’écrit techno, la contraction est suivie…', choices: ['d’un essai', 'd’un commentaire', 'd’une dictée', 'd’un exposé oral'], answer: 0, explain: 'Contraction + essai est l’un des deux sujets au choix.' },
-            { q: 'La contraction réduit le texte à environ…', choices: ['un quart', 'la moitié', 'un dixième', 'trois quarts'], answer: 0, explain: 'Environ ¼, fidèlement.' },
-            { q: 'La première partie de l’oral est…', choices: ['l’explication linéaire + une question de grammaire', 'une dissertation', 'une dictée', 'un débat'], answer: 0, explain: 'Puis présentation d’œuvre + entretien.' },
-            { q: 'L’explication linéaire consiste à expliquer le texte…', choices: ['dans l’ordre, au fil de la lecture', 'en le résumant', 'par un plan thématique', 'sans le lire'], answer: 0, explain: 'On suit le texte pas à pas.' },
+            { q: 'La contraction réduit le texte à environ…', choices: ['un quart', 'la moitié', 'un dixième', 'trois quarts'], answer: 0, explain: 'Environ ¼, fidèlement, avec ses propres mots.' },
+            { q: 'Dans une contraction, on doit…', choices: ['garder l’ordre et le « je » de l’auteur', 'donner son avis', 'ajouter des exemples', 'commenter le texte'], answer: 0, explain: 'Fidélité totale : on ne commente pas, on reformule.' },
+            { q: 'Un texte de 800 mots se contracte en environ…', choices: ['200 mots', '400 mots', '80 mots', '600 mots'], answer: 0, explain: '¼ de 800 = 200 mots (± 10 %).' },
+            { q: 'L’essai est…', choices: ['une réflexion argumentée et nuancée', 'un résumé', 'une dictée', 'une biographie'], answer: 0, explain: 'On défend une thèse avec arguments et exemples.' },
+            { q: 'Dans l’essai, chaque argument doit être…', choices: ['appuyé par un exemple précis', 'laissé abstrait', 'répété', 'illustré par le texte seulement'], answer: 0, explain: 'Argument + exemple (littérature, actualité, histoire…).' },
           ],
         },
         {
-          id: 'p1-fr-2-flash', type: 'flashcard', title: 'Flashcards — Épreuves', icon: '🃏',
-          cards: [
-            { front: 'Écrit EAF (techno)', back: 'Commentaire OU contraction (¼) + essai.' },
-            { front: 'Oral EAF', back: 'Explication linéaire + question de grammaire, puis œuvre + entretien.' },
-            { front: 'Contraction', back: 'Résumer fidèlement au quart, sans commenter.' },
-            { front: 'Explication linéaire', back: 'Expliquer le texte dans l’ordre, au fil de la lecture.' },
+          id: 'p1-fr-2-ordre', type: 'ordre', title: 'Remise en ordre — Méthode de la contraction', icon: '🔢',
+          instruction: 'Remets les étapes de la contraction.',
+          steps: ['Lire le texte et saisir la thèse', 'Découper en parties (une idée par partie)', 'Reformuler l’idée de chaque partie', 'Relier avec des connecteurs', 'Vérifier le nombre de mots (¼)'],
+          explain: 'On repère la thèse et le plan, on reformule, on relie, on compte les mots.',
+        },
+        {
+          id: 'p1-fr-2-tri', type: 'tri', title: 'Tri — Contraction : garder ou supprimer ?', icon: '🗂️',
+          instruction: 'Dans une contraction, faut-il le garder ou le supprimer ?',
+          categories: [{ id: 'g', label: 'Garder' }, { id: 's', label: 'Supprimer' }],
+          items: [
+            { text: 'La thèse de l’auteur', cat: 'g' },
+            { text: 'Un exemple qui illustre une idée', cat: 's' },
+            { text: 'L’enchaînement logique des idées', cat: 'g' },
+            { text: 'Une répétition', cat: 's' },
+            { text: 'Ton avis personnel', cat: 's' },
+            { text: 'Le point de vue de l’auteur (« je »)', cat: 'g' },
           ],
         },
         {
           id: 'p1-fr-2-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
           questions: [
-            { statement: 'À l’écrit techno, on choisit entre le commentaire et la contraction + essai.', answer: true, explain: 'Vrai : deux sujets au choix.' },
             { statement: 'La contraction consiste à donner son avis sur le texte.', answer: false, explain: 'Faux : on résume fidèlement au quart, sans commenter.' },
-            { statement: 'L’explication linéaire suit le texte dans l’ordre.', answer: true, explain: 'Vrai : au fil de la lecture, sans plaquer un plan thématique.' },
+            { statement: 'L’essai attend souvent une réponse nuancée.', answer: true, explain: 'Vrai : arguments pour, contre, puis dépassement.' },
+            { statement: 'Dans la contraction, on peut recopier des phrases entières du texte.', answer: false, explain: 'Faux : on reformule avec ses propres mots.' },
+            { statement: 'Un bon argument d’essai s’appuie sur un exemple précis.', answer: true, explain: 'Vrai : littérature, actualité, histoire, expérience.' },
+          ],
+        },
+        {
+          id: 'p1-fr-2-flash', type: 'flashcard', title: 'Flashcards — Contraction & essai', icon: '🃏',
+          cards: [
+            { front: 'Contraction', back: 'Résumer au ¼, fidèlement, avec ses mots, sans commenter.' },
+            { front: 'Fidélité', back: 'Garder les idées, l’ordre et le point de vue de l’auteur.' },
+            { front: 'Essai', back: 'Réflexion argumentée et nuancée répondant à une question.' },
+            { front: 'Argument / exemple', back: 'Une raison + un fait précis qui la prouve.' },
+            { front: 'Connecteurs logiques', back: 'Donc, cependant, en effet, or… : ils structurent le propos.' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'p1-fr-3',
+      name: 'Les genres & leur vocabulaire',
+      short: 'Genres & vocabulaire',
+      keywords: 'roman récit narrateur point de vue focalisation théâtre réplique tirade monologue didascalie stichomythie poésie vers strophe rime mètre alexandrin sonnet allitération assonance littérature d’idées argumentation apologue essai humanisme Lumières figures de style registres',
+      intro:
+        'Les **4 objets d’étude** (roman, théâtre, poésie, littérature d’idées) ont chacun leur **vocabulaire technique**. Le connaître est indispensable pour **analyser** un texte au commentaire comme à l’oral. Voici la « boîte à outils » complète, genre par genre.',
+      cours: [
+        {
+          h: 'Le roman et le récit : le vocabulaire de la narration',
+          blocks: [
+            { t: 'p', c: 'Le **roman** (et plus largement le **récit**, du Moyen Âge au XXIᵉ) est l’art de **raconter une histoire**. Vocabulaire de base :' },
+            { t: 'table', head: ['Terme', 'Définition'], rows: [
+              ['Narrateur', 'Celui qui **raconte** (≠ l’auteur !)'],
+              ['Intrigue', 'L’enchaînement des événements de l’histoire'],
+              ['Péripétie', 'Un rebondissement de l’action'],
+              ['Incipit', 'Le **début** du roman'],
+              ['Dénouement', 'La **fin**, la résolution'],
+              ['Récit cadre / enchâssé', 'Une histoire racontée à l’intérieur d’une autre'],
+            ] },
+            { t: 'warning', c: 'Ne confonds jamais l’**auteur** (la personne réelle qui écrit) et le **narrateur** (la voix qui raconte, qui peut être un personnage inventé).' },
+          ],
+        },
+        {
+          h: 'Le roman : narrateur, points de vue et rythme',
+          blocks: [
+            { t: 'p', c: 'Le **point de vue** (ou **focalisation**) désigne « par quels yeux » on voit l’histoire :' },
+            { t: 'table', head: ['Point de vue', 'Ce qu’on sait'], rows: [
+              ['Focalisation **interne**', 'On suit **un personnage**, on connaît ses pensées'],
+              ['Focalisation **externe**', 'On voit de l’extérieur, comme une caméra (pas les pensées)'],
+              ['Focalisation **zéro** (omnisciente)', 'Le narrateur **sait tout** de tous les personnages'],
+            ] },
+            { t: 'p', c: 'On distingue aussi le **narrateur interne** (« je », un personnage raconte) du **narrateur externe** (« il/elle », extérieur à l’histoire). Le **rythme** du récit varie : **sommaire** (on résume), **scène** (temps réel, dialogue), **ellipse** (on saute une période), **pause** (description).' },
+          ],
+        },
+        {
+          h: 'Le théâtre : le vocabulaire du texte théâtral',
+          blocks: [
+            { t: 'p', c: 'Le **théâtre** (XVIIᵉ-XXIᵉ) est un texte fait pour être **joué**. Vocabulaire spécifique :' },
+            { t: 'table', head: ['Terme', 'Définition'], rows: [
+              ['Réplique', 'Ce que dit un personnage (sa prise de parole)'],
+              ['Tirade', 'Une **longue** réplique ininterrompue'],
+              ['Monologue', 'Un personnage **seul** se parle à lui-même'],
+              ['Aparté', 'Des mots dits **à part**, entendus du public seul'],
+              ['Stichomythie', 'Échange de répliques **très courtes** (dialogue rapide, tension)'],
+              ['Didascalie', 'Les **indications scéniques** (décor, gestes, ton) en italique'],
+              ['Acte / scène', 'Les grandes divisions de la pièce'],
+            ] },
+            { t: 'tip', c: 'La **double énonciation** est propre au théâtre : un personnage parle à un autre personnage **et**, en même temps, à travers lui, l’auteur parle au **public**.' },
+          ],
+        },
+        {
+          h: 'Le théâtre : registres, mise en scène et représentation',
+          blocks: [
+            { t: 'p', c: 'Un texte théâtral n’existe pleinement qu’à la **représentation** : la **mise en scène** (décor, jeu des acteurs, lumières, costumes) **interprète** le texte.' },
+            { t: 'list', c: [
+              'le **quiproquo** : un malentendu (un personnage pris pour un autre) — ressort du **comique** ;',
+              'le **coup de théâtre** : un rebondissement brutal ;',
+              'le **nœud** (le cœur du conflit) et le **dénouement** (la résolution).',
+            ] },
+            { t: 'p', c: 'Registres fréquents : le **comique** (comédie : farce, satire) et le **tragique** (tragédie : fatalité, mort, dilemme). On parle de **tragi-comédie** quand les deux se mêlent.' },
+          ],
+        },
+        {
+          h: 'La poésie : la versification',
+          blocks: [
+            { t: 'p', c: 'La **poésie** (XIXᵉ-XXIᵉ) travaille le **langage** : sa musique, ses images, sa forme. La **versification** est la technique du vers.' },
+            { t: 'table', head: ['Terme', 'Définition'], rows: [
+              ['Vers', 'Une ligne de poème'],
+              ['Strophe', 'Un groupe de vers (tercet = 3, quatrain = 4)'],
+              ['Mètre', 'Le nombre de **syllabes** d’un vers'],
+              ['Octosyllabe / décasyllabe / alexandrin', 'Vers de **8 / 10 / 12** syllabes'],
+              ['Rime', 'Retour du même son en fin de vers'],
+              ['Césure / hémistiche', 'La coupe / la moitié de l’alexandrin (6+6)'],
+              ['Enjambement / rejet', 'La phrase déborde d’un vers sur le suivant'],
+            ] },
+            { t: 'tip', c: 'Attention au **e muet** : il se compte s’il est suivi d’une consonne (« une rose épanouie »). C’est essentiel pour compter les syllabes d’un alexandrin.' },
+          ],
+        },
+        {
+          h: 'La poésie : sonorités, images et formes fixes',
+          blocks: [
+            { t: 'p', c: 'La poésie joue sur les **sons** :' },
+            { t: 'list', c: [
+              '**allitération** : répétition d’une **consonne** (« Pour qui sont ces serpents qui sifflent sur vos têtes ? ») ;',
+              '**assonance** : répétition d’une **voyelle** ;',
+              'les **rimes** (riches, suffisantes, pauvres) et leur disposition : **plates** (AABB), **croisées** (ABAB), **embrassées** (ABBA).',
+            ] },
+            { t: 'p', c: 'Elle crée des **images** (métaphore, comparaison, symbole) et prend des **formes fixes** : le **sonnet** (2 quatrains + 2 tercets), l’**ode**, ou au contraire le **vers libre** et le **poème en prose** (sans mètre ni rime).' },
+            { t: 'p', c: 'Registre dominant : le **lyrisme** (expression des sentiments personnels, souvent avec le « je »).' },
+          ],
+        },
+        {
+          h: 'La littérature d’idées : le vocabulaire de l’argumentation',
+          blocks: [
+            { t: 'p', c: 'La **littérature d’idées** (XVIᵉ-XVIIIᵉ) regroupe les textes qui **défendent des idées** et cherchent à **convaincre** ou **persuader**.' },
+            { t: 'table', head: ['Terme', 'Définition'], rows: [
+              ['Thèse', 'L’idée défendue par l’auteur'],
+              ['Argument', 'Une raison qui appuie la thèse'],
+              ['Convaincre', 'Emporter l’adhésion par la **raison** (logique, preuves)'],
+              ['Persuader', 'Emporter l’adhésion par les **émotions**'],
+              ['Réfuter', 'Démonter la thèse adverse'],
+              ['Argumentation directe / indirecte', 'Idées énoncées clairement / passant par une fiction'],
+            ] },
+            { t: 'p', c: 'L’argumentation **indirecte** passe par une **fiction** : l’**apologue** (récit à visée morale), la **fable**, le **conte philosophique** (Voltaire), l’**utopie**.' },
+          ],
+        },
+        {
+          h: 'La littérature d’idées : formes et mouvements',
+          blocks: [
+            { t: 'p', c: 'Les grandes **formes** de la littérature d’idées : l’**essai** (Montaigne), le **dialogue**, la **lettre** (les *Lettres persanes*), le **pamphlet**, la **maxime**, l’**article** (l’*Encyclopédie*).' },
+            { t: 'table', head: ['Mouvement', 'Idées clés'], rows: [
+              ['**Humanisme** (XVIᵉ)', 'Confiance en l’homme, savoir, tolérance, retour à l’Antiquité'],
+              ['**Lumières** (XVIIIᵉ)', 'Raison, progrès, liberté, critique des injustices et du fanatisme'],
+            ] },
+            { t: 'p', c: 'Registres associés : **polémique** (attaque violente), **satirique** (critique par le rire), **didactique** (qui cherche à instruire).' },
+          ],
+        },
+        {
+          h: 'Les figures de style (boîte à outils)',
+          blocks: [
+            { t: 'p', c: 'Les **figures de style** sont des procédés qui donnent de la force et du sens. À connaître et à savoir **nommer** :' },
+            { t: 'table', head: ['Figure', 'Définition'], rows: [
+              ['Comparaison', 'Rapproche deux éléments avec un **outil** (« comme »)'],
+              ['Métaphore', 'Rapprochement **sans** outil (« une mer de larmes »)'],
+              ['Personnification', 'Traits humains à une chose (« le vent murmure »)'],
+              ['Hyperbole', 'Exagération (« mourir de faim »)'],
+              ['Litote', 'Dire peu pour suggérer beaucoup (« ce n’est pas mauvais »)'],
+              ['Euphémisme', 'Atténuer une réalité dure (« il nous a quittés »)'],
+              ['Anaphore', 'Répétition en début de vers/phrase (insistance)'],
+              ['Antithèse / oxymore', 'Opposition d’idées / deux mots contradictoires (« soleil noir »)'],
+              ['Gradation', 'Énumération d’intensité croissante'],
+              ['Ironie', 'Dire le contraire de ce qu’on pense pour critiquer'],
+            ] },
+            { t: 'tip', c: 'Règle absolue en analyse : associer **le procédé + son effet**. Ex. : « l’**anaphore** de “je me souviens” insiste sur l’obsession du souvenir ». Nommer sans expliquer ne rapporte rien.' },
+          ],
+        },
+      ],
+      essentiel: [
+        '**Roman/récit** : narrateur (≠ auteur), intrigue, incipit/dénouement ; **points de vue** : interne, externe, omniscient (zéro) ; rythme (scène, sommaire, ellipse, pause).',
+        '**Théâtre** : réplique, tirade, monologue, aparté, stichomythie, **didascalie** ; **double énonciation** ; comique / tragique ; le texte se réalise à la **représentation**.',
+        '**Poésie** : vers, strophe, **mètre** (alexandrin = 12 syll.), rime (plates/croisées/embrassées), césure, enjambement ; **allitération** (consonnes) / **assonance** (voyelles) ; sonnet, vers libre ; **lyrisme**.',
+        '**Littérature d’idées** : thèse, argument, **convaincre** (raison) / **persuader** (émotion) ; argumentation directe / indirecte (**apologue**, conte philosophique) ; **Humanisme** & **Lumières**.',
+        '**Figures de style** : toujours **nommer le procédé + expliquer son effet** (métaphore, personnification, anaphore, antithèse, ironie, litote…).',
+      ],
+      resources: [
+        { kind: 'video', label: 'Vocabulaire du théâtre et de la poésie', note: 'Vidéos — recherche YouTube', url: yt('vocabulaire théâtre poésie versification première français') },
+        { kind: 'video', label: 'Roman : points de vue ; littérature d’idées', note: 'Vidéos — recherche YouTube', url: yt('point de vue focalisation roman argumentation littérature d idées première français') },
+      ],
+      games: [
+        {
+          id: 'p1-fr-3-qcm', type: 'qcm', title: 'QCM — Vocabulaire des genres', icon: '❓',
+          questions: [
+            { q: 'Une **tirade** est…', choices: ['une longue réplique ininterrompue', 'un personnage seul qui se parle', 'une indication scénique', 'un échange rapide'], answer: 0, explain: 'Le monologue = seul ; l’aparté = à part ; la stichomythie = répliques courtes.' },
+            { q: 'Les **didascalies** sont…', choices: ['les indications scéniques', 'les répliques', 'les rimes', 'les strophes'], answer: 0, explain: 'Elles indiquent décor, gestes, ton (en italique).' },
+            { q: 'Un **alexandrin** compte…', choices: ['12 syllabes', '8 syllabes', '10 syllabes', '14 syllabes'], answer: 0, explain: 'Octosyllabe = 8, décasyllabe = 10, alexandrin = 12.' },
+            { q: 'La répétition d’une **consonne** est une…', choices: ['allitération', 'assonance', 'anaphore', 'césure'], answer: 0, explain: 'Allitération = consonne ; assonance = voyelle.' },
+            { q: 'Emporter l’adhésion par les **émotions**, c’est…', choices: ['persuader', 'convaincre', 'réfuter', 'résumer'], answer: 0, explain: 'Convaincre = par la raison ; persuader = par les émotions.' },
+            { q: 'Le récit à visée morale passant par une fiction est…', choices: ['l’apologue', 'l’incipit', 'la didascalie', 'la césure'], answer: 0, explain: 'Fable, conte philosophique… = argumentation indirecte.' },
+            { q: 'Voir l’histoire à travers les pensées d’un seul personnage, c’est la focalisation…', choices: ['interne', 'externe', 'zéro', 'omnisciente'], answer: 0, explain: 'Interne = on suit un personnage et ses pensées.' },
+          ],
+        },
+        {
+          id: 'p1-fr-3-tri', type: 'tri', title: 'Tri — À quel genre appartient ce mot ?', icon: '🗂️',
+          instruction: 'Classe chaque terme technique.',
+          categories: [
+            { id: 'th', label: 'Théâtre' },
+            { id: 'po', label: 'Poésie' },
+            { id: 'ro', label: 'Roman' },
+          ],
+          items: [
+            { text: 'Didascalie', cat: 'th' },
+            { text: 'Alexandrin', cat: 'po' },
+            { text: 'Focalisation', cat: 'ro' },
+            { text: 'Tirade', cat: 'th' },
+            { text: 'Strophe', cat: 'po' },
+            { text: 'Incipit', cat: 'ro' },
+            { text: 'Stichomythie', cat: 'th' },
+            { text: 'Enjambement', cat: 'po' },
+          ],
+        },
+        {
+          id: 'p1-fr-3-assoc', type: 'association', title: 'Association — Terme ↔ définition', icon: '🔗',
+          pairs: [
+            { left: 'Monologue', right: 'Un personnage seul se parle à lui-même' },
+            { left: 'Enjambement', right: 'La phrase déborde d’un vers sur le suivant' },
+            { left: 'Narrateur', right: 'La voix qui raconte (≠ l’auteur)' },
+            { left: 'Apologue', right: 'Récit à visée morale (fable, conte)' },
+            { left: 'Litote', right: 'Dire peu pour suggérer beaucoup' },
+            { left: 'Double énonciation', right: 'Le personnage parle à l’autre et au public' },
+          ],
+        },
+        {
+          id: 'p1-fr-3-trou', type: 'trou', title: 'Texte à trous — Vocabulaire littéraire', icon: '✏️',
+          questions: [
+            { text: 'Un vers de 12 syllabes s’appelle un ____.', answer: 'alexandrin', explain: '8 = octosyllabe, 10 = décasyllabe, 12 = alexandrin.' },
+            { text: 'La répétition d’une voyelle est une ____.', answer: 'assonance', explain: 'Assonance = voyelle ; allitération = consonne.' },
+            { text: 'Les indications scéniques d’une pièce sont les ____.', answer: 'didascalies', alt: ['didascalie'], explain: 'Elles précisent décor, gestes, ton.' },
+            { text: 'Convaincre s’adresse à la raison ; ____ s’adresse aux émotions.', answer: 'persuader', explain: 'Deux stratégies argumentatives.' },
+            { text: 'Le début d’un roman est l’____.', answer: 'incipit', explain: 'La fin = le dénouement.' },
+          ],
+        },
+        {
+          id: 'p1-fr-3-flash', type: 'flashcard', title: 'Flashcards — Genres & vocabulaire', icon: '🃏',
+          cards: [
+            { front: 'Narrateur ≠ auteur', back: 'L’auteur écrit ; le narrateur raconte (parfois un personnage).' },
+            { front: 'Focalisation interne / externe / zéro', back: 'Pensées d’un perso / vue extérieure / narrateur omniscient.' },
+            { front: 'Tirade / monologue / aparté', back: 'Longue réplique / seul se parle / dit à part (public).' },
+            { front: 'Didascalie', back: 'Indication scénique (décor, geste, ton).' },
+            { front: 'Alexandrin', back: 'Vers de 12 syllabes (césure à l’hémistiche, 6+6).' },
+            { front: 'Allitération / assonance', back: 'Répétition de consonne / de voyelle.' },
+            { front: 'Convaincre / persuader', back: 'Par la raison / par les émotions.' },
+            { front: 'Apologue', back: 'Récit à visée morale (argumentation indirecte).' },
+            { front: 'Humanisme / Lumières', back: 'XVIᵉ (savoir, tolérance) / XVIIIᵉ (raison, progrès, liberté).' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'p1-fr-4',
+      name: 'L’oral & les repères',
+      short: 'Oral & repères',
+      keywords: 'oral EAF explication linéaire question de grammaire présentation œuvre entretien registres lyrique tragique comique pathétique épique polémique mouvements littéraires humanisme baroque classicisme Lumières romantisme réalisme symbolisme surréalisme',
+      intro:
+        'L’oral (**coef. 5**) et les **repères culturels** complètent la préparation. On y révise le **déroulé de l’épreuve**, la méthode de l’**explication linéaire**, la **question de grammaire**, l’**entretien**, ainsi que les **registres** et **mouvements** littéraires à connaître.',
+      cours: [
+        {
+          h: 'L’oral : déroulé de l’épreuve',
+          blocks: [
+            { t: 'p', c: 'L’oral dure environ **20 minutes** (après **30 min de préparation**) et se déroule en deux parties :' },
+            { t: 'table', head: ['Partie', 'Contenu', 'Durée'], rows: [
+              ['**Partie 1**', 'Lecture + **explication linéaire** d’un texte du descriptif, puis **question de grammaire**', '~12 min'],
+              ['**Partie 2**', 'Présentation d’une **œuvre** choisie, puis **entretien** avec l’examinateur', '~8 min'],
+            ] },
+            { t: 'p', c: 'On apporte son **descriptif** (la liste des textes étudiés) et les **œuvres**. L’examinateur choisit le texte de la partie 1.' },
+          ],
+        },
+        {
+          h: 'L’explication linéaire (méthode)',
+          blocks: [
+            { t: 'p', c: 'L’**explication linéaire** consiste à expliquer le texte **dans l’ordre**, **au fil de la lecture**, sans plaquer un plan thématique. On suit les **mouvements** du texte.' },
+            { t: 'list', c: [
+              'commencer par une **introduction** (situer le texte, lecture à voix haute, **problématique**, annonce des mouvements) ;',
+              'expliquer le texte **mouvement par mouvement**, en analysant les **procédés + effets** au fur et à mesure ;',
+              'terminer par une **conclusion** (bilan + réponse à la problématique).',
+            ] },
+            { t: 'warning', c: 'Erreur fréquente : la **paraphrase** (raconter le texte). Comme à l’écrit, on **analyse** le « comment » : chaque remarque associe une **citation**, un **procédé** et un **effet**.' },
+          ],
+        },
+        {
+          h: 'La question de grammaire',
+          blocks: [
+            { t: 'p', c: 'Après l’explication, l’examinateur pose une **question de grammaire** sur une phrase du texte. Les points au programme les plus fréquents :' },
+            { t: 'list', c: [
+              'l’analyse des **propositions** (indépendante, principale, subordonnée) ;',
+              'les **subordonnées** (relative, conjonctive, interrogative indirecte) ;',
+              'la **négation** (totale / partielle) ;',
+              'l’**interrogation** (directe / indirecte, totale / partielle).',
+            ] },
+            { t: 'tip', c: 'Méthode : **repérer le verbe conjugué** (autant de verbes conjugués = autant de propositions), puis **nommer** la nature de chaque proposition et sa fonction.' },
+          ],
+        },
+        {
+          h: 'La présentation d’œuvre & l’entretien',
+          blocks: [
+            { t: 'p', c: 'Dans la **partie 2**, tu présentes une **œuvre lue** dans l’année (ou en lecture cursive) : tu expliques **pourquoi tu l’as choisie**, ce qu’elle raconte et ce qu’elle t’a apporté. Puis l’examinateur **dialogue** avec toi (l’**entretien**).' },
+            { t: 'tip', c: 'Prépare : un **résumé** clair, **2-3 passages** marquants, un **avis argumenté** (pas seulement « j’ai aimé »), et des liens avec le **parcours**. Montre que tu as **vraiment lu** et **réfléchi**.' },
+          ],
+        },
+        {
+          h: 'Les registres littéraires',
+          blocks: [
+            { t: 'p', c: 'Un **registre** est la **tonalité** d’un texte, l’émotion qu’il cherche à produire. À savoir reconnaître :' },
+            { t: 'table', head: ['Registre', 'Effet recherché'], rows: [
+              ['Lyrique', 'Exprimer des **sentiments** personnels (amour, mélancolie)'],
+              ['Tragique', 'Fatalité, souffrance, mort inévitable'],
+              ['Comique', 'Faire **rire** (farce, satire, ironie)'],
+              ['Pathétique', 'Émouvoir, susciter la **pitié**'],
+              ['Épique', 'Amplifier, célébrer un exploit (souffle héroïque)'],
+              ['Polémique / satirique', '**Attaquer**, critiquer (par la violence ou le rire)'],
+              ['Fantastique', 'Faire naître le **doute**, l’inquiétude'],
+            ] },
+          ],
+        },
+        {
+          h: 'Les mouvements littéraires (repères)',
+          blocks: [
+            { t: 'p', c: 'Situer un texte dans son **mouvement** aide à l’interpréter. Grands repères du XVIᵉ au XXᵉ :' },
+            { t: 'table', head: ['Mouvement', 'Siècle', 'Idées clés'], rows: [
+              ['Humanisme', 'XVIᵉ', 'Confiance en l’homme, savoir, tolérance'],
+              ['Baroque', 'fin XVIᵉ-XVIIᵉ', 'Mouvement, instabilité, illusion, démesure'],
+              ['Classicisme', 'XVIIᵉ', 'Mesure, raison, règles, équilibre'],
+              ['Lumières', 'XVIIIᵉ', 'Raison, progrès, liberté, critique'],
+              ['Romantisme', 'XIXᵉ', 'Sentiments, « je », nature, mélancolie'],
+              ['Réalisme / Naturalisme', 'XIXᵉ', 'Peindre le réel, la société, avec précision'],
+              ['Symbolisme', 'fin XIXᵉ', 'Suggérer, musique du langage, symboles'],
+              ['Surréalisme', 'XXᵉ', 'Rêve, inconscient, écriture automatique'],
+            ] },
+          ],
+        },
+      ],
+      essentiel: [
+        'Oral (coef. 5, ~20 min après 30 min de prépa) : **partie 1** = explication linéaire + **question de grammaire** ; **partie 2** = présentation d’**œuvre** + **entretien**.',
+        '**Explication linéaire** : expliquer **dans l’ordre**, mouvement par mouvement (citation + procédé + effet), **jamais paraphraser**.',
+        '**Question de grammaire** : repérer les verbes conjugués → identifier les **propositions** (subordonnées, négation, interrogation).',
+        'Présentation d’**œuvre** : résumé, passages marquants, **avis argumenté** ; puis entretien.',
+        '**Registres** : lyrique, tragique, comique, pathétique, épique, polémique, fantastique.',
+        '**Mouvements** : Humanisme, Baroque, Classicisme, Lumières, Romantisme, Réalisme/Naturalisme, Symbolisme, Surréalisme.',
+      ],
+      resources: [
+        { kind: 'video', label: 'Méthode de l’explication linéaire', note: 'Vidéos — recherche YouTube', url: yt('explication linéaire méthode oral EAF première français') },
+        { kind: 'video', label: 'Registres et mouvements littéraires', note: 'Vidéos — recherche YouTube', url: yt('registres littéraires mouvements littéraires première français') },
+      ],
+      games: [
+        {
+          id: 'p1-fr-4-qcm', type: 'qcm', title: 'QCM — Oral & repères', icon: '❓',
+          questions: [
+            { q: 'La partie 1 de l’oral comprend…', choices: ['l’explication linéaire + une question de grammaire', 'la présentation d’œuvre', 'un débat', 'une dictée'], answer: 0, explain: 'La partie 2 = présentation d’œuvre + entretien.' },
+            { q: 'L’explication linéaire suit le texte…', choices: ['dans l’ordre, au fil de la lecture', 'par un plan thématique', 'en le résumant', 'à l’envers'], answer: 0, explain: 'Mouvement par mouvement, sans plaquer de plan.' },
+            { q: 'Le registre qui exprime les sentiments personnels est…', choices: ['lyrique', 'épique', 'comique', 'polémique'], answer: 0, explain: 'Lyrique = sentiments (amour, mélancolie).' },
+            { q: 'Le mouvement du XVIIIᵉ centré sur la raison et le progrès est…', choices: ['les Lumières', 'le Romantisme', 'le Baroque', 'le Réalisme'], answer: 0, explain: 'Lumières : raison, progrès, liberté, critique.' },
+            { q: 'Pour la question de grammaire, on repère d’abord…', choices: ['les verbes conjugués', 'les rimes', 'les didascalies', 'les strophes'], answer: 0, explain: 'Autant de verbes conjugués = autant de propositions.' },
+            { q: 'Le registre qui cherche à émouvoir et susciter la pitié est…', choices: ['pathétique', 'comique', 'épique', 'satirique'], answer: 0, explain: 'Pathétique = émotion, pitié.' },
+          ],
+        },
+        {
+          id: 'p1-fr-4-ordre', type: 'ordre', title: 'Remise en ordre — Déroulé de l’oral', icon: '🔢',
+          instruction: 'Remets les étapes de l’oral dans l’ordre.',
+          steps: ['30 min de préparation', 'Lecture du texte à voix haute', 'Explication linéaire', 'Question de grammaire', 'Présentation de l’œuvre choisie', 'Entretien'],
+          explain: 'Partie 1 (explication linéaire + grammaire) puis partie 2 (œuvre + entretien).',
+        },
+        {
+          id: 'p1-fr-4-assoc', type: 'association', title: 'Association — Mouvement ↔ idée clé', icon: '🔗',
+          pairs: [
+            { left: 'Humanisme', right: 'Confiance en l’homme, savoir, tolérance (XVIᵉ)' },
+            { left: 'Classicisme', right: 'Mesure, raison, règles (XVIIᵉ)' },
+            { left: 'Lumières', right: 'Raison, progrès, liberté (XVIIIᵉ)' },
+            { left: 'Romantisme', right: 'Sentiments, « je », nature (XIXᵉ)' },
+            { left: 'Réalisme', right: 'Peindre le réel et la société (XIXᵉ)' },
+            { left: 'Surréalisme', right: 'Rêve, inconscient, écriture automatique (XXᵉ)' },
+          ],
+        },
+        {
+          id: 'p1-fr-4-tri', type: 'tri', title: 'Tri — Quel registre ?', icon: '🗂️',
+          instruction: 'Classe chaque effet recherché.',
+          categories: [
+            { id: 'ly', label: 'Lyrique' },
+            { id: 'tr', label: 'Tragique' },
+            { id: 'co', label: 'Comique' },
+          ],
+          items: [
+            { text: 'Exprimer son amour et sa mélancolie', cat: 'ly' },
+            { text: 'Montrer une fatalité qui mène à la mort', cat: 'tr' },
+            { text: 'Faire rire par un quiproquo', cat: 'co' },
+            { text: 'Chanter ses sentiments avec le « je »', cat: 'ly' },
+            { text: 'Un dilemme sans issue heureuse', cat: 'tr' },
+            { text: 'Une satire moqueuse', cat: 'co' },
+          ],
+        },
+        {
+          id: 'p1-fr-4-flash', type: 'flashcard', title: 'Flashcards — Oral & repères', icon: '🃏',
+          cards: [
+            { front: 'Explication linéaire', back: 'Expliquer le texte dans l’ordre, mouvement par mouvement.' },
+            { front: 'Question de grammaire', back: 'Repérer les verbes conjugués → analyser les propositions.' },
+            { front: 'Entretien', back: 'Dialogue sur l’œuvre présentée (avis argumenté).' },
+            { front: 'Registre lyrique / tragique', back: 'Sentiments personnels / fatalité et mort.' },
+            { front: 'Lumières', back: 'XVIIIᵉ : raison, progrès, liberté, critique.' },
+            { front: 'Romantisme', back: 'XIXᵉ : sentiments, « je », nature, mélancolie.' },
           ],
         },
       ],
