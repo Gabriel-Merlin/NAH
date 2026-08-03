@@ -3099,6 +3099,22 @@ const francaisP = {
             { q: 'Un bon axe de commentaire est…', choices: ['une idée d’interprétation', 'un simple thème', 'une citation', 'un procédé isolé'], answer: 0, explain: 'Un axe est une grande idée qui répond à la problématique.' },
             { q: 'La structure d’un paragraphe (AIE) est…', choices: ['Affirmation, Illustration, Explication', 'Analyse, Introduction, Exemple', 'Amorce, Idée, Écriture', 'Argument, Image, Effet'], answer: 0, explain: 'Idée → citation → procédé + effet.' },
             { q: 'Dans un commentaire, on évite d’écrire…', choices: ['« je »', '« on »', '« le texte »', '« le lecteur »'], answer: 0, explain: 'On préfère « on », « le lecteur », « le texte ».' },
+            { q: 'Au brouillon, la méthode efficace consiste à noter…', choices: ['le procédé + la citation + son effet', 'seulement le résumé', 'la biographie de l’auteur', 'la date de publication'], answer: 0, explain: 'Tableau à deux colonnes : procédé/citation à gauche, effet/interprétation à droite.' },
+            { q: 'L’introduction se compose, dans l’ordre, de…', choices: ['amorce, présentation, problématique, annonce du plan', 'plan, problématique, amorce', 'citation, résumé, avis', 'thèse, arguments, exemples'], answer: 0, explain: 'Les 4 mouvements de l’introduction du commentaire.' },
+            { q: 'Un plan à éviter absolument est le plan…', choices: ['« forme / fond » (ou « procédés / effets »)', 'en deux axes', 'en trois axes', 'progressif'], answer: 0, explain: 'On mêle toujours le fond et la forme dans chaque partie.' },
+            { q: 'Une citation, dans un paragraphe, doit toujours être…', choices: ['analysée (procédé + effet)', 'longue', 'laissée seule', 'recopiée sans guillemets'], answer: 0, explain: 'On cite court et exact, puis on analyse.' },
+            { q: 'La conclusion d’un commentaire se termine par…', choices: ['une ouverture', 'une citation nouvelle', 'la problématique', 'un résumé du texte'], answer: 0, explain: 'Bilan (réponse à la problématique) puis ouverture.' },
+          ],
+        },
+        {
+          id: 'p1-fr-1-vf', type: 'vraifaux', title: 'Vrai / Faux rapide', icon: '⚡',
+          questions: [
+            { statement: 'Le commentaire consiste à résumer le texte.', answer: false, explain: 'Faux : on analyse comment le texte fait sens (≠ résumé, ≠ paraphrase).' },
+            { statement: 'La problématique donne une direction à tout le commentaire.', answer: true, explain: 'Vrai : c’est la question centrale à laquelle il répond.' },
+            { statement: 'On peut employer le « je » dans un commentaire.', answer: false, explain: 'Faux : on préfère « on », « le lecteur », « le texte ».' },
+            { statement: 'Chaque paragraphe doit contenir au moins une citation analysée.', answer: true, explain: 'Vrai : structure AIE (Affirmation, Illustration, Explication).' },
+            { statement: 'Le plan « forme puis fond » est recommandé.', answer: false, explain: 'Faux : il faut mêler fond et forme dans chaque partie.' },
+            { statement: 'La conclusion se termine par une ouverture.', answer: true, explain: 'Vrai : bilan puis ouverture.' },
           ],
         },
         {
