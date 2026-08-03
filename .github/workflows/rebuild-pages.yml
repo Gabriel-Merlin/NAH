@@ -1,0 +1,25 @@
+name: Rebuild Pages
+
+# Déclenche manuellement une reconstruction de GitHub Pages.
+# Utile car les publications automatiques (push par un automate) ne
+# déclenchent pas toujours la reconstruction du site « deploy from branch ».
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request a GitHub Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Requesting a Pages build for ${{ github.repository }} ..."
+          gh api --method POST -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/pages/builds"
+          echo "--- Latest build status ---"
+          gh api "/repos/${{ github.repository }}/pages/builds/latest" || true
