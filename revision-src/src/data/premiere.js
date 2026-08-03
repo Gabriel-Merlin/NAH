@@ -1962,29 +1962,80 @@ const economieP = {
         'Les **besoins** sont quasi illimités mais les **ressources** sont **rares** : la rareté oblige à faire des **choix**. C’est le cœur de la science économique.',
       cours: [
         {
-          h: 'Rareté et choix',
+          h: 'Les besoins, les biens et les services',
           blocks: [
-            { t: 'p', c: 'La **rareté** oblige à choisir. Chaque choix implique un **coût** (ce à quoi on renonce). On satisfait les besoins avec des **biens** (matériels) et des **services** (immatériels).' },
-            { t: 'p', c: 'Le **consommateur** cherche à maximiser son **utilité** (satisfaction). L’utilité est **décroissante** : le premier verre d’eau dans le désert procure une énorme satisfaction, le dixième beaucoup moins. Le **producteur** décide quoi et combien produire pour dégager un **profit**.' },
+            { t: 'p', c: 'Un **besoin** est une sensation de manque que l’on cherche à satisfaire. On distingue les besoins **primaires** (vitaux : manger, se loger) et **secondaires** (loisirs, culture). Les besoins sont **quasi illimités** et se renouvellent sans cesse.' },
+            { t: 'p', c: 'Pour les satisfaire, on utilise des **biens** et des **services** :' },
+            { t: 'table', head: ['Bien', 'Service'], rows: [
+              ['**Matériel**, on peut le toucher, le stocker', '**Immatériel**, consommé au moment où il est produit'],
+              ['Un pain, un ordinateur, une voiture', 'Une coupe de cheveux, un cours, un trajet en bus'],
+            ] },
+            { t: 'p', c: 'Un bien peut être **libre** (gratuit et abondant, comme l’air) ou **économique** (rare, il a un prix). L’économie ne s’intéresse qu’aux biens **économiques**.' },
+          ],
+        },
+        {
+          h: 'La rareté et les choix',
+          blocks: [
+            { t: 'p', c: 'Le **problème économique** fondamental : les besoins sont **illimités** mais les **ressources** (temps, argent, matières) sont **rares**. La **rareté** est le point de départ de toute la science économique.' },
+            { t: 'p', c: 'Parce que les ressources sont rares, chaque agent doit **choisir** : un ménage avec un budget limité, une entreprise avec des moyens limités, l’État avec un budget contraint. **Faire de l’économie, c’est arbitrer.**' },
+            { t: 'tip', c: 'Retiens la formule : « des besoins illimités, des ressources limitées → il faut **choisir** ». C’est la définition même de l’économie.' },
+          ],
+        },
+        {
+          h: 'Le coût d’opportunité',
+          blocks: [
+            { t: 'p', c: 'Tout choix a un **coût** : le **coût d’opportunité** est la valeur de **ce à quoi on renonce** en choisissant autre chose. Choisir, c’est toujours renoncer.' },
+            { t: 'example', h: 'Le coût d’opportunité', c: 'Avec 1 000 € d’économies, tu peux partir en voyage **ou** acheter un ordinateur. \n→ Si tu choisis le voyage, le **coût d’opportunité** est l’ordinateur auquel tu renonces. \nDe même, une heure passée à travailler est une heure qu’on ne passe pas à se reposer : le temps aussi a un coût d’opportunité.' },
+          ],
+        },
+        {
+          h: 'L’utilité et le comportement du consommateur',
+          blocks: [
+            { t: 'p', c: 'Le **consommateur** cherche à maximiser son **utilité** : la **satisfaction** que lui procure la consommation, compte tenu de son **budget**. Il compare l’utilité qu’il retire d’un bien à son **prix**.' },
+            { t: 'p', c: 'L’utilité est **décroissante** : chaque unité supplémentaire d’un même bien procure **moins** de satisfaction que la précédente. Le premier verre d’eau dans le désert procure une énorme satisfaction, le dixième beaucoup moins.' },
+            { t: 'warning', c: 'C’est ce qui explique qu’on ne consomme pas une quantité infinie d’un même bien, même s’il est bon marché : passé un certain point, l’utilité supplémentaire devient trop faible.' },
+          ],
+        },
+        {
+          h: 'Le producteur et le profit',
+          blocks: [
+            { t: 'p', c: 'Le **producteur** (l’entreprise) décide **quoi produire**, **comment** et **en quelle quantité**. Son objectif principal est de dégager un **profit** = recettes − coûts.' },
+            { t: 'p', c: 'Il combine des **facteurs de production** : le **travail** (les salariés) et le **capital** (machines, locaux). Il cherche la combinaison la plus **efficiente** (le meilleur résultat au moindre coût).' },
           ],
         },
         {
           h: 'Les agents économiques',
           blocks: [
+            { t: 'p', c: 'Un **agent économique** est un acteur qui prend des décisions économiques. On les regroupe en grandes catégories selon leur **fonction principale** :' },
             { t: 'table', head: ['Agent', 'Rôle principal'], rows: [
-              ['Ménages', 'Consomment, fournissent du travail'],
-              ['Entreprises', 'Produisent des biens et services'],
-              ['Institutions financières (banques)', 'Financent l’économie'],
-              ['Administrations publiques', 'Services non marchands, redistribution'],
-              ['Reste du monde', 'Échanges avec l’étranger'],
+              ['Ménages', 'Consomment, fournissent du travail, épargnent'],
+              ['Entreprises', 'Produisent des biens et services marchands'],
+              ['Institutions financières (banques)', 'Financent l’économie (crédits, placements)'],
+              ['Administrations publiques', 'Produisent des services non marchands, redistribuent'],
+              ['Reste du monde', 'Réalise les échanges avec l’étranger (import/export)'],
             ] },
+          ],
+        },
+        {
+          h: 'Le circuit économique',
+          blocks: [
+            { t: 'p', c: 'Les agents sont **interdépendants** : ils échangent en permanence des **flux**. Le **circuit économique** représente ces échanges. Par exemple, entre ménages et entreprises :' },
+            { t: 'list', c: [
+              'les ménages fournissent du **travail** aux entreprises et reçoivent des **revenus** (salaires) ;',
+              'avec ces revenus, ils **consomment** les biens et services produits par les entreprises ;',
+              'les entreprises reçoivent ainsi des **recettes**, qui financent la production… et le cycle recommence.',
+            ] },
+            { t: 'p', c: 'À chaque **flux réel** (bien, service, travail) correspond un **flux monétaire** de sens inverse (paiement). Le circuit montre que l’économie est un **système** où tout est lié.' },
           ],
         },
       ],
       essentiel: [
-        'La **rareté** des ressources oblige à faire des **choix** ; tout choix a un **coût**.',
-        '**Bien** (matériel) vs **service** (immatériel) ; l’**utilité** du consommateur est **décroissante**.',
+        'Un **besoin** (primaire/secondaire) se satisfait par des **biens** (matériels) ou **services** (immatériels) ; un bien économique est **rare** (≠ bien libre).',
+        'Le problème économique : besoins **illimités** / ressources **rares** → il faut **choisir**.',
+        '**Coût d’opportunité** = valeur de ce à quoi on renonce en choisissant.',
+        'Le **consommateur** maximise son **utilité** (décroissante) sous contrainte de **budget** ; le **producteur** vise le **profit** (recettes − coûts) en combinant travail et capital.',
         'Agents : **ménages, entreprises, institutions financières, administrations, reste du monde**.',
+        'Le **circuit économique** relie les agents par des **flux réels** et **monétaires** (de sens inverse).',
       ],
       resources: [
         { kind: 'video', label: 'Les grandes questions économiques', note: 'Vidéos — recherche YouTube', url: yt('grandes questions économiques rareté agents économiques première STMG') },
@@ -2036,32 +2087,93 @@ const economieP = {
         'Produire, c’est créer des biens et services. Pour mesurer la richesse **réellement créée**, on utilise la **valeur ajoutée**, puis le **PIB**.',
       cours: [
         {
-          h: 'La valeur ajoutée',
+          h: 'Produire : production marchande et non marchande',
           blocks: [
-            { t: 'formula', c: 'Valeur ajoutée = valeur de la production − consommations intermédiaires' },
-            { t: 'p', c: 'Les **consommations intermédiaires** sont les biens détruits ou transformés dans la production (matières, énergie).' },
-            { t: 'example', h: 'Exemple', c: 'Un menuisier vend 100 € de meubles en utilisant 30 € de bois → VA = 70 €. La VA rémunère le travail (salaires), le capital (intérêts, profits) et l’État (impôts).' },
-          ],
-        },
-        {
-          h: 'Le PIB et la croissance',
-          blocks: [
-            { t: 'p', c: 'Le **PIB** (Produit Intérieur Brut) est la **somme des valeurs ajoutées** produites sur un territoire pendant un an. La **croissance** est l’augmentation du PIB dans le temps.' },
-            { t: 'warning', c: 'Le PIB a des **limites** : il ne mesure ni le **bien-être**, ni les **inégalités**, ni les dégâts **environnementaux**, ni le travail non rémunéré (bénévolat, tâches domestiques).' },
+            { t: 'p', c: '**Produire**, c’est créer des **biens** et des **services** pour satisfaire des besoins. On distingue deux types de production :' },
+            { t: 'table', head: ['Production marchande', 'Production non marchande'], rows: [
+              ['Vendue sur un **marché** à un prix', 'Fournie **gratuitement** ou quasi gratuitement'],
+              ['Couvre ses coûts par les recettes', 'Financée par les **impôts** et cotisations'],
+              ['Une baguette, une place de cinéma', 'L’école publique, la justice, l’éclairage public'],
+            ] },
+            { t: 'p', c: 'La production non marchande (assurée surtout par les **administrations publiques**) est essentielle mais ne se vend pas : on la mesure par son **coût** de production.' },
           ],
         },
         {
           h: 'Les facteurs de production',
           blocks: [
-            { t: 'p', c: 'On combine deux facteurs : le **travail** (main-d’œuvre) et le **capital** (machines, bâtiments). La **productivité** mesure l’efficacité de la production : gagner en productivité permet de produire plus avec autant, source de croissance.' },
+            { t: 'p', c: 'Pour produire, on combine deux **facteurs de production** :' },
+            { t: 'table', head: ['Facteur travail', 'Facteur capital'], rows: [
+              ['La **main-d’œuvre** (les salariés)', 'Les moyens matériels durables'],
+              ['Heures travaillées, qualification', 'Machines, bâtiments, outils, logiciels'],
+            ] },
+            { t: 'p', c: 'On distingue le **capital fixe** (machines, bâtiments, qui durent plusieurs cycles) du **capital circulant** (matières premières, consommées dans la production). Augmenter le stock de capital, c’est **investir**.' },
+          ],
+        },
+        {
+          h: 'La productivité et le progrès technique',
+          blocks: [
+            { t: 'p', c: 'La **productivité** mesure l’**efficacité** de la production : c’est le rapport entre ce qui est produit et les moyens utilisés.' },
+            { t: 'formula', c: 'Productivité du travail = production / nombre d’heures (ou de travailleurs)' },
+            { t: 'p', c: 'Gagner en productivité, c’est produire **plus avec autant** (ou autant avec moins). Les gains de productivité viennent surtout du **progrès technique** (nouvelles machines, automatisation, numérique) et de la **qualification** de la main-d’œuvre. C’est un moteur essentiel de la **croissance**.' },
+          ],
+        },
+        {
+          h: 'La valeur ajoutée',
+          blocks: [
+            { t: 'p', c: 'Pour mesurer la richesse **réellement créée** par un producteur, on ne prend pas toute sa production : il faut retirer ce qu’il a acheté à d’autres pour produire (les **consommations intermédiaires** : matières, énergie, transformées ou détruites dans la production).' },
+            { t: 'formula', c: 'Valeur ajoutée = valeur de la production − consommations intermédiaires' },
+            { t: 'example', h: 'Calcul de la valeur ajoutée', c: 'Un menuisier vend **100 €** de meubles en utilisant **30 €** de bois. \n→ VA = 100 − 30 = **70 €**. \nC’est cette VA de 70 € qui représente la richesse qu’il a vraiment créée (pas les 100 €, car 30 € existaient déjà).' },
+          ],
+        },
+        {
+          h: 'La répartition de la valeur ajoutée',
+          blocks: [
+            { t: 'p', c: 'La valeur ajoutée est ensuite **partagée** (répartie) entre ceux qui ont contribué à la production :' },
+            { t: 'list', c: [
+              'les **salariés** reçoivent les **salaires** (rémunération du travail) ;',
+              'l’**État** perçoit les **impôts** et cotisations ;',
+              'les **banques** perçoivent les **intérêts** (sur les prêts) ;',
+              'les **propriétaires** reçoivent les **bénéfices** ; une partie reste dans l’entreprise (**autofinancement**).',
+            ] },
+            { t: 'warning', c: 'Le **partage de la valeur ajoutée** entre salaires et profits est un enjeu majeur : c’est un arbitrage sensible, source de débats sociaux (« qui doit toucher quelle part ? »).' },
+          ],
+        },
+        {
+          h: 'Le PIB : mesurer la richesse d’un pays',
+          blocks: [
+            { t: 'p', c: 'Le **PIB** (Produit Intérieur Brut) mesure la richesse créée dans un **pays** pendant un **an**. C’est la **somme de toutes les valeurs ajoutées** produites sur le territoire.' },
+            { t: 'formula', c: 'PIB = somme des valeurs ajoutées (produites sur un territoire, sur un an)' },
+            { t: 'p', c: 'On additionne les VA plutôt que les productions pour **éviter de compter deux fois** la même richesse (le bois du menuisier serait compté à la fois chez le scieur et chez le menuisier).' },
+          ],
+        },
+        {
+          h: 'La croissance économique',
+          blocks: [
+            { t: 'p', c: 'La **croissance économique** est l’**augmentation du PIB** dans le temps. On la mesure par le **taux de croissance** (variation du PIB en %).' },
+            { t: 'p', c: 'Ses moteurs : les **gains de productivité**, le **progrès technique**, l’**investissement**, l’augmentation de la population active. La croissance permet de créer des emplois et d’améliorer le niveau de vie… mais pas automatiquement de façon **équitable** ni **durable**.' },
+          ],
+        },
+        {
+          h: 'Les limites du PIB',
+          blocks: [
+            { t: 'p', c: 'Le PIB est utile mais **imparfait** comme indicateur de richesse et de bien-être :' },
+            { t: 'list', c: [
+              'il ignore le **travail non rémunéré** (bénévolat, tâches domestiques) et l’**économie souterraine** ;',
+              'il ne dit rien des **inégalités** de répartition (un PIB élevé peut cacher de fortes inégalités) ;',
+              'il ne mesure pas le **bien-être** ni la qualité de vie ;',
+              'il **ignore les dégâts environnementaux** (une marée noire peut même faire monter le PIB via les dépenses de nettoyage !).',
+            ] },
+            { t: 'p', c: 'D’autres indicateurs complètent le PIB : l’**IDH** (Indice de Développement Humain : santé, éducation, niveau de vie) et des indicateurs de **développement durable**.' },
           ],
         },
       ],
       essentiel: [
-        '**Valeur ajoutée = production − consommations intermédiaires** ; elle rémunère travail, capital, État.',
-        '**PIB = somme des valeurs ajoutées** d’un territoire ; la **croissance** = hausse du PIB.',
-        'Le PIB est **limité** (ni bien-être, ni inégalités, ni environnement).',
-        'Facteurs : **travail** + **capital** ; la **productivité** est source de croissance.',
+        'Produire = créer biens/services ; production **marchande** (vendue) vs **non marchande** (gratuite, financée par l’impôt).',
+        'Deux **facteurs de production** : **travail** + **capital** (fixe / circulant) ; investir = augmenter le capital.',
+        'La **productivité** (production / moyens) et le **progrès technique** sont les moteurs de la croissance.',
+        '**Valeur ajoutée = production − consommations intermédiaires** ; elle est **répartie** entre salariés, État, banques, propriétaires.',
+        '**PIB = somme des valeurs ajoutées** d’un territoire sur un an ; la **croissance** = hausse du PIB.',
+        'Le PIB est **limité** : ni bien-être, ni inégalités, ni environnement, ni travail non rémunéré → **IDH**, développement durable.',
       ],
       resources: [
         { kind: 'video', label: 'Valeur ajoutée, PIB, croissance', note: 'Vidéos — recherche YouTube', url: yt('valeur ajoutée PIB croissance facteurs de production première STMG économie') },
@@ -2114,27 +2226,74 @@ const economieP = {
         'La richesse créée (la VA) est **répartie**, d’abord entre ceux qui ont produit, puis **corrigée** par l’État pour réduire les inégalités.',
       cours: [
         {
-          h: 'Répartition primaire et redistribution',
+          h: 'La répartition primaire des revenus',
           blocks: [
-            { t: 'p', c: 'La **répartition primaire** partage la VA entre les **revenus primaires** : les **revenus du travail** (salaires), les **revenus du capital** (intérêts, loyers, dividendes) et les **revenus mixtes** (indépendants, qui rémunèrent à la fois travail et capital).' },
-            { t: 'p', c: 'L’État corrige ensuite par la **redistribution** : il opère des **prélèvements obligatoires** (impôts, cotisations sociales) et verse des **revenus de transfert** (prestations : allocations, retraites, aides sociales). On obtient alors le **revenu disponible** des ménages (ce qui reste pour consommer ou épargner).' },
+            { t: 'p', c: 'La richesse créée (la **valeur ajoutée**) est d’abord partagée entre ceux qui ont **participé à la production** : c’est la **répartition primaire**, qui donne les **revenus primaires**.' },
+            { t: 'p', c: 'Ces revenus rémunèrent la contribution de chacun à la production, **avant** toute intervention de l’État.' },
+          ],
+        },
+        {
+          h: 'Les types de revenus primaires',
+          blocks: [
+            { t: 'table', head: ['Type de revenu', 'Rémunère…', 'Exemples'], rows: [
+              ['Revenus du **travail**', 'Le facteur travail', 'Salaires, traitements'],
+              ['Revenus du **capital**', 'Le facteur capital / propriété', 'Intérêts, loyers, dividendes'],
+              ['Revenus **mixtes**', 'Travail **et** capital ensemble', 'Bénéfices des indépendants (artisan, médecin)'],
+            ] },
+            { t: 'p', c: 'Les revenus **mixtes** concernent les **indépendants** : leur bénéfice rémunère à la fois leur travail et le capital qu’ils ont investi — impossible de séparer les deux.' },
+          ],
+        },
+        {
+          h: 'La redistribution et le rôle de l’État',
+          blocks: [
+            { t: 'p', c: 'La répartition primaire laisse de fortes **inégalités**. L’État intervient donc pour les **corriger** : c’est la **redistribution**. Elle fonctionne en deux temps :' },
+            { t: 'list', c: [
+              'il **prélève** : les **prélèvements obligatoires** (impôts + cotisations sociales) ;',
+              'il **verse** : les **revenus de transfert** (prestations sociales : allocations familiales, retraites, aides au logement, minima sociaux).',
+            ] },
+            { t: 'p', c: 'La redistribution finance aussi la **protection sociale** (maladie, chômage, vieillesse) : c’est la **solidarité** organisée entre les citoyens.' },
+          ],
+        },
+        {
+          h: 'Le revenu disponible',
+          blocks: [
+            { t: 'p', c: 'Après la redistribution, le ménage obtient son **revenu disponible** : ce qui lui reste réellement pour **consommer** ou **épargner**.' },
             { t: 'formula', c: 'Revenu disponible = Revenus primaires − Prélèvements obligatoires + Revenus de transfert' },
+            { t: 'example', h: 'Calcul du revenu disponible', c: 'Un ménage a 3 000 € de revenus primaires, paie 800 € de prélèvements et reçoit 200 € de prestations. \n→ Revenu disponible = 3 000 − 800 + 200 = **2 400 €**.' },
           ],
         },
         {
           h: 'Consommer ou épargner',
           blocks: [
-            { t: 'p', c: 'Avec son revenu disponible, le ménage arbitre entre **consommer** (dépenser maintenant) et **épargner** (mettre de côté).' },
+            { t: 'p', c: 'Avec son revenu disponible, le ménage **arbitre** : **consommer** (dépenser maintenant) ou **épargner** (mettre de côté pour plus tard).' },
             { t: 'formula', c: 'Taux d’épargne = épargne / revenu disponible' },
-            { t: 'example', h: 'Exemple', c: 'Revenu disponible 2 500 €, consommation 2 100 € → épargne = 400 € → taux d’épargne = 400/2 500 = **16 %**.' },
-            { t: 'p', c: 'Notions liées : le **pouvoir d’achat** (ce que le revenu permet réellement d’acheter compte tenu des prix) et le **patrimoine** (accumulation de l’épargne : logement, placements).' },
+            { t: 'example', h: 'Calcul du taux d’épargne', c: 'Revenu disponible **2 500 €**, consommation **2 100 €** → épargne = 400 € → taux d’épargne = 400 / 2 500 = **16 %**.' },
+            { t: 'p', c: 'Le partage consommation / épargne dépend du revenu, de l’âge, de la confiance dans l’avenir : plus le revenu est élevé, plus la part épargnée tend à être grande.' },
+          ],
+        },
+        {
+          h: 'Pouvoir d’achat et patrimoine',
+          blocks: [
+            { t: 'p', c: 'Le **pouvoir d’achat** est ce que le revenu permet **réellement d’acheter**, compte tenu des **prix**. Si les prix (inflation) augmentent plus vite que le revenu, le pouvoir d’achat **baisse**, même si le revenu en euros augmente.' },
+            { t: 'p', c: 'Le **patrimoine** est l’ensemble de ce que possède un ménage (logement, épargne, placements) : c’est un **stock** accumulé, à distinguer du **revenu** qui est un **flux** (ce qu’on gagne sur une période).' },
+            { t: 'warning', c: 'Ne confonds pas **revenu** (un flux, ce qu’on gagne chaque mois) et **patrimoine** (un stock, ce qu’on possède). On peut avoir un gros patrimoine et un faible revenu, et inversement.' },
+          ],
+        },
+        {
+          h: 'Inégalités et justice sociale',
+          blocks: [
+            { t: 'p', c: 'Les revenus et les patrimoines sont **inégalement répartis**. La **justice sociale** cherche à rendre cette répartition plus **équitable**, mais il existe plusieurs conceptions de ce qui est « juste ».' },
+            { t: 'p', c: 'La redistribution vise à réduire ces inégalités. Mais elle fait débat : trop de prélèvements peut **décourager** l’effort et l’investissement ; trop peu laisse se creuser les inégalités. C’est un **arbitrage** politique permanent entre **efficacité** et **équité**.' },
           ],
         },
       ],
       essentiel: [
-        'Répartition **primaire** : **revenus primaires** = travail + capital + mixtes.',
+        'Répartition **primaire** : **revenus primaires** = revenus du **travail** (salaires) + du **capital** (intérêts, loyers, dividendes) + **mixtes** (indépendants).',
+        '**Redistribution** de l’État : **prélèvements obligatoires** (impôts, cotisations) → **revenus de transfert** (prestations) ; finance la **protection sociale**.',
         '**Revenu disponible = revenus primaires − prélèvements obligatoires + revenus de transfert**.',
-        '**Taux d’épargne = épargne / revenu disponible** ; notions de **pouvoir d’achat** et de **patrimoine**.',
+        '**Taux d’épargne = épargne / revenu disponible** ; arbitrage consommer / épargner.',
+        '**Pouvoir d’achat** = ce que le revenu permet d’acheter (selon les prix) ; **patrimoine** (stock) ≠ **revenu** (flux).',
+        'La **redistribution** réduit les **inégalités** : arbitrage entre **équité** et **efficacité** (justice sociale).',
       ],
       resources: [
         { kind: 'video', label: 'Répartition et redistribution des revenus', note: 'Vidéos — recherche YouTube', url: yt('répartition primaire redistribution revenu disponible taux épargne première STMG') },
@@ -2193,27 +2352,81 @@ const economieP = {
         'Certains agents dépensent plus qu’ils ne gagnent (**besoin de financement**), d’autres épargnent (**capacité de financement**). Le système financier met les deux en relation.',
       cours: [
         {
-          h: 'Deux modes de financement',
+          h: 'Besoin et capacité de financement',
           blocks: [
-            { t: 'table', head: ['Financement direct (désintermédié)', 'Financement indirect (intermédié)'], rows: [
-              ['Sur le marché financier', 'Auprès d’une banque'],
-              ['Émission de titres', 'Octroi d’un crédit'],
-              ['Actions (propriété) et obligations (dette)', 'Emprunt remboursé avec intérêts'],
+            { t: 'p', c: 'Sur une période, un agent économique peut être dans deux situations opposées selon que ses **dépenses** dépassent ou non ses **ressources** :' },
+            { t: 'table', head: ['Besoin de financement', 'Capacité de financement'], rows: [
+              ['Dépenses **>** ressources', 'Ressources **>** dépenses'],
+              ['Il faut **trouver** des fonds', 'Il reste de l’**épargne** à placer'],
+              ['Souvent : entreprises, État', 'Souvent : ménages'],
             ] },
-            { t: 'p', c: 'Dans le financement **direct**, l’agent obtient des fonds **directement** des épargnants (marché financier). Dans le financement **indirect**, il passe par un **intermédiaire**, la **banque**.' },
+            { t: 'p', c: 'Le **système financier** a pour rôle de **mettre en relation** ceux qui ont un besoin de financement avec ceux qui ont une capacité de financement (les épargnants).' },
           ],
         },
         {
-          h: 'Le rôle des banques',
+          h: 'Financement interne et externe',
           blocks: [
-            { t: 'p', c: 'Les **banques** financent l’économie par le **crédit** et peuvent **créer de la monnaie**. La **banque centrale** (la **BCE** pour la zone euro) régule tout cela par ses **taux directeurs** : en baissant les taux, elle rend le crédit moins cher et stimule l’économie ; en les augmentant, elle freine l’inflation.' },
+            { t: 'p', c: 'Pour se financer, un agent (surtout une entreprise) a d’abord un choix de base :' },
+            { t: 'list', c: [
+              'le **financement interne** (**autofinancement**) : utiliser sa **propre épargne**, ses bénéfices mis en réserve — pas de dette, mais des moyens limités ;',
+              'le **financement externe** : trouver des fonds **à l’extérieur**, soit sur le **marché financier** (direct), soit auprès d’une **banque** (indirect).',
+            ] },
+          ],
+        },
+        {
+          h: 'Le financement direct (le marché financier)',
+          blocks: [
+            { t: 'p', c: 'Dans le financement **direct** (ou désintermédié), l’agent obtient des fonds **directement** des épargnants, sur le **marché financier** (la **Bourse**), en **émettant des titres**. Il n’y a pas d’intermédiaire qui prête son propre argent.' },
+            { t: 'p', c: 'La **Bourse** est le lieu (aujourd’hui électronique) où s’échangent ces titres : elle permet aux entreprises de lever des fonds et aux épargnants de placer leur argent.' },
+          ],
+        },
+        {
+          h: 'Actions et obligations',
+          blocks: [
+            { t: 'p', c: 'Sur le marché financier, on émet deux grands types de titres, très différents :' },
+            { t: 'table', head: ['Action', 'Obligation'], rows: [
+              ['Titre de **propriété** (part de l’entreprise)', 'Titre de **dette** (un prêt)'],
+              ['Rapporte un **dividende** (variable)', 'Rapporte un **intérêt** (fixé d’avance)'],
+              ['L’actionnaire est **copropriétaire**', 'L’obligataire est **créancier**'],
+              ['Risqué (pas de garantie)', 'Plus sûr (remboursement prévu)'],
+            ] },
+            { t: 'warning', c: 'Piège classique : **action = propriété**, **obligation = dette**. Acheter une action, c’est devenir **copropriétaire** ; acheter une obligation, c’est **prêter** de l’argent.' },
+          ],
+        },
+        {
+          h: 'Le financement indirect (les banques)',
+          blocks: [
+            { t: 'p', c: 'Dans le financement **indirect** (ou intermédié), l’agent passe par un **intermédiaire** : la **banque**. Elle **collecte** l’épargne des uns et accorde des **crédits** aux autres, remboursés **avec intérêts**.' },
+            { t: 'p', c: 'C’est le mode de financement le plus courant pour les **ménages** (crédit immobilier, crédit conso) et les **petites entreprises**, qui n’ont pas accès facilement à la Bourse.' },
+          ],
+        },
+        {
+          h: 'La création monétaire',
+          blocks: [
+            { t: 'p', c: 'Fait surprenant : quand une banque accorde un **crédit**, elle **crée de la monnaie**. Elle n’a pas besoin de posséder au préalable tout l’argent prêté : elle inscrit simplement la somme sur le compte de l’emprunteur. « **Les crédits font les dépôts.** »' },
+            { t: 'p', c: 'Quand le crédit est **remboursé**, cette monnaie est **détruite**. La création monétaire soutient l’activité, mais si elle est excessive, elle peut alimenter l’**inflation** (hausse des prix).' },
+          ],
+        },
+        {
+          h: 'La banque centrale et les taux directeurs',
+          blocks: [
+            { t: 'p', c: 'La **banque centrale** (la **BCE**, Banque Centrale Européenne, pour la zone euro) supervise les banques et pilote la **politique monétaire**. Son principal outil : les **taux directeurs**, le taux auquel les banques se refinancent auprès d’elle.' },
+            { t: 'table', head: ['La BCE baisse ses taux', 'La BCE augmente ses taux'], rows: [
+              ['Le crédit devient **moins cher**', 'Le crédit devient **plus cher**'],
+              ['On emprunte plus → activité **stimulée**', 'On emprunte moins → activité **freinée**'],
+              ['Objectif : relancer l’économie', 'Objectif : **freiner l’inflation**'],
+            ] },
+            { t: 'p', c: 'La mission principale de la BCE est de **maintenir la stabilité des prix** (une inflation faible et maîtrisée).' },
           ],
         },
       ],
       essentiel: [
-        '**Besoin** de financement (dépenser plus) vs **capacité** de financement (épargner).',
-        'Financement **direct** (marché financier : **actions** = propriété, **obligations** = dette) vs **indirect** (crédit bancaire).',
-        'Les **banques** créent de la monnaie ; la **BCE** régule via ses **taux directeurs**.',
+        '**Besoin** de financement (dépenses > ressources) vs **capacité** de financement (épargne) ; le système financier les met en relation.',
+        'Financement **interne** (autofinancement) vs **externe** ; externe = **direct** (marché) ou **indirect** (banque).',
+        'Financement **direct** sur le **marché financier** (Bourse) : **actions** (propriété, dividende) vs **obligations** (dette, intérêt).',
+        'Financement **indirect** = **crédit bancaire** (avec intérêts), le plus courant pour ménages et petites entreprises.',
+        'Les banques **créent de la monnaie** par le crédit (« les crédits font les dépôts ») ; excès → **inflation**.',
+        'La **BCE** pilote la politique monétaire via ses **taux directeurs** (baisse = relance, hausse = freine l’inflation) ; objectif : **stabilité des prix**.',
       ],
       resources: [
         { kind: 'video', label: 'Le financement de l’économie', note: 'Vidéos — recherche YouTube', url: yt('financement direct indirect actions obligations banque première STMG économie') },
@@ -2271,33 +2484,98 @@ const economieP = {
         'Un **marché** est le lieu de rencontre de l’**offre** et de la **demande**. De leur confrontation naît le **prix d’équilibre**. Mais la concurrence est souvent **imparfaite**.',
       cours: [
         {
-          h: 'Offre, demande et prix d’équilibre',
+          h: 'Qu’est-ce qu’un marché ?',
           blocks: [
-            { t: 'p', c: 'Le **prix d’équilibre** est le prix pour lequel la quantité offerte égale la quantité demandée. En général, quand le prix monte, l’**offre augmente** mais la **demande baisse** ; le marché ajuste le prix jusqu’à l’équilibre.' },
+            { t: 'p', c: 'Un **marché** est le lieu (physique ou non) de **rencontre** entre une **offre** et une **demande**, où s’échange un bien ou un service à un **prix**. Il peut être très concret (un marché de fruits) ou totalement dématérialisé (le marché des actions, une plateforme en ligne).' },
+            { t: 'p', c: 'Il existe des marchés de **biens et services**, du **travail**, des **capitaux**… Sur chacun, c’est la confrontation offre/demande qui détermine le **prix** et les **quantités** échangées.' },
           ],
         },
         {
-          h: 'Élasticité et coût marginal',
+          h: 'L’offre et la demande',
           blocks: [
-            { t: 'p', c: 'L’**élasticité-prix de la demande** mesure la **sensibilité de la demande à une variation de prix**. Si une hausse fait beaucoup baisser la demande, elle est **élastique** ; si elle change peu (produits de première nécessité), elle est **peu élastique**.' },
-            { t: 'p', c: 'Le **coût marginal** est le coût de production d’une **unité supplémentaire** : le producteur a intérêt à produire tant que le prix couvre ce coût.' },
-          ],
-        },
-        {
-          h: 'Concurrence parfaite et imparfaite',
-          blocks: [
-            { t: 'p', c: 'La **concurrence pure et parfaite** suppose de nombreux vendeurs/acheteurs, des produits identiques, une information parfaite et une entrée libre. La réalité est souvent **imparfaite** :' },
-            { t: 'list', c: [
-              '**Monopole** (un seul vendeur) et **oligopole** (quelques vendeurs) → pouvoir sur les prix.',
-              '**Barrières à l’entrée** (coûts élevés, brevets, réglementation) → protègent les acteurs en place.',
+            { t: 'p', c: 'L’**offre** et la **demande** réagissent au **prix**, mais en sens **opposé** :' },
+            { t: 'table', head: ['Quand le prix augmente…', 'Effet'], rows: [
+              ['La **demande**', 'diminue (les acheteurs renoncent)'],
+              ['L’**offre**', 'augmente (produire devient plus rentable)'],
             ] },
+            { t: 'p', c: 'C’est la **loi de l’offre et de la demande** : la demande est **décroissante** avec le prix, l’offre est **croissante** avec le prix.' },
+          ],
+        },
+        {
+          h: 'Le prix d’équilibre',
+          blocks: [
+            { t: 'p', c: 'Le **prix d’équilibre** est le prix pour lequel la **quantité offerte = la quantité demandée**. Le marché tend naturellement vers ce prix :' },
+            { t: 'list', c: [
+              'si le prix est **trop haut** : l’offre dépasse la demande → **surplus** → les prix baissent ;',
+              'si le prix est **trop bas** : la demande dépasse l’offre → **pénurie** → les prix montent.',
+            ] },
+            { t: 'example', h: 'Rareté et prix', c: 'Une gelée détruit une partie de la récolte de fraises. \n→ L’**offre** chute alors que la **demande** reste forte : le **prix d’équilibre augmente**. Le prix joue son rôle de signal (la rareté se paie plus cher).' },
+          ],
+        },
+        {
+          h: 'L’élasticité-prix de la demande',
+          blocks: [
+            { t: 'p', c: 'L’**élasticité-prix de la demande** mesure la **sensibilité de la demande à une variation de prix** : « de combien la demande baisse-t-elle quand le prix augmente ? »' },
+            { t: 'table', head: ['Demande élastique', 'Demande peu élastique'], rows: [
+              ['**Très sensible** au prix', 'Peu sensible au prix'],
+              ['Une hausse fait **beaucoup** baisser la demande', 'La demande change peu'],
+              ['Produits non essentiels, avec substituts', 'Produits de **première nécessité** (pain, essence, médicaments)'],
+            ] },
+            { t: 'p', c: 'C’est une notion clé pour fixer les prix : sur un produit à demande **peu élastique**, une hausse de prix fait peu fuir les clients.' },
+          ],
+        },
+        {
+          h: 'Le coût marginal et la décision du producteur',
+          blocks: [
+            { t: 'p', c: 'Le **coût marginal** est le coût de production d’**une unité supplémentaire**. C’est un repère essentiel de la décision de produire.' },
+            { t: 'p', c: 'Le producteur a intérêt à produire **une unité de plus tant que son prix de vente couvre le coût marginal**. Au-delà, produire davantage lui coûterait plus que ça ne lui rapporte.' },
+          ],
+        },
+        {
+          h: 'La concurrence pure et parfaite',
+          blocks: [
+            { t: 'p', c: 'La **concurrence pure et parfaite** est un **modèle théorique** qui suppose **cinq conditions** réunies :' },
+            { t: 'list', c: [
+              '**atomicité** : de très nombreux vendeurs et acheteurs, aucun assez gros pour influencer le prix ;',
+              '**homogénéité** : les produits sont **identiques** ;',
+              '**libre entrée et sortie** du marché ;',
+              '**transparence** : information parfaite de tous ;',
+              '**libre circulation** des facteurs de production.',
+            ] },
+            { t: 'p', c: 'Dans ce modèle, aucun acteur n’a de **pouvoir de marché** : tous « subissent » le prix. C’est un idéal théorique, rarement observé en réalité.' },
+          ],
+        },
+        {
+          h: 'La concurrence imparfaite : monopole et oligopole',
+          blocks: [
+            { t: 'p', c: 'En pratique, la concurrence est souvent **imparfaite** : certains acteurs ont un **pouvoir de marché** (capacité à influencer le prix).' },
+            { t: 'table', head: ['Structure', 'Nombre de vendeurs', 'Exemple'], rows: [
+              ['**Monopole**', 'Un **seul** vendeur', 'La distribution d’eau d’une commune'],
+              ['**Oligopole**', '**Quelques** vendeurs', 'Téléphonie mobile, carburants'],
+              ['Concurrence monopolistique', 'Beaucoup, mais produits **différenciés**', 'Restaurants, vêtements de marque'],
+            ] },
+            { t: 'p', c: 'Moins il y a de vendeurs, plus ils ont de **pouvoir sur les prix** — au détriment, souvent, du consommateur.' },
+          ],
+        },
+        {
+          h: 'Barrières à l’entrée et asymétries d’information',
+          blocks: [
+            { t: 'p', c: 'Deux phénomènes expliquent que la concurrence reste imparfaite :' },
+            { t: 'list', c: [
+              'les **barrières à l’entrée** : obstacles qui empêchent de nouveaux concurrents d’arriver (coûts d’investissement très élevés, **brevets**, réglementation, notoriété d’une marque) — elles **protègent** les acteurs en place ;',
+              'les **asymétries d’information** : une partie en sait plus que l’autre (le vendeur d’une voiture d’occasion connaît mieux ses défauts que l’acheteur), ce qui fausse l’échange.',
+            ] },
+            { t: 'p', c: 'Pour préserver une concurrence saine, l’**État** (et l’**Autorité de la concurrence**) surveille et sanctionne les abus (ententes, abus de position dominante).' },
           ],
         },
       ],
       essentiel: [
-        'Le **prix d’équilibre** égalise quantité offerte et demandée.',
-        '**Élasticité-prix** = sensibilité de la demande au prix ; **coût marginal** = coût d’une unité supplémentaire.',
-        'Concurrence **imparfaite** : **monopole**, **oligopole**, **barrières à l’entrée**.',
+        'Un **marché** = rencontre d’une **offre** et d’une **demande** ; loi de l’offre et de la demande (demande décroissante, offre croissante avec le prix).',
+        'Le **prix d’équilibre** égalise quantité offerte et demandée (trop haut → surplus ; trop bas → pénurie).',
+        '**Élasticité-prix** = sensibilité de la demande au prix (élastique / peu élastique pour les biens de première nécessité).',
+        '**Coût marginal** = coût d’une unité supplémentaire ; on produit tant que le prix le couvre.',
+        '**Concurrence pure et parfaite** = 5 conditions (atomicité, homogénéité, libre entrée/sortie, transparence, mobilité) : un modèle théorique.',
+        'Concurrence **imparfaite** : **monopole**, **oligopole**, **barrières à l’entrée**, **asymétries d’information** → pouvoir de marché.',
       ],
       resources: [
         { kind: 'video', label: 'Marché, offre, demande, concurrence', note: 'Vidéos — recherche YouTube', url: yt('marché offre demande prix équilibre concurrence imparfaite première STMG') },
