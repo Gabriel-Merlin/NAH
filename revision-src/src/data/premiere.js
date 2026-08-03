@@ -2848,6 +2848,8 @@ const mathsP = {
         { id: 'p1-math-c5-calc-moy', type: 'calcul', title: 'Exercices — Moyenne', icon: '✍️', gen: 'moyenne_serie', count: 6 },
         { id: 'p1-math-c5-calc-med', type: 'calcul', title: 'Exercices — Médiane', icon: '✍️', gen: 'mediane_serie', count: 6 },
         { id: 'p1-math-c5-calc-etendue', type: 'calcul', title: 'Exercices — Étendue', icon: '✍️', gen: 'etendue_serie', count: 6 },
+        { id: 'p1-math-c5-calc-eiq', type: 'calcul', title: 'Exercices — Écart interquartile', icon: '✍️', gen: 'ecart_interquartile', count: 6 },
+        { id: 'p1-math-c5-calc-ecart', type: 'calcul', title: 'Exercices — Écart-type', icon: '✍️', gen: 'ecart_type', count: 6 },
         {
           id: 'p1-math-c5-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',
           cards: [

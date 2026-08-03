@@ -352,6 +352,27 @@ export const CALC = {
       explain: `Étendue = max − min = ${Math.max(...vals)} − ${Math.min(...vals)} = ${e}.`,
     }
   },
+  ecart_interquartile: () => {
+    const vals = Array.from({ length: 8 }, () => ri(2, 30)).sort((a, b) => a - b)
+    const q1 = vals[1], q3 = vals[5]
+    const eiq = q3 - q1
+    return {
+      prompt: `Série ordonnée de 8 valeurs : ${vals.join(' ; ')}.\nCalcule l'écart interquartile (Q3 − Q1).`,
+      answer: eiq, unit: '', tolerance: 0.01,
+      explain: `Pour n = 8 : Q1 = 2ᵉ valeur (rang n/4 = 2) = ${q1} ; Q3 = 6ᵉ valeur (rang 3n/4 = 6) = ${q3}.\nÉcart interquartile = Q3 − Q1 = ${q3} − ${q1} = ${eiq}.`,
+    }
+  },
+  ecart_type: () => {
+    const vals = Array.from({ length: 5 }, () => ri(4, 16))
+    const m = vals.reduce((s, x) => s + x, 0) / vals.length
+    const variance = vals.reduce((s, x) => s + (x - m) ** 2, 0) / vals.length
+    const sigma = round(Math.sqrt(variance), 2)
+    return {
+      prompt: `Série : ${vals.join(' ; ')}.\nCalcule l'écart-type σ (à la calculatrice, arrondi 0,01).`,
+      answer: sigma, unit: '', tolerance: 0.05,
+      explain: `Moyenne = ${round(m, 2)}.\nVariance = moyenne des carrés des écarts à la moyenne = ${round(variance, 3)}.\nÉcart-type σ = √variance = ${sigma}.`,
+    }
+  },
   nuage_point_moyen: () => {
     const k = 5
     const points = Array.from({ length: k }, (_, i) => ({ x: 2 * (i + 1), y: ri(2, 10) }))
