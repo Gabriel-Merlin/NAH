@@ -410,7 +410,7 @@ export const LESSONS = {
   // ======================================================================
   'droit-t5': {
     essentiel: [
-      'Contrat = **accord de volontés** créant des obligations ; parties : **consommateur/professionnel**, **débiteur/créancier**.',
+      'Contrat = **accord de volontés** créant des obligations ; parties : **consommateur / consommatrice** et **professionnel / professionnelle**, **débiteur / débitrice** et **créancier / créancière**.',
       'Formation : **offre + acceptation** (échange des consentements) + **consentement, capacité, objet** (art. 1128).',
       'Vices du consentement (**erreur, dol, violence**) → **nullité relative** ; contenu illicite → **nullité absolue**.',
       'Principes : **liberté contractuelle, force obligatoire, effet relatif, bonne foi** ; obligation de **moyens** vs de **résultat**.',
@@ -424,8 +424,8 @@ export const LESSONS = {
         blocks: [
           { t: 'p', c: 'Un **contrat** est un **accord de volontés** destiné à **créer, modifier, transmettre ou éteindre des obligations** entre deux ou plusieurs **parties**. Selon le contrat, les parties portent des qualifications différentes :' },
           { t: 'list', c: [
-            'le **consommateur** (qui agit pour un usage personnel) et le **professionnel** (qui agit dans le cadre de son activité) ;',
-            'le **débiteur** (celui qui doit une obligation) et le **créancier** (celui à qui elle est due).',
+            'le **consommateur** (au féminin : la **consommatrice**), qui agit pour un usage personnel, et le **professionnel** (la **professionnelle**), qui agit dans le cadre de son activité ;',
+            'le **débiteur** (la **débitrice**), celui ou celle qui doit une obligation, et le **créancier** (la **créancière**), celui ou celle à qui elle est due.',
           ] },
           { t: 'p', c: 'Avant même de conclure, chaque partie a une **obligation d’information** réciproque ; le professionnel a en plus une **obligation de conseil**, pour que le consentement soit **libre et éclairé**.' },
         ],
@@ -633,10 +633,10 @@ export const LESSONS = {
         h: 'La rupture du contrat de travail',
         blocks: [
           { t: 'table', head: ['Mode de rupture', 'À l’initiative de…'], rows: [
-            ['Démission', 'Le salarié'],
-            ['Licenciement', 'L’employeur (cause réelle et sérieuse + procédure)'],
+            ['Démission', 'Le salarié / la salariée'],
+            ['Licenciement', 'L’employeur / l’employeuse (cause réelle et sérieuse + procédure)'],
             ['Rupture conventionnelle', 'Un commun accord (individuelle ou collective)'],
-            ['Départ / mise à la retraite', 'Le salarié ou l’employeur'],
+            ['Départ / mise à la retraite', 'Le salarié / la salariée ou l’employeur / l’employeuse'],
           ] },
           { t: 'p', c: 'Le **licenciement** doit reposer sur une **cause réelle et sérieuse** et respecter une **procédure**. On distingue le licenciement pour **motif personnel** (lié au salarié) du licenciement pour **motif économique** (lié à l’entreprise). Ses conséquences : indemnité de licenciement, préavis, solde de tout compte, droits à l’assurance chômage.' },
           { t: 'warning', c: 'Un licenciement sans **cause réelle et sérieuse** ou sans respect de la **procédure** est **abusif** : le juge peut le sanctionner.' },
@@ -710,8 +710,8 @@ export const LESSONS = {
         blocks: [
           { t: 'p', c: 'Une entreprise peut organiser son activité en contractant avec des **partenaires**, sans créer de lien de subordination :' },
           { t: 'list', c: [
-            'le **contrat d’entreprise (sous-traitance)** : un entrepreneur confie tout ou partie de son activité à un autre entrepreneur ;',
-            'le **contrat de franchise** : un franchisé exploite le concept, la marque et le savoir-faire d’un franchiseur, en échange d’une redevance.',
+            'le **contrat d’entreprise (sous-traitance)** : un **entrepreneur** / une **entrepreneuse** confie tout ou partie de son activité à un autre ;',
+            'le **contrat de franchise** : un **franchisé** / une **franchisée** exploite le concept, la marque et le savoir-faire d’un **franchiseur** / d’une **franchiseuse**, en échange d’une redevance.',
           ] },
           { t: 'tip', c: 'Ces partenariats se distinguent du **contrat de travail** : il n’y a **pas de lien de subordination** entre les entreprises partenaires.' },
         ],
