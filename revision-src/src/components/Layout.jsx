@@ -4,6 +4,7 @@ import { useStore, levelFromXp } from '../store.jsx'
 import { getSubject, getChapter, search } from '../data/index.js'
 import { badgeById } from '../badges.js'
 import { Confetti } from './ui.jsx'
+import Welcome from './Welcome.jsx'
 
 export default function Layout({ children }) {
   const { state, derived, setTheme } = useStore()
@@ -50,6 +51,7 @@ export default function Layout({ children }) {
 
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
       <BadgeToast />
+      <Welcome />
     </div>
   )
 }
