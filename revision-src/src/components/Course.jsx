@@ -155,6 +155,28 @@ function Bullets({ items, color }) {
   )
 }
 
+// Frise chronologique verticale (ligne + pastilles dorées, dates en serif).
+// Conçue pour rester lisible à l'impression (« Enregistrer la fiche » PDF).
+function Frise({ title, events = [] }) {
+  return (
+    <div className="frise">
+      {title && <p className="frise-title">{title}</p>}
+      <ol className="frise-list">
+        {events.map((e, i) => (
+          <li key={i} className="frise-item">
+            <span className="frise-date">{e.date}</span>
+            <span className="frise-mid" aria-hidden />
+            <span className="frise-label">
+              <Rich text={e.label} />
+              {e.note && <span className="frise-note"><Rich text={e.note} /></span>}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
 export function Block({ b, color }) {
   switch (b.t) {
     case 'p':
@@ -165,6 +187,8 @@ export function Block({ b, color }) {
       return <div className="formula">{b.c}</div>
     case 'figure':
       return <Infographic name={b.name} color={color} />
+    case 'frise':
+      return <Frise title={b.title} events={b.events} />
     case 'example':
       return (
         <div className="rounded-xl border-l-4 border-sky-400 bg-sky-50 p-4 dark:border-sky-500 dark:bg-sky-950/30">
