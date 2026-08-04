@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStore, levelFromXp } from '../store.jsx'
 import { getSubject, getChapter, search } from '../data/index.js'
 import { badgeById } from '../badges.js'
-import { Confetti } from './ui.jsx'
+import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
 
 export default function Layout({ children }) {
@@ -22,30 +22,30 @@ export default function Layout({ children }) {
       <header className="no-print sticky top-0 z-40 border-b border-slate-200/70 bg-slate-50/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
           <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
-            <span className="text-2xl" aria-hidden>🎓</span>
+            <span className="text-violet-500 dark:text-violet-400" aria-hidden><Icon.Diamond size={15} /></span>
             <span>
               Réviz<span className="text-violet-600 dark:text-violet-400">STMG</span>
             </span>
           </Link>
 
-          <div className="flex items-center gap-2 text-sm font-semibold text-amber-600 dark:text-amber-400" title="Jours de révision consécutifs">
-            <span aria-hidden>🔥</span>
+          <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400" title="Jours de révision consécutifs">
+            <Icon.Flame size={15} />
             <span aria-label={`${state.streak.count} jours de suite`}>{state.streak.count}</span>
           </div>
 
-          <div className="hidden items-center gap-1.5 rounded-full bg-violet-100 px-3 py-1 text-xs font-bold text-violet-700 dark:bg-violet-950/60 dark:text-violet-300 sm:flex" title="Niveau et points d'expérience">
-            <span aria-hidden>⭐</span> Niv. {derived.level} · {state.xp} XP
+          <div className="hidden items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-800 sm:flex" title="Niveau et points d'expérience">
+            Niv.&nbsp;{derived.level} · {state.xp}&nbsp;XP
           </div>
 
-          <button className="btn-ghost !min-h-0 !px-2.5 !py-2" onClick={() => setSearchOpen(true)} aria-label="Rechercher un chapitre">
-            🔍
+          <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setSearchOpen(true)} aria-label="Rechercher un chapitre">
+            <Icon.Search />
           </button>
           <button
-            className="btn-ghost !min-h-0 !px-2.5 !py-2"
+            className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
             aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
           >
-            {isDark ? '☀️' : '🌙'}
+            {isDark ? <Icon.Sun /> : <Icon.Moon />}
           </button>
 
           {initials && (
@@ -53,8 +53,8 @@ export default function Layout({ children }) {
               to="/accueil"
               title={`${first} ${last}`.trim() + ' — mon espace'}
               aria-label={`Espace de ${first} ${last}`.trim()}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm font-semibold text-slate-800 ring-1 ring-violet-300 dark:text-slate-100 dark:ring-violet-500/60"
-              style={{ background: 'linear-gradient(135deg, #f4ead1, #e8d5a4)' }}
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm font-semibold text-slate-800 ring-1 ring-violet-300/70 dark:text-slate-100 dark:ring-violet-500/50"
+              style={{ background: 'linear-gradient(135deg, #f6eed8, #e9d7ab)' }}
             >
               {initials}
             </Link>

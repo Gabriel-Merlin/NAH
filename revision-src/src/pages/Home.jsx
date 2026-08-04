@@ -2,7 +2,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom'
 import { getChapter } from '../data/index.js'
 import { subjectsForTrack, trackLabel, trackIcon } from '../data/tracks.js'
 import { useStore, subjectScore } from '../store.jsx'
-import { ProgressBar, Ring } from '../components/ui.jsx'
+import { ProgressBar, Ring, Icon } from '../components/ui.jsx'
 
 export default function Home() {
   const { state, derived } = useStore()
@@ -34,7 +34,7 @@ export default function Home() {
   const greeting = hour < 6 ? 'Belle nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       {/* Filière active */}
       <div className="flex items-center justify-between gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
         <span className="flex items-center gap-2 font-semibold">
@@ -57,34 +57,34 @@ export default function Home() {
             <h1 className="font-display text-2xl font-medium leading-tight text-[#faf3e1]">
               {greeting}{firstName ? `, ${firstName}` : ''}
             </h1>
-            <p className="mt-0.5 text-sm text-[#d8cca8]">Niveau {derived.level} · {state.xp} XP · 🔥 {state.streak.count} j de suite</p>
+            <p className="mt-0.5 text-sm text-[#d8cca8]">Niveau {derived.level} · {state.xp} XP · {state.streak.count} j de suite</p>
           </div>
         </div>
         <div className="relative mt-4 flex flex-wrap gap-2">
           {last ? (
-            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">
-              ▶ Reprendre : {last.short || last.name}
+            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">
+              <Icon.Play size={16} /> Reprendre : {last.short || last.name}
             </Link>
           ) : realSubjects[0] ? (
-            <Link to={`/subject/${realSubjects[0].id}`} className="btn bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">▶ Commencer</Link>
+            <Link to={`/subject/${realSubjects[0].id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5"><Icon.Play size={16} /> Commencer</Link>
           ) : null}
-          <button onClick={randomChapter} className="btn bg-white/10 text-[#f4ecd8] ring-1 ring-[#c8a24e]/40 hover:bg-white/15 !py-2.5">🎲 Chapitre au hasard</button>
+          <button onClick={randomChapter} className="btn gap-1.5 bg-white/10 text-[#f4ecd8] ring-1 ring-[#c8a24e]/40 hover:bg-white/15 !py-2.5"><Icon.Dice size={16} /> Chapitre au hasard</button>
         </div>
       </section>
 
       {/* Raccourcis */}
       <div className="grid grid-cols-2 gap-3">
         <Link to="/badges" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-2xl">🏅</span>
+          <span className="text-violet-500 dark:text-violet-400"><Icon.Medal size={24} /></span>
           <span>
-            <span className="block font-bold">Badges</span>
+            <span className="block font-display font-semibold">Badges</span>
             <span className="block text-xs text-slate-500 dark:text-slate-400">{state.badges.length} obtenu{state.badges.length > 1 ? 's' : ''}</span>
           </span>
         </Link>
         <Link to="/favoris" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-2xl">⭐</span>
+          <span className="text-violet-500 dark:text-violet-400"><Icon.Star size={24} /></span>
           <span>
-            <span className="block font-bold">Favoris</span>
+            <span className="block font-display font-semibold">Favoris</span>
             <span className="block text-xs text-slate-500 dark:text-slate-400">{state.favorites.length} chapitre{state.favorites.length > 1 ? 's' : ''} à revoir</span>
           </span>
         </Link>
@@ -92,32 +92,32 @@ export default function Home() {
 
       {/* Grille des matières de la filière */}
       <section>
-        <h2 className="mb-3 px-1 font-display text-lg font-bold">Tes matières</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <h2 className="mb-3 px-1 font-display text-xl font-semibold">Tes matières</h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {subjects.map((s) => {
             if (s.comingSoon) {
               return (
-                <div key={s.id} className="card relative flex items-center gap-3 overflow-hidden p-4 opacity-80">
-                  <span className="absolute inset-y-0 left-0 w-1.5" style={{ backgroundColor: s.color }} />
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl" style={{ backgroundColor: s.color + '22' }}>{s.icon}</span>
+                <div key={s.id} className="card relative flex items-center gap-3.5 overflow-hidden p-5 opacity-80">
+                  <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: s.color + '99' }} />
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '12', boxShadow: `inset 0 0 0 1px ${s.color}33` }}>{s.icon}</span>
                   <div className="min-w-0 flex-1 pl-1">
-                    <h3 className="font-bold leading-tight">{s.name}</h3>
-                    <span className="chip mt-1 bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">Bientôt disponible</span>
+                    <h3 className="font-display text-[1.05rem] font-semibold leading-tight">{s.name}</h3>
+                    <span className="chip mt-1 bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300">Bientôt disponible</span>
                   </div>
                 </div>
               )
             }
             const pct = subjectScore(state, s.id)
             return (
-              <Link key={s.id} to={`/subject/${s.id}`} className="card group relative overflow-hidden p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span className="absolute inset-y-0 left-0 w-1.5" style={{ backgroundColor: s.color }} />
-                <div className="flex items-start gap-3 pl-2">
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl" style={{ backgroundColor: s.color + '22' }}>{s.icon}</span>
+              <Link key={s.id} to={`/subject/${s.id}`} className="card group relative overflow-hidden p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+                <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: s.color + '99' }} />
+                <div className="flex items-start gap-3.5 pl-2">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '12', boxShadow: `inset 0 0 0 1px ${s.color}33` }}>{s.icon}</span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="font-bold leading-tight">{s.name}</h3>
-                    <p className="mb-2 truncate text-xs text-slate-500 dark:text-slate-400">{s.chapters.length} chapitres · {s.tagline}</p>
+                    <h3 className="font-display text-[1.05rem] font-semibold leading-tight">{s.name}</h3>
+                    <p className="mb-2.5 truncate text-xs text-slate-500 dark:text-slate-400">{s.chapters.length} chapitres · {s.tagline}</p>
                     <ProgressBar value={pct} color={s.color} />
-                    <p className="mt-1 text-right text-xs font-semibold" style={{ color: s.color }}>{pct}%</p>
+                    <p className="mt-1.5 text-right text-xs font-semibold" style={{ color: s.color }}>{pct}%</p>
                   </div>
                 </div>
               </Link>
