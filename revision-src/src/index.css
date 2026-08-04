@@ -20,19 +20,23 @@
   }
   /* Focus visible net pour la navigation clavier */
   :focus-visible {
-    outline: 3px solid #7c3aed;
+    outline: 3px solid #b6912f;
     outline-offset: 2px;
     border-radius: 6px;
   }
   ::selection {
-    background: #ddd6fe;
-    color: #4c1d95;
+    background: #f4ead1;
+    color: #614a1c;
   }
 }
 
 @layer components {
   .card {
-    @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800;
+    @apply rounded-2xl shadow-sm ring-1 ring-slate-200 dark:ring-slate-800;
+    background: #fffdf8; /* surface crème (papeterie de luxe) */
+  }
+  html.dark .card {
+    background: #201c15;
   }
   /* Gros boutons tactiles */
   .btn {

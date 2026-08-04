@@ -13,11 +13,15 @@ export default function Layout({ children }) {
     state.theme === 'dark' ||
     (state.theme == null && typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
 
+  const first = state.profile?.firstName?.trim() || ''
+  const last = state.profile?.lastName?.trim() || ''
+  const initials = ((first[0] || '') + (last[0] || '')).toUpperCase() || (first[0] || '').toUpperCase()
+
   return (
     <div className="min-h-screen">
-      <header className="no-print sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+      <header className="no-print sticky top-0 z-40 border-b border-slate-200/70 bg-slate-50/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
-          <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
+          <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
             <span className="text-2xl" aria-hidden>🎓</span>
             <span>
               Réviz<span className="text-violet-600 dark:text-violet-400">STMG</span>
@@ -43,6 +47,18 @@ export default function Layout({ children }) {
           >
             {isDark ? '☀️' : '🌙'}
           </button>
+
+          {initials && (
+            <Link
+              to="/accueil"
+              title={`${first} ${last}`.trim() + ' — mon espace'}
+              aria-label={`Espace de ${first} ${last}`.trim()}
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm font-semibold text-slate-800 ring-1 ring-violet-300 dark:text-slate-100 dark:ring-violet-500/60"
+              style={{ background: 'linear-gradient(135deg, #f4ead1, #e8d5a4)' }}
+            >
+              {initials}
+            </Link>
+          )}
         </div>
         <Breadcrumb />
       </header>

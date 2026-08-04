@@ -12,7 +12,7 @@ export default function Badges() {
   return (
     <div className="space-y-5">
       <header>
-        <h1 className="font-display text-2xl font-extrabold">🏅 Mes badges</h1>
+        <h1 className="font-display text-2xl font-extrabold">🏅 {state.profile?.firstName ? `Les badges de ${state.profile.firstName}` : 'Mes badges'}</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">
           {earned.size} / {BADGES.length} débloqués · Niveau {derived.level} · {state.xp} XP
         </p>
