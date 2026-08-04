@@ -278,9 +278,9 @@ export const langues = {
             { text: 'María ___ profesora (profession)', cat: 'ser' },
             { text: 'Nosotros ___ en Madrid (lieu)', cat: 'estar' },
             { text: 'La sopa ___ muy caliente (état)', cat: 'estar' },
-            { text: 'Son ___ las tres (heure)', cat: 'ser' },
-            { text: 'Estoy ___ cansado (état passager)', cat: 'estar' },
-            { text: 'Es ___ de España (origine)', cat: 'ser' },
+            { text: '___ las tres (heure)', cat: 'ser' },
+            { text: '___ cansado (état passager)', cat: 'estar' },
+            { text: '___ de España (origine)', cat: 'ser' },
           ],
         },
         {

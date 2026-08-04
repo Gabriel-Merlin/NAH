@@ -4061,11 +4061,11 @@ const languesP = {
           instruction: 'Classe chaque phrase.',
           categories: [{ id: 'ser', label: 'SER' }, { id: 'estar', label: 'ESTAR' }],
           items: [
-            { text: 'Soy ___ estudiante (profession)', cat: 'ser' },
-            { text: 'Estoy ___ cansado (état)', cat: 'estar' },
+            { text: '___ estudiante (profession)', cat: 'ser' },
+            { text: '___ cansado (état)', cat: 'estar' },
             { text: 'Madrid ___ en España (lieu)', cat: 'estar' },
-            { text: 'Es ___ alto (caractéristique)', cat: 'ser' },
-            { text: 'Son ___ las tres (heure)', cat: 'ser' },
+            { text: '___ alto (caractéristique)', cat: 'ser' },
+            { text: '___ las tres (heure)', cat: 'ser' },
           ],
         },
         {

@@ -1447,7 +1447,7 @@ export const LESSONS = {
           { t: 'table', head: ['SER', 'ESTAR'], rows: [
             ['Caractéristique permanente, identité', 'État, situation temporaire'],
             ['Heure, origine, profession', 'Lieu'],
-            ['*Soy* estudiante. / *Es* las tres.', '*Estoy* cansado. / El libro *está* en la mesa.'],
+            ['*Soy* estudiante. / *Son* las tres.', '*Estoy* cansado. / El libro *está* en la mesa.'],
           ] },
         ],
       },
