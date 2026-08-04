@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useStore, starsFromScore } from '../store.jsx'
-import { Stars, Confetti } from '../components/ui.jsx'
+import { Stars, Confetti, Icon } from '../components/ui.jsx'
 import Qcm from './Qcm.jsx'
 import VraiFaux from './VraiFaux.jsx'
 import Flashcards from './Flashcards.jsx'
@@ -72,18 +72,18 @@ export default function GameHost({ game, chapterId, color, quiz = false, onExit 
     return (
       <div className="card animate-pop-in p-5">
         <button onClick={onExit} className="mb-3 text-sm text-slate-500 hover:text-violet-600">← Retour aux jeux</button>
-        <h3 className="mb-1 text-lg font-bold">{game.title}</h3>
+        <h3 className="mb-1 font-display text-xl font-semibold">{game.title}</h3>
         <p className="mb-5 text-sm text-slate-500 dark:text-slate-400">Choisis ton mode de jeu.</p>
         <div className="grid gap-3 sm:grid-cols-2">
-          <button onClick={() => setMode('train')} className="rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-4 text-left transition hover:border-emerald-400 dark:border-emerald-900 dark:bg-emerald-950/40">
-            <div className="text-2xl">🧠</div>
-            <div className="mt-1 font-bold text-emerald-800 dark:text-emerald-300">Entraînement</div>
-            <div className="text-xs text-emerald-700/80 dark:text-emerald-400/80">Sans pression, avec les corrections détaillées.</div>
+          <button onClick={() => setMode('train')} className="rounded-2xl p-4 text-left ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:ring-slate-300 dark:ring-slate-800 dark:hover:ring-slate-700" style={{ background: '#fffdf8' }}>
+            <div className="text-slate-400"><Icon.Brain size={22} /></div>
+            <div className="mt-2 font-display text-lg font-semibold">Entraînement</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">Sans pression, avec les corrections détaillées.</div>
           </button>
-          <button onClick={() => setMode('defi')} className="rounded-2xl border-2 border-amber-200 bg-amber-50 p-4 text-left transition hover:border-amber-400 dark:border-amber-900 dark:bg-amber-950/40">
-            <div className="text-2xl">⏱️</div>
-            <div className="mt-1 font-bold text-amber-800 dark:text-amber-300">Défi</div>
-            <div className="text-xs text-amber-700/80 dark:text-amber-400/80">Chronomètre + score. Gagne plus d’XP&nbsp;!</div>
+          <button onClick={() => setMode('defi')} className="rounded-2xl p-4 text-left ring-1 ring-violet-300/70 transition hover:-translate-y-0.5 hover:ring-violet-400 dark:ring-violet-500/40" style={{ background: 'linear-gradient(135deg,#fbf5e6,#fffdf8)' }}>
+            <div className="text-violet-500 dark:text-violet-400"><Icon.Timer size={22} /></div>
+            <div className="mt-2 font-display text-lg font-semibold">Défi</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">Chronomètre + score. Gagne plus d’XP&nbsp;!</div>
           </button>
         </div>
       </div>
@@ -116,8 +116,9 @@ export default function GameHost({ game, chapterId, color, quiz = false, onExit 
     <div className="animate-pop-in">
       <div className="mb-3 flex items-center justify-between">
         <button onClick={onExit} className="text-sm text-slate-500 hover:text-violet-600">← Quitter</button>
-        <span className={`chip ${mode === 'defi' ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'}`}>
-          {mode === 'defi' ? '⏱️ Défi' : '🧠 Entraînement'}
+        <span className="chip gap-1.5 text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-800">
+          {mode === 'defi' ? <Icon.Timer size={14} /> : <Icon.Brain size={14} />}
+          {mode === 'defi' ? 'Défi' : 'Entraînement'}
         </span>
       </div>
       <Comp key={runKey} game={game} mode={mode} color={color} onDone={handleDone} />

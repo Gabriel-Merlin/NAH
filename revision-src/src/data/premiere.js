@@ -1603,7 +1603,7 @@ const droitP = {
         {
           h: 'Le litige et les parties',
           blocks: [
-            { t: 'p', c: 'Un **litige** est un **désaccord juridique** entre deux parties aux **prétentions** opposées. Devant le juge, celui qui saisit la justice pour réclamer un droit est le **demandeur** ; celui contre qui l’action est dirigée est le **défendeur**.' },
+            { t: 'p', c: 'Un **litige** est un **désaccord juridique** entre deux parties aux **prétentions** opposées. Devant le juge, celui ou celle qui saisit la justice pour réclamer un droit est le **demandeur** (au féminin : la **demanderesse**) ; celui ou celle contre qui l’action est dirigée est le **défendeur** (la **défenderesse**).' },
             { t: 'p', c: 'À l’origine des droits et obligations, on distingue :' },
             { t: 'table', head: ['Acte juridique', 'Fait juridique'], rows: [
               ['Volonté de produire des effets de droit', 'Événement qui produit des effets de droit sans les avoir voulus'],
@@ -1706,7 +1706,7 @@ const droitP = {
           title: 'Flashcards — Le litige',
           icon: '🃏',
           cards: [
-            { front: 'Demandeur / défendeur', back: 'Celui qui réclame en justice / celui contre qui l’action est dirigée.' },
+            { front: 'Demandeur / demanderesse — défendeur / défenderesse', back: 'Celui ou celle qui réclame en justice (demandeur / demanderesse) / celui ou celle contre qui l’action est dirigée (défendeur / défenderesse).' },
             { front: 'Acte / fait juridique', back: 'Manifestation de volonté (contrat) / événement non voulu (accident).' },
             { front: 'Charge de la preuve', back: 'Elle pèse sur le demandeur.' },
             { front: 'Preuve parfaite', back: 'Valeur fixée par la loi (acte authentique, acte sous signature privée, aveu, serment) : s’impose au juge.' },
@@ -1744,8 +1744,8 @@ const droitP = {
           blocks: [
             { t: 'p', c: 'On distingue la **capacité de jouissance** (avoir des droits) et la **capacité d’exercice** (pouvoir les exercer soi-même). Certaines personnes sont **incapables** et doivent être **représentées** ou **assistées** :' },
             { t: 'list', c: [
-              'les **mineurs** non émancipés (représentés par leurs parents, titulaires de l’autorité parentale) ;',
-              'les **majeurs protégés**, selon la gravité : **sauvegarde de justice** (protection légère et temporaire), **curatelle** (le majeur est **assisté**), **tutelle** (le majeur est **représenté**).',
+              'les **mineurs** / **mineures** non émancipé·es (représenté·es par leurs parents, titulaires de l’autorité parentale) ;',
+              'les **majeurs protégés** / **majeures protégées**, selon la gravité : **sauvegarde de justice** (protection légère et temporaire), **curatelle** (le majeur ou la majeure est **assisté·e**), **tutelle** (il ou elle est **représenté·e**). La personne chargée de la mesure est le **tuteur** / la **tutrice** ou le **curateur** / la **curatrice**.',
             ] },
             { t: 'p', c: 'On distingue aussi les **actes d’administration** (gestion courante, ex. encaisser un loyer) des **actes de disposition** (qui engagent le patrimoine, ex. vendre un bien), pour lesquels la protection est plus forte.' },
             { t: 'example', h: 'Le scooter de Tom, 16 ans', c: 'Tom, **mineur**, achète seul un scooter d’occasion à 1 500 €. \n→ Tom a la **capacité de jouissance** (il peut être propriétaire) mais pas la pleine **capacité d’exercice** : cet **acte de disposition** dépasse la gestion courante d’un mineur. Ses **parents** (ses représentants) peuvent demander l’**annulation** de la vente. En revanche, acheter une place de cinéma (acte de la vie courante) resterait valable.' },
