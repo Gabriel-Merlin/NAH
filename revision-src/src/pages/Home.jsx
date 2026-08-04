@@ -44,7 +44,9 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <Ring value={trackProgress} color="#ffffff" size={72} label={`${trackProgress}%`} />
           <div className="min-w-0">
-            <h1 className="font-display text-xl font-extrabold leading-tight">Salut ! Prêt·e à réviser ? 🚀</h1>
+            <h1 className="font-display text-xl font-extrabold leading-tight">
+              {state.profile?.firstName ? `Salut, ${state.profile.firstName} ! ` : 'Salut ! '}Prêt·e à réviser ? 🚀
+            </h1>
             <p className="text-sm text-white/85">Niveau {derived.level} · {state.xp} XP · 🔥 {state.streak.count} j de suite</p>
           </div>
         </div>

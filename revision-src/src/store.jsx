@@ -17,6 +17,7 @@ const emptyState = () => ({
   favorites: [], // ids de chapitres marqués « à revoir »
   lastChapter: null, // { subjectId, chapterId }
   track: null, // { level, specialty } — filière choisie à l'entrée
+  profile: null, // { firstName, lastName } — fiche d'information (accueil personnalisé)
   theme: null, // 'light' | 'dark' | null (= système)
   totalAnswers: 0,
   correctAnswers: 0,
@@ -141,6 +142,8 @@ export function StoreProvider({ children }) {
 
   const setTrack = useCallback((track) => setState((p) => ({ ...p, track })), [])
 
+  const setProfile = useCallback((profile) => setState((p) => ({ ...p, profile })), [])
+
   const resetAll = useCallback(() => setState(emptyState()), [])
 
   const dismissBadge = useCallback(
@@ -159,6 +162,7 @@ export function StoreProvider({ children }) {
     setLastChapter,
     setTheme,
     setTrack,
+    setProfile,
     resetAll,
     dismissBadge,
   }
