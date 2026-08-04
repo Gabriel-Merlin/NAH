@@ -23,6 +23,8 @@ export const Icon = {
   Diamond: (p) => <Svg {...p}><path d="M12 3 20 12 12 21 4 12Z" /></Svg>,
   Brain: (p) => <Svg {...p}><path d="M9.5 4.5A2.5 2.5 0 0 0 7 7a2.5 2.5 0 0 0-1 4.8V15a2.5 2.5 0 0 0 4 2M14.5 4.5A2.5 2.5 0 0 1 17 7a2.5 2.5 0 0 1 1 4.8V15a2.5 2.5 0 0 1-4 2M12 5v13" /></Svg>,
   Timer: (p) => <Svg {...p}><circle cx="12" cy="13" r="7" /><path d="M12 13V9.5M10 2h4M18.5 6.5 20 5" /></Svg>,
+  Book: (p) => <Svg {...p}><path d="M4 5.5A2 2 0 0 1 6 4h5v15H6a2 2 0 0 0-2 1.4ZM20 5.5A2 2 0 0 0 18 4h-5v15h5a2 2 0 0 1 2 1.4Z" /></Svg>,
+  Swap: (p) => <Svg {...p}><path d="M7 4 4 7l3 3M4 7h10M17 20l3-3-3-3M20 17H10" /></Svg>,
 }
 
 // Rend le gras **ainsi** et l'italique *ainsi* présents dans les textes du cours.
