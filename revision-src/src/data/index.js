@@ -78,7 +78,15 @@ export function themeChapters(theme) {
     games: [],
   }))
   if (chapters.length) {
-    games.forEach((g, k) => chapters[k % chapters.length].games.push(g))
+    // Répartition régulière des jeux (activités de révision du thème) sur
+    // TOUS les chapitres : on évite de les entasser en tête et de laisser
+    // une longue série de chapitres sans exercice (utile pour les thèmes
+    // très découpés, ex. SDGN T1 = 22 chapitres). Chaque jeu tombe à
+    // ⌊k × nbChapitres / nbJeux⌋, ce qui l'étale sur toute la longueur.
+    games.forEach((g, k) => {
+      const idx = Math.floor((k * chapters.length) / games.length)
+      chapters[Math.min(idx, chapters.length - 1)].games.push(g)
+    })
   }
   return chapters
 }
