@@ -12,6 +12,7 @@ import { langues } from './langues.js'
 import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
 import { DOC_STUDIES } from './docstudies.js'
+import { GAME_SECTION } from './sections.js'
 
 export const SUBJECTS = [
   gestion,
@@ -78,13 +79,17 @@ export function themeChapters(theme) {
     games: [],
   }))
   if (chapters.length) {
-    // Répartition régulière des jeux (activités de révision du thème) sur
-    // TOUS les chapitres : on évite de les entasser en tête et de laisser
-    // une longue série de chapitres sans exercice (utile pour les thèmes
-    // très découpés, ex. SDGN T1 = 22 chapitres). Chaque jeu tombe à
-    // ⌊k × nbChapitres / nbJeux⌋, ce qui l'étale sur toute la longueur.
+    // Chaque jeu est rattaché à la SECTION (chapitre) qui traite sa notion,
+    // via la table GAME_SECTION (relue à la main) : un exercice de TVA tombe
+    // dans le chapitre « TVA », la pyramide de Maslow dans le chapitre
+    // « Motivation », etc. À défaut d'entrée dans la table, on répartit le jeu
+    // régulièrement sur toute la longueur du thème (⌊k × nbChap / nbJeux⌋),
+    // pour éviter de laisser de longues séries de chapitres sans exercice.
     games.forEach((g, k) => {
-      const idx = Math.floor((k * chapters.length) / games.length)
+      let idx = GAME_SECTION[g.id]
+      if (idx == null || idx < 0 || idx >= chapters.length) {
+        idx = Math.floor((k * chapters.length) / games.length)
+      }
       chapters[Math.min(idx, chapters.length - 1)].games.push(g)
     })
   }
