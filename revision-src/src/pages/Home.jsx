@@ -28,6 +28,11 @@ export default function Home() {
   const last = state.lastChapter ? getChapter(state.lastChapter.chapterId) : null
   const level = state.track.level
 
+  // Salutation personnalisée selon l'heure et le prénom de l'élève.
+  const firstName = state.profile?.firstName?.trim() || ''
+  const hour = new Date().getHours()
+  const greeting = hour < 6 ? 'Belle nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
+
   return (
     <div className="space-y-6">
       {/* Filière active */}
@@ -39,26 +44,31 @@ export default function Home() {
         <Link to="/" className="shrink-0 text-xs font-semibold text-violet-600 hover:underline dark:text-violet-400">Changer</Link>
       </div>
 
-      {/* Bandeau tableau de bord */}
-      <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 via-violet-600 to-fuchsia-600 p-5 text-white shadow-lg">
-        <div className="flex items-center gap-4">
-          <Ring value={trackProgress} color="#ffffff" size={72} label={`${trackProgress}%`} />
+      {/* Bandeau tableau de bord — écrin sombre & or, à l'effigie de l'accueil */}
+      <section
+        className="relative overflow-hidden rounded-3xl p-5 text-[#f4ecd8] shadow-lg ring-1 ring-[#c8a24e]/25"
+        style={{ background: 'linear-gradient(135deg,#211d16 0%,#2c271d 55%,#1b1813 100%)' }}
+      >
+        <span aria-hidden className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle,#c8a24e33,transparent 70%)' }} />
+        <div className="relative flex items-center gap-4">
+          <Ring value={trackProgress} color="#d9bd77" size={72} label={`${trackProgress}%`} />
           <div className="min-w-0">
-            <h1 className="font-display text-xl font-extrabold leading-tight">
-              {state.profile?.firstName ? `Salut, ${state.profile.firstName} ! ` : 'Salut ! '}Prêt·e à réviser ? 🚀
+            <p className="font-display text-[0.7rem] uppercase tracking-[0.26em] text-[#c8a24e]">{trackLabel(state.track)}</p>
+            <h1 className="font-display text-2xl font-medium leading-tight text-[#faf3e1]">
+              {greeting}{firstName ? `, ${firstName}` : ''}
             </h1>
-            <p className="text-sm text-white/85">Niveau {derived.level} · {state.xp} XP · 🔥 {state.streak.count} j de suite</p>
+            <p className="mt-0.5 text-sm text-[#d8cca8]">Niveau {derived.level} · {state.xp} XP · 🔥 {state.streak.count} j de suite</p>
           </div>
         </div>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="relative mt-4 flex flex-wrap gap-2">
           {last ? (
-            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn bg-white/95 text-violet-700 hover:bg-white !py-2.5">
+            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">
               ▶ Reprendre : {last.short || last.name}
             </Link>
           ) : realSubjects[0] ? (
-            <Link to={`/subject/${realSubjects[0].id}`} className="btn bg-white/95 text-violet-700 hover:bg-white !py-2.5">▶ Commencer</Link>
+            <Link to={`/subject/${realSubjects[0].id}`} className="btn bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">▶ Commencer</Link>
           ) : null}
-          <button onClick={randomChapter} className="btn bg-white/15 text-white ring-1 ring-white/40 hover:bg-white/25 !py-2.5">🎲 Chapitre au hasard</button>
+          <button onClick={randomChapter} className="btn bg-white/10 text-[#f4ecd8] ring-1 ring-[#c8a24e]/40 hover:bg-white/15 !py-2.5">🎲 Chapitre au hasard</button>
         </div>
       </section>
 

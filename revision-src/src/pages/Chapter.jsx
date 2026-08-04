@@ -110,7 +110,10 @@ export default function Chapter() {
         )}
       </div>
 
-      <p className="print-footer">RévizSTMG · {theme.name} — {chapter.title} (contenu généré avec l’aide de l’IA, à recouper avec le cours officiel).</p>
+      <p className="print-footer">
+        {state.profile?.firstName ? `Fiche de révision de ${state.profile.firstName}${state.profile.lastName ? ' ' + state.profile.lastName : ''} · ` : ''}
+        RévizSTMG · {theme.name} — {chapter.title} (contenu généré avec l’aide de l’IA, à recouper avec le cours officiel).
+      </p>
     </div>
   )
 }

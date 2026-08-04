@@ -13,7 +13,41 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+        // Titres en serif fin, à l'effigie de l'écran d'accueil (aspect luxueux).
+        display: ['Cormorant Garamond', 'Didot', 'Bodoni MT', 'Georgia', 'Times New Roman', 'serif'],
+      },
+      colors: {
+        // Gris chauds (papier / encre) : on réutilise l'échelle « slate » de
+        // toute l'app, mais teintée chaude façon papeterie de luxe.
+        slate: {
+          50: '#faf8f3',
+          100: '#f2efe7',
+          200: '#e7e1d5',
+          300: '#d4ccbd',
+          400: '#a9a190',
+          500: '#7c7566',
+          600: '#57514a',
+          700: '#423d36',
+          800: '#29251f',
+          900: '#1b1813',
+          950: '#12100b',
+        },
+        // Accent de marque « violet » remplacé par un or/champagne : toute la
+        // chrome (en-tête, boutons génériques, puces, liens) devient dorée sans
+        // toucher les couleurs propres à chaque matière (hex inline).
+        violet: {
+          50: '#faf6ec',
+          100: '#f4ead1',
+          200: '#e8d5a4',
+          300: '#d9bd77',
+          400: '#c8a24e',
+          500: '#b6912f',
+          600: '#98761f',
+          700: '#7c5f1f',
+          800: '#614a1c',
+          900: '#493819',
+          950: '#2a2010',
+        },
       },
       keyframes: {
         'pop-in': {

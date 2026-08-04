@@ -9,7 +9,7 @@ export default function Favoris() {
 
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-extrabold">⭐ Mes favoris</h1>
+      <h1 className="font-display text-2xl font-extrabold">⭐ {state.profile?.firstName ? `Les favoris de ${state.profile.firstName}` : 'Mes favoris'}</h1>
       {favs.length === 0 ? (
         <Empty icon="⭐">
           Aucun chapitre en favori pour l’instant.
