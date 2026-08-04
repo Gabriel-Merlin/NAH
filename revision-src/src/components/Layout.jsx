@@ -5,10 +5,12 @@ import { getSubject, getChapter, search } from '../data/index.js'
 import { badgeById } from '../badges.js'
 import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
+import Dictionary from './Dictionary.jsx'
 
 export default function Layout({ children }) {
   const { state, derived, setTheme } = useStore()
   const [searchOpen, setSearchOpen] = useState(false)
+  const [dictOpen, setDictOpen] = useState(false)
   const isDark =
     state.theme === 'dark' ||
     (state.theme == null && typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
@@ -37,6 +39,9 @@ export default function Layout({ children }) {
             Niv.&nbsp;{derived.level} · {state.xp}&nbsp;XP
           </div>
 
+          <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setDictOpen(true)} aria-label="Dictionnaire / traducteur" title="Dictionnaire">
+            <Icon.Book />
+          </button>
           <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setSearchOpen(true)} aria-label="Rechercher un chapitre">
             <Icon.Search />
           </button>
@@ -66,6 +71,7 @@ export default function Layout({ children }) {
       <main className="mx-auto max-w-4xl px-4 pb-24 pt-4">{children}</main>
 
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
+      {dictOpen && <Dictionary onClose={() => setDictOpen(false)} />}
       <BadgeToast />
       <Welcome />
     </div>
