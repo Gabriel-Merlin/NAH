@@ -1573,7 +1573,7 @@ const droitP = {
             { statement: 'Une règle de droit vise une personne en particulier.', answer: false, explain: 'Faux : elle est générale et impersonnelle.' },
             { statement: 'Dans un État de droit, l’État est soumis au droit.', answer: true, explain: 'Vrai : nul n’est au-dessus de la loi.' },
             { statement: 'La jurisprudence est une source du droit.', answer: true, explain: 'Vrai : les décisions des tribunaux interprètent la règle. C’est une source **non écrite** (comme la coutume) : elle ne figure pas dans la hiérarchie des normes écrites, mais reste bien une source du droit.' },
-            { statement: 'Une loi peut être contraire à la Constitution.', answer: false, explain: 'Faux : elle doit respecter la norme supérieure (contrôle du Conseil constitutionnel).' },
+            { statement: 'Une loi doit être conforme à la Constitution.', answer: true, explain: 'Vrai : dans la hiérarchie des normes, la loi doit respecter la Constitution (contrôle du Conseil constitutionnel, QPC).' },
           ],
         },
         {
