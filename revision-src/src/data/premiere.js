@@ -2798,7 +2798,7 @@ const mathsP = {
       resources: [{ kind: 'video', label: 'Dérivation et variations', note: 'Vidéos — recherche YouTube', url: yt('dérivation nombre dérivé signe variations première STMG maths') }],
       games: [
         { id: 'p1-math-c4-calc-der', type: 'calcul', title: 'Exercices — Nombre dérivé f’(x)', icon: '✍️', gen: 'derivee_affine', count: 8 },
-        { id: 'p1-math-c4-calc-img', type: 'calcul', title: 'Exercices — Image f(x)', icon: '✍️', gen: 'image_fonction', count: 6 },
+        { id: 'p1-math-c4-calc-opt', type: 'calcul', title: 'Exercices — Optimisation (extremum)', icon: '✍️', gen: 'optimisation', count: 6 },
         { id: 'p1-math-c4-calc-graph', type: 'calcul', title: 'Exercices — Lecture graphique', icon: '📈', gen: 'lecture_graphique_affine', count: 6 },
         {
           id: 'p1-math-c4-flash', type: 'flashcard', title: 'Flashcards — Formules', icon: '🃏',

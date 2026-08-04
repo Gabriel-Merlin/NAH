@@ -170,6 +170,21 @@ export const CALC = {
       }.\nf'(${x0}) = ${2 * a}×${x0} ${b >= 0 ? '+ ' + b : '− ' + -b} = ${d}.`,
     }
   },
+  optimisation: () => {
+    const a = (ri(0, 1) ? 1 : -1) * ri(1, 4)
+    const xv = ri(1, 5) * (ri(0, 1) ? 1 : -1)
+    const b = -2 * a * xv
+    const c = ri(-10, 10)
+    const val = a * xv * xv + b * xv + c
+    const kind = a > 0 ? 'minimum' : 'maximum'
+    return {
+      prompt: `Soit f(x) = ${poly(a, b, c)}.\nEn utilisant la dérivée, calcule la valeur du ${kind} de f (l'extremum).`,
+      answer: val,
+      unit: '',
+      tolerance: 0.01,
+      explain: `f'(x) = ${2 * a}x ${signc(b)} s'annule en x = −b/(2a) = ${xv}.\nf' change de signe en ${xv} : ${kind} atteint en x = ${xv}.\nExtremum : f(${xv}) = ${a}·(${xv})² ${signc(b)}·(${xv}) ${signc(c)} = ${val}.`,
+    }
+  },
   esperance_binomiale: () => {
     const n = ri(5, 40)
     const p = ri(10, 90) / 100
@@ -482,9 +497,10 @@ function fmt(n) {
 
 // Formate un polynôme du second degré « ax² + bx + c » proprement.
 function poly(a, b, c) {
-  const bx = b === 0 ? '' : b > 0 ? ` + ${b}x` : ` − ${-b}x`
+  const ax = a === 1 ? 'x²' : a === -1 ? '−x²' : a < 0 ? `−${-a}x²` : `${a}x²`
+  const bx = b === 0 ? '' : b === 1 ? ' + x' : b === -1 ? ' − x' : b > 0 ? ` + ${b}x` : ` − ${-b}x`
   const cc = c === 0 ? '' : c > 0 ? ` + ${c}` : ` − ${-c}`
-  return `${a}x²${bx}${cc}`
+  return `${ax}${bx}${cc}`
 }
 // Signe explicite d'un nombre pour une substitution (« + 3 » / « − 3 »).
 function signc(v) {
