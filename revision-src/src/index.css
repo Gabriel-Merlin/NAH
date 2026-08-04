@@ -308,3 +308,86 @@
   .welcome-kicker, .welcome-title, .welcome-name, .welcome-rule, .welcome-hint,
   .welcome-card, .welcome-root { animation-duration: 0.01ms !important; }
 }
+
+/* ---------------------------------------------------------------------------
+   Frise chronologique (timeline verticale, ligne + pastilles dorées).
+   Aspect papeterie de luxe ; pensée pour l'impression.
+--------------------------------------------------------------------------- */
+.frise {
+  margin: 0.75rem 0;
+  border-radius: 1rem;
+  border: 1px solid #ece1c9;
+  background: linear-gradient(#fffdf8, #fffbf2);
+  padding: 1.35rem 1.15rem 1.4rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+html.dark .frise { background: #201c15; border-color: #33291c; }
+.frise-title {
+  font-family: 'Cormorant Garamond', Didot, Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #7c5f1f;
+  margin-bottom: 1.1rem;
+}
+html.dark .frise-title { color: #dcc07d; }
+.frise-list { list-style: none; margin: 0; padding: 0; }
+.frise-item {
+  display: grid;
+  grid-template-columns: 4.3rem 1.3rem 1fr;
+  column-gap: 0.5rem;
+  padding-bottom: 1.05rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.frise-item:last-child { padding-bottom: 0; }
+.frise-date {
+  text-align: right;
+  padding-top: 0.02rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #9a7420;
+}
+html.dark .frise-date { color: #dcc07d; }
+.frise-mid { position: relative; }
+.frise-mid::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.15rem;
+  bottom: -1.05rem;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(#d9bd77, #e8d5a4);
+}
+.frise-item:last-child .frise-mid::before { display: none; }
+.frise-mid::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.3rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: #c8a24e;
+  box-shadow: 0 0 0 3px #fbf3e0;
+}
+html.dark .frise-mid::after { box-shadow: 0 0 0 3px #2a2312; }
+.frise-label {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #423d36;
+  padding-top: 0.02rem;
+}
+html.dark .frise-label { color: #d4ccbd; }
+.frise-note { display: block; font-size: 0.78rem; color: #8b857d; margin-top: 0.1rem; }
+
+@media print {
+  .frise { border-color: #d8cbae; background: #fffdf8 !important; }
+  .frise-item { break-inside: avoid; page-break-inside: avoid; }
+}
