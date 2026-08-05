@@ -1292,6 +1292,70 @@ export const LESSONS = {
           ] },
         ],
       },
+      {
+        h: 'Frise — Benito Mussolini (1883-1945)',
+        blocks: [
+          { t: 'p', c: 'Le fondateur du fascisme, premier régime totalitaire d’Europe.' },
+          { t: 'frise', title: 'Benito Mussolini (1883-1945)', events: [
+            { date: '1883', label: 'Naissance à Predappio (Italie)' },
+            { date: '1919', label: 'Fonde les Faisceaux de combat (naissance du **fascisme**)' },
+            { date: 'oct. 1922', label: '**Marche sur Rome** : il devient chef du gouvernement' },
+            { date: '1925-1926', label: 'Instaure la dictature (« Duce », parti unique)' },
+            { date: '1935', label: 'Invasion de l’Éthiopie' },
+            { date: '1936', label: 'Axe Rome-Berlin avec Hitler' },
+            { date: '1940', label: 'Entre en guerre aux côtés de l’Allemagne' },
+            { date: '1943', label: 'Destitué et arrêté ; éphémère République de Salò' },
+            { date: '28 avril 1945', label: 'Exécuté par des résistants italiens' },
+          ] },
+        ],
+      },
+      {
+        h: 'Frise — Lénine (1870-1924)',
+        blocks: [
+          { t: 'p', c: 'Le fondateur de l’URSS et du régime communiste soviétique.' },
+          { t: 'frise', title: 'Lénine (1870-1924)', events: [
+            { date: '1870', label: 'Naissance à Simbirsk (Russie)' },
+            { date: '1895', label: 'Militant marxiste, arrêté puis exilé en Sibérie' },
+            { date: '1903', label: 'Fonde le courant **bolchevique**' },
+            { date: 'oct. 1917', label: '**Révolution d’Octobre** : les bolcheviks prennent le pouvoir' },
+            { date: '1918', label: 'Paix de Brest-Litovsk ; début de la guerre civile russe' },
+            { date: '1921', label: 'NEP (nouvelle politique économique)' },
+            { date: '1922', label: 'Création de l’**URSS**' },
+            { date: '1924', label: 'Mort ; Staline lui succède' },
+          ] },
+        ],
+      },
+      {
+        h: 'Frise — Philippe Pétain (1856-1951)',
+        blocks: [
+          { t: 'p', c: 'Du « héros de Verdun » au chef du régime de Vichy et à la collaboration.' },
+          { t: 'frise', title: 'Philippe Pétain (1856-1951)', events: [
+            { date: '1856', label: 'Naissance (Cauchy-à-la-Tour)' },
+            { date: '1916', label: '« Vainqueur de Verdun » pendant la Première Guerre mondiale' },
+            { date: '1918', label: 'Maréchal de France, héros national' },
+            { date: 'juin 1940', label: 'Demande l’armistice après la défaite' },
+            { date: '10 juil. 1940', label: 'Reçoit les pleins pouvoirs → **régime de Vichy**' },
+            { date: 'oct. 1940', label: 'Poignée de main de Montoire : la **collaboration**' },
+            { date: '1942', label: 'Vichy participe aux rafles de Juifs (Vél’ d’Hiv)' },
+            { date: '1945', label: 'Jugé, condamné à mort (peine commuée en détention)' },
+            { date: '1951', label: 'Mort à l’île d’Yeu' },
+          ] },
+        ],
+      },
+      {
+        h: 'Frise — Jean Moulin (1899-1943)',
+        blocks: [
+          { t: 'p', c: 'Le grand unificateur de la Résistance intérieure française.' },
+          { t: 'frise', title: 'Jean Moulin (1899-1943)', events: [
+            { date: '1899', label: 'Naissance à Béziers' },
+            { date: '1940', label: 'Préfet ; refuse de signer un faux document allemand' },
+            { date: '1941', label: 'Rejoint le général de Gaulle à Londres' },
+            { date: 'mai 1943', label: 'Unifie la Résistance : préside le premier **CNR**' },
+            { date: '21 juin 1943', label: 'Arrêté à Caluire' },
+            { date: 'juil. 1943', label: 'Meurt des suites de la torture ; au Panthéon depuis 1964' },
+          ] },
+        ],
+      },
     ],
     resources: [
       { kind: 'video', label: 'Totalitarismes et Seconde Guerre mondiale', note: 'Vidéos — recherche YouTube', url: yt('totalitarismes seconde guerre mondiale guerre anéantissement terminale') },
@@ -1347,6 +1411,37 @@ export const LESSONS = {
         blocks: [
           { t: 'p', c: 'La disparition de l’URSS en **1991** met fin au monde **bipolaire**. Les États-Unis restent un temps la seule **hyperpuissance**, mais de **nouvelles puissances** émergent (**Chine**, Inde, Union européenne, puissances émergentes) : on parle d’un monde **multipolaire**, marqué aussi par le **terrorisme** (attentats du **11 septembre 2001**).' },
           { t: 'tip', c: 'Repères clés : **1947** (début) et **1991** (fin) de la Guerre froide ; **1949** (OTAN, RDA/RFA, Chine), **1962** (Cuba), **1989** (chute du mur), **2001** (11 septembre).' },
+        ],
+      },
+      {
+        h: 'Frise — Gandhi (1869-1948)',
+        blocks: [
+          { t: 'p', c: 'Le père de l’indépendance de l’Inde, apôtre de la non-violence.' },
+          { t: 'frise', title: 'Mahatma Gandhi (1869-1948)', events: [
+            { date: '1869', label: 'Naissance à Porbandar (Inde)' },
+            { date: '1893-1914', label: 'Avocat en Afrique du Sud : lutte contre les discriminations' },
+            { date: '1915', label: 'Retour en Inde ; combat pour l’indépendance' },
+            { date: 'années 1920', label: 'Désobéissance civile **non-violente** contre les Britanniques' },
+            { date: '1930', label: 'Marche du sel' },
+            { date: '15 août 1947', label: 'Indépendance de l’Inde (et du Pakistan)' },
+            { date: '1948', label: 'Assassiné' },
+          ] },
+        ],
+      },
+      {
+        h: 'Frise — Mikhaïl Gorbatchev (1931-2022)',
+        blocks: [
+          { t: 'p', c: 'Le dernier dirigeant de l’URSS, dont les réformes précipitent la fin de la Guerre froide.' },
+          { t: 'frise', title: 'Mikhaïl Gorbatchev (1931-2022)', events: [
+            { date: '1931', label: 'Naissance dans le sud de la Russie' },
+            { date: '1985', label: 'Dirigeant de l’URSS : lance la **perestroïka** et la **glasnost**' },
+            { date: '1986', label: 'Catastrophe nucléaire de Tchernobyl' },
+            { date: '1987', label: 'Accords de désarmement avec les États-Unis' },
+            { date: '1989', label: 'Chute du mur de Berlin : il n’intervient pas' },
+            { date: '1990', label: 'Prix Nobel de la paix' },
+            { date: '1991', label: 'Éclatement de l’URSS : il démissionne' },
+            { date: '2022', label: 'Mort' },
+          ] },
         ],
       },
     ],
