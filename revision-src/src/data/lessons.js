@@ -1524,8 +1524,31 @@ export const LESSONS = {
       {
         h: 'La reconstruction et les Trente Glorieuses',
         blocks: [
-          { t: 'p', c: 'Au sortir de la guerre, la France se **reconstruit** (aidée notamment par le **plan Marshall**, 1948) et connaît une longue période de forte croissance, les **Trente Glorieuses** (≈ 1945-1975) : modernisation, **plein emploi**, société de consommation, État-providence.' },
-          { t: 'p', c: 'À la Libération, le **GPRF** (de Gaulle) applique le programme du **CNR** : **droit de vote des femmes** (1944), **Sécurité sociale** (1945), nationalisations. La **IVe République** (1946), instable, laisse place à la **Ve République** (1958).' },
+          { t: 'p', c: 'Au sortir de la guerre, la France se **reconstruit** (aidée par le **plan Marshall**, 1948) et connaît une longue période de forte croissance, les **Trente Glorieuses** (≈ 1945-1975) : modernisation, **plein emploi**, **société de consommation**, **État-providence**.' },
+          { t: 'p', c: 'À la Libération, le **GPRF** (de Gaulle) applique le programme du **CNR** : **droit de vote des femmes** (1944), **Sécurité sociale** (1945), nationalisations (banques, énergie). La croissance prend fin avec le **choc pétrolier** de 1973.' },
+          { t: 'table', head: ['Date', 'Repère économique et social'], rows: [
+            ['1944', 'Gouvernement provisoire (GPRF) ; nationalisations, presse'],
+            ['1945', 'Création de la Sécurité sociale ; nationalisation de Renault'],
+            ['1946', 'Nationalisations (EDF-GDF, Banque de France) ; institution du SMIG (1950)'],
+            ['1947', 'Début des Trente Glorieuses ; plan Marshall (1948)'],
+            ['années 1950-60', 'Société de consommation (automobile, électroménager, télévision)'],
+            ['1968', 'Accords de Grenelle : forte hausse des salaires'],
+            ['1973', 'Premier choc pétrolier : fin des Trente Glorieuses, montée du chômage'],
+          ] },
+        ],
+      },
+      {
+        h: 'Les mutations de la société française (femmes, jeunesse, immigration)',
+        blocks: [
+          { t: 'p', c: 'Les Trente Glorieuses transforment la société : émancipation des **femmes**, poids nouveau de la **jeunesse** (baby-boom), **immigration** de main-d’œuvre, exode rural. Mai **1968** cristallise ces aspirations à plus de liberté.' },
+          { t: 'table', head: ['Date', 'Événement de société'], rows: [
+            ['1944', 'Droit de vote des femmes'],
+            ['1965', 'Les femmes peuvent travailler et ouvrir un compte sans l’accord du mari'],
+            ['1967', 'Loi Neuwirth : autorisation de la contraception'],
+            ['mai 1968', 'Contestation étudiante et ouvrière : grève générale, accords de Grenelle'],
+            ['1974', 'Majorité civile abaissée à 18 ans ; arrêt de l’immigration de travail'],
+            ['1975', 'Loi Veil : légalisation de l’avortement (IVG)'],
+          ] },
         ],
       },
       {
