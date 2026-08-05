@@ -3749,6 +3749,36 @@ const histoireP = {
             ] },
           ],
         },
+        {
+          h: 'Frise — Louis XVI (1754-1793)',
+          blocks: [
+            { t: 'p', c: 'Le dernier roi de l’Ancien Régime, emporté par la Révolution.' },
+            { t: 'frise', title: 'Louis XVI (1754-1793)', events: [
+              { date: '1754', label: 'Naissance à Versailles' },
+              { date: '1774', label: 'Devient roi de France' },
+              { date: '1789', label: 'Révolution : il doit accepter la fin de la monarchie absolue' },
+              { date: 'juin 1791', label: 'Fuite de Varennes : il est arrêté' },
+              { date: '10 août 1792', label: 'Chute de la monarchie (prise des Tuileries)' },
+              { date: '21 sept. 1792', label: 'Abolition de la royauté' },
+              { date: '21 janv. 1793', label: 'Exécuté (guillotine), place de la Révolution' },
+            ] },
+          ],
+        },
+        {
+          h: 'Frise — Robespierre (1758-1794)',
+          blocks: [
+            { t: 'p', c: 'La grande figure de la Terreur, « l’Incorruptible ».' },
+            { t: 'frise', title: 'Maximilien de Robespierre (1758-1794)', events: [
+              { date: '1758', label: 'Naissance à Arras' },
+              { date: '1789', label: 'Député du tiers état aux États généraux' },
+              { date: '1792', label: 'Figure des Montagnards (club des Jacobins)' },
+              { date: '1793', label: 'Entre au **Comité de salut public** : la Terreur' },
+              { date: 'juin 1794', label: 'Loi de Prairial (« Grande Terreur »)' },
+              { date: '27 juil. 1794', label: '9 Thermidor : il est arrêté' },
+              { date: '28 juil. 1794', label: 'Guillotiné : fin de la Terreur' },
+            ] },
+          ],
+        },
       ],
       essentiel: ['**1789** : Révolution, DDHC (liberté, égalité, souveraineté de la nation).', '**Napoléon** : Empire **1804-1815**, Code civil.', 'Repères : 1789 · 1792 · 1804 · 1815.'],
       resources: [{ kind: 'video', label: 'Révolution française et Empire', note: 'Vidéos — recherche YouTube', url: yt('Révolution française Empire Napoléon 1789 1815 première histoire') }],
