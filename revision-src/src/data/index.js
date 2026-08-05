@@ -93,7 +93,66 @@ export function themeChapters(theme) {
       chapters[Math.min(idx, chapters.length - 1)].games.push(g)
     })
   }
+  // Garantit qu'AUCUN chapitre ne reste sans exercice : les chapitres non
+  // pourvus reçoivent un exercice généré à partir de LEUR propre contenu
+  // (quiz de dates ou flashcards de révision), donc différent d'un chapitre à
+  // l'autre.
+  for (const ch of chapters) {
+    if (ch.games.length === 0) {
+      const ex = autoExercise(ch.section, theme, ch.idx)
+      if (ex) ch.games.push(ex)
+    }
+  }
   return chapters
+}
+
+// Retire le markdown gras/italique pour un texte propre dans un exercice.
+function stripMd(s) {
+  return String(s || '').replace(/\*\*/g, '').replace(/\*/g, '').trim()
+}
+
+// Génère un exercice PROPRE au chapitre à partir de son contenu, pour que
+// CHAQUE chapitre ait un exercice (naturellement différent d'un chapitre à
+// l'autre puisque tiré de son propre contenu).
+function autoExercise(sec, theme, idx) {
+  const id = `${theme.id}::auto${idx}`
+  // 1) Quiz de dates : paires « date → événement » (tableaux « Date | … » + frises).
+  const pairs = []
+  for (const b of sec.blocks || []) {
+    if (b.t === 'table' && /date|année/i.test((b.head || [])[0] || '')) {
+      for (const r of b.rows || []) if (r[0] && r[1]) pairs.push({ d: stripMd(String(r[0])), e: stripMd(String(r[1])) })
+    } else if (b.t === 'frise') {
+      for (const e of b.events || []) if (e.date && e.label) pairs.push({ d: stripMd(e.date), e: stripMd(e.label) })
+    }
+  }
+  const uniqEvents = [...new Set(pairs.map((p) => p.e))]
+  if (pairs.length >= 3 && uniqEvents.length >= 3) {
+    const questions = shuffle(pairs).slice(0, Math.min(8, pairs.length)).map((p) => {
+      const distractors = shuffle(uniqEvents.filter((e) => e !== p.e)).slice(0, 3)
+      const choices = shuffle([p.e, ...distractors])
+      return { q: `Que se passe-t-il en ${p.d} ?`, choices, answer: choices.indexOf(p.e), explain: `${p.d} : ${p.e}` }
+    })
+    return { id, type: 'qcm', title: 'Quiz — les dates de ce chapitre', icon: '📅', questions }
+  }
+  // 2) Flashcards à partir d'un tableau « terme | définition » (non daté).
+  const cards = []
+  for (const b of sec.blocks || []) {
+    if (b.t === 'table' && (b.head || []).length === 2 && !/date|année/i.test((b.head || [])[0] || '')) {
+      for (const r of b.rows || []) if (r[0] && r[1]) cards.push({ front: stripMd(String(r[0])), back: stripMd(String(r[1])) })
+    }
+  }
+  if (cards.length >= 3) {
+    return { id, type: 'flashcard', title: 'Flashcards — révise ce chapitre', icon: '🃏', cards: cards.slice(0, 12) }
+  }
+  // 3) Repli universel : une flashcard « notion → contenu du chapitre ».
+  const txt = sectionPlainText(sec)
+  if (txt && txt.length > 30) {
+    return {
+      id, type: 'flashcard', title: 'Révise ce chapitre', icon: '🃏',
+      cards: [{ front: `Que retenir de : « ${sec.h || 'ce chapitre'} » ?`, back: txt.slice(0, 700) }],
+    }
+  }
+  return null
 }
 
 export function getThemeChapter(themeId, idx) {
