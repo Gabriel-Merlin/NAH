@@ -2006,12 +2006,13 @@ const economieP = {
         {
           h: 'Les agents économiques',
           blocks: [
-            { t: 'p', c: 'Un **agent économique** est un acteur qui prend des décisions économiques. On les regroupe en grandes catégories selon leur **fonction principale** :' },
+            { t: 'p', c: 'Un **agent économique** est un acteur qui prend des décisions économiques. La comptabilité nationale les regroupe en **six** grandes catégories (les **secteurs institutionnels**), selon leur **fonction principale** :' },
             { t: 'table', head: ['Agent', 'Rôle principal'], rows: [
               ['Ménages', 'Consomment, fournissent du travail, épargnent'],
-              ['Entreprises', 'Produisent des biens et services marchands'],
-              ['Institutions financières (banques)', 'Financent l’économie (crédits, placements)'],
-              ['Administrations publiques', 'Produisent des services non marchands, redistribuent'],
+              ['Entreprises (sociétés non financières)', 'Produisent des biens et services marchands'],
+              ['Institutions (sociétés) financières', 'Financent l’économie (crédits, placements) : banques, assurances'],
+              ['Administrations publiques (APU)', 'Produisent des services non marchands, redistribuent'],
+              ['ISBLSM', 'Institutions sans but lucratif au service des ménages (associations, syndicats)'],
               ['Reste du monde', 'Réalise les échanges avec l’étranger (import/export)'],
             ] },
           ],
