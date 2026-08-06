@@ -15,7 +15,11 @@ export default function Welcome() {
   const location = useLocation()
 
   const hasProfile = !!state.profile?.firstName
-  const [phase, setPhase] = useState(hasProfile ? 'hello' : 'form') // 'form' | 'plan' | 'hello' | 'done'
+  // Nouvel élève → fiche ; élève déjà inscrit mais qui n'a jamais vu l'étape
+  // « Que veux-tu travailler ? » → on la lui montre une fois (rattrapage) ;
+  // sinon → apparition « Bienvenue ».
+  const initialPhase = !hasProfile ? 'form' : (!state.onboarded && state.track ? 'plan' : 'hello')
+  const [phase, setPhase] = useState(initialPhase) // 'form' | 'plan' | 'hello' | 'done'
   const [leaving, setLeaving] = useState(false)
 
   // Champs de la fiche
