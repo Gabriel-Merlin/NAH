@@ -3,10 +3,12 @@ import { getChapter } from '../data/index.js'
 import { subjectsForTrack, trackLabel, trackIcon } from '../data/tracks.js'
 import { useStore, subjectScore } from '../store.jsx'
 import { ProgressBar, Ring, Icon } from '../components/ui.jsx'
+import { useT } from '../i18n.js'
 
 export default function Home() {
   const { state, derived } = useStore()
   const navigate = useNavigate()
+  const t = useT()
 
   // Pas encore de filière choisie → retour à l'écran d'entrée.
   if (!state.track) return <Navigate to="/" replace />
@@ -31,7 +33,7 @@ export default function Home() {
   // Salutation personnalisée selon l'heure et le prénom de l'élève.
   const firstName = state.profile?.firstName?.trim() || ''
   const hour = new Date().getHours()
-  const greeting = hour < 6 ? 'Belle nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir'
+  const greeting = t(hour < 6 ? 'greetingNight' : hour < 12 ? 'greetingMorning' : hour < 18 ? 'greetingAfternoon' : 'greetingEvening')
 
   return (
     <div className="space-y-7">
@@ -41,7 +43,7 @@ export default function Home() {
           <span className="text-lg">{trackIcon(state.track)}</span>
           <span className="truncate">{trackLabel(state.track)}</span>
         </span>
-        <Link to="/" className="shrink-0 text-xs font-semibold text-violet-600 hover:underline dark:text-violet-400">Changer</Link>
+        <Link to="/" className="shrink-0 text-xs font-semibold text-violet-600 hover:underline dark:text-violet-400">{t('change')}</Link>
       </div>
 
       {/* Bandeau tableau de bord — écrin sombre & or, à l'effigie de l'accueil */}
@@ -57,18 +59,18 @@ export default function Home() {
             <h1 className="font-display text-2xl font-medium leading-tight text-[#faf3e1]">
               {greeting}{firstName ? `, ${firstName}` : ''}
             </h1>
-            <p className="mt-0.5 text-sm text-[#d8cca8]">Niveau {derived.level} · {state.xp} XP · {state.streak.count} j de suite</p>
+            <p className="mt-0.5 text-sm text-[#d8cca8]">{t('level')} {derived.level} · {state.xp} XP · {state.streak.count} {t('streakDays')}</p>
           </div>
         </div>
         <div className="relative mt-4 flex flex-wrap gap-2">
           {last ? (
             <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">
-              <Icon.Play size={16} /> Reprendre : {last.short || last.name}
+              <Icon.Play size={16} /> {t('resume')} : {last.short || last.name}
             </Link>
           ) : realSubjects[0] ? (
-            <Link to={`/subject/${realSubjects[0].id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5"><Icon.Play size={16} /> Commencer</Link>
+            <Link to={`/subject/${realSubjects[0].id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5"><Icon.Play size={16} /> {t('start')}</Link>
           ) : null}
-          <button onClick={randomChapter} className="btn gap-1.5 bg-white/10 text-[#f4ecd8] ring-1 ring-[#c8a24e]/40 hover:bg-white/15 !py-2.5"><Icon.Dice size={16} /> Chapitre au hasard</button>
+          <button onClick={randomChapter} className="btn gap-1.5 bg-white/10 text-[#f4ecd8] ring-1 ring-[#c8a24e]/40 hover:bg-white/15 !py-2.5"><Icon.Dice size={16} /> {t('randomChapter')}</button>
         </div>
       </section>
 
@@ -77,22 +79,22 @@ export default function Home() {
         <Link to="/badges" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
           <span className="text-violet-500 dark:text-violet-400"><Icon.Medal size={24} /></span>
           <span>
-            <span className="block font-display font-semibold">Badges</span>
-            <span className="block text-xs text-slate-500 dark:text-slate-400">{state.badges.length} obtenu{state.badges.length > 1 ? 's' : ''}</span>
+            <span className="block font-display font-semibold">{t('badges')}</span>
+            <span className="block text-xs text-slate-500 dark:text-slate-400">{state.badges.length} {t(state.badges.length > 1 ? 'earnedP' : 'earnedM')}</span>
           </span>
         </Link>
         <Link to="/favoris" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
           <span className="text-violet-500 dark:text-violet-400"><Icon.Star size={24} /></span>
           <span>
-            <span className="block font-display font-semibold">Favoris</span>
-            <span className="block text-xs text-slate-500 dark:text-slate-400">{state.favorites.length} chapitre{state.favorites.length > 1 ? 's' : ''} à revoir</span>
+            <span className="block font-display font-semibold">{t('favorites')}</span>
+            <span className="block text-xs text-slate-500 dark:text-slate-400">{state.favorites.length} {t(state.favorites.length > 1 ? 'chapToReviewP' : 'chapToReviewM')}</span>
           </span>
         </Link>
       </div>
 
       {/* Grille des matières de la filière */}
       <section>
-        <h2 className="mb-3 px-1 font-display text-xl font-semibold">Tes matières</h2>
+        <h2 className="mb-3 px-1 font-display text-xl font-semibold">{t('mySubjects')}</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {subjects.map((s) => {
             if (s.comingSoon) {
@@ -102,7 +104,7 @@ export default function Home() {
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '12', boxShadow: `inset 0 0 0 1px ${s.color}33` }}>{s.icon}</span>
                   <div className="min-w-0 flex-1 pl-1">
                     <h3 className="font-display text-[1.05rem] font-semibold leading-tight">{s.name}</h3>
-                    <span className="chip mt-1 bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300">Bientôt disponible</span>
+                    <span className="chip mt-1 bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300">{t('comingSoon')}</span>
                   </div>
                 </div>
               )
@@ -115,7 +117,7 @@ export default function Home() {
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '12', boxShadow: `inset 0 0 0 1px ${s.color}33` }}>{s.icon}</span>
                   <div className="min-w-0 flex-1">
                     <h3 className="font-display text-[1.05rem] font-semibold leading-tight">{s.name}</h3>
-                    <p className="mb-2.5 truncate text-xs text-slate-500 dark:text-slate-400">{s.chapters.length} chapitres · {s.tagline}</p>
+                    <p className="mb-2.5 truncate text-xs text-slate-500 dark:text-slate-400">{s.chapters.length} {t('chapters')} · {s.tagline}</p>
                     <ProgressBar value={pct} color={s.color} />
                     <p className="mt-1.5 text-right text-xs font-semibold" style={{ color: s.color }}>{pct}%</p>
                   </div>

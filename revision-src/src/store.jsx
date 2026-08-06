@@ -19,6 +19,7 @@ const emptyState = () => ({
   track: null, // { level, specialty } — filière choisie à l'entrée
   profile: null, // { firstName, lastName } — fiche d'information (accueil personnalisé)
   theme: null, // 'light' | 'dark' | null (= système)
+  lang: 'fr', // langue de l'interface : 'fr' | 'en' | 'es'
   totalAnswers: 0,
   correctAnswers: 0,
 })
@@ -144,6 +145,8 @@ export function StoreProvider({ children }) {
 
   const setProfile = useCallback((profile) => setState((p) => ({ ...p, profile })), [])
 
+  const setLang = useCallback((lang) => setState((p) => ({ ...p, lang })), [])
+
   const resetAll = useCallback(() => setState(emptyState()), [])
 
   const dismissBadge = useCallback(
@@ -163,6 +166,7 @@ export function StoreProvider({ children }) {
     setTheme,
     setTrack,
     setProfile,
+    setLang,
     resetAll,
     dismissBadge,
   }
