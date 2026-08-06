@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { LEVELS } from '../data/tracks.js'
+import { useT } from '../i18n.js'
 
 // Accueil personnalisé : à la première venue, une « fiche d'information »
 // (prénom, nom, classe) ; puis, à chaque ouverture, l'apparition douce et
 // luxueuse de « Bienvenue, Prénom » sur fond blanc avant d'entrer dans l'app.
 export default function Welcome() {
   const { state, setProfile, setTrack } = useStore()
+  const t = useT()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -72,13 +74,13 @@ export default function Welcome() {
   // ----- Écran « Bienvenue » (luxueux) -----
   if (phase === 'hello') {
     return (
-      <div className={`welcome-root no-print ${leaving ? 'is-leaving' : ''}`} role="dialog" aria-label="Bienvenue">
+      <div className={`welcome-root no-print ${leaving ? 'is-leaving' : ''}`} role="dialog" aria-label={t('welcome')}>
         <div className="welcome-hello" onClick={finish}>
           <p className="welcome-kicker">RévizSTMG</p>
-          <h1 className="welcome-title">Bienvenue</h1>
+          <h1 className="welcome-title">{t('welcome')}</h1>
           {helloName && <p className="welcome-name">{helloName}</p>}
           <span className="welcome-rule" aria-hidden />
-          <p className="welcome-hint">Touchez pour entrer</p>
+          <p className="welcome-hint">{t('enterHint')}</p>
         </div>
       </div>
     )
@@ -86,37 +88,37 @@ export default function Welcome() {
 
   // ----- Fiche d'information -----
   return (
-    <div className="welcome-root no-print" role="dialog" aria-label="Fiche d'information">
+    <div className="welcome-root no-print" role="dialog" aria-label={t('letsMeet')}>
       <div className="welcome-card">
         <p className="welcome-brand">RévizSTMG</p>
-        <h1 className="welcome-h">Faisons connaissance</h1>
-        <p className="welcome-sub">Renseigne ta fiche pour un espace de révision à ton nom.</p>
+        <h1 className="welcome-h">{t('letsMeet')}</h1>
+        <p className="welcome-sub">{t('fillCard')}</p>
 
-        <label className="welcome-label" htmlFor="w-first">Prénom</label>
+        <label className="welcome-label" htmlFor="w-first">{t('firstName')}</label>
         <input
           id="w-first"
           className="welcome-input"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          placeholder="Ton prénom"
+          placeholder={t('yourFirstName')}
           autoFocus
           autoComplete="given-name"
           maxLength={40}
         />
 
-        <label className="welcome-label" htmlFor="w-last">Nom</label>
+        <label className="welcome-label" htmlFor="w-last">{t('lastName')}</label>
         <input
           id="w-last"
           className="welcome-input"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && canSubmit && submit()}
-          placeholder="Ton nom"
+          placeholder={t('yourLastName')}
           autoComplete="family-name"
           maxLength={40}
         />
 
-        <span className="welcome-label">Ta classe</span>
+        <span className="welcome-label">{t('yourClass')}</span>
         <div className="flex flex-wrap gap-2">
           {LEVELS.map((l) => (
             <button
@@ -126,14 +128,14 @@ export default function Welcome() {
               onClick={() => pickLevel(l)}
               className={`welcome-pill ${level === l.id ? 'is-active' : ''}`}
             >
-              {l.icon} {l.name}{!l.available && ' · bientôt'}
+              {l.icon} {l.name}{!l.available && ` · ${t('soon')}`}
             </button>
           ))}
         </div>
 
         {needsSpecialty && (
           <>
-            <span className="welcome-label">Ta spécialité</span>
+            <span className="welcome-label">{t('yourSpecialty')}</span>
             <div className="flex flex-wrap gap-2">
               {chosenLevel.specialties.map((sp) => (
                 <button
@@ -143,7 +145,7 @@ export default function Welcome() {
                   onClick={() => sp.available && setSpecialty(sp.id)}
                   className={`welcome-pill ${specialty === sp.id ? 'is-active' : ''}`}
                 >
-                  {sp.icon} {sp.name}{!sp.available && ' · à venir'}
+                  {sp.icon} {sp.name}{!sp.available && ` · ${t('toCome')}`}
                 </button>
               ))}
             </div>
@@ -151,7 +153,7 @@ export default function Welcome() {
         )}
 
         <button type="button" className="welcome-cta" disabled={!canSubmit} onClick={submit}>
-          Entrer
+          {t('enter')}
         </button>
       </div>
     </div>

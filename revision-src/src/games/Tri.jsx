@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { shuffle, Feedback, GameProgress } from './common.jsx'
+import { useT } from '../i18n.js'
 
 // Tri : on présente les éléments un par un ; l'élève choisit la bonne catégorie.
 export default function Tri({ game, mode, color, onDone }) {
+  const t = useT()
   const items = useMemo(() => shuffle(game.items), [game])
   const [i, setI] = useState(0)
   const [correct, setCorrect] = useState(0)
@@ -50,10 +52,10 @@ export default function Tri({ game, mode, color, onDone }) {
       {answered && (
         <>
           <Feedback ok={isCorrect}>
-            {isCorrect ? 'Bien classé !' : <>C’était : <strong>{catLabel(item.cat)}</strong>.</>}
+            {isCorrect ? t('wellSorted') : <>{t('itWas')} <strong>{catLabel(item.cat)}</strong>.</>}
           </Feedback>
           <button onClick={next} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>
-            {i + 1 >= items.length ? 'Voir mon score' : 'Suivant →'}
+            {i + 1 >= items.length ? t('seeScore') : `${t('next')} →`}
           </button>
         </>
       )}

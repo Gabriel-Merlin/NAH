@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { shuffle, Feedback, GameProgress, useStopwatch } from './common.jsx'
+import { useT } from '../i18n.js'
 
 const PER_Q = 10
 
 export default function VraiFaux({ game, mode, color, onDone }) {
+  const t = useT()
   const items = useMemo(() => shuffle(game.questions), [game])
   const [i, setI] = useState(0)
   const [correct, setCorrect] = useState(0)
@@ -71,25 +73,25 @@ export default function VraiFaux({ game, mode, color, onDone }) {
           disabled={answered}
           className={`btn py-4 text-lg font-bold ${btnClass(true, 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300')}`}
         >
-          ✔ Vrai
+          ✔ {t('trueLabel')}
         </button>
         <button
           onClick={() => answer(false)}
           disabled={answered}
           className={`btn py-4 text-lg font-bold ${btnClass(false, 'bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-950/50 dark:text-rose-300')}`}
         >
-          ✘ Faux
+          ✘ {t('falseLabel')}
         </button>
       </div>
 
       {answered && (
         <>
           <Feedback ok={isCorrect}>
-            {picked === -1 && <span className="font-semibold">Temps écoulé. </span>}
+            {picked === -1 && <span className="font-semibold">{t('timeUp')} </span>}
             {q.explain}
           </Feedback>
           <button onClick={next} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>
-            {i + 1 >= items.length ? 'Voir mon score' : 'Suivant →'}
+            {i + 1 >= items.length ? t('seeScore') : `${t('next')} →`}
           </button>
         </>
       )}

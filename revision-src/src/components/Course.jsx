@@ -7,7 +7,7 @@
 // exportées pour être réutilisées par les pages Thème et Chapitre.
 import { Rich } from './ui.jsx'
 import Infographic from './Infographic.jsx'
-import { useLang, useAutoTranslate } from '../i18n.js'
+import { useLang, useAutoTranslate, useT } from '../i18n.js'
 
 // Retire le markdown gras/italique (la traduction automatique perd le gras).
 const strip = (s) => String(s || '').replace(/\*\*/g, '').replace(/\*/g, '')
@@ -40,7 +40,7 @@ export function Intro({ text, color }) {
   return (
     <section className="card border-l-4 p-5" style={{ borderColor: color }}>
       <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
-        <Rich text={text} />
+        <CourseText text={text} />
       </p>
     </section>
   )
@@ -71,11 +71,12 @@ export function CourseSection({ sec, color, index }) {
 }
 
 export function Essentiel({ items, color }) {
+  const t = useT()
   if (!items?.length) return null
   return (
     <section className="rounded-2xl border-2 p-5 shadow-sm" style={{ borderColor: color, background: color + '10' }}>
       <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">
-        <span>🧠</span> Fiche mémo — l’essentiel
+        <span>🧠</span> {t('memoSheet')}
       </h2>
       <ul className="space-y-2">
         {items.map((e, i) => (
@@ -90,11 +91,12 @@ export function Essentiel({ items, color }) {
 }
 
 export function Resources({ items }) {
+  const t = useT()
   if (!items?.length) return null
   return (
     <section className="card p-5">
-      <h2 className="mb-1 text-lg font-bold">🎥 Pour aller plus loin</h2>
-      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Vidéos et ressources pour approfondir (s'ouvrent dans un nouvel onglet).</p>
+      <h2 className="mb-1 text-lg font-bold">🎥 {t('goFurther')}</h2>
+      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">{t('goFurtherSub')}</p>
       <div className="space-y-2">
         {items.map((r, i) => (
           <a
@@ -120,11 +122,12 @@ export function Resources({ items }) {
 // Cours complet d'un thème (toutes les sections) — conservé pour l'impression
 // « tout le thème » et la rétro-compatibilité.
 export default function Course({ chapter, color, onPlay }) {
+  const t = useT()
   return (
     <div className="space-y-4">
       <div className="no-print flex justify-end">
         <button onClick={saveFiche} className="btn-ghost !min-h-0 !py-2 text-sm" title="Ouvre la fenêtre d’impression pour enregistrer au format PDF">
-          🖨️ Enregistrer la fiche (PDF)
+          🖨️ {t('saveFicheBtn')}
         </button>
       </div>
 

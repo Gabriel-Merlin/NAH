@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { shuffle, Feedback, GameProgress, useStopwatch } from './common.jsx'
+import { useT } from '../i18n.js'
 
 const PER_Q = 20 // secondes par question en mode Défi
 
 export default function Qcm({ game, mode, color, onDone }) {
+  const t = useT()
   const questions = useMemo(
     () =>
       shuffle(game.questions).map((q) => ({
@@ -93,11 +95,11 @@ export default function Qcm({ game, mode, color, onDone }) {
       {answered && (
         <>
           <Feedback ok={q.choices[picked]?.correct}>
-            {picked === -1 && <span className="font-semibold">Temps écoulé. </span>}
+            {picked === -1 && <span className="font-semibold">{t('timeUp')} </span>}
             {q.explain}
           </Feedback>
           <button onClick={next} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>
-            {i + 1 >= questions.length ? 'Voir mon score' : 'Question suivante →'}
+            {i + 1 >= questions.length ? t('seeScore') : `${t('nextQuestion')} →`}
           </button>
         </>
       )}

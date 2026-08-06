@@ -129,9 +129,7 @@ export default function Home() {
       </section>
 
       <p className="pt-2 text-center text-xs text-slate-400">
-        {level === 'terminale-stmg'
-          ? 'Contenu basé sur ton cours « Terminale STMG — Cours complet ». Progression sauvegardée sur cet appareil.'
-          : 'Progression sauvegardée sur cet appareil.'}
+        {level === 'terminale-stmg' ? t('courseBasedNote') : t('savedOnDevice')}
       </p>
     </div>
   )

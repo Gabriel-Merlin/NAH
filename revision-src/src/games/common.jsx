@@ -1,5 +1,6 @@
 // Utilitaires partagés par les mini-jeux.
 import { useEffect, useRef, useState } from 'react'
+import { useT } from '../i18n.js'
 
 // Normalise une saisie : minuscules, sans accents, espaces réduits.
 export function normalize(s) {
@@ -47,6 +48,7 @@ export function fmtTime(s) {
 
 // Bandeau de correction (bonne / mauvaise réponse + explication).
 export function Feedback({ ok, children }) {
+  const t = useT()
   return (
     <div
       className={`mt-3 animate-slide-up rounded-xl px-4 py-3 text-sm ${
@@ -56,7 +58,7 @@ export function Feedback({ ok, children }) {
       }`}
       role="status"
     >
-      <span className="mr-1 font-bold">{ok ? '✅ Bravo !' : '❌ Presque…'}</span>
+      <span className="mr-1 font-bold">{ok ? `✅ ${t('feedbackGood')}` : `❌ ${t('feedbackBad')}`}</span>
       {children}
     </div>
   )
@@ -64,10 +66,11 @@ export function Feedback({ ok, children }) {
 
 // Barre de progression « question i / n » d'un jeu.
 export function GameProgress({ index, total, color }) {
+  const t = useT()
   return (
     <div className="mb-4">
       <div className="mb-1 flex justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
-        <span>Question {Math.min(index + 1, total)} / {total}</span>
+        <span>{t('question')} {Math.min(index + 1, total)} / {total}</span>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
         <div

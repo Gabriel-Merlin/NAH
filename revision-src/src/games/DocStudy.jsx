@@ -4,6 +4,7 @@
 import { useMemo, useState } from 'react'
 import { Rich } from '../components/ui.jsx'
 import { Feedback, GameProgress } from './common.jsx'
+import { useT } from '../i18n.js'
 
 function DocCard({ doc, color }) {
   return (
@@ -18,6 +19,7 @@ function DocCard({ doc, color }) {
 }
 
 export default function DocStudy({ game, color, onDone }) {
+  const t = useT()
   const [phase, setPhase] = useState('read') // read | quiz
   const questions = game.questions
   const [i, setI] = useState(0)
@@ -33,11 +35,11 @@ export default function DocStudy({ game, color, onDone }) {
       <div className="card space-y-4 p-5">
         <div>
           <h3 className="text-lg font-bold">{game.title}</h3>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{game.intro || 'Lis attentivement les documents, puis réponds aux questions.'}</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{game.intro || t('readDocsThenAnswer')}</p>
         </div>
         {game.documents.map((d) => <DocCard key={d.id} doc={d} color={color} />)}
         <button onClick={() => setPhase('quiz')} className="btn-primary w-full" style={{ backgroundColor: color }}>
-          Répondre aux {questions.length} questions →
+          {t('answerToThe')} {questions.length} {t('questionsWord')} →
         </button>
       </div>
     )
@@ -63,7 +65,7 @@ export default function DocStudy({ game, color, onDone }) {
       {refDocs.map((id) => docById[id] && <div key={id} className="mb-3"><DocCard doc={docById[id]} color={color} /></div>)}
 
       <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
-        {isQcm ? '❓ Question' : '✍️ À rédiger'}{refDocs.length ? ` · d’après le doc. ${refDocs.join(' et ')}` : ''}
+        {isQcm ? `❓ ${t('question')}` : `✍️ ${t('toWrite')}`}{refDocs.length ? ` · ${t('basedOnDoc')} ${refDocs.join(' & ')}` : ''}
       </p>
       <h3 className="mb-4 text-lg font-semibold leading-snug">{q.q}</h3>
 
@@ -91,7 +93,7 @@ export default function DocStudy({ game, color, onDone }) {
             <>
               <Feedback ok={picked === q.answer}>{q.explain}</Feedback>
               <button onClick={() => finishQ(picked === q.answer)} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>
-                {i + 1 >= questions.length ? 'Voir mon score' : 'Question suivante →'}
+                {i + 1 >= questions.length ? t('seeScore') : `${t('nextQuestion')} →`}
               </button>
             </>
           )}
@@ -102,21 +104,21 @@ export default function DocStudy({ game, color, onDone }) {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             rows={4}
-            placeholder="Rédige ta réponse ici…"
+            placeholder={t('writeAnswerHere')}
             className="w-full resize-y rounded-xl border-2 border-slate-200 bg-white p-3 text-[15px] leading-relaxed outline-none focus:border-violet-400 dark:border-slate-700 dark:bg-slate-800"
           />
           {!revealed ? (
-            <button onClick={() => setRevealed(true)} className="btn-primary mt-3 w-full" style={{ backgroundColor: color }}>Voir le corrigé</button>
+            <button onClick={() => setRevealed(true)} className="btn-primary mt-3 w-full" style={{ backgroundColor: color }}>{t('seeCorrection')}</button>
           ) : (
             <>
               <div className="mt-3 rounded-xl border-l-4 border-emerald-400 bg-emerald-50 p-4 dark:border-emerald-500 dark:bg-emerald-950/30">
-                <p className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">✅ Corrigé</p>
+                <p className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">✅ {t('correction')}</p>
                 <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><Rich text={q.answer} /></p>
               </div>
-              <p className="mt-3 text-center text-sm font-semibold">Ta réponse était-elle correcte ?</p>
+              <p className="mt-3 text-center text-sm font-semibold">{t('wasYourAnswerCorrect')}</p>
               <div className="mt-2 grid grid-cols-2 gap-2">
-                <button onClick={() => finishQ(false)} className="rounded-xl border-2 border-rose-200 bg-rose-50 py-2.5 text-sm font-bold text-rose-700 hover:border-rose-400 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300">❌ À revoir</button>
-                <button onClick={() => finishQ(true)} className="rounded-xl border-2 border-emerald-200 bg-emerald-50 py-2.5 text-sm font-bold text-emerald-700 hover:border-emerald-400 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300">✅ Je maîtrisais</button>
+                <button onClick={() => finishQ(false)} className="rounded-xl border-2 border-rose-200 bg-rose-50 py-2.5 text-sm font-bold text-rose-700 hover:border-rose-400 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300">❌ {t('toReview')}</button>
+                <button onClick={() => finishQ(true)} className="rounded-xl border-2 border-emerald-200 bg-emerald-50 py-2.5 text-sm font-bold text-emerald-700 hover:border-emerald-400 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300">✅ {t('iMastered')}</button>
               </div>
             </>
           )}
