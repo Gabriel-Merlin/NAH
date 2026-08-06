@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
 import { shuffle, Feedback, GameProgress, answerMatches } from './common.jsx'
+import { useT } from '../i18n.js'
 
 export default function Trou({ game, color, onDone }) {
+  const t = useT()
   const items = useMemo(() => shuffle(game.questions), [game])
   const [i, setI] = useState(0)
   const [correct, setCorrect] = useState(0)
@@ -40,18 +42,18 @@ export default function Trou({ game, color, onDone }) {
             checked ? (ok ? 'border-emerald-400' : 'border-rose-400') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
           }`}
           placeholder="…"
-          aria-label="Réponse à compléter"
+          aria-label={t('answerToComplete')}
         />
         {after}
       </p>
 
       {!checked ? (
-        <button onClick={check} disabled={!val.trim()} className="btn-primary w-full" style={{ backgroundColor: color }}>Vérifier</button>
+        <button onClick={check} disabled={!val.trim()} className="btn-primary w-full" style={{ backgroundColor: color }}>{t('check')}</button>
       ) : (
         <>
-          <Feedback ok={ok}>{ok ? 'Exact !' : <>La bonne réponse : <strong>{q.answer}</strong>. </>}{' '}{q.explain}</Feedback>
+          <Feedback ok={ok}>{ok ? t('exact') : <>{t('rightAnswerIs')} <strong>{q.answer}</strong>. </>}{' '}{q.explain}</Feedback>
           <button onClick={next} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>
-            {i + 1 >= items.length ? 'Voir mon score' : 'Suivant →'}
+            {i + 1 >= items.length ? t('seeScore') : `${t('next')} →`}
           </button>
         </>
       )}

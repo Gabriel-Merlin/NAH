@@ -36,19 +36,19 @@ export default function Layout({ children }) {
             </span>
           </Link>
 
-          <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400" title="Jours de révision consécutifs">
+          <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400" title={t('streakTitle')}>
             <Icon.Flame size={15} />
-            <span aria-label={`${state.streak.count} jours de suite`}>{state.streak.count}</span>
+            <span aria-label={`${state.streak.count} ${t('streakDays')}`}>{state.streak.count}</span>
           </div>
 
-          <div className="hidden items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-800 sm:flex" title="Niveau et points d'expérience">
-            Niv.&nbsp;{derived.level} · {state.xp}&nbsp;XP
+          <div className="hidden items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-800 sm:flex" title={t('xpTitle')}>
+            {t('levelShort')}&nbsp;{derived.level} · {state.xp}&nbsp;XP
           </div>
 
-          <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setDictOpen(true)} aria-label="Dictionnaire / traducteur" title="Dictionnaire">
+          <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setDictOpen(true)} aria-label={t('dictionary')} title={t('dictionary')}>
             <Icon.Book />
           </button>
-          <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setSearchOpen(true)} aria-label="Rechercher un chapitre">
+          <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setSearchOpen(true)} aria-label={t('search')}>
             <Icon.Search />
           </button>
           <button
@@ -114,9 +114,10 @@ export default function Layout({ children }) {
 
 function Breadcrumb() {
   const { pathname } = useLocation()
+  const t = useT()
   const crumbs = useMemo(() => {
     const parts = pathname.split('/').filter(Boolean)
-    const items = [{ label: 'Accueil', to: '/accueil' }]
+    const items = [{ label: t('home'), to: '/accueil' }]
     if (parts[0] === 'subject' && parts[1]) {
       const s = getSubject(parts[1])
       if (s) items.push({ label: s.short || s.name, to: `/subject/${s.id}` })
@@ -125,12 +126,12 @@ function Breadcrumb() {
         if (c) items.push({ label: c.short || c.name, to: `/subject/${parts[1]}/theme/${c.id}` })
       }
     } else if (parts[0] === 'favoris') {
-      items.push({ label: 'Favoris', to: '/favoris' })
+      items.push({ label: t('favorites'), to: '/favoris' })
     } else if (parts[0] === 'badges') {
-      items.push({ label: 'Badges', to: '/badges' })
+      items.push({ label: t('badges'), to: '/badges' })
     }
     return items
-  }, [pathname])
+  }, [pathname, t])
 
   if (crumbs.length <= 1) return null
   return (
@@ -156,6 +157,7 @@ function Breadcrumb() {
 function SearchOverlay({ onClose }) {
   const [q, setQ] = useState('')
   const navigate = useNavigate()
+  const t = useT()
   const results = useMemo(() => search(q), [q])
 
   useEffect(() => {
@@ -178,15 +180,15 @@ function SearchOverlay({ onClose }) {
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Chercher une matière, un chapitre, une notion…"
+            placeholder={t('search') + '…'}
             className="w-full bg-transparent py-3 text-base outline-none placeholder:text-slate-400"
-            aria-label="Recherche"
+            aria-label={t('search')}
           />
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600" aria-label="Fermer">✕</button>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600" aria-label={t('quit')}>✕</button>
         </div>
         <ul className="mt-2 max-h-72 overflow-y-auto">
           {q && results.length === 0 && (
-            <li className="px-3 py-6 text-center text-sm text-slate-400">Aucun résultat pour « {q} ».</li>
+            <li className="px-3 py-6 text-center text-sm text-slate-400">— « {q} » —</li>
           )}
           {results.map((r) => (
             <li key={r.type + r.id}>

@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { LEVELS, trackLabel, trackIcon } from '../data/tracks.js'
+import { useT } from '../i18n.js'
 
 export default function Landing() {
   const { state, setTrack } = useStore()
   const navigate = useNavigate()
+  const t = useT()
   const [openLevel, setOpenLevel] = useState(
     state.track?.level === 'terminale-stmg' ? 'terminale-stmg' : null,
   )
@@ -19,8 +21,8 @@ export default function Landing() {
     <div className="space-y-6 py-2">
       <header className="text-center">
         <div className="text-5xl">🎓</div>
-        <h1 className="mt-2 font-display text-2xl font-extrabold">Qu'est-ce que tu veux réviser ?</h1>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Choisis ton niveau pour commencer.</p>
+        <h1 className="mt-2 font-display text-2xl font-extrabold">{t('whatRevise')}</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('chooseLevel')}</p>
       </header>
 
       {state.track && (
@@ -30,7 +32,7 @@ export default function Landing() {
         >
           <span className="text-2xl">{trackIcon(state.track)}</span>
           <span className="flex-1">
-            <span className="block text-xs uppercase tracking-wide text-white/70">Reprendre</span>
+            <span className="block text-xs uppercase tracking-wide text-white/70">{t('resume')}</span>
             <span className="block font-bold">{trackLabel(state.track)}</span>
           </span>
           <span aria-hidden>▶</span>
@@ -57,7 +59,7 @@ export default function Landing() {
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-2">
                     <span className="font-bold">{lvl.name}</span>
-                    {!lvl.available && <span className="chip bg-slate-100 text-slate-400 dark:bg-slate-800">Bientôt</span>}
+                    {!lvl.available && <span className="chip bg-slate-100 text-slate-400 dark:bg-slate-800">{t('soonShort')}</span>}
                   </span>
                   <span className="block text-xs text-slate-500 dark:text-slate-400">{lvl.desc}</span>
                 </span>
@@ -66,7 +68,7 @@ export default function Landing() {
 
               {hasSpec && isOpen && (
                 <div className="space-y-2 border-t border-slate-100 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/40">
-                  <p className="px-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Ta spécialité</p>
+                  <p className="px-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('yourSpecialty')}</p>
                   {lvl.specialties.map((sp) => (
                     <button
                       key={sp.id}
@@ -78,9 +80,9 @@ export default function Landing() {
                         <span className="flex flex-wrap items-center gap-2">
                           <span className="font-semibold leading-tight">{sp.name}</span>
                           {sp.available ? (
-                            <span className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Complet</span>
+                            <span className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{t('complete')}</span>
                           ) : (
-                            <span className="chip bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">Spécialité à venir</span>
+                            <span className="chip bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">{t('specialtyComing')}</span>
                           )}
                         </span>
                         <span className="block text-xs text-slate-500 dark:text-slate-400">{sp.desc}</span>
@@ -89,7 +91,7 @@ export default function Landing() {
                     </button>
                   ))}
                   <p className="px-1 pt-1 text-xs text-slate-400">
-                    Les matières communes (Management, Droit, Éco, Maths, Philo, Histoire-Géo, Langues) sont disponibles pour toutes les spécialités.
+                    {t('commonSubjectsNote')}
                   </p>
                 </div>
               )}
@@ -99,7 +101,7 @@ export default function Landing() {
       </div>
 
       <p className="text-center text-xs text-slate-400">
-        Seconde, Première et les spécialités RH / Mercatique arriveront dès que leur cours sera ajouté.
+        {t('landingNote')}
       </p>
     </div>
   )

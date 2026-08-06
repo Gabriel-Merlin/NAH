@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { shuffle } from './common.jsx'
+import { useT } from '../i18n.js'
 
 // Memory : retrouver les paires (terme ↔ traduction).
 export default function Memory({ game, color, onDone }) {
+  const t = useT()
   const cards = useMemo(
     () =>
       shuffle(
@@ -50,7 +52,7 @@ export default function Memory({ game, color, onDone }) {
   return (
     <div className="card p-5">
       <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-        Retrouve les paires. <span className="font-semibold">{matched.size / 2}/{game.pairs.length}</span> · Erreurs : {mistakes}
+        {t('findPairs')} <span className="font-semibold">{matched.size / 2}/{game.pairs.length}</span> · {t('errorsCount')} : {mistakes}
       </p>
       <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
         {cards.map((c, idx) => {
@@ -69,7 +71,7 @@ export default function Memory({ game, color, onDone }) {
                     : 'border-transparent text-white'
               }`}
               style={!show && !done ? { backgroundColor: color } : undefined}
-              aria-label={show ? c.text : 'Carte cachée'}
+              aria-label={show ? c.text : t('hiddenCard')}
             >
               {show ? c.text : '?'}
             </button>

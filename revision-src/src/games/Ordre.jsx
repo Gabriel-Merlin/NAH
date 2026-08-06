@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { shuffle, Feedback } from './common.jsx'
+import { useT } from '../i18n.js'
 
 // Remise en ordre : l'élève tape les étapes dans le bon ordre.
 export default function Ordre({ game, color, onDone }) {
+  const t = useT()
   const steps = game.steps
   const pool = useMemo(() => shuffle(steps.map((text, id) => ({ id, text }))), [game])
   const [placed, setPlaced] = useState([]) // ids placés dans l'ordre
@@ -37,7 +39,7 @@ export default function Ordre({ game, color, onDone }) {
         ))}
         {placed.length < steps.length && (
           <li className="rounded-xl border-2 border-dashed border-slate-300 px-3 py-2.5 text-sm text-slate-400 dark:border-slate-700">
-            Étape {placed.length + 1} : choisis ci-dessous…
+            {t('stepN')} {placed.length + 1} : {t('chooseBelow')}
           </li>
         )}
       </ol>
@@ -59,7 +61,7 @@ export default function Ordre({ game, color, onDone }) {
       </div>
 
       {mistakes > 0 && placed.length < steps.length && (
-        <p className="mt-3 text-center text-xs text-slate-400">Erreurs : {mistakes}</p>
+        <p className="mt-3 text-center text-xs text-slate-400">{t('errorsCount')} : {mistakes}</p>
       )}
       {game.explain && placed.length === steps.length && <Feedback ok>{game.explain}</Feedback>}
     </div>

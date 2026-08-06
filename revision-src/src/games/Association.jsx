@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react'
 import { shuffle } from './common.jsx'
+import { useT } from '../i18n.js'
 
 // Association par « toucher-toucher » (adapté au mobile) : on sélectionne un
 // élément de gauche puis son correspondant à droite.
 export default function Association({ game, color, onDone }) {
+  const t = useT()
   const pairs = game.pairs
   const lefts = useMemo(() => shuffle(pairs.map((p, i) => ({ id: i, text: p.left }))), [game])
   const rights = useMemo(() => shuffle(pairs.map((p, i) => ({ id: i, text: p.right }))), [game])
@@ -33,7 +35,7 @@ export default function Association({ game, color, onDone }) {
   return (
     <div className="card p-5">
       <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-        Relie chaque élément à sa correspondance. <span className="font-semibold">{matched.size}/{pairs.length}</span>
+        {t('matchEach')} <span className="font-semibold">{matched.size}/{pairs.length}</span>
       </p>
       <div className="grid grid-cols-2 gap-3">
         <div className="grid gap-2.5">
@@ -83,7 +85,7 @@ export default function Association({ game, color, onDone }) {
         </div>
       </div>
       {mistakes > 0 && (
-        <p className="mt-3 text-center text-xs text-slate-400">Erreurs : {mistakes}</p>
+        <p className="mt-3 text-center text-xs text-slate-400">{t('errorsCount')} : {mistakes}</p>
       )}
     </div>
   )

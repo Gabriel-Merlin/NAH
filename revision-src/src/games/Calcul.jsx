@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Feedback, GameProgress, useStopwatch } from './common.jsx'
 import { makeCalcSet } from '../calc.js'
+import { useT } from '../i18n.js'
 
 // Analyse une saisie chiffrée à la française (« 7 000 », « 8,45 »).
 function parseNum(s) {
@@ -40,6 +41,7 @@ function Figure({ fig, color }) {
 }
 
 export default function Calcul({ game, mode, color, onDone }) {
+  const t = useT()
   const set = useMemo(
     () => (game.gen ? makeCalcSet(game.gen, game.count || 5) : game.questions || []),
     [game],
@@ -83,25 +85,25 @@ export default function Calcul({ game, mode, color, onDone }) {
           disabled={checked}
           inputMode="decimal"
           autoFocus
-          placeholder="Ta réponse…"
+          placeholder={t('yourAnswer')}
           className={`w-full rounded-xl border-2 bg-white px-3 py-3 text-lg font-semibold outline-none dark:bg-slate-800 ${
             checked ? (ok ? 'border-emerald-400' : 'border-rose-400') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
           }`}
-          aria-label="Réponse chiffrée"
+          aria-label={t('numericAnswer')}
         />
         {q.unit && <span className="grid place-items-center rounded-xl bg-slate-100 px-4 text-lg font-bold text-slate-500 dark:bg-slate-800">{q.unit}</span>}
       </div>
 
       {!checked ? (
-        <button onClick={check} disabled={val.trim() === ''} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>Vérifier</button>
+        <button onClick={check} disabled={val.trim() === ''} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>{t('check')}</button>
       ) : (
         <>
           <Feedback ok={ok}>
-            {!ok && <>Réponse attendue : <strong>{q.answer.toLocaleString('fr-FR')} {q.unit}</strong>.<br /></>}
+            {!ok && <>{t('expectedAnswer')} <strong>{q.answer.toLocaleString('fr-FR')} {q.unit}</strong>.<br /></>}
             <span className="whitespace-pre-line">{q.explain}</span>
           </Feedback>
           <button onClick={next} className="btn-primary mt-4 w-full" style={{ backgroundColor: color }}>
-            {i + 1 >= set.length ? 'Voir mon score' : 'Suivant →'}
+            {i + 1 >= set.length ? t('seeScore') : `${t('next')} →`}
           </button>
         </>
       )}
