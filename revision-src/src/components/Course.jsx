@@ -7,6 +7,19 @@
 // exportées pour être réutilisées par les pages Thème et Chapitre.
 import { Rich } from './ui.jsx'
 import Infographic from './Infographic.jsx'
+import { useLang, useAutoTranslate } from '../i18n.js'
+
+// Retire le markdown gras/italique (la traduction automatique perd le gras).
+const strip = (s) => String(s || '').replace(/\*\*/g, '').replace(/\*/g, '')
+
+// Texte de cours : rendu markdown en français ; traduit automatiquement (sans
+// gras) quand l'interface est en anglais ou en espagnol.
+export function CourseText({ text, className = '' }) {
+  const lang = useLang()
+  const shown = useAutoTranslate(lang === 'fr' ? text : strip(text))
+  if (lang === 'fr') return <Rich text={text} className={className} />
+  return <span className={className}>{shown}</span>
+}
 
 // Enregistrer la fiche : on force le thème clair le temps de l'impression
 // (le navigateur permet ensuite « Enregistrer au format PDF »).
@@ -40,14 +53,14 @@ export function CourseSection({ sec, color, index }) {
         {index != null && (
           <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg text-xs font-black text-white" style={{ backgroundColor: color }}>{index + 1}</span>
         )}
-        {sec.h}
+        <CourseText text={sec.h} />
       </h2>
       <div className="space-y-3">
         {sec.blocks
           ? sec.blocks.map((b, j) => <Block key={j} b={b} color={color} />)
           : (
             <>
-              {sec.intro && <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300"><Rich text={sec.intro} /></p>}
+              {sec.intro && <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300"><CourseText text={sec.intro} /></p>}
               {sec.points && <Bullets items={sec.points} color={color} />}
               {sec.formula && <div className="formula">{sec.formula}</div>}
             </>
@@ -68,7 +81,7 @@ export function Essentiel({ items, color }) {
         {items.map((e, i) => (
           <li key={i} className="flex gap-2 text-[15px] leading-relaxed">
             <span className="mt-0.5 font-bold" style={{ color }}>✔</span>
-            <span><Rich text={e} /></span>
+            <span><CourseText text={e} /></span>
           </li>
         ))}
       </ul>
@@ -148,7 +161,7 @@ function Bullets({ items, color }) {
       {items.map((p, j) => (
         <li key={j} className="flex gap-2 text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
           <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />
-          <Rich text={p} />
+          <CourseText text={p} />
         </li>
       ))}
     </ul>
@@ -180,7 +193,7 @@ function Frise({ title, events = [] }) {
 export function Block({ b, color }) {
   switch (b.t) {
     case 'p':
-      return <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300"><Rich text={b.c} /></p>
+      return <p className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300"><CourseText text={b.c} /></p>
     case 'list':
       return <Bullets items={b.c} color={color} />
     case 'formula':
@@ -193,21 +206,21 @@ export function Block({ b, color }) {
       return (
         <div className="rounded-xl border-l-4 border-sky-400 bg-sky-50 p-4 dark:border-sky-500 dark:bg-sky-950/30">
           <p className="mb-1 text-xs font-bold uppercase tracking-wide text-sky-700 dark:text-sky-300">💡 {b.h || 'Exemple'}</p>
-          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><Rich text={b.c} /></p>
+          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><CourseText text={b.c} /></p>
         </div>
       )
     case 'tip':
       return (
         <div className="rounded-xl border-l-4 border-emerald-400 bg-emerald-50 p-4 dark:border-emerald-500 dark:bg-emerald-950/30">
           <p className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">✅ {b.h || 'Méthode / Astuce'}</p>
-          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><Rich text={b.c} /></p>
+          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><CourseText text={b.c} /></p>
         </div>
       )
     case 'warning':
       return (
         <div className="rounded-xl border-l-4 border-amber-400 bg-amber-50 p-4 dark:border-amber-500 dark:bg-amber-950/30">
           <p className="mb-1 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">⚠️ {b.h || 'Piège à éviter'}</p>
-          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><Rich text={b.c} /></p>
+          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-200"><CourseText text={b.c} /></p>
         </div>
       )
     case 'table':
@@ -225,7 +238,7 @@ export function Block({ b, color }) {
               {b.rows.map((row, i) => (
                 <tr key={i} className="border-b border-slate-100 dark:border-slate-800">
                   {row.map((cell, k) => (
-                    <td key={k} className="px-3 py-2 align-top text-slate-700 dark:text-slate-300"><Rich text={String(cell)} /></td>
+                    <td key={k} className="px-3 py-2 align-top text-slate-700 dark:text-slate-300"><CourseText text={String(cell)} /></td>
                   ))}
                 </tr>
               ))}

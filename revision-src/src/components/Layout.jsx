@@ -6,11 +6,17 @@ import { badgeById } from '../badges.js'
 import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
 import Dictionary from './Dictionary.jsx'
+import { useT, useLang } from '../i18n.js'
+
+const LANGS = [{ code: 'fr', label: 'Français' }, { code: 'en', label: 'English' }, { code: 'es', label: 'Español' }]
 
 export default function Layout({ children }) {
-  const { state, derived, setTheme } = useStore()
+  const { state, derived, setTheme, setLang } = useStore()
+  const t = useT()
+  const lang = useLang()
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
   const isDark =
     state.theme === 'dark' ||
     (state.theme == null && typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
@@ -48,10 +54,38 @@ export default function Layout({ children }) {
           <button
             className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+            aria-label={isDark ? t('light') : t('dark')}
           >
             {isDark ? <Icon.Sun /> : <Icon.Moon />}
           </button>
+          <div className="relative">
+            <button
+              className="flex h-9 items-center gap-1 rounded-full px-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
+              onClick={() => setLangOpen((v) => !v)}
+              aria-label={t('language')}
+              aria-expanded={langOpen}
+            >
+              <Icon.Globe size={18} />
+              <span className="text-xs font-semibold uppercase">{lang}</span>
+            </button>
+            {langOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                <div className="absolute right-0 z-50 mt-1 w-36 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                  {LANGS.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => { setLang(l.code); setLangOpen(false) }}
+                      className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800 ${lang === l.code ? 'font-semibold text-violet-600 dark:text-violet-400' : ''}`}
+                    >
+                      {l.label}
+                      {lang === l.code && <span aria-hidden>✓</span>}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
 
           {initials && (
             <Link
