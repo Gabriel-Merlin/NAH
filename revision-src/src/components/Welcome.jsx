@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store.jsx'
-import { LEVELS } from '../data/tracks.js'
+import { LEVELS, subjectsForTrack } from '../data/tracks.js'
 import { useT } from '../i18n.js'
 
 // Accueil personnalisé : à la première venue, une « fiche d'information »
-// (prénom, nom, classe) ; puis, à chaque ouverture, l'apparition douce et
-// luxueuse de « Bienvenue, Prénom » sur fond blanc avant d'entrer dans l'app.
+// (prénom, nom, classe), puis un choix des matières et du chapitre où l'élève
+// en est ; enfin, à chaque ouverture, l'apparition douce de « Bienvenue,
+// Prénom » sur fond blanc avant d'entrer dans l'app.
 export default function Welcome() {
-  const { state, setProfile, setTrack } = useStore()
+  const { state, applyOnboarding } = useStore()
   const t = useT()
   const navigate = useNavigate()
   const location = useLocation()
 
   const hasProfile = !!state.profile?.firstName
-  const [phase, setPhase] = useState(hasProfile ? 'hello' : 'form') // 'form' | 'hello' | 'done'
+  const [phase, setPhase] = useState(hasProfile ? 'hello' : 'form') // 'form' | 'plan' | 'hello' | 'done'
   const [leaving, setLeaving] = useState(false)
 
   // Champs de la fiche
@@ -22,7 +23,12 @@ export default function Welcome() {
   const [lastName, setLastName] = useState(state.profile?.lastName || '')
   const [level, setLevel] = useState(state.track?.level || null)
   const [specialty, setSpecialty] = useState(state.track?.specialty || null)
-  const helloName = phase === 'form' ? firstName.trim() : state.profile?.firstName || firstName.trim()
+
+  // Étape « plan » : chapitres choisis par matière ({ [subjectId]: chapterId }).
+  const [chosen, setChosen] = useState({})
+  const [lastPick, setLastPick] = useState(null) // { sid, cid }
+
+  const helloName = state.profile?.firstName || firstName.trim()
 
   // Empêche le défilement de l'app derrière l'écran d'accueil.
   useEffect(() => {
@@ -50,14 +56,36 @@ export default function Welcome() {
   const pickLevel = (l) => {
     if (!l.available) return
     setLevel(l.id)
+    setChosen({}) // la filière change → on repart des matières correspondantes
+    setLastPick(null)
     if (!l.specialties) setSpecialty(null)
     else setSpecialty((s) => s || l.specialties.find((sp) => sp.available)?.id || null)
   }
 
-  const submit = () => {
+  // Filière en cours de saisie (pas encore enregistrée) → matières à proposer.
+  const draftTrack = level ? { level, specialty: needsSpecialty ? specialty : null } : null
+  const planSubjects = (draftTrack ? subjectsForTrack(draftTrack) : [])
+    .filter((s) => s && !s.comingSoon && s.chapters?.length)
+
+  const goToPlan = () => {
     if (!canSubmit) return
-    setProfile({ firstName: firstName.trim(), lastName: lastName.trim() })
-    setTrack({ level, specialty: needsSpecialty ? specialty : null })
+    setPhase('plan')
+  }
+
+  const pickChapter = (sid, cid) => {
+    setChosen((c) => {
+      if (c[sid] === cid) { const { [sid]: _, ...rest } = c; return rest } // re-tap = désélection
+      return { ...c, [sid]: cid }
+    })
+    setLastPick((lp) => (lp && lp.sid === sid && lp.cid === cid ? null : { sid, cid }))
+  }
+
+  const commit = (withPlan) => {
+    const profile = { firstName: firstName.trim(), lastName: lastName.trim() }
+    const track = { level, specialty: needsSpecialty ? specialty : null }
+    const favorites = withPlan ? Object.values(chosen) : []
+    const lastChapter = withPlan && lastPick ? { subjectId: lastPick.sid, chapterId: lastPick.cid } : null
+    applyOnboarding({ profile, track, favorites, lastChapter })
     setPhase('hello')
   }
 
@@ -81,6 +109,54 @@ export default function Welcome() {
           {helloName && <p className="welcome-name">{helloName}</p>}
           <span className="welcome-rule" aria-hidden />
           <p className="welcome-hint">{t('enterHint')}</p>
+        </div>
+      </div>
+    )
+  }
+
+  // ----- Étape « Que veux-tu travailler ? » (matières + chapitre) -----
+  if (phase === 'plan') {
+    return (
+      <div className="welcome-root no-print" role="dialog" aria-label={t('planTitle')}>
+        <div className="welcome-card is-plan">
+          <p className="welcome-brand">RévizSTMG</p>
+          <h1 className="welcome-h">{t('planTitle')}</h1>
+          <p className="welcome-sub">{firstName.trim() ? `${firstName.trim()} — ` : ''}{t('planSub')}</p>
+
+          <div className="welcome-plan-scroll">
+            {planSubjects.map((s) => (
+              <div key={s.id} className="welcome-subject">
+                <p className="welcome-subject-h">
+                  <span aria-hidden>{s.icon}</span>
+                  <span>{s.name}</span>
+                  {chosen[s.id] && <span className="ws-where">{t('chapterChosen')}</span>}
+                  {!chosen[s.id] && <span className="ws-where">{t('whereAreYou')}</span>}
+                </p>
+                {s.chapters.map((c) => {
+                  const active = chosen[s.id] === c.id
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => pickChapter(s.id, c.id)}
+                      className={`welcome-chap ${active ? 'is-active' : ''}`}
+                      aria-pressed={active}
+                    >
+                      {active && <span className="wc-check" aria-hidden>✓</span>}
+                      {c.short || c.name}
+                    </button>
+                  )
+                })}
+              </div>
+            ))}
+          </div>
+
+          <button type="button" className="welcome-cta" onClick={() => commit(true)}>
+            {t('enter')}
+          </button>
+          <button type="button" className="welcome-skip" onClick={() => commit(false)}>
+            {t('skipStep')}
+          </button>
         </div>
       </div>
     )
@@ -112,7 +188,7 @@ export default function Welcome() {
           className="welcome-input"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && canSubmit && submit()}
+          onKeyDown={(e) => e.key === 'Enter' && canSubmit && goToPlan()}
           placeholder={t('yourLastName')}
           autoComplete="family-name"
           maxLength={40}
@@ -152,8 +228,8 @@ export default function Welcome() {
           </>
         )}
 
-        <button type="button" className="welcome-cta" disabled={!canSubmit} onClick={submit}>
-          {t('enter')}
+        <button type="button" className="welcome-cta" disabled={!canSubmit} onClick={goToPlan}>
+          {t('continueBtn')}
         </button>
       </div>
     </div>

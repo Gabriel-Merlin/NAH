@@ -304,6 +304,68 @@
 .welcome-cta:hover:not(:disabled) { transform: translateY(-1px); }
 .welcome-cta:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* Étape « Que veux-tu travailler ? » (choix des matières & chapitres) */
+.welcome-card.is-plan { max-width: 34rem; }
+.welcome-plan-scroll {
+  max-height: 46vh;
+  overflow-y: auto;
+  margin-top: 0.25rem;
+  padding-right: 0.15rem;
+}
+.welcome-subject { margin-top: 1.15rem; }
+.welcome-subject-h {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  color: #1c1b19;
+  margin-bottom: 0.15rem;
+}
+.welcome-subject-h .ws-where {
+  margin-left: auto;
+  font-family: Georgia, serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b79b5b;
+}
+.welcome-chap {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #e8e2d6;
+  background: #fff;
+  border-radius: 0.8rem;
+  padding: 0.6rem 0.85rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  color: #57534e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.welcome-chap:hover { border-color: #d9bd77; }
+.welcome-chap.is-active {
+  border-color: #c8a24e;
+  background: #fbf5e6;
+  color: #7a5f1f;
+  box-shadow: 0 0 0 1px #c8a24e;
+}
+.welcome-chap .wc-check { float: right; color: #c8a24e; font-weight: 700; }
+.welcome-skip {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.9rem;
+  background: none;
+  border: none;
+  color: #a8a29e;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.welcome-skip:hover { color: #7a5f1f; text-decoration: underline; }
+.welcome-hint-sm { text-align: center; color: #b0aaa1; font-size: 0.78rem; margin-top: 0.5rem; }
+
 @media (prefers-reduced-motion: reduce) {
   .welcome-kicker, .welcome-title, .welcome-name, .welcome-rule, .welcome-hint,
   .welcome-card, .welcome-root { animation-duration: 0.01ms !important; }

@@ -123,14 +123,15 @@ export function StoreProvider({ children }) {
   const toggleFavorite = useCallback((chapterId) => {
     setState((prev) => {
       const has = prev.favorites.includes(chapterId)
-      return {
+      const next = {
         ...prev,
         favorites: has
           ? prev.favorites.filter((c) => c !== chapterId)
           : [...prev.favorites, chapterId],
       }
+      return evaluateBadges(next)
     })
-  }, [])
+  }, [evaluateBadges])
 
   const setLastChapter = useCallback((subjectId, chapterId) => {
     setState((prev) => {
@@ -143,9 +144,23 @@ export function StoreProvider({ children }) {
 
   const setTrack = useCallback((track) => setState((p) => ({ ...p, track })), [])
 
-  const setProfile = useCallback((profile) => setState((p) => ({ ...p, profile })), [])
+  const setProfile = useCallback((profile) => setState((p) => evaluateBadges({ ...p, profile })), [evaluateBadges])
 
   const setLang = useCallback((lang) => setState((p) => ({ ...p, lang })), [])
+
+  // Inscription : applique en une fois le profil, la filière, les chapitres
+  // choisis (favoris « à revoir ») et le point de reprise, puis évalue les
+  // badges (Bienvenue, Feuille de route…).
+  const applyOnboarding = useCallback(({ profile, track, favorites, lastChapter }) => {
+    setState((p) => {
+      const next = { ...p }
+      if (profile) next.profile = profile
+      if (track) next.track = track
+      if (favorites?.length) next.favorites = Array.from(new Set([...(p.favorites || []), ...favorites]))
+      if (lastChapter) next.lastChapter = lastChapter
+      return evaluateBadges(next)
+    })
+  }, [evaluateBadges])
 
   const resetAll = useCallback(() => setState(emptyState()), [])
 
@@ -167,6 +182,7 @@ export function StoreProvider({ children }) {
     setTrack,
     setProfile,
     setLang,
+    applyOnboarding,
     resetAll,
     dismissBadge,
   }
