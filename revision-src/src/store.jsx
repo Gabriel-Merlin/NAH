@@ -18,6 +18,7 @@ const emptyState = () => ({
   lastChapter: null, // { subjectId, chapterId }
   track: null, // { level, specialty } — filière choisie à l'entrée
   profile: null, // { firstName, lastName } — fiche d'information (accueil personnalisé)
+  onboarded: false, // a vu l'étape « Que veux-tu travailler ? » (choix des chapitres)
   theme: null, // 'light' | 'dark' | null (= système)
   lang: 'fr', // langue de l'interface : 'fr' | 'en' | 'es'
   totalAnswers: 0,
@@ -153,7 +154,7 @@ export function StoreProvider({ children }) {
   // badges (Bienvenue, Feuille de route…).
   const applyOnboarding = useCallback(({ profile, track, favorites, lastChapter }) => {
     setState((p) => {
-      const next = { ...p }
+      const next = { ...p, onboarded: true }
       if (profile) next.profile = profile
       if (track) next.track = track
       if (favorites?.length) next.favorites = Array.from(new Set([...(p.favorites || []), ...favorites]))
