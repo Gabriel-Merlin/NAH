@@ -134,17 +134,62 @@ function autoExercise(sec, theme, idx) {
     })
     return { id, type: 'qcm', title: 'Quiz — les dates de ce chapitre', icon: '📅', questions }
   }
-  // 2) Flashcards à partir d'un tableau « terme | définition » (non daté).
+  // 2) Flashcards à partir d'un tableau (2 à 4 colonnes, non daté) : la 1ʳᵉ
+  // colonne sert de recto (le terme), les autres de verso (la définition).
   const cards = []
   for (const b of sec.blocks || []) {
-    if (b.t === 'table' && (b.head || []).length === 2 && !/date|année/i.test((b.head || [])[0] || '')) {
-      for (const r of b.rows || []) if (r[0] && r[1]) cards.push({ front: stripMd(String(r[0])), back: stripMd(String(r[1])) })
+    const w = (b.head || []).length
+    if (b.t === 'table' && w >= 2 && w <= 4 && !/date|année/i.test((b.head || [])[0] || '')) {
+      for (const r of b.rows || []) {
+        const front = stripMd(String(r[0] || ''))
+        const back = r.slice(1).map((x) => stripMd(String(x || ''))).filter(Boolean).join(' — ')
+        // Sur un tableau à 2 colonnes on garde tout (terme|définition) ; au-delà,
+        // on exige un recto court (une vraie « entrée » de tableau).
+        if (front && back && (w === 2 || front.length <= 40)) cards.push({ front, back })
+      }
     }
   }
   if (cards.length >= 3) {
     return { id, type: 'flashcard', title: 'Flashcards — révise ce chapitre', icon: '🃏', cards: cards.slice(0, 12) }
   }
-  // 3) Repli universel : une flashcard « notion → contenu du chapitre ».
+  // 2b) Flashcards de « notions » : puces de la forme « … **terme** … : définition ».
+  // On récupère le texte avant le premier séparateur fort (: — –) comme recto
+  // (à condition qu'il contienne un terme en gras et reste court) et le reste
+  // comme verso. Transforme les listes de définitions en vraies flashcards.
+  const notionItems = []
+  for (const b of sec.blocks || []) if (b.t === 'list' && Array.isArray(b.c)) notionItems.push(...b.c)
+  if (Array.isArray(sec.points)) notionItems.push(...sec.points)
+  const notionCards = []
+  for (const item of notionItems) {
+    const s = String(item)
+    if (!s.includes('**')) continue
+    const m = s.match(/^(.{3,60}?)\s*[:—–]\s+(.+)$/)
+    if (!m) continue
+    const front = stripMd(m[1]).replace(/[;,.]$/, '').trim()
+    const back = stripMd(m[2]).replace(/[;.]$/, '').trim()
+    if (front && back.length > 3 && front.length <= 50 && !notionCards.some((c) => c.front === front)) {
+      notionCards.push({ front, back })
+    }
+  }
+  if (notionCards.length >= 3) {
+    return { id, type: 'flashcard', title: 'Flashcards — notions clés du chapitre', icon: '🃏', cards: notionCards.slice(0, 12) }
+  }
+  // 3) Repli : découpe le contenu en quelques cartes « idée clé » (une par
+  // paragraphe/encadré), plutôt qu'une seule grande carte illisible.
+  const chunks = []
+  for (const b of sec.blocks || []) {
+    if (['p', 'tip', 'warning', 'example'].includes(b.t) && b.c) chunks.push(stripMd(String(b.c)))
+  }
+  if (!chunks.length && Array.isArray(sec.points)) chunks.push(...sec.points.map((x) => stripMd(String(x))))
+  const usable = chunks.map((c) => c.trim()).filter((c) => c.length > 25)
+  if (usable.length >= 2) {
+    const cards = usable.slice(0, 6).map((c, k) => {
+      const bold = String((sec.blocks || []).find((b) => ['p', 'tip', 'warning', 'example'].includes(b.t) && stripMd(String(b.c || '')).trim() === c)?.c || '').match(/\*\*(.+?)\*\*/)
+      return { front: bold ? bold[1].trim() : `${sec.h || 'Chapitre'} — idée ${k + 1}`, back: c.slice(0, 420) }
+    })
+    return { id, type: 'flashcard', title: 'Flashcards — révise ce chapitre', icon: '🃏', cards }
+  }
+  // 3b) Dernier recours : une seule carte « notion → contenu du chapitre ».
   const txt = sectionPlainText(sec)
   if (txt && txt.length > 30) {
     return {

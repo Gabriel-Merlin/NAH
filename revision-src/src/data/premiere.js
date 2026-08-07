@@ -4164,7 +4164,11 @@ const histoireP = {
           id: 'p1-hg-g3-flash', type: 'flashcard', title: 'Flashcards — Ruralité', icon: '🃏',
           cards: [
             { front: 'Multifonctionnalité', back: 'Plusieurs fonctions : résidentielle, touristique, écologique, économique.' },
-            { front: 'Périurbanisation', back: 'Extension de l’habitat autour des villes.' },
+            { front: 'Périurbanisation', back: 'Extension de l’habitat pavillonnaire autour des villes.' },
+            { front: 'Espace rural', back: 'Espace à faible densité, dominé autrefois par l’agriculture, aujourd’hui aux usages variés.' },
+            { front: 'Déprise (agricole)', back: 'Recul de l’activité agricole et de la population dans certains espaces ruraux isolés.' },
+            { front: 'Néoruraux', back: 'Nouveaux habitants venus des villes s’installer à la campagne.' },
+            { front: 'Conflits d’usage', back: 'Tensions sur l’utilisation des sols entre agriculture, habitat, tourisme et protection de la nature.' },
           ],
         },
         {
