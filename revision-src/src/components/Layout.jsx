@@ -27,12 +27,12 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen">
-      <header className="no-print sticky top-0 z-40 border-b border-slate-200/70 bg-slate-50/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+      <header className="no-print sticky top-0 z-40 border-b border-[#c8a24e]/25 bg-[#f5f1e8]/85 backdrop-blur dark:border-[#c8a24e]/15 dark:bg-[#14110c]/85">
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
-          <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
-            <span className="text-violet-500 dark:text-violet-400" aria-hidden><Icon.Diamond size={15} /></span>
+          <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-2xl font-semibold tracking-tight">
+            <span className="text-[#c8a24e]" aria-hidden><Icon.Diamond size={15} /></span>
             <span>
-              Réviz<span className="text-violet-600 dark:text-violet-400">STMG</span>
+              Réviz<span className="text-[#98761f] dark:text-[#d9bd77]">STMG</span>
             </span>
           </Link>
 
@@ -92,8 +92,7 @@ export default function Layout({ children }) {
               to="/accueil"
               title={`${first} ${last}`.trim() + ' — mon espace'}
               aria-label={`Espace de ${first} ${last}`.trim()}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm font-semibold text-slate-800 ring-1 ring-violet-300/70 dark:text-slate-100 dark:ring-violet-500/50"
-              style={{ background: 'linear-gradient(135deg, #f6eed8, #e9d7ab)' }}
+              className="monogram h-9 w-9 shrink-0 text-sm"
             >
               {initials}
             </Link>

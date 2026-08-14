@@ -49,9 +49,9 @@ export function Intro({ text, color }) {
 export function CourseSection({ sec, color, index }) {
   return (
     <section className="card p-5">
-      <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">
+      <h2 className="mb-3 flex items-center gap-2.5 font-display text-xl font-semibold">
         {index != null && (
-          <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg text-xs font-black text-white" style={{ backgroundColor: color }}>{index + 1}</span>
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-xs font-black text-white" style={{ backgroundColor: color, boxShadow: `0 4px 10px -4px ${color}` }}>{index + 1}</span>
         )}
         <CourseText text={sec.h} />
       </h2>
@@ -75,7 +75,7 @@ export function Essentiel({ items, color }) {
   if (!items?.length) return null
   return (
     <section className="rounded-2xl border-2 p-5 shadow-sm" style={{ borderColor: color, background: color + '10' }}>
-      <h2 className="mb-3 flex items-center gap-2 text-lg font-bold">
+      <h2 className="mb-3 flex items-center gap-2 font-display text-xl font-semibold">
         <span>🧠</span> {t('memoSheet')}
       </h2>
       <ul className="space-y-2">
@@ -95,7 +95,7 @@ export function Resources({ items }) {
   if (!items?.length) return null
   return (
     <section className="card p-5">
-      <h2 className="mb-1 text-lg font-bold">🎥 {t('goFurther')}</h2>
+      <h2 className="mb-1 font-display text-xl font-semibold">🎥 {t('goFurther')}</h2>
       <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">{t('goFurtherSub')}</p>
       <div className="space-y-2">
         {items.map((r, i) => (

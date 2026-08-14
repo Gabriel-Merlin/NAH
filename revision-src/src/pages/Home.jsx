@@ -32,45 +32,58 @@ export default function Home() {
 
   // Salutation personnalisée selon l'heure et le prénom de l'élève.
   const firstName = state.profile?.firstName?.trim() || ''
+  const lastName = state.profile?.lastName?.trim() || ''
+  const initials = ((firstName[0] || '') + (lastName[0] || '')).toUpperCase() || (firstName[0] || '').toUpperCase()
   const hour = new Date().getHours()
   const greeting = t(hour < 6 ? 'greetingNight' : hour < 12 ? 'greetingMorning' : hour < 18 ? 'greetingAfternoon' : 'greetingEvening')
+  const locale = state.lang === 'en' ? 'en-GB' : state.lang === 'es' ? 'es-ES' : 'fr-FR'
+  let dateLabel = ''
+  try { dateLabel = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date()) } catch { /* ignore */ }
 
   return (
-    <div className="space-y-7">
-      {/* Filière active */}
-      <div className="flex items-center justify-between gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
-        <span className="flex items-center gap-2 font-semibold">
-          <span className="text-lg">{trackIcon(state.track)}</span>
-          <span className="truncate">{trackLabel(state.track)}</span>
-        </span>
-        <Link to="/" className="shrink-0 text-xs font-semibold text-violet-600 hover:underline dark:text-violet-400">{t('change')}</Link>
-      </div>
-
-      {/* Bandeau tableau de bord — écrin sombre & or, à l'effigie de l'accueil */}
+    <div className="animate-lux space-y-7">
+      {/* Écrin personnalisé — cover sombre & or, à l'effigie de l'accueil */}
       <section
-        className="relative overflow-hidden rounded-3xl p-5 text-[#f4ecd8] shadow-lg ring-1 ring-[#c8a24e]/25"
-        style={{ background: 'linear-gradient(135deg,#211d16 0%,#2c271d 55%,#1b1813 100%)' }}
+        className="card-lux relative overflow-hidden rounded-[1.6rem] p-6 text-[#f4ecd8] sm:p-8"
+        style={{ background: 'linear-gradient(140deg,#221d15 0%,#2c271d 52%,#191510 100%)', border: '1px solid rgba(200,162,78,0.28)' }}
       >
-        <span aria-hidden className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full" style={{ background: 'radial-gradient(circle,#c8a24e33,transparent 70%)' }} />
-        <div className="relative flex items-center gap-4">
-          <Ring value={trackProgress} color="#d9bd77" size={72} label={`${trackProgress}%`} />
-          <div className="min-w-0">
-            <p className="font-display text-[0.7rem] uppercase tracking-[0.26em] text-[#c8a24e]">{trackLabel(state.track)}</p>
-            <h1 className="font-display text-2xl font-medium leading-tight text-[#faf3e1]">
-              {greeting}{firstName ? `, ${firstName}` : ''}
+        <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full" style={{ background: 'radial-gradient(circle,#c8a24e40,transparent 70%)' }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle,#c8a24e22,transparent 70%)' }} />
+
+        <div className="relative flex items-center gap-4 sm:gap-5">
+          {initials && (
+            <span className="monogram h-16 w-16 shrink-0 text-2xl sm:h-20 sm:w-20 sm:text-3xl" aria-hidden>{initials}</span>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="kicker !text-[#d9b96a]">{trackLabel(state.track)}</p>
+            <h1 className="font-display text-[1.7rem] font-medium leading-[1.15] text-[#faf3e1] sm:text-[2.15rem]">
+              {greeting}{firstName ? <>, <span className="text-[#e8cf90]">{firstName}</span></> : ''}
             </h1>
-            <p className="mt-0.5 text-sm text-[#d8cca8]">{t('level')} {derived.level} · {state.xp} XP · {state.streak.count} {t('streakDays')}</p>
+            {dateLabel && <p className="mt-1 text-xs capitalize tracking-wide text-[#b8a878]">{dateLabel}</p>}
+          </div>
+          <div className="hidden shrink-0 sm:block">
+            <Ring value={trackProgress} color="#e0c483" size={84} label={`${trackProgress}%`} />
           </div>
         </div>
-        <div className="relative mt-4 flex flex-wrap gap-2">
+
+        <hr className="rule-gold relative my-5" style={{ background: 'linear-gradient(90deg,transparent,rgba(200,162,78,0.5),transparent)' }} />
+
+        <div className="relative flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-[#d8cca8]">
+          <span className="sm:hidden"><span className="font-semibold text-[#f0e2b8]">{trackProgress}%</span> de progression</span>
+          <span><span className="font-display text-lg text-[#f0e2b8]">{t('level')} {derived.level}</span></span>
+          <span>{state.xp} XP</span>
+          <span className="inline-flex items-center gap-1"><Icon.Flame size={14} /> {state.streak.count} {t('streakDays')}</span>
+        </div>
+
+        <div className="relative mt-5 flex flex-wrap gap-2.5">
           {last ? (
-            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5">
+            <Link to={`/subject/${last.subjectId}/theme/${last.id}`} className="btn-gold gap-1.5 !py-2.5">
               <Icon.Play size={16} /> {t('resume')} : {last.short || last.name}
             </Link>
           ) : realSubjects[0] ? (
-            <Link to={`/subject/${realSubjects[0].id}`} className="btn gap-1.5 bg-[#f4ead1] text-[#3a2c0e] hover:bg-white !py-2.5"><Icon.Play size={16} /> {t('start')}</Link>
+            <Link to={`/subject/${realSubjects[0].id}`} className="btn-gold gap-1.5 !py-2.5"><Icon.Play size={16} /> {t('start')}</Link>
           ) : null}
-          <button onClick={randomChapter} className="btn gap-1.5 bg-white/10 text-[#f4ecd8] ring-1 ring-[#c8a24e]/40 hover:bg-white/15 !py-2.5"><Icon.Dice size={16} /> {t('randomChapter')}</button>
+          <button onClick={randomChapter} className="btn gap-1.5 !py-2.5 text-[#f4ecd8]" style={{ boxShadow: 'inset 0 0 0 1px rgba(200,162,78,0.45)' }}><Icon.Dice size={16} /> {t('randomChapter')}</button>
         </div>
       </section>
 
@@ -94,7 +107,14 @@ export default function Home() {
 
       {/* Grille des matières de la filière */}
       <section>
-        <h2 className="mb-3 px-1 font-display text-xl font-semibold">{t('mySubjects')}</h2>
+        <div className="mb-4 flex items-end justify-between gap-3 px-1">
+          <div>
+            <p className="kicker">{trackIcon(state.track)} {trackLabel(state.track)}</p>
+            <h2 className="font-display text-2xl font-medium leading-tight">{t('mySubjects')}</h2>
+          </div>
+          <Link to="/" className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('change')}</Link>
+        </div>
+        <hr className="rule-gold mb-4" />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {subjects.map((s) => {
             if (s.comingSoon) {

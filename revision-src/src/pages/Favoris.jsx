@@ -11,8 +11,9 @@ export default function Favoris() {
   const favs = state.favorites.map(getChapter).filter(Boolean)
 
   return (
-    <div className="space-y-4">
-      <h1 className="font-display text-2xl font-extrabold">⭐ {state.profile?.firstName ? `${t('favoritesOf')} ${state.profile.firstName}` : t('myFavorites')}</h1>
+    <div className="animate-lux space-y-4">
+      <h1 className="font-display text-3xl font-medium leading-tight">⭐ {state.profile?.firstName ? `${t('favoritesOf')} ${state.profile.firstName}` : t('myFavorites')}</h1>
+      <hr className="rule-gold" />
       {favs.length === 0 ? (
         <Empty icon="⭐">
           {t('noFavYet')}

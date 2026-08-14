@@ -13,13 +13,15 @@ export default function Badges() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="animate-lux space-y-5">
       <header>
-        <h1 className="font-display text-2xl font-extrabold">🏅 {state.profile?.firstName ? `${t('badgesOf')} ${state.profile.firstName}` : t('myBadges')}</h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          {earned.size} / {BADGES.length} {t('unlocked')} · {t('level')} {derived.level} · {state.xp} XP
+        <p className="kicker">{t('level')} {derived.level} · {state.xp} XP</p>
+        <h1 className="font-display text-3xl font-medium leading-tight">🏅 {state.profile?.firstName ? `${t('badgesOf')} ${state.profile.firstName}` : t('myBadges')}</h1>
+        <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
+          {earned.size} / {BADGES.length} {t('unlocked')}
         </p>
       </header>
+      <hr className="rule-gold" />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {BADGES.map((b) => {
