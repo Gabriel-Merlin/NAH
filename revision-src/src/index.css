@@ -13,50 +13,145 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100;
+    @apply text-slate-800 antialiased dark:text-slate-100;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    /* Papier ivoire avec un très léger halo doré en haut (papeterie de luxe). */
+    background:
+      radial-gradient(1100px 520px at 50% -8%, #f7ecd4 0%, rgba(247, 236, 212, 0) 60%),
+      #f5f1e8;
+    background-attachment: fixed;
     /* Zones sûres iPhone (encoche) */
     padding-bottom: env(safe-area-inset-bottom);
   }
+  html.dark body {
+    background:
+      radial-gradient(1100px 520px at 50% -8%, rgba(200, 162, 78, 0.10) 0%, rgba(200, 162, 78, 0) 60%),
+      #14110c;
+  }
+  /* Titres : serif Didone raffiné (aspect luxe) */
+  .font-display {
+    letter-spacing: 0.005em;
+  }
   /* Focus visible net pour la navigation clavier */
   :focus-visible {
-    outline: 3px solid #b6912f;
+    outline: 2px solid #c8a24e;
     outline-offset: 2px;
     border-radius: 6px;
   }
   ::selection {
-    background: #f4ead1;
-    color: #614a1c;
+    background: #ead6a6;
+    color: #4a3a12;
   }
 }
 
 @layer components {
+  /* Surface « papeterie » : crème, filet d'or capillaire, ombre douce en couches. */
   .card {
-    @apply rounded-2xl shadow-sm ring-1 ring-slate-200 dark:ring-slate-800;
-    background: #fffdf8; /* surface crème (papeterie de luxe) */
+    border-radius: 1.15rem;
+    background: linear-gradient(180deg, #fffdf8 0%, #fcf8ee 100%);
+    border: 1px solid rgba(200, 162, 78, 0.22);
+    box-shadow:
+      0 1px 2px rgba(28, 24, 19, 0.04),
+      0 10px 30px -16px rgba(43, 34, 12, 0.20);
   }
   html.dark .card {
-    background: #201c15;
+    background: linear-gradient(180deg, #221d15 0%, #1b1710 100%);
+    border-color: rgba(200, 162, 78, 0.16);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.30),
+      0 12px 34px -18px rgba(0, 0, 0, 0.7);
+  }
+  /* Filet doré fin en haut d'un écrin (accent facultatif) */
+  .card-lux {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-lux::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c8a24e 22%, #e8d5a4 50%, #c8a24e 78%, transparent);
+    opacity: 0.85;
   }
   /* Gros boutons tactiles */
   .btn {
-    @apply inline-flex select-none items-center justify-center gap-2 rounded-xl px-5 py-3 text-base font-semibold
-           transition active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-full px-5 py-3 text-base font-semibold
+           transition-all duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
     min-height: 48px;
   }
+  /* CTA principal : encre profonde, texte champagne, à l'effigie de l'accueil. */
   .btn-primary {
-    @apply btn bg-violet-600 text-white shadow-sm hover:bg-violet-700;
+    @apply btn text-[#f4ead1] shadow-sm;
+    background: linear-gradient(95deg, #211d16 0%, #35302a 100%);
+    box-shadow: 0 8px 22px -12px rgba(28, 24, 19, 0.7), inset 0 0 0 1px rgba(200, 162, 78, 0.28);
   }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px -12px rgba(28, 24, 19, 0.75), inset 0 0 0 1px rgba(200, 162, 78, 0.5);
+  }
+  .btn-gold {
+    @apply btn text-[#3a2c0e];
+    background: linear-gradient(95deg, #e6cf92 0%, #d9bd77 55%, #c8a24e 100%);
+    box-shadow: 0 8px 22px -12px rgba(150, 118, 31, 0.6);
+  }
+  .btn-gold:hover { transform: translateY(-1px); }
   .btn-ghost {
-    @apply btn bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+    @apply btn text-slate-700 dark:text-slate-200;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(200, 162, 78, 0.35);
+  }
+  .btn-ghost:hover {
+    background: rgba(200, 162, 78, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(200, 162, 78, 0.6);
   }
   .chip {
     @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
   }
   .formula {
-    @apply my-3 rounded-xl border-2 border-dashed border-violet-300 bg-violet-50 px-4 py-3 text-center
-           font-semibold text-violet-900 dark:border-violet-700/60 dark:bg-violet-950/40 dark:text-violet-200;
+    @apply my-3 rounded-xl px-4 py-3 text-center font-semibold text-[#5a481c] dark:text-[#e8d5a4];
+    background: linear-gradient(180deg, #fcf5e4, #f8efd8);
+    border: 1px solid rgba(200, 162, 78, 0.4);
   }
+  html.dark .formula {
+    background: linear-gradient(180deg, rgba(200, 162, 78, 0.08), rgba(200, 162, 78, 0.04));
+    border-color: rgba(200, 162, 78, 0.3);
+  }
+  /* Filet séparateur doré (dégradé) */
+  .rule-gold {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, rgba(200, 162, 78, 0.55), transparent);
+  }
+  /* Médaillon monogramme (initiales) — accent personnalisé */
+  .monogram {
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    color: #4a3a12;
+    background: linear-gradient(135deg, #f6eed8, #e6cf92);
+    box-shadow: inset 0 0 0 1px rgba(200, 162, 78, 0.55), 0 6px 16px -10px rgba(150, 118, 31, 0.6);
+  }
+  /* Petit label capitale espacée (surtitre luxe) */
+  .kicker {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.7rem;
+    color: #a5842f;
+  }
+}
+
+/* Entrée douce du contenu de page */
+@keyframes lux-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-lux { animation: lux-enter 0.5s cubic-bezier(0.19, 0.7, 0.16, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-lux { animation-duration: 0.01ms; }
 }
 
 /* Barre de défilement discrète */

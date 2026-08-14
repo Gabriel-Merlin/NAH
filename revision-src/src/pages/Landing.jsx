@@ -18,11 +18,14 @@ export default function Landing() {
   }
 
   return (
-    <div className="space-y-6 py-2">
+    <div className="animate-lux space-y-6 py-2">
       <header className="text-center">
-        <div className="text-5xl">🎓</div>
-        <h1 className="mt-2 font-display text-2xl font-extrabold">{t('whatRevise')}</h1>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('chooseLevel')}</p>
+        <p className="kicker">RévizSTMG</p>
+        <h1 className="mt-1 font-display text-[2rem] font-medium leading-tight">
+          {state.profile?.firstName ? `${state.profile.firstName}, ` : ''}{t('whatRevise')}
+        </h1>
+        <span className="mx-auto mt-3 block h-px w-24 rounded-full" style={{ background: 'linear-gradient(90deg,transparent,#c8a24e,transparent)' }} />
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">{t('chooseLevel')}</p>
       </header>
 
       {state.track && (

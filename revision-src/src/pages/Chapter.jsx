@@ -39,7 +39,7 @@ export default function Chapter() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="animate-lux space-y-4">
       <nav className="no-print text-xs text-slate-500 dark:text-slate-400">
         <Link to={`/subject/${sid}`} className="hover:underline" style={{ color }}>{subject.name}</Link>
         <span className="mx-1">›</span>
@@ -50,8 +50,8 @@ export default function Chapter() {
 
       <header className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wide" style={{ color }}><CourseText text={theme.name} /> · {t('chapter')} {i + 1}/{chapters.length}</p>
-          <h1 className="font-display text-xl font-extrabold leading-tight"><CourseText text={chapter.title} /></h1>
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em]" style={{ color }}><CourseText text={theme.name} /> · {t('chapter')} {i + 1}/{chapters.length}</p>
+          <h1 className="font-display text-2xl font-medium leading-tight"><CourseText text={chapter.title} /></h1>
         </div>
         <Link
           to={`/subject/${sid}/theme/${tid}`}

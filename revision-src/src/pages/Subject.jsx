@@ -14,11 +14,11 @@ export default function Subject() {
   const pct = subjectScore(state, sid)
 
   return (
-    <div className="space-y-5">
+    <div className="animate-lux space-y-5">
       <header className="flex items-center gap-4">
-        <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl text-3xl" style={{ backgroundColor: subject.color + '22' }}>{subject.icon}</span>
+        <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl text-3xl" style={{ backgroundColor: subject.color + '18', boxShadow: `inset 0 0 0 1px ${subject.color}40` }}>{subject.icon}</span>
         <div className="flex-1">
-          <h1 className="font-display text-2xl font-extrabold leading-tight">{subject.name}</h1>
+          <h1 className="font-display text-3xl font-medium leading-tight">{subject.name}</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400"><CourseText text={subject.tagline} /></p>
           <div className="mt-2 flex items-center gap-2">
             <ProgressBar value={pct} color={subject.color} className="max-w-[200px]" />
@@ -26,6 +26,7 @@ export default function Subject() {
           </div>
         </div>
       </header>
+      <hr className="rule-gold" />
 
       <div className="space-y-3">
         {subject.chapters.map((c) => {
