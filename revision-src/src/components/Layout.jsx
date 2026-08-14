@@ -6,6 +6,7 @@ import { badgeById } from '../badges.js'
 import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
 import Dictionary from './Dictionary.jsx'
+import Customizer from './Customizer.jsx'
 import { useT, useLang } from '../i18n.js'
 
 const LANGS = [{ code: 'fr', label: 'Français' }, { code: 'en', label: 'English' }, { code: 'es', label: 'Español' }]
@@ -16,6 +17,7 @@ export default function Layout({ children }) {
   const lang = useLang()
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
+  const [custOpen, setCustOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const isDark =
     state.theme === 'dark' ||
@@ -27,12 +29,15 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen">
-      <header className="no-print sticky top-0 z-40 border-b border-[#c8a24e]/25 bg-[#f5f1e8]/85 backdrop-blur dark:border-[#c8a24e]/15 dark:bg-[#14110c]/85">
+      <header
+        className="no-print sticky top-0 z-40 border-b backdrop-blur"
+        style={{ backgroundColor: 'color-mix(in srgb, var(--c-bg) 82%, transparent)', borderColor: 'color-mix(in srgb, var(--c-accent) 24%, transparent)' }}
+      >
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
           <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-2xl font-semibold tracking-tight">
-            <span className="text-[#c8a24e]" aria-hidden><Icon.Diamond size={15} /></span>
+            <span aria-hidden style={{ color: 'var(--c-accent)' }}><Icon.Diamond size={15} /></span>
             <span>
-              Réviz<span className="text-[#98761f] dark:text-[#d9bd77]">STMG</span>
+              Réviz<span style={{ color: 'color-mix(in srgb, var(--c-accent) 78%, var(--c-ink))' }}>STMG</span>
             </span>
           </Link>
 
@@ -57,6 +62,14 @@ export default function Layout({ children }) {
             aria-label={isDark ? t('light') : t('dark')}
           >
             {isDark ? <Icon.Sun /> : <Icon.Moon />}
+          </button>
+          <button
+            className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
+            onClick={() => setCustOpen(true)}
+            aria-label={t('customize')}
+            title={t('customize')}
+          >
+            <Icon.Palette />
           </button>
           <div className="relative">
             <button
@@ -105,6 +118,7 @@ export default function Layout({ children }) {
 
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
       {dictOpen && <Dictionary onClose={() => setDictOpen(false)} />}
+      {custOpen && <Customizer onClose={() => setCustOpen(false)} />}
       <BadgeToast />
       <Welcome />
     </div>
