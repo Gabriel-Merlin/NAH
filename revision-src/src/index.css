@@ -3,65 +3,75 @@
 @tailwind utilities;
 
 @layer base {
+  /* ---- Charte de couleurs 100 % modifiable (variables CSS) ----------------
+     4 variables pilotent tout le site. Les valeurs par défaut donnent le thème
+     « Or & Ivoire » ; le panneau Personnalisation les remplace en direct (inline
+     sur <html>) et un mode sombre fournit ses propres valeurs par défaut. */
   :root {
     color-scheme: light;
+    --c-bg: #f5f1e8;      /* fond de page */
+    --c-ink: #1c1813;     /* texte & titres */
+    --c-accent: #c8a24e;  /* accent / rubriques / dorures */
+    --c-card: #fffdf8;    /* surface des écrins (cartes) */
   }
   html.dark {
     color-scheme: dark;
+    --c-bg: #14110c;
+    --c-ink: #f1e9dc;
+    --c-accent: #c8a24e;
+    --c-card: #201c15;
   }
   html {
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply text-slate-800 antialiased dark:text-slate-100;
+    @apply antialiased;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    /* Papier ivoire avec un très léger halo doré en haut (papeterie de luxe). */
+    color: var(--c-ink);
+    /* Fond + léger halo teinté par l'accent (papeterie de luxe). */
     background:
-      radial-gradient(1100px 520px at 50% -8%, #f7ecd4 0%, rgba(247, 236, 212, 0) 60%),
-      #f5f1e8;
+      radial-gradient(1100px 520px at 50% -8%, rgba(200, 162, 78, 0.14) 0%, transparent 60%),
+      var(--c-bg);
+    background:
+      radial-gradient(1100px 520px at 50% -8%, color-mix(in srgb, var(--c-accent) 16%, transparent) 0%, transparent 60%),
+      var(--c-bg);
     background-attachment: fixed;
     /* Zones sûres iPhone (encoche) */
     padding-bottom: env(safe-area-inset-bottom);
   }
-  html.dark body {
-    background:
-      radial-gradient(1100px 520px at 50% -8%, rgba(200, 162, 78, 0.10) 0%, rgba(200, 162, 78, 0) 60%),
-      #14110c;
-  }
-  /* Titres : serif Didone raffiné (aspect luxe) */
+  /* Titres : serif Didone raffiné (aspect luxe) — suivent la couleur du texte */
   .font-display {
     letter-spacing: 0.005em;
   }
   /* Focus visible net pour la navigation clavier */
   :focus-visible {
-    outline: 2px solid #c8a24e;
+    outline: 2px solid var(--c-accent);
     outline-offset: 2px;
     border-radius: 6px;
   }
   ::selection {
-    background: #ead6a6;
-    color: #4a3a12;
+    background: var(--c-accent);
+    color: #fff;
   }
 }
 
 @layer components {
-  /* Surface « papeterie » : crème, filet d'or capillaire, ombre douce en couches. */
+  /* Surface « papeterie » : couleur d'écrin + filet d'accent, ombre en couches. */
   .card {
     border-radius: 1.15rem;
-    background: linear-gradient(180deg, #fffdf8 0%, #fcf8ee 100%);
+    background: var(--c-card);
     border: 1px solid rgba(200, 162, 78, 0.22);
+    border-color: color-mix(in srgb, var(--c-accent) 26%, transparent);
     box-shadow:
       0 1px 2px rgba(28, 24, 19, 0.04),
       0 10px 30px -16px rgba(43, 34, 12, 0.20);
   }
   html.dark .card {
-    background: linear-gradient(180deg, #221d15 0%, #1b1710 100%);
-    border-color: rgba(200, 162, 78, 0.16);
     box-shadow:
       0 1px 2px rgba(0, 0, 0, 0.30),
       0 12px 34px -18px rgba(0, 0, 0, 0.7);
   }
-  /* Filet doré fin en haut d'un écrin (accent facultatif) */
+  /* Filet d'accent fin en haut d'un écrin (facultatif) */
   .card-lux {
     position: relative;
     overflow: hidden;
@@ -71,7 +81,7 @@
     position: absolute;
     inset: 0 0 auto 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #c8a24e 22%, #e8d5a4 50%, #c8a24e 78%, transparent);
+    background: linear-gradient(90deg, transparent, var(--c-accent) 22%, color-mix(in srgb, var(--c-accent) 55%, #fff) 50%, var(--c-accent) 78%, transparent);
     opacity: 0.85;
   }
   /* Gros boutons tactiles */
@@ -80,48 +90,51 @@
            transition-all duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
     min-height: 48px;
   }
-  /* CTA principal : encre profonde, texte champagne, à l'effigie de l'accueil. */
+  /* CTA principal : « encre » (couleur du texte) + liseré d'accent — s'adapte au thème. */
   .btn-primary {
-    @apply btn text-[#f4ead1] shadow-sm;
-    background: linear-gradient(95deg, #211d16 0%, #35302a 100%);
-    box-shadow: 0 8px 22px -12px rgba(28, 24, 19, 0.7), inset 0 0 0 1px rgba(200, 162, 78, 0.28);
+    @apply btn shadow-sm;
+    background: var(--c-ink);
+    color: var(--c-card);
+    box-shadow: 0 8px 22px -12px rgba(28, 24, 19, 0.7), inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 32%, transparent);
   }
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 12px 26px -12px rgba(28, 24, 19, 0.75), inset 0 0 0 1px rgba(200, 162, 78, 0.5);
+    box-shadow: 0 12px 26px -12px rgba(28, 24, 19, 0.75), inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 55%, transparent);
   }
+  /* CTA « or » : rempli à la couleur d'accent. */
   .btn-gold {
-    @apply btn text-[#3a2c0e];
-    background: linear-gradient(95deg, #e6cf92 0%, #d9bd77 55%, #c8a24e 100%);
-    box-shadow: 0 8px 22px -12px rgba(150, 118, 31, 0.6);
+    @apply btn;
+    color: #2a2012;
+    color: color-mix(in srgb, var(--c-accent) 24%, #000);
+    background: var(--c-accent);
+    background: linear-gradient(95deg, color-mix(in srgb, var(--c-accent) 65%, #fff) 0%, var(--c-accent) 60%, color-mix(in srgb, var(--c-accent) 82%, #000) 100%);
+    box-shadow: 0 8px 22px -12px color-mix(in srgb, var(--c-accent) 70%, #000);
   }
   .btn-gold:hover { transform: translateY(-1px); }
   .btn-ghost {
-    @apply btn text-slate-700 dark:text-slate-200;
+    @apply btn;
+    color: var(--c-ink);
     background: transparent;
-    box-shadow: inset 0 0 0 1px rgba(200, 162, 78, 0.35);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 38%, transparent);
   }
   .btn-ghost:hover {
-    background: rgba(200, 162, 78, 0.08);
-    box-shadow: inset 0 0 0 1px rgba(200, 162, 78, 0.6);
+    background: color-mix(in srgb, var(--c-accent) 10%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 60%, transparent);
   }
   .chip {
     @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
   }
   .formula {
-    @apply my-3 rounded-xl px-4 py-3 text-center font-semibold text-[#5a481c] dark:text-[#e8d5a4];
-    background: linear-gradient(180deg, #fcf5e4, #f8efd8);
-    border: 1px solid rgba(200, 162, 78, 0.4);
+    @apply my-3 rounded-xl px-4 py-3 text-center font-semibold;
+    color: color-mix(in srgb, var(--c-accent) 55%, var(--c-ink));
+    background: color-mix(in srgb, var(--c-accent) 12%, var(--c-card));
+    border: 1px solid color-mix(in srgb, var(--c-accent) 40%, transparent);
   }
-  html.dark .formula {
-    background: linear-gradient(180deg, rgba(200, 162, 78, 0.08), rgba(200, 162, 78, 0.04));
-    border-color: rgba(200, 162, 78, 0.3);
-  }
-  /* Filet séparateur doré (dégradé) */
+  /* Filet séparateur d'accent (dégradé) */
   .rule-gold {
     height: 1px;
     border: 0;
-    background: linear-gradient(90deg, transparent, rgba(200, 162, 78, 0.55), transparent);
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--c-accent) 55%, transparent), transparent);
   }
   /* Médaillon monogramme (initiales) — accent personnalisé */
   .monogram {
@@ -131,8 +144,10 @@
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 600;
     color: #4a3a12;
-    background: linear-gradient(135deg, #f6eed8, #e6cf92);
-    box-shadow: inset 0 0 0 1px rgba(200, 162, 78, 0.55), 0 6px 16px -10px rgba(150, 118, 31, 0.6);
+    color: color-mix(in srgb, var(--c-accent) 30%, #000);
+    background: var(--c-accent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--c-accent) 45%, #fff), var(--c-accent));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 55%, transparent), 0 6px 16px -10px color-mix(in srgb, var(--c-accent) 70%, #000);
   }
   /* Petit label capitale espacée (surtitre luxe) */
   .kicker {
@@ -140,7 +155,7 @@
     text-transform: uppercase;
     letter-spacing: 0.28em;
     font-size: 0.7rem;
-    color: #a5842f;
+    color: color-mix(in srgb, var(--c-accent) 78%, var(--c-ink));
   }
 }
 

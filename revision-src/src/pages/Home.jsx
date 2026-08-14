@@ -45,28 +45,28 @@ export default function Home() {
       {/* Écrin personnalisé — cover sombre & or, à l'effigie de l'accueil */}
       <section
         className="card-lux relative overflow-hidden rounded-[1.6rem] p-6 text-[#f4ecd8] sm:p-8"
-        style={{ background: 'linear-gradient(140deg,#221d15 0%,#2c271d 52%,#191510 100%)', border: '1px solid rgba(200,162,78,0.28)' }}
+        style={{ background: 'linear-gradient(140deg, color-mix(in srgb, var(--c-accent) 14%, #17130d) 0%, #221d15 55%, #17130d 100%)', border: '1px solid color-mix(in srgb, var(--c-accent) 30%, transparent)' }}
       >
-        <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full" style={{ background: 'radial-gradient(circle,#c8a24e40,transparent 70%)' }} />
-        <span aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle,#c8a24e22,transparent 70%)' }} />
+        <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--c-accent) 32%, transparent), transparent 70%)' }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--c-accent) 18%, transparent), transparent 70%)' }} />
 
         <div className="relative flex items-center gap-4 sm:gap-5">
           {initials && (
             <span className="monogram h-16 w-16 shrink-0 text-2xl sm:h-20 sm:w-20 sm:text-3xl" aria-hidden>{initials}</span>
           )}
           <div className="min-w-0 flex-1">
-            <p className="kicker !text-[#d9b96a]">{trackLabel(state.track)}</p>
+            <p className="kicker" style={{ color: 'color-mix(in srgb, var(--c-accent) 62%, #fff)' }}>{trackLabel(state.track)}</p>
             <h1 className="font-display text-[1.7rem] font-medium leading-[1.15] text-[#faf3e1] sm:text-[2.15rem]">
-              {greeting}{firstName ? <>, <span className="text-[#e8cf90]">{firstName}</span></> : ''}
+              {greeting}{firstName ? <>, <span style={{ color: 'color-mix(in srgb, var(--c-accent) 55%, #fff)' }}>{firstName}</span></> : ''}
             </h1>
             {dateLabel && <p className="mt-1 text-xs capitalize tracking-wide text-[#b8a878]">{dateLabel}</p>}
           </div>
           <div className="hidden shrink-0 sm:block">
-            <Ring value={trackProgress} color="#e0c483" size={84} label={`${trackProgress}%`} />
+            <Ring value={trackProgress} color="var(--c-accent)" size={84} label={`${trackProgress}%`} />
           </div>
         </div>
 
-        <hr className="rule-gold relative my-5" style={{ background: 'linear-gradient(90deg,transparent,rgba(200,162,78,0.5),transparent)' }} />
+        <hr className="rule-gold relative my-5" />
 
         <div className="relative flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-[#d8cca8]">
           <span className="sm:hidden"><span className="font-semibold text-[#f0e2b8]">{trackProgress}%</span> de progression</span>
@@ -83,7 +83,7 @@ export default function Home() {
           ) : realSubjects[0] ? (
             <Link to={`/subject/${realSubjects[0].id}`} className="btn-gold gap-1.5 !py-2.5"><Icon.Play size={16} /> {t('start')}</Link>
           ) : null}
-          <button onClick={randomChapter} className="btn gap-1.5 !py-2.5 text-[#f4ecd8]" style={{ boxShadow: 'inset 0 0 0 1px rgba(200,162,78,0.45)' }}><Icon.Dice size={16} /> {t('randomChapter')}</button>
+          <button onClick={randomChapter} className="btn gap-1.5 !py-2.5 text-[#f4ecd8]" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 45%, transparent)' }}><Icon.Dice size={16} /> {t('randomChapter')}</button>
         </div>
       </section>
 

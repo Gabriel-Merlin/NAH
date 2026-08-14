@@ -20,6 +20,7 @@ const emptyState = () => ({
   profile: null, // { firstName, lastName } — fiche d'information (accueil personnalisé)
   onboarded: false, // a vu l'étape « Que veux-tu travailler ? » (choix des chapitres)
   theme: null, // 'light' | 'dark' | null (= système)
+  customTheme: null, // { bg, ink, accent, card } — couleurs personnalisées (null = charte par défaut)
   lang: 'fr', // langue de l'interface : 'fr' | 'en' | 'es'
   totalAnswers: 0,
   correctAnswers: 0,
@@ -83,6 +84,17 @@ export function StoreProvider({ children }) {
       (state.theme == null && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
     root.classList.toggle('dark', !!prefersDark)
   }, [state.theme])
+
+  // Couleurs personnalisées : on pose (ou retire) les variables CSS sur <html>.
+  useEffect(() => {
+    const root = document.documentElement
+    const map = { bg: '--c-bg', ink: '--c-ink', accent: '--c-accent', card: '--c-card' }
+    for (const k of Object.keys(map)) {
+      const v = state.customTheme?.[k]
+      if (v) root.style.setProperty(map[k], v)
+      else root.style.removeProperty(map[k])
+    }
+  }, [state.customTheme])
 
   const evaluateBadges = useCallback((next) => {
     const derived = deriveAll(next)
@@ -149,6 +161,13 @@ export function StoreProvider({ children }) {
 
   const setLang = useCallback((lang) => setState((p) => ({ ...p, lang })), [])
 
+  // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
+  const setCustomTheme = useCallback((patch) => setState((p) => ({
+    ...p,
+    customTheme: patch ? { ...(p.customTheme || {}), ...patch } : null,
+  })), [])
+  const resetCustomTheme = useCallback(() => setState((p) => ({ ...p, customTheme: null })), [])
+
   // Inscription : applique en une fois le profil, la filière, les chapitres
   // choisis (favoris « à revoir ») et le point de reprise, puis évalue les
   // badges (Bienvenue, Feuille de route…).
@@ -183,6 +202,8 @@ export function StoreProvider({ children }) {
     setTrack,
     setProfile,
     setLang,
+    setCustomTheme,
+    resetCustomTheme,
     applyOnboarding,
     resetAll,
     dismissBadge,
