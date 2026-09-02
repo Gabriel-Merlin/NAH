@@ -26,6 +26,8 @@ export default function Layout({ children }) {
   const first = state.profile?.firstName?.trim() || ''
   const last = state.profile?.lastName?.trim() || ''
   const initials = ((first[0] || '') + (last[0] || '')).toUpperCase() || (first[0] || '').toUpperCase()
+  const avatar = state.customTheme?.avatar || ''
+  const mono = avatar || initials
 
   return (
     <div className="min-h-screen">
@@ -100,14 +102,14 @@ export default function Layout({ children }) {
             )}
           </div>
 
-          {initials && (
+          {mono && (
             <Link
               to="/accueil"
               title={`${first} ${last}`.trim() + ' — mon espace'}
               aria-label={`Espace de ${first} ${last}`.trim()}
               className="monogram h-9 w-9 shrink-0 text-sm"
             >
-              {initials}
+              {mono}
             </Link>
           )}
         </div>

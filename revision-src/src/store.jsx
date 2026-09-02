@@ -85,10 +85,15 @@ export function StoreProvider({ children }) {
     root.classList.toggle('dark', !!prefersDark)
   }, [state.theme])
 
-  // Couleurs personnalisées : on pose (ou retire) les variables CSS sur <html>.
+  // Apparence personnalisée : on pose (ou retire) les variables CSS sur <html>
+  // (couleurs, polices, arrondi, taille du texte). `avatar` n'est pas une
+  // variable CSS (géré dans les composants), on l'ignore ici.
   useEffect(() => {
     const root = document.documentElement
-    const map = { bg: '--c-bg', ink: '--c-ink', accent: '--c-accent', card: '--c-card' }
+    const map = {
+      bg: '--c-bg', ink: '--c-ink', accent: '--c-accent', card: '--c-card',
+      fontDisplay: '--font-display', fontBody: '--font-body', radius: '--radius', scale: '--scale',
+    }
     for (const k of Object.keys(map)) {
       const v = state.customTheme?.[k]
       if (v) root.style.setProperty(map[k], v)
