@@ -12,9 +12,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-        // Titres en serif fin, à l'effigie de l'écran d'accueil (aspect luxueux).
-        display: ['Cormorant Garamond', 'Didot', 'Bodoni MT', 'Georgia', 'Times New Roman', 'serif'],
+        sans: ["var(--font-body, 'Inter')", 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        // Titres en serif fin, personnalisable via --font-display (aspect luxueux).
+        display: ["var(--font-display, 'Cormorant Garamond')", 'Didot', 'Bodoni MT', 'Georgia', 'Times New Roman', 'serif'],
       },
       colors: {
         // Gris chauds (papier / encre) : on réutilise l'échelle « slate » de

@@ -23,10 +23,11 @@
   }
   html {
     -webkit-text-size-adjust: 100%;
+    font-size: var(--scale, 16px); /* taille du texte personnalisable */
   }
   body {
     @apply antialiased;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body, 'Inter'), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     color: var(--c-ink);
     /* Fond + léger halo teinté par l'accent (papeterie de luxe). */
     background:
@@ -58,7 +59,7 @@
 @layer components {
   /* Surface « papeterie » : couleur d'écrin + filet d'accent, ombre en couches. */
   .card {
-    border-radius: 1.15rem;
+    border-radius: var(--radius, 1.15rem);
     background: var(--c-card);
     border: 1px solid rgba(200, 162, 78, 0.22);
     border-color: color-mix(in srgb, var(--c-accent) 26%, transparent);
@@ -141,7 +142,7 @@
     display: grid;
     place-items: center;
     border-radius: 999px;
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
     font-weight: 600;
     color: #4a3a12;
     color: color-mix(in srgb, var(--c-accent) 30%, #000);
@@ -151,7 +152,7 @@
   }
   /* Petit label capitale espacée (surtitre luxe) */
   .kicker {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
     text-transform: uppercase;
     letter-spacing: 0.28em;
     font-size: 0.7rem;
