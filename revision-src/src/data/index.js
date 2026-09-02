@@ -66,6 +66,12 @@ export function chapterGameCount(chapterId) {
 // un par section du cours. Les mini-jeux du thème sont répartis sur ses
 // chapitres (round-robin). La progression reste indexée par id de thème.
 // ---------------------------------------------------------------------------
+// Types d'exercices qui ciblent UNE notion précise : on les garde au niveau
+// chapitre (rattachés à leur section). Les jeux de SYNTHÈSE (qcm, vrai/faux,
+// association) et les anciennes flashcards couvraient tout le thème : ils ne
+// sont plus placés sur un chapitre (ils alimentent le « Test du thème »).
+const CHAPTER_GAME_TYPES = new Set(['calcul', 'trou', 'tri', 'ordre', 'memory', 'doc'])
+
 export function themeChapters(theme) {
   if (!theme) return []
   const cours = theme.cours || []
@@ -78,28 +84,20 @@ export function themeChapters(theme) {
     section: sec,
     games: [],
   }))
-  if (chapters.length) {
-    // Chaque jeu est rattaché à la SECTION (chapitre) qui traite sa notion,
-    // via la table GAME_SECTION (relue à la main) : un exercice de TVA tombe
-    // dans le chapitre « TVA », la pyramide de Maslow dans le chapitre
-    // « Motivation », etc. À défaut d'entrée dans la table, on répartit le jeu
-    // régulièrement sur toute la longueur du thème (⌊k × nbChap / nbJeux⌋),
-    // pour éviter de laisser de longues séries de chapitres sans exercice.
-    games.forEach((g, k) => {
-      let idx = GAME_SECTION[g.id]
-      if (idx == null || idx < 0 || idx >= chapters.length) {
-        idx = Math.floor((k * chapters.length) / games.length)
-      }
-      chapters[Math.min(idx, chapters.length - 1)].games.push(g)
-    })
-  }
-  // Garantit qu'AUCUN chapitre ne reste sans exercice : les chapitres non
-  // pourvus reçoivent un exercice généré à partir de LEUR propre contenu
-  // (quiz de dates ou flashcards de révision), donc différent d'un chapitre à
-  // l'autre.
+  if (!chapters.length) return chapters
+  // Seuls les exercices « propres à une notion » restent sur le chapitre,
+  // rattachés à leur section via GAME_SECTION (relue à la main).
+  const kept = games.filter((g) => CHAPTER_GAME_TYPES.has(g.type))
+  kept.forEach((g, k) => {
+    let idx = GAME_SECTION[g.id]
+    if (idx == null || idx < 0 || idx >= chapters.length) idx = Math.floor((k * chapters.length) / Math.max(1, kept.length))
+    chapters[Math.min(idx, chapters.length - 1)].games.push(g)
+  })
+  // Chaque chapitre reçoit un exercice tiré de SA SEULE section (QCM ou texte à
+  // trous) : il ne porte donc QUE sur le chapitre suivi — jamais de flashcards.
   for (const ch of chapters) {
     if (ch.games.length === 0) {
-      const ex = autoExercise(ch.section, theme, ch.idx)
+      const ex = sectionExercise(ch.section, theme, ch.idx)
       if (ex) ch.games.push(ex)
     }
   }
@@ -111,91 +109,135 @@ function stripMd(s) {
   return String(s || '').replace(/\*\*/g, '').replace(/\*/g, '').trim()
 }
 
-// Génère un exercice PROPRE au chapitre à partir de son contenu, pour que
-// CHAQUE chapitre ait un exercice (naturellement différent d'un chapitre à
-// l'autre puisque tiré de son propre contenu).
-function autoExercise(sec, theme, idx) {
-  const id = `${theme.id}::auto${idx}`
-  // 1) Quiz de dates : paires « date → événement » (tableaux « Date | … » + frises).
-  const pairs = []
-  for (const b of sec.blocks || []) {
-    if (b.t === 'table' && /date|année/i.test((b.head || [])[0] || '')) {
-      for (const r of b.rows || []) if (r[0] && r[1]) pairs.push({ d: stripMd(String(r[0])), e: stripMd(String(r[1])) })
-    } else if (b.t === 'frise') {
-      for (const e of b.events || []) if (e.date && e.label) pairs.push({ d: stripMd(e.date), e: stripMd(e.label) })
+// Construit un QCM à partir de paires { q (énoncé), a (bonne réponse), e }.
+// Les mauvaises réponses (distracteurs) sont tirées des AUTRES réponses de la
+// même section → l'exercice reste propre au chapitre.
+function qcmFromPairs(pairs, id, title) {
+  const answers = [...new Set(pairs.map((p) => p.a).filter((a) => a && a.length))]
+  if (answers.length < 2) return null
+  const questions = shuffle(pairs)
+    .slice(0, 8)
+    .map((p) => {
+      const distractors = shuffle(answers.filter((a) => a !== p.a)).slice(0, 3)
+      const choices = shuffle([p.a, ...distractors])
+      return { q: p.q, choices, answer: choices.indexOf(p.a), explain: p.e || `${p.q} → ${p.a}` }
+    })
+    .filter((q) => q.choices.length >= 2 && q.answer >= 0)
+  return questions.length ? { id, type: 'qcm', title, icon: '❓', questions } : null
+}
+
+// Génère des « textes à trous » à partir des termes en gras des paragraphes /
+// puces de la SECTION (on masque le terme mis en valeur dans sa phrase). Les
+// longues phrases sont réduites à une fenêtre de contexte autour du trou.
+function trouFromBold(sec) {
+  const out = []
+  const seen = new Set()
+  const addFrom = (text) => {
+    for (const sRaw of String(text).split(/(?<=[.!?…])\s+/)) {
+      const bm = sRaw.match(/\*\*(.+?)\*\*/)
+      if (!bm) continue
+      const term = bm[1].trim()
+      if (term.length < 3 || term.length > 45 || /^\d+$/.test(term)) continue
+      const key = term.toLowerCase()
+      if (seen.has(key)) continue
+      const plain = stripMd(sRaw).replace(/\s+/g, ' ').trim()
+      if (plain.length < 15) continue
+      const at = plain.indexOf(term)
+      if (at < 0) continue
+      let text2
+      if (plain.length <= 180) {
+        text2 = plain.slice(0, at) + '____' + plain.slice(at + term.length)
+      } else {
+        // Fenêtre de contexte : ~100 caractères avant / ~70 après le trou.
+        let start = Math.max(0, at - 100)
+        let end = Math.min(plain.length, at + term.length + 70)
+        if (start > 0) { const sp = plain.indexOf(' ', start); if (sp > -1 && sp < at) start = sp + 1 }
+        if (end < plain.length) { const sp = plain.lastIndexOf(' ', end); if (sp > at + term.length) end = sp }
+        text2 = (start > 0 ? '… ' : '') + plain.slice(start, at) + '____' + plain.slice(at + term.length, end) + (end < plain.length ? ' …' : '')
+      }
+      if (!text2.includes('____')) continue
+      seen.add(key)
+      out.push({ text: text2, answer: term, explain: `Le mot manquant : « ${term} ».` })
     }
   }
-  const uniqEvents = [...new Set(pairs.map((p) => p.e))]
-  if (pairs.length >= 3 && uniqEvents.length >= 3) {
-    const questions = shuffle(pairs).slice(0, Math.min(8, pairs.length)).map((p) => {
-      const distractors = shuffle(uniqEvents.filter((e) => e !== p.e)).slice(0, 3)
-      const choices = shuffle([p.e, ...distractors])
-      return { q: `Que se passe-t-il en ${p.d} ?`, choices, answer: choices.indexOf(p.e), explain: `${p.d} : ${p.e}` }
-    })
-    return { id, type: 'qcm', title: 'Quiz — les dates de ce chapitre', icon: '📅', questions }
-  }
-  // 2) Flashcards à partir d'un tableau (2 à 4 colonnes, non daté) : la 1ʳᵉ
-  // colonne sert de recto (le terme), les autres de verso (la définition).
-  const cards = []
   for (const b of sec.blocks || []) {
-    const w = (b.head || []).length
-    if (b.t === 'table' && w >= 2 && w <= 4 && !/date|année/i.test((b.head || [])[0] || '')) {
+    if (['p', 'tip', 'warning', 'example'].includes(b.t) && b.c) addFrom(b.c)
+    if (b.t === 'list' && Array.isArray(b.c)) for (const it of b.c) addFrom(it)
+  }
+  if (Array.isArray(sec.points)) for (const it of sec.points) addFrom(it)
+  return out
+}
+
+// Génère un exercice PROPRE au chapitre (QCM ou texte à trous, JAMAIS de
+// flashcard), tiré uniquement du contenu de SA section.
+function sectionExercise(sec, theme, idx) {
+  const id = `${theme.id}::auto${idx}`
+  const blocks = sec.blocks || []
+  const isDateHead = (h) => /date|année/i.test(h || '')
+
+  // 1) QCM de dates (tableaux « Date | … » + frises).
+  const dpairs = []
+  for (const b of blocks) {
+    if (b.t === 'table' && isDateHead((b.head || [])[0])) {
+      for (const r of b.rows || []) if (r[0] && r[1]) dpairs.push({ d: stripMd(String(r[0])), e: stripMd(String(r[1])) })
+    } else if (b.t === 'frise') {
+      for (const e of b.events || []) if (e.date && e.label) dpairs.push({ d: stripMd(e.date), e: stripMd(e.label) })
+    }
+  }
+  const uniqEvents = [...new Set(dpairs.map((p) => p.e))]
+  if (dpairs.length >= 3 && uniqEvents.length >= 3) {
+    return qcmFromPairs(
+      dpairs.map((p) => ({ q: `Que se passe-t-il en ${p.d} ?`, a: p.e, e: `${p.d} : ${p.e}` })),
+      id, 'Quiz — les dates de ce chapitre',
+    )
+  }
+
+  // 2) QCM « notion → définition » : tableaux à 2 colonnes + puces « **terme** : déf ».
+  const defPairs = []
+  for (const b of blocks) {
+    if (b.t === 'table' && (b.head || []).length === 2 && !isDateHead((b.head || [])[0])) {
       for (const r of b.rows || []) {
-        const front = stripMd(String(r[0] || ''))
-        const back = r.slice(1).map((x) => stripMd(String(x || ''))).filter(Boolean).join(' — ')
-        // Sur un tableau à 2 colonnes on garde tout (terme|définition) ; au-delà,
-        // on exige un recto court (une vraie « entrée » de tableau).
-        if (front && back && (w === 2 || front.length <= 40)) cards.push({ front, back })
+        const term = stripMd(String(r[0] || ''))
+        const def = stripMd(String(r[1] || ''))
+        if (term && def) defPairs.push({ q: `À quoi correspond : « ${term} » ?`, a: def, e: `${term} → ${def}` })
       }
     }
   }
-  if (cards.length >= 3) {
-    return { id, type: 'flashcard', title: 'Flashcards — révise ce chapitre', icon: '🃏', cards: cards.slice(0, 12) }
-  }
-  // 2b) Flashcards de « notions » : puces de la forme « … **terme** … : définition ».
-  // On récupère le texte avant le premier séparateur fort (: — –) comme recto
-  // (à condition qu'il contienne un terme en gras et reste court) et le reste
-  // comme verso. Transforme les listes de définitions en vraies flashcards.
   const notionItems = []
-  for (const b of sec.blocks || []) if (b.t === 'list' && Array.isArray(b.c)) notionItems.push(...b.c)
+  for (const b of blocks) if (b.t === 'list' && Array.isArray(b.c)) notionItems.push(...b.c)
   if (Array.isArray(sec.points)) notionItems.push(...sec.points)
-  const notionCards = []
   for (const item of notionItems) {
     const s = String(item)
     if (!s.includes('**')) continue
     const m = s.match(/^(.{3,60}?)\s*[:—–]\s+(.+)$/)
     if (!m) continue
-    const front = stripMd(m[1]).replace(/[;,.]$/, '').trim()
-    const back = stripMd(m[2]).replace(/[;.]$/, '').trim()
-    if (front && back.length > 3 && front.length <= 50 && !notionCards.some((c) => c.front === front)) {
-      notionCards.push({ front, back })
+    const term = stripMd(m[1]).replace(/[;,.]$/, '').trim()
+    const def = stripMd(m[2]).replace(/[;.]$/, '').trim()
+    if (term && def.length > 3 && term.length <= 50) defPairs.push({ q: `Que signifie : « ${term} » ?`, a: def, e: `${term} → ${def}` })
+  }
+  const qDef = qcmFromPairs(defPairs, id, 'Quiz — les notions de ce chapitre')
+  if (qDef) return qDef
+
+  // 3) QCM à partir d'un tableau à 3-4 colonnes (1ʳᵉ colonne = entrée).
+  const widePairs = []
+  for (const b of blocks) {
+    const w = (b.head || []).length
+    if (b.t === 'table' && w >= 3 && w <= 4 && !isDateHead((b.head || [])[0])) {
+      const label = stripMd(String((b.head || [])[0] || ''))
+      for (const r of b.rows || []) {
+        const entry = stripMd(String(r[0] || ''))
+        const rest = r.slice(1).map((x) => stripMd(String(x || ''))).filter(Boolean).join(' — ')
+        if (entry && rest && entry.length <= 40) widePairs.push({ q: `${label} — « ${entry} » : ?`, a: rest, e: `${entry} → ${rest}` })
+      }
     }
   }
-  if (notionCards.length >= 3) {
-    return { id, type: 'flashcard', title: 'Flashcards — notions clés du chapitre', icon: '🃏', cards: notionCards.slice(0, 12) }
-  }
-  // 3) Repli : découpe le contenu en quelques cartes « idée clé » (une par
-  // paragraphe/encadré), plutôt qu'une seule grande carte illisible.
-  const chunks = []
-  for (const b of sec.blocks || []) {
-    if (['p', 'tip', 'warning', 'example'].includes(b.t) && b.c) chunks.push(stripMd(String(b.c)))
-  }
-  if (!chunks.length && Array.isArray(sec.points)) chunks.push(...sec.points.map((x) => stripMd(String(x))))
-  const usable = chunks.map((c) => c.trim()).filter((c) => c.length > 25)
-  if (usable.length >= 2) {
-    const cards = usable.slice(0, 6).map((c, k) => {
-      const bold = String((sec.blocks || []).find((b) => ['p', 'tip', 'warning', 'example'].includes(b.t) && stripMd(String(b.c || '')).trim() === c)?.c || '').match(/\*\*(.+?)\*\*/)
-      return { front: bold ? bold[1].trim() : `${sec.h || 'Chapitre'} — idée ${k + 1}`, back: c.slice(0, 420) }
-    })
-    return { id, type: 'flashcard', title: 'Flashcards — révise ce chapitre', icon: '🃏', cards }
-  }
-  // 3b) Dernier recours : une seule carte « notion → contenu du chapitre ».
-  const txt = sectionPlainText(sec)
-  if (txt && txt.length > 30) {
-    return {
-      id, type: 'flashcard', title: 'Révise ce chapitre', icon: '🃏',
-      cards: [{ front: `Que retenir de : « ${sec.h || 'ce chapitre'} » ?`, back: txt.slice(0, 700) }],
-    }
+  const qWide = qcmFromPairs(widePairs, id, 'Quiz — ce chapitre')
+  if (qWide) return qWide
+
+  // 4) Texte à trous à partir des termes en gras de la section.
+  const trouQ = trouFromBold(sec)
+  if (trouQ.length >= 1) {
+    return { id, type: 'trou', title: 'Texte à trous — ce chapitre', icon: '✏️', questions: trouQ.slice(0, 8) }
   }
   return null
 }
