@@ -48,9 +48,33 @@ const SIZES = [
 const AVATARS = ['🦉', '🎓', '⭐', '🚀', '🐱', '🦊', '🐧', '🌸', '🔥', '💎', '🎨', '📚', '🧠', '⚡', '🌈', '🏆', '🍀', '🎯', '🦁', '🌙', '☀️', '🐢', '🦄', '🐨']
 
 export default function Customizer({ onClose }) {
-  const { state, setCustomTheme, resetCustomTheme, setTheme } = useStore()
+  const { state, setCustomTheme, resetCustomTheme, setTheme, setPhoto } = useStore()
   const t = useT()
   const ct = state.customTheme || {}
+  const photo = state.profile?.photo || ''
+
+  // Importe une photo → recadrée/réduite à 160px (JPEG) pour tenir en local.
+  const onFile = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      const img = new Image()
+      img.onload = () => {
+        const S = 160
+        const c = document.createElement('canvas')
+        c.width = S; c.height = S
+        const ctx = c.getContext('2d')
+        const scale = Math.max(S / img.width, S / img.height)
+        const w = img.width * scale, h = img.height * scale
+        ctx.drawImage(img, (S - w) / 2, (S - h) / 2, w, h)
+        try { setPhoto(c.toDataURL('image/jpeg', 0.85)) } catch { /* ignore */ }
+      }
+      img.src = reader.result
+    }
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
 
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -163,12 +187,26 @@ export default function Customizer({ onClose }) {
           {/* Avatar / icône */}
           <div>
             <p className="kicker mb-2">{t('secAvatar')}</p>
+            <div className="mb-3 flex items-center gap-3">
+              <span className="monogram grid h-12 w-12 shrink-0 place-items-center overflow-hidden text-base">
+                {photo ? <img src={photo} alt="" className="h-full w-full rounded-full object-cover" /> : (ct.avatar || '🙂')}
+              </span>
+              <label className="btn-ghost !min-h-0 cursor-pointer !py-2 text-sm">
+                {t('importPhoto')}
+                <input type="file" accept="image/*" onChange={onFile} className="hidden" />
+              </label>
+              {photo && (
+                <button type="button" onClick={() => setPhoto(null)} className="text-xs font-semibold text-slate-400 underline hover:text-rose-500">
+                  {t('removePhoto')}
+                </button>
+              )}
+            </div>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={() => setCustomTheme({ avatar: null })}
+                onClick={() => { setCustomTheme({ avatar: null }); setPhoto(null) }}
                 className="monogram h-10 px-3 text-sm"
-                style={{ borderRadius: 999, boxShadow: !avatar ? 'inset 0 0 0 2px var(--c-accent)' : undefined }}
+                style={{ borderRadius: 999, boxShadow: !avatar && !photo ? 'inset 0 0 0 2px var(--c-accent)' : undefined }}
               >
                 {t('initialsLabel')}
               </button>
@@ -176,7 +214,7 @@ export default function Customizer({ onClose }) {
                 <button
                   key={e}
                   type="button"
-                  onClick={() => setCustomTheme({ avatar: e })}
+                  onClick={() => { setCustomTheme({ avatar: e }); setPhoto(null) }}
                   className="grid h-10 w-10 place-items-center rounded-full text-xl transition hover:-translate-y-0.5"
                   style={{ background: 'color-mix(in srgb, var(--c-accent) 12%, transparent)', boxShadow: avatar === e ? 'inset 0 0 0 2px var(--c-accent)' : 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 28%, transparent)' }}
                 >

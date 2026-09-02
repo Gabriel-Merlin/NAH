@@ -24,7 +24,19 @@ const emptyState = () => ({
   lang: 'fr', // langue de l'interface : 'fr' | 'en' | 'es'
   totalAnswers: 0,
   correctAnswers: 0,
+  weekly: { week: null, done: [] }, // cours travaillés durant la semaine ISO en cours
+  classCode: '', // code de classe pour le classement hebdomadaire partagé
 })
+
+// Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
+export function isoWeekKey(d = new Date()) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  const day = date.getUTCDay() || 7
+  date.setUTCDate(date.getUTCDate() + 4 - day)
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+  const weekNo = Math.ceil(((date - yearStart) / 86400000 + 1) / 7)
+  return `${date.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`
+}
 
 function load() {
   try {
@@ -132,6 +144,10 @@ export function StoreProvider({ children }) {
         next.totalAnswers += total
         next.correctAnswers += correct
         next.streak = bumpStreak(next)
+        // Suivi hebdomadaire : chapitres distincts travaillés cette semaine ISO.
+        const wk = isoWeekKey()
+        if (!next.weekly || next.weekly.week !== wk) next.weekly = { week: wk, done: [] }
+        if (chapterId && !next.weekly.done.includes(chapterId)) next.weekly.done = [...next.weekly.done, chapterId]
         return evaluateBadges(next)
       })
     },
@@ -164,7 +180,12 @@ export function StoreProvider({ children }) {
 
   const setProfile = useCallback((profile) => setState((p) => evaluateBadges({ ...p, profile })), [evaluateBadges])
 
+  // Photo de profil (data URL déjà réduite) : fusionnée dans le profil.
+  const setPhoto = useCallback((photo) => setState((p) => ({ ...p, profile: { ...(p.profile || {}), photo: photo || undefined } })), [])
+
   const setLang = useCallback((lang) => setState((p) => ({ ...p, lang })), [])
+
+  const setClassCode = useCallback((classCode) => setState((p) => ({ ...p, classCode: classCode || '' })), [])
 
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
@@ -206,7 +227,9 @@ export function StoreProvider({ children }) {
     setTheme,
     setTrack,
     setProfile,
+    setPhoto,
     setLang,
+    setClassCode,
     setCustomTheme,
     resetCustomTheme,
     applyOnboarding,
@@ -276,12 +299,15 @@ function deriveAll(state) {
     byChapter[cid] = sc
     if (sc >= 90) chaptersMastered++
   }
+  const wk = isoWeekKey()
+  const weeklyCourses = state.weekly?.week === wk ? (state.weekly.done?.length || 0) : 0
   return {
     global: globalScore(state),
     bySubject,
     byChapter,
     chaptersMastered,
     subjectsPlayed,
+    weeklyCourses,
     ...levelFromXp(state.xp),
   }
 }

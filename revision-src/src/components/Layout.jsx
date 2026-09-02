@@ -27,6 +27,7 @@ export default function Layout({ children }) {
   const last = state.profile?.lastName?.trim() || ''
   const initials = ((first[0] || '') + (last[0] || '')).toUpperCase() || (first[0] || '').toUpperCase()
   const avatar = state.customTheme?.avatar || ''
+  const photo = state.profile?.photo || ''
   const mono = avatar || initials
 
   return (
@@ -102,14 +103,14 @@ export default function Layout({ children }) {
             )}
           </div>
 
-          {mono && (
+          {(photo || mono) && (
             <Link
               to="/accueil"
               title={`${first} ${last}`.trim() + ' — mon espace'}
               aria-label={`Espace de ${first} ${last}`.trim()}
-              className="monogram h-9 w-9 shrink-0 text-sm"
+              className="monogram h-9 w-9 shrink-0 overflow-hidden text-sm"
             >
-              {mono}
+              {photo ? <img src={photo} alt="" className="h-full w-full rounded-full object-cover" /> : mono}
             </Link>
           )}
         </div>
@@ -144,6 +145,8 @@ function Breadcrumb() {
       items.push({ label: t('favorites'), to: '/favoris' })
     } else if (parts[0] === 'badges') {
       items.push({ label: t('badges'), to: '/badges' })
+    } else if (parts[0] === 'classement') {
+      items.push({ label: t('leaderboard'), to: '/classement' })
     }
     return items
   }, [pathname, t])
