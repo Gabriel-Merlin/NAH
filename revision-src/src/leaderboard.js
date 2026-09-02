@@ -1,11 +1,10 @@
 // Classement hebdomadaire partagé (par code de classe) via Supabase.
 // Le site reste statique : on parle directement à l'API REST (PostgREST) de
 // Supabase avec la clé publique « anon » (protégée par des règles RLS).
-// La clé anon est PUBLIQUE par conception (comme prévu par Supabase).
-const SUPA_URL = 'https://wyydagcjkbivtbuhbzon.supabase.co'
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5eWRhZ2Nqa2JpdnRidWhiem9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNjUzNjgsImV4cCI6MjA5NTc0MTM2OH0.ZSfHT9Ki6_bZae9yeJm-rh9Nc7TrsJnX08q68KK0xfs'
+import { SUPA_URL, SUPA_ANON, SUPA_READY } from './supabase.js'
 
-export const LEADERBOARD_READY = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(SUPA_URL) && SUPA_KEY.length > 20
+const SUPA_KEY = SUPA_ANON
+export const LEADERBOARD_READY = SUPA_READY
 
 // Clé de semaine ISO (identique au store) : « 2026-W36 ».
 export function isoWeekKey(d = new Date()) {

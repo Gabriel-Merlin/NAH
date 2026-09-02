@@ -26,6 +26,7 @@ const emptyState = () => ({
   correctAnswers: 0,
   weekly: { week: null, done: [] }, // cours travaillés durant la semaine ISO en cours
   classCode: '', // code de classe pour le classement hebdomadaire partagé
+  account: null, // { id, email, role } quand connecté (compte prof/élève)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -187,6 +188,8 @@ export function StoreProvider({ children }) {
 
   const setClassCode = useCallback((classCode) => setState((p) => ({ ...p, classCode: classCode || '' })), [])
 
+  const setAccount = useCallback((account) => setState((p) => ({ ...p, account: account || null })), [])
+
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
     ...p,
@@ -230,6 +233,7 @@ export function StoreProvider({ children }) {
     setPhoto,
     setLang,
     setClassCode,
+    setAccount,
     setCustomTheme,
     resetCustomTheme,
     applyOnboarding,
