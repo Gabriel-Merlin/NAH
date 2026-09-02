@@ -7,6 +7,7 @@ import Theme from './pages/Theme.jsx'
 import Chapter from './pages/Chapter.jsx'
 import Favoris from './pages/Favoris.jsx'
 import Badges from './pages/Badges.jsx'
+import Leaderboard from './pages/Leaderboard.jsx'
 
 // Rétro-compatibilité : les anciens liens /subject/:sid/chapter/:cid
 // (où le chapitre était en fait un thème) redirigent vers la page Thème.
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/subject/:sid/chapter/:cid" element={<OldChapterRedirect />} />
         <Route path="/favoris" element={<Favoris />} />
         <Route path="/badges" element={<Badges />} />
+        <Route path="/classement" element={<Leaderboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>
