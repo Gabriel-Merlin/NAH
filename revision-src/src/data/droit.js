@@ -449,14 +449,15 @@ export const droit = {
       id: 'droit-t8',
       name: 'Thème 8 — Dans quel cadre et comment entreprendre ?',
       short: 'Entreprendre',
-      keywords: 'liberté d’entreprendre entreprise individuelle unicité du patrimoine insaisissabilité patrimoine d’affectation EURL société contrat de société article 1832 apport affectio societatis responsabilité limitée aux apports SCOP concurrence déloyale entente abus de position dominante franchise sous-traitance',
+      keywords: 'liberté d’entreprendre entreprise individuelle statut unique réforme 2022 séparation des patrimoines patrimoine professionnel personnel loi 14 février 2022 unicité du patrimoine insaisissabilité EIRL EURL société contrat de société article 1832 apport affectio societatis responsabilité limitée aux apports SCOP concurrence déloyale entente abus de position dominante franchise sous-traitance',
       cours: [
         {
           h: 'Choisir sa structure : entreprise individuelle ou société',
           points: [
             '**Liberté d’entreprendre** (à valeur constitutionnelle) et **liberté du commerce et de l’industrie**.',
-            'Entreprise individuelle : pas de personne morale nouvelle ; par le **principe d’unicité du patrimoine**, l’entrepreneur répond des dettes sur **tout son patrimoine** — d’où la **déclaration d’insaisissabilité** et le **patrimoine d’affectation**.',
-            'L’**EURL** crée une **personne morale** à associé unique, qui **protège le patrimoine** du gérant.',
+            'Entreprise individuelle : **pas de personne morale nouvelle**. **Depuis la réforme de 2022** (loi du 14 février 2022, statut unique de l’entrepreneur individuel entré en vigueur le 15 mai 2022), le **patrimoine professionnel** et le **patrimoine personnel** sont **séparés automatiquement** : le patrimoine personnel est en principe **protégé** des dettes professionnelles.',
+            '**Avant 2022** : par le **principe d’unicité du patrimoine**, l’entrepreneur répondait des dettes sur **tout son patrimoine** ; il fallait une **déclaration d’insaisissabilité** ou l’**EIRL** (patrimoine d’affectation) pour se protéger.',
+            'L’**EURL** crée une **personne morale** à associé unique, dont la **responsabilité est limitée aux apports**.',
           ],
         },
         {
@@ -488,15 +489,15 @@ export const droit = {
               explain: 'La liberté d’entreprendre (à valeur constitutionnelle) permet de créer et d’exercer une activité, dans le respect de la loi.',
             },
             {
-              q: 'Dans une entreprise individuelle, le principe d’unicité du patrimoine signifie que…',
+              q: 'Depuis la réforme de 2022, dans l’entreprise individuelle…',
               choices: [
+                'le patrimoine professionnel et le patrimoine personnel sont séparés automatiquement',
                 'l’entrepreneur répond des dettes sur l’ensemble de son patrimoine',
-                'l’entreprise a un patrimoine séparé automatiquement',
-                'l’entrepreneur ne risque rien',
-                'une personne morale est créée',
+                'une personne morale est automatiquement créée',
+                'l’entrepreneur ne risque plus rien du tout',
               ],
               answer: 0,
-              explain: 'Sans personne morale nouvelle, le patrimoine personnel répond des dettes professionnelles (d’où la déclaration d’insaisissabilité, le patrimoine d’affectation).',
+              explain: 'Depuis la loi du 14 février 2022 (statut unique de l’entrepreneur individuel, en vigueur le 15 mai 2022), la séparation des patrimoines pro/perso est automatique : le patrimoine personnel est en principe protégé des dettes professionnelles. Avant, par l’unicité du patrimoine, tout son patrimoine était engagé.',
             },
             {
               q: 'L’EURL présente l’intérêt de…',
@@ -546,7 +547,7 @@ export const droit = {
           title: 'Association — Notion ↔ définition',
           icon: '🔗',
           pairs: [
-            { left: 'Unicité du patrimoine', right: 'L’entrepreneur individuel répond des dettes sur tout son patrimoine' },
+            { left: 'Séparation des patrimoines (EI, 2022)', right: 'Patrimoines professionnel et personnel séparés automatiquement' },
             { left: 'EURL', right: 'Société à associé unique qui protège le patrimoine' },
             { left: 'Affectio societatis', right: 'Volonté commune des associés de collaborer' },
             { left: 'Concurrence déloyale', right: 'Parasitisme, dénigrement, imitation, désorganisation' },
@@ -560,7 +561,7 @@ export const droit = {
           icon: '🃏',
           cards: [
             { front: 'Liberté d’entreprendre', back: 'Liberté (à valeur constitutionnelle) de créer et d’exercer une activité économique.' },
-            { front: 'Unicité du patrimoine', back: 'L’entrepreneur individuel répond des dettes sur tout son patrimoine (d’où insaisissabilité, patrimoine d’affectation).' },
+            { front: 'Entrepreneur individuel (réforme 2022)', back: 'Depuis la loi du 14 février 2022 : séparation automatique des patrimoines pro/perso ; le patrimoine personnel est en principe protégé des dettes professionnelles (avant : unicité du patrimoine).' },
             { front: 'Contrat de société (art. 1832)', back: 'Apports + affectio societatis + partage des bénéfices ; responsabilité limitée aux apports.' },
             { front: 'SCOP', back: 'Société coopérative : forme de l’économie sociale et solidaire.' },
             { front: 'Concurrence déloyale', back: 'Pratiques fautives sanctionnées par une action en responsabilité civile.' },
@@ -573,7 +574,7 @@ export const droit = {
           icon: '⚡',
           questions: [
             { statement: 'La liberté d’entreprendre a une valeur constitutionnelle.', answer: true, explain: 'Vrai : elle est reconnue par le Conseil constitutionnel.' },
-            { statement: 'Dans l’entreprise individuelle, le patrimoine personnel peut répondre des dettes professionnelles.', answer: true, explain: 'Vrai : c’est le principe d’unicité du patrimoine.' },
+            { statement: 'Depuis 2022, dans l’entreprise individuelle, le patrimoine personnel est en principe séparé du patrimoine professionnel.', answer: true, explain: 'Vrai : depuis la loi du 14 février 2022, la séparation est automatique et le patrimoine personnel est en principe protégé des dettes professionnelles.' },
             { statement: 'La responsabilité des associés d’une société est généralement limitée à leurs apports.', answer: true, explain: 'Vrai : sauf formes particulières, on ne perd que son apport.' },
             { statement: 'Une entente entre concurrents pour fausser le marché est autorisée.', answer: false, explain: 'Faux : l’entente et l’abus de position dominante sont interdits.' },
           ],
