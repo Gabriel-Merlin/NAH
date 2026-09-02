@@ -1,6 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useStore } from '../store.jsx'
 import { useT } from '../i18n.js'
+import { signIn, signUp, signOut, fetchProfile, upsertProfile, getSession } from '../auth.js'
+import { normalizeCode } from '../leaderboard.js'
 
 // Panneau « Personnalisation » : ambiances + couleurs + typographie + avatar +
 // style (coins, taille). Tout est piloté par des variables CSS sur <html>.
@@ -48,10 +50,43 @@ const SIZES = [
 const AVATARS = ['🦉', '🎓', '⭐', '🚀', '🐱', '🦊', '🐧', '🌸', '🔥', '💎', '🎨', '📚', '🧠', '⚡', '🌈', '🏆', '🍀', '🎯', '🦁', '🌙', '☀️', '🐢', '🦄', '🐨']
 
 export default function Customizer({ onClose }) {
-  const { state, setCustomTheme, resetCustomTheme, setTheme, setPhoto } = useStore()
+  const { state, setCustomTheme, resetCustomTheme, setTheme, setPhoto, setAccount, setClassCode } = useStore()
   const t = useT()
   const ct = state.customTheme || {}
   const photo = state.profile?.photo || ''
+
+  // --- Compte (connexion / création) pour les utilisateurs déjà installés ---
+  const session = getSession()
+  const [aMode, setAMode] = useState('login') // 'login' | 'create'
+  const [aRole, setARole] = useState('eleve')
+  const [aEmail, setAEmail] = useState('')
+  const [aPass, setAPass] = useState('')
+  const [aBusy, setABusy] = useState(false)
+  const [aErr, setAErr] = useState('')
+  const [aInfo, setAInfo] = useState('')
+
+  const doAuth = async () => {
+    setAErr(''); setAInfo('')
+    if (!/\S+@\S+\.\S+/.test(aEmail.trim()) || aPass.length < 6) { setAErr(t('emailField') + ' / ' + t('passwordField')); return }
+    setABusy(true)
+    try {
+      if (aMode === 'login') {
+        await signIn({ email: aEmail.trim(), password: aPass })
+        const prof = await fetchProfile()
+        if (prof?.photo) setPhoto(prof.photo)
+        if (prof?.class_code) setClassCode(prof.class_code)
+        setAccount({ id: getSession()?.user?.id, email: aEmail.trim(), role: prof?.role || 'eleve' })
+      } else {
+        const { needsConfirm } = await signUp({ email: aEmail.trim(), password: aPass })
+        if (needsConfirm) { setAInfo(t('confirmEmailMsg')); setAMode('login'); setABusy(false); return }
+        const name = `${state.profile?.firstName || ''} ${state.profile?.lastName || ''}`.trim()
+        await upsertProfile({ role: aRole, name, level: state.track?.level || null, specialty: state.track?.specialty || null, class_code: normalizeCode(state.classCode) || null, photo: state.profile?.photo || null })
+        setAccount({ id: getSession()?.user?.id, email: aEmail.trim(), role: aRole })
+      }
+      setAEmail(''); setAPass('')
+    } catch (e) { setAErr(e?.message || 'Erreur') } finally { setABusy(false) }
+  }
+  const logout = () => { signOut(); setAccount(null) }
 
   // Importe une photo → recadrée/réduite à 160px (JPEG) pour tenir en local.
   const onFile = (e) => {
@@ -132,6 +167,39 @@ export default function Customizer({ onClose }) {
         </div>
 
         <div className="max-h-[70vh] space-y-5 overflow-y-auto px-5 pb-5 pt-3">
+          {/* Compte */}
+          <div>
+            <p className="kicker mb-2">{t('account')}</p>
+            {session ? (
+              <div className="flex items-center justify-between gap-2 rounded-xl px-3 py-2" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 22%, transparent)' }}>
+                <span className="min-w-0 flex-1 truncate text-sm">
+                  <span className="font-semibold">{t('loggedInAs')}</span> {session.user?.email} · {state.account?.role === 'prof' ? t('teacherRole') : t('studentRole')}
+                </span>
+                <button onClick={logout} className="shrink-0 text-xs font-semibold text-slate-400 underline hover:text-rose-500">{t('signOut')}</button>
+              </div>
+            ) : (
+              <div className="rounded-xl px-3 py-3" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 22%, transparent)' }}>
+                <div className="mb-2 flex gap-2">
+                  <Chip active={aMode === 'login'} onClick={() => setAMode('login')}>{t('loginTab')}</Chip>
+                  <Chip active={aMode === 'create'} onClick={() => setAMode('create')}>{t('createAccount')}</Chip>
+                </div>
+                {aMode === 'create' && (
+                  <div className="mb-2 flex gap-2">
+                    <Chip active={aRole === 'eleve'} onClick={() => setARole('eleve')}>🎓 {t('roleStudent')}</Chip>
+                    <Chip active={aRole === 'prof'} onClick={() => setARole('prof')}>🧑‍🏫 {t('roleTeacher')}</Chip>
+                  </div>
+                )}
+                <input type="email" value={aEmail} onChange={(e) => setAEmail(e.target.value)} placeholder={t('emailField')} className="mb-2 w-full rounded-lg border border-[color-mix(in_srgb,var(--c-accent)_30%,transparent)] bg-transparent px-3 py-2 text-sm outline-none" maxLength={80} />
+                <input type="password" value={aPass} onChange={(e) => setAPass(e.target.value)} placeholder={t('passwordField')} className="w-full rounded-lg border border-[color-mix(in_srgb,var(--c-accent)_30%,transparent)] bg-transparent px-3 py-2 text-sm outline-none" maxLength={72} />
+                {aErr && <p className="mt-2 text-xs font-semibold text-rose-600">{aErr}</p>}
+                {aInfo && <p className="mt-2 text-xs font-semibold text-emerald-700">{aInfo}</p>}
+                <button onClick={doAuth} disabled={aBusy} className="btn-primary mt-3 w-full !min-h-0 !py-2 text-sm">
+                  {aBusy ? t('pleaseWait') : aMode === 'login' ? t('loginTab') : t('createMyAccount')}
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* Ambiances */}
           <div>
             <p className="kicker mb-2">{t('ambiances')}</p>
