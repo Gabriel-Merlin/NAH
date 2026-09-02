@@ -399,5 +399,75 @@ export const economie = {
         },
       ],
     },
+    {
+      id: 'eco-actu',
+      name: 'Actualité économique — relier le cours à l’actu',
+      short: 'Actualité éco',
+      keywords: 'actualité économique exemples inflation pouvoir d’achat taux d’intérêt BCE chômage SMIC dette déficit public commerce droits de douane relocalisation transition écologique IA emploi INSEE Banque de France sources bac',
+      intro: 'Un bon exemple d’**actualité** rend ta copie concrète. Cette rubrique relie les grands sujets d’actu aux **chapitres du programme** et indique où **vérifier les chiffres à jour** (ils changent tout le temps).',
+      cours: [
+        {
+          h: 'Méthode : utiliser un exemple d’actualité au bac',
+          blocks: [
+            { t: 'p', c: 'Un exemple d’actualité **illustre une notion** du programme : il montre que tu **relies le cours au réel**. Ce n’est pas un hors-sujet tant que tu le **rattaches à une notion**.' },
+            { t: 'tip', h: 'En 3 temps', c: '1) **Nomme le fait** (le sujet d’actualité, sans avoir besoin de la date exacte).\n2) **Relie-le à une notion** du programme (inflation → politique économique…).\n3) **Analyse** : cause → conséquence → réponse possible (marché, État, entreprises).' },
+            { t: 'warning', h: 'Les chiffres changent', c: 'Taux d’inflation, taux de chômage, taux directeur de la BCE… **évoluent en permanence**. Ne retiens pas un chiffre par cœur : retiens la **tendance** et **vérifie le chiffre à jour** sur les sources ci-dessous.' },
+          ],
+        },
+        {
+          h: 'Relier l’actualité aux chapitres du programme',
+          blocks: [
+            { t: 'table', head: ['Sujet d’actualité', 'Chapitre du programme', 'Comment l’utiliser'], rows: [
+              ['Inflation, hausse des prix', 'Rôle de l’État · pouvoir d’achat', 'La hausse des prix réduit le pouvoir d’achat et appelle une réponse (aides, politique monétaire).'],
+              ['Taux d’intérêt de la BCE', 'Financement · politique monétaire', 'Relever les taux freine l’inflation mais renchérit le crédit.'],
+              ['Chômage, emploi des jeunes, SMIC', 'Emploi et chômage (Thème 7)', 'Illustrer les formes de chômage et les politiques de l’emploi.'],
+              ['Déficit et dette publics', 'Rôle de l’État (Thème 6)', 'Discuter les limites de l’intervention de l’État et le financement des dépenses.'],
+              ['Droits de douane, relocalisations', 'Commerce international (Thème 8)', 'Opposer libre-échange et protectionnisme à partir d’un cas récent.'],
+              ['Transition écologique, énergies', 'Croissance et développement durable (Thème 9)', 'Montrer la tension entre croissance et soutenabilité.'],
+              ['Intelligence artificielle et emploi', 'Emploi · croissance', 'Débattre : destruction et création d’emplois, gains de productivité.'],
+            ] },
+          ],
+        },
+        {
+          h: 'Où trouver des chiffres fiables (à vérifier régulièrement)',
+          blocks: [
+            { t: 'table', head: ['Source', 'Pour quoi faire'], rows: [
+              ['INSEE (insee.fr)', 'Inflation, chômage, croissance (PIB), pouvoir d’achat — chiffres officiels.'],
+              ['Banque de France', 'Monnaie, crédit, taux d’intérêt, financement de l’économie.'],
+              ['Vie-publique / economie.gouv.fr', 'Budget, déficit et dette publics, politiques de l’État.'],
+              ['OMC', 'Commerce international, droits de douane, échanges mondiaux.'],
+              ['ADEME', 'Transition écologique, énergie, développement durable.'],
+            ] },
+            { t: 'tip', c: 'Suis 5 min d’actu éco par semaine (journal, radio, podcast) et note **un fait par chapitre**. Le dictionnaire intégré 📖 t’aide pour un mot ou une phrase.' },
+          ],
+        },
+      ],
+      essentiel: [
+        'Un exemple d’actualité **illustre une notion** : nomme le fait → relie-le au cours → analyse (cause, conséquence, réponse).',
+        'Ne retiens pas les chiffres par cœur (ils changent) : retiens la **tendance** et **vérifie** sur INSEE, Banque de France, Vie publique.',
+        'Relie chaque grand sujet d’actu à un thème : inflation/dette → rôle de l’État ; chômage/SMIC → emploi ; douanes → commerce international ; énergie → développement durable.',
+      ],
+      games: [
+        {
+          id: 'eco-actu-qcm', type: 'qcm', title: 'QCM — Actu ↔ notion', icon: '❓',
+          questions: [
+            { q: 'Une forte hausse de l’inflation se relie surtout à…', choices: ['le pouvoir d’achat et la politique économique', 'le commerce international uniquement', 'le développement durable', 'la concurrence déloyale'], answer: 0, explain: 'L’inflation réduit le pouvoir d’achat et appelle une réponse (aides, taux d’intérêt).' },
+            { q: 'La BCE relève ses taux d’intérêt principalement pour…', choices: ['freiner l’inflation', 'augmenter le chômage', 'financer les entreprises', 'baisser les impôts'], answer: 0, explain: 'Des taux plus élevés renchérissent le crédit et ralentissent la hausse des prix.' },
+            { q: 'Un débat sur de nouveaux droits de douane relève du thème…', choices: ['commerce international', 'emploi et chômage', 'développement durable', 'financement'], answer: 0, explain: 'Droits de douane = protectionnisme vs libre-échange (commerce international).' },
+            { q: 'Pour un chiffre du chômage à jour, la source de référence est…', choices: ['l’INSEE', 'un réseau social', 'un forum', 'une publicité'], answer: 0, explain: 'L’INSEE publie les chiffres officiels (chômage, inflation, croissance).' },
+          ],
+        },
+        {
+          id: 'eco-actu-assoc', type: 'association', title: 'Association — Sujet d’actu ↔ chapitre', icon: '🔗',
+          pairs: [
+            { left: 'Inflation, pouvoir d’achat', right: 'Rôle de l’État' },
+            { left: 'Chômage, SMIC', right: 'Emploi et chômage' },
+            { left: 'Droits de douane', right: 'Commerce international' },
+            { left: 'Transition écologique', right: 'Développement durable' },
+            { left: 'Taux d’intérêt de la BCE', right: 'Financement / politique monétaire' },
+          ],
+        },
+      ],
+    },
   ],
 }
