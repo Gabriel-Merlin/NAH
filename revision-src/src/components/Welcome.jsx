@@ -42,6 +42,13 @@ export default function Welcome() {
 
   const helloName = state.profile?.firstName || firstName.trim()
 
+  // Déconnexion : quand le profil disparaît, on rouvre l'écran de connexion
+  // (le composant reste monté, il faut donc réagir au changement).
+  useEffect(() => {
+    if (!hasProfile) { setLeaving(false); setPhase('form') }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasProfile])
+
   useEffect(() => {
     if (phase === 'done') return
     const prev = document.body.style.overflow

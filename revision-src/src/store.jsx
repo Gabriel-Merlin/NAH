@@ -204,6 +204,10 @@ export function StoreProvider({ children }) {
 
   const setAccount = useCallback((account) => setState((p) => ({ ...p, account: account || null })), [])
 
+  // Déconnexion : on efface le compte et l'identité locale pour revenir à
+  // l'écran de connexion (la progression de l'appareil, elle, est conservée).
+  const logout = useCallback(() => setState((p) => ({ ...p, account: null, profile: null, onboarded: false })), [])
+
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
     ...p,
@@ -248,6 +252,7 @@ export function StoreProvider({ children }) {
     setLang,
     setClassCode,
     setAccount,
+    logout,
     setCustomTheme,
     resetCustomTheme,
     applyOnboarding,
