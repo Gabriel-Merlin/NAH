@@ -8,17 +8,19 @@ import Welcome from './Welcome.jsx'
 import Dictionary from './Dictionary.jsx'
 import Customizer from './Customizer.jsx'
 import { useT, useLang } from '../i18n.js'
+import { signOut } from '../auth.js'
 
 const LANGS = [{ code: 'fr', label: 'Français' }, { code: 'en', label: 'English' }, { code: 'es', label: 'Español' }]
 
 export default function Layout({ children }) {
-  const { state, derived, setTheme, setLang } = useStore()
+  const { state, derived, setTheme, setLang, logout } = useStore()
   const t = useT()
   const lang = useLang()
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
   const [custOpen, setCustOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const isDark =
     state.theme === 'dark' ||
     (state.theme == null && typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
@@ -104,14 +106,42 @@ export default function Layout({ children }) {
           </div>
 
           {(photo || mono) && (
-            <Link
-              to="/accueil"
-              title={`${first} ${last}`.trim() + ' — mon espace'}
-              aria-label={`Espace de ${first} ${last}`.trim()}
-              className="monogram h-9 w-9 shrink-0 overflow-hidden text-sm"
-            >
-              {photo ? <img src={photo} alt="" className="h-full w-full rounded-full object-cover" /> : mono}
-            </Link>
+            <div className="relative">
+              <button
+                onClick={() => setProfileOpen((v) => !v)}
+                title={`${first} ${last}`.trim() + ' — ' + t('mySpace')}
+                aria-label={t('myMenu')}
+                aria-expanded={profileOpen}
+                className="monogram h-9 w-9 shrink-0 overflow-hidden text-sm transition hover:opacity-90"
+              >
+                {photo ? <img src={photo} alt="" className="h-full w-full rounded-full object-cover" /> : mono}
+              </button>
+              {profileOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                  <div className="absolute right-0 z-50 mt-1.5 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                    {(first || last) && (
+                      <div className="border-b border-slate-100 px-3 py-2 dark:border-slate-800">
+                        <p className="truncate text-sm font-semibold">{`${first} ${last}`.trim()}</p>
+                        {state.account?.email && <p className="truncate text-xs text-slate-400">{state.account.email}</p>}
+                        <p className="mt-0.5 text-xs" style={{ color: 'var(--c-accent)' }}>
+                          {state.account?.role === 'prof' ? `🧑‍🏫 ${t('roleTeacher')}` : `🎓 ${t('roleStudent')}`}
+                        </p>
+                      </div>
+                    )}
+                    <Link to="/accueil" onClick={() => setProfileOpen(false)} className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
+                      <span aria-hidden>🏠</span> {t('mySpace')}
+                    </Link>
+                    <button onClick={() => { setProfileOpen(false); setCustOpen(true) }} className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
+                      <span aria-hidden>🎨</span> {t('customizeProfile')}
+                    </button>
+                    <button onClick={() => { setProfileOpen(false); signOut(); logout() }} className="flex w-full items-center gap-2 border-t border-slate-100 px-3 py-2.5 text-left text-sm font-semibold text-rose-600 hover:bg-rose-50 dark:border-slate-800 dark:hover:bg-rose-950/40">
+                      <span aria-hidden>🚪</span> {t('signOut')}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
         <Breadcrumb />
