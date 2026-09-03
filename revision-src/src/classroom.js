@@ -229,23 +229,69 @@ export async function submitLiveAnswer({ sessionId, index, choice, correct, addS
   return { score, answers }
 }
 
-// --- Ligue inter-classes (même lycée = préfixe avant le 1er tiret) ---------
-export function lyceeOf(classCode) {
-  const c = normalizeCode(classCode)
-  const i = c.indexOf('-')
-  return i > 0 ? c.slice(0, i) : c
+// --- Classes du professeur (codes uniques générés, non modifiables) --------
+// Code lisible sans caractères ambigus (ni 0/O/1/l/i).
+export function genClassCode() {
+  const A = 'abcdefghjkmnpqrstuvwxyz23456789'
+  let s = ''
+  for (let i = 0; i < 5; i++) s += A[Math.floor(Math.random() * A.length)]
+  return 'stmg-' + s
 }
-// Classement des classes du lycée sur la semaine en cours (somme des cours).
+export async function createTeacherClass({ ownerId, ownerName, label, subject }) {
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const code = genClassCode()
+    const res = await fetch(rest('teacher_class'), {
+      method: 'POST',
+      headers: { ...H(), Prefer: 'return=representation' },
+      body: JSON.stringify([{ code, owner_id: ownerId || null, owner_name: String(ownerName || '').slice(0, 60), label: String(label || '').slice(0, 60), subject: String(subject || '').slice(0, 200) }]),
+    })
+    if (res.status === 409) continue // code déjà pris : on réessaie
+    if (!res.ok) throw new Error('createClass ' + res.status)
+    const rows = await res.json().catch(() => [])
+    return rows[0] || { code, label }
+  }
+  throw new Error('createClass: aucun code libre')
+}
+export async function fetchTeacherClasses(ownerId) {
+  if (!ownerId) return []
+  return getJSON(rest(`teacher_class?select=id,code,label,subject,created_at&owner_id=eq.${enc(ownerId)}&order=created_at.asc&limit=50`))
+}
+export async function fetchClassByCode(code) {
+  const rows = await getJSON(rest(`teacher_class?select=id,code,label,owner_id,owner_name,subject&code=eq.${enc(normalizeCode(code))}&limit=1`))
+  return rows[0] || null
+}
+export async function deleteTeacherClass(id) { await send('DELETE', `teacher_class?id=eq.${enc(id)}`) }
+
+// --- Exclusion d'élèves ----------------------------------------------------
+export async function banStudent({ classCode, deviceId: dev }) {
+  const cc = normalizeCode(classCode)
+  await send('POST', 'class_ban?on_conflict=class_code,device_id', [{ class_code: cc, device_id: dev }], 'resolution=merge-duplicates,return=minimal').catch(() => {})
+  await send('DELETE', `class_member?class_code=eq.${enc(cc)}&device_id=eq.${enc(dev)}`).catch(() => {})
+}
+export async function unbanStudent({ classCode, deviceId: dev }) {
+  await send('DELETE', `class_ban?class_code=eq.${enc(normalizeCode(classCode))}&device_id=eq.${enc(dev)}`)
+}
+export async function isBanned(classCode, dev) {
+  const rows = await getJSON(rest(`class_ban?select=device_id&class_code=eq.${enc(normalizeCode(classCode))}&device_id=eq.${enc(dev || deviceId())}&limit=1`))
+  return rows.length > 0
+}
+
+// --- Ligue : les classes d'un même professeur s'affrontent -----------------
 export async function fetchLeague(classCode) {
-  const lyc = lyceeOf(classCode)
   const wk = isoWeekKey()
-  const rows = await getJSON(rest(`class_member?select=class_code,courses_week,role&class_code=like.${enc(lyc + '-%')}&week=eq.${wk}&limit=1000`))
+  const me = await fetchClassByCode(classCode)
+  let siblings = []
+  if (me?.owner_id) siblings = await getJSON(rest(`teacher_class?select=code,label&owner_id=eq.${enc(me.owner_id)}&limit=50`))
+  if (siblings.length <= 1) return [] // pas de ligue avec une seule classe
+  const labelOf = Object.fromEntries(siblings.map((s) => [s.code, s.label || s.code]))
+  const codes = siblings.map((s) => s.code)
+  const rows = await getJSON(rest(`class_member?select=class_code,courses_week,role&class_code=in.(${codes.map(enc).join(',')})&week=eq.${wk}&limit=2000`))
   const by = {}
+  for (const c of codes) by[c] = { class_code: c, label: labelOf[c], total: 0, members: 0 }
   for (const r of rows) {
-    if (r.role === 'prof') continue
-    const b = (by[r.class_code] ||= { class_code: r.class_code, total: 0, members: 0 })
-    b.total += r.courses_week || 0
-    b.members += 1
+    if (r.role === 'prof' || !by[r.class_code]) continue
+    by[r.class_code].total += r.courses_week || 0
+    by[r.class_code].members += 1
   }
   return Object.values(by).sort((a, b) => b.total - a.total || b.members - a.members)
 }
