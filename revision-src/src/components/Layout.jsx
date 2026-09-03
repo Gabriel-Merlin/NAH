@@ -147,6 +147,8 @@ function Breadcrumb() {
       items.push({ label: t('badges'), to: '/badges' })
     } else if (parts[0] === 'classement') {
       items.push({ label: t('leaderboard'), to: '/classement' })
+    } else if (parts[0] === 'classe') {
+      items.push({ label: t('classSpace'), to: '/classe' })
     }
     return items
   }, [pathname, t])

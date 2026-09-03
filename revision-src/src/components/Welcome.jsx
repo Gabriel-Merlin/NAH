@@ -65,7 +65,6 @@ export default function Welcome() {
   const passOk = password.length >= 6
   const idOk = firstName.trim().length > 0 && !!chosenLevel?.available && specialtyOk
   const canSubmit = authMode === 'login' ? (emailOk && passOk) : (emailOk && passOk && idOk)
-  const canGuest = idOk
 
   const pickLevel = (l) => {
     if (!l.available) return
@@ -92,19 +91,12 @@ export default function Welcome() {
     setPhase('hello')
   }
 
-  // Soumission du formulaire de compte (création / connexion / invité).
-  const submitForm = async (mode) => {
+  // Soumission du formulaire de compte (création / connexion). Un compte est
+  // désormais obligatoire : plus d'accès « invité ».
+  const submitForm = async () => {
     setErr(''); setInfo('')
     const track = { level, specialty: needsSpecialty ? specialty : null }
     const cc = normalizeCode(classCodeInput)
-
-    if (mode === 'guest') {
-      if (!canGuest) return
-      if (cc) setClassCode(cc)
-      if (role === 'prof') { applyOnboarding({ profile: { firstName: firstName.trim(), lastName: lastName.trim() }, track }); setPhase('hello') }
-      else setPhase('plan')
-      return
-    }
 
     setBusy(true)
     try {
@@ -202,7 +194,7 @@ export default function Welcome() {
       <div className="welcome-card">
         <p className="welcome-brand">RévizSTMG</p>
         <h1 className="welcome-h">{authMode === 'login' ? t('loginTab') : t('letsMeet')}</h1>
-        <p className="welcome-sub">{t('fillCard')}</p>
+        <p className="welcome-sub">{authMode === 'login' ? t('loginSub') : t('accountRequired')}</p>
 
         {/* Créer un compte / Se connecter */}
         <div className="mt-3 flex gap-2">
@@ -228,7 +220,7 @@ export default function Welcome() {
         <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
         <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} />
         <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
-        <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && canSubmit && !busy && submitForm(authMode)} placeholder="••••••••" autoComplete={authMode === 'login' ? 'current-password' : 'new-password'} maxLength={72} />
+        <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && canSubmit && !busy && submitForm()} placeholder="••••••••" autoComplete={authMode === 'login' ? 'current-password' : 'new-password'} maxLength={72} />
 
         {authMode === 'create' && (
           <>
@@ -260,11 +252,11 @@ export default function Welcome() {
         {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
         {info && <p className="mt-3 text-sm font-semibold text-emerald-700">{info}</p>}
 
-        <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm(authMode)}>
+        <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm()}>
           {busy ? t('pleaseWait') : authMode === 'login' ? t('loginTab') : t('createMyAccount')}
         </button>
-        <button type="button" className="welcome-skip" disabled={busy} onClick={() => submitForm('guest')}>
-          {t('continueNoAccount')}
+        <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setAuthMode(authMode === 'login' ? 'create' : 'login'); setErr('') }}>
+          {authMode === 'login' ? t('noAccountYet') : t('haveAccountAlready')}
         </button>
       </div>
     </div>
