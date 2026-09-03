@@ -181,6 +181,54 @@ export async function acceptDuel({ id, name, score, total }) {
 }
 export async function deleteDuel(id) { await send('DELETE', `class_duel?id=eq.${enc(id)}`) }
 
+// --- Mode Direct (session animée par le prof, suivie en temps réel) --------
+// Session active la plus récente d'une classe (non terminée).
+export async function fetchActiveLive(classCode) {
+  const rows = await getJSON(rest(`live_session?select=*&class_code=eq.${enc(normalizeCode(classCode))}&phase=neq.ended&order=created_at.desc&limit=1`))
+  return rows[0] || null
+}
+export async function fetchLive(id) {
+  const rows = await getJSON(rest(`live_session?select=*&id=eq.${enc(id)}&limit=1`))
+  return rows[0] || null
+}
+export async function createLive({ classCode, title, questions, hostName }) {
+  // On clôt toute session encore ouverte pour cette classe.
+  await send('PATCH', `live_session?class_code=eq.${enc(normalizeCode(classCode))}&phase=neq.ended`, { phase: 'ended', updated_at: new Date().toISOString() }, 'return=minimal').catch(() => {})
+  const row = {
+    class_code: normalizeCode(classCode), title: String(title || '').slice(0, 120),
+    questions: Array.isArray(questions) ? questions.slice(0, 30) : [], phase: 'lobby', current_index: 0,
+    host_device: deviceId(), host_name: String(hostName || '').slice(0, 60),
+  }
+  const res = await send('POST', 'live_session', [row], 'return=representation')
+  const rows = await res.json().catch(() => [])
+  return rows[0]
+}
+export async function updateLive(id, patch) {
+  await send('PATCH', `live_session?id=eq.${enc(id)}`, { ...patch, updated_at: new Date().toISOString() }, 'return=minimal')
+}
+export async function endLive(id) { await updateLive(id, { phase: 'ended' }) }
+
+export async function joinLive({ sessionId, name, photo }) {
+  await send('POST', 'live_player?on_conflict=session_id,device_id', [{
+    session_id: sessionId, device_id: deviceId(), name: String(name || '').slice(0, 40),
+    photo: photo ? String(photo).slice(0, 40000) : null, updated_at: new Date().toISOString(),
+  }], 'resolution=merge-duplicates,return=minimal')
+}
+export async function fetchPlayers(sessionId) {
+  return getJSON(rest(`live_player?select=device_id,name,photo,score,answers&session_id=eq.${enc(sessionId)}&order=score.desc&limit=200`))
+}
+// Enregistre la réponse de l'élève à la question courante (+ points) — idempotent.
+export async function submitLiveAnswer({ sessionId, index, choice, correct, addScore }) {
+  const rows = await getJSON(rest(`live_player?select=score,answers&session_id=eq.${enc(sessionId)}&device_id=eq.${enc(deviceId())}&limit=1`))
+  const cur = rows[0] || { score: 0, answers: {} }
+  const answers = { ...(cur.answers || {}) }
+  if (answers[index] !== undefined) return cur // déjà répondu
+  answers[index] = { choice, correct: !!correct }
+  const score = Math.max(0, Math.min(1000000, (cur.score || 0) + Math.round(addScore || 0)))
+  await send('PATCH', `live_player?session_id=eq.${enc(sessionId)}&device_id=eq.${enc(deviceId())}`, { answers, score, updated_at: new Date().toISOString() }, 'return=minimal')
+  return { score, answers }
+}
+
 // --- Ligue inter-classes (même lycée = préfixe avant le 1er tiret) ---------
 export function lyceeOf(classCode) {
   const c = normalizeCode(classCode)

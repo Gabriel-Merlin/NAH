@@ -21,6 +21,13 @@ export default function Layout({ children }) {
   const [custOpen, setCustOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
+
+  // Ouverture de la personnalisation depuis n'importe quelle page (ex. « Mon espace »).
+  useEffect(() => {
+    const open = () => setCustOpen(true)
+    window.addEventListener('stmg-open-customizer', open)
+    return () => window.removeEventListener('stmg-open-customizer', open)
+  }, [])
   const isDark =
     state.theme === 'dark' ||
     (state.theme == null && typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
@@ -129,7 +136,7 @@ export default function Layout({ children }) {
                         </p>
                       </div>
                     )}
-                    <Link to="/accueil" onClick={() => setProfileOpen(false)} className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <Link to="/moi" onClick={() => setProfileOpen(false)} className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
                       <span aria-hidden>🏠</span> {t('mySpace')}
                     </Link>
                     <button onClick={() => { setProfileOpen(false); setCustOpen(true) }} className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -179,6 +186,8 @@ function Breadcrumb() {
       items.push({ label: t('leaderboard'), to: '/classement' })
     } else if (parts[0] === 'classe') {
       items.push({ label: t('classSpace'), to: '/classe' })
+    } else if (parts[0] === 'moi') {
+      items.push({ label: t('mySpace'), to: '/moi' })
     }
     return items
   }, [pathname, t])

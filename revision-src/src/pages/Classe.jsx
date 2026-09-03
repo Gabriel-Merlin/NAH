@@ -4,8 +4,9 @@ import { useStore } from '../store.jsx'
 import { useT } from '../i18n.js'
 import { subjectsForTrack } from '../data/tracks.js'
 import Qcm from '../games/Qcm.jsx'
+import LiveSection from '../components/LiveMode.jsx'
 import {
-  CLASSROOM_READY, deviceId, normalizeCode, todayKey, lyceeOf,
+  CLASSROOM_READY, deviceId, normalizeCode, todayKey, fetchActiveLive,
   upsertMember, fetchMembers,
   fetchGroups, createGroup, deleteGroup, setMemberGroup,
   fetchMeta, upsertMeta,
@@ -44,6 +45,8 @@ export default function Classe() {
   const photo = state.profile?.photo || ''
   const [tab, setTab] = useState('rank')
   const [meta, setMeta] = useState(null)
+  const [live, setLive] = useState(null)
+  const [jumpLive, setJumpLive] = useState(0)
 
   // Instantané du membre (pour classements, podium, heatmap, groupes).
   const subjectsKey = JSON.stringify(derived.bySubject)
@@ -61,6 +64,16 @@ export default function Classe() {
     fetchMeta(classCode).then(setMeta).catch(() => {})
   }, [classCode])
   useEffect(() => { loadMeta() }, [loadMeta])
+
+  // Sonde d'une session « Direct » en cours pour afficher une bannière.
+  useEffect(() => {
+    if (!classCode) return
+    let alive = true
+    const poll = () => fetchActiveLive(classCode).then((s) => { if (alive) setLive(s && s.phase !== 'ended' ? s : null) }).catch(() => {})
+    poll()
+    const iv = setInterval(poll, 4000)
+    return () => { alive = false; clearInterval(iv) }
+  }, [classCode])
 
   if (!classCode) return <JoinForm onJoin={setClassCode} t={t} />
 
@@ -97,6 +110,14 @@ export default function Classe() {
         </div>
       )}
 
+      {live && (
+        <button onClick={() => { setTab('quiz'); setJumpLive((n) => n + 1) }} className="flex w-full items-center gap-3 rounded-2xl p-3.5 text-left text-white shadow-md" style={{ backgroundColor: '#e21b3c' }}>
+          <span className="text-xl">🔴</span>
+          <span className="min-w-0 flex-1"><span className="block font-display font-semibold">{t('liveNow')}</span><span className="block truncate text-xs opacity-90">{live.title || t('liveMode')} · {t('tapToJoin')}</span></span>
+          <span aria-hidden>›</span>
+        </button>
+      )}
+
       <hr className="rule-gold" />
 
       <div className="flex gap-1.5 overflow-x-auto rounded-2xl bg-[color-mix(in_srgb,var(--c-accent)_8%,transparent)] p-1.5">
@@ -110,7 +131,7 @@ export default function Classe() {
 
       {tab === 'rank' && <RankTab classCode={classCode} track={state.track} t={t} />}
       {tab === 'goal' && <GoalTab classCode={classCode} meta={meta} state={state} derived={derived} setCustomTheme={setCustomTheme} t={t} />}
-      {tab === 'quiz' && <QuizTab classCode={classCode} role={role} name={myName} accountId={state.account?.id} t={t} />}
+      {tab === 'quiz' && <QuizTab classCode={classCode} role={role} name={myName} photo={photo} accountId={state.account?.id} jumpLive={jumpLive} t={t} />}
       {tab === 'wall' && <WallTab classCode={classCode} role={role} name={myName} track={state.track} t={t} />}
       {tab === 'members' && <MembersTab classCode={classCode} track={state.track} t={t} />}
       {tab === 'prof' && role === 'prof' && <ProfTab classCode={classCode} name={myName} track={state.track} meta={meta} reloadMeta={loadMeta} t={t} />}
@@ -382,20 +403,22 @@ function GoalTab({ classCode, meta, state, derived, setCustomTheme, t }) {
   )
 }
 
-// ----- Onglet QCM (+ devoirs, propositions, duels) --------------------------
-function QuizTab({ classCode, role, name, accountId, t }) {
-  const [seg, setSeg] = useState('quiz') // quiz | duel
+// ----- Onglet QCM (+ devoirs, propositions, duels, direct) ------------------
+function QuizTab({ classCode, role, name, photo, accountId, jumpLive, t }) {
+  const [seg, setSeg] = useState('quiz') // quiz | duel | direct
+  useEffect(() => { if (jumpLive) setSeg('direct') }, [jumpLive])
   return (
     <div className="space-y-3">
-      <div className="flex gap-1.5 text-xs">
-        {[{ id: 'quiz', label: t('segQuizzes') }, { id: 'duel', label: t('segDuels') }].map((s) => (
+      <div className="flex gap-1.5 overflow-x-auto text-xs">
+        {[{ id: 'quiz', label: t('segQuizzes') }, { id: 'duel', label: t('segDuels') }, { id: 'direct', label: `🔴 ${t('segLive')}` }].map((s) => (
           <button key={s.id} onClick={() => setSeg(s.id)}
             className={`whitespace-nowrap rounded-full px-3 py-1.5 font-semibold transition ${seg === s.id ? 'text-white' : 'text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-700'}`}
             style={seg === s.id ? { backgroundColor: 'var(--c-accent)' } : undefined}>{s.label}</button>
         ))}
       </div>
-      {seg === 'quiz' ? <QuizList classCode={classCode} role={role} name={name} accountId={accountId} t={t} />
-        : <DuelList classCode={classCode} name={name} t={t} />}
+      {seg === 'quiz' && <QuizList classCode={classCode} role={role} name={name} accountId={accountId} t={t} />}
+      {seg === 'duel' && <DuelList classCode={classCode} name={name} t={t} />}
+      {seg === 'direct' && <LiveSection classCode={classCode} role={role} name={name} photo={photo} t={t} />}
     </div>
   )
 }
