@@ -13,6 +13,7 @@ import {
   fetchWall, postWall, answerWall, resolveWall, deleteWall, reactWall,
   createQuiz, fetchQuizzes, approveQuiz, assignQuiz, deleteQuiz, submitQuizResult, fetchQuizResults, validQuestion,
   fetchDuels, createDuel, acceptDuel, deleteDuel, fetchLeague,
+  createTeacherClass, fetchTeacherClasses, banStudent, isBanned,
 } from '../classroom.js'
 import { upsertProfile, isSignedIn } from '../auth.js'
 
@@ -37,16 +38,47 @@ const Empty = ({ children }) => <div className="card p-6 text-center text-sm tex
 
 // ===========================================================================
 export default function Classe() {
-  const { state, derived, setClassCode, setCustomTheme } = useStore()
+  const { state, derived, setClassCode, setCustomTheme, setTeacherClasses, addTeacherClass } = useStore()
   const t = useT()
   const classCode = state.classCode
   const role = state.account?.role || 'eleve'
+  const accountId = state.account?.id
   const myName = `${state.profile?.firstName || ''} ${state.profile?.lastName || ''}`.trim() || t('roleStudent')
   const photo = state.profile?.photo || ''
+  const teacherClasses = state.teacherClasses || []
   const [tab, setTab] = useState('rank')
   const [meta, setMeta] = useState(null)
   const [live, setLive] = useState(null)
   const [jumpLive, setJumpLive] = useState(0)
+  const [creating, setCreating] = useState(false)
+
+  // Professeur : on (re)charge ses classes générées (source de vérité serveur).
+  useEffect(() => {
+    if (role !== 'prof' || !accountId) return
+    fetchTeacherClasses(accountId).then((rows) => {
+      const list = rows.map((c) => ({ code: c.code, label: c.label }))
+      setTeacherClasses(list)
+      if (list.length && !list.some((c) => c.code === state.classCode)) setClassCode(list[0].code)
+    }).catch(() => {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [role, accountId])
+
+  // Élève : si le prof l'a exclu, on le retire de la classe.
+  useEffect(() => {
+    if (role === 'prof' || !classCode) return
+    isBanned(classCode).then((banned) => { if (banned) { setClassCode(''); alert(t('removedFromClass')) } }).catch(() => {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [role, classCode])
+
+  const createClass = async () => {
+    if (!accountId) return
+    setCreating(true)
+    try {
+      const n = teacherClasses.length + 1
+      const c = await createTeacherClass({ ownerId: accountId, ownerName: myName, label: `${t('classWord')} ${n}`, subject: '' })
+      if (c?.code) { addTeacherClass({ code: c.code, label: c.label || `${t('classWord')} ${n}` }); setTab('rank') }
+    } catch { /* hors ligne */ } finally { setCreating(false) }
+  }
 
   // Instantané du membre (pour classements, podium, heatmap, groupes).
   const subjectsKey = JSON.stringify(derived.bySubject)
@@ -75,7 +107,11 @@ export default function Classe() {
     return () => { alive = false; clearInterval(iv) }
   }, [classCode])
 
-  if (!classCode) return <JoinForm onJoin={setClassCode} t={t} />
+  if (!classCode) {
+    return role === 'prof'
+      ? <TeacherStart creating={creating} onCreate={createClass} t={t} />
+      : <JoinForm onJoin={setClassCode} t={t} />
+  }
 
   const blason = meta?.blason_name
   const TABS = [
@@ -100,8 +136,12 @@ export default function Classe() {
             {blason ? `${classCode} · ` : ''}{role === 'prof' ? `🧑‍🏫 ${t('roleTeacher')} · ${t('shareCodeHint')}` : `🎓 ${t('roleStudent')}`}
           </p>
         </div>
-        <button onClick={() => setClassCode('')} className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('leaveClass')}</button>
+        {role !== 'prof' && <button onClick={() => setClassCode('')} className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('leaveClass')}</button>}
       </header>
+
+      {role === 'prof' && (
+        <TeacherBar classes={teacherClasses} active={classCode} onSwitch={setClassCode} onCreate={createClass} creating={creating} t={t} />
+      )}
 
       {meta?.announcement && (
         <div className="card border-l-4 p-3.5" style={{ borderColor: 'var(--c-accent)', background: 'color-mix(in srgb, var(--c-accent) 8%, transparent)' }}>
@@ -142,10 +182,13 @@ export default function Classe() {
 // ----- Rejoindre une classe (onglet code) ----------------------------------
 function JoinForm({ onJoin, t }) {
   const [code, setCode] = useState('')
+  const [err, setErr] = useState('')
   const ok = normalizeCode(code).length >= 2
   const join = async () => {
     if (!ok) return
     const cc = normalizeCode(code)
+    setErr('')
+    try { if (await isBanned(cc)) { setErr(t('bannedFromClass')); return } } catch { /* hors ligne : on laisse passer */ }
     onJoin(cc)
     if (isSignedIn()) { try { await upsertProfile({ class_code: cc }) } catch { /* hors ligne */ } }
   }
@@ -164,8 +207,55 @@ function JoinForm({ onJoin, t }) {
           placeholder="ex : marceau-tstmg2" maxLength={24} autoFocus
           className="mt-1 w-full rounded-xl border border-[color-mix(in_srgb,var(--c-accent)_30%,transparent)] bg-transparent px-3 py-2.5 text-base outline-none focus:border-[var(--c-accent)]" />
         <button onClick={join} disabled={!ok} className="btn-primary mt-4 w-full">{t('joinBtn')}</button>
+        {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
         <p className="mt-3 text-xs text-slate-400">{t('classJoinPrivacy')}</p>
         {!CLASSROOM_READY && <p className="mt-2 text-xs text-rose-500">{t('rankOffline')}</p>}
+      </div>
+    </div>
+  )
+}
+
+// ----- Barre professeur : classes, code (visible, non modifiable), création -
+function TeacherBar({ classes, active, onSwitch, onCreate, creating, t }) {
+  const [copied, setCopied] = useState(false)
+  const cur = classes.find((c) => c.code === active)
+  const copy = () => { try { navigator.clipboard?.writeText(active); setCopied(true); setTimeout(() => setCopied(false), 1500) } catch { /* */ } }
+  return (
+    <div className="card card-lux space-y-3 p-4">
+      {classes.length > 1 && (
+        <div className="flex flex-wrap gap-1.5">
+          {classes.map((c) => (
+            <button key={c.code} onClick={() => onSwitch(c.code)} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${c.code === active ? 'text-white' : 'text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-700'}`} style={c.code === active ? { backgroundColor: 'var(--c-accent)' } : undefined}>{c.label || c.code}</button>
+          ))}
+        </div>
+      )}
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">🔑 {t('classCodeField')}{cur?.label ? ` · ${cur.label}` : ''}</p>
+          <p className="font-display text-2xl font-bold tracking-wide" style={{ color: 'var(--c-accent)' }}>{active}</p>
+          <p className="text-[0.7rem] text-slate-400">{t('codeNotEditable')}</p>
+        </div>
+        <button onClick={copy} className="btn-ghost shrink-0 !min-h-0 !py-2 text-sm">{copied ? `✓ ${t('copied')}` : `📋 ${t('copy')}`}</button>
+      </div>
+      <button onClick={onCreate} disabled={creating} className="btn-ghost w-full !min-h-0 !py-2 text-sm">{creating ? t('pleaseWait') : `＋ ${t('createNewClass')}`}</button>
+    </div>
+  )
+}
+
+// ----- Écran prof sans classe : générer le premier code --------------------
+function TeacherStart({ creating, onCreate, t }) {
+  return (
+    <div className="animate-lux space-y-4">
+      <header>
+        <p className="kicker">{t('classSpace')}</p>
+        <h1 className="font-display text-3xl font-medium leading-tight">🧑‍🏫 {t('yourClasses')}</h1>
+      </header>
+      <hr className="rule-gold" />
+      <div className="card card-lux p-6 text-center">
+        <div className="mb-1 text-3xl">🔑</div>
+        <h2 className="font-display text-xl font-semibold">{t('createFirstClass')}</h2>
+        <p className="mx-auto mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">{t('createFirstClassHint')}</p>
+        <button onClick={onCreate} disabled={creating} className="btn-primary mt-4 w-full">{creating ? t('pleaseWait') : `＋ ${t('generateClassCode')}`}</button>
       </div>
     </div>
   )
@@ -1001,7 +1091,8 @@ function ProfGroups({ classCode, t }) {
 
       {students.length > 0 && (
         <div className="card p-4">
-          <h3 className="font-display font-semibold">{t('assignMembers')}</h3>
+          <h3 className="font-display font-semibold">{t('manageStudents')}</h3>
+          <p className="mt-1 text-xs text-slate-400">{t('manageStudentsHint')}</p>
           <div className="mt-2 space-y-2">
             {students.map((m) => (
               <div key={m.device_id} className="flex items-center gap-2">
@@ -1012,6 +1103,8 @@ function ProfGroups({ classCode, t }) {
                   <option value="">— {t('noGroup')} —</option>
                   {groups.map((g) => <option key={g.id} value={g.id}>{g.emoji} {g.name}</option>)}
                 </select>
+                <button onClick={async () => { if (confirm(`${t('excludeConfirm')} ${m.name || ''}`.trim() + ' ?')) { try { await banStudent({ classCode, deviceId: m.device_id }) } catch { /* */ } load() } }}
+                  className="shrink-0 rounded-lg px-2 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40" title={t('exclude')}>🚫</button>
               </div>
             ))}
           </div>

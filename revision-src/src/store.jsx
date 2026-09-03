@@ -39,8 +39,9 @@ const emptyState = () => ({
   totalAnswers: 0,
   correctAnswers: 0,
   weekly: { week: null, done: [] }, // cours travaillés durant la semaine ISO en cours
-  classCode: '', // code de classe pour le classement hebdomadaire partagé
+  classCode: '', // code de la classe active (partagé pour classement / espace)
   account: null, // { id, email, role } quand connecté (compte prof/élève)
+  teacherClasses: [], // [{ code, label }] — classes générées par le prof
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -204,6 +205,13 @@ export function StoreProvider({ children }) {
 
   const setAccount = useCallback((account) => setState((p) => ({ ...p, account: account || null })), [])
 
+  // Classes du professeur (codes générés). setClassCode choisit la classe active.
+  const setTeacherClasses = useCallback((list) => setState((p) => ({ ...p, teacherClasses: Array.isArray(list) ? list : [] })), [])
+  const addTeacherClass = useCallback((cls) => setState((p) => {
+    const list = [...(p.teacherClasses || []).filter((c) => c.code !== cls.code), cls]
+    return { ...p, teacherClasses: list, classCode: cls.code }
+  }), [])
+
   // Déconnexion : on efface le compte et l'identité locale pour revenir à
   // l'écran de connexion (la progression de l'appareil, elle, est conservée).
   const logout = useCallback(() => setState((p) => ({ ...p, account: null, profile: null, onboarded: false })), [])
@@ -252,6 +260,8 @@ export function StoreProvider({ children }) {
     setLang,
     setClassCode,
     setAccount,
+    setTeacherClasses,
+    addTeacherClass,
     logout,
     setCustomTheme,
     resetCustomTheme,

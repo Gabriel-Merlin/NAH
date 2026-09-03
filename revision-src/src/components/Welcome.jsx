@@ -5,12 +5,28 @@ import { LEVELS, subjectsForTrack } from '../data/tracks.js'
 import { useT } from '../i18n.js'
 import { signUp, signIn, fetchProfile, upsertProfile, getSession } from '../auth.js'
 import { normalizeCode } from '../leaderboard.js'
+import { createTeacherClass, fetchTeacherClasses } from '../classroom.js'
+
+// Ce qu'un professeur peut enseigner (matières communes + spécialités STMG).
+const TAUGHT = [
+  { id: 'management', label: 'Management (SGN)', icon: '🏢' },
+  { id: 'droit', label: 'Droit', icon: '⚖️' },
+  { id: 'economie', label: 'Économie', icon: '📈' },
+  { id: 'maths', label: 'Maths', icon: '➗' },
+  { id: 'histoire', label: 'Histoire-Géo', icon: '🗺️' },
+  { id: 'philosophie', label: 'Philosophie', icon: '💭' },
+  { id: 'langues', label: 'Langues', icon: '🗣️' },
+  { id: 'gestion-finance', label: 'Gestion et Finance', icon: '💰' },
+  { id: 'mercatique', label: 'Mercatique', icon: '🛍️' },
+  { id: 'rh-communication', label: 'RH et Communication', icon: '👥' },
+  { id: 'sig', label: 'Systèmes d’information (SIG)', icon: '💻' },
+]
 
 // Accueil personnalisé : inscription (compte prof/élève avec e-mail + mot de
 // passe, code de classe optionnel), puis choix des matières, puis apparition
 // douce de « Bienvenue, Prénom ».
 export default function Welcome() {
-  const { state, applyOnboarding, setAccount, setClassCode, setPhoto } = useStore()
+  const { state, applyOnboarding, setAccount, setClassCode, setPhoto, setTeacherClasses } = useStore()
   const t = useT()
   const navigate = useNavigate()
   const location = useLocation()
@@ -32,6 +48,8 @@ export default function Welcome() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [classCodeInput, setClassCodeInput] = useState('')
+  const [taught, setTaught] = useState([]) // matières/spécialités enseignées (prof)
+  const [nClasses, setNClasses] = useState(1) // nombre de classes (prof)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [info, setInfo] = useState('')
@@ -70,8 +88,12 @@ export default function Welcome() {
   const specialtyOk = !needsSpecialty || !!specialty
   const emailOk = /\S+@\S+\.\S+/.test(email.trim())
   const passOk = password.length >= 6
-  const idOk = firstName.trim().length > 0 && !!chosenLevel?.available && specialtyOk
+  const isProf = role === 'prof'
+  const idOk = isProf
+    ? (firstName.trim().length > 0 && !!chosenLevel?.available && taught.length > 0 && nClasses >= 1)
+    : (firstName.trim().length > 0 && !!chosenLevel?.available && specialtyOk)
   const canSubmit = authMode === 'login' ? (emailOk && passOk) : (emailOk && passOk && idOk)
+  const toggleTaught = (id) => setTaught((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]))
 
   const pickLevel = (l) => {
     if (!l.available) return
@@ -110,25 +132,52 @@ export default function Welcome() {
       if (authMode === 'login') {
         await signIn({ email: email.trim(), password })
         const prof = await fetchProfile()
+        const uid = getSession()?.user?.id
         const nm = (prof?.name || '').trim()
         const parts = nm.split(/\s+/)
         const profile = { firstName: parts[0] || 'Élève', lastName: parts.slice(1).join(' ') }
         const tk = prof?.level ? { level: prof.level, specialty: prof.specialty || null } : track
         applyOnboarding({ profile, track: tk })
         if (prof?.photo) setPhoto(prof.photo)
-        setAccount({ id: getSession()?.user?.id, email: email.trim(), role: prof?.role || 'eleve' })
-        const joinCode = prof?.class_code || cc
-        if (joinCode) setClassCode(joinCode)
+        const rl = prof?.role || 'eleve'
+        setAccount({ id: uid, email: email.trim(), role: rl })
+        if (rl === 'prof') {
+          // On recharge les classes générées du prof.
+          let classes = []
+          try { classes = (await fetchTeacherClasses(uid)).map((c) => ({ code: c.code, label: c.label })) } catch { /* hors ligne */ }
+          setTeacherClasses(classes)
+          setClassCode(classes[0]?.code || prof?.class_code || '')
+        } else {
+          const joinCode = prof?.class_code || cc
+          if (joinCode) setClassCode(joinCode)
+        }
         setPhase('hello')
       } else {
         const { needsConfirm } = await signUp({ email: email.trim(), password })
         if (needsConfirm) { setInfo(t('confirmEmailMsg')); setAuthMode('login'); setBusy(false); return }
         const fullName = `${firstName.trim()} ${lastName.trim()}`.trim()
-        await upsertProfile({ role, name: fullName, class_code: cc || null, level, specialty: needsSpecialty ? specialty : null, photo: state.profile?.photo || null })
-        setAccount({ id: getSession()?.user?.id, email: email.trim(), role })
-        if (cc) setClassCode(cc)
-        if (role === 'prof') { applyOnboarding({ profile: { firstName: firstName.trim(), lastName: lastName.trim() }, track }); setPhase('hello') }
-        else setPhase('plan')
+        const uid = getSession()?.user?.id
+        setAccount({ id: uid, email: email.trim(), role })
+        if (role === 'prof') {
+          const subjectLabels = TAUGHT.filter((s) => taught.includes(s.id)).map((s) => s.label).join(', ')
+          await upsertProfile({ role: 'prof', name: fullName, class_code: null, level, specialty: needsSpecialty ? specialty : null, subjects: subjectLabels, n_classes: nClasses, photo: state.profile?.photo || null })
+          // Génère un code unique par classe déclarée.
+          const list = []
+          try {
+            for (let i = 0; i < nClasses; i++) {
+              const c = await createTeacherClass({ ownerId: uid, ownerName: fullName, label: `${t('classWord')} ${i + 1}`, subject: subjectLabels })
+              if (c?.code) list.push({ code: c.code, label: c.label || `${t('classWord')} ${i + 1}` })
+            }
+          } catch { /* génération plus tard depuis l'espace classe */ }
+          setTeacherClasses(list)
+          if (list[0]) setClassCode(list[0].code)
+          applyOnboarding({ profile: { firstName: firstName.trim(), lastName: lastName.trim() }, track })
+          setPhase('hello')
+        } else {
+          await upsertProfile({ role: 'eleve', name: fullName, class_code: cc || null, level, specialty: needsSpecialty ? specialty : null, photo: state.profile?.photo || null })
+          if (cc) setClassCode(cc)
+          setPhase('plan')
+        }
       }
     } catch (e) {
       setErr(e?.message || 'Erreur')
@@ -231,7 +280,7 @@ export default function Welcome() {
 
         {authMode === 'create' && (
           <>
-            <span className="welcome-label">{t('yourClass')}</span>
+            <span className="welcome-label">{isProf ? t('teacherLevel') : t('yourClass')}</span>
             <div className="flex flex-wrap gap-2">
               {LEVELS.map((l) => (
                 <button key={l.id} type="button" disabled={!l.available} onClick={() => pickLevel(l)} className={seg(level === l.id)}>
@@ -239,7 +288,8 @@ export default function Welcome() {
                 </button>
               ))}
             </div>
-            {needsSpecialty && (
+
+            {!isProf && needsSpecialty && (
               <>
                 <span className="welcome-label">{t('yourSpecialty')}</span>
                 <div className="flex flex-wrap gap-2">
@@ -251,8 +301,31 @@ export default function Welcome() {
                 </div>
               </>
             )}
-            <label className="welcome-label" htmlFor="w-cc">{t('classCodeOptional')}</label>
-            <input id="w-cc" className="welcome-input" value={classCodeInput} onChange={(e) => setClassCodeInput(e.target.value)} placeholder="ex : marceau-tstmg2" maxLength={24} />
+
+            {isProf ? (
+              <>
+                <span className="welcome-label">{t('whatDoYouTeach')}</span>
+                <div className="flex flex-wrap gap-2">
+                  {TAUGHT.map((s) => (
+                    <button key={s.id} type="button" onClick={() => toggleTaught(s.id)} className={seg(taught.includes(s.id))}>
+                      {s.icon} {s.label}
+                    </button>
+                  ))}
+                </div>
+                <span className="welcome-label">{t('howManyClasses')}</span>
+                <div className="flex flex-wrap gap-2">
+                  {[1, 2, 3, 4, 5, 6].map((n) => (
+                    <button key={n} type="button" onClick={() => setNClasses(n)} className={seg(nClasses === n)}>{n}</button>
+                  ))}
+                </div>
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">🔑 {t('codesWillBeGenerated')}</p>
+              </>
+            ) : (
+              <>
+                <label className="welcome-label" htmlFor="w-cc">{t('classCodeOptional')}</label>
+                <input id="w-cc" className="welcome-input" value={classCodeInput} onChange={(e) => setClassCodeInput(e.target.value)} placeholder="ex : stmg-a3k9p" maxLength={24} />
+              </>
+            )}
           </>
         )}
 
