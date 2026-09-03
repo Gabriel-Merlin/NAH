@@ -3,11 +3,25 @@ import { SUBJECTS, ALL_CHAPTERS, chapterGameCount } from './data/index.js'
 import { BADGES } from './badges.js'
 
 // ---------------------------------------------------------------------------
-// Sauvegarde locale (localStorage) — aucune connexion requise.
-// Toute la progression de l'élève est conservée entre les sessions sur son
-// appareil. Structure versionnée pour pouvoir évoluer sans casser l'existant.
+// Sauvegarde locale (localStorage). La progression de l'élève est conservée
+// entre les sessions sur son appareil, mais un compte est désormais requis
+// pour accéder au site. Structure versionnée pour évoluer sans casser.
 // ---------------------------------------------------------------------------
-const KEY = 'stmg_progress_v1'
+const KEY = 'stmg_progress_v2'
+
+// Remise à zéro (v2) : on efface l'ancienne progression locale et la session
+// pour forcer chaque utilisateur à (re)créer un compte. Effectué une seule fois
+// par appareil grâce au marqueur `stmg_reset_v2`.
+;(function resetForV2() {
+  try {
+    if (localStorage.getItem('stmg_reset_v2')) return
+    localStorage.removeItem('stmg_progress_v1')
+    localStorage.removeItem('stmg_session')
+    localStorage.setItem('stmg_reset_v2', '1')
+  } catch {
+    /* navigation privée / quota : on ignore */
+  }
+})()
 
 const emptyState = () => ({
   xp: 0,
