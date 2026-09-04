@@ -45,6 +45,34 @@ export async function signIn({ email, password }) {
 
 export function signOut() { clearSession() }
 
+// Mot de passe oublié : envoie un e-mail de récupération (lien + code OTP selon
+// le modèle d'e-mail configuré dans Supabase).
+export async function requestPasswordReset(email) {
+  await gotrue('recover', { email })
+  return true
+}
+
+// Vérifie le code reçu par e-mail (type « recovery ») et ouvre une session.
+export async function verifyRecovery({ email, token }) {
+  const data = await gotrue('verify', { type: 'recovery', email, token: String(token || '').trim() })
+  if (!data.access_token) throw new Error('Code invalide ou expiré')
+  saveSession(data)
+  return true
+}
+
+// Change le mot de passe de l'utilisateur connecté (session courante).
+export async function updatePassword(password) {
+  const s = getSession()
+  if (!s?.token) throw new Error('no session')
+  const res = await fetch(`${SUPA_URL}/auth/v1/user`, {
+    method: 'PUT',
+    headers: { apikey: SUPA_ANON, Authorization: 'Bearer ' + s.token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  })
+  if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error_description || d.msg || d.message || `Erreur ${res.status}`) }
+  return true
+}
+
 const restHeaders = (token) => ({
   apikey: SUPA_ANON,
   Authorization: 'Bearer ' + (token || SUPA_ANON),
