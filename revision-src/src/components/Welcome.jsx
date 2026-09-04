@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { LEVELS, subjectsForTrack } from '../data/tracks.js'
 import { useT } from '../i18n.js'
-import { signUp, signIn, fetchProfile, upsertProfile, getSession } from '../auth.js'
+import { signUp, signIn, fetchProfile, upsertProfile, getSession, requestPasswordReset, verifyRecovery, updatePassword } from '../auth.js'
 import { normalizeCode } from '../leaderboard.js'
 import { createTeacherClass, fetchTeacherClasses } from '../classroom.js'
 
@@ -50,6 +50,9 @@ export default function Welcome() {
   const [classCodeInput, setClassCodeInput] = useState('')
   const [taught, setTaught] = useState([]) // matières/spécialités enseignées (prof)
   const [nClasses, setNClasses] = useState(1) // nombre de classes (prof)
+  const [recoverStep, setRecoverStep] = useState(null) // null | 'request' | 'code'
+  const [code, setCode] = useState('')
+  const [newPass, setNewPass] = useState('')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [info, setInfo] = useState('')
@@ -186,6 +189,47 @@ export default function Welcome() {
     }
   }
 
+  // Connexion à partir d'une session déjà ouverte (login ou récupération).
+  const loginFromSession = async () => {
+    const prof = await fetchProfile()
+    const uid = getSession()?.user?.id
+    const nm = (prof?.name || '').trim()
+    const parts = nm.split(/\s+/)
+    const profile = { firstName: parts[0] || 'Élève', lastName: parts.slice(1).join(' ') }
+    const tk = prof?.level ? { level: prof.level, specialty: prof.specialty || null } : { level, specialty: needsSpecialty ? specialty : null }
+    applyOnboarding({ profile, track: tk })
+    if (prof?.photo) setPhoto(prof.photo)
+    const rl = prof?.role || role
+    setAccount({ id: uid, email: email.trim(), role: rl })
+    if (rl === 'prof') {
+      let classes = []
+      try { classes = (await fetchTeacherClasses(uid)).map((c) => ({ code: c.code, label: c.label })) } catch { /* hors ligne */ }
+      setTeacherClasses(classes)
+      setClassCode(classes[0]?.code || prof?.class_code || '')
+    } else if (prof?.class_code) setClassCode(prof.class_code)
+    setPhase('hello')
+  }
+
+  // Mot de passe oublié : envoi du code puis réinitialisation.
+  const sendReset = async () => {
+    setErr(''); setInfo('')
+    if (!emailOk) { setErr(t('enterValidEmail')); return }
+    setBusy(true)
+    try { await requestPasswordReset(email.trim()); setRecoverStep('code'); setInfo(t('resetSent')) }
+    catch (e) { setErr(e?.message || 'Erreur') } finally { setBusy(false) }
+  }
+  const doReset = async () => {
+    setErr(''); setInfo('')
+    if (code.trim().length < 4) { setErr(t('resetNeedCode')); return }
+    if (newPass.length < 6) { setErr(t('resetNeedPass')); return }
+    setBusy(true)
+    try {
+      await verifyRecovery({ email: email.trim(), token: code })
+      await updatePassword(newPass)
+      await loginFromSession()
+    } catch (e) { setErr(e?.message || 'Erreur') } finally { setBusy(false) }
+  }
+
   const finish = () => {
     if (leaving) return
     setLeaving(true)
@@ -254,8 +298,8 @@ export default function Welcome() {
 
         {/* Créer un compte / Se connecter */}
         <div className="mt-3 flex gap-2">
-          <button type="button" className={seg(authMode === 'create')} onClick={() => { setAuthMode('create'); setErr('') }}>{t('createAccount')}</button>
-          <button type="button" className={seg(authMode === 'login')} onClick={() => { setAuthMode('login'); setErr('') }}>{t('loginTab')}</button>
+          <button type="button" className={seg(authMode === 'create')} onClick={() => { setAuthMode('create'); setErr(''); setInfo(''); setRecoverStep(null) }}>{t('createAccount')}</button>
+          <button type="button" className={seg(authMode === 'login')} onClick={() => { setAuthMode('login'); setErr(''); setInfo(''); setRecoverStep(null) }}>{t('loginTab')}</button>
         </div>
 
         {authMode === 'create' && (
@@ -273,10 +317,42 @@ export default function Welcome() {
           </>
         )}
 
+        {authMode === 'login' && !recoverStep && (
+          <>
+            <span className="welcome-label">{t('iAm')}</span>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" className={seg(role === 'eleve')} onClick={() => setRole('eleve')}>🎓 {t('roleStudent')}</button>
+              <button type="button" className={seg(role === 'prof')} onClick={() => setRole('prof')}>🧑‍🏫 {t('roleTeacher')}</button>
+            </div>
+          </>
+        )}
+
         <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
-        <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} />
-        <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
-        <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && canSubmit && !busy && submitForm()} placeholder="••••••••" autoComplete={authMode === 'login' ? 'current-password' : 'new-password'} maxLength={72} />
+        <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} disabled={recoverStep === 'code'} />
+
+        {!recoverStep && (
+          <>
+            <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
+            <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && canSubmit && !busy && submitForm()} placeholder="••••••••" autoComplete={authMode === 'login' ? 'current-password' : 'new-password'} maxLength={72} />
+            {authMode === 'login' && (
+              <button type="button" className="mt-2 text-left text-sm font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]" onClick={() => { setRecoverStep('request'); setErr(''); setInfo('') }}>{t('forgotPassword')}</button>
+            )}
+          </>
+        )}
+
+        {recoverStep && (
+          <>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{recoverStep === 'request' ? t('resetIntro') : t('resetCodeIntro')}</p>
+            {recoverStep === 'code' && (
+              <>
+                <label className="welcome-label" htmlFor="w-code">{t('recoveryCode')}</label>
+                <input id="w-code" className="welcome-input" value={code} onChange={(e) => setCode(e.target.value)} placeholder="123456" inputMode="numeric" autoComplete="one-time-code" maxLength={12} />
+                <label className="welcome-label" htmlFor="w-newpass">{t('newPassword')}</label>
+                <input id="w-newpass" className="welcome-input" type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && !busy && doReset()} placeholder="••••••••" autoComplete="new-password" maxLength={72} />
+              </>
+            )}
+          </>
+        )}
 
         {authMode === 'create' && (
           <>
@@ -332,12 +408,24 @@ export default function Welcome() {
         {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
         {info && <p className="mt-3 text-sm font-semibold text-emerald-700">{info}</p>}
 
-        <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm()}>
-          {busy ? t('pleaseWait') : authMode === 'login' ? t('loginTab') : t('createMyAccount')}
-        </button>
-        <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setAuthMode(authMode === 'login' ? 'create' : 'login'); setErr('') }}>
-          {authMode === 'login' ? t('noAccountYet') : t('haveAccountAlready')}
-        </button>
+        {recoverStep ? (
+          <>
+            <button type="button" className="welcome-cta" disabled={busy || (recoverStep === 'request' ? !emailOk : (code.trim().length < 4 || newPass.length < 6))} onClick={() => (recoverStep === 'request' ? sendReset() : doReset())}>
+              {busy ? t('pleaseWait') : recoverStep === 'request' ? t('sendResetCode') : t('resetPassword')}
+            </button>
+            {recoverStep === 'code' && <button type="button" className="welcome-skip" disabled={busy} onClick={sendReset}>{t('resendCode')}</button>}
+            <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setRecoverStep(null); setErr(''); setInfo('') }}>{t('backToLogin')}</button>
+          </>
+        ) : (
+          <>
+            <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm()}>
+              {busy ? t('pleaseWait') : authMode === 'login' ? t('loginTab') : t('createMyAccount')}
+            </button>
+            <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setAuthMode(authMode === 'login' ? 'create' : 'login'); setErr(''); setInfo(''); setRecoverStep(null) }}>
+              {authMode === 'login' ? t('noAccountYet') : t('haveAccountAlready')}
+            </button>
+          </>
+        )}
       </div>
     </div>
   )
