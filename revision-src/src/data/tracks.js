@@ -45,7 +45,7 @@ export const LEVELS = [
         icon: '🧑‍💼',
         color: '#db2777',
         desc: 'Mobilisation, cohésion, communication.',
-        available: false,
+        available: true,
       },
       {
         id: 'mercatique',
@@ -53,7 +53,7 @@ export const LEVELS = [
         icon: '🛍️',
         color: '#f97316',
         desc: 'Marché, offre, relation client.',
-        available: false,
+        available: true,
       },
     ],
   },
@@ -88,10 +88,9 @@ export function subjectsForTrack(track) {
   if (track.level === 'premiere-stmg') return SUBJECTS.filter((s) => s.niveau === 'premiere')
   if (track.level !== 'terminale-stmg') return []
   const common = COMMON_IDS.map((id) => SUBJECTS.find((s) => s.id === id)).filter(Boolean)
-  if (track.specialty === 'gestion-finance') {
-    const gf = SUBJECTS.find((s) => s.id === 'gestion-finance')
-    return [gf, ...common]
-  }
+  // La matière de spécialité porte le même id que la spécialité choisie.
+  const specSubject = SUBJECTS.find((s) => s.id === track.specialty)
+  if (specSubject) return [specSubject, ...common]
   const spec = getSpecialty('terminale-stmg', track.specialty)
   return spec ? [placeholderSubject(spec), ...common] : common
 }
