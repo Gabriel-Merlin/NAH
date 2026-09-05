@@ -26,7 +26,7 @@ const TAUGHT = [
 // passe, code de classe optionnel), puis choix des matières, puis apparition
 // douce de « Bienvenue, Prénom ».
 export default function Welcome() {
-  const { state, applyOnboarding, setAccount, setClassCode, setPhoto, setTeacherClasses } = useStore()
+  const { state, applyOnboarding, setAccount, setClassCode, setPhoto, setTeacherClasses, hydrateProgress } = useStore()
   const t = useT()
   const navigate = useNavigate()
   const location = useLocation()
@@ -53,6 +53,8 @@ export default function Welcome() {
   const [recoverStep, setRecoverStep] = useState(null) // null | 'request' | 'code'
   const [code, setCode] = useState('')
   const [newPass, setNewPass] = useState('')
+  const [consent, setConsent] = useState(false) // acceptation politique de confidentialité
+  const [showPrivacy, setShowPrivacy] = useState(false)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [info, setInfo] = useState('')
@@ -95,7 +97,7 @@ export default function Welcome() {
   const idOk = isProf
     ? (firstName.trim().length > 0 && !!chosenLevel?.available && taught.length > 0 && nClasses >= 1)
     : (firstName.trim().length > 0 && !!chosenLevel?.available && specialtyOk)
-  const canSubmit = authMode === 'login' ? (emailOk && passOk) : (emailOk && passOk && idOk)
+  const canSubmit = authMode === 'login' ? (emailOk && passOk) : (emailOk && passOk && idOk && consent)
   const toggleTaught = (id) => setTaught((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]))
 
   const pickLevel = (l) => {
@@ -141,6 +143,7 @@ export default function Welcome() {
         const profile = { firstName: parts[0] || 'Élève', lastName: parts.slice(1).join(' ') }
         const tk = prof?.level ? { level: prof.level, specialty: prof.specialty || null } : track
         applyOnboarding({ profile, track: tk })
+        hydrateProgress(prof?.progress)
         if (prof?.photo) setPhoto(prof.photo)
         const rl = prof?.role || 'eleve'
         setAccount({ id: uid, email: email.trim(), role: rl })
@@ -198,6 +201,7 @@ export default function Welcome() {
     const profile = { firstName: parts[0] || 'Élève', lastName: parts.slice(1).join(' ') }
     const tk = prof?.level ? { level: prof.level, specialty: prof.specialty || null } : { level, specialty: needsSpecialty ? specialty : null }
     applyOnboarding({ profile, track: tk })
+    hydrateProgress(prof?.progress)
     if (prof?.photo) setPhoto(prof.photo)
     const rl = prof?.role || role
     setAccount({ id: uid, email: email.trim(), role: rl })
@@ -403,6 +407,23 @@ export default function Welcome() {
               </>
             )}
           </>
+        )}
+
+        {authMode === 'create' && !recoverStep && (
+          <div className="mt-3">
+            <label className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>
+                {t('consentText')}{' '}
+                <button type="button" onClick={() => setShowPrivacy((v) => !v)} className="font-semibold text-[#98761f] underline dark:text-[#d9bd77]">{t('readPrivacy')}</button>
+              </span>
+            </label>
+            {showPrivacy && (
+              <div className="mt-2 max-h-40 overflow-y-auto rounded-xl bg-black/5 p-3 text-xs leading-relaxed text-slate-600 dark:bg-white/5 dark:text-slate-300">
+                {t('privacySummary')}
+              </div>
+            )}
+          </div>
         )}
 
         {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}

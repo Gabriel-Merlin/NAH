@@ -10,6 +10,7 @@ import Badges from './pages/Badges.jsx'
 import Leaderboard from './pages/Leaderboard.jsx'
 import Classe from './pages/Classe.jsx'
 import Profile from './pages/Profile.jsx'
+import Privacy from './pages/Privacy.jsx'
 
 // Rétro-compatibilité : les anciens liens /subject/:sid/chapter/:cid
 // (où le chapitre était en fait un thème) redirigent vers la page Thème.
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/badges" element={<Badges />} />
         <Route path="/classe" element={<Classe />} />
         <Route path="/moi" element={<Profile />} />
+        <Route path="/confidentialite" element={<Privacy />} />
         <Route path="/classement" element={<Leaderboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
