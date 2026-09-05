@@ -1,16 +1,30 @@
+import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { trackLabel, trackIcon } from '../data/tracks.js'
 import { badgeById } from '../badges.js'
 import { Ring, ProgressBar, Icon } from '../components/ui.jsx'
 import { useT } from '../i18n.js'
+import { signOut, deleteMyProfile } from '../auth.js'
+import { deleteMyClassData } from '../classroom.js'
 
 // « Mon espace » : la page personnelle de l'élève — identité, statistiques,
 // badges, favoris et accès rapide. Distincte de la personnalisation (apparence).
 export default function Profile() {
-  const { state, derived } = useStore()
+  const { state, derived, resetAll } = useStore()
   const t = useT()
+  const [busy, setBusy] = useState(false)
   if (!state.track) return <Navigate to="/" replace />
+
+  const deleteAccount = async () => {
+    if (busy) return
+    if (!confirm(t('deleteAccountConfirm'))) return
+    setBusy(true)
+    try { await deleteMyProfile() } catch { /* */ }
+    try { await deleteMyClassData() } catch { /* */ }
+    signOut()
+    resetAll()
+  }
 
   const first = state.profile?.firstName?.trim() || ''
   const last = state.profile?.lastName?.trim() || ''
@@ -121,6 +135,18 @@ export default function Profile() {
           <span className="text-violet-500 dark:text-violet-400"><Icon.Palette size={22} /></span>
           <span><span className="block font-display font-semibold">{t('customizeProfile')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('appearanceHint')}</span></span>
         </button>
+      </section>
+
+      {/* Confidentialité & suppression du compte (RGPD) */}
+      <section className="space-y-2 pt-2">
+        <Link to="/confidentialite" className="text-sm font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('privacyPolicy')}</Link>
+        <div className="card p-4" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, #e11d48 40%, transparent)' }}>
+          <h3 className="font-display font-semibold text-rose-600 dark:text-rose-400">{t('dangerZone')}</h3>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t('deleteAccountHint')}</p>
+          <button onClick={deleteAccount} disabled={busy} className="mt-3 w-full rounded-xl border-2 border-rose-500 px-4 py-2.5 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 disabled:opacity-60 dark:text-rose-400 dark:hover:bg-rose-950/40">
+            {busy ? t('pleaseWait') : `🗑️ ${t('deleteAccount')}`}
+          </button>
+        </div>
       </section>
     </div>
   )

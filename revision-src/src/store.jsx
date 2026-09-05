@@ -1,6 +1,40 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import { SUBJECTS, ALL_CHAPTERS, chapterGameCount } from './data/index.js'
 import { BADGES } from './badges.js'
+import { saveProgress } from './auth.js'
+
+// Champs de progression synchronisés sur le compte (multi-appareil).
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly']
+function pickProgress(s) {
+  const out = {}
+  for (const k of PROGRESS_KEYS) out[k] = s[k]
+  return out
+}
+// Fusion locale ↔ serveur (on garde le meilleur des deux — même utilisateur).
+function mergeProgress(a, b) {
+  if (!b || typeof b !== 'object' || !Object.keys(b).length) return a
+  const out = { ...a }
+  out.xp = Math.max(a.xp || 0, b.xp || 0)
+  out.totalAnswers = Math.max(a.totalAnswers || 0, b.totalAnswers || 0)
+  out.correctAnswers = Math.max(a.correctAnswers || 0, b.correctAnswers || 0)
+  out.badges = Array.from(new Set([...(a.badges || []), ...(b.badges || [])]))
+  out.favorites = Array.from(new Set([...(a.favorites || []), ...(b.favorites || [])]))
+  const chapters = { ...(a.chapters || {}) }
+  for (const [cid, rec] of Object.entries(b.chapters || {})) {
+    const cur = chapters[cid] || { games: {}, quiz: 0 }
+    const games = { ...(cur.games || {}) }
+    for (const [gid, pct] of Object.entries(rec.games || {})) games[gid] = Math.max(games[gid] || 0, pct || 0)
+    chapters[cid] = { games, quiz: Math.max(cur.quiz || 0, rec.quiz || 0) }
+  }
+  out.chapters = chapters
+  const as = a.streak || { count: 0, last: null }, bs = b.streak || { count: 0, last: null }
+  out.streak = (bs.last || '') > (as.last || '') ? bs : as
+  const aw = a.weekly || { week: null, done: [] }, bw = b.weekly || { week: null, done: [] }
+  if (aw.week && aw.week === bw.week) out.weekly = { week: aw.week, done: Array.from(new Set([...(aw.done || []), ...(bw.done || [])])) }
+  else out.weekly = (bw.week || '') > (aw.week || '') ? bw : aw
+  out.lastChapter = a.lastChapter || b.lastChapter || null
+  return out
+}
 
 // ---------------------------------------------------------------------------
 // Sauvegarde locale (localStorage). La progression de l'élève est conservée
@@ -129,6 +163,14 @@ export function StoreProvider({ children }) {
     }
   }, [state.customTheme])
 
+  // Synchronisation de la progression sur le compte (anti-rebond ~2 s).
+  useEffect(() => {
+    if (!state.account?.id) return
+    const id = setTimeout(() => { saveProgress(pickProgress(state)).catch(() => {}) }, 2000)
+    return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.account?.id, state.xp, state.chapters, state.badges, state.favorites, state.streak, state.weekly, state.totalAnswers, state.correctAnswers, state.lastChapter])
+
   const evaluateBadges = useCallback((next) => {
     const derived = deriveAll(next)
     const earned = BADGES.filter((b) => b.check(next, derived)).map((b) => b.id)
@@ -212,9 +254,20 @@ export function StoreProvider({ children }) {
     return { ...p, teacherClasses: list, classCode: cls.code }
   }), [])
 
-  // Déconnexion : on efface le compte et l'identité locale pour revenir à
-  // l'écran de connexion (la progression de l'appareil, elle, est conservée).
-  const logout = useCallback(() => setState((p) => ({ ...p, account: null, profile: null, onboarded: false })), [])
+  // Déconnexion : la progression vit désormais sur le compte (serveur). On
+  // pousse une dernière fois, puis on efface l'identité ET la progression
+  // locale (pour éviter tout mélange entre comptes sur un appareil partagé).
+  // Les préférences d'affichage (langue, thème) restent locales.
+  const logout = useCallback(() => setState((p) => {
+    if (p.account?.id) { try { saveProgress(pickProgress(p)) } catch { /* best effort */ } }
+    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme }
+  }), [])
+
+  // Restaure la progression du compte (fusion avec l'éventuel local du même
+  // utilisateur) après connexion / récupération.
+  const hydrateProgress = useCallback((server) => {
+    setState((p) => evaluateBadges(mergeProgress(structuredCloneSafe(p), server)))
+  }, [evaluateBadges])
 
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
@@ -263,6 +316,7 @@ export function StoreProvider({ children }) {
     setTeacherClasses,
     addTeacherClass,
     logout,
+    hydrateProgress,
     setCustomTheme,
     resetCustomTheme,
     applyOnboarding,

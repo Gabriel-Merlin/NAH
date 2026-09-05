@@ -94,6 +94,29 @@ export async function upsertProfile(patch) {
   return rows[0] || row
 }
 
+// Sauvegarde la progression (jsonb) sur la ligne profil de l'utilisateur connecté.
+export async function saveProgress(progress) {
+  const s = getSession()
+  if (!s?.token || !s.user?.id) return false
+  const res = await fetch(`${SUPA_URL}/rest/v1/profiles?id=eq.${s.user.id}`, {
+    method: 'PATCH',
+    headers: { ...restHeaders(s.token), Prefer: 'return=minimal' },
+    body: JSON.stringify({ progress: progress || {}, updated_at: new Date().toISOString() }),
+  })
+  return res.ok
+}
+
+// RGPD : supprime la fiche profil de l'utilisateur (nom, e-mail, photo, progression).
+export async function deleteMyProfile() {
+  const s = getSession()
+  if (!s?.token || !s.user?.id) return false
+  const res = await fetch(`${SUPA_URL}/rest/v1/profiles?id=eq.${s.user.id}`, {
+    method: 'DELETE',
+    headers: { ...restHeaders(s.token), Prefer: 'return=minimal' },
+  })
+  return res.ok
+}
+
 export async function fetchProfile() {
   const s = getSession()
   if (!s?.token || !s.user?.id) return null

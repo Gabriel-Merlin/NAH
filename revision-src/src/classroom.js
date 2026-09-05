@@ -276,6 +276,22 @@ export async function isBanned(classCode, dev) {
   return rows.length > 0
 }
 
+// --- RGPD : efface toutes les données de classe rattachées à cet appareil ---
+export async function deleteMyClassData() {
+  const dev = deviceId()
+  const q = `device_id=eq.${enc(dev)}`
+  const del = (path) => fetch(rest(path), { method: 'DELETE', headers: H() }).catch(() => {})
+  await Promise.all([
+    del(`class_member?${q}`),
+    del(`leaderboard?${q}`),
+    del(`class_quiz_result?${q}`),
+    del(`class_wall?${q}`),
+    del(`class_duel?challenger_device=eq.${enc(dev)}`),
+    del(`live_player?${q}`),
+  ])
+  return true
+}
+
 // --- Ligue : les classes d'un même professeur s'affrontent -----------------
 export async function fetchLeague(classCode) {
   const wk = isoWeekKey()
