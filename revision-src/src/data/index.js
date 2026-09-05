@@ -9,6 +9,8 @@ import { maths } from './maths.js'
 import { philosophie } from './philosophie.js'
 import { histoire } from './histoire.js'
 import { langues } from './langues.js'
+import { mercatique } from './mercatique.js'
+import { rh } from './rh.js'
 import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
 import { DOC_STUDIES } from './docstudies.js'
@@ -23,6 +25,8 @@ export const SUBJECTS = [
   philosophie,
   histoire,
   langues,
+  mercatique,
+  rh,
   ...premiereSubjects,
 ]
 
