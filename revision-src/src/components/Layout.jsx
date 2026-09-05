@@ -154,7 +154,25 @@ export default function Layout({ children }) {
         <Breadcrumb />
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 pb-24 pt-4">{children}</main>
+      <main className="mx-auto max-w-4xl px-4 pb-16 pt-4">{children}</main>
+
+      <footer className="no-print border-t" style={{ borderColor: 'color-mix(in srgb, var(--c-accent) 20%, transparent)', backgroundColor: 'color-mix(in srgb, var(--c-bg) 88%, var(--c-accent) 5%)' }}>
+        <div className="mx-auto max-w-4xl px-4 py-8">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <Link to="/accueil" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
+              <span aria-hidden style={{ color: 'var(--c-accent)' }}><Icon.Diamond size={13} /></span>
+              <span>Réviz<span style={{ color: 'color-mix(in srgb, var(--c-accent) 78%, var(--c-ink))' }}>STMG</span></span>
+            </Link>
+            <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
+              <Link to="/confidentialite" className="hover:text-[color:var(--c-accent)] hover:underline">{t('privacyPolicy')}</Link>
+              <Link to="/faq" className="hover:text-[color:var(--c-accent)] hover:underline">{t('faq')}</Link>
+              <a href="mailto:revizstmg@gmail.com" className="hover:text-[color:var(--c-accent)] hover:underline">{t('contactUs')} · revizstmg@gmail.com</a>
+            </nav>
+            <p className="text-xs text-slate-400">{t('createdBy')} <span className="font-semibold text-slate-500 dark:text-slate-300">Matys DONAT</span> &amp; <span className="font-semibold text-slate-500 dark:text-slate-300">Gabriel MERLIN</span></p>
+            <p className="text-xs text-slate-400">© {new Date().getFullYear()} RévizSTMG</p>
+          </div>
+        </div>
+      </footer>
 
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
       {dictOpen && <Dictionary onClose={() => setDictOpen(false)} />}
