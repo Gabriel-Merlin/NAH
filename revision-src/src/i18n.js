@@ -152,6 +152,7 @@ const FR = {
   deleteAccount: 'Supprimer mon compte', deleteAccountHint: 'Efface définitivement ton compte et toutes tes données (progression, classe, contributions).',
   deleteAccountConfirm: 'Supprimer définitivement ton compte et toutes tes données ? Cette action est irréversible.',
   consentText: 'J’ai lu et j’accepte la politique de confidentialité.', readPrivacy: 'Lire',
+  faq: 'FAQ', contactUs: 'Nous contacter', createdBy: 'Créé par',
   privacySummary: 'RévizSTMG utilise ton prénom, ton nom, ton e-mail et (si tu le souhaites) ta photo, ainsi que ta classe et ta progression, uniquement pour faire fonctionner l’application. Les données sont hébergées dans l’Union européenne (Supabase). Ton prénom, ta photo et tes scores sont visibles par les membres de ta classe ; ton e-mail sert seulement à la connexion. Aucune publicité, aucune revente. Tu peux modifier ou supprimer tes données à tout moment depuis « Mon espace ». Pour un élève mineur, l’accord de l’établissement et/ou du représentant légal est requis.',
   // chapitre / thème
   backToChapters: 'Revenir aux chapitres', savePdf: 'Enregistrer (PDF)', gamesOfChapter: 'Jeux de ce chapitre',
@@ -335,6 +336,7 @@ const EN = {
   deleteAccount: 'Delete my account', deleteAccountHint: 'Permanently erases your account and all your data (progress, class, contributions).',
   deleteAccountConfirm: 'Permanently delete your account and all your data? This cannot be undone.',
   consentText: 'I have read and accept the privacy policy.', readPrivacy: 'Read',
+  faq: 'FAQ', contactUs: 'Contact us', createdBy: 'Created by',
   privacySummary: 'RévizSTMG uses your first name, last name, email and (optionally) your photo, along with your class and progress, only to run the app. Data is hosted in the European Union (Supabase). Your first name, photo and scores are visible to your classmates; your email is only used for sign-in. No ads, no reselling. You can edit or delete your data anytime from “My space”. For a minor, the school’s and/or legal guardian’s consent is required.',
   backToChapters: 'Back to chapters', savePdf: 'Save (PDF)', gamesOfChapter: 'Games of this chapter',
   previous: 'Previous', nextChapter: 'Next chapter', takeTest: 'Take the theme test',
@@ -512,6 +514,7 @@ const ES = {
   deleteAccount: 'Eliminar mi cuenta', deleteAccountHint: 'Borra definitivamente tu cuenta y todos tus datos (progreso, clase, contribuciones).',
   deleteAccountConfirm: '¿Eliminar definitivamente tu cuenta y todos tus datos? Esta acción es irreversible.',
   consentText: 'He leído y acepto la política de privacidad.', readPrivacy: 'Leer',
+  faq: 'FAQ', contactUs: 'Contáctanos', createdBy: 'Creado por',
   privacySummary: 'RévizSTMG usa tu nombre, apellido, correo y (si quieres) tu foto, así como tu clase y tu progreso, únicamente para que la aplicación funcione. Los datos se alojan en la Unión Europea (Supabase). Tu nombre, foto y puntuaciones son visibles para tus compañeros; tu correo solo se usa para iniciar sesión. Sin publicidad, sin reventa. Puedes modificar o eliminar tus datos cuando quieras desde «Mi espacio». Para un alumno menor, se requiere el consentimiento del centro y/o del representante legal.',
   backToChapters: 'Volver a los capítulos', savePdf: 'Guardar (PDF)', gamesOfChapter: 'Juegos de este capítulo',
   previous: 'Anterior', nextChapter: 'Capítulo siguiente', takeTest: 'Hacer la prueba del tema',

@@ -59,8 +59,13 @@ export default function Privacy() {
       </Section>
 
       <Section title="7. Contact">
-        <p>Pour toute question ou demande relative à tes données, contacte ton professeur ou
-        l'équipe qui gère le site au sein de ton établissement.</p>
+        <p>Pour toute question ou demande relative à tes données, écris‑nous à{' '}
+        <a href="mailto:revizstmg@gmail.com" className="font-semibold text-[#98761f] underline dark:text-[#d9bd77]">revizstmg@gmail.com</a>{' '}
+        ou contacte ton professeur.</p>
+      </Section>
+
+      <Section title="Créateurs">
+        <p>RévizSTMG est créé par <b>Matys DONAT</b> et <b>Gabriel MERLIN</b>.</p>
       </Section>
 
       <div className="pt-2">
