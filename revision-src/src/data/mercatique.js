@@ -215,19 +215,6 @@ export const mercatique = {
           ],
         },
         {
-          id: 'mkg-t3-tri', type: 'tri', title: 'Tri — Quel « P » ?', icon: '🗂️',
-          instruction: 'Classe chaque action dans le bon levier du mix.',
-          categories: [{ id: 'prod', label: 'Produit' }, { id: 'prix', label: 'Prix' }, { id: 'dist', label: 'Distribution' }, { id: 'com', label: 'Communication' }],
-          items: [
-            { text: 'Créer un nouveau packaging', cat: 'prod' },
-            { text: 'Lancer une offre de lancement à -30 %', cat: 'prix' },
-            { text: 'Ouvrir une boutique en ligne', cat: 'dist' },
-            { text: 'Diffuser une publicité sur les réseaux', cat: 'com' },
-            { text: 'Élargir la gamme', cat: 'prod' },
-            { text: 'Référencer en grande surface', cat: 'dist' },
-          ],
-        },
-        {
           id: 'mkg-t3-ordre', type: 'ordre', title: 'Remise en ordre — Cycle de vie du produit', icon: '🔢',
           instruction: 'Remets les phases du cycle de vie dans l’ordre.',
           steps: ['Lancement', 'Croissance', 'Maturité', 'Déclin'],
@@ -281,18 +268,6 @@ export const mercatique = {
             { statement: 'La mercatique responsable renonce à toute rentabilité.', answer: false, explain: 'Faux : elle concilie rentabilité et responsabilité.' },
             { statement: 'L’obsolescence programmée est une dérive de la mercatique.', answer: true, explain: 'Vrai : elle pousse au renouvellement et à la surconsommation.' },
             { statement: 'Le RGPD encadre l’usage des données personnelles.', answer: true, explain: 'Vrai : transparence et consentement sont exigés.' },
-          ],
-        },
-        {
-          id: 'mkg-t4-tri', type: 'tri', title: 'Tri — Dérive ou pratique responsable ?', icon: '🗂️',
-          instruction: 'Classe chaque pratique.',
-          categories: [{ id: 'der', label: 'Dérive' }, { id: 'resp', label: 'Responsable' }],
-          items: [
-            { text: 'Greenwashing', cat: 'der' },
-            { text: 'Éco-conception', cat: 'resp' },
-            { text: 'Obsolescence programmée', cat: 'der' },
-            { text: 'Transparence et respect du RGPD', cat: 'resp' },
-            { text: 'Publicité mensongère', cat: 'der' },
           ],
         },
       ],
