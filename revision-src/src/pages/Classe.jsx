@@ -1004,41 +1004,160 @@ function ProfTab({ classCode, name, track, meta, reloadMeta, t }) {
   )
 }
 
+const heatColor = (v) => v >= 70 ? '#16a085' : v >= 45 ? '#f1c40f' : v >= 20 ? '#e67e22' : '#c0392b'
+function daysSinceDay(day) {
+  if (!day) return Infinity
+  const ms = new Date(todayKey() + 'T00:00:00') - new Date(day + 'T00:00:00')
+  return Math.max(0, Math.round(ms / 86400000))
+}
+function lastActiveLabel(day, t) {
+  const d = daysSinceDay(day)
+  if (d === Infinity) return t('neverActive')
+  if (d === 0) return t('todayWord')
+  if (d === 1) return t('yesterdayWord')
+  return `${t('agoWord')} ${d} j`
+}
+
 function ProfDashboard({ classCode, track, t }) {
   const [members, setMembers] = useState(null)
   const [status, setStatus] = useState('loading')
+  const [sort, setSort] = useState('activity') // activity | avg | xp | week
+  const [riskOnly, setRiskOnly] = useState(false)
+  const [open, setOpen] = useState(null) // device_id détaillé
   const load = useCallback(async () => {
     setStatus('loading')
     try { setMembers(await fetchMembers(classCode)); setStatus('ok') } catch { setStatus('error') }
   }, [classCode])
   useEffect(() => { load() }, [load])
+
   const students = (members || []).filter((m) => m.role !== 'prof')
   const trackSubjects = (track ? subjectsForTrack(track) : []).filter((s) => s && !s.comingSoon && s.chapters?.length)
-  const avg = (sid) => {
-    const vals = students.map((m) => Number(m.subjects?.[sid] || 0))
-    return vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : 0
+  const subjAvg = (sid) => students.length ? Math.round(students.reduce((a, m) => a + Number(m.subjects?.[sid] || 0), 0) / students.length) : 0
+  const memberAvg = (m) => trackSubjects.length ? Math.round(trackSubjects.reduce((a, s) => a + Number(m.subjects?.[s.id] || 0), 0) / trackSubjects.length) : 0
+  const isAtRisk = (m) => daysSinceDay(m.active_day) > 7 || m.courses_week === 0 || memberAvg(m) < 25
+  const statusTag = (m) => daysSinceDay(m.active_day) > 7 ? { label: t('inactiveTag'), color: '#c0392b' } : (memberAvg(m) < 30 ? { label: t('strugglingTag'), color: '#e67e22' } : { label: t('okTag'), color: '#16a085' })
+
+  const lacunes = students.length ? trackSubjects.map((s) => ({ s, v: subjAvg(s.id) })).sort((a, b) => a.v - b.v) : []
+  const classAvg = students.length ? Math.round(students.reduce((a, m) => a + memberAvg(m), 0) / students.length) : 0
+  const activeWk = students.filter((m) => m.courses_week > 0).length
+  const atRiskCount = students.filter(isAtRisk).length
+
+  const sortFns = {
+    activity: (a, b) => daysSinceDay(b.active_day) - daysSinceDay(a.active_day), // moins actifs d'abord
+    avg: (a, b) => memberAvg(a) - memberAvg(b), // plus faibles d'abord
+    xp: (a, b) => b.xp - a.xp,
+    week: (a, b) => b.courses_week - a.courses_week,
   }
-  const heat = (v) => v >= 70 ? '#16a085' : v >= 45 ? '#f1c40f' : v >= 20 ? '#e67e22' : '#c0392b'
-  const rows = students.length ? trackSubjects.map((s) => ({ s, v: avg(s.id) })).sort((a, b) => a.v - b.v) : []
+  let list = [...students].sort(sortFns[sort])
+  if (riskOnly) list = list.filter(isAtRisk)
+
+  const exportCsv = () => {
+    const csv = (s) => `"${String(s ?? '').replace(/"/g, '""')}"`
+    const header = [t('nameCol'), 'XP', t('streakCol'), t('weekCol'), t('lastActiveCol'), t('avgCol') + ' %', ...trackSubjects.map((s) => s.name)]
+    const lines = [header.map(csv).join(';')]
+    for (const m of [...students].sort(sortFns[sort])) {
+      lines.push([csv(m.name), m.xp, m.streak, m.courses_week, csv(lastActiveLabel(m.active_day, t)), memberAvg(m), ...trackSubjects.map((s) => Number(m.subjects?.[s.id] || 0))].join(';'))
+    }
+    try {
+      const blob = new Blob(['﻿' + lines.join('\n')], { type: 'text/csv;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a'); a.href = url; a.download = `classe-${classCode}.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url)
+    } catch { /* ignore */ }
+  }
+
+  const SORTS = [{ id: 'activity', label: t('sortActivity') }, { id: 'avg', label: t('sortAverage') }, { id: 'xp', label: 'XP' }, { id: 'week', label: t('sortWeek') }]
+
   return (
     <div className="space-y-3">
-      <div className="card p-4">
-        <h2 className="font-display text-lg font-semibold">📊 {t('classDashboard')}</h2>
-        <p className="mt-1 text-xs text-slate-400">{students.length} {t('membersCount')} · {t('lacunaHint')}</p>
+      {/* Vue d'ensemble */}
+      <div className="card card-lux p-4">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="font-display text-lg font-semibold">📊 {t('classDashboard')}</h2>
+          <div className="flex gap-2">
+            <button onClick={exportCsv} disabled={!students.length} className="btn-ghost !min-h-0 !py-1.5 text-xs">⬇︎ {t('exportCsv')}</button>
+            <button onClick={() => window.print()} disabled={!students.length} className="btn-ghost !min-h-0 !py-1.5 text-xs">🖨 {t('printPdf')}</button>
+          </div>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          <div><div className="font-display text-2xl font-semibold" style={{ color: 'var(--c-accent)' }}>{students.length}</div><div className="text-[0.65rem] uppercase tracking-wide text-slate-400">{t('membersCount')}</div></div>
+          <div><div className="font-display text-2xl font-semibold" style={{ color: heatColor(classAvg) }}>{classAvg}%</div><div className="text-[0.65rem] uppercase tracking-wide text-slate-400">{t('classAvg')}</div></div>
+          <div><div className="font-display text-2xl font-semibold" style={{ color: atRiskCount ? '#c0392b' : '#16a085' }}>{atRiskCount}</div><div className="text-[0.65rem] uppercase tracking-wide text-slate-400">{t('atRisk')}</div></div>
+        </div>
+        <p className="mt-2 text-center text-xs text-slate-400">🔥 {activeWk}/{students.length} {t('activeThisWeek')}</p>
       </div>
+
       {status === 'loading' && <Loading />}
       {status === 'error' && <ErrorBox t={t} onRetry={load} />}
       {status === 'ok' && students.length === 0 && <Empty>{t('noMemberYet')}</Empty>}
-      {rows.map(({ s, v }) => (
-        <div key={s.id} className="card flex items-center gap-3 p-3">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: s.color + '18' }}>{s.icon}</span>
-          <span className="min-w-0 flex-1"><span className="block text-sm font-semibold leading-tight">{s.name}</span>
-            <span className="mt-1 block h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span className="block h-full rounded-full" style={{ width: `${Math.max(3, v)}%`, backgroundColor: heat(v) }} /></span>
-          </span>
-          <span className="shrink-0 font-display text-lg font-semibold" style={{ color: heat(v) }}>{v}%</span>
+
+      {/* Carte des lacunes */}
+      {lacunes.length > 0 && (
+        <div className="card p-4">
+          <h3 className="mb-2 font-display font-semibold">🗺️ {t('lacunaTitle')}</h3>
+          <p className="mb-2 text-xs text-slate-400">{t('lacunaHint')}</p>
+          {lacunes.map(({ s, v }) => (
+            <div key={s.id} className="flex items-center gap-3 py-1.5">
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-sm" style={{ backgroundColor: s.color + '18' }}>{s.icon}</span>
+              <span className="min-w-0 flex-1"><span className="block truncate text-xs font-semibold">{s.name}</span>
+                <span className="mt-0.5 block h-1.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span className="block h-full rounded-full" style={{ width: `${Math.max(3, v)}%`, backgroundColor: heatColor(v) }} /></span>
+              </span>
+              <span className="shrink-0 text-sm font-semibold" style={{ color: heatColor(v) }}>{v}%</span>
+            </div>
+          ))}
+          {lacunes[0] && <p className="pt-1 text-xs text-slate-400">🔴 {t('weakest')} : {lacunes[0].s.name} ({lacunes[0].v}%)</p>}
         </div>
-      ))}
-      {rows.length > 0 && <p className="pt-1 text-center text-xs text-slate-400">🔴 {t('weakest')}: {rows[0].s.name}</p>}
+      )}
+
+      {/* Suivi par élève */}
+      {students.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="font-display font-semibold">👥 {t('perStudent')}</h3>
+            <label className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400"><input type="checkbox" checked={riskOnly} onChange={(e) => setRiskOnly(e.target.checked)} /> {t('atRiskOnly')}</label>
+          </div>
+          <div className="flex gap-1.5 overflow-x-auto text-xs">
+            <span className="shrink-0 self-center text-slate-400">{t('sortBy')} :</span>
+            {SORTS.map((s) => (
+              <button key={s.id} onClick={() => setSort(s.id)} className={`whitespace-nowrap rounded-full px-2.5 py-1 font-semibold transition ${sort === s.id ? 'text-white' : 'text-slate-500 ring-1 ring-slate-200 dark:text-slate-400 dark:ring-slate-700'}`} style={sort === s.id ? { backgroundColor: 'var(--c-accent)' } : undefined}>{s.label}</button>
+            ))}
+          </div>
+          {list.length === 0 && <Empty>{riskOnly ? t('noAtRisk') : t('noMemberYet')}</Empty>}
+          {list.map((m) => {
+            const tag = statusTag(m); const av = memberAvg(m); const isOpen = open === m.device_id
+            return (
+              <div key={m.device_id} className="card p-3">
+                <button onClick={() => setOpen(isOpen ? null : m.device_id)} className="flex w-full items-center gap-3 text-left">
+                  <span className="monogram grid h-9 w-9 shrink-0 place-items-center overflow-hidden text-xs">{m.photo ? <img src={m.photo} alt="" className="h-full w-full rounded-full object-cover" /> : initialsOf(m.name)}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-semibold">{m.name || t('roleStudent')}</span>
+                    <span className="block text-[0.7rem] text-slate-400">🔥 {m.streak} · {m.courses_week} {t('thisWeekShort')} · {t('lastActiveShort')} {lastActiveLabel(m.active_day, t)}</span>
+                  </span>
+                  <span className="shrink-0 text-right">
+                    <span className="font-display text-lg font-semibold" style={{ color: heatColor(av) }}>{av}%</span>
+                    <span className="mt-0.5 block rounded-full px-1.5 py-0.5 text-[0.6rem] font-bold text-white" style={{ backgroundColor: tag.color }}>{tag.label}</span>
+                  </span>
+                  <span className="shrink-0 text-slate-300" aria-hidden>{isOpen ? '▾' : '›'}</span>
+                </button>
+                {isOpen && (
+                  <div className="mt-3 space-y-1.5 border-t border-slate-100 pt-3 dark:border-slate-800">
+                    <div className="flex justify-between text-xs text-slate-400"><span>{m.xp} XP</span><span>{t('avgCol')} {av}%</span></div>
+                    {trackSubjects.map((s) => {
+                      const v = Number(m.subjects?.[s.id] || 0)
+                      return (
+                        <div key={s.id} className="flex items-center gap-2">
+                          <span className="w-24 shrink-0 truncate text-[0.7rem]">{s.icon} {s.short || s.name}</span>
+                          <span className="block h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span className="block h-full rounded-full" style={{ width: `${Math.max(2, v)}%`, backgroundColor: heatColor(v) }} /></span>
+                          <span className="w-8 shrink-0 text-right text-[0.7rem] font-semibold" style={{ color: heatColor(v) }}>{v}%</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
