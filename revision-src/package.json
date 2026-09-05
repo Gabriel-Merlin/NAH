@@ -6,7 +6,7 @@
   "description": "Site de révision interactif pour la Terminale STMG — jeux par matière et par chapitre.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node pwa-postbuild.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

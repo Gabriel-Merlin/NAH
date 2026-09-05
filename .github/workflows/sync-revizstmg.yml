@@ -1,15 +1,16 @@
 name: Sync revizstmg.github.io
 
 # Publie automatiquement le site sur le dépôt de l'organisation revizstmg
-# (https://revizstmg.github.io) à chaque mise à jour de revision/index.html
-# sur main. Nécessite le secret REVIZSTMG_DEPLOY_TOKEN : un fine-grained token
-# ayant la permission "Contents: Read and write" sur revizstmg/revizstmg.github.io.
+# (https://revizstmg.github.io) à chaque mise à jour du dossier revision/ sur
+# main : index.html + fichiers PWA (manifest, service worker, icônes).
+# Nécessite le secret REVIZSTMG_DEPLOY_TOKEN : un fine-grained token ayant la
+# permission "Contents: Read and write" sur revizstmg/revizstmg.github.io.
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'revision/index.html'
+      - 'revision/**'
       - '.github/workflows/sync-revizstmg.yml'
 
 permissions:
@@ -27,8 +28,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            revision/index.html
-          sparse-checkout-cone-mode: false
+            revision
+          sparse-checkout-cone-mode: true
 
       - name: Cloner le dépôt de l'organisation revizstmg
         env:
@@ -46,15 +47,18 @@ jobs:
         env:
           DEPLOY_TOKEN: ${{ secrets.REVIZSTMG_DEPLOY_TOKEN }}
         run: |
-          cp revision/index.html target/index.html
+          # Copie tous les fichiers publiables (index.html + PWA) à la racine du site.
+          cp -f revision/* target/
           cd target
-          if git diff --quiet -- index.html; then
+          git add -A
+          if git diff --cached --quiet; then
             echo "Aucun changement : revizstmg.github.io est déjà à jour."
             exit 0
           fi
           git config user.name "revizstmg-bot"
           git config user.email "revizstmg@users.noreply.github.com"
-          git add index.html
+          echo "Fichiers publiés :"
+          git diff --cached --name-only
           git commit -m "Sync site depuis NAH ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
           for i in 1 2 3 4; do
             if git push origin HEAD:main; then

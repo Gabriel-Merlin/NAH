@@ -7,6 +7,7 @@ import { Ring, ProgressBar, Icon } from '../components/ui.jsx'
 import { useT } from '../i18n.js'
 import { signOut, deleteMyProfile } from '../auth.js'
 import { deleteMyClassData } from '../classroom.js'
+import { InstallCard } from '../components/InstallApp.jsx'
 
 // « Mon espace » : la page personnelle de l'élève — identité, statistiques,
 // badges, favoris et accès rapide. Distincte de la personnalisation (apparence).
@@ -135,6 +136,12 @@ export default function Profile() {
           <span className="text-violet-500 dark:text-violet-400"><Icon.Palette size={22} /></span>
           <span><span className="block font-display font-semibold">{t('customizeProfile')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('appearanceHint')}</span></span>
         </button>
+      </section>
+
+      {/* Installer l'application (PWA) */}
+      <section>
+        <h2 className="mb-3 px-1 font-display text-xl font-medium">{t('installApp')}</h2>
+        <InstallCard />
       </section>
 
       {/* Confidentialité & suppression du compte (RGPD) */}

@@ -7,6 +7,7 @@ import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
 import Dictionary from './Dictionary.jsx'
 import Customizer from './Customizer.jsx'
+import { InstallBanner } from './InstallApp.jsx'
 import { useT, useLang } from '../i18n.js'
 import { signOut } from '../auth.js'
 
@@ -178,6 +179,7 @@ export default function Layout({ children }) {
       {dictOpen && <Dictionary onClose={() => setDictOpen(false)} />}
       {custOpen && <Customizer onClose={() => setCustOpen(false)} />}
       <BadgeToast />
+      <InstallBanner />
       <Welcome />
     </div>
   )
