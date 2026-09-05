@@ -1,0 +1,68 @@
+name: Sync revizstmg.github.io
+
+# Publie automatiquement le site sur le dépôt de l'organisation revizstmg
+# (https://revizstmg.github.io) à chaque mise à jour de revision/index.html
+# sur main. Nécessite le secret REVIZSTMG_DEPLOY_TOKEN : un fine-grained token
+# ayant la permission "Contents: Read and write" sur revizstmg/revizstmg.github.io.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'revision/index.html'
+      - '.github/workflows/sync-revizstmg.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-revizstmg
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le site depuis NAH
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            revision/index.html
+          sparse-checkout-cone-mode: false
+
+      - name: Cloner le dépôt de l'organisation revizstmg
+        env:
+          DEPLOY_TOKEN: ${{ secrets.REVIZSTMG_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$DEPLOY_TOKEN" ]; then
+            echo "::error::Le secret REVIZSTMG_DEPLOY_TOKEN est absent."
+            exit 1
+          fi
+          git clone --depth 1 \
+            "https://x-access-token:${DEPLOY_TOKEN}@github.com/revizstmg/revizstmg.github.io.git" \
+            target
+
+      - name: Copier le site et publier si modifié
+        env:
+          DEPLOY_TOKEN: ${{ secrets.REVIZSTMG_DEPLOY_TOKEN }}
+        run: |
+          cp revision/index.html target/index.html
+          cd target
+          if git diff --quiet -- index.html; then
+            echo "Aucun changement : revizstmg.github.io est déjà à jour."
+            exit 0
+          fi
+          git config user.name "revizstmg-bot"
+          git config user.email "revizstmg@users.noreply.github.com"
+          git add index.html
+          git commit -m "Sync site depuis NAH ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          for i in 1 2 3 4; do
+            if git push origin HEAD:main; then
+              echo "Publié sur revizstmg.github.io."
+              exit 0
+            fi
+            echo "Échec du push (tentative $i), nouvelle tentative..."
+            sleep $((2 ** i))
+          done
+          echo "::error::Impossible de publier sur revizstmg.github.io après 4 tentatives."
+          exit 1
