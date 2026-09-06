@@ -20,7 +20,6 @@ const G = { size: 22, fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, st
 const ShareGlyph = () => <svg viewBox="0 0 24 24" {...G} width="22" height="22" aria-hidden><path d="M12 3v11M8.5 6.5 12 3l3.5 3.5" /><path d="M6 11v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8" /></svg>
 const PlusSquareGlyph = () => <svg viewBox="0 0 24 24" {...G} width="22" height="22" aria-hidden><rect x="4" y="4" width="16" height="16" rx="4" /><path d="M12 9v6M9 12h6" /></svg>
 const DotsGlyph = () => <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden fill="currentColor"><circle cx="12" cy="5" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="12" cy="19" r="1.6" /></svg>
-const BrowserGlyph = () => <svg viewBox="0 0 24 24" {...G} width="22" height="22" aria-hidden><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 9h18M7 7h.01M9.5 7h.01" /></svg>
 
 function Step({ n, children, glyph }) {
   return (
@@ -35,32 +34,38 @@ function Step({ n, children, glyph }) {
 // --- Guide d'installation illustré (maquettes), adapté à l'appareil ---------
 export function InstallGuide({ onClose }) {
   const t = useT()
-  const { ios, android, canPrompt, promptInstall } = useInstall()
+  const { canPrompt, promptInstall } = useInstall()
+  const [device, setDevice] = useState(null) // null (choix) | 'ios' | 'android'
 
-  let steps
-  if (ios) {
-    steps = (
+  const iosSteps = (
+    <>
       <ol className="space-y-3">
-        <Step n={1} glyph={<BrowserGlyph />}>{t('iosStep1')}</Step>
-        <Step n={2} glyph={<ShareGlyph />}>{t('iosStep2')}</Step>
-        <Step n={3} glyph={<PlusSquareGlyph />}>{t('iosStep3')}</Step>
-        <Step n={4}>{t('iosStep4')}</Step>
+        <Step n={1} glyph={<DotsGlyph />}>{t('iosStep1')}</Step>
+        <Step n={2} glyph={<PlusSquareGlyph />}>{t('iosStep2')}</Step>
+        <Step n={3} glyph={<ShareGlyph />}>{t('iosStep3')}</Step>
       </ol>
-    )
-  } else if (android) {
-    steps = (
+      <p className="mt-3 rounded-xl bg-slate-100 px-3 py-2 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">{t('iosTip')}</p>
+    </>
+  )
+
+  const androidBody = (
+    <>
+      {canPrompt && (
+        <button
+          onClick={async () => { const r = await promptInstall(); if (r === 'accepted') onClose() }}
+          className="mb-4 w-full rounded-2xl px-4 py-3 text-base font-semibold text-white shadow-md transition hover:opacity-90"
+          style={{ backgroundColor: 'var(--c-accent)' }}
+        >
+          {t('installNow')}
+        </button>
+      )}
+      {canPrompt && <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('installOrManual')}</p>}
       <ol className="space-y-3">
         <Step n={1} glyph={<DotsGlyph />}>{t('andStep1')}</Step>
         <Step n={2} glyph={<PlusSquareGlyph />}>{t('andStep2')}</Step>
       </ol>
-    )
-  } else {
-    steps = (
-      <ol className="space-y-3">
-        <Step n={1} glyph={<BrowserGlyph />}>{t('deskStep1')}</Step>
-      </ol>
-    )
-  }
+    </>
+  )
 
   return (
     <div className="no-print fixed inset-0 z-[80] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm sm:items-center sm:p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label={t('installGuideTitle')}>
@@ -78,21 +83,28 @@ export function InstallGuide({ onClose }) {
           <button onClick={onClose} className="-mr-1 -mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800" aria-label={t('quit')}>✕</button>
         </div>
 
-        {/* Android : installation directe en un appui, puis étapes manuelles. */}
-        {canPrompt && (
-          <button
-            onClick={async () => { const r = await promptInstall(); if (r === 'accepted') onClose() }}
-            className="mt-5 w-full rounded-2xl px-4 py-3 text-base font-semibold text-white shadow-md transition hover:opacity-90"
-            style={{ backgroundColor: 'var(--c-accent)' }}
-          >
-            {t('installNow')}
-          </button>
+        {device === null ? (
+          <>
+            <p className="mt-5 text-center text-sm font-semibold text-slate-600 dark:text-slate-300">{t('chooseDevice')}</p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              {[['ios', '🍎', t('deviceIphone')], ['android', '🤖', t('deviceAndroid')]].map(([d, emo, lbl]) => (
+                <button
+                  key={d}
+                  onClick={() => setDevice(d)}
+                  className="flex flex-col items-center gap-2 rounded-2xl border-2 border-transparent bg-slate-100 px-3 py-5 text-center transition hover:-translate-y-0.5 hover:border-[color:var(--c-accent)] dark:bg-slate-800"
+                >
+                  <span className="text-3xl" aria-hidden>{emo}</span>
+                  <span className="text-sm font-semibold">{lbl}</span>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <button onClick={() => setDevice(null)} className="mt-4 text-xs font-semibold text-slate-400 transition hover:text-slate-600 dark:hover:text-slate-200">{t('changeDevice')}</button>
+            <div className="mt-3">{device === 'ios' ? iosSteps : androidBody}</div>
+          </>
         )}
-
-        <div className="mt-5">
-          {canPrompt && <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('installOrManual')}</p>}
-          {steps}
-        </div>
       </div>
     </div>
   )
