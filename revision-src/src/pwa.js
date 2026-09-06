@@ -39,6 +39,14 @@ export function isIOS() {
   return iOSDevice || iPadOS
 }
 
+export function isAndroid() {
+  if (typeof navigator === 'undefined') return false
+  return /Android/i.test(navigator.userAgent || '')
+}
+export function isMobile() {
+  return isIOS() || isAndroid()
+}
+
 export async function promptInstall() {
   if (!deferred) return 'unavailable'
   deferred.prompt()
@@ -62,6 +70,8 @@ export function useInstall() {
   return {
     standalone: isStandalone(),
     ios: isIOS(),
+    android: isAndroid(),
+    mobile: isMobile(),
     canPrompt: !!deferred,
     promptInstall,
   }
