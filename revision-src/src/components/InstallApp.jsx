@@ -37,9 +37,26 @@ export function InstallGuide({ onClose }) {
   const t = useT()
   const { canPrompt, promptInstall } = useInstall()
   const [device, setDevice] = useState(null) // null (choix) | 'ios' | 'android'
+  const [copied, setCopied] = useState(false)
+
+  const siteUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://revizstmg.github.io') + '/'
+  const openSafari = () => { try { window.location.href = 'x-safari-' + siteUrl } catch { /* ignore */ } }
+  const copyLink = async () => {
+    try { await navigator.clipboard.writeText(siteUrl); setCopied(true); setTimeout(() => setCopied(false), 2600) }
+    catch { try { window.prompt(siteUrl, siteUrl) } catch { /* ignore */ } }
+  }
 
   const iosSteps = (
     <>
+      {/* Aide pour passer sur Safari (seul navigateur qui installe sur iPhone). */}
+      <div className="mb-4 space-y-2">
+        <button onClick={openSafari} className="w-full rounded-2xl px-4 py-3 text-base font-semibold text-white shadow-md transition hover:opacity-90" style={{ backgroundColor: 'var(--c-accent)' }}>
+          {t('openInSafari')}
+        </button>
+        <button onClick={copyLink} className="w-full rounded-2xl border-2 px-4 py-2.5 text-sm font-semibold transition hover:bg-slate-50 dark:hover:bg-slate-800" style={{ borderColor: 'color-mix(in srgb, var(--c-accent) 45%, transparent)', color: 'var(--c-accent)' }}>
+          {copied ? t('linkCopied') : t('copyLink')}
+        </button>
+      </div>
       <ol className="space-y-3">
         <Step n={1} glyph={<SafariGlyph />}>{t('iosStep1')}</Step>
         <Step n={2} glyph={<ShareGlyph />}>{t('iosStep2')}</Step>
