@@ -11,6 +11,7 @@ import Badges from './pages/Badges.jsx'
 import Leaderboard from './pages/Leaderboard.jsx'
 import Classe from './pages/Classe.jsx'
 import Profile from './pages/Profile.jsx'
+import Coach from './pages/Coach.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Faq from './pages/Faq.jsx'
 
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="/badges" element={<Badges />} />
         <Route path="/classe" element={<Classe />} />
         <Route path="/moi" element={<Profile />} />
+        <Route path="/coach" element={<Coach />} />
         <Route path="/confidentialite" element={<Privacy />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/classement" element={<Leaderboard />} />

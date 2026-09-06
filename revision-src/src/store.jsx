@@ -294,6 +294,17 @@ export function StoreProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Récompense : XP gagnés à la fin d'une session de révision (minuteur focus).
+  // 1 XP par minute de révision effectuée (plafonné), badges réévalués.
+  useEffect(() => {
+    const onDone = (e) => {
+      const mins = Math.max(1, Math.min(90, Math.round(e?.detail?.minutes || 0)))
+      setState((p) => evaluateBadges({ ...p, xp: p.xp + mins }))
+    }
+    window.addEventListener('stmg-focus-done', onDone)
+    return () => window.removeEventListener('stmg-focus-done', onDone)
+  }, [evaluateBadges])
+
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
     ...p,

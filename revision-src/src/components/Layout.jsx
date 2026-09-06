@@ -10,6 +10,7 @@ import Customizer from './Customizer.jsx'
 import { InstallBanner } from './InstallApp.jsx'
 import { useT, useLang } from '../i18n.js'
 import { signOut } from '../auth.js'
+import { useFocus } from '../focus.jsx'
 
 const LANGS = [{ code: 'fr', label: 'Français' }, { code: 'en', label: 'English' }, { code: 'es', label: 'Español' }]
 
@@ -17,6 +18,7 @@ export default function Layout({ children }) {
   const { state, derived, setTheme, setLang, logout } = useStore()
   const t = useT()
   const lang = useLang()
+  const focus = useFocus()
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
   const [custOpen, setCustOpen] = useState(false)
@@ -62,6 +64,21 @@ export default function Layout({ children }) {
             </span>
           </Link>
 
+          {focus?.phase && focus.phase !== 'idle' && (
+            <Link
+              to="/coach"
+              title={t('coach')}
+              className="flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold tabular-nums"
+              style={{
+                color: focus.phase === 'break' ? '#2f8a5e' : 'var(--c-accent)',
+                backgroundColor: focus.phase === 'break' ? 'color-mix(in srgb, #3f9d6d 16%, transparent)' : 'color-mix(in srgb, var(--c-accent) 16%, transparent)',
+              }}
+            >
+              <span aria-hidden>{focus.phase === 'break' ? '☕' : '🎯'}</span>
+              {Math.floor(focus.remaining / 60)}:{String(focus.remaining % 60).padStart(2, '0')}
+            </Link>
+          )}
+
           <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400" title={t('streakTitle')}>
             <Icon.Flame size={15} />
             <span aria-label={`${state.streak.count} ${t('streakDays')}`}>{state.streak.count}</span>
@@ -74,6 +91,9 @@ export default function Layout({ children }) {
           {/* Contrôles complets : uniquement sur écran large. Sur mobile/app, tout
               est regroupé dans le menu burger (voir plus bas). */}
           <div className="hidden items-center gap-1 sm:flex">
+          <Link to="/coach" className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" aria-label={t('coach')} title={t('coach')}>
+            <Icon.Timer />
+          </Link>
           <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setDictOpen(true)} aria-label={t('dictionary')} title={t('dictionary')}>
             <Icon.Book />
           </button>
@@ -261,6 +281,7 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
               </div>
             )}
             {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
+            <Item icon="🎯" label={t('coach')} to="/coach" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
@@ -315,6 +336,8 @@ function Breadcrumb() {
       items.push({ label: t('classSpace'), to: '/classe' })
     } else if (parts[0] === 'moi') {
       items.push({ label: t('mySpace'), to: '/moi' })
+    } else if (parts[0] === 'coach') {
+      items.push({ label: t('coach'), to: '/coach' })
     }
     return items
   }, [pathname, t])
