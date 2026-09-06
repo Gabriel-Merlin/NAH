@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import { SUBJECTS, ALL_CHAPTERS, chapterGameCount } from './data/index.js'
 import { BADGES } from './badges.js'
-import { saveProgress } from './auth.js'
+import { saveProgress, isSignedIn, refreshSession, fetchProfile, getSession } from './auth.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
 const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly']
@@ -268,6 +268,31 @@ export function StoreProvider({ children }) {
   const hydrateProgress = useCallback((server) => {
     setState((p) => evaluateBadges(mergeProgress(structuredCloneSafe(p), server)))
   }, [evaluateBadges])
+
+  // Rester connecté : au démarrage, si une session existe, on rafraîchit le
+  // jeton (il expire ~1 h) puis on resynchronise la progression du compte
+  // (fusion sans perte). Ainsi, une fois connecté, on le reste durablement et
+  // sur tous ses appareils.
+  const booted = useRef(false)
+  useEffect(() => {
+    if (booted.current) return
+    booted.current = true
+    if (!isSignedIn()) return
+    ;(async () => {
+      await refreshSession().catch(() => {})
+      if (!isSignedIn()) return // refresh_token expiré : on retombera sur l'écran de connexion.
+      try {
+        const prof = await fetchProfile()
+        if (!prof) return
+        if (prof.progress) hydrateProgress(prof.progress)
+        const sess = getSession()
+        if (sess?.user?.id) {
+          setState((p) => (p.account?.id ? p : { ...p, account: { id: sess.user.id, email: sess.user.email, role: prof.role || 'eleve' } }))
+        }
+      } catch { /* hors-ligne : on garde la progression locale */ }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
