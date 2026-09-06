@@ -44,7 +44,15 @@ export default function Layout({ children }) {
     <div className="min-h-screen">
       <header
         className="no-print sticky top-0 z-40 border-b backdrop-blur"
-        style={{ backgroundColor: 'color-mix(in srgb, var(--c-bg) 82%, transparent)', borderColor: 'color-mix(in srgb, var(--c-accent) 24%, transparent)' }}
+        style={{
+          backgroundColor: 'color-mix(in srgb, var(--c-bg) 82%, transparent)',
+          borderColor: 'color-mix(in srgb, var(--c-accent) 24%, transparent)',
+          // Zones sûres iPhone (encoche / barre de statut en mode application) :
+          // décale le contenu du header sous l'heure et les bords arrondis.
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingLeft: 'env(safe-area-inset-left)',
+          paddingRight: 'env(safe-area-inset-right)',
+        }}
       >
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
           <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-2xl font-semibold tracking-tight">
