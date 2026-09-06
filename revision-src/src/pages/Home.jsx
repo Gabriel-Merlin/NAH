@@ -128,7 +128,7 @@ export default function Home() {
             <p className="kicker">{trackIcon(state.track)} {trackLabel(state.track)}</p>
             <h2 className="font-display text-2xl font-medium leading-tight">{t('mySubjects')}</h2>
           </div>
-          <Link to="/" className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('change')}</Link>
+          <Link to="/changer" className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('change')}</Link>
         </div>
         <hr className="rule-gold mb-4" />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

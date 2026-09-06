@@ -63,6 +63,9 @@ export default function Layout({ children }) {
             {t('levelShort')}&nbsp;{derived.level} · {state.xp}&nbsp;XP
           </div>
 
+          {/* Contrôles complets : uniquement sur écran large. Sur mobile/app, tout
+              est regroupé dans le menu burger (voir plus bas). */}
+          <div className="hidden items-center gap-1 sm:flex">
           <button className="grid h-9 w-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800" onClick={() => setDictOpen(true)} aria-label={t('dictionary')} title={t('dictionary')}>
             <Icon.Book />
           </button>
@@ -151,6 +154,26 @@ export default function Layout({ children }) {
               )}
             </div>
           )}
+          </div>
+
+          {/* Menu burger : uniquement sur mobile / application. Regroupe toutes
+              les options habituellement en haut à droite. */}
+          <MobileMenu
+            className="sm:hidden"
+            state={state}
+            isDark={isDark}
+            lang={lang}
+            first={first}
+            last={last}
+            mono={mono}
+            photo={photo}
+            onSearch={() => setSearchOpen(true)}
+            onDict={() => setDictOpen(true)}
+            onCustomize={() => setCustOpen(true)}
+            onToggleTheme={() => setTheme(isDark ? 'light' : 'dark')}
+            onLang={setLang}
+            onSignOut={() => { signOut(); logout() }}
+          />
         </div>
         <Breadcrumb />
       </header>
@@ -181,6 +204,82 @@ export default function Layout({ children }) {
       <BadgeToast />
       <InstallBanner />
       <Welcome />
+    </div>
+  )
+}
+
+// Menu burger pour mobile / application : regroupe toutes les options du site
+// (recherche, dictionnaire, thème, personnalisation, langue, espace, déconnexion).
+function MobileMenu({ className = '', state, isDark, lang, first, last, mono, photo, onSearch, onDict, onCustomize, onToggleTheme, onLang, onSignOut }) {
+  const t = useT()
+  const [open, setOpen] = useState(false)
+  const signedIn = !!(first || last)
+  const close = () => setOpen(false)
+  const run = (fn) => () => { close(); fn?.() }
+
+  const Item = ({ icon, label, onClick, to, danger }) => {
+    const cls = `flex w-full items-center gap-3 px-4 py-3 text-left text-sm ${danger ? 'font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`
+    const inner = <><span className="w-5 shrink-0 text-center" aria-hidden>{icon}</span> {label}</>
+    return to
+      ? <Link to={to} onClick={close} className={cls}>{inner}</Link>
+      : <button onClick={run(onClick)} className={cls}>{inner}</button>
+  }
+
+  return (
+    <div className={`relative ${className}`}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label={t('menu')}
+        aria-expanded={open}
+        className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+      >
+        {open ? <Icon.Close /> : <Icon.Menu />}
+      </button>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={close} />
+          <div className="absolute right-0 z-50 mt-1.5 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+            {signedIn && (
+              <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+                <span className="monogram h-9 w-9 shrink-0 overflow-hidden text-sm" aria-hidden>
+                  {photo ? <img src={photo} alt="" className="h-full w-full rounded-full object-cover" /> : mono}
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{`${first} ${last}`.trim()}</p>
+                  <p className="text-xs" style={{ color: 'var(--c-accent)' }}>
+                    {state.account?.role === 'prof' ? `🧑‍🏫 ${t('roleTeacher')}` : `🎓 ${t('roleStudent')}`}
+                  </p>
+                </div>
+              </div>
+            )}
+            {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
+            <Item icon="🔍" label={t('search')} onClick={onSearch} />
+            <Item icon="📖" label={t('dictionary')} onClick={onDict} />
+            <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
+            <Item icon={isDark ? '☀️' : '🌙'} label={isDark ? t('light') : t('dark')} onClick={onToggleTheme} />
+            <div className="border-t border-slate-100 px-4 py-2.5 dark:border-slate-800">
+              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('language')}</p>
+              <div className="flex gap-1.5">
+                {LANGS.map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => onLang(l.code)}
+                    className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-semibold uppercase transition ${lang === l.code ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+                    style={lang === l.code ? { backgroundColor: 'var(--c-accent)' } : undefined}
+                  >
+                    {l.code}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {signedIn && (
+              <div className="border-t border-slate-100 dark:border-slate-800">
+                <Item icon="🚪" label={t('signOut')} onClick={onSignOut} danger />
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   )
 }
