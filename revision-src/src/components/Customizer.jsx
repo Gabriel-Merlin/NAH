@@ -3,6 +3,8 @@ import { useStore } from '../store.jsx'
 import { useT } from '../i18n.js'
 import { signIn, signUp, signOut, fetchProfile, upsertProfile, getSession } from '../auth.js'
 import { normalizeCode } from '../leaderboard.js'
+import { isStandalone } from '../pwa.js'
+import { InstallLock } from './InstallApp.jsx'
 
 // Panneau « Personnalisation » : ambiances + couleurs + typographie + avatar +
 // style (coins, taille). Tout est piloté par des variables CSS sur <html>.
@@ -154,6 +156,21 @@ export default function Customizer({ onClose }) {
       </span>
     </button>
   )
+
+  // Exclusivité de l'app installée : hors installation, la personnalisation
+  // est verrouillée et invite à installer.
+  if (!isStandalone()) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-900/50 p-4 pt-16 backdrop-blur-sm no-print" onClick={onClose}>
+        <div className="w-full max-w-md animate-pop-in" onClick={(e) => e.stopPropagation()}>
+          <div className="mb-2 flex justify-end">
+            <button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-slate-500 shadow hover:text-slate-800 dark:bg-slate-800/90 dark:text-slate-300" aria-label={t('quit')}>✕</button>
+          </div>
+          <InstallLock title={t('customize')} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-900/50 p-4 pt-12 backdrop-blur-sm no-print" onClick={onClose}>

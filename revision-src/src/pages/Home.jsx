@@ -3,6 +3,8 @@ import { getChapter } from '../data/index.js'
 import { subjectsForTrack, trackLabel, trackIcon } from '../data/tracks.js'
 import { useStore, subjectScore } from '../store.jsx'
 import { ProgressBar, Ring, Icon } from '../components/ui.jsx'
+import { AppBadge } from '../components/InstallApp.jsx'
+import { isStandalone } from '../pwa.js'
 import { useT } from '../i18n.js'
 
 export default function Home() {
@@ -113,7 +115,7 @@ export default function Home() {
       <Link to="/coach" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
         <span className="text-2xl" aria-hidden>🎯</span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display font-semibold">{t('coach')}</span>
+          <span className="flex items-center gap-2 font-display font-semibold">{t('coach')} {!isStandalone() && <AppBadge />}</span>
           <span className="block text-xs text-slate-500 dark:text-slate-400">{t('coachSub')}</span>
         </span>
         <span className="text-slate-300" aria-hidden>›</span>

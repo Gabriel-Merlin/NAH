@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStore, levelFromXp } from '../store.jsx'
 import { getSubject, getChapter, search } from '../data/index.js'
@@ -263,10 +264,16 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
       >
         {open ? <Icon.Close /> : <Icon.Menu />}
       </button>
-      {open && (
+      {open && createPortal(
         <>
-          <div className="fixed inset-0 z-40" onClick={close} />
-          <div className="absolute right-0 z-50 mt-1.5 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+          {/* Fond plein écran (via portal pour échapper au backdrop-blur du header) :
+              tout tap en dehors du menu le referme. */}
+          <div className="no-print fixed inset-0 z-[90] bg-slate-900/25" onClick={close} aria-hidden />
+          <div
+            className="no-print fixed right-3 z-[91] w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+            style={{ top: 'calc(env(safe-area-inset-top) + 3.25rem)' }}
+            role="menu"
+          >
             {signedIn && (
               <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
                 <span className="monogram h-9 w-9 shrink-0 overflow-hidden text-sm" aria-hidden>
@@ -307,7 +314,8 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
               </div>
             )}
           </div>
-        </>
+        </>,
+        document.body,
       )}
     </div>
   )

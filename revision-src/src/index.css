@@ -232,7 +232,8 @@
   padding: 1.25rem;
   background: #fbfaf7;
   color: #1c1b19;
-  animation: welcome-bg-in 0.7s ease-out both;
+  /* Fond OPAQUE dès la 1re image : on doit voir « Bienvenue » en premier,
+     jamais le contenu du site derrière (les textes gardent leur animation). */
   -webkit-tap-highlight-color: transparent;
 }
 .welcome-hello { margin: auto; }

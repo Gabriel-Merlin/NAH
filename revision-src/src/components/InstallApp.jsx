@@ -20,6 +20,7 @@ const G = { size: 22, fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, st
 const ShareGlyph = () => <svg viewBox="0 0 24 24" {...G} width="22" height="22" aria-hidden><path d="M12 3v11M8.5 6.5 12 3l3.5 3.5" /><path d="M6 11v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8" /></svg>
 const PlusSquareGlyph = () => <svg viewBox="0 0 24 24" {...G} width="22" height="22" aria-hidden><rect x="4" y="4" width="16" height="16" rx="4" /><path d="M12 9v6M9 12h6" /></svg>
 const DotsGlyph = () => <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden fill="currentColor"><circle cx="12" cy="5" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="12" cy="19" r="1.6" /></svg>
+const SafariGlyph = () => <svg viewBox="0 0 24 24" {...G} width="22" height="22" aria-hidden><circle cx="12" cy="12" r="9" /><path d="M15.5 8.5 11 11l-2.5 4.5L13 13Z" /></svg>
 
 function Step({ n, children, glyph }) {
   return (
@@ -40,9 +41,9 @@ export function InstallGuide({ onClose }) {
   const iosSteps = (
     <>
       <ol className="space-y-3">
-        <Step n={1} glyph={<DotsGlyph />}>{t('iosStep1')}</Step>
-        <Step n={2} glyph={<PlusSquareGlyph />}>{t('iosStep2')}</Step>
-        <Step n={3} glyph={<ShareGlyph />}>{t('iosStep3')}</Step>
+        <Step n={1} glyph={<SafariGlyph />}>{t('iosStep1')}</Step>
+        <Step n={2} glyph={<ShareGlyph />}>{t('iosStep2')}</Step>
+        <Step n={3} glyph={<PlusSquareGlyph />}>{t('iosStep3')}</Step>
       </ol>
       <p className="mt-3 rounded-xl bg-slate-100 px-3 py-2 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">{t('iosTip')}</p>
     </>
@@ -107,6 +108,39 @@ export function InstallGuide({ onClose }) {
         )}
       </div>
     </div>
+  )
+}
+
+// Petit badge « 🔒 Appli » à coller sur les entrées de fonctionnalités exclusives.
+export function AppBadge() {
+  const t = useT()
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide"
+      style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 18%, transparent)', color: 'var(--c-accent)' }}>
+      🔒 {t('appOnlyBadge')}
+    </span>
+  )
+}
+
+// Écran de verrouillage : fonctionnalité réservée à l'app installée.
+export function InstallLock({ title }) {
+  const t = useT()
+  const [guide, setGuide] = useState(false)
+  return (
+    <>
+      <div className="card card-lux mx-auto max-w-md p-6 text-center sm:p-8">
+        <span className="relative mx-auto block w-fit">
+          <span className="block overflow-hidden rounded-2xl shadow-sm"><AppMark size={64} /></span>
+          <span className="absolute -bottom-2 -right-2 grid h-8 w-8 place-items-center rounded-full bg-white text-lg shadow dark:bg-slate-800" aria-hidden>🔒</span>
+        </span>
+        <h2 className="mt-4 font-display text-xl font-semibold">{title || t('appOnlyTitle')}</h2>
+        <p className="mx-auto mt-2 max-w-sm text-sm text-slate-500 dark:text-slate-400">{t('appOnlyBody')}</p>
+        <button onClick={() => setGuide(true)} className="mt-5 w-full max-w-xs rounded-2xl px-4 py-3 text-base font-semibold text-white shadow-md transition hover:opacity-90" style={{ backgroundColor: 'var(--c-accent)' }}>
+          {t('installBtn')}
+        </button>
+      </div>
+      {guide && <InstallGuide onClose={() => setGuide(false)} />}
+    </>
   )
 }
 

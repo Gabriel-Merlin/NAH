@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { useFocus } from '../focus.jsx'
+import { useInstall } from '../pwa.js'
 import { useT } from '../i18n.js'
 import { Ring, Icon } from '../components/ui.jsx'
+import { InstallLock } from '../components/InstallApp.jsx'
 
 // --- Bibliothèque de méthodes de révision (contenu en français) -------------
 const METHODS = [
@@ -56,10 +58,24 @@ export default function Coach() {
   const { state } = useStore()
   const f = useFocus()
   const t = useT()
+  const { standalone } = useInstall()
   const [answers, setAnswers] = useState({}) // { [qIndex]: aIndex }
   const [showResults, setShowResults] = useState(false)
 
   if (!state.track) return <Navigate to="/" replace />
+
+  // Exclusivité de l'app installée : hors installation, on invite à installer.
+  if (!standalone) {
+    return (
+      <div className="animate-lux space-y-6 py-4">
+        <header className="text-center">
+          <p className="kicker">🎯 {t('coach')}</p>
+          <h1 className="mt-1 font-display text-[1.9rem] font-medium leading-tight">{t('coach')}</h1>
+        </header>
+        <InstallLock title={t('coach')} />
+      </div>
+    )
+  }
 
   const { phase, running, remaining, phaseTotal, studyMin, breakMin, cycles } = f
   const canEdit = phase === 'idle'
