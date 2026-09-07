@@ -2,9 +2,10 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, useCal
 import { SUBJECTS, ALL_CHAPTERS, chapterGameCount } from './data/index.js'
 import { BADGES } from './badges.js'
 import { saveProgress, isSignedIn, refreshSession, fetchProfile, getSession } from './auth.js'
+import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -33,6 +34,14 @@ function mergeProgress(a, b) {
   if (aw.week && aw.week === bw.week) out.weekly = { week: aw.week, done: Array.from(new Set([...(aw.done || []), ...(bw.done || [])])) }
   else out.weekly = (bw.week || '') > (aw.week || '') ? bw : aw
   out.lastChapter = a.lastChapter || b.lastChapter || null
+  // Répétition espacée : on garde, par thème, la fiche la plus récente.
+  const srs = { ...(a.srs || {}) }
+  for (const [tid, rec] of Object.entries(b.srs || {})) {
+    const cur = srs[tid]
+    if (!cur || (rec.last || '') > (cur.last || '')) srs[tid] = rec
+  }
+  out.srs = srs
+  out.bacDate = a.bacDate || b.bacDate || null
   return out
 }
 
@@ -76,6 +85,8 @@ const emptyState = () => ({
   classCode: '', // code de la classe active (partagé pour classement / espace)
   account: null, // { id, email, role } quand connecté (compte prof/élève)
   teacherClasses: [], // [{ code, label }] — classes générées par le prof
+  srs: {}, // répétition espacée : { [themeId]: { interval, ease, reps, last, due, score } }
+  bacDate: null, // date du bac (programme de révision)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -206,6 +217,8 @@ export function StoreProvider({ children }) {
         const wk = isoWeekKey()
         if (!next.weekly || next.weekly.week !== wk) next.weekly = { week: wk, done: [] }
         if (chapterId && !next.weekly.done.includes(chapterId)) next.weekly.done = [...next.weekly.done, chapterId]
+        // Répétition espacée : planifie la prochaine révision de ce thème.
+        if (chapterId) next.srs = { ...(next.srs || {}), [chapterId]: srsUpdate(next.srs?.[chapterId], chapterScore(next, chapterId), srsToday()) }
         return evaluateBadges(next)
       })
     },
@@ -335,11 +348,17 @@ export function StoreProvider({ children }) {
 
   const derived = useMemo(() => deriveAll(state), [state])
 
+  // Programme : date du bac. XP direct (bac blanc, révision libre).
+  const setBacDate = useCallback((bacDate) => setState((p) => ({ ...p, bacDate: bacDate || null })), [])
+  const addXp = useCallback((n) => setState((p) => evaluateBadges({ ...p, xp: p.xp + Math.max(0, Math.round(n) || 0) })), [evaluateBadges])
+
   const value = {
     state,
     derived,
     newBadges,
     recordResult,
+    setBacDate,
+    addXp,
     toggleFavorite,
     setLastChapter,
     setTheme,

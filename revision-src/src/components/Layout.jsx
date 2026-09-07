@@ -289,6 +289,9 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
             )}
             {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
             <Item icon="🎯" label={t('coach')} to="/coach" />
+            <Item icon="🧠" label={t('smartRevision')} to="/revision" />
+            <Item icon="📝" label={t('mockExam')} to="/bac-blanc" />
+            <Item icon="📅" label={t('studyPlan')} to="/programme" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
@@ -346,6 +349,12 @@ function Breadcrumb() {
       items.push({ label: t('mySpace'), to: '/moi' })
     } else if (parts[0] === 'coach') {
       items.push({ label: t('coach'), to: '/coach' })
+    } else if (parts[0] === 'revision') {
+      items.push({ label: t('smartRevision'), to: '/revision' })
+    } else if (parts[0] === 'bac-blanc') {
+      items.push({ label: t('mockExam'), to: '/bac-blanc' })
+    } else if (parts[0] === 'programme') {
+      items.push({ label: t('studyPlan'), to: '/programme' })
     }
     return items
   }, [pathname, t])

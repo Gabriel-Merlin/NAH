@@ -121,6 +121,22 @@ export default function Home() {
         <span className="text-slate-300" aria-hidden>›</span>
       </Link>
 
+      {/* Préparation au bac : révision intelligente, bac blanc, programme */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <Link to="/revision" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+          <span className="text-2xl" aria-hidden>🧠</span>
+          <span className="min-w-0"><span className="block font-display font-semibold leading-tight">{t('smartRevision')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('priorityList')}</span></span>
+        </Link>
+        <Link to="/bac-blanc" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+          <span className="text-2xl" aria-hidden>📝</span>
+          <span className="min-w-0"><span className="block font-display font-semibold leading-tight">{t('mockExam')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">/20 · ⏱</span></span>
+        </Link>
+        <Link to="/programme" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+          <span className="text-2xl" aria-hidden>📅</span>
+          <span className="min-w-0"><span className="block font-display font-semibold leading-tight">{t('studyPlan')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('todayGoals')}</span></span>
+        </Link>
+      </div>
+
       {/* Espace Classe : rejoindre / comparer / QCM de la classe */}
       <Link to="/classe" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
         <span className="text-2xl" aria-hidden>👥</span>
