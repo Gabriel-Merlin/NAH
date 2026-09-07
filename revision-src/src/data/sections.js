@@ -4,6 +4,9 @@
 // leur notion ; les jeux de synthèse (QCM, vrai/faux, flashcards) comblent
 // les sections restantes. Un id absent → répartition régulière par défaut.
 export const GAME_SECTION = {
+  // Compréhensions rangées par niveau (0 = A2, 1 = B1, 2 = B2).
+  "cmp-en-a2-read": 0, "cmp-en-a2-listen": 0, "cmp-en-b1-read": 1, "cmp-en-b1-listen": 1, "cmp-en-b2-read": 2, "cmp-en-b2-listen": 2,
+  "cmp-es-a2-read": 0, "cmp-es-a2-listen": 0, "cmp-es-b1-read": 1, "cmp-es-b1-listen": 1, "cmp-es-b2-read": 2, "cmp-es-b2-listen": 2,
   "droit-t5-assoc": 2,
   "droit-t5-doc": 5,
   "droit-t5-flash": 0,

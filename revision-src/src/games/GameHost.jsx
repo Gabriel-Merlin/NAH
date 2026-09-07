@@ -12,6 +12,8 @@ import Ordre from './Ordre.jsx'
 import Calcul from './Calcul.jsx'
 import Memory from './Memory.jsx'
 import DocStudy from './DocStudy.jsx'
+import TypedGen from './TypedGen.jsx'
+import Comprehension from './Comprehension.jsx'
 
 const COMPONENTS = {
   qcm: Qcm,
@@ -24,6 +26,9 @@ const COMPONENTS = {
   calcul: Calcul,
   memory: Memory,
   doc: DocStudy,
+  verbs: TypedGen,
+  grammar: TypedGen,
+  comprehension: Comprehension,
 }
 
 export const GAME_LABELS = {
@@ -37,10 +42,13 @@ export const GAME_LABELS = {
   calcul: 'Calcul express',
   memory: 'Memory',
   doc: 'Étude de documents',
+  verbs: 'Verbes irréguliers',
+  grammar: 'Grammaire',
+  comprehension: 'Compréhension',
 }
 
 // Types sans « mode » (Entraînement / Défi) : on entre directement dans le jeu.
-const NO_MODE = new Set(['doc'])
+const NO_MODE = new Set(['doc', 'comprehension'])
 
 // Jeux « auto-corrigés en continu » où le mode Entraînement montre l'explication
 // après chaque réponse (les autres se corrigent surtout à la fin).

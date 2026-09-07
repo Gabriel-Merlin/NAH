@@ -2,6 +2,25 @@
 // Pas de « cours » rédigé : uniquement (1) toutes les CONJUGAISONS, temps par
 // temps, sous forme de tableaux, et (2) une PANOPLIE de vocabulaire par thème.
 // Le dictionnaire / traducteur intégré (icône 📖 en haut) complète le tout.
+import { genVerbEN, genVerbES, genGrammarEN, genGrammarES } from './langgen.js'
+import { EN_COMPREHENSION, ES_COMPREHENSION } from './comprehension.js'
+
+// Thème de compréhension : 3 sous-chapitres par niveau (A2 / B1 / B2).
+// Les activités sont rangées par niveau via GAME_SECTION (voir sections.js).
+const comprehensionTheme = (id, langLabel, flag, games) => ({
+  id,
+  name: `${langLabel} — Compréhension`,
+  short: `${langLabel} · compréhension`,
+  keywords: 'compréhension orale écrite écoute lecture niveau A2 B1 B2 audio texte questions correction',
+  intro: `${flag} Compréhensions orales (écoute) et écrites, classées par niveau. Choisis ton niveau, réponds aux questions, puis découvre la correction.`,
+  cours: [
+    { h: 'Niveau A2 — Débutant', blocks: [{ t: 'p', c: 'Textes et dialogues **simples** (vie quotidienne). Idéal pour se lancer.' }] },
+    { h: 'Niveau B1 — Intermédiaire', blocks: [{ t: 'p', c: 'Récits et situations **plus longs** (travail, voyages, école).' }] },
+    { h: 'Niveau B2 — Avancé', blocks: [{ t: 'p', c: 'Sujets **d’actualité et professionnels** (entreprise, société).' }] },
+  ],
+  games,
+})
+
 export const langues = {
   id: 'langues',
   name: 'Langues (Anglais / Espagnol)',
@@ -392,6 +411,42 @@ export const langues = {
     // ESPAGNOL — CONJUGAISON (tous les temps)
     // ======================================================================
     {
+      id: 'lng-en-verbs',
+      name: 'Anglais — Verbes irréguliers',
+      short: 'Anglais · verbes irréguliers',
+      keywords: 'verbes irréguliers anglais prétérit participe passé irregular verbs go went gone',
+      intro: '🇬🇧 Entraîne-toi aux verbes irréguliers : chaque partie tire de nouveaux verbes et de nouvelles questions — jamais deux fois les mêmes.',
+      cours: [
+        { h: 'Verbes irréguliers — l’essentiel', blocks: [
+          { t: 'table', head: ['Base', 'Prétérit', 'Participe passé', 'Sens'], rows: [
+            ['go', 'went', 'gone', 'aller'], ['see', 'saw', 'seen', 'voir'], ['take', 'took', 'taken', 'prendre'],
+            ['make', 'made', 'made', 'fabriquer'], ['come', 'came', 'come', 'venir'], ['write', 'wrote', 'written', 'écrire'],
+          ] },
+          { t: 'tip', c: 'Structure : **base – prétérit – participe passé**. Le mieux : les réviser par familles de sons.' },
+        ] },
+      ],
+      games: [
+        { id: 'lng-en-verbs-gen', type: 'verbs', title: 'Verbes irréguliers — entraînement', icon: '🔤', gen: genVerbEN, count: 10 },
+      ],
+    },
+    {
+      id: 'lng-en-grammar-ex',
+      name: 'Anglais — Grammaire (exercices)',
+      short: 'Anglais · grammaire',
+      keywords: 'grammaire anglaise exercices a an some any much many comparatif superlatif présent simple',
+      intro: '🇬🇧 Les règles de grammaire en exercices générés : articles, présent, comparatifs, some/any, temps du passé… De nouveaux items à chaque fois.',
+      cours: [
+        { h: 'Règles clés', blocks: [
+          { t: 'list', c: ['**a / an** selon le son (a car, an apple).', 'Présent simple : **+s** à la 3ᵉ personne (he work**s**).', 'Comparatif : court **+er**, long **more** + adj.', '**some / any**, **much / many**, **this / these**.'] },
+          { t: 'tip', c: 'Chaque exercice tire de **nouvelles phrases** : refais-le autant de fois que tu veux.' },
+        ] },
+      ],
+      games: [
+        { id: 'lng-en-grammar-gen', type: 'grammar', title: 'Grammaire — exercices variés', icon: '🧩', gen: genGrammarEN, count: 10 },
+      ],
+    },
+    comprehensionTheme('lng-en-comp', 'Anglais', '🇬🇧', EN_COMPREHENSION),
+    {
       id: 'lng-es-gram',
       name: 'Espagnol — Toutes les conjugaisons',
       short: 'Espagnol · conjugaison',
@@ -741,5 +796,41 @@ export const langues = {
         },
       ],
     },
+    {
+      id: 'lng-es-verbs',
+      name: 'Espagnol — Verbes irréguliers',
+      short: 'Espagnol · verbes irréguliers',
+      keywords: 'verbes irréguliers espagnol presente indefinido ser tener hacer ir',
+      intro: '🇪🇸 Entraîne-toi aux verbes irréguliers espagnols (présent « yo » et passé simple) : de nouveaux verbes à chaque partie.',
+      cours: [
+        { h: 'Verbes irréguliers — l’essentiel', blocks: [
+          { t: 'table', head: ['Infinitif', 'Présent (yo)', 'Indéfini (él)', 'Sens'], rows: [
+            ['ser', 'soy', 'fue', 'être'], ['tener', 'tengo', 'tuvo', 'avoir'], ['hacer', 'hago', 'hizo', 'faire'],
+            ['ir', 'voy', 'fue', 'aller'], ['poder', 'puedo', 'pudo', 'pouvoir'], ['decir', 'digo', 'dijo', 'dire'],
+          ] },
+          { t: 'tip', c: 'Beaucoup changent la **racine** (e→ie, o→ue) ou sont totalement irréguliers au passé simple.' },
+        ] },
+      ],
+      games: [
+        { id: 'lng-es-verbs-gen', type: 'verbs', title: 'Verbes irréguliers — entraînement', icon: '🔤', gen: genVerbES, count: 10 },
+      ],
+    },
+    {
+      id: 'lng-es-grammar-ex',
+      name: 'Espagnol — Grammaire (exercices)',
+      short: 'Espagnol · grammaire',
+      keywords: 'grammaire espagnole exercices ser estar por para el la muy mucho gustar présent',
+      intro: '🇪🇸 Les règles de grammaire en exercices générés : ser/estar, por/para, articles, gustar, muy/mucho… De nouveaux items à chaque fois.',
+      cours: [
+        { h: 'Règles clés', blocks: [
+          { t: 'list', c: ['**ser** (identité) vs **estar** (état, lieu).', '**por** (cause) vs **para** (but, destinataire).', 'Articles : **el / la** (attention : el problema, la mano).', 'Verbe **gustar** : me / te / le… + gusta(n).'] },
+          { t: 'tip', c: 'Chaque exercice tire de **nouvelles phrases** : refais-le autant de fois que tu veux.' },
+        ] },
+      ],
+      games: [
+        { id: 'lng-es-grammar-gen', type: 'grammar', title: 'Grammaire — exercices variés', icon: '🧩', gen: genGrammarES, count: 10 },
+      ],
+    },
+    comprehensionTheme('lng-es-comp', 'Espagnol', '🇪🇸', ES_COMPREHENSION),
   ],
 }
