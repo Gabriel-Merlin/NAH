@@ -65,22 +65,51 @@ function collectQuestions(themeId) {
   return out
 }
 
+// Mélange l'ordre des propositions d'une question et recale l'indice de la
+// bonne réponse : même une question déjà vue se présente différemment.
+function shuffleChoices(q) {
+  const order = shuffle(q.choices.map((_, i) => i))
+  return { ...q, choices: order.map((i) => q.choices[i]), answer: order.indexOf(q.answer) }
+}
+
 // subjectIds : liste d'ids de matières (ou null = toute la filière).
-export function buildExam(state, track, subjectIds, count = 20) {
+// `seen` : clés (énoncés) des questions déjà tombées lors des bacs blancs
+// précédents (les plus anciennes en tête). On sert EN PRIORITÉ des questions
+// jamais vues récemment → jamais le même sujet deux fois de suite tant que
+// la banque de questions le permet. Renvoie { questions, keys }.
+export function buildExam(state, track, subjectIds, count = 20, seen = []) {
   let subjects = subjectsForTrack(track).filter((s) => !s.comingSoon && (s.chapters || []).length)
   if (subjectIds && subjectIds.length) subjects = subjects.filter((s) => subjectIds.includes(s.id))
   const pool = []
   for (const s of subjects) for (const th of s.chapters || []) pool.push(...collectQuestions(th.id))
-  // Déduplique par énoncé et mélange les choix de chaque question.
-  const seen = new Set()
-  const uniq = []
-  for (const q of shuffle(pool)) {
+  // Une seule question par énoncé (déduplication).
+  const byKey = new Map()
+  for (const q of pool) {
     const k = (q.q || '').toLowerCase().trim()
-    if (!k || seen.has(k) || !Array.isArray(q.choices) || q.choices.length < 2) continue
-    seen.add(k); uniq.push(q)
-    if (uniq.length >= count) break
+    if (!k || !Array.isArray(q.choices) || q.choices.length < 2) continue
+    if (!byKey.has(k)) byKey.set(k, q)
   }
-  return uniq
+  const seenSet = new Set(seen)
+  const rank = new Map(seen.map((k, i) => [k, i])) // ancienneté : petit = plus ancien
+  const fresh = [] // jamais vues récemment
+  const stale = [] // déjà tombées récemment
+  for (const [k, q] of byKey) (seenSet.has(k) ? stale : fresh).push({ k, q })
+  // Fraîches d'abord (mélangées), puis les plus anciennement vues si besoin.
+  shuffleInPlace(fresh)
+  stale.sort((a, b) => (rank.get(a.k) ?? 0) - (rank.get(b.k) ?? 0))
+  const chosen = [...fresh, ...stale].slice(0, count)
+  return {
+    questions: chosen.map((x) => shuffleChoices(x.q)),
+    keys: chosen.map((x) => x.k),
+  }
+}
+
+function shuffleInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
 }
 
 export function examSubjects(track) {

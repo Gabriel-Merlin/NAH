@@ -90,6 +90,7 @@ const emptyState = () => ({
   a11y: { dys: false, contrast: false, big: false }, // accessibilité (local)
   reminder: { on: false, time: '18:00' }, // rappel de révision (local)
   grandOral: { spec: '', q1: '', q2: '', notes: '' }, // préparation du Grand Oral (local)
+  examSeen: {}, // bac blanc : { [sélection]: [clés d'énoncés déjà tombés] } (local)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -285,7 +286,7 @@ export function StoreProvider({ children }) {
   // Les préférences d'affichage (langue, thème) restent locales.
   const logout = useCallback(() => setState((p) => {
     if (p.account?.id) { try { saveProgress(pickProgress(p)) } catch { /* best effort */ } }
-    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder, grandOral: p.grandOral }
+    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder, grandOral: p.grandOral, examSeen: p.examSeen }
   }), [])
 
   // Restaure la progression du compte (fusion avec l'éventuel local du même
@@ -366,6 +367,16 @@ export function StoreProvider({ children }) {
   const setA11y = useCallback((patch) => setState((p) => ({ ...p, a11y: { ...(p.a11y || {}), ...patch } })), [])
   const setReminder = useCallback((patch) => setState((p) => ({ ...p, reminder: { ...(p.reminder || {}), ...patch } })), [])
   const setGrandOral = useCallback((patch) => setState((p) => ({ ...p, grandOral: { ...(p.grandOral || {}), ...patch } })), [])
+  // Bac blanc : mémorise les énoncés déjà tombés pour cette sélection, afin de
+  // ne jamais reproposer le même sujet deux fois de suite (fenêtre glissante).
+  const recordExamSeen = useCallback((selection, keys) => setState((p) => {
+    if (!Array.isArray(keys) || !keys.length) return p
+    const prev = p.examSeen?.[selection] || []
+    const merged = [...prev.filter((k) => !keys.includes(k)), ...keys]
+    const CAP = 120
+    const capped = merged.length > CAP ? merged.slice(merged.length - CAP) : merged
+    return { ...p, examSeen: { ...(p.examSeen || {}), [selection]: capped } }
+  }), [])
 
   const value = {
     state,
@@ -377,6 +388,7 @@ export function StoreProvider({ children }) {
     setA11y,
     setReminder,
     setGrandOral,
+    recordExamSeen,
     toggleFavorite,
     setLastChapter,
     setTheme,

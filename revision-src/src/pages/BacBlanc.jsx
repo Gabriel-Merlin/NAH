@@ -12,7 +12,7 @@ const DURATIONS = [
 ]
 
 export default function BacBlanc() {
-  const { state } = useStore()
+  const { state, recordExamSeen } = useStore()
   const t = useT()
   if (!state.track) return <Navigate to="/" replace />
 
@@ -23,8 +23,10 @@ export default function BacBlanc() {
 
   const start = () => {
     const ids = subjectId === 'all' ? null : [subjectId]
-    const questions = buildExam(state, state.track, ids, dur.q)
+    const seen = state.examSeen?.[subjectId] || []
+    const { questions, keys } = buildExam(state, state.track, ids, dur.q, seen)
     if (questions.length < 4) { setExam({ questions: [], durationSec: 0 }); return }
+    recordExamSeen(subjectId, keys) // mémorise ce sujet pour ne pas le répéter
     setExam({ questions, durationSec: dur.min * 60 })
   }
 
