@@ -223,6 +223,7 @@ export default function Layout({ children }) {
               <span>Réviz<span style={{ color: 'color-mix(in srgb, var(--c-accent) 78%, var(--c-ink))' }}>STMG</span></span>
             </Link>
             <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
+              <Link to="/guide" className="hover:text-[color:var(--c-accent)] hover:underline">{t('startGuide')}</Link>
               <Link to="/confidentialite" className="hover:text-[color:var(--c-accent)] hover:underline">{t('privacyPolicy')}</Link>
               <Link to="/faq" className="hover:text-[color:var(--c-accent)] hover:underline">{t('faq')}</Link>
               <button onClick={() => window.dispatchEvent(new CustomEvent('stmg-open-a11y'))} className="hover:text-[color:var(--c-accent)] hover:underline">♿ {t('accessibility')}</button>
@@ -305,6 +306,7 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
+            <Item icon="🎓" label={t('startGuide')} to="/guide" />
             <Item icon="♿" label={t('accessibility')} onClick={onA11y} />
             <Item icon={isDark ? '☀️' : '🌙'} label={isDark ? t('light') : t('dark')} onClick={onToggleTheme} />
             <div className="border-t border-slate-100 px-4 py-2.5 dark:border-slate-800">
@@ -368,6 +370,8 @@ function Breadcrumb() {
       items.push({ label: t('studyPlan'), to: '/programme' })
     } else if (parts[0] === 'grand-oral') {
       items.push({ label: t('grandOral'), to: '/grand-oral' })
+    } else if (parts[0] === 'guide') {
+      items.push({ label: t('startGuide'), to: '/guide' })
     }
     return items
   }, [pathname, t])
