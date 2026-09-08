@@ -110,6 +110,15 @@ export const sig = {
           explain: 'Le SI transforme des données brutes en information utile à la décision.',
         },
         {
+          id: 'sig-t1-trou', type: 'trou', title: 'Texte à trous — Le système d’information', icon: '✏️',
+          questions: [
+            { text: 'Une donnée brute mise en contexte devient une ____ .', answer: 'information', alt: ['une information'], explain: 'Donnée → information → connaissance.' },
+            { text: 'Le logiciel unique à base de données partagée est un ____ .', answer: 'PGI', alt: ['pgi', 'ERP', 'erp'], explain: 'PGI (ERP) : modules intégrés, base unique.' },
+            { text: 'Saisir les données à la source relève de la fonction ____ du SI.', answer: 'collecter', alt: ['collecte', 'de collecte'], explain: 'Les 4 fonctions : collecter, mémoriser, traiter, diffuser.' },
+            { text: 'Le support technique du SI (matériel + logiciels) est le système ____ .', answer: 'informatique', alt: ['informatique'], explain: 'Le SI inclut aussi acteurs et procédures.' },
+          ],
+        },
+        {
           id: 'sig-t1-assoc', type: 'association', title: 'Association — Notion ↔ définition', icon: '🔗',
           pairs: [
             { left: 'Donnée', right: 'Élément brut, non interprété' },
@@ -373,6 +382,15 @@ export const sig = {
           ],
         },
         {
+          id: 'sig-t3-trou', type: 'trou', title: 'Texte à trous — Collaboration & numérique', icon: '✏️',
+          questions: [
+            { text: 'Le stockage et le partage de fichiers en ligne s’appellent le ____ .', answer: 'cloud', alt: ['le cloud', 'nuage'], explain: 'Le cloud : mêmes fichiers, à jour, accessibles partout.' },
+            { text: 'La gestion électronique des documents se note ____ .', answer: 'GED', alt: ['ged'], explain: 'La GED classe, indexe et retrouve les documents.' },
+            { text: 'Automatiser le circuit de validation d’un document, c’est un ____ .', answer: 'workflow', alt: ['un workflow'], explain: 'Le workflow gère le flux du document.' },
+            { text: 'Une collaboration en différé (courriel, forum) est dite ____ .', answer: 'asynchrone', alt: ['asynchrone'], explain: 'Synchrone = en même temps ; asynchrone = en différé.' },
+          ],
+        },
+        {
           id: 'sig-t3-assoc', type: 'association', title: 'Association — Notion ↔ définition', icon: '🔗',
           pairs: [
             { left: 'Cloud', right: 'Stockage et partage de fichiers en ligne' },
@@ -496,6 +514,15 @@ export const sig = {
             'Le navigateur affiche la page',
           ],
           explain: 'Client-serveur : requête → traitement → réponse → affichage.',
+        },
+        {
+          id: 'sig-t4-trou', type: 'trou', title: 'Texte à trous — Réseaux & sécurité', icon: '✏️',
+          questions: [
+            { text: 'Le langage qui structure une page web est le ____ .', answer: 'HTML', alt: ['html'], explain: 'HTML = structure ; CSS = mise en forme.' },
+            { text: 'La mise en forme d’une page web se fait avec le ____ .', answer: 'CSS', alt: ['css'], explain: 'CSS : couleurs, polices, disposition.' },
+            { text: 'Le numéro qui identifie une machine sur le réseau est l’adresse ____ .', answer: 'IP', alt: ['ip'], explain: 'L’adresse IP identifie chaque machine.' },
+            { text: 'Rendre des données illisibles sans la clé, c’est le ____ .', answer: 'chiffrement', alt: ['le chiffrement'], explain: 'Le chiffrement protège la confidentialité (ex. HTTPS).' },
+          ],
         },
         {
           id: 'sig-t4-assoc', type: 'association', title: 'Association — Terme ↔ définition', icon: '🔗',
