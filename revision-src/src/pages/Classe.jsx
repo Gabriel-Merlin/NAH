@@ -660,6 +660,30 @@ function QuizBuilder({ classCode, authorName, accountId, propose, t, onCancel, o
   const [questions, setQuestions] = useState([emptyQ()])
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
+  const [showBulk, setShowBulk] = useState(false)
+  const [bulk, setBulk] = useState('')
+  const [bulkMsg, setBulkMsg] = useState('')
+  // Import rapide : un bloc par question (ligne vide entre blocs). 1re ligne =
+  // question ; lignes suivantes = choix (préfixe * ou + = bonne réponse) ;
+  // ligne « = … » = explication (optionnelle).
+  const parseBulk = () => {
+    const out = []
+    for (const block of bulk.split(/\n\s*\n/)) {
+      const lines = block.split('\n').map((l) => l.trim()).filter(Boolean)
+      if (lines.length < 3) continue
+      const q = lines[0]; let explain = ''; let answer = 0; const choices = []
+      for (let i = 1; i < lines.length; i++) {
+        let l = lines[i]
+        if (l.startsWith('=')) { explain = l.slice(1).trim(); continue }
+        if (/^[*+]/.test(l)) { l = l.replace(/^[*+]\s*/, ''); answer = choices.length }
+        if (choices.length < 6) choices.push(l)
+      }
+      if (choices.length >= 2) out.push({ q, choices, answer: Math.min(answer, choices.length - 1), explain })
+    }
+    if (!out.length) { setBulkMsg(t('bulkNone')); return }
+    setQuestions((qs) => { const kept = qs.filter(validQuestion); return [...kept, ...out] })
+    setBulk(''); setShowBulk(false); setBulkMsg('')
+  }
   const setQ = (i, patch) => setQuestions((qs) => qs.map((q, j) => (j === i ? { ...q, ...patch } : q)))
   const setChoice = (i, k, val) => setQuestions((qs) => qs.map((q, j) => (j === i ? { ...q, choices: q.choices.map((c, m) => (m === k ? val : c)) } : q)))
   const addChoice = (i) => setQuestions((qs) => qs.map((q, j) => (j === i && q.choices.length < 6 ? { ...q, choices: [...q.choices, ''] } : q)))
@@ -692,6 +716,17 @@ function QuizBuilder({ classCode, authorName, accountId, propose, t, onCancel, o
         <label className="block text-xs font-semibold uppercase tracking-wide text-slate-400">{t('quizTitle')}</label>
         <input value={title} onChange={(e) => setTitle(e.target.value)} maxLength={120} placeholder={t('quizTitlePlaceholder')}
           className="mt-1 w-full rounded-xl border border-[color-mix(in_srgb,var(--c-accent)_30%,transparent)] bg-transparent px-3 py-2.5 text-base outline-none focus:border-[var(--c-accent)]" />
+        {!propose && (
+          <button type="button" onClick={() => setShowBulk((v) => !v)} className="mt-3 text-xs font-semibold text-[var(--c-accent)] hover:underline">⚡ {t('bulkImport')}</button>
+        )}
+        {showBulk && !propose && (
+          <div className="mt-2 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
+            <p className="mb-1.5 whitespace-pre-line text-xs text-slate-500 dark:text-slate-400">{t('bulkHelp')}</p>
+            <textarea value={bulk} onChange={(e) => setBulk(e.target.value)} rows={8} placeholder={t('bulkPlaceholder')} className="w-full rounded-lg border border-slate-200 bg-transparent px-3 py-2 font-mono text-xs outline-none focus:border-[var(--c-accent)] dark:border-slate-700" />
+            {bulkMsg && <p className="mt-1 text-xs font-semibold text-rose-600">{bulkMsg}</p>}
+            <button type="button" onClick={parseBulk} disabled={!bulk.trim()} className="btn-primary mt-2 w-full !py-2 text-sm disabled:opacity-50">＋ {t('bulkAdd')}</button>
+          </div>
+        )}
       </div>
       {questions.map((q, i) => (
         <div key={i} className="card p-4">
@@ -1085,6 +1120,26 @@ function ProfDashboard({ classCode, track, t }) {
         </div>
         <p className="mt-2 text-center text-xs text-slate-400">🔥 {activeWk}/{students.length} {t('activeThisWeek')}</p>
       </div>
+
+      {/* Alerte décrochage : élèves à relancer, nommés, avec la raison. */}
+      {atRiskCount > 0 && (
+        <div className="card p-4" style={{ boxShadow: 'inset 0 0 0 1.5px color-mix(in srgb, #c0392b 45%, transparent)' }}>
+          <h3 className="mb-1 flex items-center gap-2 font-display font-semibold text-rose-600 dark:text-rose-400">⚠️ {t('dropoutAlert')} ({atRiskCount})</h3>
+          <p className="mb-2 text-xs text-slate-400">{t('dropoutHint')}</p>
+          <div className="space-y-1.5">
+            {students.filter(isAtRisk).slice(0, 8).map((m) => {
+              const reason = daysSinceDay(m.active_day) > 7 ? t('inactiveTag') : (memberAvg(m) < 25 ? t('strugglingTag') : t('noWorkWeek'))
+              return (
+                <div key={m.device_id} className="flex items-center gap-2 text-sm">
+                  <span className="monogram grid h-7 w-7 shrink-0 place-items-center overflow-hidden text-[0.7rem]">{m.photo ? <img src={m.photo} alt="" className="h-full w-full rounded-full object-cover" /> : initialsOf(m.name)}</span>
+                  <span className="min-w-0 flex-1 truncate font-semibold">{m.name || t('roleStudent')}</span>
+                  <span className="shrink-0 text-right text-xs text-rose-600 dark:text-rose-400">{reason}<br /><span className="text-slate-400">{lastActiveLabel(m.active_day, t)}</span></span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {status === 'loading' && <Loading />}
       {status === 'error' && <ErrorBox t={t} onRetry={load} />}

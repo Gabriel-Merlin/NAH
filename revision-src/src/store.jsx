@@ -87,6 +87,8 @@ const emptyState = () => ({
   teacherClasses: [], // [{ code, label }] — classes générées par le prof
   srs: {}, // répétition espacée : { [themeId]: { interval, ease, reps, last, due, score } }
   bacDate: null, // date du bac (programme de révision)
+  a11y: { dys: false, contrast: false, big: false }, // accessibilité (local)
+  reminder: { on: false, time: '18:00' }, // rappel de révision (local)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -173,6 +175,15 @@ export function StoreProvider({ children }) {
       else root.style.removeProperty(map[k])
     }
   }, [state.customTheme])
+
+  // Accessibilité : classes sur <html> (dyslexie, fort contraste, grand texte).
+  useEffect(() => {
+    const root = document.documentElement
+    const a = state.a11y || {}
+    root.classList.toggle('a11y-dys', !!a.dys)
+    root.classList.toggle('a11y-contrast', !!a.contrast)
+    root.classList.toggle('a11y-big', !!a.big)
+  }, [state.a11y])
 
   // Synchronisation de la progression sur le compte (anti-rebond ~2 s).
   useEffect(() => {
@@ -273,7 +284,7 @@ export function StoreProvider({ children }) {
   // Les préférences d'affichage (langue, thème) restent locales.
   const logout = useCallback(() => setState((p) => {
     if (p.account?.id) { try { saveProgress(pickProgress(p)) } catch { /* best effort */ } }
-    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme }
+    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder }
   }), [])
 
   // Restaure la progression du compte (fusion avec l'éventuel local du même
@@ -351,6 +362,8 @@ export function StoreProvider({ children }) {
   // Programme : date du bac. XP direct (bac blanc, révision libre).
   const setBacDate = useCallback((bacDate) => setState((p) => ({ ...p, bacDate: bacDate || null })), [])
   const addXp = useCallback((n) => setState((p) => evaluateBadges({ ...p, xp: p.xp + Math.max(0, Math.round(n) || 0) })), [evaluateBadges])
+  const setA11y = useCallback((patch) => setState((p) => ({ ...p, a11y: { ...(p.a11y || {}), ...patch } })), [])
+  const setReminder = useCallback((patch) => setState((p) => ({ ...p, reminder: { ...(p.reminder || {}), ...patch } })), [])
 
   const value = {
     state,
@@ -359,6 +372,8 @@ export function StoreProvider({ children }) {
     recordResult,
     setBacDate,
     addXp,
+    setA11y,
+    setReminder,
     toggleFavorite,
     setLastChapter,
     setTheme,

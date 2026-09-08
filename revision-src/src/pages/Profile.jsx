@@ -9,6 +9,7 @@ import { signOut, deleteMyProfile } from '../auth.js'
 import { deleteMyClassData } from '../classroom.js'
 import { InstallCard, AppBadge } from '../components/InstallApp.jsx'
 import { isStandalone } from '../pwa.js'
+import { ensurePermission, notify, notifSupported } from '../notify.js'
 
 // « Mon espace » : la page personnelle de l'élève — identité, statistiques,
 // badges, favoris et accès rapide. Distincte de la personnalisation (apparence).
@@ -145,6 +146,12 @@ export default function Profile() {
         <InstallCard />
       </section>
 
+      {/* Rappels de révision */}
+      <section>
+        <h2 className="mb-3 px-1 font-display text-xl font-medium">🔔 {t('reminders')}</h2>
+        <ReminderCard t={t} />
+      </section>
+
       {/* Confidentialité & suppression du compte (RGPD) */}
       <section className="space-y-2 pt-2">
         <Link to="/confidentialite" className="text-sm font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('privacyPolicy')}</Link>
@@ -156,6 +163,52 @@ export default function Profile() {
           </button>
         </div>
       </section>
+    </div>
+  )
+}
+
+// Carte « Rappels de révision » (notifications locales).
+function ReminderCard({ t }) {
+  const { state, setReminder } = useStore()
+  const r = state.reminder || { on: false, time: '18:00' }
+  const [msg, setMsg] = useState('')
+  if (!notifSupported()) return <div className="card p-4 text-sm text-slate-500 dark:text-slate-400">{t('notifUnsupported')}</div>
+
+  const toggle = async () => {
+    if (!r.on) {
+      const perm = await ensurePermission()
+      if (perm !== 'granted') { setMsg(perm === 'denied' ? t('notifDenied') : t('notifUnsupported')); return }
+      setReminder({ on: true }); setMsg('')
+    } else { setReminder({ on: false }); setMsg('') }
+  }
+  const test = async () => {
+    const perm = await ensurePermission()
+    if (perm !== 'granted') { setMsg(t('notifDenied')); return }
+    const ok = await notify(t('reminderTitle'), t('reminderBody'))
+    setMsg(ok ? t('notifSent') : t('notifDenied'))
+  }
+
+  return (
+    <div className="card card-lux space-y-3 p-4">
+      <div className="flex items-center gap-3">
+        <span className="text-2xl" aria-hidden>⏰</span>
+        <div className="min-w-0 flex-1">
+          <p className="font-display font-semibold">{t('dailyReminder')}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t('dailyReminderHint')}</p>
+        </div>
+        <button onClick={toggle} role="switch" aria-checked={r.on} aria-label={t('dailyReminder')} className="relative h-6 w-11 shrink-0 rounded-full transition" style={{ backgroundColor: r.on ? 'var(--c-accent)' : 'color-mix(in srgb, currentColor 20%, transparent)' }}>
+          <span className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all" style={{ left: r.on ? '1.4rem' : '0.125rem' }} />
+        </button>
+      </div>
+      {r.on && (
+        <div className="flex items-center gap-3">
+          <label className="text-sm font-semibold">{t('reminderTime')}</label>
+          <input type="time" value={r.time || '18:00'} onChange={(e) => setReminder({ time: e.target.value })} className="rounded-xl border border-slate-200 bg-transparent px-3 py-2 dark:border-slate-700" />
+          <button onClick={test} className="ml-auto rounded-xl px-3 py-2 text-sm font-semibold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>{t('testNotif')}</button>
+        </div>
+      )}
+      {msg && <p className="text-xs text-slate-500 dark:text-slate-400">{msg}</p>}
+      <p className="text-xs text-slate-400">💡 {t('reminderLimit')}</p>
     </div>
   )
 }

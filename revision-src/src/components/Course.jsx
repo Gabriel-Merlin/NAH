@@ -5,9 +5,40 @@
 //
 // Les briques (Intro, CourseSection, Essentiel, Resources, Block) sont
 // exportées pour être réutilisées par les pages Thème et Chapitre.
+import { useEffect, useRef, useState } from 'react'
 import { Rich } from './ui.jsx'
 import Infographic from './Infographic.jsx'
 import { useLang, useAutoTranslate, useT } from '../i18n.js'
+
+// Bouton « lire à voix haute » (accessibilité) : lit le texte affiché avec la
+// voix de l'appareil, dans la langue de l'interface.
+export function ReadAloud({ getText, className = '' }) {
+  const lang = useLang()
+  const t = useT()
+  const [on, setOn] = useState(false)
+  useEffect(() => () => { try { window.speechSynthesis?.cancel() } catch { /* */ } }, [])
+  const toggle = () => {
+    try {
+      const synth = window.speechSynthesis
+      if (!synth) return
+      if (on) { synth.cancel(); setOn(false); return }
+      const txt = (getText() || '').replace(/\s+/g, ' ').trim()
+      if (!txt) return
+      const u = new SpeechSynthesisUtterance(txt)
+      u.lang = lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-US' : 'fr-FR'
+      u.rate = 0.98
+      u.onend = () => setOn(false); u.onerror = () => setOn(false)
+      synth.cancel(); synth.speak(u); setOn(true)
+    } catch { setOn(false) }
+  }
+  return (
+    <button onClick={toggle} title={t('readAloud')} aria-label={t('readAloud')}
+      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm transition ${className}`}
+      style={{ backgroundColor: on ? 'var(--c-accent)' : 'color-mix(in srgb, var(--c-accent) 14%, transparent)', color: on ? '#fff' : 'var(--c-accent)' }}>
+      {on ? '⏹' : '🔊'}
+    </button>
+  )
+}
 
 // Retire le markdown gras/italique (la traduction automatique perd le gras).
 const strip = (s) => String(s || '').replace(/\*\*/g, '').replace(/\*/g, '')
@@ -47,9 +78,12 @@ export function Intro({ text, color }) {
 }
 
 export function CourseSection({ sec, color, index }) {
+  const ref = useRef(null)
   return (
-    <section className="card p-5">
-      <h2 className="mb-3 flex items-center gap-2.5 font-display text-xl font-semibold">
+    <section className="card relative p-5">
+      <ReadAloud getText={() => ref.current?.innerText || ''} className="absolute right-3 top-3" />
+      <div ref={ref}>
+      <h2 className="mb-3 flex items-center gap-2.5 pr-9 font-display text-xl font-semibold">
         {index != null && (
           <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-xs font-black text-white" style={{ backgroundColor: color, boxShadow: `0 4px 10px -4px ${color}` }}>{index + 1}</span>
         )}
@@ -65,6 +99,7 @@ export function CourseSection({ sec, color, index }) {
               {sec.formula && <div className="formula">{sec.formula}</div>}
             </>
           )}
+      </div>
       </div>
     </section>
   )

@@ -42,6 +42,29 @@ self.addEventListener('message', (event) => {
   if (event.data === 'skipWaiting') self.skipWaiting()
 })
 
+// Rappel de révision (PWA installée) : synchro périodique -> notification.
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'revision-reminder') {
+    event.waitUntil(
+      self.registration.showNotification('RévizSTMG', {
+        body: 'C’est l’heure de réviser ! 📚',
+        icon: './icon-192.png', badge: './favicon.png', tag: 'revision-reminder',
+      })
+    )
+  }
+})
+
+// Clic sur une notification : ouvre / réactive l'app.
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((cs) => {
+      for (const c of cs) { if ('focus' in c) return c.focus() }
+      return self.clients.openWindow('./')
+    })
+  )
+})
+
 self.addEventListener('fetch', (event) => {
   const req = event.request
   if (req.method !== 'GET') return

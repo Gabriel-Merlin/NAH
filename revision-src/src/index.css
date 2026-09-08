@@ -54,6 +54,23 @@
     background: var(--c-accent);
     color: #fff;
   }
+
+  /* ---- Accessibilité (activée depuis le panneau ♿) ---------------------- */
+  /* Confort dyslexie : police sans-serif lisible + espacements généreux. */
+  html.a11y-dys { --font-display: 'Verdana', 'Tahoma', 'Trebuchet MS', sans-serif; --font-body: 'Verdana', 'Tahoma', 'Trebuchet MS', sans-serif; }
+  html.a11y-dys body { letter-spacing: 0.045em; word-spacing: 0.16em; line-height: 1.8; }
+  html.a11y-dys p, html.a11y-dys li, html.a11y-dys button, html.a11y-dys a, html.a11y-dys label, html.a11y-dys input, html.a11y-dys h1, html.a11y-dys h2, html.a11y-dys h3 { letter-spacing: 0.03em; }
+  html.a11y-dys .font-display { letter-spacing: 0.02em; }
+
+  /* Fort contraste : fonds/texte purs + texte atténué rendu lisible. */
+  html.a11y-contrast { --c-ink: #111111; --c-bg: #ffffff; --c-card: #ffffff; }
+  html.a11y-contrast.dark { --c-ink: #ffffff; --c-bg: #000000; --c-card: #0a0a0a; }
+  html.a11y-contrast .text-slate-400, html.a11y-contrast .text-slate-500, html.a11y-contrast .text-slate-300 { color: var(--c-ink) !important; opacity: 0.85; }
+  html.a11y-contrast a, html.a11y-contrast .btn-ghost { text-decoration-thickness: 2px; }
+  html.a11y-contrast .card { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c-ink) 30%, transparent); }
+
+  /* Grand texte. */
+  html.a11y-big { font-size: 18.5px; }
 }
 
 @layer components {

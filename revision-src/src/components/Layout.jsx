@@ -8,6 +8,8 @@ import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
 import Dictionary from './Dictionary.jsx'
 import Customizer from './Customizer.jsx'
+import Accessibility from './Accessibility.jsx'
+import ReminderScheduler from './ReminderScheduler.jsx'
 import { InstallBanner } from './InstallApp.jsx'
 import { useT, useLang } from '../i18n.js'
 import { signOut } from '../auth.js'
@@ -23,14 +25,17 @@ export default function Layout({ children }) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
   const [custOpen, setCustOpen] = useState(false)
+  const [a11yOpen, setA11yOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
 
-  // Ouverture de la personnalisation depuis n'importe quelle page (ex. « Mon espace »).
+  // Ouverture de la personnalisation / accessibilité depuis n'importe quelle page.
   useEffect(() => {
-    const open = () => setCustOpen(true)
-    window.addEventListener('stmg-open-customizer', open)
-    return () => window.removeEventListener('stmg-open-customizer', open)
+    const openCust = () => setCustOpen(true)
+    const openA11y = () => setA11yOpen(true)
+    window.addEventListener('stmg-open-customizer', openCust)
+    window.addEventListener('stmg-open-a11y', openA11y)
+    return () => { window.removeEventListener('stmg-open-customizer', openCust); window.removeEventListener('stmg-open-a11y', openA11y) }
   }, [])
   const isDark =
     state.theme === 'dark' ||
@@ -199,6 +204,7 @@ export default function Layout({ children }) {
             onSearch={() => setSearchOpen(true)}
             onDict={() => setDictOpen(true)}
             onCustomize={() => setCustOpen(true)}
+            onA11y={() => setA11yOpen(true)}
             onToggleTheme={() => setTheme(isDark ? 'light' : 'dark')}
             onLang={setLang}
             onSignOut={() => { signOut(); logout() }}
@@ -219,6 +225,7 @@ export default function Layout({ children }) {
             <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
               <Link to="/confidentialite" className="hover:text-[color:var(--c-accent)] hover:underline">{t('privacyPolicy')}</Link>
               <Link to="/faq" className="hover:text-[color:var(--c-accent)] hover:underline">{t('faq')}</Link>
+              <button onClick={() => window.dispatchEvent(new CustomEvent('stmg-open-a11y'))} className="hover:text-[color:var(--c-accent)] hover:underline">♿ {t('accessibility')}</button>
               <a href="mailto:revizstmg@gmail.com" className="hover:text-[color:var(--c-accent)] hover:underline">{t('contactUs')} · revizstmg@gmail.com</a>
             </nav>
             <p className="text-xs text-slate-400">{t('createdBy')} <span className="font-semibold text-slate-500 dark:text-slate-300">Matys DONAT</span> &amp; <span className="font-semibold text-slate-500 dark:text-slate-300">Gabriel MERLIN</span></p>
@@ -230,8 +237,10 @@ export default function Layout({ children }) {
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
       {dictOpen && <Dictionary onClose={() => setDictOpen(false)} />}
       {custOpen && <Customizer onClose={() => setCustOpen(false)} />}
+      {a11yOpen && <Accessibility onClose={() => setA11yOpen(false)} />}
       <BadgeToast />
       <InstallBanner />
+      <ReminderScheduler />
       <Welcome />
     </div>
   )
@@ -239,7 +248,7 @@ export default function Layout({ children }) {
 
 // Menu burger pour mobile / application : regroupe toutes les options du site
 // (recherche, dictionnaire, thème, personnalisation, langue, espace, déconnexion).
-function MobileMenu({ className = '', state, isDark, lang, first, last, mono, photo, onSearch, onDict, onCustomize, onToggleTheme, onLang, onSignOut }) {
+function MobileMenu({ className = '', state, isDark, lang, first, last, mono, photo, onSearch, onDict, onCustomize, onA11y, onToggleTheme, onLang, onSignOut }) {
   const t = useT()
   const [open, setOpen] = useState(false)
   const signedIn = !!(first || last)
@@ -295,6 +304,7 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
+            <Item icon="♿" label={t('accessibility')} onClick={onA11y} />
             <Item icon={isDark ? '☀️' : '🌙'} label={isDark ? t('light') : t('dark')} onClick={onToggleTheme} />
             <div className="border-t border-slate-100 px-4 py-2.5 dark:border-slate-800">
               <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('language')}</p>
