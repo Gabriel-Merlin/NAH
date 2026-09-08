@@ -8,14 +8,6 @@ const COMMON_IDS = ['management', 'droit', 'economie', 'maths', 'philosophie', '
 
 export const LEVELS = [
   {
-    id: 'seconde',
-    name: 'Seconde générale',
-    icon: '📗',
-    color: '#0ea5e9',
-    desc: 'Tronc commun de seconde.',
-    available: false,
-  },
-  {
     id: 'premiere-stmg',
     name: 'Première STMG',
     icon: '📘',

@@ -14,31 +14,47 @@ export const mercatique = {
       name: 'Thème 1 — Mercatique et consommateurs',
       short: 'Le consommateur',
       keywords: 'mercatique besoin motivation frein perception attitude facteurs processus d’achat expérience satisfaction fidélisation',
+      intro: 'Avant de vendre, il faut comprendre : quels besoins, quelles motivations, quels freins guident le consommateur, et comment il décide d’acheter.',
       cours: [
         {
           h: 'Besoins, motivations et freins',
-          points: [
-            'La **mercatique** (marketing) est l’ensemble des actions visant à connaître, influencer et satisfaire le consommateur tout en atteignant les objectifs de l’organisation.',
-            'Un **besoin** est un manque à combler ; **Maslow** les classe (physiologiques, sécurité, appartenance, estime, accomplissement).',
-            'Les **motivations** poussent à l’achat : hédonistes (se faire plaisir), oblatives (faire plaisir aux autres), d’**auto-expression** (s’affirmer).',
-            'Les **freins** retiennent l’achat : peurs, risque perçu, inhibitions.',
+          blocks: [
+            { t: 'p', c: 'La **mercatique** (marketing) est l’ensemble des actions visant à **connaître**, **influencer** et **satisfaire** le consommateur, tout en atteignant les objectifs de l’organisation.' },
+            { t: 'p', c: 'Un **besoin** est un sentiment de manque à combler ; **Maslow** les hiérarchise (physiologiques, sécurité, appartenance, estime, accomplissement).' },
+            { t: 'table', head: ['Force', 'Définition', 'Exemple'], rows: [
+              ['Motivation **hédoniste**', 'Se faire **plaisir** à soi-même', 'S’offrir un dessert'],
+              ['Motivation **oblative**', 'Faire **plaisir aux autres**', 'Offrir un cadeau'],
+              ['Motivation d’**auto-expression**', 'S’affirmer, montrer qui l’on est', 'Acheter une marque « signature »'],
+              ['**Frein**', 'Ce qui **retient** l’achat', 'Peur de se tromper, risque perçu'],
+            ] },
+            { t: 'tip', c: 'Motivation = ce qui **pousse** à acheter ; frein = ce qui **retient**. L’achat a lieu quand les motivations l’emportent sur les freins.' },
           ],
         },
         {
           h: 'Les facteurs explicatifs du comportement',
-          points: [
-            'Facteurs **individuels** : personnalité, **perception** (subjective et sélective), attitude, style de vie, expérience.',
-            'Facteurs **sociologiques** : culture, **groupes** d’appartenance et de référence, famille, catégorie socioprofessionnelle (CSP), leaders d’opinion.',
+          blocks: [
+            { t: 'p', c: 'Le comportement d’achat s’explique par deux grandes familles de facteurs :' },
+            { t: 'table', head: ['Facteurs', 'Exemples'], rows: [
+              ['**Individuels**', 'Personnalité, **perception**, attitude, style de vie, expérience'],
+              ['**Sociologiques**', 'Culture, **groupes** d’appartenance et de référence, famille, **CSP**, leaders d’opinion'],
+            ] },
+            { t: 'warning', c: 'La **perception** est **subjective** et **sélective** : deux personnes ne perçoivent pas la même publicité de la même façon.' },
           ],
         },
         {
           h: 'Le processus de décision d’achat',
-          points: [
-            'Étapes : reconnaissance du **besoin** → recherche d’**informations** → évaluation des solutions → **décision** d’achat → évaluation **post-achat**.',
-            'Types d’achat : réfléchi, routinier, **impulsif** ; le degré d’**implication** dépend du risque perçu.',
-            'Une bonne **expérience** de consommation crée la **satisfaction**, qui favorise la **fidélisation** (réachat, bouche-à-oreille).',
+          blocks: [
+            { t: 'p', c: 'La décision d’achat suit un **processus** en cinq étapes : reconnaissance du **besoin** → recherche d’**informations** → évaluation des solutions → **décision** d’achat → évaluation **post-achat**.' },
+            { t: 'p', c: 'Le type d’achat varie : **réfléchi**, **routinier** ou **impulsif** ; le degré d’**implication** dépend du **risque perçu** (un achat cher et engageant est plus réfléchi).' },
+            { t: 'example', h: 'Pourquoi ça compte', c: 'Une bonne **expérience** de consommation crée la **satisfaction**, qui favorise la **fidélisation** : réachat et bouche-à-oreille positif.' },
           ],
         },
+      ],
+      essentiel: [
+        'Mercatique = connaître, influencer et satisfaire le consommateur.',
+        'Motivations (hédoniste, oblative, auto-expression) vs freins (peurs, risque perçu).',
+        'Facteurs individuels (perception, personnalité) et sociologiques (culture, CSP, groupes).',
+        'Processus : besoin → information → évaluation → décision → post-achat ; satisfaction → fidélisation.',
       ],
       games: [
         {
@@ -93,31 +109,49 @@ export const mercatique = {
       name: 'Thème 2 — Mercatique et marchés',
       short: 'Marché & ciblage',
       keywords: 'marché demande offre prospect part de marché veille études quantitatives qualitatives segmentation ciblage positionnement SCP',
+      intro: 'Pour agir efficacement, l’entreprise étudie son marché, mesure sa place, puis segmente, cible et se positionne (démarche SCP).',
       cours: [
         {
           h: 'Le marché et la demande',
-          points: [
-            'Un **marché** confronte une **offre** et une **demande** ; ses acteurs : clients actuels, **prospects**, non-consommateurs relatifs (récupérables) et absolus.',
-            'La demande se mesure en **volume** (quantités) et en **valeur** (chiffre d’affaires). La **part de marché** = ventes de l’entreprise / ventes totales du marché.',
-            'Le marché s’étudie dans son **environnement** (micro : clients, concurrents, fournisseurs ; macro : PESTEL) ; la **veille** permet de le surveiller.',
+          blocks: [
+            { t: 'p', c: 'Un **marché** confronte une **offre** et une **demande**. On distingue les clients actuels, les **prospects** (clients potentiels), les **non-consommateurs relatifs** (récupérables) et **absolus** (jamais clients).' },
+            { t: 'table', head: ['Notion', 'Définition'], rows: [
+              ['Demande en **volume**', 'Les quantités vendues'],
+              ['Demande en **valeur**', 'Le chiffre d’affaires (quantités × prix)'],
+              ['**Part de marché**', 'Ventes de l’entreprise ÷ ventes totales du marché (×100)'],
+            ] },
+            { t: 'p', c: 'Le marché s’analyse dans son **environnement** : **micro** (clients, concurrents, fournisseurs) et **macro** (**PESTEL**). La **veille** permet de le surveiller en continu.' },
           ],
         },
         {
           h: 'Les études de marché',
-          points: [
-            'Études **quantitatives** (mesurer, chiffrer) : **sondage**, panel, questionnaire.',
-            'Études **qualitatives** (comprendre les motivations) : entretien, réunion de groupe.',
-            'Sources **primaires** (recueillies pour l’étude) et **secondaires** (déjà existantes).',
+          blocks: [
+            { t: 'p', c: 'Pour connaître le marché, l’entreprise mène des **études** :' },
+            { t: 'table', head: ['Type', 'Objectif', 'Outils'], rows: [
+              ['**Quantitative**', 'Mesurer, **chiffrer** (« combien ? »)', 'Sondage, panel, questionnaire'],
+              ['**Qualitative**', 'Comprendre les **motivations** (« pourquoi ? »)', 'Entretien, réunion de groupe'],
+            ] },
+            { t: 'tip', c: 'Sources **primaires** = recueillies exprès pour l’étude ; sources **secondaires** = déjà existantes (INSEE, rapports internes).' },
           ],
         },
         {
           h: 'Segmentation, ciblage, positionnement (SCP)',
-          points: [
-            '**Segmenter** : découper le marché en groupes homogènes (critères géographiques, sociodémographiques, comportementaux).',
-            '**Cibler** : choisir le(s) segment(s) visé(s) — marketing indifférencié (masse), différencié ou concentré.',
-            '**Positionner** : donner au produit une place claire et distinctive dans l’esprit du consommateur, face aux concurrents.',
+          blocks: [
+            { t: 'p', c: 'La démarche mercatique se fait dans l’ordre : **Segmenter → Cibler → Positionner**.' },
+            { t: 'table', head: ['Étape', 'Ce qu’on fait'], rows: [
+              ['**Segmenter**', 'Découper le marché en groupes **homogènes** (critères géo, socio-démo, comportementaux)'],
+              ['**Cibler**', 'Choisir le(s) segment(s) : marketing indifférencié (masse), **différencié** ou **concentré**'],
+              ['**Positionner**', 'Donner au produit une place **claire et distinctive** dans l’esprit du consommateur'],
+            ] },
+            { t: 'warning', c: 'Piège classique : le **positionnement** vient en **dernier** (S → C → P), jamais avant la segmentation.' },
           ],
         },
+      ],
+      essentiel: [
+        'Marché = offre + demande ; acteurs : clients, prospects, NCR (récupérables), NCA.',
+        'Part de marché = ventes entreprise ÷ ventes du marché.',
+        'Études quantitatives (chiffrer) vs qualitatives (comprendre).',
+        'Démarche SCP : segmenter → cibler → positionner.',
       ],
       games: [
         {
@@ -171,29 +205,50 @@ export const mercatique = {
       name: 'Thème 3 — La mercatique opérationnelle (le mix)',
       short: 'Le plan de marchéage (4P)',
       keywords: 'plan de marchéage mix produit gamme marque cycle de vie prix écrémage pénétration distribution circuit communication publicité promotion',
+      intro: 'Le plan de marchéage (mix) met en musique quatre leviers cohérents — Produit, Prix, Distribution, Communication — pour concrétiser la stratégie.',
       cours: [
         {
           h: 'La politique de produit',
-          points: [
-            'Le **plan de marchéage** (**mix**) combine 4 leviers cohérents : **Produit, Prix, Distribution, Communication** (les 4P).',
-            'Produit : caractéristiques, **gamme** (largeur/profondeur), **marque**, conditionnement (packaging).',
-            'Le **cycle de vie** d’un produit : lancement → croissance → maturité → déclin.',
+          blocks: [
+            { t: 'p', c: 'Le **plan de marchéage** (**mix**) combine 4 leviers **cohérents** : **Produit, Prix, Distribution, Communication** (les 4P).' },
+            { t: 'p', c: 'La politique de **produit** porte sur ses caractéristiques, la **gamme** (largeur et profondeur), la **marque** et le conditionnement (**packaging**).' },
+            { t: 'table', head: ['Phase du cycle de vie', 'Ce qui se passe'], rows: [
+              ['**Lancement**', 'Le produit arrive, ventes faibles, fort investissement'],
+              ['**Croissance**', 'Les ventes décollent'],
+              ['**Maturité**', 'Ventes au sommet, concurrence forte'],
+              ['**Déclin**', 'Les ventes baissent, retrait à préparer'],
+            ] },
           ],
         },
         {
           h: 'La politique de prix',
-          points: [
-            'Le prix se fixe selon les **coûts**, la **demande** (élasticité, prix psychologique) et la **concurrence**.',
-            'Stratégies : **écrémage** (prix élevé, image haut de gamme), **pénétration** (prix bas pour le volume), alignement.',
+          blocks: [
+            { t: 'p', c: 'Le **prix** se fixe selon trois repères : les **coûts** (prix plancher), la **demande** (élasticité, **prix psychologique**) et la **concurrence**.' },
+            { t: 'table', head: ['Stratégie', 'Principe'], rows: [
+              ['**Écrémage**', 'Prix **élevé** : image haut de gamme et forte marge'],
+              ['**Pénétration**', 'Prix **bas** : conquérir vite du **volume**'],
+              ['**Alignement**', 'Se caler sur le prix des concurrents'],
+            ] },
+            { t: 'warning', c: 'Ne confonds pas écrémage (prix haut) et pénétration (prix bas) : ce sont deux stratégies **opposées**.' },
           ],
         },
         {
           h: 'Distribution et communication',
-          points: [
-            'Distribution : **canaux** et **circuits** (direct, court, long) ; commerce physique et **e-commerce** (stratégie **omnicanale**).',
-            'Communication **média** (publicité TV, affichage, digital) et **hors-média** (promotion des ventes, relations publiques, marketing direct, réseaux sociaux).',
+          blocks: [
+            { t: 'p', c: 'La **distribution** achemine le produit vers le client via des **canaux** et **circuits** : **direct** (sans intermédiaire), **court** (un intermédiaire), **long** (plusieurs). Le commerce physique et l’**e-commerce** se combinent (stratégie **omnicanale**).' },
+            { t: 'table', head: ['Communication', 'Exemples'], rows: [
+              ['**Média**', 'Publicité TV, radio, affichage, presse, digital'],
+              ['**Hors-média**', 'Promotion des ventes, relations publiques, marketing direct, réseaux sociaux'],
+            ] },
+            { t: 'tip', c: 'La force du mix vient de la **cohérence** des 4P : un produit haut de gamme (écrémage) se vend en boutique sélective, pas au rabais.' },
           ],
         },
+      ],
+      essentiel: [
+        'Mix = 4P cohérents : Produit, Prix, Distribution, Communication.',
+        'Cycle de vie : lancement → croissance → maturité → déclin.',
+        'Écrémage (prix haut) vs pénétration (prix bas).',
+        'Circuits direct/court/long ; communication média vs hors-média.',
       ],
       games: [
         {
@@ -235,22 +290,35 @@ export const mercatique = {
       id: 'mkg-t4',
       name: 'Thème 4 — Mercatique et société',
       short: 'Mercatique responsable',
-      keywords: 'dérives surconsommation obsolescence greenwashing données RGPD mercatique responsable durable éthique consommation responsable',
+      keywords: 'dérives surconsommation obsolescence greenwashing données RGPD mercatique responsable durable éthique consommation responsable éco-conception',
+      intro: 'La mercatique peut déraper (surconsommation, greenwashing). La mercatique responsable cherche à concilier performance, société et environnement.',
       cours: [
         {
           h: 'Les dérives de la mercatique',
-          points: [
-            'Dérives possibles : incitation à la **surconsommation**, obsolescence programmée, publicité mensongère, **greenwashing** (éco-blanchiment).',
-            'Exploitation abusive des **données** personnelles et atteinte à la vie privée.',
+          blocks: [
+            { t: 'p', c: 'Poussée à l’excès, la mercatique peut entraîner des **dérives** :' },
+            { t: 'table', head: ['Dérive', 'Description'], rows: [
+              ['**Surconsommation**', 'Inciter à acheter au-delà des besoins réels'],
+              ['**Obsolescence programmée**', 'Réduire volontairement la durée de vie d’un produit'],
+              ['**Publicité mensongère**', 'Tromper le consommateur sur le produit'],
+              ['**Greenwashing**', 'Se dire écologique **sans preuve** (éco-blanchiment)'],
+            ] },
+            { t: 'warning', c: 'L’exploitation abusive des **données** personnelles porte atteinte à la vie privée : c’est encadré par la loi (RGPD).' },
           ],
         },
         {
           h: 'La mercatique responsable',
-          points: [
-            'La **mercatique responsable** (durable) concilie satisfaction du client, rentabilité et respect de la société et de l’environnement.',
-            'Elle suppose la transparence, la protection des **données** (**RGPD**), l’éco-conception et une **consommation responsable**.',
+          blocks: [
+            { t: 'p', c: 'La **mercatique responsable** (ou durable) concilie la **satisfaction** du client, la **rentabilité** de l’entreprise et le respect de la **société** et de l’**environnement**.' },
+            { t: 'p', c: 'Elle suppose la **transparence**, la protection des **données** (**RGPD**), l’**éco-conception** des produits et l’encouragement d’une **consommation responsable**.' },
+            { t: 'tip', c: 'Responsable ne veut pas dire non rentable : bien menée, elle renforce l’**image** et la **fidélité** — donc la performance à long terme.' },
           ],
         },
+      ],
+      essentiel: [
+        'Dérives : surconsommation, obsolescence programmée, publicité mensongère, greenwashing.',
+        'Mercatique responsable = concilier client, rentabilité, société et environnement.',
+        'Outils : transparence, RGPD (données), éco-conception, consommation responsable.',
       ],
       games: [
         {

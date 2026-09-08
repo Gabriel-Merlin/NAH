@@ -14,29 +14,51 @@ export const rh = {
       name: 'Thème 1 — Mobiliser les ressources humaines',
       short: 'De l’individu à l’acteur',
       keywords: 'compétence qualification GPEC rémunération salaire équité motivation implication Maslow Herzberg performance sociale',
+      intro: 'Comment l’organisation transforme des individus en acteurs performants : reconnaître les compétences, rémunérer équitablement et motiver durablement.',
       cours: [
         {
           h: 'Compétences et qualification',
-          points: [
-            'La **compétence** combine des savoirs (connaissances), un **savoir-faire** (pratique) et un savoir-être (comportement).',
-            'La **qualification** est la reconnaissance officielle des compétences (diplôme, classification de la convention collective).',
-            'La **GPEC** (gestion prévisionnelle des emplois et des compétences) anticipe les besoins futurs (recrutement, formation, mobilité).',
+          blocks: [
+            { t: 'p', c: 'La **compétence** est la capacité à réaliser une activité. Elle combine trois dimensions : les **savoirs** (connaissances), le **savoir-faire** (la pratique, l’expérience) et le **savoir-être** (les comportements, l’attitude).' },
+            { t: 'table', head: ['Notion', 'Définition', 'Exemple'], rows: [
+              ['Compétence', 'Ce que la personne **sait faire réellement**', 'Savoir accueillir un client mécontent'],
+              ['Qualification', 'La **reconnaissance officielle** des compétences', 'Un BTS, une classification de la convention collective'],
+            ] },
+            { t: 'p', c: 'La **GPEC** (gestion prévisionnelle des emplois et des compétences) anticipe les besoins futurs de l’organisation : elle agit par le **recrutement**, la **formation** et la **mobilité** interne pour réduire l’écart entre compétences actuelles et compétences requises.' },
+            { t: 'tip', c: 'Ne confonds pas : la **compétence** est ce qu’on sait faire ; la **qualification** est le diplôme/niveau qui la reconnaît. On peut être compétent sans diplôme, et diplômé sans être encore compétent.' },
           ],
         },
         {
           h: 'La rémunération',
-          points: [
-            'La **rémunération** comprend le **salaire de base**, les primes et les **périphériques** (avantages en nature, intéressement, participation).',
-            'Elle doit être perçue comme **équitable** (équité interne entre salariés, équité externe avec le marché) pour ne pas démotiver.',
+          blocks: [
+            { t: 'p', c: 'La **rémunération** est la contrepartie du travail. Elle ne se limite pas au salaire : elle comprend un **salaire de base**, des **primes** (ancienneté, objectifs) et des **périphériques** (avantages en nature, **intéressement**, **participation**).' },
+            { t: 'table', head: ['Composante', 'Contenu'], rows: [
+              ['Salaire de base', 'Fixe, lié au poste et à la qualification'],
+              ['Primes', 'Variables : performance, objectifs, ancienneté'],
+              ['Périphériques', 'Avantages en nature, tickets-restaurant, intéressement, participation'],
+            ] },
+            { t: 'p', c: 'Pour motiver, la rémunération doit être perçue comme **équitable** : **équité interne** (cohérence entre salariés d’une même organisation) et **équité externe** (comparaison avec le marché du travail).' },
+            { t: 'warning', c: 'Un sentiment d’**iniquité** (« je suis moins payé qu’un collègue au même poste ») démotive fortement, même si le salaire est objectivement correct.' },
           ],
         },
         {
           h: 'Motivation et implication',
-          points: [
-            'La **motivation** est ce qui pousse à agir : **Maslow** (pyramide des besoins), **Herzberg** (facteurs d’**hygiène** / facteurs de **motivation**).',
-            'L’**implication** est l’engagement durable du salarié ; elle améliore la **performance sociale** (faible turnover et absentéisme).',
+          blocks: [
+            { t: 'p', c: 'La **motivation** est ce qui pousse un salarié à agir et à fournir des efforts. Deux théories clés du programme :' },
+            { t: 'table', head: ['Théorie', 'Idée principale'], rows: [
+              ['**Maslow** (pyramide des besoins)', 'On cherche à satisfaire un besoin supérieur une fois les besoins inférieurs comblés (physiologiques → sécurité → appartenance → estime → accomplissement)'],
+              ['**Herzberg** (bi-factorielle)', 'Les **facteurs d’hygiène** (salaire, conditions) évitent l’insatisfaction ; les **facteurs de motivation** (reconnaissance, responsabilités, intérêt) motivent vraiment'],
+            ] },
+            { t: 'p', c: 'L’**implication** est l’engagement durable du salarié envers son organisation. Une forte implication améliore la **performance sociale** : baisse du **turnover** (départs) et de l’**absentéisme**.' },
+            { t: 'example', h: 'À retenir', c: 'Augmenter le salaire (facteur d’hygiène) fait taire le mécontentement, mais c’est la **reconnaissance** et l’**intérêt du travail** (facteurs de motivation) qui déclenchent l’effort durable.' },
           ],
         },
+      ],
+      essentiel: [
+        'Compétence = savoir-faire réel ; qualification = reconnaissance officielle.',
+        'La GPEC anticipe les besoins (recrutement, formation, mobilité).',
+        'Rémunération = salaire de base + primes + périphériques ; elle doit être équitable (interne et externe).',
+        'Maslow = pyramide des besoins ; Herzberg = hygiène (évite l’insatisfaction) vs motivation (motive).',
       ],
       games: [
         {
@@ -91,28 +113,50 @@ export const rh = {
       name: 'Thème 2 — Cohésion et conflits',
       short: 'Groupes & conflits',
       keywords: 'groupe statut rôle dynamique cohésion conformisme conflit latent ouvert négociation médiation arbitrage',
+      intro: 'Dans un groupe, chacun tient une place. La cohésion renforce la performance, mais des tensions apparaissent : savoir les repérer et les résoudre.',
       cours: [
         {
           h: 'Le groupe et sa dynamique',
-          points: [
-            'Un **groupe** réunit des membres autour d’un but commun ; chacun y a un **statut** (position) et un **rôle** (comportement attendu).',
-            'La **cohésion** est la force qui unit les membres : elle améliore la performance, mais un excès peut créer du **conformisme**.',
+          blocks: [
+            { t: 'p', c: 'Un **groupe** réunit des individus autour d’un **but commun** et qui interagissent. Chaque membre y occupe un **statut** (sa position : chef, délégué…) et joue un **rôle** (le comportement attendu de lui).' },
+            { t: 'table', head: ['Notion', 'Définition', 'Exemple'], rows: [
+              ['Statut', 'La **position** occupée dans le groupe', 'Être chef d’équipe'],
+              ['Rôle', 'Le **comportement attendu** lié à ce statut', 'Animer, organiser, motiver l’équipe'],
+            ] },
+            { t: 'p', c: 'La **cohésion** est la force qui unit les membres. Elle améliore l’efficacité et le climat, mais un **excès** de cohésion peut produire du **conformisme** : les avis divergents ne s’expriment plus.' },
           ],
         },
         {
           h: 'Les conflits',
-          points: [
-            'Un **conflit** est une opposition d’intérêts, d’opinions ou de valeurs. Il peut être **latent** (larvé) ou **ouvert** (déclaré).',
-            'Sources fréquentes : divergence d’objectifs, mauvaise **communication**, répartition des ressources, rivalités.',
+          blocks: [
+            { t: 'p', c: 'Un **conflit** est une opposition d’intérêts, d’opinions ou de valeurs entre des acteurs.' },
+            { t: 'table', head: ['Type de conflit', 'Caractéristique'], rows: [
+              ['**Latent**', 'Larvé, non exprimé ouvertement (tensions sourdes)'],
+              ['**Ouvert**', 'Déclaré, visible (dispute, grève, refus)'],
+            ] },
+            { t: 'p', c: 'Sources fréquentes : divergence d’**objectifs**, mauvaise **communication**, répartition des **ressources**, rivalités de personnes.' },
+            { t: 'tip', c: 'Un conflit n’est pas forcément négatif : bien géré, il peut être **constructif** et faire évoluer les règles et l’organisation.' },
           ],
         },
         {
           h: 'La résolution des conflits',
-          points: [
-            'Modes de résolution : **négociation** entre les parties, recours **hiérarchique**, **médiation** ou **arbitrage** par un tiers.',
-            'Un conflit bien géré peut être **constructif** : il fait évoluer les règles et l’organisation.',
+          blocks: [
+            { t: 'p', c: 'Plusieurs modes permettent de sortir d’un conflit, du plus autonome au plus imposé :' },
+            { t: 'table', head: ['Mode', 'Qui décide ?'], rows: [
+              ['**Négociation**', 'Les parties trouvent un accord direct'],
+              ['**Recours hiérarchique**', 'Le supérieur tranche'],
+              ['**Médiation**', 'Un tiers **aide** à trouver un accord (sans l’imposer)'],
+              ['**Arbitrage**', 'Un tiers **impose** une décision'],
+            ] },
+            { t: 'warning', c: 'Médiation ≠ arbitrage : le **médiateur** rapproche mais ne décide pas ; l’**arbitre** tranche et impose la solution.' },
           ],
         },
+      ],
+      essentiel: [
+        'Statut = position ; rôle = comportement attendu.',
+        'La cohésion unit le groupe, mais son excès crée du conformisme.',
+        'Conflit latent (larvé) vs ouvert (déclaré).',
+        'Résolution : négociation, recours hiérarchique, médiation (aide), arbitrage (impose).',
       ],
       games: [
         {
@@ -160,29 +204,48 @@ export const rh = {
       name: 'Thème 3 — La communication',
       short: 'Communiquer',
       keywords: 'communication émetteur récepteur message canal feedback bruit verbale non verbale écoute active argumentation influence',
+      intro: 'Communiquer, c’est bien plus qu’émettre un message : c’est écouter, décoder le non-verbal et savoir convaincre.',
       cours: [
         {
           h: 'Le schéma de la communication',
-          points: [
-            'Communiquer : un **émetteur** transmet un **message** par un **canal** à un **récepteur**, qui renvoie un **feedback** (rétroaction).',
-            'Le **bruit** (matériel, sémantique) peut perturber le message.',
-            'La communication est **verbale** (mots) et **non verbale** (gestes, regard, posture, para-langage).',
+          blocks: [
+            { t: 'p', c: 'Communiquer, c’est transmettre un **message**. Un **émetteur** envoie un message par un **canal** (oral, écrit, e-mail…) à un **récepteur**, qui renvoie un **feedback** (rétroaction). Le **bruit** peut perturber la transmission.' },
+            { t: 'table', head: ['Élément', 'Rôle'], rows: [
+              ['Émetteur', 'Celui qui envoie le message'],
+              ['Message', 'L’information transmise'],
+              ['Canal', 'Le moyen utilisé (oral, écrit, téléphone…)'],
+              ['Récepteur', 'Celui qui reçoit et décode'],
+              ['Feedback', 'La réponse qui referme la boucle'],
+              ['Bruit', 'Ce qui parasite (matériel ou sémantique)'],
+            ] },
+            { t: 'p', c: 'La communication est **verbale** (les mots) et **non verbale** (gestes, regard, posture, para-langage : ton et débit de la voix).' },
           ],
         },
         {
           h: 'Communication interpersonnelle et de groupe',
-          points: [
-            'La qualité de la relation repose sur l’**écoute active**, l’empathie et la reformulation.',
-            'Phénomènes relationnels : **influence**, **leadership**, conformisme, ascendant.',
+          blocks: [
+            { t: 'p', c: 'La qualité de la relation repose sur l’**écoute active** : être attentif, faire preuve d’**empathie** et **reformuler** pour vérifier qu’on a bien compris.' },
+            { t: 'p', c: 'Dans un groupe apparaissent des phénomènes relationnels : l’**influence**, le **leadership** (capacité à entraîner), le conformisme et l’ascendant de certains membres.' },
+            { t: 'tip', c: 'Reformuler (« si je comprends bien, tu veux dire que… ») est la marque de l’écoute active : ça évite les malentendus et valorise l’interlocuteur.' },
           ],
         },
         {
           h: 'Argumenter et convaincre',
-          points: [
-            'L’**argumentation** vise à **convaincre** (par la raison) ou **persuader** (par l’émotion).',
-            'Un **argument** appuie une affirmation par une preuve ou un exemple.',
+          blocks: [
+            { t: 'p', c: 'Un **argument** appuie une affirmation par une **preuve** ou un **exemple**. On distingue deux registres :' },
+            { t: 'table', head: ['Registre', 'S’appuie sur…', 'Exemple'], rows: [
+              ['**Convaincre**', 'La **raison**, la logique, les faits', 'Des chiffres, une démonstration'],
+              ['**Persuader**', 'L’**émotion**, les sentiments', 'Une histoire touchante, l’enthousiasme'],
+            ] },
+            { t: 'warning', c: 'Convaincre ≠ persuader : convaincre passe par la raison ; persuader joue sur l’émotion.' },
           ],
         },
+      ],
+      essentiel: [
+        'Schéma : émetteur → message → canal → récepteur → feedback (le bruit parasite).',
+        'Communication verbale (mots) et non verbale (gestes, regard, posture).',
+        'Écoute active = attention + empathie + reformulation.',
+        'Convaincre = raison ; persuader = émotion.',
       ],
       games: [
         {
@@ -227,28 +290,46 @@ export const rh = {
       id: 'rh-t4',
       name: 'Thème 4 — Coordination et conditions de travail',
       short: 'Travail & climat social',
-      keywords: 'organisation du travail Taylor OST autonomie conditions de travail QVT temps de travail télétravail climat social absentéisme dialogue social',
+      keywords: 'organisation du travail Taylor OST autonomie conditions de travail QVT temps de travail télétravail climat social absentéisme dialogue social CSE',
+      intro: 'La façon d’organiser le travail et de soigner les conditions influence directement le bien-être des salariés… et la performance de l’organisation.',
       cours: [
         {
           h: 'L’organisation du travail',
-          points: [
-            'De l’**OST** (Taylor : division et parcellisation du travail) aux formes modernes : élargissement, enrichissement des tâches, **autonomie**, travail en équipe.',
+          blocks: [
+            { t: 'p', c: 'L’**OST** (organisation scientifique du travail), théorisée par **Taylor**, repose sur la **division** et la **parcellisation** des tâches : chaque salarié répète une opération simple. Gain de productivité, mais travail répétitif et peu motivant.' },
+            { t: 'table', head: ['Forme moderne', 'Principe'], rows: [
+              ['Élargissement des tâches', 'Regrouper plusieurs tâches de même niveau'],
+              ['Enrichissement des tâches', 'Ajouter des tâches plus qualifiées (contrôle, décision)'],
+              ['Autonomie / équipes', 'Donner de la liberté et travailler en groupe'],
+            ] },
+            { t: 'tip', c: 'Les formes modernes cherchent à **dépasser le taylorisme** en redonnant du sens, de l’**autonomie** et de la variété au travail.' },
           ],
         },
         {
           h: 'Les conditions de travail',
-          points: [
-            'Conditions **physiques** (sécurité, ergonomie, bruit) et **psychologiques** (charge de travail, stress).',
-            'La **QVT** (qualité de vie au travail) améliore le bien-être et la performance ; aménagements du **temps de travail**, **télétravail**.',
+          blocks: [
+            { t: 'p', c: 'Les **conditions de travail** regroupent tout ce qui entoure l’activité :' },
+            { t: 'table', head: ['Type', 'Exemples'], rows: [
+              ['**Physiques**', 'Sécurité, ergonomie du poste, bruit, température'],
+              ['**Psychologiques**', 'Charge de travail, stress, pression sur les délais'],
+            ] },
+            { t: 'p', c: 'La **QVT** (qualité de vie au travail) vise le **bien-être** des salariés (et donc la performance) : aménagement du **temps de travail**, **télétravail**, prévention des risques.' },
           ],
         },
         {
           h: 'Le climat social',
-          points: [
-            'Le **climat social** reflète l’ambiance et les relations dans l’organisation ; indicateurs : turnover, **absentéisme**, conflits.',
-            'Le **dialogue social** (représentants du personnel, **CSE**) contribue à un bon climat.',
+          blocks: [
+            { t: 'p', c: 'Le **climat social** reflète l’ambiance et la qualité des relations dans l’organisation. On le mesure par des **indicateurs** : le **turnover** (départs), l’**absentéisme**, le nombre de conflits.' },
+            { t: 'p', c: 'Le **dialogue social** — les échanges avec les **représentants du personnel** (le **CSE**, comité social et économique) — contribue à un bon climat en prévenant les tensions.' },
+            { t: 'warning', c: 'Un **turnover** et un **absentéisme** élevés sont des signaux d’alerte d’un **climat social dégradé**.' },
           ],
         },
+      ],
+      essentiel: [
+        'OST (Taylor) = division/parcellisation ; formes modernes = élargissement, enrichissement, autonomie.',
+        'Conditions de travail physiques (sécurité, bruit) et psychologiques (stress, charge).',
+        'La QVT vise le bien-être et la performance (télétravail, temps de travail).',
+        'Climat social mesuré par turnover et absentéisme ; le dialogue social (CSE) l’améliore.',
       ],
       games: [
         {
