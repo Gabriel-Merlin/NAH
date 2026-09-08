@@ -14,6 +14,7 @@ import Memory from './Memory.jsx'
 import DocStudy from './DocStudy.jsx'
 import TypedGen from './TypedGen.jsx'
 import Comprehension from './Comprehension.jsx'
+import SqlQuery from './SqlQuery.jsx'
 
 const COMPONENTS = {
   qcm: Qcm,
@@ -29,6 +30,7 @@ const COMPONENTS = {
   verbs: TypedGen,
   grammar: TypedGen,
   comprehension: Comprehension,
+  sql: SqlQuery,
 }
 
 export const GAME_LABELS = {
@@ -45,10 +47,11 @@ export const GAME_LABELS = {
   verbs: 'Verbes irréguliers',
   grammar: 'Grammaire',
   comprehension: 'Compréhension',
+  sql: 'Requête SQL',
 }
 
 // Types sans « mode » (Entraînement / Défi) : on entre directement dans le jeu.
-const NO_MODE = new Set(['doc', 'comprehension'])
+const NO_MODE = new Set(['doc', 'comprehension', 'sql'])
 
 // Jeux « auto-corrigés en continu » où le mode Entraînement montre l'explication
 // après chaque réponse (les autres se corrigent surtout à la fin).

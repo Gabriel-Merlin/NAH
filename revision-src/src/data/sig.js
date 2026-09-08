@@ -214,6 +214,45 @@ export const sig = {
           ],
         },
         {
+          id: 'sig-t2-sql', type: 'sql', title: 'Écris la requête SQL', icon: '⌨️',
+          schema: [
+            { name: 'CLIENT', cols: ['🔑 numCli', 'nom', 'ville'], legend: true },
+            { name: 'COMMANDE', cols: ['🔑 numCom', 'date', 'montant', '🔗 numCli'], legend: true },
+          ],
+          questions: [
+            {
+              ask: 'Affiche le nom et la ville de tous les clients.',
+              answer: 'SELECT nom, ville FROM CLIENT',
+              alt: ['SELECT ville, nom FROM CLIENT'],
+              explain: 'SELECT choisit les colonnes (nom, ville), FROM indique la table (CLIENT). Pas de filtre : tous les clients.',
+            },
+            {
+              ask: 'Affiche le nom des clients qui habitent à Lyon.',
+              answer: "SELECT nom FROM CLIENT WHERE ville = 'Lyon'",
+              alt: ['SELECT nom FROM CLIENT WHERE ville = "Lyon"'],
+              explain: 'On filtre les lignes avec WHERE ville = "Lyon". Le texte est entre guillemets.',
+            },
+            {
+              ask: 'Affiche toutes les colonnes des commandes dont le montant dépasse 100.',
+              answer: 'SELECT * FROM COMMANDE WHERE montant > 100',
+              alt: [],
+              explain: '`*` = toutes les colonnes ; la condition WHERE montant > 100 ne garde que les grosses commandes. Un nombre ne prend pas de guillemets.',
+            },
+            {
+              ask: 'Affiche le nom de tous les clients, triés par ordre alphabétique.',
+              answer: 'SELECT nom FROM CLIENT ORDER BY nom',
+              alt: ['SELECT nom FROM CLIENT ORDER BY nom ASC'],
+              explain: 'ORDER BY nom trie le résultat par ordre croissant (ASC est la valeur par défaut).',
+            },
+            {
+              ask: 'Compte le nombre total de clients.',
+              answer: 'SELECT COUNT(*) FROM CLIENT',
+              alt: [],
+              explain: 'La fonction COUNT(*) compte les enregistrements de la table CLIENT.',
+            },
+          ],
+        },
+        {
           id: 'sig-t2-tri', type: 'tri', title: 'Tri — Clé primaire, étrangère ou attribut ?', icon: '🗂️',
           instruction: 'Classe chaque élément de la base CLIENT / COMMANDE.',
           categories: [

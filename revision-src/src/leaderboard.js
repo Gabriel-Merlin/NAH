@@ -63,3 +63,32 @@ export async function fetchRanking(classCode) {
   if (!res.ok) throw new Error('fetch ' + res.status)
   return await res.json()
 }
+
+// Ligue inter-classes : agrège les scores de la semaine en cours par classe.
+// On ne lit que des données déjà « publiques » (code de classe + nombre de
+// cours), jamais les noms : la ligue n'affiche que des totaux par classe.
+export async function fetchLeague() {
+  const wk = isoWeekKey()
+  const url = `${SUPA_URL}/rest/v1/leaderboard?select=class_code,courses,device_id&week=eq.${wk}&limit=2000`
+  const res = await fetch(url, { headers: headers() })
+  if (!res.ok) throw new Error('league ' + res.status)
+  const rows = await res.json()
+  const by = new Map()
+  for (const r of rows) {
+    const code = r.class_code
+    if (!code) continue
+    const g = by.get(code) || { code, members: new Set(), total: 0 }
+    g.members.add(r.device_id)
+    g.total += Math.max(0, Math.round(r.courses || 0))
+    by.set(code, g)
+  }
+  const list = [...by.values()].map((g) => ({
+    code: g.code,
+    members: g.members.size,
+    total: g.total,
+    avg: g.members.size ? Math.round((g.total / g.members.size) * 10) / 10 : 0,
+  }))
+  // Classement principal : total de cours de la classe (l'effort collectif).
+  list.sort((a, b) => b.total - a.total || b.avg - a.avg)
+  return list
+}

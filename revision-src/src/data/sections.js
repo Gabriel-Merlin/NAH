@@ -162,6 +162,7 @@ export const GAME_SECTION = {
   "sig-t1-ordre": 0,
   "sig-t2-trou": 1,
   "sig-t2-tri": 0,
+  "sig-t2-sql": 1,
   "sig-t3-tri": 0,
   "sig-t4-tri": 1,
   "sig-t4-ordre": 0,

@@ -76,7 +76,7 @@ export function chapterGameCount(chapterId) {
 // chapitre (rattachés à leur section). Les jeux de SYNTHÈSE (qcm, vrai/faux,
 // association) et les anciennes flashcards couvraient tout le thème : ils ne
 // sont plus placés sur un chapitre (ils alimentent le « Test du thème »).
-const CHAPTER_GAME_TYPES = new Set(['calcul', 'trou', 'tri', 'ordre', 'memory', 'doc', 'verbs', 'grammar', 'comprehension'])
+const CHAPTER_GAME_TYPES = new Set(['calcul', 'trou', 'tri', 'ordre', 'memory', 'doc', 'verbs', 'grammar', 'comprehension', 'sql'])
 
 export function themeChapters(theme) {
   if (!theme) return []

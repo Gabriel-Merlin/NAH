@@ -5,6 +5,47 @@ import { trackLabel } from '../data/tracks.js'
 import { useT } from '../i18n.js'
 import { Ring } from '../components/ui.jsx'
 
+// Banque de questions types du Grand Oral, par spécialité de Terminale STMG.
+// Chaque question s'accompagne d'un « angle » : comment l'aborder.
+const GO_QUESTIONS = {
+  'rh-communication': {
+    label: 'RH & Communication', icon: '🧑‍💼',
+    items: [
+      { q: 'La rémunération suffit-elle à motiver durablement les salariés ?', angle: 'Oppose facteurs d’hygiène et de motivation (Herzberg) : le salaire évite l’insatisfaction, mais reconnaissance et intérêt du travail motivent vraiment.' },
+      { q: 'Comment le management peut-il transformer un conflit en opportunité ?', angle: 'Distingue conflit latent/ouvert, puis les modes de résolution (négociation, médiation, arbitrage). Illustre avec un cas d’entreprise.' },
+      { q: 'La communication interne améliore-t-elle vraiment la cohésion d’une équipe ?', angle: 'Relie communication formelle/informelle, schéma de communication et performance sociale (turnover, absentéisme).' },
+      { q: 'Le télétravail renforce-t-il ou fragilise-t-il l’implication des salariés ?', angle: 'Pèse autonomie et qualité de vie contre risques d’isolement et de perte de cohésion. Nuance selon les métiers.' },
+    ],
+  },
+  mercatique: {
+    label: 'Mercatique', icon: '🛍️',
+    items: [
+      { q: 'Les réseaux sociaux ont-ils transformé la relation client ?', angle: 'Montre le passage d’une communication descendante à l’interaction/co-création. Parle e-réputation, avis clients et fidélisation.' },
+      { q: 'Fidéliser coûte-t-il vraiment moins cher que conquérir de nouveaux clients ?', angle: 'Compare coûts d’acquisition et de fidélisation, valeur à vie du client, programmes de fidélité. Appuie-toi sur des chiffres.' },
+      { q: 'Le marketing responsable est-il un argument commercial ou une conviction ?', angle: 'Interroge la frontière avec le greenwashing ; relie mercatique responsable, image de marque et attentes des consommateurs.' },
+      { q: 'Comment une marque crée-t-elle de la valeur perçue aux yeux du consommateur ?', angle: 'Mobilise le mix (4P), le positionnement et la valeur perçue vs valeur réelle. Prends une marque que tu connais.' },
+    ],
+  },
+  'gestion-finance': {
+    label: 'Gestion et Finance', icon: '💰',
+    items: [
+      { q: 'Un résultat positif suffit-il à garantir la santé financière d’une entreprise ?', angle: 'Sépare résultat (comptable) et trésorerie (encaissements réels). Une entreprise rentable peut manquer de liquidités.' },
+      { q: 'Pourquoi la trésorerie est-elle vitale, même pour une entreprise rentable ?', angle: 'Explique le décalage encaissements/décaissements, le BFR et le risque de cessation de paiement.' },
+      { q: 'L’endettement est-il toujours un risque pour l’entreprise ?', angle: 'Distingue effet de levier (l’endettement finance la croissance) et surendettement. Relie au coût du capital.' },
+      { q: 'Comment les documents comptables aident-ils à la prise de décision ?', angle: 'Montre le rôle du bilan, du compte de résultat et des SIG comme outils d’analyse et de pilotage.' },
+    ],
+  },
+  sig: {
+    label: 'Systèmes d’information de gestion', icon: '💻',
+    items: [
+      { q: 'Le partage des données améliore-t-il vraiment la prise de décision ?', angle: 'Relie SI, intelligence collective et information de qualité (fiable, pertinente, actuelle). Nuance avec la surcharge d’information.' },
+      { q: 'Faut-il tout dématérialiser dans une organisation ?', angle: 'Balance gains (temps, place, workflow) et limites (sécurité, valeur juridique, fracture numérique).' },
+      { q: 'La sécurité des systèmes d’information est-elle d’abord un problème technique ou humain ?', angle: 'Mobilise le triptyque CID puis montre que la faille est souvent humaine (phishing, mot de passe faible).' },
+      { q: 'Un PGI rend-il l’entreprise plus performante ou plus dépendante ?', angle: 'Oppose intégration/cohérence des données et coût/dépendance au fournisseur. Conclus sur un arbitrage.' },
+    ],
+  },
+}
+
 // --- Contenu de l'épreuve (français : épreuve du bac) ----------------------
 // Le déroulé exact (durées) est confirmé chaque année par le professeur ; on
 // présente ici la structure de préparation de référence.
@@ -59,6 +100,18 @@ export default function GrandOral() {
 
   const go = state.grandOral || { spec: '', q1: '', q2: '', notes: '' }
   const set = (patch) => setGrandOral(patch)
+
+  // Banque de questions : par défaut, la spécialité de l'élève.
+  const specKeys = Object.keys(GO_QUESTIONS)
+  const mySpec = specKeys.includes(state.track?.specialty) ? state.track.specialty : specKeys[0]
+  const [bankSpec, setBankSpec] = useState(mySpec)
+  const bank = GO_QUESTIONS[bankSpec]
+  // Pré-remplit une question dans la fiche de préparation.
+  const useQuestion = (text) => {
+    if (!go.q1) set({ q1: text })
+    else if (!go.q2) set({ q2: text })
+    else set({ q2: text })
+  }
 
   // Minuteur d'entraînement (local, indépendant du Coach).
   const [total, setTotal] = useState(PRACTICE[0].min * 60)
@@ -171,6 +224,42 @@ export default function GrandOral() {
             ↺ Tout effacer
           </button>
         )}
+      </section>
+
+      {/* ---- Banque de questions par spécialité ---- */}
+      <section className="card card-lux p-5 sm:p-6">
+        <h2 className="font-display text-xl font-medium">💡 Exemples de questions</h2>
+        <p className="mb-3 mt-0.5 text-sm text-slate-500 dark:text-slate-400">Des idées de questions par spécialité, avec un angle pour les traiter. Touche « Utiliser » pour l’ajouter à ta fiche.</p>
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          {Object.entries(GO_QUESTIONS).map(([key, v]) => (
+            <button
+              key={key}
+              onClick={() => setBankSpec(key)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${bankSpec === key ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+              style={bankSpec === key ? { backgroundColor: 'var(--c-accent)' } : undefined}
+            >
+              {v.icon} {v.label}{key === mySpec ? ' ★' : ''}
+            </button>
+          ))}
+        </div>
+        <div className="space-y-2">
+          {bank.items.map((it, k) => (
+            <div key={k} className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
+              <div className="flex items-start justify-between gap-2">
+                <p className="font-semibold leading-snug">« {it.q} »</p>
+                <button
+                  onClick={() => useQuestion(it.q)}
+                  className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-white transition hover:opacity-90"
+                  style={{ backgroundColor: 'var(--c-accent)' }}
+                >
+                  Utiliser
+                </button>
+              </div>
+              <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-300"><span className="font-semibold" style={{ color: 'var(--c-accent)' }}>Angle :</span> {it.angle}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-slate-400">★ Ta spécialité. Ces questions sont des exemples pour t’inspirer — la meilleure question reste celle qui t’intéresse vraiment.</p>
       </section>
 
       {/* ---- S'entraîner (minuteur) ---- */}

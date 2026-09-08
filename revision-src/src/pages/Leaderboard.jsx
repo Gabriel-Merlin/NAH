@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useStore } from '../store.jsx'
 import { useT } from '../i18n.js'
 import { Icon } from '../components/ui.jsx'
-import { submitScore, fetchRanking, deviceId, normalizeCode, LEADERBOARD_READY } from '../leaderboard.js'
+import { submitScore, fetchRanking, fetchLeague, deviceId, normalizeCode, LEADERBOARD_READY } from '../leaderboard.js'
 
 const initialsOf = (name) => {
   const p = String(name || '').trim().split(/\s+/)
@@ -13,9 +13,12 @@ const medal = (i) => (i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `
 export default function Leaderboard() {
   const { state, derived, setClassCode } = useStore()
   const t = useT()
+  const [view, setView] = useState('class') // 'class' | 'league'
   const [code, setCode] = useState('')
   const [rows, setRows] = useState(null)
   const [status, setStatus] = useState('idle') // idle | loading | ok | error
+  const [league, setLeague] = useState(null)
+  const [lstatus, setLstatus] = useState('idle')
   const myId = deviceId()
 
   const name = `${state.profile?.firstName || ''} ${state.profile?.lastName || ''}`.trim() || 'Élève'
@@ -38,7 +41,98 @@ export default function Leaderboard() {
 
   useEffect(() => { load() }, [load])
 
-  // ----- Pas encore de classe : formulaire pour rejoindre -----
+  const loadLeague = useCallback(async () => {
+    setLstatus('loading')
+    try {
+      // On (re)pousse d'abord son score pour apparaître dans la ligue.
+      if (classCode) { try { await submitScore({ classCode, name, photo, courses }) } catch { /* ignore */ } }
+      const data = await fetchLeague()
+      setLeague(data)
+      setLstatus('ok')
+    } catch {
+      setLstatus('error')
+    }
+  }, [classCode, name, photo, courses])
+
+  useEffect(() => { if (view === 'league' && lstatus === 'idle') loadLeague() }, [view, lstatus, loadLeague])
+
+  const Tabs = () => (
+    <div className="flex gap-2">
+      <button
+        onClick={() => setView('class')}
+        className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition ${view === 'class' ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+        style={view === 'class' ? { backgroundColor: 'var(--c-accent)' } : undefined}
+      >
+        🏆 {t('myClass')}
+      </button>
+      <button
+        onClick={() => setView('league')}
+        className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition ${view === 'league' ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+        style={view === 'league' ? { backgroundColor: 'var(--c-accent)' } : undefined}
+      >
+        🏟️ {t('league')}
+      </button>
+    </div>
+  )
+
+  // ===================================================================== LIGUE
+  if (view === 'league') {
+    const myCode = normalizeCode(classCode)
+    return (
+      <div className="animate-lux space-y-4">
+        <header>
+          <p className="kicker">{t('leaderboard')}</p>
+          <h1 className="font-display text-3xl font-medium leading-tight">🏟️ {t('league')}</h1>
+        </header>
+        <Tabs />
+        <hr className="rule-gold" />
+        <p className="text-xs text-slate-400">{t('leagueHint')}</p>
+
+        {lstatus === 'loading' && !league && (
+          <div className="card p-6 text-center text-sm text-slate-500 dark:text-slate-400">…</div>
+        )}
+        {lstatus === 'error' && (
+          <div className="card p-6 text-center">
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('rankOffline')}</p>
+            <button onClick={loadLeague} className="btn-ghost mt-3 !min-h-0 !py-2 text-sm">{t('retry')}</button>
+          </div>
+        )}
+        {league && league.length === 0 && (
+          <div className="card p-6 text-center text-sm text-slate-500 dark:text-slate-400">{t('noClassesYet')}</div>
+        )}
+
+        {league && league.length > 0 && (
+          <div className="space-y-2">
+            {league.map((c, i) => {
+              const mine = myCode && c.code === myCode
+              return (
+                <div
+                  key={c.code}
+                  className={`card flex items-center gap-3 p-3 ${mine ? 'ring-2' : ''}`}
+                  style={mine ? { boxShadow: 'inset 0 0 0 2px var(--c-accent)' } : undefined}
+                >
+                  <span className="w-7 shrink-0 text-center font-display text-lg font-semibold" style={{ color: i < 3 ? undefined : 'var(--c-accent)' }}>{medal(i)}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-semibold">
+                      {c.code}{mine && <span className="ml-1 text-xs font-normal text-slate-400">· {t('myClass')}</span>}
+                    </span>
+                    <span className="block text-xs text-slate-400">{c.members} {c.members > 1 ? t('membersP') : t('membersS')} · {t('avgPerStudent')} {c.avg}</span>
+                  </span>
+                  <span className="shrink-0 text-right">
+                    <span className="font-display text-xl font-semibold" style={{ color: 'var(--c-accent)' }}>{c.total}</span>
+                    <span className="block text-[0.65rem] uppercase tracking-wide text-slate-400">{t('totalCourses')}</span>
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+        <p className="pt-1 text-center text-xs text-slate-400">{t('leagueNote')}</p>
+      </div>
+    )
+  }
+
+  // ============================================================ MA CLASSE (join)
   if (!classCode) {
     return (
       <div className="animate-lux space-y-4">
@@ -46,6 +140,7 @@ export default function Leaderboard() {
           <p className="kicker">{t('leaderboard')}</p>
           <h1 className="font-display text-3xl font-medium leading-tight">🏆 {t('weeklyRanking')}</h1>
         </header>
+        <Tabs />
         <hr className="rule-gold" />
         <div className="card card-lux p-5">
           <h2 className="font-display text-xl font-semibold">{t('joinClass')}</h2>
@@ -74,7 +169,7 @@ export default function Leaderboard() {
     )
   }
 
-  // ----- Classe rejointe : classement -----
+  // ===================================================== MA CLASSE (classement)
   return (
     <div className="animate-lux space-y-4">
       <header className="flex items-start justify-between gap-3">
@@ -84,6 +179,7 @@ export default function Leaderboard() {
         </div>
         <button onClick={() => { setClassCode(''); setRows(null) }} className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('leaveClass')}</button>
       </header>
+      <Tabs />
       <hr className="rule-gold" />
       <p className="text-xs text-slate-400">{t('weeklyRankHint')}</p>
 
