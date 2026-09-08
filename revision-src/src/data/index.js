@@ -11,6 +11,7 @@ import { histoire } from './histoire.js'
 import { langues } from './langues.js'
 import { mercatique } from './mercatique.js'
 import { rh } from './rh.js'
+import { sig } from './sig.js'
 import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
 import { DOC_STUDIES } from './docstudies.js'
@@ -27,6 +28,7 @@ export const SUBJECTS = [
   langues,
   mercatique,
   rh,
+  sig,
   ...premiereSubjects,
 ]
 

@@ -301,6 +301,7 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
             <Item icon="🧠" label={t('smartRevision')} to="/revision" />
             <Item icon="📝" label={t('mockExam')} to="/bac-blanc" />
             <Item icon="📅" label={t('studyPlan')} to="/programme" />
+            <Item icon="🎓" label={t('grandOral')} to="/grand-oral" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
@@ -365,6 +366,8 @@ function Breadcrumb() {
       items.push({ label: t('mockExam'), to: '/bac-blanc' })
     } else if (parts[0] === 'programme') {
       items.push({ label: t('studyPlan'), to: '/programme' })
+    } else if (parts[0] === 'grand-oral') {
+      items.push({ label: t('grandOral'), to: '/grand-oral' })
     }
     return items
   }, [pathname, t])

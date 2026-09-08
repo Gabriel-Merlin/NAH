@@ -1,0 +1,262 @@
+import { useEffect, useRef, useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useStore } from '../store.jsx'
+import { trackLabel } from '../data/tracks.js'
+import { useT } from '../i18n.js'
+import { Ring } from '../components/ui.jsx'
+
+// --- Contenu de l'épreuve (français : épreuve du bac) ----------------------
+// Le déroulé exact (durées) est confirmé chaque année par le professeur ; on
+// présente ici la structure de préparation de référence.
+const TEMPS = [
+  {
+    n: 1, icon: '🎤', title: 'L’exposé', dur: '≈ 5 min',
+    desc: 'Debout, sans tes notes, tu présentes UNE des deux questions (c’est le jury qui la choisit). Tu annonces ton plan, tu argumentes, tu conclus.',
+  },
+  {
+    n: 2, icon: '💬', title: 'L’échange avec le jury', dur: '≈ 10 min',
+    desc: 'Le jury te pose des questions pour approfondir : définitions, exemples, liens avec le programme de ta spécialité. Reste calme, prends le temps de reformuler.',
+  },
+  {
+    n: 3, icon: '🧭', title: 'Le projet d’orientation', dur: '≈ 5 min',
+    desc: 'Tu expliques en quoi cette question éclaire ton projet d’études ou professionnel : pourquoi ce sujet, ce qu’il t’a appris sur toi et ta voie.',
+  },
+]
+
+const CRITERES = [
+  { icon: '🗣️', h: 'Qualité orale', c: 'Voix audible, débit posé, regard vers le jury, peu de « euh ». On évalue ta capacité à t’exprimer clairement, pas à réciter.' },
+  { icon: '🧩', h: 'Argumentation', c: 'Un propos construit : une accroche, un plan clair, des arguments illustrés d’exemples, une conclusion. La structure compte autant que le contenu.' },
+  { icon: '📚', h: 'Solidité des connaissances', c: 'Tu maîtrises les notions de ta spécialité liées à la question et tu sais les mobiliser pour répondre aux relances du jury.' },
+  { icon: '🎯', h: 'Projet motivé', c: 'Tu relies sincèrement la question à ton projet : le jury veut sentir une démarche personnelle et réfléchie.' },
+]
+
+const ETAPES = [
+  { icon: '①', h: 'Choisir ses deux questions', c: 'Elles s’appuient sur le programme de tes spécialités (souvent une par spécialité, ou une transversale). Choisis des sujets qui t’intéressent vraiment : tu les défendras mieux.' },
+  { icon: '②', h: 'Construire une réponse', c: 'Formule une problématique, puis un plan en 2 ou 3 parties. Chaque partie = une idée + un exemple concret. Prépare une accroche qui donne envie et une conclusion qui ouvre.' },
+  { icon: '③', h: 'Préparer le projet d’orientation', c: 'Prépare 3–4 phrases : pourquoi ce sujet te touche, ce qu’il révèle de ton projet d’études, le métier ou le domaine visé.' },
+  { icon: '④', h: 'S’entraîner à voix haute', c: 'Répète debout, sans lire, en te chronométrant. Filme-toi ou récite à un proche. C’est l’entraînement oral, pas la fiche écrite, qui fait la différence.' },
+]
+
+const CONSEILS = [
+  { icon: '😮‍💨', t: 'Gère le stress', d: 'Respire lentement avant de commencer. Un court silence vaut mieux qu’un « euh ». Le jury est bienveillant, il veut te voir réussir.' },
+  { icon: '👀', t: 'Regarde le jury', d: 'Adresse-toi à eux, pas à tes chaussures. Le contact visuel montre l’aisance et capte l’attention.' },
+  { icon: '🧱', t: 'Structure, structure, structure', d: 'Annonce ton plan (« Je vais répondre en deux temps… »). Un jury suit d’autant mieux qu’il sait où tu vas.' },
+  { icon: '🗂️', t: 'Un exemple par idée', d: 'Chaque argument doit être illustré (cas d’entreprise, chiffre, situation vécue). L’exemple rend ton propos vivant et crédible.' },
+]
+
+function two(n) { return String(n).padStart(2, '0') }
+
+const PRACTICE = [
+  { key: 'expose', label: 'Exposé', min: 5 },
+  { key: 'echange', label: 'Échange', min: 10 },
+  { key: 'projet', label: 'Projet', min: 5 },
+]
+
+export default function GrandOral() {
+  const { state, setGrandOral } = useStore()
+  const t = useT()
+  if (!state.track) return <Navigate to="/" replace />
+
+  const go = state.grandOral || { spec: '', q1: '', q2: '', notes: '' }
+  const set = (patch) => setGrandOral(patch)
+
+  // Minuteur d'entraînement (local, indépendant du Coach).
+  const [total, setTotal] = useState(PRACTICE[0].min * 60)
+  const [left, setLeft] = useState(PRACTICE[0].min * 60)
+  const [running, setRunning] = useState(false)
+  const tick = useRef(null)
+
+  useEffect(() => {
+    if (!running) return
+    tick.current = setInterval(() => {
+      setLeft((l) => {
+        if (l <= 1) { clearInterval(tick.current); setRunning(false); return 0 }
+        return l - 1
+      })
+    }, 1000)
+    return () => clearInterval(tick.current)
+  }, [running])
+
+  const pickPractice = (min) => { setRunning(false); setTotal(min * 60); setLeft(min * 60) }
+  const pct = total > 0 ? (1 - left / total) * 100 : 0
+  const activeMin = Math.round(total / 60)
+
+  return (
+    <div className="animate-lux space-y-8">
+      <header className="text-center">
+        <p className="kicker">🎓 {t('grandOral')}</p>
+        <h1 className="mt-1 font-display text-[1.9rem] font-medium leading-tight">{t('grandOral')}</h1>
+        <span className="mx-auto mt-3 block h-px w-24 rounded-full" style={{ background: 'linear-gradient(90deg,transparent,#c8a24e,transparent)' }} />
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">{t('grandOralSub')}</p>
+      </header>
+
+      {/* ---- L'épreuve en bref ---- */}
+      <section className="card card-lux p-5 sm:p-6">
+        <h2 className="mb-3 font-display text-xl font-medium">📋 L’épreuve en bref</h2>
+        <div className="mb-4 grid grid-cols-3 gap-2 text-center">
+          <div className="rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 10%, transparent)' }}>
+            <p className="font-display text-2xl font-bold" style={{ color: 'var(--c-accent)' }}>20 min</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">de préparation</p>
+          </div>
+          <div className="rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 10%, transparent)' }}>
+            <p className="font-display text-2xl font-bold" style={{ color: 'var(--c-accent)' }}>20 min</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">de passage</p>
+          </div>
+          <div className="rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 10%, transparent)' }}>
+            <p className="font-display text-2xl font-bold" style={{ color: 'var(--c-accent)' }}>coef. 14</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">en STMG</p>
+          </div>
+        </div>
+        <p className="mb-3 text-sm text-slate-600 dark:text-slate-300">
+          Tu prépares <strong>deux questions</strong> adossées au programme de tes spécialités. Le jour J, après 20 minutes de préparation, l’épreuve se déroule en trois temps :
+        </p>
+        <div className="space-y-2">
+          {TEMPS.map((tp) => (
+            <div key={tp.n} className="flex gap-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-lg" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 14%, transparent)' }} aria-hidden>{tp.icon}</span>
+              <div className="min-w-0">
+                <p className="font-semibold">Temps {tp.n} — {tp.title} <span className="ml-1 text-xs font-normal text-slate-400">{tp.dur}</span></p>
+                <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-300">{tp.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-center text-xs text-slate-400">Les durées sont indicatives : ton professeur confirme les modalités exactes de la session.</p>
+      </section>
+
+      {/* ---- Préparer mes questions (interactif, sauvegardé) ---- */}
+      <section className="card card-lux p-5 sm:p-6">
+        <h2 className="font-display text-xl font-medium">✍️ Préparer mes deux questions</h2>
+        <p className="mb-4 mt-0.5 text-sm text-slate-500 dark:text-slate-400">Note ici tes questions et ton plan — tout est enregistré automatiquement sur cet appareil.</p>
+
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">Spécialité(s) concernée(s)</label>
+        <input
+          value={go.spec || ''}
+          onChange={(e) => set({ spec: e.target.value })}
+          placeholder={`Ex. ${trackLabel(state.track)}`}
+          className="mb-4 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800"
+        />
+
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">Question 1</label>
+        <textarea
+          value={go.q1 || ''}
+          onChange={(e) => set({ q1: e.target.value })}
+          rows={2}
+          placeholder="Formule ta première question…"
+          className="mb-4 w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800"
+        />
+
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">Question 2</label>
+        <textarea
+          value={go.q2 || ''}
+          onChange={(e) => set({ q2: e.target.value })}
+          rows={2}
+          placeholder="Formule ta seconde question…"
+          className="mb-4 w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800"
+        />
+
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">Mon plan / mes notes (accroche · arguments · conclusion · projet)</label>
+        <textarea
+          value={go.notes || ''}
+          onChange={(e) => set({ notes: e.target.value })}
+          rows={6}
+          placeholder={'Accroche : …\nPartie 1 : idée + exemple\nPartie 2 : idée + exemple\nConclusion : …\nProjet d’orientation : …'}
+          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800"
+        />
+        {(go.q1 || go.q2 || go.notes) && (
+          <button
+            onClick={() => { if (confirm('Effacer tes notes du Grand Oral ?')) set({ spec: '', q1: '', q2: '', notes: '' }) }}
+            className="mt-3 text-xs font-semibold text-rose-500 hover:underline"
+          >
+            ↺ Tout effacer
+          </button>
+        )}
+      </section>
+
+      {/* ---- S'entraîner (minuteur) ---- */}
+      <section className="card card-lux p-5 sm:p-6">
+        <h2 className="mb-1 font-display text-xl font-medium">⏱️ M’entraîner à l’oral</h2>
+        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">Choisis un temps, mets-toi debout et parle sans lire tes notes jusqu’à la fin du chrono.</p>
+        <div className="mb-5 grid grid-cols-3 gap-2">
+          {PRACTICE.map((p) => (
+            <button
+              key={p.key}
+              onClick={() => pickPractice(p.min)}
+              className={`rounded-xl px-2 py-2 text-center text-xs font-semibold transition ${activeMin === p.min ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+              style={activeMin === p.min ? { backgroundColor: 'var(--c-accent)' } : undefined}
+            >
+              {p.label}<br /><span className="opacity-70">{p.min} min</span>
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-col items-center">
+          <Ring
+            value={pct}
+            color={left === 0 ? '#3f9d6d' : 'var(--c-accent)'}
+            size={200}
+            label={
+              <span className="flex flex-col items-center">
+                <span className="font-display text-5xl font-semibold tabular-nums" style={{ color: left === 0 ? '#3f9d6d' : 'var(--c-accent)' }}>{two(Math.floor(left / 60))}:{two(left % 60)}</span>
+                <span className="mt-1 text-xs uppercase tracking-widest text-slate-400">{left === 0 ? 'Terminé' : running ? 'En cours' : 'Prêt'}</span>
+              </span>
+            }
+          />
+          <div className="mt-5 flex w-full max-w-xs gap-2">
+            <button
+              onClick={() => { if (left === 0) pickPractice(activeMin); setRunning((r) => !r) }}
+              className="flex-1 rounded-2xl px-4 py-3 text-base font-semibold text-white shadow-md transition hover:opacity-90"
+              style={{ backgroundColor: 'var(--c-accent)' }}
+            >
+              {running ? '⏸ Pause' : left === 0 ? '↺ Recommencer' : '▶ Démarrer'}
+            </button>
+            <button
+              onClick={() => pickPractice(activeMin)}
+              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              ↺
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- Étapes de préparation ---- */}
+      <section>
+        <h2 className="mb-3 px-1 font-display text-xl font-medium">🧭 Comment se préparer, étape par étape</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {ETAPES.map((e) => (
+            <div key={e.h} className="card p-4">
+              <p className="flex items-center gap-2 font-display font-semibold"><span className="text-lg" style={{ color: 'var(--c-accent)' }} aria-hidden>{e.icon}</span> {e.h}</p>
+              <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-300">{e.c}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- Ce que le jury évalue ---- */}
+      <section>
+        <h2 className="mb-3 px-1 font-display text-xl font-medium">⚖️ Ce que le jury évalue</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {CRITERES.map((c) => (
+            <div key={c.h} className="card p-4">
+              <p className="flex items-center gap-2 font-display font-semibold"><span className="text-xl" aria-hidden>{c.icon}</span> {c.h}</p>
+              <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-300">{c.c}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- Conseils express ---- */}
+      <section>
+        <h2 className="mb-3 px-1 font-display text-xl font-medium">💡 Conseils express</h2>
+        <div className="space-y-2">
+          {CONSEILS.map((c) => (
+            <div key={c.t} className="flex gap-3 rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 9%, transparent)' }}>
+              <span className="text-2xl" aria-hidden>{c.icon}</span>
+              <div><p className="font-semibold">{c.t}</p><p className="mt-0.5 text-sm text-slate-600 dark:text-slate-300">{c.d}</p></div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}

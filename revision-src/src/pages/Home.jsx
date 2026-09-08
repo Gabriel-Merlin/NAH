@@ -137,6 +137,16 @@ export default function Home() {
         </Link>
       </div>
 
+      {/* Grand Oral : guide de l'épreuve + préparation des 2 questions */}
+      <Link to="/grand-oral" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+        <span className="text-2xl" aria-hidden>🎓</span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display font-semibold leading-tight">{t('grandOral')}</span>
+          <span className="block text-xs text-slate-500 dark:text-slate-400">{t('grandOralSub')}</span>
+        </span>
+        <span className="text-slate-300" aria-hidden>›</span>
+      </Link>
+
       {/* Espace Classe : rejoindre / comparer / QCM de la classe */}
       <Link to="/classe" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
         <span className="text-2xl" aria-hidden>👥</span>

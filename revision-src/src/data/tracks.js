@@ -47,6 +47,14 @@ export const LEVELS = [
         desc: 'Marché, offre, relation client.',
         available: true,
       },
+      {
+        id: 'sig',
+        name: 'Systèmes d’information de gestion',
+        icon: '💻',
+        color: '#0ea5e9',
+        desc: 'Données, bases de données & SQL, réseaux, sécurité.',
+        available: true,
+      },
     ],
   },
 ]

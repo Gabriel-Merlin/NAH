@@ -89,6 +89,7 @@ const emptyState = () => ({
   bacDate: null, // date du bac (programme de révision)
   a11y: { dys: false, contrast: false, big: false }, // accessibilité (local)
   reminder: { on: false, time: '18:00' }, // rappel de révision (local)
+  grandOral: { spec: '', q1: '', q2: '', notes: '' }, // préparation du Grand Oral (local)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -284,7 +285,7 @@ export function StoreProvider({ children }) {
   // Les préférences d'affichage (langue, thème) restent locales.
   const logout = useCallback(() => setState((p) => {
     if (p.account?.id) { try { saveProgress(pickProgress(p)) } catch { /* best effort */ } }
-    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder }
+    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder, grandOral: p.grandOral }
   }), [])
 
   // Restaure la progression du compte (fusion avec l'éventuel local du même
@@ -364,6 +365,7 @@ export function StoreProvider({ children }) {
   const addXp = useCallback((n) => setState((p) => evaluateBadges({ ...p, xp: p.xp + Math.max(0, Math.round(n) || 0) })), [evaluateBadges])
   const setA11y = useCallback((patch) => setState((p) => ({ ...p, a11y: { ...(p.a11y || {}), ...patch } })), [])
   const setReminder = useCallback((patch) => setState((p) => ({ ...p, reminder: { ...(p.reminder || {}), ...patch } })), [])
+  const setGrandOral = useCallback((patch) => setState((p) => ({ ...p, grandOral: { ...(p.grandOral || {}), ...patch } })), [])
 
   const value = {
     state,
@@ -374,6 +376,7 @@ export function StoreProvider({ children }) {
     addXp,
     setA11y,
     setReminder,
+    setGrandOral,
     toggleFavorite,
     setLastChapter,
     setTheme,

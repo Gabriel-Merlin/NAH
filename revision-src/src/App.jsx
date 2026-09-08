@@ -15,6 +15,7 @@ import Coach from './pages/Coach.jsx'
 import Revise from './pages/Revise.jsx'
 import BacBlanc from './pages/BacBlanc.jsx'
 import Programme from './pages/Programme.jsx'
+import GrandOral from './pages/GrandOral.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Faq from './pages/Faq.jsx'
 
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/revision" element={<Revise />} />
         <Route path="/bac-blanc" element={<BacBlanc />} />
         <Route path="/programme" element={<Programme />} />
+        <Route path="/grand-oral" element={<GrandOral />} />
         <Route path="/confidentialite" element={<Privacy />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/classement" element={<Leaderboard />} />
