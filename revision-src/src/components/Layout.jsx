@@ -298,11 +298,6 @@ function MobileMenu({ className = '', state, isDark, lang, first, last, mono, ph
               </div>
             )}
             {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
-            <Item icon="🎯" label={t('coach')} to="/coach" />
-            <Item icon="🧠" label={t('smartRevision')} to="/revision" />
-            <Item icon="📝" label={t('mockExam')} to="/bac-blanc" />
-            <Item icon="📅" label={t('studyPlan')} to="/programme" />
-            <Item icon="🎓" label={t('grandOral')} to="/grand-oral" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
