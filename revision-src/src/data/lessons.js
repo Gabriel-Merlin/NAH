@@ -254,44 +254,57 @@ export const LESSONS = {
       {
         h: 'Qu’est-ce qu’une organisation ? Types et finalités',
         blocks: [
-          { t: 'p', c: 'Une **organisation** est un groupe humain structuré (des moyens, une division du travail, des règles) réuni pour atteindre un **but commun**. On en distingue trois grandes familles, selon leur **finalité**.' },
-          { t: 'table', head: ['Type', 'Finalité', 'Exemples'], rows: [
-            ['Entreprise privée', 'Lucrative (réaliser un profit)', 'PME, multinationale'],
-            ['Organisation publique', "Non lucrative (intérêt général, service public)", 'Mairie, hôpital public'],
-            ['Société civile', 'Non lucrative (défendre une cause)', 'Association, ONG, syndicat'],
+          { t: 'p', c: 'Une **organisation** est un groupe humain **structuré** — elle réunit des **moyens** (humains, matériels, financiers), une **division du travail** (chacun sa mission), une **hiérarchie** et des **règles** communes — pour atteindre un **but commun** qu’un individu seul n’atteindrait pas. Une entreprise, une mairie, un club de sport ou une association sont toutes des organisations.' },
+          { t: 'p', c: 'On les classe d’abord selon leur **finalité**, c’est-à-dire leur raison d’être profonde.' },
+          { t: 'table', head: ['Type', 'Finalité', 'Ressources', 'Exemples'], rows: [
+            ['Entreprise privée', 'Lucrative (réaliser un **profit**)', 'Capitaux privés, ventes', 'PME de meubles, multinationale'],
+            ['Organisation publique', 'Non lucrative (**intérêt général**, service public)', 'Impôts, budget de l’État', 'Mairie, hôpital public, école'],
+            ['Société civile (OSC)', 'Non lucrative (**défendre une cause**)', 'Cotisations, dons, bénévolat, subventions', 'Association, ONG, syndicat'],
           ] },
-          { t: 'p', c: 'Au-delà du profit, une entreprise peut aussi poursuivre une finalité **sociétale** (prise en compte des enjeux sociaux et environnementaux : la **RSE**).' },
+          { t: 'p', c: 'Attention : « non lucratif » ne veut pas dire « sans argent ». Une association peut vendre des services ; simplement, ses **excédents** sont **réinvestis** dans sa cause, jamais distribués à des propriétaires.' },
+          { t: 'p', c: 'La finalité ne se réduit plus au seul profit. Beaucoup d’entreprises affichent aussi une finalité **sociétale** : prendre en compte les enjeux **sociaux** et **environnementaux** de leur activité (c’est la **RSE**, développée au thème 3). Une **entreprise à mission** inscrit même cette raison d’être dans ses statuts.' },
+          { t: 'tip', c: 'Ne confonds pas **finalité** (la raison d’être, durable : « pourquoi j’existe ? ») et **objectif** (un but précis et mesurable, à atteindre : « vendre 100 vélos ce trimestre »). La finalité se décline en objectifs.' },
         ],
       },
       {
         h: 'Efficacité et efficience : deux mesures de la performance',
         blocks: [
-          { t: 'p', c: 'La **performance** se juge sur deux plans. L’**efficacité**, c’est **atteindre l’objectif** fixé. L’**efficience**, c’est l’atteindre **au moindre coût**, en utilisant au mieux les ressources.' },
-          { t: 'example', h: 'Efficace ≠ efficient', c: 'Deux équipes atteignent l’objectif de 100 ventes : les deux sont **efficaces**.\nMais l’équipe B l’a fait avec deux fois moins de budget : elle est plus **efficiente**.' },
-          { t: 'tip', c: 'Moyen mnémotechnique : efficac**ité** = le résult**at** ; effici**ence** = les moy**ens**.' },
+          { t: 'p', c: 'La **performance** d’une organisation, c’est sa capacité à atteindre ses objectifs en utilisant bien ses ressources. On la juge sur **deux plans** qu’il ne faut jamais confondre.' },
+          { t: 'table', head: ['Notion', 'Question posée', 'Définition'], rows: [
+            ['**Efficacité**', 'Ai-je atteint mon objectif ?', 'Atteindre le **résultat** fixé, quel qu’en soit le coût'],
+            ['**Efficience**', 'À quel coût l’ai-je atteint ?', 'Atteindre l’objectif au **moindre coût** (meilleur usage des ressources)'],
+          ] },
+          { t: 'example', h: 'Efficace n’est pas toujours efficient', c: 'Deux équipes atteignent l’objectif de **100 ventes** : les deux sont **efficaces**.\nMais l’équipe B l’a fait avec **deux fois moins de budget** : elle est plus **efficiente**.\n→ On peut être efficace sans être efficient (objectif atteint mais en gaspillant), et l’inverse est impossible.' },
+          { t: 'p', c: 'La performance a **plusieurs dimensions** : **commerciale** (parts de marché, satisfaction client), **financière** (rentabilité), **sociale** (climat, faible turnover) et **environnementale**. Une organisation vise aujourd’hui une **performance globale**, qui concilie ces différents plans.' },
+          { t: 'tip', c: 'Moyen mnémotechnique : efficac**ité** = le résult**at** ; effici**ence** = les moy**ens**. « Efficient » contient l’idée d’**économie** de ressources.' },
         ],
       },
       {
         h: 'Les ressources et la création de valeur',
         blocks: [
-          { t: 'list', c: [
-            '**Ressources financières** : capitaux, trésorerie.',
-            '**Ressources humaines** : les salariés, leurs compétences.',
-            '**Ressources matérielles** : locaux, machines, matières.',
-            '**Ressources immatérielles** : savoir-faire, marque, image, brevets — souvent les plus difficiles à copier.',
+          { t: 'p', c: 'Pour agir, l’organisation combine **quatre types de ressources**. Les repérer dans un document est un classique du bac.' },
+          { t: 'table', head: ['Ressource', 'Exemples', 'Particularité'], rows: [
+            ['**Financières**', 'Capitaux, trésorerie, emprunts', 'Nécessaires pour investir et fonctionner'],
+            ['**Humaines**', 'Salariés, compétences, savoir-faire', 'Au cœur de la performance sociale'],
+            ['**Matérielles**', 'Locaux, machines, matières premières', 'Visibles au bilan (immobilisations, stocks)'],
+            ['**Immatérielles**', 'Marque, image, brevets, réputation, données', 'Difficiles à copier → avantage durable'],
           ] },
-          { t: 'p', c: 'En combinant ces ressources tout au long de sa **chaîne de valeur** (l’enchaînement des activités), l’organisation **crée de la valeur** pour ses clients — et, si elle est efficiente, un profit pour elle-même.' },
+          { t: 'p', c: 'En enchaînant ses activités (approvisionnement → production → commercialisation → service après-vente), l’organisation forme une **chaîne de valeur** : chaque maillon doit **ajouter de la valeur** pour le client. La performance vient de la **cohérence** de l’ensemble.' },
+          { t: 'example', h: 'La valeur perçue', c: 'Un vélo Vél’Oc coûte 40 € de matières de plus qu’un vélo standard, mais son design et sa marque font que le client accepte de payer **300 € de plus** : la valeur **créée** dépasse largement le coût des ressources ajoutées.' },
+          { t: 'tip', c: 'Les ressources **immatérielles** (marque, savoir-faire, brevets) sont souvent la vraie source d’un **avantage concurrentiel durable** : un concurrent peut racheter des machines, mais pas une réputation bâtie sur 20 ans.' },
         ],
       },
       {
         h: 'Être compétitif : par les prix ou hors-prix',
         blocks: [
-          { t: 'p', c: 'La **compétitivité** est la capacité à s’imposer face à la concurrence. Deux stratégies :' },
-          { t: 'list', c: [
-            '**Compétitivité-prix** : proposer un **prix plus bas** (grâce à des coûts maîtrisés).',
-            '**Compétitivité hors-prix** : se démarquer par la **qualité, l’innovation, l’image, les délais**.',
+          { t: 'p', c: 'La **compétitivité** est la capacité d’une organisation à **s’imposer face à la concurrence** et à conserver ou gagner des clients. On distingue deux grandes voies, souvent complémentaires.' },
+          { t: 'table', head: ['Compétitivité', 'On agit sur…', 'Comment ?'], rows: [
+            ['**Prix**', 'Le **prix de vente**', 'Baisser les coûts (productivité, achats, automatisation) pour vendre moins cher'],
+            ['**Hors-prix**', 'La **valeur** de l’offre', 'Qualité, **innovation**, image de marque, délais, service, design'],
           ] },
-          { t: 'example', h: 'Vél’Oc', c: 'En se positionnant « haut de gamme », le fabricant de vélos électriques Vél’Oc mise sur la compétitivité **hors-prix** (qualité, image) plutôt que sur le prix le plus bas.' },
+          { t: 'example', h: 'Vél’Oc mise sur le hors-prix', c: 'En se positionnant « haut de gamme », Vél’Oc joue la compétitivité **hors-prix** (qualité, image, innovation) plutôt que le prix le plus bas. Un hard-discounter, lui, jouerait la compétitivité-**prix**.' },
+          { t: 'warning', c: 'Piège fréquent : croire qu’il faut **toujours** baisser les prix. Pour une marque premium, casser les prix **détruirait** son image et sa marge. La bonne stratégie dépend du **positionnement** choisi.' },
+          { t: 'p', c: 'Gagner en compétitivité passe souvent par des **gains de productivité** (produire plus avec autant de moyens) et par l’**innovation**, qui permet de se différencier durablement.' },
         ],
       },
     ],
@@ -314,48 +327,57 @@ export const LESSONS = {
       {
         h: 'Management stratégique et management opérationnel',
         blocks: [
-          { t: 'table', head: ['', 'Stratégique', 'Opérationnel'], rows: [
-            ['Horizon', 'Long terme', 'Court terme'],
-            ['Qui ?', 'Direction générale', 'Encadrement, équipes'],
+          { t: 'p', c: 'Manager, c’est **décider**. On distingue deux niveaux de décisions, selon leur **portée** et leur **horizon** de temps.' },
+          { t: 'table', head: ['', 'Management stratégique', 'Management opérationnel'], rows: [
+            ['Horizon', '**Long terme** (plusieurs années)', '**Court terme** (jour, semaine)'],
+            ['Qui décide ?', 'Direction générale', 'Encadrement, chefs d’équipe'],
+            ['Portée', 'Engage toute l’organisation', 'Concerne une activité, un service'],
             ['Exemple', 'Se diversifier vers les trottinettes', 'Organiser le planning de la semaine'],
           ] },
-          { t: 'p', c: 'Les deux niveaux sont **complémentaires** : la stratégie fixe le cap, l’opérationnel le met en œuvre au quotidien.' },
+          { t: 'p', c: 'Les décisions **stratégiques** sont souvent **non programmées** (uniques, risquées, peu réversibles) ; les décisions **opérationnelles** sont plutôt **programmées** (répétitives, encadrées par des procédures). Les deux niveaux sont **complémentaires** : la stratégie fixe le cap, l’opérationnel le met en œuvre au quotidien.' },
+          { t: 'tip', c: 'Repère l’horizon de temps et l’auteur de la décision : « long terme + direction » ⇒ stratégique ; « court terme + terrain » ⇒ opérationnel.' },
         ],
       },
       {
         h: 'Le diagnostic stratégique : le SWOT',
         blocks: [
-          { t: 'p', c: 'Le **SWOT** croise un diagnostic **interne** (ce que l’entreprise maîtrise) et **externe** (ce qu’elle subit).' },
+          { t: 'p', c: 'Avant de décider, l’organisation réalise un **diagnostic stratégique** : elle fait le point sur elle-même et sur son environnement. L’outil-vedette est le **SWOT**, qui croise un diagnostic **interne** (ce que l’entreprise **maîtrise**) et **externe** (ce qu’elle **subit**).' },
           { t: 'figure', name: 'swot' },
-          { t: 'table', head: ['Interne', 'Externe'], rows: [
-            ['**Forces** (Strengths)', '**Opportunités** (Opportunities)'],
-            ['**Faiblesses** (Weaknesses)', '**Menaces** (Threats)'],
+          { t: 'table', head: ['', 'Positif', 'Négatif'], rows: [
+            ['**Interne**', '**Forces** (Strengths)', '**Faiblesses** (Weaknesses)'],
+            ['**Externe**', '**Opportunités** (Opportunities)', '**Menaces** (Threats)'],
           ] },
+          { t: 'p', c: 'Le diagnostic **interne** analyse les **ressources** et **compétences** (ce que l’entreprise sait faire). Le diagnostic **externe** étudie le marché, la concurrence et le macro-environnement — souvent résumé par **PESTEL** (Politique, Économique, Socioculturel, Technologique, Écologique, Légal).' },
           { t: 'example', h: 'SWOT de Vél’Oc', c: 'Forces : savoir-faire, image haut de gamme.\nFaiblesses : turnover élevé, dépendance à un seul produit.\nOpportunités : marché de la mobilité douce en expansion, aides publiques.\nMenaces : concurrence, critiques environnementales.' },
-          { t: 'warning', c: 'Erreur classique : ranger un élément **externe** (ex. une aide de l’État) dans les forces. Forces/faiblesses = **interne** ; opportunités/menaces = **externe**.' },
+          { t: 'warning', c: 'Erreur classique : ranger un élément **externe** (ex. une aide de l’État, une nouvelle réglementation) dans les forces/faiblesses. Forces/faiblesses = **interne** ; opportunités/menaces = **externe**. Demande-toi : « l’entreprise peut-elle agir dessus ? » Si non, c’est externe.' },
         ],
       },
       {
         h: 'Les choix stratégiques',
         blocks: [
-          { t: 'list', c: [
-            '**Spécialisation** (un seul métier) vs **diversification** (élargir l’offre) : la spécialisation donne de l’expertise mais crée une dépendance ; la diversification répartit le risque mais disperse les ressources.',
-            '**Croissance interne** (par ses propres moyens) vs **croissance externe** (rachat, fusion).',
-            '**Domination par les coûts** vs **différenciation** (Porter) : être le moins cher, ou proposer une offre unique.',
+          { t: 'p', c: 'À partir du diagnostic, la direction fait des **choix stratégiques**. Trois grandes questions structurent le programme.' },
+          { t: 'table', head: ['Choix', 'Option A', 'Option B'], rows: [
+            ['Périmètre d’activité', '**Spécialisation** (un seul métier) : expertise, mais **dépendance**', '**Diversification** (plusieurs métiers) : risque réparti, mais ressources dispersées'],
+            ['Mode de croissance', '**Croissance interne** (par ses propres moyens) : maîtrisée mais lente', '**Croissance externe** (rachat, fusion) : rapide mais coûteuse et risquée'],
+            ['Avantage concurrentiel (**Porter**)', '**Domination par les coûts** : être le moins cher', '**Différenciation** : proposer une offre unique (ou **focalisation** sur une niche)'],
           ] },
+          { t: 'example', h: 'Deux stratégies opposées', c: 'Une chaîne de hard-discount choisit la **domination par les coûts** (prix bas). Une maison de luxe choisit la **différenciation** (produit unique, image forte). Les deux peuvent réussir — mais pas avec les mêmes moyens.' },
+          { t: 'tip', c: 'Selon Porter, il faut **éviter d’être « coincé au milieu »** : ni le moins cher, ni vraiment différent. Une stratégie claire vaut mieux qu’un compromis mou.' },
         ],
       },
       {
-        h: 'Motiver et mobiliser les acteurs',
+        h: 'Mobiliser les acteurs et les parties prenantes',
         blocks: [
-          { t: 'p', c: 'Fédérer les salariés améliore la **performance sociale** et la cohésion. Plusieurs théories l’expliquent :' },
+          { t: 'p', c: 'Une organisation réunit de nombreuses **parties prenantes** : des acteurs **internes** (dirigeants, salariés) et **externes** (clients, fournisseurs, banques, État, riverains) qui ont un intérêt dans son activité — avec des attentes **parfois divergentes** (un salarié veut un bon salaire, un actionnaire un fort dividende). Manager, c’est aussi **arbitrer** entre ces intérêts et prévenir les **conflits**.' },
+          { t: 'p', c: 'Fédérer les salariés améliore la **performance sociale** (moins de turnover, moins d’absentéisme) et la **cohésion**. Plusieurs théories expliquent la **motivation** :' },
           { t: 'table', head: ['Auteur', 'Idée clé'], rows: [
-            ['Maslow', 'Pyramide des besoins (physiologiques → estime → accomplissement)'],
-            ['Herzberg', 'Facteurs d’**hygiène** (salaire, conditions : leur absence démotive) vs facteurs de **motivation** (reconnaissance, responsabilités : ils motivent)'],
-            ['Likert', 'Styles de direction : autoritaire, paternaliste, consultatif, participatif'],
+            ['**Maslow**', 'Pyramide des besoins : on cherche à satisfaire un besoin supérieur (estime, accomplissement) une fois les besoins inférieurs (physiologiques, sécurité) comblés'],
+            ['**Herzberg**', 'Facteurs d’**hygiène** (salaire, conditions : leur absence démotive, mais ils ne motivent pas) vs facteurs de **motivation** (reconnaissance, responsabilités, intérêt du travail : eux motivent vraiment)'],
+            ['**Likert**', 'Quatre styles de direction : autoritaire, paternaliste, consultatif, **participatif**'],
           ] },
           { t: 'figure', name: 'maslow' },
-          { t: 'tip', c: 'Face à un turnover élevé, on cherche d’abord les facteurs de **motivation** manquants (reconnaissance, perspectives d’évolution), pas seulement le salaire.' },
+          { t: 'p', c: 'Le **style de direction** influence l’implication : un management **participatif** (qui associe les équipes aux décisions) renforce souvent la motivation, là où un style autoritaire peut la brider. S’y ajoute la **culture d’entreprise** (valeurs et pratiques partagées) qui soude les acteurs.' },
+          { t: 'tip', c: 'Face à un turnover élevé, on cherche d’abord les facteurs de **motivation** manquants (reconnaissance, perspectives d’évolution) : augmenter le salaire (facteur d’hygiène) calme le mécontentement mais ne suffit pas à motiver durablement.' },
         ],
       },
     ],
@@ -377,25 +399,29 @@ export const LESSONS = {
       {
         h: 'La responsabilité sociétale des entreprises (RSE)',
         blocks: [
-          { t: 'p', c: 'La **RSE** consiste, pour une organisation, à assumer l’**impact de ses décisions** sur la société et l’environnement, au-delà de la seule recherche du profit. Elle concilie **trois piliers** (le développement durable).' },
-          { t: 'table', head: ['Pilier', 'Exemples d’actions'], rows: [
-            ['Économique', 'Assurer la rentabilité et la pérennité'],
-            ['Social', 'Conditions de travail, égalité, formation'],
-            ['Environnemental', 'Réduire l’empreinte carbone, recycler, éco-concevoir'],
+          { t: 'p', c: 'La **RSE** (responsabilité sociétale des entreprises) consiste, pour une organisation, à **assumer l’impact de ses décisions** sur la société et l’environnement, **au-delà** de la seule recherche du profit et de ses obligations légales. C’est l’application, dans l’entreprise, du **développement durable** : concilier **trois piliers** dans la durée.' },
+          { t: 'table', head: ['Pilier', 'Objectif', 'Exemples d’actions'], rows: [
+            ['**Économique**', 'Être viable et pérenne', 'Assurer la rentabilité, payer ses fournisseurs, investir'],
+            ['**Social**', 'Être équitable', 'Conditions de travail, égalité femmes-hommes, formation, dialogue social'],
+            ['**Environnemental**', 'Être vivable', 'Réduire l’empreinte carbone, recycler, éco-concevoir, économiser les ressources'],
           ] },
-          { t: 'example', h: 'Le cas des batteries de Vél’Oc', c: 'La critique sur l’empreinte carbone des batteries relève du pilier **environnemental**. Réponses possibles : recyclage/réemploi des batteries, filière plus durable, communication transparente.' },
+          { t: 'p', c: 'La RSE répond aussi à la **pression des parties prenantes** : clients attentifs à l’éthique, salariés en quête de sens, ONG, réglementations, investisseurs. Bien menée, elle devient un **atout** : meilleure **image**, **fidélité** des clients et des salariés, avantage concurrentiel durable.' },
+          { t: 'example', h: 'Le cas des batteries de Vél’Oc', c: 'La critique sur l’empreinte carbone des batteries relève du pilier **environnemental**. Réponses RSE possibles : **recyclage/réemploi** des batteries, filière d’approvisionnement plus durable, éco-conception, communication transparente sur les progrès réalisés.' },
+          { t: 'warning', c: 'Attention au **greenwashing** (éco-blanchiment) : afficher des engagements écologiques **sans preuve** ni action réelle. Le retour de bâton (perte de confiance) est sévère. La RSE n’a de valeur que si elle est **sincère et vérifiable**.' },
         ],
       },
       {
         h: 'La transformation numérique',
         blocks: [
-          { t: 'p', c: 'Le numérique bouleverse les organisations : nouveaux **modèles économiques**, relation client repensée, exploitation des **données**.' },
-          { t: 'list', c: [
-            '**Données (data)** : ressource stratégique, mais à protéger.',
-            '**Cybersécurité** : protéger les systèmes contre les menaces.',
-            '**Automatisation**, **télétravail** : nouvelles façons de travailler.',
+          { t: 'p', c: 'Le numérique **bouleverse** les organisations : il fait naître de nouveaux **modèles économiques** (plateformes, abonnement, économie de la donnée), transforme la **relation client** (en ligne, personnalisée, permanente) et fait de la **donnée** une ressource stratégique majeure.' },
+          { t: 'table', head: ['Enjeu', 'De quoi s’agit-il ?'], rows: [
+            ['**Données (data)**', 'Ressource clé : mieux connaître et cibler, mais à collecter et protéger dans le respect du **RGPD**'],
+            ['**Cybersécurité**', 'Protéger les systèmes d’information contre les attaques (virus, piratage, rançongiciels)'],
+            ['**Automatisation / IA**', 'Confier des tâches à des machines : gains de productivité, mais évolution des métiers'],
+            ['**Télétravail**', 'Travailler à distance : plus de souplesse, mais risques d’isolement et frontière vie pro/perso'],
           ] },
-          { t: 'tip', c: 'Éthique et **déontologie**, transparence et protection des données personnelles font partie intégrante d’une démarche RSE à l’ère numérique.' },
+          { t: 'example', h: 'Un nouveau modèle', c: 'Une entreprise de vélos peut passer de la simple vente à un modèle d’**abonnement** (vélo + entretien + appli connectée), en exploitant les **données** d’usage pour améliorer son offre.' },
+          { t: 'tip', c: 'L’**éthique** et la **déontologie** (transparence, protection des données personnelles, usage responsable de l’IA) font partie intégrante d’une démarche RSE à l’ère numérique : innovation et responsabilité vont de pair.' },
         ],
       },
     ],
@@ -739,34 +765,43 @@ export const LESSONS = {
       {
         h: 'Les trois fonctions de l’État (Musgrave)',
         blocks: [
-          { t: 'table', head: ['Fonction', 'Objectif'], rows: [
-            ['Allocation', 'Produire des biens collectifs, corriger le marché'],
-            ['Redistribution', 'Réduire les inégalités (prélèvements et prestations)'],
-            ['Stabilisation', 'Agir sur la conjoncture (croissance, emploi, prix)'],
+          { t: 'p', c: 'Livré à lui-même, le marché ne produit pas tout, laisse se creuser les inégalités et connaît des crises. L’**État** intervient donc dans l’économie. L’économiste **Richard Musgrave** a résumé son rôle en **trois grandes fonctions**.' },
+          { t: 'table', head: ['Fonction', 'Objectif', 'Exemple'], rows: [
+            ['**Allocation**', 'Produire des **biens collectifs** et corriger les défaillances du marché', 'Financer les routes, l’école, la justice, la défense'],
+            ['**Redistribution**', 'Réduire les **inégalités** via prélèvements et prestations', 'Impôt progressif → RSA, allocations, retraites'],
+            ['**Stabilisation**', 'Agir sur la **conjoncture** (croissance, emploi, prix)', 'Relancer l’activité en période de crise'],
           ] },
           { t: 'figure', name: 'etat-fonctions' },
+          { t: 'example', h: 'La redistribution en action', c: 'L’État prélève davantage sur les hauts revenus (impôt **progressif**) et verse des **prestations** aux ménages modestes (allocations, RSA). Résultat : les écarts de niveau de vie après redistribution sont **plus faibles** qu’avant.' },
+          { t: 'tip', c: 'Moyen mnémotechnique : **A-R-S** — **A**llouer les ressources, **R**edistribuer les revenus, **S**tabiliser l’économie.' },
         ],
       },
       {
         h: 'Pourquoi intervenir ? Les défaillances du marché',
         blocks: [
-          { t: 'p', c: 'Le marché **défaille** dans plusieurs cas qui justifient l’intervention publique :' },
-          { t: 'list', c: [
-            '**Externalités** : effet d’une activité sur un tiers, non pris en compte par le prix (ex. la pollution).',
-            '**Biens collectifs** : biens non rivaux et non excluables (ex. l’éclairage public), que le marché ne produit pas spontanément.',
-            '**Asymétries d’information** entre acheteur et vendeur.',
-            '**Situations de monopole**.',
+          { t: 'p', c: 'Le marché est efficace… **sauf** dans plusieurs situations où il **défaille** : il ne conduit pas à l’optimum pour la collectivité. Ces défaillances **justifient** l’intervention publique.' },
+          { t: 'table', head: ['Défaillance', 'Définition', 'Exemple'], rows: [
+            ['**Externalité**', 'Effet (positif ou négatif) d’une activité sur un tiers, non pris en compte par le prix', 'La **pollution** d’une usine subie par les riverains'],
+            ['**Bien collectif**', 'Bien **non rival** (l’usage de l’un ne prive pas l’autre) et **non excluable** (on ne peut en priver personne)', 'L’**éclairage public**, la défense nationale'],
+            ['**Asymétrie d’information**', 'Une partie en sait plus que l’autre', 'Le vendeur d’une voiture d’occasion connaît ses défauts, pas l’acheteur'],
+            ['**Monopole**', 'Un seul offreur qui impose ses prix', 'Un réseau d’eau unique sur un territoire'],
           ] },
+          { t: 'p', c: 'Face à une **externalité négative** comme la pollution, l’État peut **taxer** le pollueur (« pollueur-payeur »), fixer des **normes** ou instaurer des **quotas** pour internaliser ce coût.' },
+          { t: 'warning', c: 'Un **bien collectif** n’est pas la même chose qu’un bien gratuit : le marché ne le produit pas spontanément car personne ne veut payer pour un bien dont on ne peut exclure les « **passagers clandestins** » — d’où le financement par l’**impôt**.' },
         ],
       },
       {
         h: 'Comment intervenir ? Les politiques économiques',
         blocks: [
-          { t: 'list', c: [
-            '**Politique conjoncturelle** (agir à court terme) : **budgétaire** (dépenses et recettes de l’État) et **monétaire** (monnaie, taux d’intérêt).',
-            '**Politique structurelle** (transformer l’économie à long terme).',
+          { t: 'p', c: 'Pour agir, l’État dispose de deux grands types de politiques, selon leur horizon.' },
+          { t: 'table', head: ['Politique', 'Horizon', 'Leviers'], rows: [
+            ['**Conjoncturelle — budgétaire**', 'Court terme', 'Dépenses publiques et **prélèvements** (le budget de l’État)'],
+            ['**Conjoncturelle — monétaire**', 'Court terme', 'Monnaie et **taux d’intérêt** (menée par la BCE dans la zone euro)'],
+            ['**Structurelle**', 'Long terme', 'Transformer l’économie : formation, concurrence, recherche, infrastructures'],
           ] },
-          { t: 'p', c: 'Le **budget de l’État** repose sur les **dépenses publiques** et les **prélèvements obligatoires**. Un déficit répété nourrit la **dette publique**.' },
+          { t: 'p', c: 'Une politique de **relance** (hausse des dépenses, baisse des impôts ou des taux) soutient l’activité en cas de crise ; une politique de **rigueur** cherche au contraire à réduire le déficit et l’inflation.' },
+          { t: 'example', h: 'Relance', c: 'En récession, l’État augmente ses dépenses (grands travaux, aides) : la demande repart, les entreprises produisent plus et embauchent. Revers : cela **creuse le déficit**.' },
+          { t: 'warning', c: 'Quand les **dépenses** dépassent les **recettes**, le budget est en **déficit**. Répété année après année, ce déficit s’accumule en **dette publique** — qu’il faudra rembourser et qui pèse sur les marges de manœuvre futures.' },
         ],
       },
     ],
@@ -788,27 +823,38 @@ export const LESSONS = {
       {
         h: 'Le marché du travail',
         blocks: [
-          { t: 'p', c: 'Sur le marché du travail se rencontrent l’**offre de travail** (les ménages qui cherchent un emploi) et la **demande de travail** (les entreprises qui embauchent). Leur rencontre détermine un **salaire d’équilibre**.' },
+          { t: 'p', c: 'Sur le **marché du travail** se rencontrent l’**offre de travail** (les ménages qui proposent leur force de travail) et la **demande de travail** (les entreprises qui cherchent à embaucher). Attention au vocabulaire : ici, ce sont les **ménages** qui offrent et les **entreprises** qui demandent — l’inverse du marché des biens.' },
+          { t: 'p', c: 'La rencontre entre offre et demande détermine, en théorie, un **salaire d’équilibre**. Mais le marché du travail est **régulé** : le **SMIC** fixe un salaire minimum, les conventions collectives et le droit du travail encadrent les relations. Ces règles protègent les salariés mais peuvent, selon certains, freiner l’embauche.' },
+          { t: 'tip', c: 'Ne confonds pas **offre** et **demande** de travail : sur ce marché, l’**offre** vient des travailleurs, la **demande** des employeurs.' },
         ],
       },
       {
         h: 'Les indicateurs à connaître',
         blocks: [
-          { t: 'formula', c: 'Population active = personnes en emploi + chômeurs' },
-          { t: 'formula', c: 'Taux d’activité = population active / population en âge de travailler' },
+          { t: 'p', c: 'Pour parler juste du chômage, il faut d’abord définir **qui compte dans quoi**. Au sens du **BIT** (Bureau international du travail), un **chômeur** est une personne sans emploi, **disponible** et qui **recherche activement** du travail.' },
+          { t: 'table', head: ['Catégorie', 'Définition'], rows: [
+            ['**Actifs occupés**', 'Personnes qui ont un emploi'],
+            ['**Chômeurs**', 'Sans emploi, disponibles et en recherche active'],
+            ['**Inactifs**', 'Ni en emploi ni au chômage (étudiants, retraités, au foyer)'],
+          ] },
+          { t: 'formula', c: 'Population active = actifs occupés + chômeurs' },
           { t: 'formula', c: 'Taux de chômage = chômeurs / population active' },
-          { t: 'example', h: 'Lecture de données', c: 'Population en âge de travailler = 40 M ; emploi = 24 M ; chômeurs = 3 M.\n• Population active = 24 + 3 = **27 M**\n• Taux d’activité = 27 / 40 = **67,5 %**\n• Taux de chômage = 3 / 27 ≈ **11,1 %**' },
+          { t: 'formula', c: 'Taux d’activité = population active / population en âge de travailler' },
+          { t: 'formula', c: 'Taux d’emploi = actifs occupés / population en âge de travailler' },
+          { t: 'example', h: 'Lecture de données', c: 'Population en âge de travailler = 40 M ; emploi = 24 M ; chômeurs = 3 M.\n• Population active = 24 + 3 = **27 M**\n• Taux d’activité = 27 / 40 = **67,5 %**\n• Taux de chômage = 3 / 27 ≈ **11,1 %**\n• Taux d’emploi = 24 / 40 = **60 %**' },
         ],
       },
       {
         h: 'Types de chômage et politiques de l’emploi',
         blocks: [
-          { t: 'list', c: [
-            '**Conjoncturel** : lié au ralentissement de l’activité.',
-            '**Structurel** : lié aux structures de l’économie (inadéquation compétences/emplois).',
-            '**Frictionnel** : lié au temps de passage d’un emploi à un autre.',
+          { t: 'p', c: 'Le chômage n’a pas une seule cause : on distingue trois grands types, qui n’appellent pas les mêmes remèdes.' },
+          { t: 'table', head: ['Type', 'Cause', 'Remède privilégié'], rows: [
+            ['**Conjoncturel**', 'Ralentissement de l’activité (crise, baisse de la demande)', 'Politique de **relance** (soutenir la demande)'],
+            ['**Structurel**', 'Inadéquation durable entre compétences et emplois disponibles', '**Formation**, adaptation des qualifications'],
+            ['**Frictionnel**', 'Temps normal de transition entre deux emplois', 'Meilleure **information** sur le marché du travail'],
           ] },
-          { t: 'warning', c: 'Une baisse du taux de chômage ne signifie pas toujours une amélioration : si des **chômeurs découragés** quittent la population active, le taux baisse **mécaniquement** sans qu’un seul emploi ait été créé. Il faut aussi regarder le **taux d’emploi**.' },
+          { t: 'p', c: 'Les **politiques de l’emploi** combinent plusieurs leviers : baisser le **coût du travail** (allègements de charges), **former** les demandeurs d’emploi, favoriser la **flexibilité**, ou soutenir directement l’emploi (contrats aidés).' },
+          { t: 'warning', c: 'Une baisse du taux de chômage ne signifie pas toujours une amélioration : si des **chômeurs découragés** cessent de chercher et quittent la population active, le taux baisse **mécaniquement** sans qu’un seul emploi ait été créé. C’est pourquoi on regarde aussi le **taux d’emploi**, plus robuste.' },
         ],
       },
     ],
@@ -830,24 +876,36 @@ export const LESSONS = {
       {
         h: 'Les fondements : les avantages comparatifs (Ricardo)',
         blocks: [
-          { t: 'p', c: 'Selon **David Ricardo**, chaque pays a intérêt à se **spécialiser** dans la production pour laquelle il est **relativement le plus efficace** (son **avantage comparatif**), puis à échanger. Cette **division internationale du travail (DIT)** augmente la richesse globale.' },
+          { t: 'p', c: 'Pourquoi les pays échangent-ils, même quand l’un semble « meilleur » en tout ? La réponse tient à la théorie des **avantages comparatifs** de **David Ricardo** : chaque pays a intérêt à se **spécialiser** dans la production pour laquelle il est **relativement le plus efficace** (là où il est « le moins mauvais »), puis à **échanger** le reste.' },
+          { t: 'example', h: 'L’intuition', c: 'Un pays très productif en électronique **et** en textile a intérêt à se concentrer sur l’électronique (où son avance est la plus grande) et à **importer** le textile : il gagne plus en électronique qu’il ne perd en abandonnant le textile.' },
+          { t: 'p', c: 'Cette **division internationale du travail (DIT)** augmente la **richesse globale** : chaque pays produit ce qu’il fait de mieux, et tous accèdent à plus de biens à moindre coût.' },
+          { t: 'tip', c: 'Ne confonds pas avantage **absolu** (produire avec moins de ressources que les autres) et avantage **comparatif** (produire en sacrifiant le moins d’autres productions). C’est le comparatif qui fonde l’échange chez Ricardo.' },
         ],
       },
       {
         h: 'Libre-échange ou protectionnisme ?',
         blocks: [
-          { t: 'table', head: ['Libre-échange', 'Protectionnisme'], rows: [
-            ['Ouvrir les marchés, supprimer les barrières', 'Protéger la production nationale'],
-            ['Baisse des prix, marchés élargis, croissance', 'Droits de douane, quotas, barrières non tarifaires'],
-            ['Risque : perdants (industries non compétitives)', 'Risque : représailles, prix plus élevés'],
+          { t: 'p', c: 'Le grand débat du commerce international oppose deux visions : **ouvrir** les frontières ou **protéger** la production nationale.' },
+          { t: 'table', head: ['', 'Libre-échange', 'Protectionnisme'], rows: [
+            ['Principe', 'Ouvrir les marchés, **supprimer** les barrières', '**Protéger** la production nationale'],
+            ['Outils', 'Accords de libre-échange', 'Droits de **douane**, **quotas**, barrières non tarifaires (normes)'],
+            ['Avantages', 'Baisse des prix, marchés élargis, croissance, choix pour le consommateur', 'Protège l’emploi et les industries « naissantes » ou stratégiques'],
+            ['Risques', 'Fait des **perdants** (industries non compétitives), délocalisations', 'Représailles, prix plus élevés, moindre efficacité'],
           ] },
-          { t: 'warning', c: 'Le libre-échange **crée de la richesse globale** mais **ne profite pas également à tous** : il fait des **perdants** (secteurs, régions, pays spécialisés dans des productions peu rémunératrices).' },
+          { t: 'warning', c: 'Le libre-échange **crée de la richesse globale** mais **ne profite pas également à tous** : il fait des **perdants** (secteurs, régions ou pays spécialisés dans des productions peu rémunératrices). D’où la nécessité d’**accompagner** les perdants (formation, reconversion).' },
         ],
       },
       {
         h: 'La régulation du commerce mondial',
         blocks: [
-          { t: 'p', c: 'Le commerce international est encadré par l’**OMC** (Organisation mondiale du commerce), des **accords commerciaux** et des **intégrations régionales** comme l’**Union européenne**. Les **firmes multinationales** et les **délocalisations** sont des acteurs majeurs de la mondialisation.' },
+          { t: 'p', c: 'Le commerce mondial n’est pas un far-west : il est **encadré**. L’**OMC** (Organisation mondiale du commerce) fixe des règles communes et arbitre les litiges commerciaux entre États.' },
+          { t: 'list', c: [
+            '**Accords commerciaux** bilatéraux ou multilatéraux (baisse des droits de douane).',
+            '**Intégrations régionales** comme l’**Union européenne** (marché unique, libre circulation).',
+            '**Firmes multinationales (FMN)** et **délocalisations** : acteurs majeurs qui organisent la production à l’échelle mondiale.',
+          ] },
+          { t: 'example', h: 'L’Union européenne', c: 'Au sein de l’UE, marchandises, services, capitaux et personnes circulent **librement** : c’est une zone de libre-échange **intégrée**, avec une monnaie commune (l’euro) pour une partie des pays.' },
+          { t: 'tip', c: 'Un déséquilibre des échanges se lit dans la **balance commerciale** : **exportations − importations**. Positive = excédent ; négative = déficit.' },
         ],
       },
     ],
@@ -869,28 +927,40 @@ export const LESSONS = {
       {
         h: 'La croissance et ses limites',
         blocks: [
-          { t: 'p', c: 'La **croissance** est mesurée par l’évolution du **PIB**. Mais le PIB est un indicateur **limité du bien-être** : il n’intègre ni les **inégalités**, ni la dégradation de l’**environnement**, ni le travail non marchand.' },
+          { t: 'p', c: 'La **croissance économique** est l’augmentation durable de la production d’un pays, mesurée par l’évolution du **PIB** (produit intérieur brut = valeur des richesses créées sur un territoire en un an). Un taux de croissance positif signifie « on produit plus que l’an dernier ».' },
+          { t: 'p', c: 'Mais le PIB est un indicateur **limité du bien-être** : il ne dit rien des **inégalités** de répartition, ignore la dégradation de l’**environnement** (une marée noire peut même **augmenter** le PIB via les dépenses de dépollution !) et ne compte pas le **travail non marchand** (bénévolat, tâches domestiques).' },
+          { t: 'example', h: 'Des indicateurs alternatifs', c: 'L’**IDH** (indice de développement humain) complète le PIB en intégrant la **santé** (espérance de vie) et l’**éducation**. D’autres indicateurs mesurent l’empreinte écologique ou le bien-être ressenti.' },
+          { t: 'tip', c: 'Distingue **croissance** (quantitatif : plus de PIB) et **développement** (qualitatif : progrès de la santé, de l’éducation, du niveau de vie). Un pays peut croître sans se développer, et inversement.' },
         ],
       },
       {
         h: 'Le développement durable',
         blocks: [
-          { t: 'p', c: 'Le **développement durable** cherche à concilier **trois dimensions** : **économique**, **sociale** et **environnementale** — répondre aux besoins présents sans compromettre ceux des générations futures.' },
-          { t: 'list', c: [
-            '**Soutenabilité faible** : le capital naturel peut être remplacé par du capital produit.',
-            '**Soutenabilité forte** : le **capital naturel** est irremplaçable et doit être préservé.',
+          { t: 'p', c: 'Le **développement durable** vise à « répondre aux besoins du présent **sans compromettre** la capacité des générations futures à répondre aux leurs » (rapport Brundtland, 1987). Il cherche à concilier **trois dimensions** indissociables.' },
+          { t: 'table', head: ['Dimension', 'Idée'], rows: [
+            ['**Économique**', 'Une croissance viable et durable'],
+            ['**Sociale**', 'L’équité, la réduction des inégalités, l’accès aux besoins essentiels'],
+            ['**Environnementale**', 'La préservation des ressources et des écosystèmes'],
           ] },
+          { t: 'p', c: 'Deux visions s’opposent sur la place du **capital naturel** (ressources, biodiversité) :' },
+          { t: 'list', c: [
+            '**Soutenabilité faible** : le capital naturel peut être **remplacé** par du capital produit (technologie, machines).',
+            '**Soutenabilité forte** : le capital naturel est **irremplaçable** et doit être préservé en priorité.',
+          ] },
+          { t: 'tip', c: 'Ce thème n’est pas évalué à l’écrit du bac, mais c’est une **mine de sujets pour le Grand Oral** (croissance verte, sobriété, transition écologique…).' },
         ],
       },
       {
         h: 'Instruments et inégalités',
         blocks: [
-          { t: 'list', c: [
-            '**Économie circulaire** : réduire, réutiliser, recycler pour boucler les cycles de matières.',
-            '**Économie collaborative** : partage et mutualisation entre particuliers.',
-            '**Taxation** et **quotas** pour limiter les externalités négatives.',
+          { t: 'p', c: 'Pour rendre l’économie plus durable, plusieurs leviers existent, publics et privés.' },
+          { t: 'table', head: ['Instrument', 'Principe'], rows: [
+            ['**Économie circulaire**', 'Réduire, réutiliser, réparer, **recycler** pour boucler les cycles de matières (vs le modèle « extraire-produire-jeter »)'],
+            ['**Économie collaborative**', 'Partage et mutualisation entre particuliers (covoiturage, location entre pairs)'],
+            ['**Taxation / quotas**', 'Renchérir ou plafonner les activités polluantes pour internaliser les **externalités négatives**'],
           ] },
-          { t: 'p', c: 'On distingue la **pauvreté absolue** (sous un seuil de subsistance) de la **pauvreté relative** (par rapport au niveau de vie médian d’un pays).' },
+          { t: 'p', c: 'Le développement durable a aussi une dimension **sociale** : lutter contre la pauvreté. On distingue la **pauvreté absolue** (vivre sous un seuil de subsistance) de la **pauvreté relative** (avoir un niveau de vie très inférieur au **niveau de vie médian** de son pays).' },
+          { t: 'warning', c: 'Piège : la pauvreté **relative** dépend du pays. On peut être « pauvre » (au sens relatif) dans un pays riche tout en ayant un niveau de vie supérieur à la moyenne d’un pays pauvre. Les deux mesures se complètent.' },
         ],
       },
     ],
@@ -1109,29 +1179,34 @@ export const LESSONS = {
       {
         h: 'Les 7 notions et leurs problématiques',
         blocks: [
-          { t: 'p', c: 'Chaque notion s’aborde par des **questions** (des problématiques), pas par une définition figée.' },
-          { t: 'list', c: [
-            '**L’art** : imitation ou création ? À quoi sert l’art ? Le beau est-il subjectif ?',
-            '**La justice** : se réduit-elle à la loi ? Peut-il être juste de désobéir ?',
-            '**La liberté** : sommes-nous vraiment libres ? Liberté et déterminisme.',
-            '**La nature** : l’homme en fait-il partie ? Faut-il la respecter ?',
-            '**La religion** : foi et raison s’opposent-elles ?',
-            '**La technique** : nous libère-t-elle ou nous asservit-elle ?',
-            '**La vérité** : peut-on tout démontrer ? Vérité et opinion.',
+          { t: 'p', c: 'Philosopher, ce n’est pas donner son avis ni réciter des définitions : c’est **problématiser**, c’est-à-dire montrer qu’une question en apparence simple cache un **vrai problème** — souvent une tension entre deux réponses toutes deux défendables. Chaque notion du programme s’aborde ainsi par des **questions**, jamais par une définition figée.' },
+          { t: 'table', head: ['Notion', 'Le problème', 'Une distinction utile'], rows: [
+            ['**L’art**', 'Imitation ou création ? À quoi sert l’art ? Le beau est-il subjectif ?', 'Beau / agréable ; art / technique'],
+            ['**La justice**', 'Se réduit-elle à la loi ? Peut-il être juste de désobéir ?', 'Légal / légitime ; égalité / équité'],
+            ['**La liberté**', 'Sommes-nous vraiment libres ? Liberté ou déterminisme ?', 'Liberté / libre arbitre ; contrainte / obligation'],
+            ['**La nature**', 'L’homme en fait-il partie ? Faut-il la respecter ?', 'Nature / culture'],
+            ['**La religion**', 'Foi et raison s’opposent-elles ?', 'Croire / savoir'],
+            ['**La technique**', 'Nous libère-t-elle ou nous asservit-elle ?', 'Moyen / fin'],
+            ['**La vérité**', 'Peut-on tout démontrer ? Vérité ou opinion ?', 'Objectif / subjectif ; démontrer / prouver'],
           ] },
+          { t: 'example', h: 'Problématiser « la technique »', c: 'On oppose spontanément la technique (froide, mécanique) et l’humain. Mais l’outil est justement le propre de l’homme… La technique **nous libère** (du travail pénible, de la maladie) autant qu’elle peut **nous asservir** (dépendance, surveillance). Le problème n’est pas de la rejeter, mais de savoir **qui la maîtrise**.' },
+          { t: 'tip', c: 'Devant un sujet, cherche toujours la **tension** : « d’un côté… mais de l’autre… ». C’est là que naît la problématique — et donc les points au bac.' },
         ],
       },
       {
         h: 'Les repères : des distinctions pour raisonner',
         blocks: [
-          { t: 'p', c: 'Les **repères** sont des couples de concepts qui aiguisent l’analyse. Les connaître permet de nuancer un devoir.' },
+          { t: 'p', c: 'Les **repères** sont des couples de concepts que l’on doit savoir **distinguer**. Ils sont l’outil n°1 pour **nuancer** et **argumenter** : opposer deux termes proches fait avancer le raisonnement.' },
           { t: 'table', head: ['Repère', 'Distinction'], rows: [
-            ['Légal / Légitime', 'Conforme à la loi / conforme à la justice'],
+            ['Légal / Légitime', 'Conforme à la **loi** / conforme à la **justice**'],
             ['Objectif / Subjectif', 'Indépendant de moi / propre à chacun'],
-            ['Croire / Savoir', 'Tenir pour vrai sans preuve / avec preuve'],
+            ['Croire / Savoir', 'Tenir pour vrai **sans** preuve / **avec** preuve'],
+            ['Universel / Particulier', 'Valable pour tous / propre à un cas'],
+            ['Cause / Fin', 'Ce qui produit (le « parce que ») / ce en vue de quoi (le « pour »)'],
             ['En théorie / En pratique', 'Dans l’idée / dans les faits'],
           ] },
-          { t: 'tip', c: 'Une loi peut être **légale** sans être jugée **légitime** : ce simple écart nourrit à lui seul une dissertation sur la justice.' },
+          { t: 'example', h: 'Un repère qui fait une dissertation', c: 'Une loi peut être **légale** sans être **légitime** (ex. une loi injuste votée dans les règles). Cet écart, à lui seul, ouvre tout le débat : faut-il obéir à une loi qu’on juge injuste ?' },
+          { t: 'tip', c: 'Glisse **un ou deux repères** bien choisis dans ton devoir : c’est un réflexe très valorisé, qui montre que tu maîtrises les outils du raisonnement philosophique.' },
         ],
       },
     ],
@@ -1147,25 +1222,34 @@ export const LESSONS = {
       {
         h: 'La dissertation, étape par étape',
         blocks: [
-          { t: 'list', c: [
-            '**Analyser** le sujet et **définir** les termes.',
-            '**Problématiser** : dégager le paradoxe, le vrai problème.',
-            'Construire un **plan progressif** (souvent thèse / antithèse / dépassement).',
-            '**Argumenter** avec notions, repères, auteurs et exemples concrets.',
-            '**Conclure** en répondant clairement au problème.',
+          { t: 'p', c: 'La dissertation répond à **une question** en construisant une **argumentation** progressive. On ne récite pas le cours : on **s’en sert** pour raisonner. Voici la marche à suivre.' },
+          { t: 'table', head: ['Étape', 'Ce qu’on fait'], rows: [
+            ['1. Analyser', 'Décortiquer le sujet, **définir** chaque terme important'],
+            ['2. Problématiser', 'Dégager le **paradoxe**, le vrai problème (la tension entre deux réponses)'],
+            ['3. Plan', 'Construire un plan **progressif** (souvent thèse → antithèse → dépassement)'],
+            ['4. Argumenter', 'Chaque partie = une idée + un **argument** + un **exemple** ou un **auteur**'],
+            ['5. Conclure', 'Répondre **clairement** au problème, ouvrir sur une nouvelle question'],
           ] },
-          { t: 'example', h: 'Introduction rédigée (extrait)', c: '« La technique nous éloigne-t-elle de la nature ? »\nOn oppose spontanément technique (les outils par lesquels l’homme agit) et nature (ce qui existe sans lui). Mais la technique n’est-elle pas, justement, la manière proprement **humaine** d’habiter la nature ? Le vrai problème n’est peut-être pas la distance, mais le **rapport** que la technique instaure avec la nature.' },
+          { t: 'example', h: 'Introduction rédigée (extrait)', c: '« La technique nous éloigne-t-elle de la nature ? »\nOn oppose spontanément la technique (les outils par lesquels l’homme agit) et la nature (ce qui existe sans lui). Mais la technique n’est-elle pas, justement, la manière proprement **humaine** d’habiter la nature ? Le vrai problème n’est peut-être pas la distance, mais le **rapport** que la technique instaure avec la nature.' },
+          { t: 'warning', c: 'Les deux pièges qui plombent une copie : le **hors-sujet** (on répond à côté faute d’avoir analysé le sujet) et la **récitation** (on déroule le cours sans problématiser). Reviens sans cesse à **la** question posée.' },
         ],
       },
       {
         h: 'L’explication de texte et les auteurs',
         blocks: [
-          { t: 'p', c: 'Pour l’**explication de texte** : dégager la **thèse**, suivre les **mouvements** du texte, expliquer le raisonnement, puis en discuter la portée.' },
-          { t: 'table', head: ['Période', 'Auteurs'], rows: [
+          { t: 'p', c: 'L’**explication de texte** consiste à **rendre compte** d’un texte philosophique et à en **discuter** la portée. On ne donne pas son avis d’emblée : on suit d’abord la pensée de l’auteur pas à pas.' },
+          { t: 'list', c: [
+            'Dégager la **thèse** : que veut prouver l’auteur ?',
+            'Suivre les **mouvements** (les étapes) du texte et expliquer le **raisonnement**.',
+            'Éclairer les **exemples** et les concepts employés.',
+            '**Discuter** : la thèse est-elle convaincante ? Quelles limites ?',
+          ] },
+          { t: 'table', head: ['Période', 'Auteurs à connaître'], rows: [
             ['Antiquité / Moyen Âge', 'Platon, Aristote, Épicure'],
             ['Moderne', 'Descartes, Pascal, Rousseau, Kant'],
             ['Contemporaine', 'Nietzsche, Freud, Bergson, Arendt, Sartre, Beauvoir, Foucault'],
           ] },
+          { t: 'tip', c: 'Pas besoin de tout connaître : **quelques auteurs bien maîtrisés** (une thèse, un exemple chacun) suffisent à nourrir tes devoirs. Mieux vaut citer juste que citer beaucoup.' },
         ],
       },
     ],
