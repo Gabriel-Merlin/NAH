@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { InstallCard } from '../components/InstallApp.jsx'
+import { useInstall } from '../pwa.js'
 
 // Guide de démarrage (élèves) — accessible depuis le pied de page et le menu.
 // Rédigé en français (public : lycées français).
@@ -26,6 +27,9 @@ function Step({ n, title, children }) {
 }
 
 export default function Guide() {
+  const { standalone } = useInstall()
+  // Le tutoriel d'installation n'a pas de sens dans l'app déjà installée.
+  if (standalone) return <Navigate to="/accueil" replace />
   return (
     <div className="animate-lux mx-auto max-w-2xl space-y-5">
       <header className="text-center">
