@@ -16,6 +16,7 @@ import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
 import { DOC_STUDIES } from './docstudies.js'
 import { GAME_SECTION } from './sections.js'
+import { THEME_TERMS, subjectFallbackFor } from './keyterms.js'
 
 export const SUBJECTS = [
   gestion,
@@ -351,6 +352,46 @@ export function flashcardsForSection(sec, theme, idx) {
   const uniq = cards.filter((c) => { const k = String(c.front).toLowerCase(); if (!c.front || seen.has(k)) return false; seen.add(k); return true })
   if (uniq.length < 3) return null
   return { id: `${theme.id}::${idx}::cards`, type: 'flashcard', title: 'Flashcards — ce chapitre', icon: '🃏', cards: uniq.slice(0, 16) }
+}
+
+// Une section a-t-elle déjà un encadré « Définitions clés » écrit à la main ?
+// (pour ne pas en afficher un second, généré, juste en dessous).
+function hasHandDefinitions(sec) {
+  for (const b of sec.blocks || []) {
+    if (b.t === 'p' && /d[ée]finitions?\s+cl[ée]s/i.test(stripMd(b.c || ''))) return true
+    if (b.t === 'table' && (b.head || []).length === 2 && /terme|notion|mot/i.test(String((b.head || [])[0] || '')) && /d[ée]finition|sens/i.test(String((b.head || [])[1] || ''))) return true
+  }
+  return false
+}
+
+// 5 « Définitions clés » pour UNE section de cours : d'abord les termes définis
+// dans la section elle-même, complétés (par rotation, pour varier d'une section
+// à l'autre) par la banque du thème puis, en dernier recours, la banque de la
+// matière. Renvoie { skip, defs }. skip = true si la section a déjà son propre
+// encadré de définitions écrit à la main.
+export function sectionDefinitions(sec, themeId, subjectId, sectionIdx = 0, count = 5) {
+  if (!sec || hasHandDefinitions(sec)) return { skip: true, defs: [] }
+  const out = []
+  const seen = new Set()
+  const add = (term, def) => {
+    const t = stripMd(String(term || '')).trim()
+    const d = stripMd(String(def || '')).trim()
+    const k = t.toLowerCase()
+    if (!t || !d || t.length > 48 || seen.has(k) || out.length >= count) return
+    seen.add(k); out.push({ term: t, def: d })
+  }
+  // 1) Définitions propres à la section (les plus pertinentes).
+  for (const p of sectionPairs(sec).defPairs) add(p.term, p.def)
+  // 2) Complément depuis la banque du thème, décalée selon la section.
+  const bank = THEME_TERMS[themeId] || []
+  if (bank.length && out.length < count) {
+    const start = (sectionIdx * 2) % bank.length
+    const rotated = [...bank.slice(start), ...bank.slice(0, start)]
+    for (const [term, def] of rotated) add(term, def)
+  }
+  // 3) Dernier filet : banque de la matière.
+  if (out.length < count) for (const [term, def] of subjectFallbackFor(subjectId)) add(term, def)
+  return { skip: false, defs: out }
 }
 
 export function getThemeChapter(themeId, idx) {

@@ -86,7 +86,7 @@ export default function Chapter() {
       </div>
 
       {/* Cours du chapitre */}
-      <CourseSection sec={chapter.section} color={color} />
+      <CourseSection sec={chapter.section} color={color} sectionIdx={chapter.idx} themeId={tid} subjectId={sid} />
 
       {/* Jeux de ce chapitre */}
       {games.length > 0 && (

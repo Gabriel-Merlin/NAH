@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Rich } from './ui.jsx'
 import Infographic from './Infographic.jsx'
 import { useLang, useAutoTranslate, useT } from '../i18n.js'
+import { sectionDefinitions } from '../data/index.js'
 
 // Bouton « lire à voix haute » (accessibilité) : lit le texte affiché avec la
 // voix de l'appareil, dans la langue de l'interface.
@@ -77,7 +78,7 @@ export function Intro({ text, color }) {
   )
 }
 
-export function CourseSection({ sec, color, index }) {
+export function CourseSection({ sec, color, index, themeId, subjectId, sectionIdx }) {
   const ref = useRef(null)
   return (
     <section className="card relative p-5">
@@ -100,7 +101,30 @@ export function CourseSection({ sec, color, index }) {
             </>
           )}
       </div>
+      <Definitions sec={sec} themeId={themeId} subjectId={subjectId} sectionIdx={sectionIdx ?? index ?? 0} color={color} />
       </div>
+    </section>
+  )
+}
+
+// Encadré « Définitions clés » : 5 définitions utiles pour cette section (tirées
+// du cours puis complétées par la banque du thème). Rendu sous chaque cours.
+export function Definitions({ sec, themeId, subjectId, sectionIdx = 0, color }) {
+  const t = useT()
+  if (!themeId) return null
+  const { skip, defs } = sectionDefinitions(sec, themeId, subjectId, sectionIdx)
+  if (skip || !defs.length) return null
+  return (
+    <section className="mt-4 rounded-2xl border p-4" style={{ borderColor: color + '55', background: color + '0c' }}>
+      <h3 className="mb-2 flex items-center gap-2 font-display text-base font-semibold">📖 {t('keyDefs')}</h3>
+      <dl className="space-y-1.5">
+        {defs.map((d, i) => (
+          <div key={i} className="text-[14px] leading-relaxed">
+            <dt className="inline font-semibold" style={{ color }}><CourseText text={d.term} /></dt>
+            <dd className="inline text-slate-700 dark:text-slate-300"> — <CourseText text={d.def} /></dd>
+          </div>
+        ))}
+      </dl>
     </section>
   )
 }
@@ -169,7 +193,7 @@ export default function Course({ chapter, color, onPlay }) {
       <Intro text={chapter.intro} color={color} />
 
       {chapter.cours.map((sec, i) => (
-        <CourseSection key={i} sec={sec} color={color} index={i} />
+        <CourseSection key={i} sec={sec} color={color} index={i} themeId={chapter.id} subjectId={chapter.subjectId} />
       ))}
 
       {chapter.formulas?.length > 0 && (
