@@ -3,12 +3,12 @@ import { Navigate } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { useT } from '../i18n.js'
 import { subjectsForTrack } from '../data/tracks.js'
-import { buildQuiz } from '../data/index.js'
-import DuelQuiz from '../games/DuelQuiz.jsx'
+import { buildQuiz, shuffle } from '../data/index.js'
+import KahootQuiz from '../games/KahootQuiz.jsx'
 import {
   FRIENDS_READY, friendCode, normFriendCode, upsertMe,
   sendRequest, incoming, outgoing, respond, fetchFriends, removeFriend,
-  createDuel, incomingDuels, sentDuels, finishDuel, duelHistory, duelOutcome,
+  createDuel, incomingDuels, sentDuels, finishDuel, declineDuel, duelHistory, duelOutcome,
 } from '../friends.js'
 
 const initialsOf = (name) => {
@@ -25,6 +25,12 @@ export default function Friends() {
   const myName = `${state.profile?.firstName || ''} ${state.profile?.lastName || ''}`.trim() || 'Élève'
   const code = friendCode()
   const subjects = useMemo(() => subjectsForTrack(state.track).filter((s) => !s.comingSoon && (s.chapters || []).length), [state.track])
+  // Tous les thèmes de la filière, avec un libellé « Matière · Thème ».
+  const allThemes = useMemo(() => {
+    const out = []
+    for (const s of subjects) for (const th of s.chapters || []) out.push({ id: th.id, subj: s.short || s.name, subjId: s.id, name: th.short || th.name, label: `${s.short || s.name} · ${th.short || th.name}` })
+    return out
+  }, [subjects])
 
   const [view, setView] = useState('amis')
   const [status, setStatus] = useState('loading')
@@ -38,7 +44,8 @@ export default function Friends() {
   const [msg, setMsg] = useState(null)
   const [busy, setBusy] = useState(false)
   const [copied, setCopied] = useState(false)
-  const [flow, setFlow] = useState(null) // duel flow (voir plus bas)
+  const [flow, setFlow] = useState(null)
+  const [sel, setSel] = useState(() => new Set()) // thèmes sélectionnés (multi)
 
   const load = useCallback(async () => {
     if (!FRIENDS_READY) { setStatus('error'); return }
@@ -53,7 +60,6 @@ export default function Friends() {
 
   useEffect(() => { load() }, [load])
 
-  // Bilan victoires/défaites par appareil-ami.
   const record = useMemo(() => {
     const r = {}
     for (const d of history) {
@@ -65,20 +71,15 @@ export default function Friends() {
     return r
   }, [history])
 
-  // ---- Amis : ajout / demandes ----
+  // ---- Amis ----
   const add = async () => {
     const c = normFriendCode(input)
     if (c.length < 4 || busy) return
     setBusy(true); setMsg(null)
     try {
       const r = await sendRequest(c, myName)
-      const M = {
-        sent: { kind: 'ok', text: t('friendReqSent') }, self: { kind: 'err', text: t('friendSelf') },
-        notfound: { kind: 'err', text: t('friendNotFound') }, exists: { kind: 'ok', text: t('friendReqPending') },
-        accepted: { kind: 'ok', text: t('friendAlready') },
-      }
-      setMsg(M[r] || null)
-      if (r === 'sent') { setInput(''); load() }
+      const M = { sent: { kind: 'ok', text: t('friendReqSent') }, self: { kind: 'err', text: t('friendSelf') }, notfound: { kind: 'err', text: t('friendNotFound') }, exists: { kind: 'ok', text: t('friendReqPending') }, accepted: { kind: 'ok', text: t('friendAlready') } }
+      setMsg(M[r] || null); if (r === 'sent') { setInput(''); load() }
     } catch { setMsg({ kind: 'err', text: t('rankOffline') }) }
     setBusy(false)
   }
@@ -86,47 +87,53 @@ export default function Friends() {
   const drop = async (dev) => { if (!confirm(t('friendRemoveConfirm'))) return; setBusy(true); try { await removeFriend(dev); await load() } catch { /* */ } setBusy(false) }
   const copy = () => { try { navigator.clipboard?.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1500) } catch { /* */ } }
 
-  // ---- Duels ----
-  const startDuel = (friend) => { setView('duels'); setFlow({ step: 'setup', friend, subjectId: subjects[0]?.id || '' }) }
-  const beginPlay = (friend, themeId, label) => {
-    const questions = buildQuiz(themeId)
-    if (!questions || questions.length < 3) { setMsg({ kind: 'err', text: t('duelTooFew') }); return }
-    setMsg(null); setFlow({ step: 'play', friend, themeId, label, questions })
+  // ---- Duels (Kahoot) ----
+  const openSetup = (friend) => { setView('duels'); setSel(new Set()); setMsg(null); setFlow({ step: 'setup', friend }) }
+  const toggleTheme = (id) => setSel((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
+
+  const buildPool = (ids) => {
+    const seen = new Set(); const pool = []
+    for (const id of ids) for (const qq of buildQuiz(id) || []) { const k = (qq.q || '').toLowerCase().trim(); if (k && !seen.has(k)) { seen.add(k); pool.push(qq) } }
+    return shuffle(pool).slice(0, 10)
+  }
+  const launch = (friend) => {
+    const ids = [...sel]
+    if (!ids.length) { setMsg({ kind: 'err', text: t('duelPickTheme') }); return }
+    const pool = buildPool(ids)
+    if (pool.length < 3) { setMsg({ kind: 'err', text: t('duelTooFew') }); return }
+    const selThemes = allThemes.filter((x) => sel.has(x.id))
+    const label = selThemes.length === 1 ? selThemes[0].label : `${selThemes.length} ${t('chaptersWord')}`
+    setMsg(null); setFlow({ step: 'play', friend, label, questions: pool })
   }
   const randomDuel = (friend) => {
-    // Cherche un thème avec assez de questions, au hasard.
-    for (let tries = 0; tries < 12; tries++) {
-      const s = subjects[Math.floor(Math.random() * subjects.length)]
-      const th = s?.chapters?.[Math.floor(Math.random() * (s.chapters.length || 1))]
+    for (let tries = 0; tries < 14; tries++) {
+      const th = allThemes[Math.floor(Math.random() * allThemes.length)]
       if (!th) continue
-      const qs = buildQuiz(th.id)
-      if (qs && qs.length >= 3) { setFlow({ step: 'play', friend, themeId: th.id, label: `${s.short || s.name} · ${th.short || th.name}`, questions: qs }); return }
+      const pool = buildPool([th.id])
+      if (pool.length >= 3) { setMsg(null); setFlow({ step: 'play', friend, label: th.label, questions: pool }); return }
     }
     setMsg({ kind: 'err', text: t('duelTooFew') })
   }
-  const onPlayDone = async ({ score, total }) => {
+  const onPlayDone = async ({ points, correct }) => {
     setBusy(true)
     try {
-      await createDuel({ friendDevice: flow.friend.device_id, friendName: flow.friend.name, themeId: flow.themeId, label: flow.label, questions: flow.questions, score, total, myName })
-      setFlow({ step: 'sent', label: flow.label, score, total, opp: flow.friend.name })
-      load()
+      await createDuel({ friendDevice: flow.friend.device_id, friendName: flow.friend.name, themeId: '', label: flow.label, questions: flow.questions, score: points, total: correct, myName })
+      setFlow({ step: 'sent', label: flow.label, points, correct, total: flow.questions.length, opp: flow.friend.name }); load()
     } catch { setFlow(null); setMsg({ kind: 'err', text: t('rankOffline') }) }
     setBusy(false)
   }
-  const onAnswerDone = async ({ score, total }) => {
-    const d = flow.duel
-    setBusy(true)
+  const onAnswerDone = async ({ points, correct }) => {
+    const d = flow.duel; setBusy(true)
     try {
-      await finishDuel(d.id, score, total)
-      const mine = score, theirs = d.a_score
-      const result = mine > theirs ? 'win' : mine < theirs ? 'loss' : 'draw'
-      setFlow({ step: 'result', result, mine, total, theirs, theirTotal: d.a_total, opp: d.a_name, label: d.chapter_label })
-      load()
+      await finishDuel(d.id, points, correct)
+      const result = points > d.a_score ? 'win' : points < d.a_score ? 'loss' : 'draw'
+      setFlow({ step: 'result', result, mine: points, theirs: d.a_score, myCorrect: correct, theirCorrect: d.a_total, total: (d.questions || []).length, opp: d.a_name, label: d.chapter_label }); load()
     } catch { setFlow(null); setMsg({ kind: 'err', text: t('rankOffline') }) }
     setBusy(false)
   }
+  const decline = async (id) => { setBusy(true); try { await declineDuel(id); setFlow(null); await load() } catch { /* */ } setBusy(false) }
 
-  // ===== Écran de jeu (duel en cours) =====
+  // ===== Écran de jeu =====
   if (flow?.step === 'play' || flow?.step === 'answer') {
     const opp = flow.step === 'play' ? flow.friend.name : flow.duel.a_name
     const label = flow.step === 'play' ? flow.label : flow.duel.chapter_label
@@ -134,12 +141,29 @@ export default function Friends() {
     return (
       <div className="animate-lux space-y-4">
         <header className="text-center">
-          <p className="kicker">⚔️ {t('duel')}</p>
-          <h1 className="mt-1 font-display text-xl font-medium">{t('duelVs')} {opp || 'Élève'}</h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{label}</p>
+          <p className="kicker">⚔️ {t('duel')} · {t('duelVs')} {opp || 'Élève'}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
         </header>
-        <DuelQuiz questions={questions} onDone={flow.step === 'play' ? onPlayDone : onAnswerDone} />
+        <KahootQuiz questions={questions} onDone={flow.step === 'play' ? onPlayDone : onAnswerDone} />
         <button onClick={() => setFlow(null)} className="btn-ghost !min-h-0 !py-2 text-sm">← {t('quit')}</button>
+      </div>
+    )
+  }
+  // ===== Écran « accepter le défi » =====
+  if (flow?.step === 'confirm') {
+    const d = flow.duel
+    return (
+      <div className="animate-lux">
+        <div className="card card-lux p-6 text-center">
+          <div className="text-5xl">⚔️</div>
+          <h1 className="mt-2 font-display text-xl font-bold">{d.a_name || 'Élève'} {t('duelChallengesYou')}</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{d.chapter_label} · {(d.questions || []).length} {t('questionsShort')}</p>
+          <p className="mt-2 text-sm">{t('duelConfirmHint')}</p>
+          <div className="mt-5 flex justify-center gap-2">
+            <button onClick={() => setFlow({ step: 'answer', duel: d })} className="btn-primary" style={{ backgroundColor: '#3f9d6d' }}>▶ {t('duelAcceptPlay')}</button>
+            <button onClick={() => decline(d.id)} disabled={busy} className="btn-ghost">{t('duelDecline')}</button>
+          </div>
+        </div>
       </div>
     )
   }
@@ -147,28 +171,29 @@ export default function Friends() {
   if (flow?.step === 'sent' || flow?.step === 'result') {
     const win = flow.result === 'win', draw = flow.result === 'draw'
     return (
-      <div className="animate-lux space-y-4">
+      <div className="animate-lux">
         <div className="card card-lux p-6 text-center">
           {flow.step === 'sent' ? (
             <>
               <div className="text-5xl">📨</div>
               <h1 className="mt-2 font-display text-xl font-semibold">{t('duelSent')}</h1>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('duelSentHint').replace('{opp}', flow.opp || 'ton ami')}</p>
-              <p className="mt-2 font-display text-lg" style={{ color: 'var(--c-accent)' }}>{t('yourScore')} : {flow.score}/{flow.total}</p>
+              <p className="mt-3 font-display text-3xl font-extrabold" style={{ color: 'var(--c-accent)' }}>{flow.points} pts</p>
+              <p className="text-sm text-slate-400">{flow.correct}/{flow.total} {t('goodAnswers')}</p>
             </>
           ) : (
             <>
               <div className="text-5xl">{win ? '🏆' : draw ? '🤝' : '💪'}</div>
               <h1 className="mt-2 font-display text-2xl font-bold">{win ? t('duelWin') : draw ? t('duelDraw') : t('duelLoss')}</h1>
-              <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{flow.label}</p>
-              <div className="mt-3 flex items-center justify-center gap-6">
-                <div><p className="text-xs text-slate-400">{t('you')}</p><p className="font-display text-3xl font-bold" style={{ color: 'var(--c-accent)' }}>{flow.mine}</p></div>
-                <span className="font-display text-xl text-slate-400">—</span>
-                <div><p className="text-xs text-slate-400">{flow.opp || 'Élève'}</p><p className="font-display text-3xl font-bold">{flow.theirs}</p></div>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{flow.label}</p>
+              <div className="mt-4 flex items-center justify-center gap-6">
+                <div><p className="text-xs text-slate-400">{t('you')}</p><p className="font-display text-4xl font-extrabold" style={{ color: 'var(--c-accent)' }}>{flow.mine}</p><p className="text-xs text-slate-400">{flow.myCorrect}/{flow.total}</p></div>
+                <span className="font-display text-2xl text-slate-400">—</span>
+                <div><p className="text-xs text-slate-400">{flow.opp || 'Élève'}</p><p className="font-display text-4xl font-extrabold">{flow.theirs}</p><p className="text-xs text-slate-400">{flow.theirCorrect}/{flow.total}</p></div>
               </div>
             </>
           )}
-          <button onClick={() => { setFlow(null); setView('duels') }} className="btn-primary mt-5" style={{ backgroundColor: 'var(--c-accent)' }}>{t('done')}</button>
+          <button onClick={() => { setFlow(null); setView('duels') }} className="btn-primary mt-6" style={{ backgroundColor: 'var(--c-accent)' }}>{t('done')}</button>
         </div>
       </div>
     )
@@ -249,9 +274,9 @@ export default function Friends() {
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-semibold">{f.name || 'Élève'}</span>
-                      <span className="block text-xs text-slate-400">🔥 {f.streak || 0} · {f.xp || 0} XP{rec ? ` · ⚔️ ${rec.w}V-${rec.l}D` : ''}</span>
+                      <span className="block text-xs text-slate-400">🔥 {f.streak || 0} · {f.xp || 0} XP{rec ? ` · ⚔️ ${rec.w}${t('duelWinShort')}-${rec.l}${t('duelLossShort')}` : ''}</span>
                     </span>
-                    <button onClick={() => startDuel(f)} disabled={busy} className="shrink-0 rounded-lg px-3 py-1.5 text-sm font-semibold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>⚔️ {t('challenge')}</button>
+                    <button onClick={() => openSetup(f)} disabled={busy} className="shrink-0 rounded-lg px-3 py-1.5 text-sm font-semibold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>⚔️ {t('challenge')}</button>
                     <button onClick={() => drop(f.device_id)} disabled={busy} className="shrink-0 text-slate-300 hover:text-rose-500" title={t('friendRemove')} aria-label={t('friendRemove')}>✕</button>
                   </div>
                 )
@@ -264,17 +289,16 @@ export default function Friends() {
 
       {view === 'duels' && (
         <>
-          {/* Défis reçus */}
           {duelsIn.length > 0 && (
             <section>
               <h2 className="mb-2 px-1 font-display text-lg font-semibold">{t('duelsReceived')} <span className="text-sm font-normal text-slate-400">({duelsIn.length})</span></h2>
               <div className="space-y-2">
                 {duelsIn.map((d) => (
-                  <button key={d.id} onClick={() => setFlow({ step: 'answer', duel: d })} className="card flex w-full items-center gap-3 p-3 text-left transition hover:-translate-y-0.5 hover:shadow-md">
+                  <button key={d.id} onClick={() => setFlow({ step: 'confirm', duel: d })} className="card flex w-full items-center gap-3 p-3 text-left transition hover:-translate-y-0.5 hover:shadow-md">
                     <span className="text-2xl" aria-hidden>⚔️</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-semibold">{d.a_name || 'Élève'} {t('duelChallengesYou')}</span>
-                      <span className="block text-xs text-slate-400">{d.chapter_label} · {t('theirScore')} {d.a_score}/{d.a_total}</span>
+                      <span className="block text-xs text-slate-400">{d.chapter_label} · {t('theirScore')} {d.a_score} pts</span>
                     </span>
                     <span className="shrink-0 rounded-lg px-3 py-1.5 text-sm font-semibold text-white" style={{ backgroundColor: '#3f9d6d' }}>{t('duelAccept')}</span>
                   </button>
@@ -283,15 +307,15 @@ export default function Friends() {
             </section>
           )}
 
-          {/* Nouveau duel */}
           <section className="card card-lux p-5">
-            <h2 className="mb-3 font-display text-lg font-semibold">⚔️ {t('newDuel')}</h2>
+            <h2 className="mb-1 font-display text-lg font-semibold">⚔️ {t('newDuel')}</h2>
+            <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">{t('duelKahootHint')}</p>
             {friends.length === 0 ? (
               <p className="text-sm text-slate-500 dark:text-slate-400">{t('duelNeedFriend')}</p>
             ) : !flow || flow.step !== 'setup' ? (
               <div className="grid gap-2 sm:grid-cols-2">
                 {friends.map((f) => (
-                  <button key={f.device_id} onClick={() => setFlow({ step: 'setup', friend: f, subjectId: subjects[0]?.id || '' })} className="flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-2.5 text-left text-sm font-semibold hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
+                  <button key={f.device_id} onClick={() => openSetup(f)} className="flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-2.5 text-left text-sm font-semibold hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
                     <span className="monogram grid h-7 w-7 shrink-0 place-items-center text-xs" aria-hidden>{initialsOf(f.name)}</span>
                     <span className="min-w-0 flex-1 truncate">{f.name || 'Élève'}</span>
                     <span aria-hidden>⚔️</span>
@@ -300,41 +324,37 @@ export default function Friends() {
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-sm">{t('duelWith')} <b>{flow.friend.name || 'Élève'}</b></p>
-                <div className="flex gap-2">
-                  <button onClick={() => randomDuel(flow.friend)} className="rounded-xl px-3 py-2 text-sm font-semibold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>🎲 {t('duelRandom')}</button>
-                  <button onClick={() => setFlow(null)} className="rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-500 dark:border-slate-700">{t('cancel')}</button>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm">{t('duelWith')} <b>{flow.friend.name || 'Élève'}</b></p>
+                  <button onClick={() => randomDuel(flow.friend)} className="rounded-full px-3 py-1.5 text-xs font-semibold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>🎲 {t('duelRandom')}</button>
                 </div>
-                <div>
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('chooseSubject')}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {subjects.map((s) => (
-                      <button key={s.id} onClick={() => setFlow((fl) => ({ ...fl, subjectId: s.id }))} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${flow.subjectId === s.id ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`} style={flow.subjectId === s.id ? { backgroundColor: 'var(--c-accent)' } : undefined}>
-                        {s.icon} {s.short || s.name}
-                      </button>
-                    ))}
-                  </div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('duelPickThemes')}</p>
+                <div className="max-h-64 space-y-3 overflow-y-auto rounded-xl bg-slate-50 p-3 dark:bg-slate-800/40">
+                  {subjects.map((s) => (
+                    <div key={s.id}>
+                      <p className="mb-1 text-xs font-semibold text-slate-500 dark:text-slate-400">{s.icon} {s.short || s.name}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(s.chapters || []).map((th) => {
+                          const on = sel.has(th.id)
+                          return (
+                            <button key={th.id} onClick={() => toggleTheme(th.id)} className={`rounded-full px-2.5 py-1 text-xs font-semibold transition ${on ? 'text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700'}`} style={on ? { backgroundColor: 'var(--c-accent)' } : undefined}>
+                              {on ? '✓ ' : ''}{th.short || th.name}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('chooseTheme')}</p>
-                  <div className="space-y-1.5">
-                    {(subjects.find((s) => s.id === flow.subjectId)?.chapters || []).map((th) => {
-                      const s = subjects.find((x) => x.id === flow.subjectId)
-                      return (
-                        <button key={th.id} onClick={() => beginPlay(flow.friend, th.id, `${s.short || s.name} · ${th.short || th.name}`)} className="flex w-full items-center gap-2 rounded-xl bg-slate-100 px-3 py-2.5 text-left text-sm hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
-                          <span className="min-w-0 flex-1 truncate">{th.short || th.name}</span>
-                          <span aria-hidden>▶</span>
-                        </button>
-                      )
-                    })}
-                  </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => launch(flow.friend)} disabled={sel.size === 0} className="btn-primary flex-1 disabled:opacity-40" style={{ backgroundColor: 'var(--c-accent)' }}>▶ {t('duelLaunch')} {sel.size > 0 ? `(${sel.size})` : ''}</button>
+                  <button onClick={() => { setFlow(null); setSel(new Set()) }} className="btn-ghost">{t('cancel')}</button>
                 </div>
                 {msg && msg.kind === 'err' && <p className="text-sm text-rose-600 dark:text-rose-400">{msg.text}</p>}
               </div>
             )}
           </section>
 
-          {/* Défis en attente (envoyés) */}
           {duelsSent.length > 0 && (
             <section>
               <h2 className="mb-2 px-1 font-display text-lg font-semibold">{t('duelsWaiting')}</h2>
@@ -343,14 +363,13 @@ export default function Friends() {
                   <div key={d.id} className="card flex items-center gap-3 p-3 text-sm">
                     <span className="text-xl" aria-hidden>⏳</span>
                     <span className="min-w-0 flex-1"><span className="block truncate font-semibold">{d.b_name || 'Élève'}</span><span className="block text-xs text-slate-400">{d.chapter_label}</span></span>
-                    <span className="shrink-0 text-slate-400">{d.a_score}/{d.a_total}</span>
+                    <span className="shrink-0 text-slate-400">{d.a_score} pts</span>
                   </div>
                 ))}
               </div>
             </section>
           )}
 
-          {/* Historique */}
           <section>
             <h2 className="mb-2 px-1 font-display text-lg font-semibold">{t('duelHistory')}</h2>
             {status === 'loading' && <div className="card p-6 text-center text-sm text-slate-500 dark:text-slate-400">…</div>}

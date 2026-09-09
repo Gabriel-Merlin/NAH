@@ -116,9 +116,14 @@ export async function incomingDuels() {
 export async function sentDuels() {
   return getJSON(rest(`friend_duel?select=id,b_name,chapter_label,a_score,a_total&a_device=eq.${enc(deviceId())}&status=eq.open&order=created_at.desc&limit=50`))
 }
-// Je relève un défi : j'enregistre mon score et le duel devient « terminé ».
-export async function finishDuel(id, score, total) {
-  await send('PATCH', `friend_duel?id=eq.${enc(id)}`, { b_score: Math.round(score || 0), b_total: Math.round(total || 0), status: 'done', updated_at: new Date().toISOString() }, 'return=minimal')
+// Je relève un défi : j'enregistre mes points (b_score) + bonnes réponses
+// (b_total), le duel devient « terminé ».
+export async function finishDuel(id, points, correct) {
+  await send('PATCH', `friend_duel?id=eq.${enc(id)}`, { b_score: Math.round(points || 0), b_total: Math.round(correct || 0), status: 'done', updated_at: new Date().toISOString() }, 'return=minimal')
+}
+// Je refuse un défi reçu : le duel est supprimé.
+export async function declineDuel(id) {
+  await send('DELETE', `friend_duel?id=eq.${enc(id)}`)
 }
 // Historique des duels terminés (des deux côtés).
 export async function duelHistory() {
