@@ -301,6 +301,7 @@ function MobileMenu({ className = '', state, isDark, standalone, lang, first, la
               </div>
             )}
             {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
+            <Item icon="🤝" label={t('friends')} to="/amis" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
@@ -370,6 +371,8 @@ function Breadcrumb() {
       items.push({ label: t('grandOral'), to: '/grand-oral' })
     } else if (parts[0] === 'guide') {
       items.push({ label: t('startGuide'), to: '/guide' })
+    } else if (parts[0] === 'amis') {
+      items.push({ label: t('friends'), to: '/amis' })
     }
     return items
   }, [pathname, t])

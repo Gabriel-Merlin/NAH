@@ -159,6 +159,16 @@ export default function Home() {
         <span className="text-slate-300" aria-hidden>›</span>
       </Link>
 
+      {/* Amis : ajouter par code et comparer sa progression */}
+      <Link to="/amis" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+        <span className="text-2xl" aria-hidden>🤝</span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display font-semibold">{t('friends')}</span>
+          <span className="block text-xs text-slate-500 dark:text-slate-400">{t('friendsSub')}</span>
+        </span>
+        <span className="text-slate-300" aria-hidden>›</span>
+      </Link>
+
       {/* Grille des matières de la filière */}
       <section>
         <div className="mb-4 flex items-end justify-between gap-3 px-1">

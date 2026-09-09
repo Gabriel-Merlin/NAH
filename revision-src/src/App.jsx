@@ -19,6 +19,7 @@ import GrandOral from './pages/GrandOral.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Faq from './pages/Faq.jsx'
 import Guide from './pages/Guide.jsx'
+import Friends from './pages/Friends.jsx'
 
 // Rétro-compatibilité : les anciens liens /subject/:sid/chapter/:cid
 // (où le chapitre était en fait un thème) redirigent vers la page Thème.
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/faq" element={<Faq />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/classement" element={<Leaderboard />} />
+        <Route path="/amis" element={<Friends />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>
