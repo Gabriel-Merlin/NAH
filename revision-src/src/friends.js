@@ -96,3 +96,43 @@ export async function removeFriend(otherDevice) {
   const me = deviceId()
   await send('DELETE', `friend_request?or=(and(from_device.eq.${enc(me)},to_device.eq.${enc(otherDevice)}),and(from_device.eq.${enc(otherDevice)},to_device.eq.${enc(me)}))`)
 }
+
+// --- Duels de révision entre amis ------------------------------------------
+// Le challenger joue d'abord, ses questions sont figées ; l'adversaire joue
+// exactement les mêmes, puis les scores sont comparés.
+export async function createDuel({ friendDevice, friendName, themeId, label, questions, score, total, myName }) {
+  await send('POST', 'friend_duel', [{
+    a_device: deviceId(), a_name: String(myName || '').slice(0, 40), a_code: friendCode(),
+    b_device: friendDevice, b_name: String(friendName || '').slice(0, 40),
+    theme_id: themeId, chapter_label: String(label || '').slice(0, 120),
+    questions, a_score: Math.round(score || 0), a_total: Math.round(total || 0), status: 'open',
+  }], 'return=minimal')
+}
+// Défis qu'on m'a lancés et que je n'ai pas encore relevés.
+export async function incomingDuels() {
+  return getJSON(rest(`friend_duel?select=*&b_device=eq.${enc(deviceId())}&status=eq.open&order=created_at.desc&limit=50`))
+}
+// Défis que j'ai lancés, en attente de l'adversaire.
+export async function sentDuels() {
+  return getJSON(rest(`friend_duel?select=id,b_name,chapter_label,a_score,a_total&a_device=eq.${enc(deviceId())}&status=eq.open&order=created_at.desc&limit=50`))
+}
+// Je relève un défi : j'enregistre mon score et le duel devient « terminé ».
+export async function finishDuel(id, score, total) {
+  await send('PATCH', `friend_duel?id=eq.${enc(id)}`, { b_score: Math.round(score || 0), b_total: Math.round(total || 0), status: 'done', updated_at: new Date().toISOString() }, 'return=minimal')
+}
+// Historique des duels terminés (des deux côtés).
+export async function duelHistory() {
+  const me = deviceId()
+  return getJSON(rest(`friend_duel?select=*&or=(a_device.eq.${enc(me)},b_device.eq.${enc(me)})&status=eq.done&order=updated_at.desc&limit=60`))
+}
+// Issue d'un duel terminé du point de vue de l'appareil courant.
+export function duelOutcome(d, me = deviceId()) {
+  const iAmA = d.a_device === me
+  const mine = iAmA ? d.a_score : d.b_score
+  const theirs = iAmA ? d.b_score : d.a_score
+  const opp = iAmA ? d.b_name : d.a_name
+  let result = 'draw'
+  if (mine > theirs) result = 'win'
+  else if (mine < theirs) result = 'loss'
+  return { mine: mine ?? 0, theirs: theirs ?? 0, opp, result, iAmA }
+}
