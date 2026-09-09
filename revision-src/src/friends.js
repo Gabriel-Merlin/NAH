@@ -97,33 +97,64 @@ export async function removeFriend(otherDevice) {
   await send('DELETE', `friend_request?or=(and(from_device.eq.${enc(me)},to_device.eq.${enc(otherDevice)}),and(from_device.eq.${enc(otherDevice)},to_device.eq.${enc(me)}))`)
 }
 
-// --- Duels de révision entre amis ------------------------------------------
-// Le challenger joue d'abord, ses questions sont figées ; l'adversaire joue
-// exactement les mêmes, puis les scores sont comparés.
-export async function createDuel({ friendDevice, friendName, themeId, label, questions, score, total, myName }) {
-  await send('POST', 'friend_duel', [{
+// --- Duels de révision entre amis (synchrone) ------------------------------
+// Modèle : j'envoie une INVITATION (les questions sont figées d'emblée pour
+// que les deux jouent les mêmes) → l'ami ACCEPTE (le duel passe « live ») →
+// chacun joue et soumet son score → quand les deux ont joué, c'est « terminé ».
+// Personne ne joue avant l'acceptation.
+export async function createDuelInvite({ friendDevice, friendName, label, questions, myName }) {
+  const res = await send('POST', 'friend_duel', [{
     a_device: deviceId(), a_name: String(myName || '').slice(0, 40), a_code: friendCode(),
     b_device: friendDevice, b_name: String(friendName || '').slice(0, 40),
-    theme_id: themeId, chapter_label: String(label || '').slice(0, 120),
-    questions, a_score: Math.round(score || 0), a_total: Math.round(total || 0), status: 'open',
-  }], 'return=minimal')
+    theme_id: '', chapter_label: String(label || '').slice(0, 120),
+    questions, a_score: 0, a_total: 0, a_done: false, b_done: false, status: 'pending',
+  }], 'return=representation')
+  const rows = await res.json().catch(() => [])
+  return rows[0]?.id || null
 }
-// Défis qu'on m'a lancés et que je n'ai pas encore relevés.
-export async function incomingDuels() {
-  return getJSON(rest(`friend_duel?select=*&b_device=eq.${enc(deviceId())}&status=eq.open&order=created_at.desc&limit=50`))
+// Lecture d'un duel (pour le polling).
+export async function getDuel(id) {
+  const r = await getJSON(rest(`friend_duel?select=*&id=eq.${enc(id)}&limit=1`))
+  return r[0] || null
 }
-// Défis que j'ai lancés, en attente de l'adversaire.
-export async function sentDuels() {
-  return getJSON(rest(`friend_duel?select=id,b_name,chapter_label,a_score,a_total&a_device=eq.${enc(deviceId())}&status=eq.open&order=created_at.desc&limit=50`))
+// L'ami accepte l'invitation → le duel démarre (les deux peuvent jouer).
+export async function acceptDuelInvite(id) {
+  await send('PATCH', `friend_duel?id=eq.${enc(id)}`, { status: 'live', updated_at: new Date().toISOString() }, 'return=minimal')
 }
-// Je relève un défi : j'enregistre mes points (b_score) + bonnes réponses
-// (b_total), le duel devient « terminé ».
-export async function finishDuel(id, points, correct) {
-  await send('PATCH', `friend_duel?id=eq.${enc(id)}`, { b_score: Math.round(points || 0), b_total: Math.round(correct || 0), status: 'done', updated_at: new Date().toISOString() }, 'return=minimal')
+// Je soumets mon score. Si les deux ont joué, le duel devient « terminé ».
+export async function submitDuel(duel, points, correct) {
+  const isA = duel.a_device === deviceId()
+  const patch = isA ? { a_score: Math.round(points || 0), a_total: Math.round(correct || 0), a_done: true } : { b_score: Math.round(points || 0), b_total: Math.round(correct || 0), b_done: true }
+  patch.updated_at = new Date().toISOString()
+  await send('PATCH', `friend_duel?id=eq.${enc(duel.id)}`, patch, 'return=minimal')
+  const fresh = await getDuel(duel.id)
+  if (fresh && fresh.a_done && fresh.b_done && fresh.status !== 'done') {
+    await send('PATCH', `friend_duel?id=eq.${enc(duel.id)}`, { status: 'done', updated_at: new Date().toISOString() }, 'return=minimal')
+    return { ...fresh, status: 'done' }
+  }
+  return fresh
 }
-// Je refuse un défi reçu : le duel est supprimé.
-export async function declineDuel(id) {
+// Annuler / refuser un duel : le supprime (l'invitation disparaît des deux côtés).
+export async function cancelDuel(id) {
   await send('DELETE', `friend_duel?id=eq.${enc(id)}`)
+}
+export const declineDuel = cancelDuel // alias (refuser une invitation reçue)
+
+// Invitations reçues, en attente de mon acceptation.
+export async function incomingDuels() {
+  return getJSON(rest(`friend_duel?select=*&b_device=eq.${enc(deviceId())}&status=eq.pending&order=created_at.desc&limit=50`))
+}
+// Mes invitations envoyées, en attente que l'ami accepte (annulables).
+export async function sentDuels() {
+  return getJSON(rest(`friend_duel?select=id,b_name,chapter_label&a_device=eq.${enc(deviceId())}&status=eq.pending&order=created_at.desc&limit=50`))
+}
+// Duels acceptés (« live ») où je suis impliqué : à jouer ou en attente de l'autre.
+export async function liveDuels() {
+  const me = deviceId()
+  return getJSON(rest(`friend_duel?select=*&or=(a_device.eq.${enc(me)},b_device.eq.${enc(me)})&status=eq.live&order=updated_at.desc&limit=50`))
+}
+export function myTurnToPlay(d, me = deviceId()) {
+  return d.a_device === me ? !d.a_done : !d.b_done
 }
 // Historique des duels terminés (des deux côtés).
 export async function duelHistory() {
