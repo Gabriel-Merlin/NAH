@@ -15,6 +15,7 @@ import DocStudy from './DocStudy.jsx'
 import TypedGen from './TypedGen.jsx'
 import Comprehension from './Comprehension.jsx'
 import SqlQuery from './SqlQuery.jsx'
+import Saisie from './Saisie.jsx'
 
 const COMPONENTS = {
   qcm: Qcm,
@@ -31,6 +32,7 @@ const COMPONENTS = {
   grammar: TypedGen,
   comprehension: Comprehension,
   sql: SqlQuery,
+  saisie: Saisie,
 }
 
 export const GAME_LABELS = {
@@ -48,6 +50,7 @@ export const GAME_LABELS = {
   grammar: 'Grammaire',
   comprehension: 'Compréhension',
   sql: 'Requête SQL',
+  saisie: 'Réponse à écrire',
 }
 
 // Types sans « mode » (Entraînement / Défi) : on entre directement dans le jeu.

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
-import { getChapter, getSubject, themeChapters, getThemeChapter } from '../data/index.js'
+import { getChapter, getSubject, themeChapters, flashcardsForSection } from '../data/index.js'
 import { useStore } from '../store.jsx'
+import { useInstall } from '../pwa.js'
 import { CourseSection, CourseText, saveFiche } from '../components/Course.jsx'
 import GameHost from '../games/GameHost.jsx'
 import { useT, useGameLabel } from '../i18n.js'
@@ -10,11 +11,27 @@ export default function Chapter() {
   const { sid, tid, cidx } = useParams()
   const subject = getSubject(sid)
   const theme = getChapter(tid)
-  const chapter = getThemeChapter(tid, cidx)
   const { state } = useStore()
+  const { standalone } = useInstall() // flashcards réservées à l'app installée
   const t = useT()
   const gameLabel = useGameLabel()
   const [activeGame, setActiveGame] = useState(null)
+
+  // Génération stable par visite : on ne régénère (et re-mélange) les exercices
+  // qu'au changement de thème/chapitre, pas à chaque rendu. Une nouvelle visite
+  // = un nouveau tirage → jamais exactement les mêmes exercices.
+  const chapters = useMemo(() => (theme ? themeChapters(theme) : []), [theme, cidx]) // eslint-disable-line react-hooks/exhaustive-deps
+  const chapter = chapters[Number(cidx)] || null
+
+  // Jeux affichés : ceux du chapitre + (dans l'app installée seulement) des
+  // flashcards générées à partir des notions de la section.
+  const games = useMemo(() => {
+    if (!chapter) return []
+    const base = chapter.games || []
+    if (!standalone) return base
+    const fc = flashcardsForSection(chapter.section, theme, chapter.idx)
+    return fc ? [...base, fc] : base
+  }, [chapter, standalone, theme])
 
   // Nouveau chapitre : on referme tout jeu ouvert et on remonte en haut.
   useEffect(() => {
@@ -24,7 +41,6 @@ export default function Chapter() {
 
   if (!subject || !theme || !chapter) return <Navigate to="/" replace />
   const color = subject.color
-  const chapters = themeChapters(theme)
   const i = chapter.idx
   const prev = chapters[i - 1]
   const next = chapters[i + 1]
@@ -73,10 +89,10 @@ export default function Chapter() {
       <CourseSection sec={chapter.section} color={color} />
 
       {/* Jeux de ce chapitre */}
-      {chapter.games.length > 0 && (
+      {games.length > 0 && (
         <section className="space-y-2.5">
           <h2 className="px-1 font-display text-lg font-bold">🎮 {t('gamesOfChapter')}</h2>
-          {chapter.games.map((g) => {
+          {games.map((g) => {
             const best = rec?.games?.[g.id]
             return (
               <button
