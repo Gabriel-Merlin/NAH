@@ -3,9 +3,27 @@ import { getChapter } from '../data/index.js'
 import { subjectsForTrack, trackLabel, trackIcon } from '../data/tracks.js'
 import { useStore, subjectScore } from '../store.jsx'
 import { ProgressBar, Ring, Icon } from '../components/ui.jsx'
-import { AppBadge } from '../components/InstallApp.jsx'
-import { isStandalone } from '../pwa.js'
 import { useT } from '../i18n.js'
+
+// Tuile compacte (icône + libellé + petit sous-titre facultatif) : sert à ranger
+// toutes les fonctionnalités dans des grilles ordonnées plutôt qu'en longs
+// bandeaux empilés.
+function Tile({ to, icon, label, sub, accent }) {
+  return (
+    <Link
+      to={to}
+      className="card flex flex-col items-center justify-start gap-1.5 p-3.5 text-center transition hover:-translate-y-0.5 hover:shadow-md"
+    >
+      <span className="grid h-11 w-11 place-items-center rounded-2xl text-xl" style={{ backgroundColor: (accent || '#8a6d1e') + '18' }} aria-hidden>{icon}</span>
+      <span className="text-[13px] font-semibold leading-tight">{label}</span>
+      {sub ? <span className="text-[11px] leading-tight text-slate-500 dark:text-slate-400">{sub}</span> : null}
+    </Link>
+  )
+}
+
+function SectionHead({ title }) {
+  return <h2 className="mb-3 px-1 font-display text-lg font-semibold text-slate-700 dark:text-slate-200">{title}</h2>
+}
 
 export default function Home() {
   const { state, derived } = useStore()
@@ -93,92 +111,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Raccourcis */}
-      <div className="grid grid-cols-2 gap-3">
-        <Link to="/badges" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-violet-500 dark:text-violet-400"><Icon.Medal size={24} /></span>
-          <span>
-            <span className="block font-display font-semibold">{t('badges')}</span>
-            <span className="block text-xs text-slate-500 dark:text-slate-400">{state.badges.length} {t(state.badges.length > 1 ? 'earnedP' : 'earnedM')}</span>
-          </span>
-        </Link>
-        <Link to="/favoris" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-violet-500 dark:text-violet-400"><Icon.Star size={24} /></span>
-          <span>
-            <span className="block font-display font-semibold">{t('favorites')}</span>
-            <span className="block text-xs text-slate-500 dark:text-slate-400">{state.favorites.length} {t(state.favorites.length > 1 ? 'chapToReviewP' : 'chapToReviewM')}</span>
-          </span>
-        </Link>
-      </div>
-
-      {/* Coach de révision : minuteur + méthodes personnalisées */}
-      <Link to="/coach" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-        <span className="text-2xl" aria-hidden>🎯</span>
-        <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2 font-display font-semibold">{t('coach')} {!isStandalone() && <AppBadge />}</span>
-          <span className="block text-xs text-slate-500 dark:text-slate-400">{t('coachSub')}</span>
-        </span>
-        <span className="text-slate-300" aria-hidden>›</span>
-      </Link>
-
-      {/* Préparation au bac : révision intelligente, bac blanc, programme */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <Link to="/revision" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-2xl" aria-hidden>🧠</span>
-          <span className="min-w-0"><span className="block font-display font-semibold leading-tight">{t('smartRevision')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('priorityList')}</span></span>
-        </Link>
-        <Link to="/bac-blanc" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-2xl" aria-hidden>📝</span>
-          <span className="min-w-0"><span className="block font-display font-semibold leading-tight">{t('mockExam')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">/20 · ⏱</span></span>
-        </Link>
-        <Link to="/programme" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-          <span className="text-2xl" aria-hidden>📅</span>
-          <span className="min-w-0"><span className="block font-display font-semibold leading-tight">{t('studyPlan')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('todayGoals')}</span></span>
-        </Link>
-      </div>
-
-      {/* Grand Oral : guide de l'épreuve + préparation des 2 questions */}
-      <Link to="/grand-oral" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-        <span className="text-2xl" aria-hidden>🎓</span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-display font-semibold leading-tight">{t('grandOral')}</span>
-          <span className="block text-xs text-slate-500 dark:text-slate-400">{t('grandOralSub')}</span>
-        </span>
-        <span className="text-slate-300" aria-hidden>›</span>
-      </Link>
-
-      {/* Espace Classe : rejoindre / comparer / QCM de la classe */}
-      <Link to="/classe" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-        <span className="text-2xl" aria-hidden>👥</span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-display font-semibold">{state.classCode ? `${t('myClass')} · ${state.classCode}` : t('myClass')}</span>
-          <span className="block text-xs text-slate-500 dark:text-slate-400">
-            {state.classCode ? `${derived.weeklyCourses} ${t('coursesThisWeek')}` : t('joinClassShort')}
-          </span>
-        </span>
-        <span className="text-slate-300" aria-hidden>›</span>
-      </Link>
-
-      {/* Amis : ajouter par code et comparer sa progression */}
-      <Link to="/amis" className="card flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
-        <span className="text-2xl" aria-hidden>🤝</span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-display font-semibold">{t('friends')}</span>
-          <span className="block text-xs text-slate-500 dark:text-slate-400">{t('friendsSub')}</span>
-        </span>
-        <span className="text-slate-300" aria-hidden>›</span>
-      </Link>
-
-      {/* Grille des matières de la filière */}
+      {/* Mes matières — le cœur des révisions, juste sous l'accueil */}
       <section>
-        <div className="mb-4 flex items-end justify-between gap-3 px-1">
-          <div>
-            <p className="kicker">{trackIcon(state.track)} {trackLabel(state.track)}</p>
-            <h2 className="font-display text-2xl font-medium leading-tight">{t('mySubjects')}</h2>
-          </div>
+        <div className="mb-3 flex items-center justify-between gap-3 px-1">
+          <h2 className="font-display text-lg font-semibold text-slate-700 dark:text-slate-200">{t('mySubjects')}</h2>
           <Link to="/changer" className="shrink-0 text-xs font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">{t('change')}</Link>
         </div>
-        <hr className="rule-gold mb-4" />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {subjects.map((s) => {
             if (s.comingSoon) {
@@ -212,7 +150,30 @@ export default function Home() {
         </div>
       </section>
 
-      <p className="pt-2 text-center text-xs text-slate-400">
+      {/* Réviser & réussir — outils regroupés en tuiles compactes */}
+      <section>
+        <SectionHead title={t('secRevise')} />
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+          <Tile to="/revision" icon="🧠" label={t('smartRevision')} sub={t('priorityList')} accent="#7c3aed" />
+          <Tile to="/bac-blanc" icon="📝" label={t('mockExam')} sub="/20 · ⏱" accent="#e11d48" />
+          <Tile to="/programme" icon="📅" label={t('studyPlan')} sub={t('todayGoals')} accent="#0ea5e9" />
+          <Tile to="/coach" icon="🎯" label={t('coach')} accent="#f59e0b" />
+          <Tile to="/grand-oral" icon="🎓" label={t('grandOral')} accent="#8a6d1e" />
+        </div>
+      </section>
+
+      {/* Communauté & progression — classe, amis, badges, favoris */}
+      <section>
+        <SectionHead title={t('secCommunity')} />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Tile to="/classe" icon="👥" label={t('myClass')} sub={state.classCode || t('joinClassShort')} accent="#0d9488" />
+          <Tile to="/amis" icon="🤝" label={t('friends')} accent="#6366f1" />
+          <Tile to="/badges" icon="🏅" label={t('badges')} sub={`${state.badges.length} ${t(state.badges.length > 1 ? 'earnedP' : 'earnedM')}`} accent="#a855f7" />
+          <Tile to="/favoris" icon="⭐" label={t('favorites')} sub={`${state.favorites.length} ${t(state.favorites.length > 1 ? 'chapToReviewP' : 'chapToReviewM')}`} accent="#eab308" />
+        </div>
+      </section>
+
+      <p className="pt-1 text-center text-xs text-slate-400">
         {level === 'terminale-stmg' ? t('courseBasedNote') : t('savedOnDevice')}
       </p>
     </div>
