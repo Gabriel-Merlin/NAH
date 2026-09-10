@@ -1059,6 +1059,7 @@ function ProfDashboard({ classCode, track, t }) {
   const [sort, setSort] = useState('activity') // activity | avg | xp | week
   const [riskOnly, setRiskOnly] = useState(false)
   const [open, setOpen] = useState(null) // device_id détaillé
+  const [query, setQuery] = useState('')
   const load = useCallback(async () => {
     setStatus('loading')
     try { setMembers(await fetchMembers(classCode)); setStatus('ok') } catch { setStatus('error') }
@@ -1077,6 +1078,26 @@ function ProfDashboard({ classCode, track, t }) {
   const activeWk = students.filter((m) => m.courses_week > 0).length
   const atRiskCount = students.filter(isAtRisk).length
 
+  // Statistiques avancées : médiane (plus robuste que la moyenne), participation,
+  // répartition des niveaux, meilleurs élèves, recommandations d'action.
+  const sortedAvg = students.map(memberAvg).sort((a, b) => a - b)
+  const median = sortedAvg.length ? (sortedAvg.length % 2 ? sortedAvg[(sortedAvg.length - 1) / 2] : Math.round((sortedAvg[sortedAvg.length / 2 - 1] + sortedAvg[sortedAvg.length / 2]) / 2)) : 0
+  const participation = students.length ? Math.round((activeWk / students.length) * 100) : 0
+  const BANDS = [
+    { label: '0–25', min: 0, max: 25, c: '#c0392b' },
+    { label: '25–50', min: 25, max: 50, c: '#e67e22' },
+    { label: '50–75', min: 50, max: 75, c: '#c8a24e' },
+    { label: '75–100', min: 75, max: 101, c: '#16a085' },
+  ]
+  const dist = BANDS.map((b) => ({ ...b, n: students.filter((m) => { const a = memberAvg(m); return a >= b.min && a < b.max }).length }))
+  const distMax = Math.max(1, ...dist.map((d) => d.n))
+  const top3 = [...students].sort((a, b) => memberAvg(b) - memberAvg(a) || b.xp - a.xp).slice(0, 3)
+  const insights = []
+  if (atRiskCount > 0) insights.push({ icon: '⚠️', text: t('insightRelaunch').replace('{n}', atRiskCount) })
+  if (lacunes[0] && lacunes[0].v < 60) insights.push({ icon: '🎯', text: t('insightWeakSubject').replace('{subject}', lacunes[0].s.name).replace('{pct}', lacunes[0].v) })
+  if (participation < 60 && students.length) insights.push({ icon: '🔥', text: t('insightLowPart').replace('{a}', activeWk).replace('{b}', students.length) })
+  if (classAvg >= 70) insights.push({ icon: '🚀', text: t('insightGood').replace('{pct}', classAvg) })
+
   const sortFns = {
     activity: (a, b) => daysSinceDay(b.active_day) - daysSinceDay(a.active_day), // moins actifs d'abord
     avg: (a, b) => memberAvg(a) - memberAvg(b), // plus faibles d'abord
@@ -1085,6 +1106,8 @@ function ProfDashboard({ classCode, track, t }) {
   }
   let list = [...students].sort(sortFns[sort])
   if (riskOnly) list = list.filter(isAtRisk)
+  const q = query.trim().toLowerCase()
+  if (q) list = list.filter((m) => String(m.name || '').toLowerCase().includes(q))
 
   const exportCsv = () => {
     const csv = (s) => `"${String(s ?? '').replace(/"/g, '""')}"`
@@ -1113,13 +1136,31 @@ function ProfDashboard({ classCode, track, t }) {
             <button onClick={() => window.print()} disabled={!students.length} className="btn-ghost !min-h-0 !py-1.5 text-xs">🖨 {t('printPdf')}</button>
           </div>
         </div>
-        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-          <div><div className="font-display text-2xl font-semibold" style={{ color: 'var(--c-accent)' }}>{students.length}</div><div className="text-[0.65rem] uppercase tracking-wide text-slate-400">{t('membersCount')}</div></div>
-          <div><div className="font-display text-2xl font-semibold" style={{ color: heatColor(classAvg) }}>{classAvg}%</div><div className="text-[0.65rem] uppercase tracking-wide text-slate-400">{t('classAvg')}</div></div>
-          <div><div className="font-display text-2xl font-semibold" style={{ color: atRiskCount ? '#c0392b' : '#16a085' }}>{atRiskCount}</div><div className="text-[0.65rem] uppercase tracking-wide text-slate-400">{t('atRisk')}</div></div>
+        <div className="mt-3 grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
+          <div><div className="font-display text-2xl font-semibold" style={{ color: 'var(--c-accent)' }}>{students.length}</div><div className="text-[0.62rem] uppercase tracking-wide text-slate-400">{t('membersCount')}</div></div>
+          <div><div className="font-display text-2xl font-semibold" style={{ color: heatColor(classAvg) }}>{classAvg}%</div><div className="text-[0.62rem] uppercase tracking-wide text-slate-400">{t('classAvg')}</div></div>
+          <div><div className="font-display text-2xl font-semibold" style={{ color: heatColor(median) }}>{median}%</div><div className="text-[0.62rem] uppercase tracking-wide text-slate-400">{t('medianLabel')}</div></div>
+          <div><div className="font-display text-2xl font-semibold" style={{ color: atRiskCount ? '#c0392b' : '#16a085' }}>{atRiskCount}</div><div className="text-[0.62rem] uppercase tracking-wide text-slate-400">{t('atRisk')}</div></div>
         </div>
-        <p className="mt-2 text-center text-xs text-slate-400">🔥 {activeWk}/{students.length} {t('activeThisWeek')}</p>
+        <div className="mt-3">
+          <div className="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <span>🔥 {t('participation')}</span><span className="font-semibold">{activeWk}/{students.length} · {participation}%</span>
+          </div>
+          <span className="block h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span className="block h-full rounded-full transition-all" style={{ width: `${Math.max(2, participation)}%`, backgroundColor: heatColor(participation) }} /></span>
+        </div>
       </div>
+
+      {/* Recommandations : que faire, tout de suite. */}
+      {insights.length > 0 && (
+        <div className="card p-4" style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--c-accent) 8%, transparent), transparent)' }}>
+          <h3 className="mb-2 flex items-center gap-2 font-display font-semibold">💡 {t('insightsTitle')}</h3>
+          <div className="space-y-1.5">
+            {insights.map((ins, k) => (
+              <div key={k} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-200"><span className="shrink-0" aria-hidden>{ins.icon}</span><span>{ins.text}</span></div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Alerte décrochage : élèves à relancer, nommés, avec la raison. */}
       {atRiskCount > 0 && (
@@ -1144,6 +1185,38 @@ function ProfDashboard({ classCode, track, t }) {
       {status === 'loading' && <Loading />}
       {status === 'error' && <ErrorBox t={t} onRetry={load} />}
       {status === 'ok' && students.length === 0 && <Empty>{t('noMemberYet')}</Empty>}
+
+      {/* Répartition des niveaux + meilleurs élèves */}
+      {students.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="card p-4">
+            <h3 className="mb-2 font-display font-semibold">📈 {t('distributionTitle')}</h3>
+            <div className="flex items-end justify-between gap-2" style={{ height: 96 }}>
+              {dist.map((d) => (
+                <div key={d.label} className="flex flex-1 flex-col items-center justify-end gap-1">
+                  <span className="text-xs font-bold" style={{ color: d.c }}>{d.n}</span>
+                  <span className="w-full rounded-t-md transition-all" style={{ height: `${Math.round((d.n / distMax) * 64) + 2}px`, backgroundColor: d.c, opacity: d.n ? 1 : 0.25 }} />
+                  <span className="text-[0.6rem] text-slate-400">{d.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-1 text-center text-[0.65rem] text-slate-400">% {t('classAvg').toLowerCase()}</p>
+          </div>
+          <div className="card p-4">
+            <h3 className="mb-2 font-display font-semibold">🏆 {t('topStudents')}</h3>
+            <div className="space-y-1.5">
+              {top3.map((m, k) => (
+                <div key={m.device_id} className="flex items-center gap-2 text-sm">
+                  <span className="w-5 shrink-0 text-center text-base">{['🥇', '🥈', '🥉'][k]}</span>
+                  <span className="monogram grid h-7 w-7 shrink-0 place-items-center overflow-hidden text-[0.7rem]">{m.photo ? <img src={m.photo} alt="" className="h-full w-full rounded-full object-cover" /> : initialsOf(m.name)}</span>
+                  <span className="min-w-0 flex-1 truncate font-semibold">{m.name || t('roleStudent')}</span>
+                  <span className="shrink-0 font-semibold" style={{ color: heatColor(memberAvg(m)) }}>{memberAvg(m)}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Carte des lacunes */}
       {lacunes.length > 0 && (
@@ -1170,6 +1243,8 @@ function ProfDashboard({ classCode, track, t }) {
             <h3 className="font-display font-semibold">👥 {t('perStudent')}</h3>
             <label className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400"><input type="checkbox" checked={riskOnly} onChange={(e) => setRiskOnly(e.target.checked)} /> {t('atRiskOnly')}</label>
           </div>
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`🔍 ${t('searchStudent')}`}
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800" aria-label={t('searchStudent')} />
           <div className="flex gap-1.5 overflow-x-auto text-xs">
             <span className="shrink-0 self-center text-slate-400">{t('sortBy')} :</span>
             {SORTS.map((s) => (
