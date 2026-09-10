@@ -3,6 +3,7 @@ import { SUBJECTS, ALL_CHAPTERS, chapterGameCount } from './data/index.js'
 import { BADGES } from './badges.js'
 import { saveProgress, isSignedIn, refreshSession, fetchProfile, getSession } from './auth.js'
 import { srsUpdate, todayKey as srsToday } from './data/srs.js'
+import { dailyRewardFor } from './data/rewards.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
 const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate']
@@ -143,6 +144,7 @@ const StoreCtx = createContext(null)
 export function StoreProvider({ children }) {
   const [state, setState] = useState(load)
   const [newBadges, setNewBadges] = useState([]) // badges à célébrer
+  const [dailyReward, setDailyReward] = useState(null) // récompense de connexion à célébrer
 
   // Persistance à chaque changement.
   useEffect(() => {
@@ -214,6 +216,26 @@ export function StoreProvider({ children }) {
       return { count: s.streak.count + 1, last: t }
     return { count: 1, last: t }
   }
+
+  // Check-in quotidien : à la première ouverture de la journée, on valide un
+  // jour de connexion « d'affilée » et on offre la récompense d'XP du jour
+  // (croissante + gros bonus aux paliers). Une seule fois par jour.
+  const checkIn = useCallback(() => {
+    setState((prev) => {
+      if (!prev.track) return prev // pas encore de filière : rien à récompenser
+      const t = todayKey()
+      if (prev.streak?.last === t) return prev // déjà validé aujourd'hui
+      const wasYesterday = prev.streak?.last && daysBetween(prev.streak.last, t) === 1
+      const count = wasYesterday ? (prev.streak.count || 0) + 1 : 1
+      const reward = dailyRewardFor(count)
+      const next = structuredCloneSafe(prev)
+      next.streak = { count, last: t }
+      next.xp += reward.xp
+      setDailyReward({ count, ...reward })
+      return evaluateBadges(next)
+    })
+  }, [evaluateBadges])
+  const clearDailyReward = useCallback(() => setDailyReward(null), [])
 
   const recordResult = useCallback(
     ({ chapterId, gameId, quiz = false, pct, correct = 0, total = 0, xp = 0 }) => {
@@ -382,6 +404,9 @@ export function StoreProvider({ children }) {
     state,
     derived,
     newBadges,
+    dailyReward,
+    checkIn,
+    clearDailyReward,
     recordResult,
     setBacDate,
     addXp,

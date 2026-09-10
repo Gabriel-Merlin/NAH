@@ -243,6 +243,7 @@ export default function Layout({ children }) {
       {custOpen && <Customizer onClose={() => setCustOpen(false)} />}
       {a11yOpen && <Accessibility onClose={() => setA11yOpen(false)} />}
       <BadgeToast />
+      <DailyRewardModal />
       <InstallBanner />
       <ReminderScheduler />
       <Welcome />
@@ -483,6 +484,36 @@ function BadgeToast() {
         </button>
       </div>
     </>
+  )
+}
+
+// Récompense de connexion : au premier lancement de la journée, on valide le
+// jour d'affilée et on offre l'XP (célébration + gros bonus aux paliers).
+function DailyRewardModal() {
+  const { state, dailyReward, checkIn, clearDailyReward } = useStore()
+  const t = useT()
+  useEffect(() => { if (state.track) checkIn() }, [state.track, checkIn])
+  if (!dailyReward) return null
+  const { count, xp, milestone } = dailyReward
+  return createPortal(
+    <>
+      <Confetti show />
+      <div className="no-print fixed inset-0 z-[80] flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" onClick={clearDailyReward}>
+        <div className="w-full max-w-xs animate-bounce-in rounded-3xl bg-white p-6 text-center shadow-2xl dark:bg-slate-900" onClick={(e) => e.stopPropagation()}>
+          <div className="text-5xl">{milestone ? milestone.icon : '🔥'}</div>
+          <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-amber-500">{t('dailyRewardTitle')}</p>
+          <h2 className="mt-1 font-display text-2xl font-bold">{count} {t(count > 1 ? 'daysStreakP' : 'daysStreakS')}</h2>
+          <div className="my-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-lg font-extrabold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>
+            +{xp} XP
+          </div>
+          {milestone
+            ? <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">🎉 {t('milestoneReached')} : {milestone.label} !</p>
+            : <p className="text-sm text-slate-500 dark:text-slate-400">{t('comeBackTomorrow')}</p>}
+          <button onClick={clearDailyReward} className="btn-primary mt-5 w-full" style={{ backgroundColor: 'var(--c-accent)' }}>{t('awesome')}</button>
+        </div>
+      </div>
+    </>,
+    document.body,
   )
 }
 

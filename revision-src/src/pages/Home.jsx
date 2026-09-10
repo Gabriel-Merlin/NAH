@@ -2,6 +2,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom'
 import { getChapter } from '../data/index.js'
 import { subjectsForTrack, trackLabel, trackIcon } from '../data/tracks.js'
 import { useStore, subjectScore } from '../store.jsx'
+import { nextMilestone } from '../data/rewards.js'
 import { ProgressBar, Ring, Icon } from '../components/ui.jsx'
 import { useT } from '../i18n.js'
 
@@ -110,6 +111,33 @@ export default function Home() {
           <button onClick={randomChapter} className="btn gap-1.5 !py-2.5 text-[#f4ecd8]" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 45%, transparent)' }}><Icon.Dice size={16} /> {t('randomChapter')}</button>
         </div>
       </section>
+
+      {/* Série de connexion : récompenses XP pour les jours d'affilée */}
+      {(() => {
+        const streak = state.streak?.count || 0
+        const claimedToday = state.streak?.last === new Date().toISOString().slice(0, 10)
+        const nm = nextMilestone(streak)
+        return (
+          <section className="card card-lux flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
+            <div className="flex min-w-0 flex-1 items-center gap-3">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-2xl" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 16%, transparent)' }} aria-hidden>🔥</span>
+              <div className="min-w-0">
+                <p className="font-display font-semibold leading-tight">{t('loginStreak')} · {streak} {t(streak > 1 ? 'daysStreakP' : 'daysStreakS')}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{claimedToday ? `✓ ${t('rewardClaimedToday')}` : t('rewardComeToday')}</p>
+              </div>
+            </div>
+            {nm && (
+              <div className="sm:w-56">
+                <div className="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span className="truncate">{nm.icon} {nm.label} · <span className="font-semibold" style={{ color: 'var(--c-accent)' }}>+{nm.xp} XP</span></span>
+                  <span className="shrink-0 pl-2">{nm.daysLeft} {t(nm.daysLeft > 1 ? 'daysLeftP' : 'daysLeftS')}</span>
+                </div>
+                <ProgressBar value={nm.pct} color="var(--c-accent)" />
+              </div>
+            )}
+          </section>
+        )
+      })()}
 
       {/* Mes matières — le cœur des révisions, juste sous l'accueil */}
       <section>
