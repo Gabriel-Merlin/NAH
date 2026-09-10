@@ -238,6 +238,10 @@ export default function Layout({ children }) {
         </div>
       </footer>
 
+      {/* Barre d'onglets en bas (application) : espace réservé + barre fixe. */}
+      {state.track && <div aria-hidden className="no-print" style={{ height: 'calc(env(safe-area-inset-bottom) + 4.25rem)' }} />}
+      {state.track && <BottomNav />}
+
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
       {dictOpen && <Dictionary onClose={() => setDictOpen(false)} />}
       {custOpen && <Customizer onClose={() => setCustOpen(false)} />}
@@ -471,7 +475,7 @@ function BadgeToast() {
   return (
     <>
       <Confetti show={!!current} />
-      <div className="no-print fixed inset-x-0 bottom-6 z-[70] flex justify-center px-4" role="status">
+      <div className="no-print fixed inset-x-0 bottom-24 z-[70] flex justify-center px-4" role="status">
         <button
           onClick={() => dismissBadge(current)}
           className="flex animate-bounce-in items-center gap-3 rounded-2xl bg-slate-900 px-5 py-3 text-left text-white shadow-2xl ring-1 ring-white/10 dark:bg-white dark:text-slate-900"
@@ -485,6 +489,50 @@ function BadgeToast() {
         </button>
       </div>
     </>
+  )
+}
+
+// Barre d'onglets fixée en bas (style application) : accès direct aux sections
+// principales. L'onglet actif est déduit de l'URL courante.
+function BottomNav() {
+  const t = useT()
+  const { pathname } = useLocation()
+  const tabs = [
+    { to: '/accueil', icon: '🏠', label: t('home'), match: ['/accueil'] },
+    { to: '/revision', icon: '📚', label: t('reviseTab'), match: ['/revision', '/subject', '/bac-blanc', '/programme', '/coach', '/grand-oral'] },
+    { to: '/boutique', icon: '🛍️', label: t('shop'), match: ['/boutique'] },
+    { to: '/amis', icon: '🤝', label: t('friends'), match: ['/amis'] },
+    { to: '/classement', icon: '🏆', label: t('leaderboard'), match: ['/classement', '/classe'] },
+  ]
+  const active = (m) => m.some((x) => pathname === x || pathname.startsWith(x + '/'))
+  return (
+    <nav
+      className="no-print fixed inset-x-0 bottom-0 z-40 border-t backdrop-blur"
+      style={{
+        backgroundColor: 'color-mix(in srgb, var(--c-bg) 90%, transparent)',
+        borderColor: 'color-mix(in srgb, var(--c-accent) 24%, transparent)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
+      aria-label={t('home')}
+    >
+      <div className="mx-auto flex max-w-lg items-stretch justify-around px-1">
+        {tabs.map((tab) => {
+          const on = active(tab.match)
+          return (
+            <Link
+              key={tab.to}
+              to={tab.to}
+              aria-current={on ? 'page' : undefined}
+              className="flex flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-semibold transition"
+              style={{ color: on ? 'var(--c-accent)' : undefined }}
+            >
+              <span className="text-[1.35rem] leading-none" aria-hidden>{tab.icon}</span>
+              <span className={on ? '' : 'text-slate-500 dark:text-slate-400'}>{tab.label}</span>
+            </Link>
+          )
+        })}
+      </div>
+    </nav>
   )
 }
 
