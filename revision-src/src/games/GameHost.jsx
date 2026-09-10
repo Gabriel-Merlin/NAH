@@ -114,12 +114,12 @@ export default function GameHost({ game, chapterId, color, quiz = false, onExit 
     return (
       <div className="card animate-pop-in p-6 text-center">
         <Confetti show={great} />
-        <div className="text-5xl">{great ? '🎉' : result.pct >= 50 ? '👍' : '💪'}</div>
+        <div className="animate-bounce-in text-5xl">{great ? '🎉' : result.pct >= 50 ? '👍' : '💪'}</div>
         <h3 className="mt-2 text-xl font-bold">{game.title}</h3>
-        <div className="my-3 text-4xl font-extrabold" style={{ color }}>{result.pct}%</div>
+        <div className="score-pop my-3 text-4xl font-extrabold" style={{ color }}>{result.pct}%</div>
         <div className="mb-1"><Stars count={stars} size="text-2xl" /></div>
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          {result.correct} / {result.total} {t('goodAnswers')} · <span className="font-semibold text-violet-600 dark:text-violet-400">+{result.xp} XP</span>
+          {result.correct} / {result.total} {t('goodAnswers')} · <span className="pop-badge font-semibold text-violet-600 dark:text-violet-400">+{result.xp} XP</span>
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           <button onClick={replay} className="btn-primary" style={{ backgroundColor: color }}>{t('replay')}</button>

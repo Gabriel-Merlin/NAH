@@ -65,7 +65,7 @@ export default function Saisie({ game, mode, color, onDone }) {
         spellCheck={false}
         placeholder={t('yourAnswer')}
         className={`w-full rounded-xl border-2 bg-white px-3 py-3 text-lg font-semibold outline-none dark:bg-slate-800 ${
-          checked ? (ok ? 'border-emerald-400' : 'border-rose-400') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
+          checked ? (ok ? 'border-emerald-400 correct-pop' : 'border-rose-400 animate-shake') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
         }`}
         aria-label={t('yourAnswer')}
       />

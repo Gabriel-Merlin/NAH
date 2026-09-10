@@ -229,6 +229,47 @@ button, a { transition: transform 0.15s cubic-bezier(0.22, 0.68, 0.24, 1); }
   a.card:active, button.card:active, button:not(.card):active { transition: none; transform: none; }
 }
 
+/* ---------------------------------------------------------------------------
+   Mini-animations des exercices : apparition en cascade des choix, réaction
+   « bonne / mauvaise réponse », petites pastilles ✅/❌ qui rebondissent, et
+   score/gains qui « éclosent ». Le tout reste discret et se désactive si
+   l'utilisateur a demandé « moins d'animations ».
+--------------------------------------------------------------------------- */
+@keyframes choice-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.choice-in { animation: choice-in 0.3s cubic-bezier(0.22, 0.68, 0.24, 1) both; }
+
+/* Bonne réponse : léger « pop » + halo vert qui s'estompe. */
+@keyframes correct-pop {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, #10b981 40%, transparent); }
+  40%  { transform: scale(1.03); box-shadow: 0 0 0 5px color-mix(in srgb, #10b981 22%, transparent); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+.correct-pop { animation: correct-pop 0.55s cubic-bezier(0.34, 1.56, 0.5, 1) both; }
+
+/* Pastille ✅ / ❌ qui rebondit à l'apparition. */
+@keyframes pop-badge {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.pop-badge { display: inline-block; animation: pop-badge 0.42s cubic-bezier(0.34, 1.56, 0.5, 1) both; }
+
+/* Score / gains d'XP qui éclosent à la fin d'un jeu. */
+@keyframes score-pop {
+  0%   { transform: scale(0.55); opacity: 0; }
+  55%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.score-pop { animation: score-pop 0.55s cubic-bezier(0.34, 1.56, 0.5, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .choice-in, .correct-pop, .pop-badge, .score-pop,
+  .animate-shake, .animate-bounce-in, .animate-pop-in, .animate-slide-up { animation: none !important; }
+}
+
 /* Barre de défilement discrète */
 * {
   scrollbar-width: thin;

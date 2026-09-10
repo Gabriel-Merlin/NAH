@@ -69,24 +69,26 @@ export default function Qcm({ game, mode, color, onDone }) {
       <div className="grid gap-2.5">
         {q.choices.map((c, idx) => {
           let cls = 'border-slate-200 bg-white hover:border-violet-300 dark:border-slate-700 dark:bg-slate-800'
+          let anim = ''
           if (answered) {
-            if (c.correct) cls = 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/40'
-            else if (idx === picked) cls = 'border-rose-400 bg-rose-50 dark:bg-rose-950/40'
+            if (c.correct) { cls = 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/40'; anim = 'correct-pop' }
+            else if (idx === picked) { cls = 'border-rose-400 bg-rose-50 dark:bg-rose-950/40'; anim = 'animate-shake' }
             else cls = 'border-slate-200 bg-white opacity-60 dark:border-slate-700 dark:bg-slate-800'
           }
           return (
             <button
-              key={idx}
+              key={`${i}-${idx}`}
               onClick={() => choose(idx)}
               disabled={answered}
-              className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3 text-left text-[15px] transition ${cls}`}
+              style={answered ? undefined : { animationDelay: `${idx * 55}ms` }}
+              className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3 text-left text-[15px] transition ${cls} ${answered ? anim : 'choice-in'}`}
             >
               <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-slate-100 text-xs font-bold dark:bg-slate-700">
                 {String.fromCharCode(65 + idx)}
               </span>
               <span>{c.text}</span>
-              {answered && c.correct && <span className="ml-auto">✅</span>}
-              {answered && !c.correct && idx === picked && <span className="ml-auto">❌</span>}
+              {answered && c.correct && <span className="pop-badge ml-auto">✅</span>}
+              {answered && !c.correct && idx === picked && <span className="pop-badge ml-auto">❌</span>}
             </button>
           )
         })}

@@ -53,8 +53,8 @@ export default function VraiFaux({ game, mode, color, onDone }) {
 
   const btnClass = (val, baseIdle) => {
     if (!answered) return baseIdle
-    if (q.answer === val) return 'bg-emerald-500 text-white'
-    if (picked === val) return 'bg-rose-500 text-white'
+    if (q.answer === val) return 'bg-emerald-500 text-white correct-pop'
+    if (picked === val) return 'bg-rose-500 text-white animate-shake'
     return 'bg-slate-100 text-slate-400 dark:bg-slate-800'
   }
 

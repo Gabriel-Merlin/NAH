@@ -58,7 +58,7 @@ export function Feedback({ ok, children }) {
       }`}
       role="status"
     >
-      <span className="mr-1 font-bold">{ok ? `✅ ${t('feedbackGood')}` : `❌ ${t('feedbackBad')}`}</span>
+      <span className="mr-1 font-bold"><span className="pop-badge mr-1">{ok ? '✅' : '❌'}</span>{ok ? t('feedbackGood') : t('feedbackBad')}</span>
       {children}
     </div>
   )
