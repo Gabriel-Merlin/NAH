@@ -171,6 +171,13 @@ export function StoreProvider({ children }) {
     root.classList.toggle('dark', !!prefersDark)
   }, [state.theme])
 
+  // Langue de l'interface + sens de lecture (arabe = droite à gauche).
+  useEffect(() => {
+    const root = document.documentElement
+    root.lang = state.lang || 'fr'
+    root.dir = state.lang === 'ar' ? 'rtl' : 'ltr'
+  }, [state.lang])
+
   // Apparence personnalisée : on pose (ou retire) les variables CSS sur <html>
   // (couleurs, polices, arrondi, taille du texte). `avatar` n'est pas une
   // variable CSS (géré dans les composants), on l'ignore ici.

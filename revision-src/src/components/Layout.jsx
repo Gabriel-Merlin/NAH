@@ -16,7 +16,7 @@ import { signOut } from '../auth.js'
 import { useFocus } from '../focus.jsx'
 import { useInstall } from '../pwa.js'
 
-const LANGS = [{ code: 'fr', label: 'Français' }, { code: 'en', label: 'English' }, { code: 'es', label: 'Español' }]
+const LANGS = [{ code: 'fr', label: 'Français' }, { code: 'en', label: 'English' }, { code: 'es', label: 'Español' }, { code: 'it', label: 'Italiano' }, { code: 'ar', label: 'العربية' }]
 
 export default function Layout({ children }) {
   const { state, derived, setTheme, setLang, logout } = useStore()
@@ -556,7 +556,7 @@ function DailyRewardModal() {
             +{xp} XP
           </div>
           {milestone
-            ? <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">🎉 {t('milestoneReached')} : {milestone.label} !</p>
+            ? <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">🎉 {milestone.icon} {t('milestoneReached')} !</p>
             : <p className="text-sm text-slate-500 dark:text-slate-400">{t('comeBackTomorrow')}</p>}
           <button onClick={clearDailyReward} className="btn-primary mt-5 w-full" style={{ backgroundColor: 'var(--c-accent)' }}>{t('awesome')}</button>
         </div>

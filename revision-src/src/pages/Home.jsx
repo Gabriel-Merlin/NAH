@@ -94,7 +94,7 @@ export default function Home() {
         <hr className="rule-gold relative my-5" />
 
         <div className="relative flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-[#d8cca8]">
-          <span className="sm:hidden"><span className="font-semibold text-[#f0e2b8]">{trackProgress}%</span> de progression</span>
+          <span className="sm:hidden"><span className="font-semibold text-[#f0e2b8]">{trackProgress}%</span> {t('progression')}</span>
           <span><span className="font-display text-lg text-[#f0e2b8]">{t('level')} {derived.level}</span></span>
           <span>{state.xp} XP</span>
           <span className="inline-flex items-center gap-1"><Icon.Flame size={14} /> {state.streak.count} {t('streakDays')}</span>
@@ -129,7 +129,7 @@ export default function Home() {
             {nm && (
               <div className="sm:w-56">
                 <div className="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                  <span className="truncate">{nm.icon} {nm.label} · <span className="font-semibold" style={{ color: 'var(--c-accent)' }}>+{nm.xp} XP</span></span>
+                  <span className="truncate">{nm.icon} {nm.day} {t(nm.day > 1 ? 'daysStreakP' : 'daysStreakS')} · <span className="font-semibold" style={{ color: 'var(--c-accent)' }}>+{nm.xp} XP</span></span>
                   <span className="shrink-0 pl-2">{nm.daysLeft} {t(nm.daysLeft > 1 ? 'daysLeftP' : 'daysLeftS')}</span>
                 </div>
                 <ProgressBar value={nm.pct} color="var(--c-accent)" />

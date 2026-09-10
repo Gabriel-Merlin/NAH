@@ -6,7 +6,7 @@
 // ultérieur et pour ménager les quotas.
 import { GLOSSARY } from './data/glossary.js'
 
-export const LANGS = { fr: 'Français', en: 'English', es: 'Español' }
+export const LANGS = { fr: 'Français', en: 'English', es: 'Español', it: 'Italiano', ar: 'العربية' }
 
 // Index du glossaire : pour chaque langue, map mot(minuscule) → entrée.
 const index = { fr: new Map(), en: new Map(), es: new Map() }
