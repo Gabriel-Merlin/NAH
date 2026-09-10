@@ -190,10 +190,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Communauté & progression — classe, amis, badges, favoris */}
+      {/* Communauté & progression — boutique, classe, amis, badges, favoris */}
       <section>
         <SectionHead title={t('secCommunity')} />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <Tile to="/boutique" icon="🛍️" label={t('shop')} sub={`🪙 ${state.coins || 0}`} accent="#c8a24e" />
           <Tile to="/classe" icon="👥" label={t('myClass')} sub={state.classCode || t('joinClassShort')} accent="#0d9488" />
           <Tile to="/amis" icon="🤝" label={t('friends')} accent="#6366f1" />
           <Tile to="/badges" icon="🏅" label={t('badges')} sub={`${state.badges.length} ${t(state.badges.length > 1 ? 'earnedP' : 'earnedM')}`} accent="#a855f7" />

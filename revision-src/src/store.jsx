@@ -6,7 +6,7 @@ import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -43,6 +43,10 @@ function mergeProgress(a, b) {
   }
   out.srs = srs
   out.bacDate = a.bacDate || b.bacDate || null
+  // Boutique : on garde le meilleur solde, l'union des articles, le max de gels.
+  out.coins = Math.max(a.coins || 0, b.coins || 0)
+  out.owned = Array.from(new Set([...(a.owned || []), ...(b.owned || [])]))
+  out.freezes = Math.max(a.freezes || 0, b.freezes || 0)
   return out
 }
 
@@ -92,6 +96,9 @@ const emptyState = () => ({
   reminder: { on: false, time: '18:00' }, // rappel de révision (local)
   grandOral: { spec: '', q1: '', q2: '', notes: '' }, // préparation du Grand Oral (local)
   examSeen: {}, // bac blanc : { [sélection]: [clés d'énoncés déjà tombés] } (local)
+  coins: 0, // pièces 🪙 dépensables en boutique (gagnées avec l'XP)
+  owned: [], // ids d'articles cosmétiques achetés (boutique)
+  freezes: 0, // gels de série disponibles (protègent la série un jour manqué)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -225,13 +232,26 @@ export function StoreProvider({ children }) {
       if (!prev.track) return prev // pas encore de filière : rien à récompenser
       const t = todayKey()
       if (prev.streak?.last === t) return prev // déjà validé aujourd'hui
-      const wasYesterday = prev.streak?.last && daysBetween(prev.streak.last, t) === 1
-      const count = wasYesterday ? (prev.streak.count || 0) + 1 : 1
-      const reward = dailyRewardFor(count)
+      const gap = prev.streak?.last ? daysBetween(prev.streak.last, t) : null
       const next = structuredCloneSafe(prev)
+      let count
+      let usedFreeze = false
+      if (gap === 1) {
+        count = (prev.streak.count || 0) + 1
+      } else if (gap === 2 && (prev.freezes || 0) > 0) {
+        // Un seul jour manqué mais l'élève possède un gel de série : on préserve
+        // la série (on consomme un gel).
+        count = (prev.streak.count || 0) + 1
+        next.freezes = (prev.freezes || 0) - 1
+        usedFreeze = true
+      } else {
+        count = 1
+      }
+      const reward = dailyRewardFor(count)
       next.streak = { count, last: t }
       next.xp += reward.xp
-      setDailyReward({ count, ...reward })
+      next.coins = (next.coins || 0) + reward.xp // pièces gagnées à la connexion
+      setDailyReward({ count, ...reward, usedFreeze })
       return evaluateBadges(next)
     })
   }, [evaluateBadges])
@@ -245,6 +265,7 @@ export function StoreProvider({ children }) {
         if (quiz) ch.quiz = Math.max(ch.quiz || 0, Math.round(pct))
         else ch.games[gameId] = Math.max(ch.games[gameId] || 0, Math.round(pct))
         next.xp += Math.round(xp)
+        next.coins = (next.coins || 0) + Math.round(xp) // pièces gagnées avec l'XP
         next.totalAnswers += total
         next.correctAnswers += correct
         next.streak = bumpStreak(next)
@@ -385,7 +406,35 @@ export function StoreProvider({ children }) {
 
   // Programme : date du bac. XP direct (bac blanc, révision libre).
   const setBacDate = useCallback((bacDate) => setState((p) => ({ ...p, bacDate: bacDate || null })), [])
-  const addXp = useCallback((n) => setState((p) => evaluateBadges({ ...p, xp: p.xp + Math.max(0, Math.round(n) || 0) })), [evaluateBadges])
+  const addXp = useCallback((n) => setState((p) => {
+    const g = Math.max(0, Math.round(n) || 0)
+    return evaluateBadges({ ...p, xp: p.xp + g, coins: (p.coins || 0) + g })
+  }), [evaluateBadges])
+
+  // Boutique : acheter un article. Renvoie true si l'achat a réussi.
+  const buy = useCallback((item) => {
+    if (!item) return false
+    let ok = false
+    setState((p) => {
+      const price = item.price || 0
+      const already = item.type !== 'consumable' && (p.owned || []).includes(item.id)
+      if (already || (p.coins || 0) < price) return p
+      ok = true
+      const next = { ...p, coins: (p.coins || 0) - price }
+      if (item.type === 'consumable' && item.grant === 'freeze') next.freezes = (p.freezes || 0) + 1
+      else next.owned = Array.from(new Set([...(p.owned || []), item.id]))
+      return next
+    })
+    return ok
+  }, [])
+
+  // Équiper un article cosmétique déjà acheté (palette de couleurs ou avatar).
+  const equip = useCallback((item) => setState((p) => {
+    if (!item || !(p.owned || []).includes(item.id)) return p
+    if (item.type === 'palette') return { ...p, customTheme: { ...(p.customTheme || {}), ...item.theme } }
+    if (item.type === 'avatar') return { ...p, customTheme: { ...(p.customTheme || {}), avatar: item.avatar } }
+    return p
+  }), [])
   const setA11y = useCallback((patch) => setState((p) => ({ ...p, a11y: { ...(p.a11y || {}), ...patch } })), [])
   const setReminder = useCallback((patch) => setState((p) => ({ ...p, reminder: { ...(p.reminder || {}), ...patch } })), [])
   const setGrandOral = useCallback((patch) => setState((p) => ({ ...p, grandOral: { ...(p.grandOral || {}), ...patch } })), [])
@@ -407,6 +456,8 @@ export function StoreProvider({ children }) {
     dailyReward,
     checkIn,
     clearDailyReward,
+    buy,
+    equip,
     recordResult,
     setBacDate,
     addXp,
