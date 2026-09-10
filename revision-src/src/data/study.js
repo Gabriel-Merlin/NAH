@@ -54,7 +54,7 @@ export function reviewStats(queue, today = todayKey()) {
 }
 
 // --- Bac blanc : assemblage de questions QCM à partir des matières ----------
-function collectQuestions(themeId) {
+export function collectQuestions(themeId) {
   const th = ALL_CHAPTERS[themeId]
   if (!th) return []
   const out = []

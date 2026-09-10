@@ -313,6 +313,7 @@ function MobileMenu({ className = '', state, isDark, standalone, lang, first, la
               </div>
             )}
             {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
+            <Item icon="🤖" label={t('coachAI')} to="/coach-ia" />
             <Item icon="🛍️" label={t('shop')} to="/boutique" />
             <Item icon="🤝" label={t('friends')} to="/amis" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />

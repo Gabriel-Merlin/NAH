@@ -181,10 +181,11 @@ export default function Home() {
       {/* Réviser & réussir — outils regroupés en tuiles compactes */}
       <section>
         <SectionHead title={t('secRevise')} />
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <Tile to="/coach-ia" icon="🤖" label={t('coachAI')} sub={t('aiTraining')} accent="#0ea5e9" />
           <Tile to="/revision" icon="🧠" label={t('smartRevision')} sub={t('priorityList')} accent="#7c3aed" />
           <Tile to="/bac-blanc" icon="📝" label={t('mockExam')} sub="/20 · ⏱" accent="#e11d48" />
-          <Tile to="/programme" icon="📅" label={t('studyPlan')} sub={t('todayGoals')} accent="#0ea5e9" />
+          <Tile to="/programme" icon="📅" label={t('studyPlan')} sub={t('todayGoals')} accent="#0284c7" />
           <Tile to="/coach" icon="🎯" label={t('coach')} accent="#f59e0b" />
           <Tile to="/grand-oral" icon="🎓" label={t('grandOral')} accent="#8a6d1e" />
         </div>
