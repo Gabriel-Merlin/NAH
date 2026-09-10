@@ -24,6 +24,7 @@ export default function Layout({ children }) {
   const lang = useLang()
   const focus = useFocus()
   const { standalone } = useInstall() // masque le guide d'installation dans l'app installée
+  const { pathname } = useLocation()
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
   const [custOpen, setCustOpen] = useState(false)
@@ -39,6 +40,10 @@ export default function Layout({ children }) {
     window.addEventListener('stmg-open-a11y', openA11y)
     return () => { window.removeEventListener('stmg-open-customizer', openCust); window.removeEventListener('stmg-open-a11y', openA11y) }
   }, [])
+  // À chaque changement de page, on remonte en haut : l'élève découvre toujours
+  // la nouvelle page depuis son début (navigation intuitive).
+  useEffect(() => { try { window.scrollTo(0, 0) } catch { /* */ } }, [pathname])
+
   const isDark =
     state.theme === 'dark' ||
     (state.theme == null && typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
@@ -216,7 +221,9 @@ export default function Layout({ children }) {
         <Breadcrumb />
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 pb-16 pt-4">{children}</main>
+      <main className="mx-auto max-w-4xl px-4 pb-16 pt-4">
+        <div key={pathname} className="page-enter">{children}</div>
+      </main>
 
       <footer className="no-print border-t" style={{ borderColor: 'color-mix(in srgb, var(--c-accent) 20%, transparent)', backgroundColor: 'color-mix(in srgb, var(--c-bg) 88%, var(--c-accent) 5%)' }}>
         <div className="mx-auto max-w-4xl px-4 py-8">
@@ -523,10 +530,15 @@ function BottomNav() {
               key={tab.to}
               to={tab.to}
               aria-current={on ? 'page' : undefined}
-              className="flex flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-semibold transition"
+              className="flex flex-1 flex-col items-center gap-1 py-1.5 text-[10px] font-semibold"
               style={{ color: on ? 'var(--c-accent)' : undefined }}
             >
-              <span className="text-[1.35rem] leading-none" aria-hidden>{tab.icon}</span>
+              <span
+                className="tab-pill grid place-items-center rounded-full leading-none"
+                style={{ padding: on ? '0.25rem 0.85rem' : '0.25rem 0.35rem', backgroundColor: on ? 'color-mix(in srgb, var(--c-accent) 16%, transparent)' : 'transparent' }}
+              >
+                <span className="tab-icon text-[1.3rem] leading-none" style={{ transform: on ? 'translateY(-1px) scale(1.08)' : 'none' }} aria-hidden>{tab.icon}</span>
+              </span>
               <span className={on ? '' : 'text-slate-500 dark:text-slate-400'}>{tab.label}</span>
             </Link>
           )

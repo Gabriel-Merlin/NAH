@@ -187,6 +187,48 @@
   .animate-lux { animation-duration: 0.01ms; }
 }
 
+/* ---------------------------------------------------------------------------
+   Transitions & micro-interactions : une animation à chaque navigation, un
+   retour tactile net sur les éléments cliquables, et une fluidité optimale
+   (transformations accélérées GPU). Tout est désactivé si l'utilisateur a
+   demandé « moins d'animations ».
+--------------------------------------------------------------------------- */
+/* Transition d'entrée rejouée à chaque changement de page (clé = URL). */
+@keyframes page-enter {
+  from { opacity: 0; transform: translate3d(0, 9px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.page-enter { animation: page-enter 0.33s cubic-bezier(0.22, 0.68, 0.24, 1) both; }
+
+/* Toutes les cartes s'animent en douceur (survol/toucher). */
+.card { transition: transform 0.18s cubic-bezier(0.22, 0.68, 0.24, 1), box-shadow 0.22s ease, border-color 0.22s ease; }
+/* Retour tactile : les cartes cliquables s'enfoncent au toucher. */
+a.card:active, button.card:active { transform: scale(0.98); }
+
+/* Retour tactile générique sur les autres éléments interactifs. */
+button:not(.card):active, [role="button"]:active, a.btn-ghost:active { transform: scale(0.97); }
+button, a { transition: transform 0.15s cubic-bezier(0.22, 0.68, 0.24, 1); }
+
+/* Supprime le flash gris au toucher (mobile) pour un rendu plus propre. */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Anneau de focus clair au clavier (navigation intuitive + accessibilité). */
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--c-accent) 72%, transparent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Onglet actif de la barre du bas : pastille + icône qui « respirent ». */
+.tab-pill { transition: background-color 0.22s ease, padding 0.22s cubic-bezier(0.22, 0.68, 0.24, 1); }
+.tab-icon { transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.5, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter { animation-duration: 0.01ms; }
+  .card, button, a, .tab-pill, .tab-icon,
+  a.card:active, button.card:active, button:not(.card):active { transition: none; transform: none; }
+}
+
 /* Barre de défilement discrète */
 * {
   scrollbar-width: thin;
