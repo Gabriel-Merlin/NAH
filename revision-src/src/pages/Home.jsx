@@ -63,15 +63,24 @@ export default function Home() {
   let dateLabel = ''
   try { dateLabel = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date()) } catch { /* ignore */ }
 
+  // Couleur du bandeau d'accueil : personnalisable (customTheme.banner). On la
+  // fond dans une base sombre pour garder le texte clair toujours lisible, quelle
+  // que soit la teinte choisie. Sans choix, on garde l'écrin « sombre & or ».
+  const banner = state.customTheme?.banner || null
+  const bannerTint = banner || 'var(--c-accent)'
+  const bannerBg = banner
+    ? `linear-gradient(140deg, color-mix(in srgb, ${banner} 46%, #14110c) 0%, color-mix(in srgb, ${banner} 22%, #1b1610) 55%, #14110c 100%)`
+    : 'linear-gradient(140deg, color-mix(in srgb, var(--c-accent) 14%, #17130d) 0%, #221d15 55%, #17130d 100%)'
+
   return (
     <div className="animate-lux space-y-7">
       {/* Écrin personnalisé — cover sombre & or, à l'effigie de l'accueil */}
       <section
         className="card-lux relative overflow-hidden rounded-[1.6rem] p-6 text-[#f4ecd8] sm:p-8"
-        style={{ background: 'linear-gradient(140deg, color-mix(in srgb, var(--c-accent) 14%, #17130d) 0%, #221d15 55%, #17130d 100%)', border: '1px solid color-mix(in srgb, var(--c-accent) 30%, transparent)' }}
+        style={{ background: bannerBg, border: `1px solid color-mix(in srgb, ${bannerTint} 30%, transparent)` }}
       >
-        <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--c-accent) 32%, transparent), transparent 70%)' }} />
-        <span aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--c-accent) 18%, transparent), transparent 70%)' }} />
+        <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full" style={{ background: `radial-gradient(circle, color-mix(in srgb, ${bannerTint} 32%, transparent), transparent 70%)` }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full" style={{ background: `radial-gradient(circle, color-mix(in srgb, ${bannerTint} 18%, transparent), transparent 70%)` }} />
 
         <div className="relative flex items-center gap-4 sm:gap-5">
           {(photo || mono) && (
@@ -80,14 +89,14 @@ export default function Home() {
             </span>
           )}
           <div className="min-w-0 flex-1">
-            <p className="kicker" style={{ color: 'color-mix(in srgb, var(--c-accent) 62%, #fff)' }}>{trackLabel(state.track)}</p>
+            <p className="kicker" style={{ color: `color-mix(in srgb, ${bannerTint} 62%, #fff)` }}>{trackLabel(state.track)}</p>
             <h1 className="font-display text-[1.7rem] font-medium leading-[1.15] text-[#faf3e1] sm:text-[2.15rem]">
-              {greeting}{firstName ? <>, <span style={{ color: 'color-mix(in srgb, var(--c-accent) 55%, #fff)' }}>{firstName}</span></> : ''}
+              {greeting}{firstName ? <>, <span style={{ color: `color-mix(in srgb, ${bannerTint} 55%, #fff)` }}>{firstName}</span></> : ''}
             </h1>
-            {dateLabel && <p className="mt-1 text-xs capitalize tracking-wide text-[#b8a878]">{dateLabel}</p>}
+            {dateLabel && <p className="mt-1 text-xs capitalize tracking-wide" style={{ color: `color-mix(in srgb, ${bannerTint} 42%, #cfc3a0)` }}>{dateLabel}</p>}
           </div>
           <div className="hidden shrink-0 sm:block">
-            <Ring value={trackProgress} color="var(--c-accent)" size={84} label={`${trackProgress}%`} />
+            <Ring value={trackProgress} color={bannerTint} size={84} label={`${trackProgress}%`} />
           </div>
         </div>
 

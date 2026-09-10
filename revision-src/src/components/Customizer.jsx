@@ -51,6 +51,9 @@ const SIZES = [
   { key: 'sizeXl', v: '19px' },
 ]
 const AVATARS = ['🦉', '🎓', '⭐', '🚀', '🐱', '🦊', '🐧', '🌸', '🔥', '💎', '🎨', '📚', '🧠', '⚡', '🌈', '🏆', '🍀', '🎯', '🦁', '🌙', '☀️', '🐢', '🦄', '🐨']
+// Teintes proposées pour le bandeau d'accueil (« Bonsoir … »). Fondues dans une
+// base sombre → le texte clair reste lisible quelle que soit la couleur.
+const BANNER_PRESETS = ['#c8a24e', '#2b6cb0', '#0f766e', '#7c3aed', '#db2777', '#ea580c', '#dc2626', '#0891b2']
 
 export default function Customizer({ onClose }) {
   const { state, setCustomTheme, resetCustomTheme, setTabs, setTheme, setPhoto, setAccount, setClassCode } = useStore()
@@ -264,6 +267,37 @@ export default function Customizer({ onClose }) {
                 </label>
               ))}
             </div>
+          </div>
+
+          {/* Bandeau d'accueil (« Bonsoir … », date) */}
+          <div>
+            <p className="kicker mb-2">{t('secBanner')}</p>
+            <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">{t('bannerHint')}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {BANNER_PRESETS.map((c) => {
+                const active = (ct.banner || '').toLowerCase() === c.toLowerCase()
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setCustomTheme({ banner: c })}
+                    className="h-9 w-9 rounded-full transition hover:-translate-y-0.5"
+                    style={{
+                      background: `linear-gradient(140deg, color-mix(in srgb, ${c} 55%, #14110c), #14110c)`,
+                      boxShadow: active ? '0 0 0 2px #fff, 0 0 0 4px var(--c-accent)' : 'inset 0 0 0 1px rgba(255,255,255,.28)',
+                    }}
+                    aria-label={c}
+                  />
+                )
+              })}
+              <label className="grid h-9 w-9 cursor-pointer place-items-center rounded-full text-sm" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 40%, transparent)' }} title={t('bannerHint')}>
+                🎨
+                <input type="color" value={ct.banner || '#c8a24e'} onChange={(e) => setCustomTheme({ banner: e.target.value })} className="sr-only" aria-label={t('secBanner')} />
+              </label>
+            </div>
+            <button type="button" onClick={() => setCustomTheme({ banner: null })} className="mt-3 text-xs font-semibold text-slate-400 underline hover:text-[#98761f] dark:hover:text-[#d9bd77]">
+              {t('bannerReset')}
+            </button>
           </div>
 
           {/* Typographie */}
