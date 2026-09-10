@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
-import { Feedback, GameProgress, useStopwatch, answerMatches, shuffle } from './common.jsx'
+import { Feedback, GameProgress, useStopwatch, answerMatches, normalize, shuffle } from './common.jsx'
 import { useT } from '../i18n.js'
 
 // Jeu « à toi d'écrire la réponse » : une question, l'élève saisit sa réponse,
@@ -34,7 +34,19 @@ export default function Saisie({ game, mode, color, onDone }) {
     }
   }
 
-  const shownAnswer = [q.answer, ...(q.alt || [])].filter(Boolean).join(' / ')
+  // Réponse affichée : le terme attendu + les variantes réellement utiles.
+  // On masque les doublons et les variantes déjà contenues dans la réponse
+  // principale (ex. « PGI » dans « PGI / ERP ») pour un affichage propre.
+  const nAns = normalize(q.answer)
+  const shownAnswer = [q.answer, ...(q.alt || [])]
+    .filter(Boolean)
+    .filter((a, idx, arr) => {
+      const na = normalize(a)
+      if (arr.slice(0, idx).some((b) => normalize(b) === na)) return false // doublon
+      if (idx > 0 && nAns.includes(na)) return false // déjà dans la réponse principale
+      return true
+    })
+    .join(' / ')
 
   return (
     <div className="card p-5">

@@ -229,6 +229,28 @@ function sectionPairs(sec) {
 
 // Fabrique un exercice « à écrire » (type saisie) à partir d'items
 // { prompt, answer, alt?, explain }. Réponses courtes uniquement (saisissables).
+// À partir d'un terme (« PGI / ERP », « Système d'information (SIG) »), dérive
+// les réponses acceptées en plus du terme complet : chaque variante séparée par
+// « / » ou « ou », et l'acronyme entre parenthèses. Ainsi « PGI » seul est
+// accepté quand la réponse attendue est « PGI / ERP ». (On ne découpe jamais sur
+// « , » ni sur les chiffres pour ne pas casser les dates ou les nombres.)
+function termVariants(term) {
+  const raw = String(term || '').trim()
+  if (!raw) return []
+  const out = new Set()
+  const push = (s) => {
+    const v = String(s || '').replace(/\s+/g, ' ').replace(/[;,.]+$/, '').trim()
+    if (v && v.toLowerCase() !== raw.toLowerCase()) out.add(v)
+  }
+  push(raw.replace(/\s*\([^)]*\)/g, ' ')) // le terme sans ses parenthèses
+  for (const part of raw.split(/\s*(?:\/| ou )\s*/i)) {
+    push(part.replace(/\s*\([^)]*\)/g, ' ')) // « PGI (ERP) » → « PGI »
+    const m = part.match(/\(([^)]+)\)/) // acronyme entre parenthèses → « ERP »
+    if (m) push(m[1])
+  }
+  return [...out]
+}
+
 function saisieFromItems(items, id, title, icon = '⌨️') {
   const qs = shuffle(items)
     .filter((x) => x.answer && String(x.answer).trim().length > 0 && String(x.answer).length <= 40)
@@ -305,7 +327,7 @@ function sectionExercises(sec, theme, idx) {
     if (vf) out.push(vf)
 
     const shortTerms = defPairs.filter((p) => p.term.length <= 32)
-    const sTerm = saisieFromItems(shortTerms.map((p) => ({ prompt: `Quel terme correspond à cette définition ?\n« ${p.def} »`, answer: p.term, explain: `${p.term} : ${p.def}` })), `${base}::sterm`, 'Écris le terme — ce chapitre', '🔤')
+    const sTerm = saisieFromItems(shortTerms.map((p) => ({ prompt: `Quel terme correspond à cette définition ?\n« ${p.def} »`, answer: p.term, alt: termVariants(p.term), explain: `${p.term} : ${p.def}` })), `${base}::sterm`, 'Écris le terme — ce chapitre', '🔤')
     if (sTerm) out.push(sTerm)
 
     if (defPairs.length >= 3) {
