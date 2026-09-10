@@ -99,6 +99,7 @@ const emptyState = () => ({
   coins: 0, // pièces 🪙 dépensables en boutique (gagnées avec l'XP)
   owned: [], // ids d'articles cosmétiques achetés (boutique)
   freezes: 0, // gels de série disponibles (protègent la série un jour manqué)
+  tabs: null, // onglets choisis pour la barre du bas (null = par défaut)
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -336,7 +337,7 @@ export function StoreProvider({ children }) {
   // Les préférences d'affichage (langue, thème) restent locales.
   const logout = useCallback(() => setState((p) => {
     if (p.account?.id) { try { saveProgress(pickProgress(p)) } catch { /* best effort */ } }
-    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder, grandOral: p.grandOral, examSeen: p.examSeen }
+    return { ...emptyState(), lang: p.lang, theme: p.theme, customTheme: p.customTheme, a11y: p.a11y, reminder: p.reminder, grandOral: p.grandOral, examSeen: p.examSeen, tabs: p.tabs }
   }), [])
 
   // Restaure la progression du compte (fusion avec l'éventuel local du même
@@ -387,6 +388,9 @@ export function StoreProvider({ children }) {
     customTheme: patch ? { ...(p.customTheme || {}), ...patch } : null,
   })), [])
   const resetCustomTheme = useCallback(() => setState((p) => ({ ...p, customTheme: null })), [])
+
+  // Onglets de la barre du bas : liste d'ids (voir navTabs.js) ou null = défaut.
+  const setTabs = useCallback((tabs) => setState((p) => ({ ...p, tabs: Array.isArray(tabs) && tabs.length ? tabs : null })), [])
 
   // Inscription : applique en une fois le profil, la filière, les chapitres
   // choisis (favoris « à revoir ») et le point de reprise, puis évalue les
@@ -487,6 +491,7 @@ export function StoreProvider({ children }) {
     hydrateProgress,
     setCustomTheme,
     resetCustomTheme,
+    setTabs,
     applyOnboarding,
     resetAll,
     dismissBadge,

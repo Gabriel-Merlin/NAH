@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStore, levelFromXp } from '../store.jsx'
 import { getSubject, getChapter, search } from '../data/index.js'
+import { ALL_TABS, resolveTabs } from '../navTabs.js'
 import { badgeById } from '../badges.js'
 import { Confetti, Icon } from './ui.jsx'
 import Welcome from './Welcome.jsx'
@@ -504,14 +505,11 @@ function BadgeToast() {
 // principales. L'onglet actif est déduit de l'URL courante.
 function BottomNav() {
   const t = useT()
+  const { state } = useStore()
   const { pathname } = useLocation()
-  const tabs = [
-    { to: '/accueil', icon: '🏠', label: t('home'), match: ['/accueil'] },
-    { to: '/revision', icon: '📚', label: t('reviseTab'), match: ['/revision', '/subject', '/bac-blanc', '/programme', '/coach', '/grand-oral'] },
-    { to: '/boutique', icon: '🛍️', label: t('shop'), match: ['/boutique'] },
-    { to: '/amis', icon: '🤝', label: t('friends'), match: ['/amis'] },
-    { to: '/classement', icon: '🏆', label: t('leaderboard'), match: ['/classement', '/classe'] },
-  ]
+  // Onglets choisis par l'élève (personnalisables), nettoyés puis résolus vers
+  // leur définition (icône, libellé, destination, préfixes d'URL actifs).
+  const tabs = resolveTabs(state.tabs).map((id) => ({ id, ...ALL_TABS[id] }))
   const active = (m) => m.some((x) => pathname === x || pathname.startsWith(x + '/'))
   return (
     <nav
@@ -528,7 +526,7 @@ function BottomNav() {
           const on = active(tab.match)
           return (
             <Link
-              key={tab.to}
+              key={tab.id}
               to={tab.to}
               aria-current={on ? 'page' : undefined}
               className="flex flex-1 flex-col items-center gap-1 py-1.5 text-[10px] font-semibold"
@@ -540,7 +538,7 @@ function BottomNav() {
               >
                 <span className="tab-icon text-[1.3rem] leading-none" style={{ transform: on ? 'translateY(-1px) scale(1.08)' : 'none' }} aria-hidden>{tab.icon}</span>
               </span>
-              <span className={on ? '' : 'text-slate-500 dark:text-slate-400'}>{tab.label}</span>
+              <span className={on ? '' : 'text-slate-500 dark:text-slate-400'}>{t(tab.labelKey)}</span>
             </Link>
           )
         })}

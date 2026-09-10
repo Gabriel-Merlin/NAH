@@ -91,15 +91,17 @@ export default function GameHost({ game, chapterId, color, quiz = false, onExit 
         <h3 className="mb-1 font-display text-xl font-semibold">{game.title}</h3>
         <p className="mb-5 text-sm text-slate-500 dark:text-slate-400">{t('chooseMode')}</p>
         <div className="grid gap-3 sm:grid-cols-2">
-          <button onClick={() => setMode('train')} className="rounded-2xl p-4 text-left ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:ring-slate-300 dark:ring-slate-800 dark:hover:ring-slate-700" style={{ background: '#fffdf8' }}>
-            <div className="text-slate-400"><Icon.Brain size={22} /></div>
+          <button onClick={() => setMode('train')} className="rounded-2xl p-4 text-left ring-1 transition hover:-translate-y-0.5"
+            style={{ background: 'var(--c-card)', color: 'var(--c-ink)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-ink) 14%, transparent)' }}>
+            <div style={{ color: 'color-mix(in srgb, var(--c-ink) 45%, transparent)' }}><Icon.Brain size={22} /></div>
             <div className="mt-2 font-display text-lg font-semibold">{t('training')}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">{t('trainingDesc')}</div>
+            <div className="text-xs" style={{ color: 'color-mix(in srgb, var(--c-ink) 62%, transparent)' }}>{t('trainingDesc')}</div>
           </button>
-          <button onClick={() => setMode('defi')} className="rounded-2xl p-4 text-left ring-1 ring-violet-300/70 transition hover:-translate-y-0.5 hover:ring-violet-400 dark:ring-violet-500/40" style={{ background: 'linear-gradient(135deg,#fbf5e6,#fffdf8)' }}>
-            <div className="text-violet-500 dark:text-violet-400"><Icon.Timer size={22} /></div>
+          <button onClick={() => setMode('defi')} className="rounded-2xl p-4 text-left ring-1 transition hover:-translate-y-0.5"
+            style={{ background: 'color-mix(in srgb, var(--c-accent) 12%, var(--c-card))', color: 'var(--c-ink)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 42%, transparent)' }}>
+            <div style={{ color: 'var(--c-accent)' }}><Icon.Timer size={22} /></div>
             <div className="mt-2 font-display text-lg font-semibold">{t('challenge')}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">{t('challengeDesc')}</div>
+            <div className="text-xs" style={{ color: 'color-mix(in srgb, var(--c-ink) 62%, transparent)' }}>{t('challengeDesc')}</div>
           </button>
         </div>
       </div>
