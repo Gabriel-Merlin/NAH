@@ -11,7 +11,7 @@ export default function Chapter() {
   const { sid, tid, cidx } = useParams()
   const subject = getSubject(sid)
   const theme = getChapter(tid)
-  const { state } = useStore()
+  const { state, saveDeck } = useStore()
   const { standalone } = useInstall() // flashcards réservées à l'app installée
   const t = useT()
   const gameLabel = useGameLabel()
@@ -97,6 +97,30 @@ export default function Chapter() {
 
       {/* Cours du chapitre */}
       <CourseSection sec={chapter.section} color={color} sectionIdx={chapter.idx} themeId={tid} subjectId={sid} />
+
+      {/* Flashcards à télécharger dans « Révision » (application installée) */}
+      {standalone && (() => {
+        const deck = games.find((g) => g.type === 'flashcard')
+        if (!deck) return null
+        const saved = (state.savedDecks || []).some((d) => d.id === deck.id)
+        return (
+          <section className="no-print card card-lux flex items-center gap-3 p-4">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>🃏</span>
+            <div className="min-w-0 flex-1">
+              <p className="font-display font-semibold leading-tight">{t('downloadDeckTitle')}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{deck.cards.length} {t('cardsCount')} · {t('downloadDeckHint')}</p>
+            </div>
+            <button
+              onClick={() => saveDeck({ id: deck.id, title: `${theme.short || theme.name} · ${chapter.title}`, subjectId: sid, themeId: tid, color, cards: deck.cards })}
+              disabled={saved}
+              className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-60"
+              style={{ backgroundColor: saved ? undefined : color }}
+            >
+              {saved ? `✓ ${t('deckSaved')}` : `⬇️ ${t('downloadDeck')}`}
+            </button>
+          </section>
+        )
+      })()}
 
       {/* Jeux de ce chapitre */}
       {games.length > 0 && (

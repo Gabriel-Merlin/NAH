@@ -1,8 +1,10 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { reviewQueue, reviewStats } from '../data/study.js'
 import { ProgressBar } from '../components/ui.jsx'
+import { isStandalone } from '../pwa.js'
+import Flashcards from '../games/Flashcards.jsx'
 import { useT } from '../i18n.js'
 
 const REASON = {
@@ -13,9 +15,10 @@ const REASON = {
 }
 
 export default function Revise() {
-  const { state, derived } = useStore()
+  const { state, derived, addXp, removeDeck } = useStore()
   const t = useT()
   const navigate = useNavigate()
+  const [playing, setPlaying] = useState(null) // paquet de flashcards en cours de révision
   if (!state.track) return <Navigate to="/" replace />
 
   const queue = useMemo(() => reviewQueue(state, state.track), [state])
@@ -72,7 +75,46 @@ export default function Revise() {
         })}
       </section>
 
+      {/* Mes flashcards téléchargées (application installée uniquement) */}
+      <section className="space-y-2.5">
+        <h2 className="px-1 font-display text-lg font-medium">🃏 {t('myDecks')}</h2>
+        {!isStandalone() ? (
+          <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('decksAppOnly')}</div>
+        ) : (state.savedDecks || []).length === 0 ? (
+          <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('noDeckYet')}</div>
+        ) : (
+          (state.savedDecks || []).map((d) => (
+            <div key={d.id} className="card flex items-center gap-3 p-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
+              <button onClick={() => setPlaying(d)} className="min-w-0 flex-1 text-left">
+                <span className="block truncate text-sm font-semibold">{d.title}</span>
+                <span className="block text-xs text-slate-400">{d.cards.length} {t('cardsCount')}</span>
+              </button>
+              <button onClick={() => setPlaying(d)} className="btn-primary shrink-0 !min-h-0 !py-2 text-sm text-white" style={{ backgroundColor: d.color || 'var(--c-accent)' }}>▶ {t('review')}</button>
+              <button onClick={() => removeDeck(d.id)} aria-label={t('remove')} title={t('remove')} className="shrink-0 text-slate-400 transition hover:text-rose-500">🗑</button>
+            </div>
+          ))
+        )}
+      </section>
+
       <p className="text-center text-xs text-slate-400">{t('masteredThemes')} : <span className="font-semibold" style={{ color: 'var(--c-accent)' }}>{derived.chaptersMastered}</span></p>
+
+      {/* Lecteur de flashcards (paquet téléchargé) */}
+      {playing && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/50 p-4 pt-10 backdrop-blur-sm" onClick={() => setPlaying(null)}>
+          <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-2 flex items-center justify-between text-white">
+              <span className="truncate font-display text-lg">{playing.title}</span>
+              <button onClick={() => setPlaying(null)} className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-slate-600 shadow" aria-label={t('quit')}>✕</button>
+            </div>
+            <Flashcards
+              game={{ cards: playing.cards }}
+              color={playing.color || '#7c3aed'}
+              onDone={({ correct = 0 }) => { try { addXp(Math.min(10, correct)) } catch { /* */ } setPlaying(null) }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

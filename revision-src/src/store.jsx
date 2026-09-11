@@ -6,7 +6,7 @@ import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -55,6 +55,14 @@ function mergeProgress(a, b) {
   const tt = { ...(a.themeTime || {}) }
   for (const [tid, s] of Object.entries(b.themeTime || {})) tt[tid] = (tt[tid] || 0) + (s || 0)
   out.themeTime = tt
+  // Flashcards téléchargées : union par id (on garde la version la plus récente).
+  const decks = new Map()
+  for (const d of [...(a.savedDecks || []), ...(b.savedDecks || [])]) {
+    if (!d || !d.id) continue
+    const prev = decks.get(d.id)
+    if (!prev || (d.savedAt || 0) >= (prev.savedAt || 0)) decks.set(d.id, d)
+  }
+  out.savedDecks = [...decks.values()]
   return out
 }
 
@@ -110,6 +118,7 @@ const emptyState = () => ({
   tabs: null, // onglets choisis pour la barre du bas (null = par défaut)
   history: {}, // { 'YYYY-MM-DD': xpCumulé } — courbe de progression (120 j max)
   themeTime: {}, // { [themeId]: secondes } — temps de révision par thème
+  savedDecks: [], // paquets de flashcards téléchargés (app) : { id, title, subjectId, themeId, cards, savedAt }
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -412,6 +421,18 @@ export function StoreProvider({ children }) {
     setState((p) => ({ ...p, themeTime: { ...(p.themeTime || {}), [themeId]: (p.themeTime?.[themeId] || 0) + s } }))
   }, [])
 
+  // Flashcards téléchargées (app) : espace « Révision ». On ajoute/actualise un
+  // paquet (par id) et on plafonne la bibliothèque. removeDeck le retire.
+  const saveDeck = useCallback((deck) => {
+    if (!deck || !deck.id || !Array.isArray(deck.cards) || !deck.cards.length) return
+    setState((p) => {
+      const rest = (p.savedDecks || []).filter((d) => d.id !== deck.id)
+      const entry = { id: deck.id, title: deck.title || 'Flashcards', subjectId: deck.subjectId || null, themeId: deck.themeId || null, color: deck.color || null, cards: deck.cards.map((c) => ({ front: c.front, back: c.back })), savedAt: Date.now() }
+      return { ...p, savedDecks: [entry, ...rest].slice(0, 60) }
+    })
+  }, [])
+  const removeDeck = useCallback((id) => setState((p) => ({ ...p, savedDecks: (p.savedDecks || []).filter((d) => d.id !== id) })), [])
+
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
     ...p,
@@ -523,6 +544,8 @@ export function StoreProvider({ children }) {
     resetCustomTheme,
     setTabs,
     addThemeTime,
+    saveDeck,
+    removeDeck,
     applyOnboarding,
     resetAll,
     dismissBadge,
