@@ -6,7 +6,7 @@ import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks', 'dailyChallenge']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -63,6 +63,10 @@ function mergeProgress(a, b) {
     if (!prev || (d.savedAt || 0) >= (prev.savedAt || 0)) decks.set(d.id, d)
   }
   out.savedDecks = [...decks.values()]
+  // Défi du jour : on garde la date la plus récente et la meilleure série.
+  const ad = a.dailyChallenge || {}, bd = b.dailyChallenge || {}
+  const recent = (bd.last || '') > (ad.last || '') ? bd : ad
+  out.dailyChallenge = { last: recent.last || null, streak: recent.streak || 0, best: Math.max(ad.best || 0, bd.best || 0), lastBonus: recent.lastBonus || 0 }
   return out
 }
 
@@ -119,6 +123,7 @@ const emptyState = () => ({
   history: {}, // { 'YYYY-MM-DD': xpCumulé } — courbe de progression (120 j max)
   themeTime: {}, // { [themeId]: secondes } — temps de révision par thème
   savedDecks: [], // paquets de flashcards téléchargés (app) : { id, title, subjectId, themeId, cards, savedAt }
+  dailyChallenge: { last: null, streak: 0, best: 0, lastBonus: 0 }, // défi du jour (série + récompense)
 })
 
 // Objectif hebdomadaire : nombre de chapitres distincts à travailler dans la
@@ -448,6 +453,19 @@ export function StoreProvider({ children }) {
   // Onglets de la barre du bas : liste d'ids (voir navTabs.js) ou null = défaut.
   const setTabs = useCallback((tabs) => setState((p) => ({ ...p, tabs: Array.isArray(tabs) && tabs.length ? tabs : null })), [])
 
+  // Défi du jour : à la fin du défi, une seule récompense par jour. La série
+  // augmente si le défi de la veille a été relevé, sinon elle repart à 1.
+  const completeDailyChallenge = useCallback((pct = 0) => setState((p) => {
+    const day = todayKey()
+    const dc = p.dailyChallenge || { last: null, streak: 0, best: 0 }
+    if (dc.last === day) return p // déjà relevé aujourd'hui
+    const gap = dc.last ? daysBetween(dc.last, day) : null
+    const streak = gap === 1 ? (dc.streak || 0) + 1 : 1
+    const best = Math.max(dc.best || 0, streak)
+    const bonus = 30 + Math.round((Math.max(0, Math.min(100, pct)) / 100) * 30) + Math.min(30, streak * 3)
+    return evaluateBadges({ ...p, xp: p.xp + bonus, coins: (p.coins || 0) + bonus, dailyChallenge: { last: day, streak, best, lastBonus: bonus } })
+  }), [evaluateBadges])
+
   // Objectif de la semaine : réclamer la récompense quand l'objectif de chapitres
   // travaillés est atteint (une seule fois par semaine ISO).
   const claimWeekly = useCallback(() => setState((p) => {
@@ -563,6 +581,7 @@ export function StoreProvider({ children }) {
     saveDeck,
     removeDeck,
     claimWeekly,
+    completeDailyChallenge,
     applyOnboarding,
     resetAll,
     dismissBadge,

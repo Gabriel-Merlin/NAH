@@ -148,6 +148,26 @@ export default function Home() {
         )
       })()}
 
+      {/* Défi du jour */}
+      {(() => {
+        const done = state.dailyChallenge?.last === new Date().toISOString().slice(0, 10)
+        const dstreak = state.dailyChallenge?.streak || 0
+        return (
+          <Link to="/defi" className="card card-lux flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-2xl" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 16%, transparent)' }} aria-hidden>⚡</span>
+            <div className="min-w-0 flex-1">
+              <p className="font-display font-semibold leading-tight">{t('dailyChallenge')}{dstreak > 0 ? ` · 🔥 ${dstreak}` : ''}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{done ? `✅ ${t('challengeDoneToday')}` : t('challengeCardCta')}</p>
+            </div>
+            {done ? (
+              <span className="chip shrink-0 bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">✓</span>
+            ) : (
+              <span className="chip shrink-0 text-white" style={{ background: 'var(--c-accent)' }}>{t('challengeStart')}</span>
+            )}
+          </Link>
+        )
+      })()}
+
       {/* Mes matières — le cœur des révisions, juste sous l'accueil */}
       <section>
         <div className="mb-3 flex items-center justify-between gap-3 px-1">
