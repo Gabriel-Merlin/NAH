@@ -252,4 +252,24 @@ export const CAS_PRATIQUES = {
       ],
     },
   ],
+  'p1-eco-t5': [
+    {
+      title: 'Le marché et l’élasticité',
+      context: "Sur le marché d'un bien, le prix augmente de 5 %. On observe alors une baisse des quantités demandées de 15 %.",
+      questions: [
+        { q: "Calcule l'élasticité-prix de la demande.", a: '-3', num: true, alt: ['−3'], e: 'e = variation % des quantités / variation % du prix = −15 / +5 = −3.' },
+        { q: 'La demande est-elle « élastique » ou « inélastique » ?', a: 'élastique', alt: ['elastique'], e: '|e| = 3 > 1 : la demande est très sensible au prix, donc élastique.' },
+      ],
+    },
+  ],
+  'eco-t6': [
+    {
+      title: 'Déficit et dette publics',
+      context: "Un pays enregistre un déficit public de 90 milliards € pour un PIB de 3 000 milliards €. Sa dette publique atteint 3 300 milliards €.",
+      questions: [
+        { q: 'Calcule le déficit rapporté au PIB (en %).', a: '3', num: true, e: 'Déficit / PIB = 90 / 3 000 = 3 %.' },
+        { q: 'Calcule le ratio dette / PIB (en %).', a: '110', num: true, e: 'Dette / PIB = 3 300 / 3 000 = 110 %.' },
+      ],
+    },
+  ],
 }

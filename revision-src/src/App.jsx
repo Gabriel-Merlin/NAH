@@ -20,6 +20,7 @@ import CoachAI from './pages/CoachAI.jsx'
 import DailyChallenge from './pages/DailyChallenge.jsx'
 import Express from './pages/Express.jsx'
 import Formulas from './pages/Formulas.jsx'
+import Methodo from './pages/Methodo.jsx'
 import Shop from './pages/Shop.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Faq from './pages/Faq.jsx'
@@ -67,6 +68,7 @@ export default function App() {
         <Route path="/defi" element={<DailyChallenge />} />
         <Route path="/express" element={<Express />} />
         <Route path="/formules" element={<Formulas />} />
+        <Route path="/methodo" element={<Methodo />} />
         <Route path="/boutique" element={<Shop />} />
         <Route path="/confidentialite" element={<Privacy />} />
         <Route path="/faq" element={<Faq />} />

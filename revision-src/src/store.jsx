@@ -6,7 +6,7 @@ import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks', 'dailyChallenge']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks', 'dailyChallenge', 'notes']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -67,6 +67,10 @@ function mergeProgress(a, b) {
   const ad = a.dailyChallenge || {}, bd = b.dailyChallenge || {}
   const recent = (bd.last || '') > (ad.last || '') ? bd : ad
   out.dailyChallenge = { last: recent.last || null, streak: recent.streak || 0, best: Math.max(ad.best || 0, bd.best || 0), lastBonus: recent.lastBonus || 0 }
+  // Notes personnelles : par thème, on garde le texte le plus complet.
+  const notes = { ...(a.notes || {}) }
+  for (const [k, v] of Object.entries(b.notes || {})) if (!notes[k] || (v || '').length > (notes[k] || '').length) notes[k] = v
+  out.notes = notes
   return out
 }
 
@@ -124,6 +128,7 @@ const emptyState = () => ({
   themeTime: {}, // { [themeId]: secondes } — temps de révision par thème
   savedDecks: [], // paquets de flashcards téléchargés (app) : { id, title, subjectId, themeId, cards, savedAt }
   dailyChallenge: { last: null, streak: 0, best: 0, lastBonus: 0 }, // défi du jour (série + récompense)
+  notes: {}, // { [themeId]: texte } — notes personnelles de l'élève par thème
 })
 
 // Objectif hebdomadaire : nombre de chapitres distincts à travailler dans la
@@ -453,6 +458,9 @@ export function StoreProvider({ children }) {
   // Onglets de la barre du bas : liste d'ids (voir navTabs.js) ou null = défaut.
   const setTabs = useCallback((tabs) => setState((p) => ({ ...p, tabs: Array.isArray(tabs) && tabs.length ? tabs : null })), [])
 
+  // Notes personnelles de l'élève sur un thème (remarques, astuces…).
+  const setNote = useCallback((themeId, text) => setState((p) => ({ ...p, notes: { ...(p.notes || {}), [themeId]: text } })), [])
+
   // Défi du jour : à la fin du défi, une seule récompense par jour. La série
   // augmente si le défi de la veille a été relevé, sinon elle repart à 1.
   const completeDailyChallenge = useCallback((pct = 0) => setState((p) => {
@@ -582,6 +590,7 @@ export function StoreProvider({ children }) {
     removeDeck,
     claimWeekly,
     completeDailyChallenge,
+    setNote,
     applyOnboarding,
     resetAll,
     dismissBadge,

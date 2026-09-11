@@ -22,7 +22,7 @@ export default function Theme() {
   const { sid, tid } = useParams()
   const subject = getSubject(sid)
   const theme = getChapter(tid)
-  const { state, setLastChapter, toggleFavorite } = useStore()
+  const { state, setLastChapter, toggleFavorite, setNote } = useStore()
   const t = useT()
   const [searchParams] = useSearchParams()
   const [tab, setTab] = useState(searchParams.get('tab') === 'test' ? 'test' : 'chapitres')
@@ -125,6 +125,18 @@ export default function Theme() {
               </ul>
             </section>
           )}
+          {/* Notes personnelles de l'élève sur ce thème (sauvegardées & synchronisées) */}
+          <section className="card p-4">
+            <h3 className="mb-2 flex items-center gap-2 font-display text-base font-semibold">📝 {t('myNotes')}</h3>
+            <textarea
+              value={state.notes?.[tid] || ''}
+              onChange={(e) => setNote(tid, e.target.value)}
+              rows={4}
+              placeholder={t('myNotesPlaceholder')}
+              className="w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800"
+            />
+            <p className="mt-1.5 text-xs text-slate-400">💾 {t('myNotesHint')}</p>
+          </section>
           <div className="space-y-2.5">
             <p className="px-1 text-sm text-slate-500 dark:text-slate-400">{t('chooseChapter')}</p>
             {chapters.map((c) => (

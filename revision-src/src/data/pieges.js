@@ -102,4 +102,63 @@ export const PIEGES = {
     'La **sécurité** du SI, ce n’est pas que l’antivirus : disponibilité, intégrité, confidentialité, traçabilité (DICT).',
     'Un **mot de passe fort** ne suffit pas : sauvegardes, droits d’accès et sensibilisation comptent aussi.',
   ],
+  // ---- Droit (Terminale) ----
+  'droit-t5': [
+    'Un **contrat** suppose un accord de volontés : sans consentement libre et éclairé, il peut être annulé.',
+    'Ne confonds pas **nullité** (le contrat est anéanti rétroactivement) et **résiliation** (fin pour l’avenir).',
+    'Les **conditions de validité** : consentement, capacité, contenu licite et certain. Une seule manque → contrat fragilisé.',
+  ],
+  'droit-t6': [
+    'Responsabilité **contractuelle** (un contrat existait) ≠ **délictuelle** (aucun contrat entre les parties).',
+    'Pour engager la responsabilité, il faut réunir **fait générateur + dommage + lien de causalité** : les trois, pas un seul.',
+    'Réparer le dommage ≠ punir : la responsabilité civile **indemnise**, elle ne sanctionne pas comme le pénal.',
+  ],
+  'droit-t7': [
+    'CDI et CDD n’obéissent pas aux mêmes règles : le **CDD** est l’exception, encadrée et motivée.',
+    'La **rupture** d’un contrat de travail suit des procédures strictes : un licenciement doit être **justifié** (cause réelle et sérieuse).',
+    'Le **règlement intérieur** ne peut pas contredire la loi ni la convention collective.',
+  ],
+  'droit-t8': [
+    'Choisir une **forme juridique** engage la **responsabilité** : distingue entreprise individuelle et société (patrimoine séparé).',
+    'La **propriété industrielle** (brevet, marque) protège l’innovation : ne la confonds pas avec le droit d’auteur.',
+  ],
+  // ---- Histoire-Géographie (Terminale) ----
+  'hg-h1': [
+    'Ne confonds pas **régime totalitaire** (contrôle total : parti unique, idéologie, terreur) et simple **dictature** autoritaire.',
+    'Attention aux **dates** : distingue clairement les étapes (montée des périls, 1939-1945, génocides).',
+  ],
+  'hg-h2': [
+    'La **Guerre froide** est un affrontement **indirect** (pas de guerre ouverte URSS-USA) : parle de blocs, dissuasion, conflits périphériques.',
+    'Bipolaire ≠ multipolaire : la chute de l’URSS (1991) ouvre un monde à plusieurs pôles, pas la paix universelle.',
+  ],
+  'hg-g1': [
+    'Une **mer** n’est pas qu’un espace naturel : c’est un enjeu économique (ressources, routes) **et** géopolitique (tensions).',
+    'Mondialisation ≠ uniformisation : les espaces maritimes révèlent de fortes **inégalités** d’intégration.',
+  ],
+  'hg-g2': [
+    'La **métropolisation** concentre population, pouvoir et richesses : elle **accentue** les inégalités entre territoires.',
+    'Un territoire « **en marge** » n’est pas « vide » : il a des dynamiques propres (à ne pas caricaturer).',
+  ],
+  // ---- Première — Sciences de gestion & numérique ----
+  'p1-sgn-t1': [
+    'Un **individu** devient **acteur** par son rôle dans l’organisation : ne réduis pas la personne à son statut.',
+    'La **cohésion** d’un groupe ne supprime pas les tensions : elle se construit.',
+  ],
+  'p1-sgn-t3': [
+    'La **valeur** ne se limite pas au prix : distingue valeur financière, perçue et sociale.',
+    'Ne confonds pas **performance** (résultats atteints) et **moyens** engagés : efficacité ≠ efficience.',
+  ],
+  // ---- Première — Droit & Économie ----
+  'p1-droit-t1': [
+    'Le **droit** organise la vie en société par des règles **obligatoires et sanctionnées** : ne le confonds pas avec la morale.',
+    'Distingue **droit objectif** (l’ensemble des règles) et **droits subjectifs** (les prérogatives d’une personne).',
+  ],
+  'p1-eco-t2': [
+    'La **valeur ajoutée** mesure la richesse **créée** : production − consommations intermédiaires (pas le chiffre d’affaires).',
+    'Croissance (variation du PIB) ≠ richesse totale (niveau du PIB) : ne confonds pas le flux et le stock.',
+  ],
+  'p1-eco-t5': [
+    'Sur un **marché**, le prix d’équilibre résulte de la rencontre offre/demande : ce n’est pas l’État qui le fixe (marché concurrentiel).',
+    'Élasticité de la demande : garde le **signe** et raisonne en **pourcentages**, pas en valeurs absolues.',
+  ],
 }

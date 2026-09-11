@@ -4,6 +4,7 @@ import { useStore } from '../store.jsx'
 import { trackLabel } from '../data/tracks.js'
 import { useT } from '../i18n.js'
 import { Ring } from '../components/ui.jsx'
+import AudioRecorder from '../components/AudioRecorder.jsx'
 
 // Banque de questions types du Grand Oral, par spécialité de Terminale STMG.
 // Chaque question s'accompagne d'un « angle » : comment l'aborder.
@@ -306,6 +307,8 @@ export default function GrandOral() {
             </button>
           </div>
         </div>
+
+        <AudioRecorder />
       </section>
 
       {/* ---- Étapes de préparation ---- */}
