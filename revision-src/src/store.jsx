@@ -121,6 +121,11 @@ const emptyState = () => ({
   savedDecks: [], // paquets de flashcards téléchargés (app) : { id, title, subjectId, themeId, cards, savedAt }
 })
 
+// Objectif hebdomadaire : nombre de chapitres distincts à travailler dans la
+// semaine, et récompense (XP + pièces) à réclamer une fois atteint.
+export const WEEKLY_GOAL = 5
+export const WEEKLY_REWARD = 60
+
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
 export function isoWeekKey(d = new Date()) {
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
@@ -443,6 +448,17 @@ export function StoreProvider({ children }) {
   // Onglets de la barre du bas : liste d'ids (voir navTabs.js) ou null = défaut.
   const setTabs = useCallback((tabs) => setState((p) => ({ ...p, tabs: Array.isArray(tabs) && tabs.length ? tabs : null })), [])
 
+  // Objectif de la semaine : réclamer la récompense quand l'objectif de chapitres
+  // travaillés est atteint (une seule fois par semaine ISO).
+  const claimWeekly = useCallback(() => setState((p) => {
+    const wk = isoWeekKey()
+    const w = p.weekly?.week === wk ? p.weekly : { week: wk, done: [] }
+    const count = w.done?.length || 0
+    if (count < WEEKLY_GOAL || w.rewarded === wk) return p
+    const bonus = WEEKLY_REWARD
+    return evaluateBadges({ ...p, xp: p.xp + bonus, coins: (p.coins || 0) + bonus, weekly: { ...w, rewarded: wk } })
+  }), [evaluateBadges])
+
   // Inscription : applique en une fois le profil, la filière, les chapitres
   // choisis (favoris « à revoir ») et le point de reprise, puis évalue les
   // badges (Bienvenue, Feuille de route…).
@@ -546,6 +562,7 @@ export function StoreProvider({ children }) {
     addThemeTime,
     saveDeck,
     removeDeck,
+    claimWeekly,
     applyOnboarding,
     resetAll,
     dismissBadge,

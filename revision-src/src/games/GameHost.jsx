@@ -16,6 +16,7 @@ import TypedGen from './TypedGen.jsx'
 import Comprehension from './Comprehension.jsx'
 import SqlQuery from './SqlQuery.jsx'
 import Saisie from './Saisie.jsx'
+import CasPratique from './CasPratique.jsx'
 
 const COMPONENTS = {
   qcm: Qcm,
@@ -33,6 +34,7 @@ const COMPONENTS = {
   comprehension: Comprehension,
   sql: SqlQuery,
   saisie: Saisie,
+  caspratique: CasPratique,
 }
 
 export const GAME_LABELS = {
@@ -51,10 +53,11 @@ export const GAME_LABELS = {
   comprehension: 'Compréhension',
   sql: 'Requête SQL',
   saisie: 'Réponse à écrire',
+  caspratique: 'Cas pratique chiffré',
 }
 
 // Types sans « mode » (Entraînement / Défi) : on entre directement dans le jeu.
-const NO_MODE = new Set(['doc', 'comprehension', 'sql'])
+const NO_MODE = new Set(['doc', 'comprehension', 'sql', 'caspratique'])
 
 // Jeux « auto-corrigés en continu » où le mode Entraînement montre l'explication
 // après chaque réponse (les autres se corrigent surtout à la fin).

@@ -1,8 +1,9 @@
 import { Link, useParams, Navigate } from 'react-router-dom'
-import { getSubject } from '../data/index.js'
+import { getSubject, deckForSubject } from '../data/index.js'
 import { useStore, chapterScore, starsFromScore, subjectScore } from '../store.jsx'
 import { ProgressBar, Stars } from '../components/ui.jsx'
 import { CourseText } from '../components/Course.jsx'
+import { DeckDownload } from '../components/DeckDownload.jsx'
 import { useT } from '../i18n.js'
 
 export default function Subject() {
@@ -27,6 +28,8 @@ export default function Subject() {
         </div>
       </header>
       <hr className="rule-gold" />
+
+      <DeckDownload deck={deckForSubject(sid)} color={subject.color} label={t('downloadSubjectDeck')} />
 
       <div className="space-y-3">
         {subject.chapters.map((c) => {

@@ -17,6 +17,7 @@ import { LESSONS } from './lessons.js'
 import { DOC_STUDIES } from './docstudies.js'
 import { GAME_SECTION } from './sections.js'
 import { THEME_TERMS, subjectFallbackFor } from './keyterms.js'
+import { CAS_PRATIQUES } from './caspratiques.js'
 
 export const SUBJECTS = [
   gestion,
@@ -108,6 +109,13 @@ export function themeChapters(theme) {
   for (const ch of chapters) {
     const gen = sectionExercises(ch.section, theme, ch.idx)
     for (const g of gen) if (!ch.games.some((x) => x.id === g.id)) ch.games.push(g)
+  }
+  // Mini-cas d'entreprise chiffrés (rédigés à la main) : rattachés en tête du
+  // premier chapitre du thème quand ils existent.
+  const cas = CAS_PRATIQUES[theme.id]
+  if (cas && cas.length && chapters[0]) {
+    const g = { id: `${theme.id}::cas`, type: 'caspratique', title: 'Cas pratiques — scénarios chiffrés', icon: '🧮', cases: cas }
+    if (!chapters[0].games.some((x) => x.id === g.id)) chapters[0].games.unshift(g)
   }
   return chapters
 }
@@ -413,6 +421,45 @@ export function flashcardsForSection(sec, theme, idx) {
   const uniq = cards.filter((c) => { const k = String(c.front).toLowerCase(); if (!c.front || seen.has(k)) return false; seen.add(k); return true })
   if (uniq.length < 3) return null
   return { id: `${theme.id}::${idx}::cards`, type: 'flashcard', title: 'Flashcards — ce chapitre', icon: '🃏', cards: uniq.slice(0, 16) }
+}
+
+// Paquet de flashcards agrégé pour TOUT un thème (toutes ses sections), à
+// télécharger en un clic dans l'espace « Révision » (application installée).
+export function deckForTheme(themeId) {
+  const theme = ALL_CHAPTERS[themeId]
+  if (!theme) return null
+  const seen = new Set()
+  const cards = []
+  for (const ch of themeChapters(theme)) {
+    const fc = flashcardsForSection(ch.section, theme, ch.idx)
+    if (!fc) continue
+    for (const c of fc.cards) {
+      const k = String(c.front || '').toLowerCase().trim()
+      if (!k || seen.has(k)) continue
+      seen.add(k); cards.push({ front: c.front, back: c.back })
+    }
+  }
+  if (cards.length < 3) return null
+  return { id: `${themeId}::deck`, title: theme.short || theme.name, subjectId: theme.subjectId, themeId, color: theme.color, cards: cards.slice(0, 150) }
+}
+
+// Paquet agrégé pour TOUTE une matière (tous ses thèmes).
+export function deckForSubject(subjectId) {
+  const subj = getSubject(subjectId)
+  if (!subj) return null
+  const seen = new Set()
+  const cards = []
+  for (const th of subj.chapters || []) {
+    const d = deckForTheme(th.id)
+    if (!d) continue
+    for (const c of d.cards) {
+      const k = String(c.front || '').toLowerCase().trim()
+      if (!k || seen.has(k)) continue
+      seen.add(k); cards.push(c)
+    }
+  }
+  if (cards.length < 3) return null
+  return { id: `${subjectId}::deck`, title: subj.name, subjectId, themeId: null, color: subj.color, cards: cards.slice(0, 400) }
 }
 
 // Une section a-t-elle déjà un encadré « Définitions clés » écrit à la main ?

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams, Navigate, useSearchParams } from 'react-router-dom'
-import { getChapter, getSubject, themeChapters } from '../data/index.js'
+import { getChapter, getSubject, themeChapters, deckForTheme } from '../data/index.js'
 import { useStore, useThemeTimer, chapterScore, starsFromScore } from '../store.jsx'
 import { ProgressBar, Stars } from '../components/ui.jsx'
 import { Intro, Essentiel, Resources, CourseText } from '../components/Course.jsx'
+import { DeckDownload } from '../components/DeckDownload.jsx'
 import ThemeTest from '../games/ThemeTest.jsx'
 import { useT, useGameLabel } from '../i18n.js'
 
@@ -88,6 +89,7 @@ export default function Theme() {
       {tab === 'chapitres' && (
         <div className="space-y-4">
           <Intro text={theme.intro} color={color} />
+          <DeckDownload deck={deckForTheme(tid)} color={color} label={t('downloadThemeDeck')} />
           <div className="space-y-2.5">
             <p className="px-1 text-sm text-slate-500 dark:text-slate-400">{t('chooseChapter')}</p>
             {chapters.map((c) => (
