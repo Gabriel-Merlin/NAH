@@ -8,6 +8,7 @@
 //  derived : global, bySubject[id], byChapter[id], chaptersMastered,
 //            subjectsPlayed, level
 const perfectQuizzes = (s) => Object.values(s.chapters).filter((c) => (c.quiz || 0) >= 100).length
+const totalTime = (s) => Object.values(s.themeTime || {}).reduce((a, b) => a + (b || 0), 0)
 
 export const BADGES = [
   // ----- Démarrage -----
@@ -377,6 +378,57 @@ export const BADGES = [
     icon: '🌐',
     desc: 'Atteindre 80 % de progression en Langues.',
     check: (s, d) => (d.bySubject['langues'] || 0) >= 80,
+  },
+
+  // ----- Défis, régularité & objectifs -----
+  {
+    id: 'challenger',
+    name: 'Relève-défi',
+    icon: '⚡',
+    desc: 'Relever son premier défi du jour.',
+    check: (s) => !!s.dailyChallenge?.last,
+  },
+  {
+    id: 'defi_week',
+    name: 'Semaine de défis',
+    icon: '🔥',
+    desc: 'Enchaîner 7 défis du jour d’affilée.',
+    check: (s) => (s.dailyChallenge?.best || 0) >= 7,
+  },
+  {
+    id: 'defi_month',
+    name: 'Mois de feu',
+    icon: '☄️',
+    desc: 'Enchaîner 30 défis du jour d’affilée.',
+    check: (s) => (s.dailyChallenge?.best || 0) >= 30,
+  },
+  {
+    id: 'weekly_hero',
+    name: 'Objectif atteint',
+    icon: '🎯',
+    desc: 'Atteindre l’objectif de révision de la semaine.',
+    check: (s) => !!s.weekly?.rewarded,
+  },
+  {
+    id: 'focused',
+    name: 'Concentré',
+    icon: '⏳',
+    desc: 'Cumuler 1 heure de révision.',
+    check: (s) => totalTime(s) >= 3600,
+  },
+  {
+    id: 'marathoner',
+    name: 'Marathonien',
+    icon: '🏃',
+    desc: 'Cumuler 5 heures de révision.',
+    check: (s) => totalTime(s) >= 5 * 3600,
+  },
+  {
+    id: 'collector',
+    name: 'Collectionneur',
+    icon: '🗂️',
+    desc: 'Télécharger 5 paquets de flashcards.',
+    check: (s) => (s.savedDecks?.length || 0) >= 5,
   },
 ]
 

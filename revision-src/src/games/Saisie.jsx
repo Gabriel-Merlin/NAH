@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { Feedback, GameProgress, useStopwatch, answerMatches, normalize, shuffle } from './common.jsx'
+import MicButton from '../components/MicButton.jsx'
 import { useT } from '../i18n.js'
 
 // Jeu « à toi d'écrire la réponse » : une question, l'élève saisit sa réponse,
@@ -52,23 +53,26 @@ export default function Saisie({ game, mode, color, onDone }) {
     <div className="card p-5">
       <GameProgress index={i} total={set.length} color={color} />
       <p className="mb-4 whitespace-pre-line text-[15px] font-medium leading-relaxed">{q.prompt}</p>
-      <input
-        ref={inputRef}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && (checked ? next() : check())}
-        disabled={checked}
-        autoFocus
-        autoComplete="off"
-        autoCapitalize="off"
-        autoCorrect="off"
-        spellCheck={false}
-        placeholder={t('yourAnswer')}
-        className={`w-full rounded-xl border-2 bg-white px-3 py-3 text-lg font-semibold outline-none dark:bg-slate-800 ${
-          checked ? (ok ? 'border-emerald-400 correct-pop' : 'border-rose-400 animate-shake') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
-        }`}
-        aria-label={t('yourAnswer')}
-      />
+      <div className="flex items-stretch gap-2">
+        <input
+          ref={inputRef}
+          value={val}
+          onChange={(e) => setVal(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && (checked ? next() : check())}
+          disabled={checked}
+          autoFocus
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
+          placeholder={t('yourAnswer')}
+          className={`min-w-0 flex-1 rounded-xl border-2 bg-white px-3 py-3 text-lg font-semibold outline-none dark:bg-slate-800 ${
+            checked ? (ok ? 'border-emerald-400 correct-pop' : 'border-rose-400 animate-shake') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
+          }`}
+          aria-label={t('yourAnswer')}
+        />
+        {!checked && <MicButton onResult={(txt) => setVal(txt)} />}
+      </div>
       {!checked ? (
         <div className="mt-4 flex gap-2">
           <button onClick={check} disabled={val.trim() === ''} className="btn-primary flex-1 disabled:opacity-40" style={{ backgroundColor: color }}>{t('check')}</button>

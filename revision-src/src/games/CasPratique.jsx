@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { Feedback, GameProgress, answerMatches, normalize } from './common.jsx'
+import MicButton from '../components/MicButton.jsx'
 import { useT } from '../i18n.js'
 
 // Extrait un nombre d'une saisie : « 3 300 € » → 3300, « 33,3 % » → 33.3.
@@ -79,21 +80,24 @@ export default function CasPratique({ game, color, onDone }) {
       )}
 
       <p className="mb-3 whitespace-pre-line text-[15px] font-semibold leading-relaxed">{q.q}</p>
-      <input
-        ref={inputRef}
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && (checked ? next() : check())}
-        disabled={checked}
-        autoFocus
-        autoComplete="off"
-        inputMode={q.num ? 'decimal' : 'text'}
-        placeholder={t('yourAnswer')}
-        className={`w-full rounded-xl border-2 bg-white px-3 py-3 text-lg font-semibold outline-none dark:bg-slate-800 ${
-          checked ? (ok ? 'border-emerald-400 correct-pop' : 'border-rose-400 animate-shake') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
-        }`}
-        aria-label={t('yourAnswer')}
-      />
+      <div className="flex items-stretch gap-2">
+        <input
+          ref={inputRef}
+          value={val}
+          onChange={(e) => setVal(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && (checked ? next() : check())}
+          disabled={checked}
+          autoFocus
+          autoComplete="off"
+          inputMode={q.num ? 'decimal' : 'text'}
+          placeholder={t('yourAnswer')}
+          className={`min-w-0 flex-1 rounded-xl border-2 bg-white px-3 py-3 text-lg font-semibold outline-none dark:bg-slate-800 ${
+            checked ? (ok ? 'border-emerald-400 correct-pop' : 'border-rose-400 animate-shake') : 'border-violet-300 focus:border-violet-500 dark:border-slate-600'
+          }`}
+          aria-label={t('yourAnswer')}
+        />
+        {!checked && !q.num && <MicButton onResult={(txt) => setVal(txt)} />}
+      </div>
 
       {!checked ? (
         <button onClick={check} disabled={val.trim() === ''} className="btn-primary mt-4 w-full disabled:opacity-40" style={{ backgroundColor: color }}>{t('check')}</button>

@@ -168,6 +168,18 @@ export default function Home() {
         )
       })()}
 
+      {/* Accès rapides : révision express + formulaire */}
+      <div className="grid grid-cols-2 gap-3">
+        <Link to="/express" className="card flex items-center gap-2.5 p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+          <span className="text-2xl" aria-hidden>⏱️</span>
+          <span className="min-w-0"><span className="block text-sm font-semibold leading-tight">{t('expressMode')}</span><span className="block text-xs text-slate-400">{t('expressCardHint')}</span></span>
+        </Link>
+        <Link to="/formules" className="card flex items-center gap-2.5 p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+          <span className="text-2xl" aria-hidden>📐</span>
+          <span className="min-w-0"><span className="block text-sm font-semibold leading-tight">{t('formulasTitle')}</span><span className="block text-xs text-slate-400">{t('formulasCardHint')}</span></span>
+        </Link>
+      </div>
+
       {/* Mes matières — le cœur des révisions, juste sous l'accueil */}
       <section>
         <div className="mb-3 flex items-center justify-between gap-3 px-1">

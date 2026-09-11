@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams, Navigate, useSearchParams } from 'react-router-dom'
 import { getChapter, getSubject, themeChapters, deckForTheme } from '../data/index.js'
+import { buildThemeExam, themeExamSize } from '../data/study.js'
+import { PIEGES } from '../data/pieges.js'
 import { useStore, useThemeTimer, chapterScore, starsFromScore } from '../store.jsx'
 import { ProgressBar, Stars } from '../components/ui.jsx'
+import { Rich } from '../components/ui.jsx'
 import { Intro, Essentiel, Resources, CourseText } from '../components/Course.jsx'
 import { DeckDownload } from '../components/DeckDownload.jsx'
 import ThemeTest from '../games/ThemeTest.jsx'
+import Exam from '../games/Exam.jsx'
 import { useT, useGameLabel } from '../i18n.js'
 
 const TABS = [
@@ -22,6 +26,7 @@ export default function Theme() {
   const t = useT()
   const [searchParams] = useSearchParams()
   const [tab, setTab] = useState(searchParams.get('tab') === 'test' ? 'test' : 'chapitres')
+  const [themeExam, setThemeExam] = useState(null) // questions du bac blanc de thème
   useThemeTimer(tid) // mesure le temps de révision passé sur ce thème
 
   useEffect(() => {
@@ -36,6 +41,14 @@ export default function Theme() {
   const score = chapterScore(state, tid)
   const rec = state.chapters[tid]
   const fav = state.favorites.includes(tid)
+
+  if (themeExam) {
+    return (
+      <div className="space-y-4">
+        <Exam questions={themeExam} durationSec={Math.max(300, themeExam.length * 60)} color={color} onExit={() => setThemeExam(null)} />
+      </div>
+    )
+  }
 
   return (
     <div className="animate-lux space-y-4">
@@ -90,6 +103,28 @@ export default function Theme() {
         <div className="space-y-4">
           <Intro text={theme.intro} color={color} />
           <DeckDownload deck={deckForTheme(tid)} color={color} label={t('downloadThemeDeck')} />
+          {themeExamSize(tid) >= 4 && (
+            <button onClick={() => setThemeExam(buildThemeExam(tid))} className="card card-lux flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>📝</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-display font-semibold leading-tight">{t('themeExam')}</span>
+                <span className="block text-xs text-slate-500 dark:text-slate-400">{t('themeExamSub')}</span>
+              </span>
+              <span className="text-slate-300" aria-hidden>›</span>
+            </button>
+          )}
+          {PIEGES[tid]?.length > 0 && (
+            <section className="rounded-2xl border-2 p-4" style={{ borderColor: '#f59e0b', background: '#f59e0b12' }}>
+              <h3 className="mb-2 flex items-center gap-2 font-display text-base font-semibold text-amber-700 dark:text-amber-300">⚠️ {t('commonMistakes')}</h3>
+              <ul className="space-y-1.5">
+                {PIEGES[tid].map((p, i) => (
+                  <li key={i} className="flex gap-2 text-[14px] leading-relaxed text-slate-700 dark:text-slate-200">
+                    <span className="mt-0.5 shrink-0" style={{ color: '#f59e0b' }}>•</span><span><Rich text={p} /></span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           <div className="space-y-2.5">
             <p className="px-1 text-sm text-slate-500 dark:text-slate-400">{t('chooseChapter')}</p>
             {chapters.map((c) => (

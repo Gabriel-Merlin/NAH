@@ -4,6 +4,7 @@ import { useStore, chapterScore, starsFromScore, subjectScore } from '../store.j
 import { ProgressBar, Stars } from '../components/ui.jsx'
 import { CourseText } from '../components/Course.jsx'
 import { DeckDownload } from '../components/DeckDownload.jsx'
+import { SkillTree } from '../components/SkillTree.jsx'
 import { useT } from '../i18n.js'
 
 export default function Subject() {
@@ -28,6 +29,8 @@ export default function Subject() {
         </div>
       </header>
       <hr className="rule-gold" />
+
+      <SkillTree subject={subject} />
 
       <DeckDownload deck={deckForSubject(sid)} color={subject.color} label={t('downloadSubjectDeck')} />
 

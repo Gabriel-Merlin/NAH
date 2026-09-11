@@ -6,6 +6,7 @@ import { useInstall } from '../pwa.js'
 import { useT } from '../i18n.js'
 import { Ring, Icon } from '../components/ui.jsx'
 import { InstallLock } from '../components/InstallApp.jsx'
+import FocusFullscreen from '../components/FocusFullscreen.jsx'
 
 // --- Bibliothèque de méthodes de révision (contenu en français) -------------
 const METHODS = [
@@ -61,6 +62,7 @@ export default function Coach() {
   const { standalone } = useInstall()
   const [answers, setAnswers] = useState({}) // { [qIndex]: aIndex }
   const [showResults, setShowResults] = useState(false)
+  const [fullscreen, setFullscreen] = useState(false)
 
   if (!state.track) return <Navigate to="/" replace />
 
@@ -154,6 +156,7 @@ export default function Coach() {
               <button onClick={f.skip} disabled={phase === 'idle'} className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">⏭ {t('skipPhase')}</button>
               <button onClick={f.reset} disabled={phase === 'idle' && cycles === 0} className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">↺ {t('resetTimer')}</button>
             </div>
+            <button onClick={() => setFullscreen(true)} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">⛶ {t('focusFullscreen')}</button>
           </div>
 
           {cycles > 0 && (
@@ -256,6 +259,8 @@ export default function Coach() {
           ))}
         </div>
       </section>
+
+      {fullscreen && <FocusFullscreen onClose={() => setFullscreen(false)} />}
     </div>
   )
 }

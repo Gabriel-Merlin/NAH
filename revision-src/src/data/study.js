@@ -112,6 +112,28 @@ function shuffleInPlace(arr) {
   return arr
 }
 
+// Bac blanc d'UN thème : questions QCM du thème, dédoublonnées et mélangées.
+export function buildThemeExam(themeId, count = 12) {
+  const byKey = new Map()
+  for (const q of collectQuestions(themeId)) {
+    const k = (q.q || '').toLowerCase().trim()
+    if (!k || !Array.isArray(q.choices) || q.choices.length < 2) continue
+    if (!byKey.has(k)) byKey.set(k, q)
+  }
+  const arr = shuffleInPlace([...byKey.values()])
+  return arr.slice(0, count).map(shuffleChoices)
+}
+
+// Assez de questions pour un bac blanc de thème ?
+export function themeExamSize(themeId) {
+  const keys = new Set()
+  for (const q of collectQuestions(themeId)) {
+    const k = (q.q || '').toLowerCase().trim()
+    if (k && Array.isArray(q.choices) && q.choices.length >= 2) keys.add(k)
+  }
+  return keys.size
+}
+
 export function examSubjects(track) {
   return subjectsForTrack(track).filter((s) => !s.comingSoon && (s.chapters || []).length)
 }

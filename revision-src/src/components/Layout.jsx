@@ -315,6 +315,8 @@ function MobileMenu({ className = '', state, isDark, standalone, lang, first, la
             )}
             {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
             <Item icon="⚡" label={t('dailyChallenge')} to="/defi" />
+            <Item icon="⏱️" label={t('expressMode')} to="/express" />
+            <Item icon="📐" label={t('formulasTitle')} to="/formules" />
             <Item icon="🤖" label={t('coachAI')} to="/coach-ia" />
             <Item icon="🛍️" label={t('shop')} to="/boutique" />
             <Item icon="🤝" label={t('friends')} to="/amis" />
