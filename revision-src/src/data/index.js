@@ -287,14 +287,42 @@ function ordreFromDates(datePairs, id, title) {
   return { id, type: 'ordre', title, icon: '📶', steps: sorted.map((x) => `${x.d} — ${x.e}`) }
 }
 
+// Reformulations variées d'une même question « notion → définition » : d'un
+// exercice à l'autre, l'élève ne relit plus exactement la même phrase.
+const QDEF_TEMPLATES = [
+  (term) => `Que signifie : « ${term} » ?`,
+  (term) => `Quelle est la bonne définition de « ${term} » ?`,
+  (term) => `« ${term} » : quelle proposition est correcte ?`,
+  (term) => `À quoi correspond « ${term} » ?`,
+]
+
+// Élargit le pool de notions d'une section : ses définitions propres + la banque
+// du thème (décalée selon la section), dédoublonnées par terme. On ne recycle
+// plus les 5 mêmes définitions : le pool est bien plus large, et comme chaque
+// exercice mélange puis tronque ce pool à chaque visite, le contenu change.
+function enrichedDefPool(defPairs, themeId, idx) {
+  const bank = (THEME_TERMS[themeId] || []).map(([term, def]) => ({ term, def }))
+  const start = bank.length ? (idx * 3) % bank.length : 0
+  const rotated = [...bank.slice(start), ...bank.slice(0, start)]
+  const seen = new Set()
+  const out = []
+  for (const p of [...defPairs, ...rotated]) {
+    const k = String(p.term || '').toLowerCase().trim()
+    if (!p.term || !p.def || seen.has(k)) continue
+    seen.add(k); out.push({ term: p.term, def: p.def })
+  }
+  return out
+}
+
 // Génère un ENSEMBLE d'exercices propres au chapitre (jamais de flashcard),
-// tirés uniquement du contenu de SA section. Objectif : quintupler le nombre
-// d'exercices par rapport à l'unique quiz d'avant. Chaque exercice a un id
-// stable et distinct (pour la progression) ; le contenu, lui, est mélangé à
-// chaque partie par les composants — jamais deux fois le même.
+// tirés du contenu de SA section ET de la banque de notions du thème. Objectif :
+// beaucoup d'exercices ET du contenu varié (plusieurs formes de questions, cas
+// concrets). Chaque exercice a un id stable et distinct (pour la progression) ;
+// le contenu, lui, est mélangé/tronqué à chaque partie — jamais deux fois le même.
 function sectionExercises(sec, theme, idx) {
   const base = `${theme.id}::${idx}`
   const { datePairs, defPairs, widePairs } = sectionPairs(sec)
+  const richDefs = enrichedDefPool(defPairs, theme.id, idx)
   const out = []
   const uniqEvents = [...new Set(datePairs.map((p) => p.e))]
 
@@ -308,11 +336,14 @@ function sectionExercises(sec, theme, idx) {
     if (ord) out.push(ord)
   }
 
-  // 2) QCM des notions (jusqu'à 2 séries) + « écris le terme » + association +
-  //    vrai/faux, tous tirés des définitions de la section.
-  if (defPairs.length >= 2) {
-    const defItems = defPairs.map((p) => ({ q: `Que signifie : « ${p.term} » ?`, a: p.def, e: `${p.term} → ${p.def}` }))
-    if (defPairs.length >= 10) {
+  // 2) Notions : pool élargi (section + banque du thème). Plusieurs formes de
+  //    questions, mélangées/tronquées à chaque visite → jamais le même contenu :
+  //    QCM « notion → définition » (formulé de plusieurs façons), « cas concret »
+  //    (situation → notion, sens inverse), vrai/faux, écris le terme, association.
+  if (richDefs.length >= 2) {
+    // QCM notion → définition, avec une formulation qui tourne d'un item à l'autre.
+    const defItems = shuffle(richDefs).map((p, i) => ({ q: QDEF_TEMPLATES[i % QDEF_TEMPLATES.length](p.term), a: p.def, e: `${p.term} → ${p.def}` }))
+    if (defItems.length >= 10) {
       const half = Math.ceil(defItems.length / 2)
       const qa = qcmFromPairs(defItems.slice(0, half), `${base}::qdef0`, 'QCM — notions (série 1)')
       const qb = qcmFromPairs(defItems.slice(half), `${base}::qdef1`, 'QCM — notions (série 2)')
@@ -323,17 +354,23 @@ function sectionExercises(sec, theme, idx) {
       if (qDef && qDef.questions.length >= 3) out.push(qDef)
     }
 
-    const vf = vraiFauxFromDefs(defPairs, `${base}::vf`, 'Vrai ou faux — les notions')
+    // Cas concret : on décrit une situation (la définition) et l'élève retrouve
+    // la bonne notion parmi plusieurs — l'inverse du QCM précédent.
+    const casItems = richDefs.map((p) => ({ q: `Cas concret — on observe : « ${p.def} ». De quelle notion s'agit-il ?`, a: p.term, e: `${p.term} : ${p.def}` }))
+    const qCas = qcmFromPairs(casItems, `${base}::qcas`, 'Cas concrets — trouve la notion')
+    if (qCas && qCas.questions.length >= 3) { qCas.icon = '🧩'; out.push(qCas) }
+
+    const vf = vraiFauxFromDefs(richDefs, `${base}::vf`, 'Vrai ou faux — les notions')
     if (vf) out.push(vf)
 
-    const shortTerms = defPairs.filter((p) => p.term.length <= 32)
+    const shortTerms = richDefs.filter((p) => p.term.length <= 32)
     const sTerm = saisieFromItems(shortTerms.map((p) => ({ prompt: `Quel terme correspond à cette définition ?\n« ${p.def} »`, answer: p.term, alt: termVariants(p.term), explain: `${p.term} : ${p.def}` })), `${base}::sterm`, 'Écris le terme — ce chapitre', '🔤')
     if (sTerm) out.push(sTerm)
 
-    if (defPairs.length >= 3) {
+    if (richDefs.length >= 3) {
       // Association notion ↔ définition (définitions abrégées pour tenir à l'écran).
       const rseen = new Set()
-      const pairs = shuffle(defPairs)
+      const pairs = shuffle(richDefs)
         .map((p) => ({ left: p.term, right: p.def.length > 90 ? p.def.slice(0, 88).replace(/\s\S*$/, '') + '…' : p.def }))
         .filter((p) => { const k = p.right.toLowerCase(); if (rseen.has(k)) return false; rseen.add(k); return true })
         .slice(0, 6)
@@ -366,7 +403,9 @@ function sectionExercises(sec, theme, idx) {
 export function flashcardsForSection(sec, theme, idx) {
   const { defPairs, datePairs } = sectionPairs(sec)
   const cards = []
-  for (const p of defPairs) cards.push({ front: p.term, back: p.def })
+  // Pool élargi (section + banque du thème) pour des cartes variées d'une visite
+  // à l'autre, pas seulement les quelques définitions de la section.
+  for (const p of enrichedDefPool(defPairs, theme.id, idx)) cards.push({ front: p.term, back: p.def })
   for (const p of datePairs) cards.push({ front: p.e, back: p.d })
   if (cards.length < 3) return null
   // Dédoublonnage recto.
