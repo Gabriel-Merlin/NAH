@@ -313,8 +313,27 @@ button, a { transition: transform 0.15s cubic-bezier(0.22, 0.68, 0.24, 1); }
     color: #666;
     text-align: center;
   }
+  /* En-tête de la fiche de révision (visible seulement à l'impression) */
+  .print-only {
+    display: block !important;
+  }
+  .print-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #c8a24e;
+    color: #333;
+    font-size: 12px;
+  }
+  .print-header .print-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+  }
 }
 .print-footer {
+  display: none;
+}
+.print-only {
   display: none;
 }
 

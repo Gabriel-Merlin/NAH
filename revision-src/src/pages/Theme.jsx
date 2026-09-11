@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams, Navigate, useSearchParams } from 'react-router-dom'
 import { getChapter, getSubject, themeChapters } from '../data/index.js'
-import { useStore, chapterScore, starsFromScore } from '../store.jsx'
+import { useStore, useThemeTimer, chapterScore, starsFromScore } from '../store.jsx'
 import { ProgressBar, Stars } from '../components/ui.jsx'
 import { Intro, Essentiel, Resources, CourseText } from '../components/Course.jsx'
 import ThemeTest from '../games/ThemeTest.jsx'
@@ -21,6 +21,7 @@ export default function Theme() {
   const t = useT()
   const [searchParams] = useSearchParams()
   const [tab, setTab] = useState(searchParams.get('tab') === 'test' ? 'test' : 'chapitres')
+  useThemeTimer(tid) // mesure le temps de révision passé sur ce thème
 
   useEffect(() => {
     if (theme) setLastChapter(sid, tid)

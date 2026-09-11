@@ -6,7 +6,7 @@ import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -47,6 +47,14 @@ function mergeProgress(a, b) {
   out.coins = Math.max(a.coins || 0, b.coins || 0)
   out.owned = Array.from(new Set([...(a.owned || []), ...(b.owned || [])]))
   out.freezes = Math.max(a.freezes || 0, b.freezes || 0)
+  // Courbe de progression : par jour, on garde le plus grand XP cumulé.
+  const hist = { ...(a.history || {}) }
+  for (const [d, xp] of Object.entries(b.history || {})) hist[d] = Math.max(hist[d] || 0, xp || 0)
+  out.history = hist
+  // Temps de révision : par thème, on additionne les deux appareils.
+  const tt = { ...(a.themeTime || {}) }
+  for (const [tid, s] of Object.entries(b.themeTime || {})) tt[tid] = (tt[tid] || 0) + (s || 0)
+  out.themeTime = tt
   return out
 }
 
@@ -100,6 +108,8 @@ const emptyState = () => ({
   owned: [], // ids d'articles cosmétiques achetés (boutique)
   freezes: 0, // gels de série disponibles (protègent la série un jour manqué)
   tabs: null, // onglets choisis pour la barre du bas (null = par défaut)
+  history: {}, // { 'YYYY-MM-DD': xpCumulé } — courbe de progression (120 j max)
+  themeTime: {}, // { [themeId]: secondes } — temps de révision par thème
 })
 
 // Clé de semaine ISO (ex. « 2026-W36 ») pour le suivi / classement hebdomadaire.
@@ -382,6 +392,26 @@ export function StoreProvider({ children }) {
     return () => window.removeEventListener('stmg-focus-done', onDone)
   }, [evaluateBadges])
 
+  // Courbe de progression : à chaque changement d'XP, on note l'XP cumulé du
+  // jour (une entrée par jour, 120 jours glissants) pour tracer la progression.
+  useEffect(() => {
+    setState((p) => {
+      const day = todayKey()
+      if ((p.history || {})[day] === p.xp) return p
+      const h = { ...(p.history || {}), [day]: p.xp }
+      const days = Object.keys(h).sort()
+      while (days.length > 120) delete h[days.shift()]
+      return { ...p, history: h }
+    })
+  }, [state.xp])
+
+  // Temps de révision par thème : accumule des secondes actives sur un thème.
+  const addThemeTime = useCallback((themeId, secs) => {
+    const s = Math.round(secs || 0)
+    if (!themeId || s <= 0) return
+    setState((p) => ({ ...p, themeTime: { ...(p.themeTime || {}), [themeId]: (p.themeTime?.[themeId] || 0) + s } }))
+  }, [])
+
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
     ...p,
@@ -492,6 +522,7 @@ export function StoreProvider({ children }) {
     setCustomTheme,
     resetCustomTheme,
     setTabs,
+    addThemeTime,
     applyOnboarding,
     resetAll,
     dismissBadge,
@@ -503,6 +534,41 @@ export function useStore() {
   const ctx = useContext(StoreCtx)
   if (!ctx) throw new Error('useStore doit être utilisé dans <StoreProvider>')
   return ctx
+}
+
+// Compte le temps de révision réellement passé (page au premier plan) sur un
+// thème et l'ajoute au store (par paliers, à la sortie et au passage en arrière-
+// plan). Utilisé par les pages Thème/Chapitre. Ne compte pas l'onglet caché.
+export function useThemeTimer(themeId) {
+  const { addThemeTime } = useStore()
+  useEffect(() => {
+    if (!themeId) return
+    let acc = 0
+    let last = Date.now()
+    let visible = typeof document === 'undefined' ? true : !document.hidden
+    const tick = () => {
+      const now = Date.now()
+      if (visible) acc += (now - last) / 1000
+      last = now
+    }
+    const flush = () => { tick(); if (acc >= 5) { addThemeTime(themeId, acc); acc = 0 } }
+    const onVis = () => {
+      tick()
+      const nowHidden = document.hidden
+      if (nowHidden) flush() // en quittant l'onglet : on enregistre
+      visible = !nowHidden
+      last = Date.now()
+    }
+    const id = setInterval(() => { tick(); if (acc >= 30) flush() }, 5000)
+    document.addEventListener('visibilitychange', onVis)
+    window.addEventListener('pagehide', flush)
+    return () => {
+      flush()
+      clearInterval(id)
+      document.removeEventListener('visibilitychange', onVis)
+      window.removeEventListener('pagehide', flush)
+    }
+  }, [themeId, addThemeTime])
 }
 
 // ---- Calculs de progression dérivés de l'état ----------------------------

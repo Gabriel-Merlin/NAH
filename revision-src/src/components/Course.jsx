@@ -82,7 +82,7 @@ export function CourseSection({ sec, color, index, themeId, subjectId, sectionId
   const ref = useRef(null)
   return (
     <section className="card relative p-5">
-      <ReadAloud getText={() => ref.current?.innerText || ''} className="absolute right-3 top-3" />
+      <ReadAloud getText={() => ref.current?.innerText || ''} className="no-print absolute right-3 top-3" />
       <div ref={ref}>
       <h2 className="mb-3 flex items-center gap-2.5 pr-9 font-display text-xl font-semibold">
         {index != null && (

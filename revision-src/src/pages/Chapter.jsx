@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { getChapter, getSubject, themeChapters, flashcardsForSection } from '../data/index.js'
-import { useStore } from '../store.jsx'
+import { useStore, useThemeTimer } from '../store.jsx'
 import { useInstall } from '../pwa.js'
 import { CourseSection, CourseText, saveFiche } from '../components/Course.jsx'
 import GameHost from '../games/GameHost.jsx'
@@ -16,6 +16,7 @@ export default function Chapter() {
   const t = useT()
   const gameLabel = useGameLabel()
   const [activeGame, setActiveGame] = useState(null)
+  useThemeTimer(tid) // mesure le temps de révision passé sur ce thème
 
   // Génération stable par visite : on ne régénère (et re-mélange) les exercices
   // qu'au changement de thème/chapitre, pas à chaque rendu. Une nouvelle visite
@@ -54,8 +55,17 @@ export default function Chapter() {
     )
   }
 
+  const printDate = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+  const studentName = `${state.profile?.firstName || ''} ${state.profile?.lastName || ''}`.trim()
+
   return (
     <div className="animate-lux space-y-4">
+      {/* En-tête visible uniquement à l'impression (fiche de révision PDF) */}
+      <div className="print-only print-header">
+        <div className="print-title">RévizSTMG — {t('revisionSheet')}</div>
+        <div>{theme.name} — {chapter.title}{studentName ? ` · ${studentName}` : ''} · {printDate}</div>
+      </div>
+
       <nav className="no-print text-xs text-slate-500 dark:text-slate-400">
         <Link to={`/subject/${sid}`} className="hover:underline" style={{ color }}>{subject.name}</Link>
         <span className="mx-1">›</span>
@@ -90,7 +100,7 @@ export default function Chapter() {
 
       {/* Jeux de ce chapitre */}
       {games.length > 0 && (
-        <section className="space-y-2.5">
+        <section className="no-print space-y-2.5">
           <h2 className="px-1 font-display text-lg font-bold">🎮 {t('gamesOfChapter')}</h2>
           {games.map((g) => {
             const best = rec?.games?.[g.id]

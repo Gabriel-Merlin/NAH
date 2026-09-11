@@ -6,7 +6,9 @@
  *  - Requêtes cross-origin (Supabase, Google Fonts…) : jamais interceptées,
  *    elles passent directement au réseau.
  */
-const CACHE = 'revizstmg-v1'
+const CACHE = 'revizstmg-v2'
+const FONT_CACHE = 'revizstmg-fonts-v1'
+const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com']
 const CORE = [
   './',
   './index.html',
@@ -32,7 +34,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys()
-      await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      await Promise.all(keys.filter((k) => k !== CACHE && k !== FONT_CACHE).map((k) => caches.delete(k)))
       await self.clients.claim()
     })()
   )
@@ -75,8 +77,29 @@ self.addEventListener('fetch', (event) => {
   } catch {
     return
   }
-  // On ne touche qu'à notre propre origine. Supabase, polices, etc. -> réseau direct.
-  if (url.origin !== self.location.origin) return
+  // Polices Google (cross-origin) : cache-first pour qu'elles restent
+  // disponibles hors-ligne après la première visite. Le reste (Supabase…)
+  // passe directement au réseau.
+  if (url.origin !== self.location.origin) {
+    if (FONT_HOSTS.includes(url.hostname)) {
+      event.respondWith(
+        (async () => {
+          const cache = await caches.open(FONT_CACHE)
+          const cached = await cache.match(req)
+          if (cached) return cached
+          try {
+            const fresh = await fetch(req)
+            // Réponses « opaque » incluses (mode no-cors) : on les met en cache.
+            cache.put(req, fresh.clone())
+            return fresh
+          } catch {
+            return cached || Response.error()
+          }
+        })()
+      )
+    }
+    return
+  }
 
   const isHTML =
     req.mode === 'navigate' ||

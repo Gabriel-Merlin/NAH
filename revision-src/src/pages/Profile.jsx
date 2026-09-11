@@ -8,6 +8,7 @@ import { useT } from '../i18n.js'
 import { signOut, deleteMyProfile } from '../auth.js'
 import { deleteMyClassData } from '../classroom.js'
 import { InstallCard, AppBadge } from '../components/InstallApp.jsx'
+import { ProgressCurve, ThemeTimeBars } from '../components/StatsCharts.jsx'
 import { isStandalone } from '../pwa.js'
 import { ensurePermission, notify, notifSupported } from '../notify.js'
 
@@ -91,6 +92,18 @@ export default function Profile() {
               <span className="mt-0.5 text-[0.65rem] uppercase tracking-wide text-slate-400">{s.label}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Progression visuelle : courbe d'XP + temps par thème */}
+      <section className="space-y-4">
+        <div>
+          <h2 className="mb-3 px-1 font-display text-xl font-medium">📈 {t('progressCurve')}</h2>
+          <ProgressCurve history={state.history} />
+        </div>
+        <div>
+          <h2 className="mb-3 px-1 font-display text-xl font-medium">⏱️ {t('timePerTheme')}</h2>
+          <ThemeTimeBars themeTime={state.themeTime} />
         </div>
       </section>
 
