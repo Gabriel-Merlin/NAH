@@ -19,6 +19,7 @@ import { GAME_SECTION } from './sections.js'
 import { THEME_TERMS, subjectFallbackFor } from './keyterms.js'
 import { CAS_PRATIQUES } from './caspratiques.js'
 import { PIEGES } from './pieges.js'
+import { ENRICH } from './enrich.js'
 
 export const SUBJECTS = [
   gestion,
@@ -76,6 +77,13 @@ for (const s of SUBJECTS) {
       if (lesson.cours) c.cours = lesson.cours
       if (lesson.resources) c.resources = lesson.resources
       if (lesson.essentiel) c.essentiel = lesson.essentiel
+    }
+    // Enrichissement additif (exemples résolus, sections complémentaires,
+    // ressources) : on n'écrase rien, on ajoute à la fin.
+    const enr = ENRICH[c.id]
+    if (enr) {
+      if (enr.sections?.length) c.cours = [...(c.cours || []), ...enr.sections]
+      if (enr.resources?.length) c.resources = [...(c.resources || []), ...enr.resources]
     }
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
