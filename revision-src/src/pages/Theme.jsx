@@ -8,6 +8,7 @@ import { ProgressBar, Stars } from '../components/ui.jsx'
 import { Rich } from '../components/ui.jsx'
 import { Intro, Essentiel, Resources, CourseText } from '../components/Course.jsx'
 import { DeckDownload } from '../components/DeckDownload.jsx'
+import { ThemeSchema } from '../components/Infographic.jsx'
 import ThemeTest from '../games/ThemeTest.jsx'
 import Exam from '../games/Exam.jsx'
 import { useT, useGameLabel } from '../i18n.js'
@@ -102,6 +103,10 @@ export default function Theme() {
       {tab === 'chapitres' && (
         <div className="space-y-4">
           <Intro text={theme.intro} color={color} />
+          <section>
+            <h3 className="mb-1 flex items-center gap-2 px-1 font-display text-base font-semibold">📊 {t('themeSchema')}</h3>
+            <ThemeSchema theme={theme} color={color} />
+          </section>
           <DeckDownload deck={deckForTheme(tid)} color={color} label={t('downloadThemeDeck')} />
           {themeExamSize(tid) >= 4 && (
             <button onClick={() => setThemeExam(buildThemeExam(tid))} className="card card-lux flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md">
