@@ -11,10 +11,14 @@ import { histoire } from './histoire.js'
 import { langues } from './langues.js'
 import { mercatique } from './mercatique.js'
 import { rh } from './rh.js'
+import { sig } from './sig.js'
 import { premiereSubjects } from './premiere.js'
 import { LESSONS } from './lessons.js'
 import { DOC_STUDIES } from './docstudies.js'
 import { GAME_SECTION } from './sections.js'
+import { THEME_TERMS, subjectFallbackFor } from './keyterms.js'
+import { CAS_PRATIQUES } from './caspratiques.js'
+import { PIEGES } from './pieges.js'
 
 export const SUBJECTS = [
   gestion,
@@ -27,6 +31,7 @@ export const SUBJECTS = [
   langues,
   mercatique,
   rh,
+  sig,
   ...premiereSubjects,
 ]
 
@@ -34,6 +39,34 @@ export const SUBJECTS = [
 // Les « cours complets » de lessons.js (facultatifs) enrichissent chaque
 // chapitre : introduction, sections développées, exemples, ressources vidéos.
 // Un chapitre sans entrée dans LESSONS garde son cours d'origine.
+// Petit nettoyage markdown local (le module « shuffle/stripMd » plus bas n'est
+// pas encore défini à ce stade du fichier).
+function _strip(x) { return String(x || '').replace(/\*\*/g, '').replace(/\*/g, '').trim() }
+
+// Intro « plan du thème » synthétique : oriente l'élève quand aucune intro n'a
+// été rédigée à la main. Construite à partir des seuls intitulés de sections
+// (contenu déjà relu) → aucun risque d'erreur factuelle.
+function synthIntro(chapter) {
+  const secs = (chapter.cours || []).map((s) => _strip(s.h)).filter(Boolean)
+  if (!secs.length) return null
+  const list = secs.length > 1 ? secs.slice(0, 6).map((s) => `**${s}**`).join(' · ') : `**${secs[0]}**`
+  return `Dans ce thème : ${list}. Lis chaque partie, retiens les **définitions clés** surlignées, puis entraîne-toi avec les exercices en bas de page. Le mémo « L’essentiel » ci-dessous résume ce qu’il faut absolument savoir pour le bac.`
+}
+
+// Mémo « L'essentiel » synthétique : construit à partir des définitions clés
+// (vérifiées), d'une formule et d'un piège fréquent du thème, quand aucun mémo
+// n'a été rédigé à la main. Réutilise uniquement des contenus déjà relus.
+function synthEssentiel(chapter) {
+  const items = []
+  for (const [term, def] of (THEME_TERMS[chapter.id] || []).slice(0, 5)) {
+    if (term && def) items.push(`**${_strip(term)}** : ${_strip(def)}`)
+  }
+  if (Array.isArray(chapter.formulas) && chapter.formulas[0]) items.push(`📐 ${_strip(chapter.formulas[0])}`)
+  const pg = (PIEGES[chapter.id] || [])[0]
+  if (pg) items.push(`⚠️ À ne pas confondre — ${pg}`)
+  return items.length >= 3 ? items : null
+}
+
 export const ALL_CHAPTERS = {}
 for (const s of SUBJECTS) {
   for (const c of s.chapters) {
@@ -44,6 +77,10 @@ for (const s of SUBJECTS) {
       if (lesson.resources) c.resources = lesson.resources
       if (lesson.essentiel) c.essentiel = lesson.essentiel
     }
+    // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
+    // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
+    if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
+    if (!c.essentiel || !c.essentiel.length) { const e = synthEssentiel(c); if (e) c.essentiel = e }
     // Étude de documents (Droit & Économie) : ajoutée aux jeux du thème.
     const docStudy = DOC_STUDIES[c.id]
     if (docStudy && !(c.games || []).some((g) => g.id === docStudy.id)) {
@@ -74,7 +111,7 @@ export function chapterGameCount(chapterId) {
 // chapitre (rattachés à leur section). Les jeux de SYNTHÈSE (qcm, vrai/faux,
 // association) et les anciennes flashcards couvraient tout le thème : ils ne
 // sont plus placés sur un chapitre (ils alimentent le « Test du thème »).
-const CHAPTER_GAME_TYPES = new Set(['calcul', 'trou', 'tri', 'ordre', 'memory', 'doc'])
+const CHAPTER_GAME_TYPES = new Set(['calcul', 'trou', 'tri', 'ordre', 'memory', 'doc', 'verbs', 'grammar', 'comprehension', 'sql'])
 
 export function themeChapters(theme) {
   if (!theme) return []
@@ -97,13 +134,21 @@ export function themeChapters(theme) {
     if (idx == null || idx < 0 || idx >= chapters.length) idx = Math.floor((k * chapters.length) / Math.max(1, kept.length))
     chapters[Math.min(idx, chapters.length - 1)].games.push(g)
   })
-  // Chaque chapitre reçoit un exercice tiré de SA SEULE section (QCM ou texte à
-  // trous) : il ne porte donc QUE sur le chapitre suivi — jamais de flashcards.
+  // Chaque chapitre reçoit EN PLUS tout un ensemble d'exercices générés à partir
+  // de SA SEULE section (QCM notions/dates/tableau, textes à trous en plusieurs
+  // lots, « réponse à écrire »…) : on multiplie ainsi par ~5 le nombre
+  // d'exercices par chapitre, et le contenu est mélangé/retiré à chaque partie —
+  // jamais deux fois le même. Aucune flashcard ici (réservée à l'app installée).
   for (const ch of chapters) {
-    if (ch.games.length === 0) {
-      const ex = sectionExercise(ch.section, theme, ch.idx)
-      if (ex) ch.games.push(ex)
-    }
+    const gen = sectionExercises(ch.section, theme, ch.idx)
+    for (const g of gen) if (!ch.games.some((x) => x.id === g.id)) ch.games.push(g)
+  }
+  // Mini-cas d'entreprise chiffrés (rédigés à la main) : rattachés en tête du
+  // premier chapitre du thème quand ils existent.
+  const cas = CAS_PRATIQUES[theme.id]
+  if (cas && cas.length && chapters[0]) {
+    const g = { id: `${theme.id}::cas`, type: 'caspratique', title: 'Cas pratiques — scénarios chiffrés', icon: '🧮', cases: cas }
+    if (!chapters[0].games.some((x) => x.id === g.id)) chapters[0].games.unshift(g)
   }
   return chapters
 }
@@ -142,6 +187,10 @@ function trouFromBold(sec) {
       if (!bm) continue
       const term = bm[1].trim()
       if (term.length < 3 || term.length > 45 || /^\d+$/.test(term)) continue
+      // Clarté : un « trou » ne doit masquer qu'UNE notion. On écarte les
+      // fragments de phrase (plus de 4 mots) et les mnémotechniques « X = Y »
+      // ou « X : Y », qui rendent la réponse impossible à deviner proprement.
+      if (term.split(/\s+/).length > 4 || /[=:]/.test(term)) continue
       const key = term.toLowerCase()
       if (seen.has(key)) continue
       const plain = stripMd(sRaw).replace(/\s+/g, ' ').trim()
@@ -172,41 +221,39 @@ function trouFromBold(sec) {
   return out
 }
 
-// Génère un exercice PROPRE au chapitre (QCM ou texte à trous, JAMAIS de
-// flashcard), tiré uniquement du contenu de SA section.
-function sectionExercise(sec, theme, idx) {
-  const id = `${theme.id}::auto${idx}`
+// Extrait toutes les « matières premières » exploitables d'une section :
+// paires de dates, paires notion→définition, lignes de tableaux larges. Sert de
+// base à TOUS les exercices générés du chapitre.
+function sectionPairs(sec) {
   const blocks = sec.blocks || []
   const isDateHead = (h) => /date|année/i.test(h || '')
-
-  // 1) QCM de dates (tableaux « Date | … » + frises).
-  const dpairs = []
+  const datePairs = [] // { d, e }
+  const defPairs = []  // { term, def }
+  const widePairs = [] // { q, a, e }
   for (const b of blocks) {
     if (b.t === 'table' && isDateHead((b.head || [])[0])) {
-      for (const r of b.rows || []) if (r[0] && r[1]) dpairs.push({ d: stripMd(String(r[0])), e: stripMd(String(r[1])) })
+      for (const r of b.rows || []) if (r[0] && r[1]) datePairs.push({ d: stripMd(String(r[0])), e: stripMd(String(r[1])) })
     } else if (b.t === 'frise') {
-      for (const e of b.events || []) if (e.date && e.label) dpairs.push({ d: stripMd(e.date), e: stripMd(e.label) })
-    }
-  }
-  const uniqEvents = [...new Set(dpairs.map((p) => p.e))]
-  if (dpairs.length >= 3 && uniqEvents.length >= 3) {
-    return qcmFromPairs(
-      dpairs.map((p) => ({ q: `Que se passe-t-il en ${p.d} ?`, a: p.e, e: `${p.d} : ${p.e}` })),
-      id, 'Quiz — les dates de ce chapitre',
-    )
-  }
-
-  // 2) QCM « notion → définition » : tableaux à 2 colonnes + puces « **terme** : déf ».
-  const defPairs = []
-  for (const b of blocks) {
-    if (b.t === 'table' && (b.head || []).length === 2 && !isDateHead((b.head || [])[0])) {
+      for (const e of b.events || []) if (e.date && e.label) datePairs.push({ d: stripMd(e.date), e: stripMd(e.label) })
+    } else if (b.t === 'table' && (b.head || []).length === 2 && !isDateHead((b.head || [])[0])) {
       for (const r of b.rows || []) {
         const term = stripMd(String(r[0] || ''))
         const def = stripMd(String(r[1] || ''))
-        if (term && def) defPairs.push({ q: `À quoi correspond : « ${term} » ?`, a: def, e: `${term} → ${def}` })
+        if (term && def && term.length <= 60) defPairs.push({ term, def })
+      }
+    } else if (b.t === 'table') {
+      const w = (b.head || []).length
+      if (w >= 3 && w <= 4 && !isDateHead((b.head || [])[0])) {
+        const label = stripMd(String((b.head || [])[0] || ''))
+        for (const r of b.rows || []) {
+          const entry = stripMd(String(r[0] || ''))
+          const rest = r.slice(1).map((x) => stripMd(String(x || ''))).filter(Boolean).join(' — ')
+          if (entry && rest && entry.length <= 40) widePairs.push({ q: `${label} — « ${entry} » : ?`, a: rest, e: `${entry} → ${rest}` })
+        }
       }
     }
   }
+  // notion → définition à partir des puces « **terme** : définition ».
   const notionItems = []
   for (const b of blocks) if (b.t === 'list' && Array.isArray(b.c)) notionItems.push(...b.c)
   if (Array.isArray(sec.points)) notionItems.push(...sec.points)
@@ -217,33 +264,300 @@ function sectionExercise(sec, theme, idx) {
     if (!m) continue
     const term = stripMd(m[1]).replace(/[;,.]$/, '').trim()
     const def = stripMd(m[2]).replace(/[;.]$/, '').trim()
-    if (term && def.length > 3 && term.length <= 50) defPairs.push({ q: `Que signifie : « ${term} » ?`, a: def, e: `${term} → ${def}` })
+    if (term && def.length > 3 && term.length <= 50) defPairs.push({ term, def })
   }
-  const qDef = qcmFromPairs(defPairs, id, 'Quiz — les notions de ce chapitre')
-  if (qDef) return qDef
+  // Dédoublonnage des définitions (même terme répété).
+  const seen = new Set()
+  const uniqDefs = defPairs.filter((p) => { const k = p.term.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true })
+  return { datePairs, defPairs: uniqDefs, widePairs }
+}
 
-  // 3) QCM à partir d'un tableau à 3-4 colonnes (1ʳᵉ colonne = entrée).
-  const widePairs = []
-  for (const b of blocks) {
-    const w = (b.head || []).length
-    if (b.t === 'table' && w >= 3 && w <= 4 && !isDateHead((b.head || [])[0])) {
-      const label = stripMd(String((b.head || [])[0] || ''))
-      for (const r of b.rows || []) {
-        const entry = stripMd(String(r[0] || ''))
-        const rest = r.slice(1).map((x) => stripMd(String(x || ''))).filter(Boolean).join(' — ')
-        if (entry && rest && entry.length <= 40) widePairs.push({ q: `${label} — « ${entry} » : ?`, a: rest, e: `${entry} → ${rest}` })
-      }
+// Fabrique un exercice « à écrire » (type saisie) à partir d'items
+// { prompt, answer, alt?, explain }. Réponses courtes uniquement (saisissables).
+// À partir d'un terme (« PGI / ERP », « Système d'information (SIG) »), dérive
+// les réponses acceptées en plus du terme complet : chaque variante séparée par
+// « / » ou « ou », et l'acronyme entre parenthèses. Ainsi « PGI » seul est
+// accepté quand la réponse attendue est « PGI / ERP ». (On ne découpe jamais sur
+// « , » ni sur les chiffres pour ne pas casser les dates ou les nombres.)
+function termVariants(term) {
+  const raw = String(term || '').trim()
+  if (!raw) return []
+  const out = new Set()
+  const push = (s) => {
+    const v = String(s || '').replace(/\s+/g, ' ').replace(/[;,.]+$/, '').trim()
+    if (v && v.toLowerCase() !== raw.toLowerCase()) out.add(v)
+  }
+  push(raw.replace(/\s*\([^)]*\)/g, ' ')) // le terme sans ses parenthèses
+  for (const part of raw.split(/\s*(?:\/| ou )\s*/i)) {
+    push(part.replace(/\s*\([^)]*\)/g, ' ')) // « PGI (ERP) » → « PGI »
+    const m = part.match(/\(([^)]+)\)/) // acronyme entre parenthèses → « ERP »
+    if (m) push(m[1])
+  }
+  return [...out]
+}
+
+// « Écris le terme » ne doit demander qu'UN terme précis, pas une phrase : on
+// écarte les réponses de plus de 4 mots, les citations « … » et les fragments
+// (« De la naissance à la mort », « On cherche à réduire le coût »…).
+function isCleanTerm(term) {
+  const t = String(term || '').trim()
+  if (!t || t.length > 32) return false
+  if (/[«»"]/.test(t)) return false
+  if (t.split(/\s+/).length > 4) return false
+  return true
+}
+
+// Abrège une définition pour l'association sans finir sur un mot vide (article,
+// préposition) : « …au crédit d'un autre, pour un… » → « …au crédit d'un autre… ».
+function shortenDef(def, max = 90) {
+  const d = String(def || '')
+  if (d.length <= max) return d
+  let s = d.slice(0, max - 2).replace(/\s\S*$/, '')
+  s = s.replace(/[\s,;:.–—-]+(l’|d’|de|des|du|le|la|les|un|une|à|au|aux|et|ou|en|pour|sur|dans|par|avec|qui|que|se|sa|son|ses|ce|cet|cette|leur)$/i, '')
+  return s.replace(/[\s,;:–—-]+$/, '') + '…'
+}
+
+function saisieFromItems(items, id, title, icon = '⌨️') {
+  const qs = shuffle(items)
+    .filter((x) => x.answer && String(x.answer).trim().length > 0 && String(x.answer).length <= 40)
+    .slice(0, 10)
+  return qs.length >= 2 ? { id, type: 'saisie', title, icon, questions: qs } : null
+}
+
+// Vrai / Faux à partir des définitions : une moitié d'affirmations vraies, une
+// moitié fausses (le terme est associé à une AUTRE définition de la section).
+function vraiFauxFromDefs(defPairs, id, title) {
+  if (defPairs.length < 4) return null
+  const pool = shuffle(defPairs)
+  const qs = []
+  pool.slice(0, 8).forEach((p, k) => {
+    if (k % 2 === 0) {
+      qs.push({ statement: `« ${p.term} » : ${p.def}`, answer: true, explain: `Exact. ${p.term} → ${p.def}` })
+    } else {
+      const other = pool.find((o) => o.term !== p.term && o.def !== p.def)
+      if (other) qs.push({ statement: `« ${p.term} » : ${other.def}`, answer: false, explain: `Faux. ${p.term} → ${p.def}` })
+    }
+  })
+  return qs.length >= 4 ? { id, type: 'vraifaux', title, icon: '⚖️', questions: shuffle(qs) } : null
+}
+
+// Remise en ordre chronologique à partir de repères datés (années lisibles).
+function ordreFromDates(datePairs, id, title) {
+  const parsed = datePairs
+    .map((p) => ({ y: parseInt(String(p.d).match(/-?\d{3,4}/)?.[0] ?? 'NaN', 10), d: p.d, e: p.e }))
+    .filter((x) => !Number.isNaN(x.y) && x.e)
+  const seen = new Set()
+  const uniq = parsed.filter((x) => { if (seen.has(x.y)) return false; seen.add(x.y); return true })
+  if (uniq.length < 4) return null
+  const sorted = [...uniq].sort((a, b) => a.y - b.y).slice(0, 6)
+  return { id, type: 'ordre', title, icon: '📶', steps: sorted.map((x) => `${x.d} — ${x.e}`) }
+}
+
+// Reformulations variées d'une même question « notion → définition » : d'un
+// exercice à l'autre, l'élève ne relit plus exactement la même phrase.
+const QDEF_TEMPLATES = [
+  (term) => `Que signifie : « ${term} » ?`,
+  (term) => `Quelle est la bonne définition de « ${term} » ?`,
+  (term) => `« ${term} » : quelle proposition est correcte ?`,
+  (term) => `À quoi correspond « ${term} » ?`,
+]
+
+// Élargit le pool de notions d'une section : ses définitions propres + la banque
+// du thème (décalée selon la section), dédoublonnées par terme. On ne recycle
+// plus les 5 mêmes définitions : le pool est bien plus large, et comme chaque
+// exercice mélange puis tronque ce pool à chaque visite, le contenu change.
+function enrichedDefPool(defPairs, themeId, idx) {
+  const bank = (THEME_TERMS[themeId] || []).map(([term, def]) => ({ term, def }))
+  const start = bank.length ? (idx * 3) % bank.length : 0
+  const rotated = [...bank.slice(start), ...bank.slice(0, start)]
+  const seen = new Set()
+  const out = []
+  for (const p of [...defPairs, ...rotated]) {
+    const k = String(p.term || '').toLowerCase().trim()
+    if (!p.term || !p.def || seen.has(k)) continue
+    seen.add(k); out.push({ term: p.term, def: p.def })
+  }
+  return out
+}
+
+// Génère un ENSEMBLE d'exercices propres au chapitre (jamais de flashcard),
+// tirés du contenu de SA section ET de la banque de notions du thème. Objectif :
+// beaucoup d'exercices ET du contenu varié (plusieurs formes de questions, cas
+// concrets). Chaque exercice a un id stable et distinct (pour la progression) ;
+// le contenu, lui, est mélangé/tronqué à chaque partie — jamais deux fois le même.
+function sectionExercises(sec, theme, idx) {
+  const base = `${theme.id}::${idx}`
+  const { datePairs, defPairs, widePairs } = sectionPairs(sec)
+  const richDefs = enrichedDefPool(defPairs, theme.id, idx)
+  const out = []
+  const uniqEvents = [...new Set(datePairs.map((p) => p.e))]
+
+  // 1) QCM des dates + « écris la date » + remise en ordre chronologique.
+  if (datePairs.length >= 3 && uniqEvents.length >= 3) {
+    const qDate = qcmFromPairs(datePairs.map((p) => ({ q: `Que se passe-t-il en ${p.d} ?`, a: p.e, e: `${p.d} : ${p.e}` })), `${base}::qdate`, 'QCM — les dates du chapitre')
+    if (qDate && qDate.questions.length >= 3) out.push(qDate)
+    const sDate = saisieFromItems(datePairs.filter((p) => String(p.d).length <= 24).map((p) => ({ prompt: `À quelle date : ${p.e} ?`, answer: p.d, explain: `${p.e} → ${p.d}` })), `${base}::sdate`, 'Écris la date — ce chapitre', '📅')
+    if (sDate) out.push(sDate)
+    const ord = ordreFromDates(datePairs, `${base}::ordre`, 'Remets dans l’ordre — chronologie')
+    if (ord) out.push(ord)
+  }
+
+  // 2) Notions : pool élargi (section + banque du thème). Plusieurs formes de
+  //    questions, mélangées/tronquées à chaque visite → jamais le même contenu :
+  //    QCM « notion → définition » (formulé de plusieurs façons), « cas concret »
+  //    (situation → notion, sens inverse), vrai/faux, écris le terme, association.
+  if (richDefs.length >= 2) {
+    // QCM notion → définition, avec une formulation qui tourne d'un item à l'autre.
+    const defItems = shuffle(richDefs).map((p, i) => ({ q: QDEF_TEMPLATES[i % QDEF_TEMPLATES.length](p.term), a: p.def, e: `${p.term} → ${p.def}` }))
+    if (defItems.length >= 10) {
+      const half = Math.ceil(defItems.length / 2)
+      const qa = qcmFromPairs(defItems.slice(0, half), `${base}::qdef0`, 'QCM — notions (série 1)')
+      const qb = qcmFromPairs(defItems.slice(half), `${base}::qdef1`, 'QCM — notions (série 2)')
+      if (qa && qa.questions.length >= 3) out.push(qa)
+      if (qb && qb.questions.length >= 3) out.push(qb)
+    } else {
+      const qDef = qcmFromPairs(defItems, `${base}::qdef`, 'QCM — les notions du chapitre')
+      if (qDef && qDef.questions.length >= 3) out.push(qDef)
+    }
+
+    // Cas concret : on décrit une situation (la définition) et l'élève retrouve
+    // la bonne notion parmi plusieurs — l'inverse du QCM précédent.
+    const casItems = richDefs.map((p) => ({ q: `Cas concret — on observe : « ${p.def} ». De quelle notion s'agit-il ?`, a: p.term, e: `${p.term} : ${p.def}` }))
+    const qCas = qcmFromPairs(casItems, `${base}::qcas`, 'Cas concrets — trouve la notion')
+    if (qCas && qCas.questions.length >= 3) { qCas.icon = '🧩'; out.push(qCas) }
+
+    const vf = vraiFauxFromDefs(richDefs, `${base}::vf`, 'Vrai ou faux — les notions')
+    if (vf) out.push(vf)
+
+    const shortTerms = richDefs.filter((p) => isCleanTerm(p.term))
+    const sTerm = saisieFromItems(shortTerms.map((p) => ({ prompt: `Quel terme correspond à cette définition ?\n« ${p.def} »`, answer: p.term, alt: termVariants(p.term), explain: `${p.term} : ${p.def}` })), `${base}::sterm`, 'Écris le terme — ce chapitre', '🔤')
+    if (sTerm) out.push(sTerm)
+
+    if (richDefs.length >= 3) {
+      // Association notion ↔ définition (définitions abrégées pour tenir à l'écran).
+      const rseen = new Set()
+      const pairs = shuffle(richDefs)
+        .map((p) => ({ left: p.term, right: shortenDef(p.def, 90) }))
+        .filter((p) => { const k = p.right.toLowerCase(); if (rseen.has(k)) return false; rseen.add(k); return true })
+        .slice(0, 6)
+      if (pairs.length >= 3) out.push({ id: `${base}::assoc`, type: 'association', title: 'Association — notions du chapitre', icon: '🔗', pairs })
     }
   }
-  const qWide = qcmFromPairs(widePairs, id, 'Quiz — ce chapitre')
-  if (qWide) return qWide
 
-  // 4) Texte à trous à partir des termes en gras de la section.
-  const trouQ = trouFromBold(sec)
-  if (trouQ.length >= 1) {
-    return { id, type: 'trou', title: 'Texte à trous — ce chapitre', icon: '✏️', questions: trouQ.slice(0, 8) }
+  // 3) QCM à partir d'un tableau large (3-4 colonnes).
+  const qWide = qcmFromPairs(widePairs, `${base}::qwide`, 'QCM — tableau du chapitre')
+  if (qWide && qWide.questions.length >= 3) out.push(qWide)
+
+  // 4) Textes à trous : découpés en plusieurs lots + une version « à écrire ».
+  const trou = trouFromBold(sec)
+  if (trou.length >= 2) {
+    const batches = []
+    for (let k = 0; k < trou.length; k += 6) batches.push(trou.slice(k, k + 6))
+    batches.slice(0, 3).forEach((b, bi) => {
+      if (b.length >= 2) out.push({ id: `${base}::trou${bi}`, type: 'trou', title: batches.length > 1 ? `Texte à trous — série ${bi + 1}` : 'Texte à trous — ce chapitre', icon: '✏️', questions: b })
+    })
+    const sTrou = saisieFromItems(trou.map((q) => ({ prompt: `Complète par le mot exact :\n${q.text}`, answer: q.answer, explain: q.explain })), `${base}::strou`, 'Complète — à écrire', '✍️')
+    if (sTrou) out.push(sTrou)
   }
-  return null
+
+  return out
+}
+
+// Flashcards d'une section (recto = terme, verso = définition). RÉSERVÉ à
+// l'application installée : on ne les ajoute JAMAIS dans le navigateur. Les
+// cartes sont mélangées à chaque partie par le composant.
+export function flashcardsForSection(sec, theme, idx) {
+  const { defPairs, datePairs } = sectionPairs(sec)
+  const cards = []
+  // Pool élargi (section + banque du thème) pour des cartes variées d'une visite
+  // à l'autre, pas seulement les quelques définitions de la section.
+  for (const p of enrichedDefPool(defPairs, theme.id, idx)) cards.push({ front: p.term, back: p.def })
+  for (const p of datePairs) cards.push({ front: p.e, back: p.d })
+  if (cards.length < 3) return null
+  // Dédoublonnage recto.
+  const seen = new Set()
+  const uniq = cards.filter((c) => { const k = String(c.front).toLowerCase(); if (!c.front || seen.has(k)) return false; seen.add(k); return true })
+  if (uniq.length < 3) return null
+  return { id: `${theme.id}::${idx}::cards`, type: 'flashcard', title: 'Flashcards — ce chapitre', icon: '🃏', cards: uniq.slice(0, 16) }
+}
+
+// Paquet de flashcards agrégé pour TOUT un thème (toutes ses sections), à
+// télécharger en un clic dans l'espace « Révision » (application installée).
+export function deckForTheme(themeId) {
+  const theme = ALL_CHAPTERS[themeId]
+  if (!theme) return null
+  const seen = new Set()
+  const cards = []
+  for (const ch of themeChapters(theme)) {
+    const fc = flashcardsForSection(ch.section, theme, ch.idx)
+    if (!fc) continue
+    for (const c of fc.cards) {
+      const k = String(c.front || '').toLowerCase().trim()
+      if (!k || seen.has(k)) continue
+      seen.add(k); cards.push({ front: c.front, back: c.back })
+    }
+  }
+  if (cards.length < 3) return null
+  return { id: `${themeId}::deck`, title: theme.short || theme.name, subjectId: theme.subjectId, themeId, color: theme.color, cards: cards.slice(0, 150) }
+}
+
+// Paquet agrégé pour TOUTE une matière (tous ses thèmes).
+export function deckForSubject(subjectId) {
+  const subj = getSubject(subjectId)
+  if (!subj) return null
+  const seen = new Set()
+  const cards = []
+  for (const th of subj.chapters || []) {
+    const d = deckForTheme(th.id)
+    if (!d) continue
+    for (const c of d.cards) {
+      const k = String(c.front || '').toLowerCase().trim()
+      if (!k || seen.has(k)) continue
+      seen.add(k); cards.push(c)
+    }
+  }
+  if (cards.length < 3) return null
+  return { id: `${subjectId}::deck`, title: subj.name, subjectId, themeId: null, color: subj.color, cards: cards.slice(0, 400) }
+}
+
+// Une section a-t-elle déjà un encadré « Définitions clés » écrit à la main ?
+// (pour ne pas en afficher un second, généré, juste en dessous).
+function hasHandDefinitions(sec) {
+  for (const b of sec.blocks || []) {
+    if (b.t === 'p' && /d[ée]finitions?\s+cl[ée]s/i.test(stripMd(b.c || ''))) return true
+    if (b.t === 'table' && (b.head || []).length === 2 && /terme|notion|mot/i.test(String((b.head || [])[0] || '')) && /d[ée]finition|sens/i.test(String((b.head || [])[1] || ''))) return true
+  }
+  return false
+}
+
+// 5 « Définitions clés » pour UNE section de cours : d'abord les termes définis
+// dans la section elle-même, complétés (par rotation, pour varier d'une section
+// à l'autre) par la banque du thème puis, en dernier recours, la banque de la
+// matière. Renvoie { skip, defs }. skip = true si la section a déjà son propre
+// encadré de définitions écrit à la main.
+export function sectionDefinitions(sec, themeId, subjectId, sectionIdx = 0, count = 5) {
+  if (!sec || hasHandDefinitions(sec)) return { skip: true, defs: [] }
+  const out = []
+  const seen = new Set()
+  const add = (term, def) => {
+    const t = stripMd(String(term || '')).trim()
+    const d = stripMd(String(def || '')).trim()
+    const k = t.toLowerCase()
+    if (!t || !d || t.length > 48 || seen.has(k) || out.length >= count) return
+    seen.add(k); out.push({ term: t, def: d })
+  }
+  // 1) Définitions propres à la section (les plus pertinentes).
+  for (const p of sectionPairs(sec).defPairs) add(p.term, p.def)
+  // 2) Complément depuis la banque du thème, décalée selon la section.
+  const bank = THEME_TERMS[themeId] || []
+  if (bank.length && out.length < count) {
+    const start = (sectionIdx * 2) % bank.length
+    const rotated = [...bank.slice(start), ...bank.slice(0, start)]
+    for (const [term, def] of rotated) add(term, def)
+  }
+  // 3) Dernier filet : banque de la matière.
+  if (out.length < count) for (const [term, def] of subjectFallbackFor(subjectId)) add(term, def)
+  return { skip: false, defs: out }
 }
 
 export function getThemeChapter(themeId, idx) {
