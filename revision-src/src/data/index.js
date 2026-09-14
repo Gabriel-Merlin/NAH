@@ -18,6 +18,7 @@ import { DOC_STUDIES } from './docstudies.js'
 import { GAME_SECTION } from './sections.js'
 import { THEME_TERMS, subjectFallbackFor } from './keyterms.js'
 import { CAS_PRATIQUES } from './caspratiques.js'
+import { PIEGES } from './pieges.js'
 
 export const SUBJECTS = [
   gestion,
@@ -38,6 +39,34 @@ export const SUBJECTS = [
 // Les « cours complets » de lessons.js (facultatifs) enrichissent chaque
 // chapitre : introduction, sections développées, exemples, ressources vidéos.
 // Un chapitre sans entrée dans LESSONS garde son cours d'origine.
+// Petit nettoyage markdown local (le module « shuffle/stripMd » plus bas n'est
+// pas encore défini à ce stade du fichier).
+function _strip(x) { return String(x || '').replace(/\*\*/g, '').replace(/\*/g, '').trim() }
+
+// Intro « plan du thème » synthétique : oriente l'élève quand aucune intro n'a
+// été rédigée à la main. Construite à partir des seuls intitulés de sections
+// (contenu déjà relu) → aucun risque d'erreur factuelle.
+function synthIntro(chapter) {
+  const secs = (chapter.cours || []).map((s) => _strip(s.h)).filter(Boolean)
+  if (!secs.length) return null
+  const list = secs.length > 1 ? secs.slice(0, 6).map((s) => `**${s}**`).join(' · ') : `**${secs[0]}**`
+  return `Dans ce thème : ${list}. Lis chaque partie, retiens les **définitions clés** surlignées, puis entraîne-toi avec les exercices en bas de page. Le mémo « L’essentiel » ci-dessous résume ce qu’il faut absolument savoir pour le bac.`
+}
+
+// Mémo « L'essentiel » synthétique : construit à partir des définitions clés
+// (vérifiées), d'une formule et d'un piège fréquent du thème, quand aucun mémo
+// n'a été rédigé à la main. Réutilise uniquement des contenus déjà relus.
+function synthEssentiel(chapter) {
+  const items = []
+  for (const [term, def] of (THEME_TERMS[chapter.id] || []).slice(0, 5)) {
+    if (term && def) items.push(`**${_strip(term)}** : ${_strip(def)}`)
+  }
+  if (Array.isArray(chapter.formulas) && chapter.formulas[0]) items.push(`📐 ${_strip(chapter.formulas[0])}`)
+  const pg = (PIEGES[chapter.id] || [])[0]
+  if (pg) items.push(`⚠️ À ne pas confondre — ${pg}`)
+  return items.length >= 3 ? items : null
+}
+
 export const ALL_CHAPTERS = {}
 for (const s of SUBJECTS) {
   for (const c of s.chapters) {
@@ -48,6 +77,10 @@ for (const s of SUBJECTS) {
       if (lesson.resources) c.resources = lesson.resources
       if (lesson.essentiel) c.essentiel = lesson.essentiel
     }
+    // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
+    // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
+    if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
+    if (!c.essentiel || !c.essentiel.length) { const e = synthEssentiel(c); if (e) c.essentiel = e }
     // Étude de documents (Droit & Économie) : ajoutée aux jeux du thème.
     const docStudy = DOC_STUDIES[c.id]
     if (docStudy && !(c.games || []).some((g) => g.id === docStudy.id)) {
@@ -154,6 +187,10 @@ function trouFromBold(sec) {
       if (!bm) continue
       const term = bm[1].trim()
       if (term.length < 3 || term.length > 45 || /^\d+$/.test(term)) continue
+      // Clarté : un « trou » ne doit masquer qu'UNE notion. On écarte les
+      // fragments de phrase (plus de 4 mots) et les mnémotechniques « X = Y »
+      // ou « X : Y », qui rendent la réponse impossible à deviner proprement.
+      if (term.split(/\s+/).length > 4 || /[=:]/.test(term)) continue
       const key = term.toLowerCase()
       if (seen.has(key)) continue
       const plain = stripMd(sRaw).replace(/\s+/g, ' ').trim()
@@ -257,6 +294,27 @@ function termVariants(term) {
     if (m) push(m[1])
   }
   return [...out]
+}
+
+// « Écris le terme » ne doit demander qu'UN terme précis, pas une phrase : on
+// écarte les réponses de plus de 4 mots, les citations « … » et les fragments
+// (« De la naissance à la mort », « On cherche à réduire le coût »…).
+function isCleanTerm(term) {
+  const t = String(term || '').trim()
+  if (!t || t.length > 32) return false
+  if (/[«»"]/.test(t)) return false
+  if (t.split(/\s+/).length > 4) return false
+  return true
+}
+
+// Abrège une définition pour l'association sans finir sur un mot vide (article,
+// préposition) : « …au crédit d'un autre, pour un… » → « …au crédit d'un autre… ».
+function shortenDef(def, max = 90) {
+  const d = String(def || '')
+  if (d.length <= max) return d
+  let s = d.slice(0, max - 2).replace(/\s\S*$/, '')
+  s = s.replace(/[\s,;:.–—-]+(l’|d’|de|des|du|le|la|les|un|une|à|au|aux|et|ou|en|pour|sur|dans|par|avec|qui|que|se|sa|son|ses|ce|cet|cette|leur)$/i, '')
+  return s.replace(/[\s,;:–—-]+$/, '') + '…'
 }
 
 function saisieFromItems(items, id, title, icon = '⌨️') {
@@ -371,7 +429,7 @@ function sectionExercises(sec, theme, idx) {
     const vf = vraiFauxFromDefs(richDefs, `${base}::vf`, 'Vrai ou faux — les notions')
     if (vf) out.push(vf)
 
-    const shortTerms = richDefs.filter((p) => p.term.length <= 32)
+    const shortTerms = richDefs.filter((p) => isCleanTerm(p.term))
     const sTerm = saisieFromItems(shortTerms.map((p) => ({ prompt: `Quel terme correspond à cette définition ?\n« ${p.def} »`, answer: p.term, alt: termVariants(p.term), explain: `${p.term} : ${p.def}` })), `${base}::sterm`, 'Écris le terme — ce chapitre', '🔤')
     if (sTerm) out.push(sTerm)
 
@@ -379,7 +437,7 @@ function sectionExercises(sec, theme, idx) {
       // Association notion ↔ définition (définitions abrégées pour tenir à l'écran).
       const rseen = new Set()
       const pairs = shuffle(richDefs)
-        .map((p) => ({ left: p.term, right: p.def.length > 90 ? p.def.slice(0, 88).replace(/\s\S*$/, '') + '…' : p.def }))
+        .map((p) => ({ left: p.term, right: shortenDef(p.def, 90) }))
         .filter((p) => { const k = p.right.toLowerCase(); if (rseen.has(k)) return false; rseen.add(k); return true })
         .slice(0, 6)
       if (pairs.length >= 3) out.push({ id: `${base}::assoc`, type: 'association', title: 'Association — notions du chapitre', icon: '🔗', pairs })
