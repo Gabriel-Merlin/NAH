@@ -344,47 +344,143 @@ export const ENRICH = {
   // =========================================================================
   // SPÉCIALITÉS — RESSOURCES « pour aller plus loin »
   // =========================================================================
-  'mkg-t1': { resources: [
+  'mkg-t1': { sections: [worked('🛍️ Exemple — comprendre un achat', [
+    { t: 'example', h: 'Cas', c: 'Un client achète un smartphone haut de gamme d’une grande marque, plus cher que les autres.' },
+    { t: 'list', c: [
+      '**Motivation** (pousse à l’achat) : besoin d’estime, image de soi (motivation d’auto-expression).',
+      '**Frein** (retient) : le prix élevé (frein financier), la peur de se tromper (risque perçu).',
+      '**Besoin** (Maslow) : ici un besoin d’**estime**, pas seulement un besoin fonctionnel.',
+    ] },
+    { t: 'tip', h: 'Rôle du marketing', c: 'Le marketing cherche à renforcer les motivations et à lever les freins (garantie, facilités de paiement).' },
+  ])], resources: [
     { label: 'Lumni — vidéos d’économie-gestion', url: 'https://www.lumni.fr/', kind: 'video', note: 'Cherche « marketing », « besoins », « consommation ».' },
     { label: 'CNIL — données personnelles des consommateurs', url: 'https://www.cnil.fr/', kind: 'link', note: 'Ce que dit la loi sur la collecte des données clients.' },
   ] },
-  'mkg-t2': { resources: [
+  'mkg-t2': { sections: [worked('🛍️ Exemple — segmenter, cibler, positionner', [
+    { t: 'example', h: 'Cas', c: 'Une marque lance une nouvelle boisson énergisante.' },
+    { t: 'list', c: [
+      '**Segmentation** : découper le marché (âge, mode de vie, sportifs…).',
+      '**Ciblage** : choisir le segment « jeunes actifs sportifs ».',
+      '**Positionnement** : l’image voulue (« énergie naturelle et saine ») pour se distinguer des concurrents.',
+    ] },
+    { t: 'tip', h: '3 étapes distinctes', c: 'Segmenter (découper) → cibler (choisir) → positionner (image). On ne les confond pas.' },
+  ])], resources: [
     { label: 'INSEE — études de marché & données', url: 'https://www.insee.fr/fr/statistiques', kind: 'doc', note: 'Segmenter un marché avec de vraies données (CSP, âge, région).' },
     { label: 'Lumni — le marché et la concurrence', url: 'https://www.lumni.fr/', kind: 'video' },
   ] },
-  'mkg-t3': { resources: [
+  'mkg-t3': { sections: [worked('🛍️ Exemple — la cohérence des 4P', [
+    { t: 'example', h: 'Cas', c: 'Une marque de montres de luxe.' },
+    { t: 'list', c: [
+      '**Produit** : haut de gamme, finitions soignées.',
+      '**Prix** : élevé (cohérent avec l’image).',
+      '**Distribution** : boutiques sélectives, pas en supermarché.',
+      '**Communication** : magazines haut de gamme, ambassadeurs.',
+    ] },
+    { t: 'tip', h: 'Cohérence', c: 'Un prix « premium » avec une distribution « discount » serait incohérent : les 4P forment un tout.' },
+  ])], resources: [
     { label: 'Lumni — les 4P et la stratégie commerciale', url: 'https://www.lumni.fr/', kind: 'video', note: 'Produit, prix, distribution, communication.' },
     { label: 'economie.gouv.fr — fixation des prix, soldes, promotions', url: 'https://www.economie.gouv.fr/', kind: 'link' },
   ] },
-  'mkg-t4': { resources: [
+  'mkg-t4': { sections: [worked('🛍️ Exemple — mercatique numérique & données', [
+    { t: 'example', h: 'Cas', c: 'Un site e-commerce recommande des produits à partir de l’historique d’achat.' },
+    { t: 'list', c: [
+      'Les **données clients** permettent de personnaliser l’offre (recommandations, publicités ciblées).',
+      'Leur collecte est encadrée par le **RGPD** : consentement, base légale, droit à l’effacement.',
+      'Attention au **greenwashing** : un argument « écologique » doit être vrai et prouvé.',
+    ] },
+    { t: 'tip', h: 'Éthique', c: 'La donnée personnelle n’est pas une marchandise comme une autre : la loi protège le consommateur.' },
+  ])], resources: [
     { label: 'CNIL — marketing numérique & cookies', url: 'https://www.cnil.fr/', kind: 'link', note: 'Consentement, ciblage publicitaire, RGPD.' },
     { label: 'ADEME — publicité responsable / anti-greenwashing', url: 'https://www.ademe.fr/', kind: 'link' },
   ] },
-  'rh-t1': { resources: [
+  'rh-t1': { sections: [worked('🧑‍💼 Exemple — motiver et développer les compétences', [
+    { t: 'example', h: 'Cas', c: 'Un manager veut impliquer davantage son équipe.' },
+    { t: 'list', c: [
+      '**Facteurs de motivation** (Herzberg) : reconnaissance, responsabilités, intérêt du travail.',
+      '**Facteurs d’hygiène** : salaire, conditions — leur absence démotive, mais leur présence seule ne motive pas durablement.',
+      '**Compétence** = savoir + savoir-faire + savoir-être ; elle se démontre **en situation**.',
+    ] },
+    { t: 'tip', h: 'Piège', c: 'Motivation ≠ satisfaction : on peut être satisfait (bien payé) sans être motivé, et inversement.' },
+  ])], resources: [
     { label: 'travail-emploi.gouv.fr — contrat, compétences, formation', url: 'https://travail-emploi.gouv.fr/', kind: 'link' },
     { label: 'Lumni — motivation et management', url: 'https://www.lumni.fr/', kind: 'video', note: 'Maslow, Herzberg, la motivation au travail.' },
   ] },
-  'rh-t2': { resources: [
+  'rh-t2': { sections: [worked('🧑‍💼 Cas — gérer un conflit', [
+    { t: 'example', h: 'Situation', c: 'Deux salariés se disputent en permanence sur la répartition des tâches.' },
+    { t: 'list', c: [
+      '**Identifier la source** : ici un conflit d’**organisation** (répartition), pas seulement de personnes.',
+      '**Modes de résolution** : négociation directe, puis médiation (un tiers aide) ou arbitrage (un tiers tranche).',
+      'Bien géré, un conflit peut être **constructif** (il clarifie les rôles).',
+    ] },
+    { t: 'tip', h: 'À distinguer', c: 'Médiation = le tiers aide à trouver un accord ; arbitrage = le tiers impose la solution.' },
+  ])], resources: [
     { label: 'Lumni — groupes, cohésion et conflits', url: 'https://www.lumni.fr/', kind: 'video' },
     { label: 'service-public.fr — représentants du personnel & dialogue social', url: 'https://www.service-public.fr/', kind: 'link' },
   ] },
-  'rh-t3': { resources: [
+  'rh-t3': { sections: [worked('🧑‍💼 Exemple — une communication efficace', [
+    { t: 'example', h: 'Situation', c: 'Une note de service importante n’est pas comprise par les équipes.' },
+    { t: 'list', c: [
+      'Schéma : **émetteur → message → canal → récepteur**. Ici, un **bruit** (jargon, mauvais canal) a gêné la compréhension.',
+      'Améliorer : message clair, bon canal (réunion plutôt que mail ?), et un **retour** (feedback) pour vérifier.',
+      'Distinguer communication **interne** (salariés) et **externe** (clients, partenaires).',
+    ] },
+    { t: 'tip', h: 'Voir le schéma', c: 'Le « Schéma du thème » illustre l’émetteur, le message, le canal, le récepteur et le bruit.' },
+  ])], resources: [
     { label: 'Lumni — la communication dans l’organisation', url: 'https://www.lumni.fr/', kind: 'video', note: 'Émetteur, message, canal, récepteur, bruit.' },
   ] },
-  'rh-t4': { resources: [
+  'rh-t4': { sections: [worked('🧑‍💼 Exemple — coût du travail & climat social', [
+    { t: 'example', h: 'Cas', c: 'Un salarié touche 1 800 € net ; l’entreprise, elle, dépense bien plus pour ce poste.' },
+    { t: 'list', c: [
+      '**Coût employeur** = salaire net + cotisations salariales + **cotisations patronales** → bien supérieur au net perçu.',
+      '**Climat social** : ne se mesure pas qu’au turnover ; on regarde aussi l’absentéisme, les conflits, les enquêtes de satisfaction.',
+    ] },
+    { t: 'tip', h: 'À retenir', c: 'Le coût pour l’employeur est très supérieur au salaire net : n’oublie pas les charges patronales.' },
+  ])], resources: [
     { label: 'travail-emploi.gouv.fr — rémunération & conditions de travail', url: 'https://travail-emploi.gouv.fr/', kind: 'link' },
     { label: 'INSEE — emploi, salaires, climat social', url: 'https://www.insee.fr/fr/statistiques', kind: 'doc' },
   ] },
-  'sig-t1': { resources: [
+  'sig-t1': { sections: [worked('💻 Exemple — le système d’information à l’œuvre', [
+    { t: 'example', h: 'Cas', c: 'Un client passe commande sur un site : la commande, le stock, la facturation et la livraison doivent rester cohérents.' },
+    { t: 'list', c: [
+      'Un **SI** collecte, stocke, traite et **diffuse** l’information entre les services.',
+      'Avec un **PGI/ERP** (base de données **unique**), la commande met à jour le stock, la compta et la logistique **sans ressaisie**.',
+      'Résultat : moins d’erreurs, information fiable et partagée en temps réel.',
+    ] },
+    { t: 'tip', h: 'Clé', c: 'PGI = un seul logiciel, une seule base → l’information saisie une fois est disponible partout.' },
+  ])], resources: [
     { label: 'Lumni — système d’information & numérique', url: 'https://www.lumni.fr/', kind: 'video' },
   ] },
-  'sig-t2': { resources: [
+  'sig-t2': { sections: [worked('💻 Exemple — écrire une requête SQL', [
+    { t: 'example', h: 'Besoin', c: 'Table Client(id_client, nom, ville). On veut le nom des clients de Lyon, classés par ordre alphabétique.' },
+    { t: 'formula', c: "SELECT nom\nFROM Client\nWHERE ville = 'Lyon'\nORDER BY nom ;" },
+    { t: 'list', c: [
+      '**SELECT** choisit les colonnes ; **FROM** la table ; **WHERE** filtre les lignes ; **ORDER BY** trie.',
+      "Pour compter : SELECT COUNT(*) FROM Client WHERE ville = 'Lyon' ;",
+    ] },
+    { t: 'tip', h: 'Piège', c: 'WHERE filtre AVANT regroupement, HAVING filtre APRÈS un GROUP BY. Et n’oublie jamais la condition de jointure entre deux tables.' },
+  ])], resources: [
     { label: 'SQL.sh — cours et exercices SQL en français', url: 'https://sql.sh/', kind: 'link', note: 'SELECT, WHERE, jointures, GROUP BY : la référence pour s’entraîner.' },
   ] },
-  'sig-t3': { resources: [
+  'sig-t3': { sections: [worked('💻 Exemple — le travail collaboratif', [
+    { t: 'example', h: 'Cas', c: 'Trois élèves rédigent un dossier ensemble, à distance.' },
+    { t: 'list', c: [
+      'Un **espace partagé** (cloud) permet d’écrire à plusieurs sur le même document.',
+      'L’**historique des versions** évite de perdre le travail ou de s’écraser mutuellement.',
+      'Le **numérique** transforme l’organisation : plus de collaboration, mais des enjeux (droits d’accès, sécurité).',
+    ] },
+    { t: 'tip', h: 'Bon réflexe', c: 'Définir qui peut lire / modifier (droits d’accès) est essentiel dès qu’on partage.' },
+  ])], resources: [
     { label: 'Lumni — travail collaboratif & outils numériques', url: 'https://www.lumni.fr/', kind: 'video' },
   ] },
-  'sig-t4': { resources: [
+  'sig-t4': { sections: [worked('💻 Exemple — sécuriser le système d’information', [
+    { t: 'example', h: 'Cas', c: 'Un employé reçoit un mail « urgent » lui demandant son mot de passe.' },
+    { t: 'list', c: [
+      'C’est une tentative d’**hameçonnage (phishing)** : on ne donne **jamais** son mot de passe par mail.',
+      'La sécurité repose sur la **DICP** : Disponibilité, Intégrité, Confidentialité, Preuve (traçabilité).',
+      'Mesures : mot de passe **fort**, **sauvegardes** régulières, droits d’accès, sensibilisation.',
+    ] },
+    { t: 'tip', h: 'À retenir', c: 'La sécurité n’est pas que technique : la vigilance humaine est la première protection.' },
+  ])], resources: [
     { label: 'Cybermalveillance.gouv.fr — sécurité & bonnes pratiques', url: 'https://www.cybermalveillance.gouv.fr/', kind: 'link', note: 'Mots de passe, sauvegardes, hameçonnage.' },
     { label: 'CNIL — protection des données (RGPD)', url: 'https://www.cnil.fr/', kind: 'link' },
   ] },
@@ -506,6 +602,378 @@ export const ENRICH = {
         '**Entretien** sur une œuvre choisie : présente-la, défends ton avis, sois précis.',
       ] },
       { t: 'tip', h: 'Conseil', c: 'Prépare une phrase d’introduction et une de conclusion par texte : ce sont les moments qui rassurent et qui font la meilleure impression.' },
+    ])],
+  },
+
+  // =========================================================================
+  // GESTION ET FINANCE — exemples chiffrés
+  // =========================================================================
+  'gf-t1': {
+    sections: [worked('🧮 Exemple traité — TVA et enregistrement', [
+      { t: 'example', h: 'Énoncé', c: 'Une entreprise achète des marchandises : 2 000 € HT, TVA au taux de 20 %.\n1) Calcule la TVA et le montant TTC.\n2) Comment l’opération est-elle enregistrée (principe de la partie double) ?' },
+      { t: 'list', c: [
+        '**TVA** = 2 000 × 0,20 = **400 €** ; **TTC** = 2 000 + 400 = **2 400 €**.',
+        '**Partie double** : on **débite** « Achats » (2 000) et « TVA déductible » (400), on **crédite** « Fournisseurs » (2 400). Débit = Crédit = 2 400 → l’équilibre est respecté.',
+        'La **TVA n’est pas une charge** : la TVA déductible est une **créance sur l’État** (l’entreprise la récupère).',
+      ] },
+      { t: 'tip', h: 'Réflexe', c: 'À chaque écriture : total des débits = total des crédits. Si ça ne tombe pas juste, il y a une erreur.' },
+    ])],
+  },
+  'gf-t2': {
+    sections: [worked('🧮 Exemple traité — FRNG, BFR, trésorerie', [
+      { t: 'example', h: 'Énoncé', c: 'Ressources stables = 500 000 € ; emplois stables (immobilisations) = 420 000 €.\nStocks + créances = 150 000 € ; dettes d’exploitation = 90 000 €.\nCalcule le FRNG, le BFR et la trésorerie nette.' },
+      { t: 'list', c: [
+        '**FRNG** = ressources stables − emplois stables = 500 000 − 420 000 = **80 000 €**.',
+        '**BFR** = (stocks + créances) − dettes d’exploitation = 150 000 − 90 000 = **60 000 €**.',
+        '**Trésorerie nette** = FRNG − BFR = 80 000 − 60 000 = **20 000 €** (> 0 : l’équilibre financier est sain).',
+      ] },
+      { t: 'tip', h: 'Interprétation', c: 'Trésorerie = FRNG − BFR. Une trésorerie négative (FRNG < BFR) n’est pas une faillite, mais un déséquilibre à financer.' },
+    ])],
+  },
+  'gf-t3': {
+    sections: [worked('🧮 Exemple traité — seuil de rentabilité', [
+      { t: 'example', h: 'Énoncé', c: 'CA = 200 000 € ; charges variables = 120 000 € ; charges fixes = 50 000 €.\n1) Calcule la marge sur coût variable et son taux.\n2) Détermine le seuil de rentabilité.\n3) Quel est le résultat ?' },
+      { t: 'list', c: [
+        '**MCV** = CA − charges variables = 200 000 − 120 000 = **80 000 €** ; **taux de MCV** = 80 000 / 200 000 = **0,40**.',
+        '**Seuil de rentabilité** = charges fixes / taux de MCV = 50 000 / 0,40 = **125 000 € de CA** (à partir de ce CA, l’entreprise couvre toutes ses charges).',
+        '**Résultat** = MCV − charges fixes = 80 000 − 50 000 = **30 000 €**.',
+      ] },
+      { t: 'tip', h: 'Au seuil', c: 'Au seuil de rentabilité, le résultat est **nul** (pas la marge) : la MCV couvre exactement les coûts fixes.' },
+    ])],
+  },
+
+  // =========================================================================
+  // MANAGEMENT (Terminale) — exemples
+  // =========================================================================
+  'mgmt-t1': {
+    sections: [worked('💼 Exemple traité — caractériser une organisation', [
+      { t: 'example', h: 'Cas', c: 'Une entreprise privée fabrique et vend des vélos électriques ; un hôpital public soigne des patients ; une association distribue des repas.' },
+      { t: 'table', head: ['Organisation', 'Finalité', 'Production'], rows: [
+        ['Entreprise (vélos)', 'Réaliser un **profit**', 'Biens marchands'],
+        ['Hôpital public', 'Service public (santé)', 'Services non marchands'],
+        ['Association', 'Cause / intérêt général', 'Services non marchands'],
+      ] },
+      { t: 'p', c: 'On caractérise une organisation par son **type**, sa **finalité**, sa **production** (marchande/non marchande) et ses **ressources**.' },
+      { t: 'tip', h: 'Piège', c: 'Toutes les organisations ne cherchent pas le profit : ne confonds pas finalité (raison d’être) et objectif (but précis).' },
+    ])],
+  },
+  'mgmt-t2': {
+    sections: [worked('💼 Exemple traité — diagnostic et avantage concurrentiel', [
+      { t: 'example', h: 'Cas', c: 'Une marque de cosmétiques bio, reconnue pour sa qualité, fait face à l’arrivée de grands groupes sur le marché du « naturel ».' },
+      { t: 'list', c: [
+        '**Diagnostic interne** — forces : image « bio » forte, savoir-faire ; faiblesses : petite taille, budget limité.',
+        '**Diagnostic externe** — opportunités : marché du naturel en croissance ; menaces : grands concurrents, matières premières plus chères.',
+        '**Avantage concurrentiel** : sa réputation « bio authentique » est **rare et difficile à imiter** → à protéger et à mettre en avant.',
+      ] },
+      { t: 'tip', h: 'SWOT', c: 'Interne = forces/faiblesses (l’entreprise) ; externe = opportunités/menaces (l’environnement). Une ressource devient un avantage seulement si elle est rare et difficile à copier.' },
+    ])],
+  },
+  'mgmt-t3': {
+    sections: [worked('💼 Exemple traité — parties prenantes et RSE', [
+      { t: 'example', h: 'Cas', c: 'Une entreprise textile envisage de délocaliser sa production pour réduire ses coûts.' },
+      { t: 'list', c: [
+        '**Parties prenantes** : salariés (emploi menacé), actionnaires (rentabilité), clients (prix, éthique), territoire (fermeture d’usine).',
+        'La **RSE** invite à intégrer les enjeux **sociaux et environnementaux** à la décision, pas seulement le coût.',
+        'Le **numérique** est une opportunité (productivité) **et** un risque (cybersécurité, dépendance) : à nuancer.',
+      ] },
+      { t: 'tip', h: 'Nuance attendue', c: 'La RSE n’est pas de la philanthropie : c’est une stratégie qui concilie performance économique et responsabilité.' },
+    ])],
+  },
+
+  // =========================================================================
+  // DROIT (Terminale) — cas pratiques (syllogisme juridique)
+  // =========================================================================
+  'droit-t5': {
+    sections: [worked('⚖️ Cas pratique — la validité du contrat', [
+      { t: 'example', h: 'Situation', c: 'Un mineur de 16 ans achète seul, à crédit, une voiture. Le vendeur exige le paiement. Le contrat est-il valable ?' },
+      { t: 'list', c: [
+        '**Règle de droit (majeure)** : un contrat n’est valable que si les conditions sont réunies : consentement, **capacité juridique**, contenu licite et certain.',
+        '**Faits (mineure)** : l’acheteur est **mineur**, donc juridiquement **incapable** de conclure seul un tel contrat.',
+        '**Application** : une condition de validité (la capacité) manque.',
+        '**Conclusion** : le contrat encourt la **nullité** (il peut être annulé).',
+      ] },
+      { t: 'tip', h: 'Méthode', c: 'Cas pratique = **syllogisme** : règle de droit → faits → application → conclusion. C’est la structure attendue au bac.' },
+    ])],
+  },
+  'droit-t6': {
+    sections: [worked('⚖️ Cas pratique — la responsabilité civile', [
+      { t: 'example', h: 'Situation', c: 'Un livreur, en reculant son camion, brise la vitrine d’un magasin. Le commerçant peut-il être indemnisé ?' },
+      { t: 'list', c: [
+        '**Règle** : la responsabilité civile suppose trois éléments réunis : **fait générateur + dommage + lien de causalité**.',
+        '**Faits** : fait générateur = la manœuvre du camion ; dommage = la vitrine brisée ; lien = la manœuvre a causé le bris.',
+        '**Application** : les trois conditions sont réunies.',
+        '**Conclusion** : la responsabilité est engagée → le commerçant a droit à **réparation** (indemnisation du préjudice).',
+      ] },
+      { t: 'tip', h: 'À distinguer', c: 'Responsabilité **civile** = réparer (indemniser) ; responsabilité **pénale** = punir. Ici, il s’agit d’indemniser.' },
+    ])],
+  },
+  'droit-t7': {
+    sections: [worked('⚖️ Cas pratique — le licenciement', [
+      { t: 'example', h: 'Situation', c: 'Un salarié en CDI est licencié au motif que « son responsable ne l’apprécie pas ». Ce licenciement est-il régulier ?' },
+      { t: 'list', c: [
+        '**Règle** : tout licenciement doit reposer sur une **cause réelle et sérieuse** (motif objectif, vérifiable et suffisamment grave).',
+        '**Faits** : le motif invoqué est une simple **antipathie**, ni objective ni sérieuse.',
+        '**Application** : la cause réelle et sérieuse fait défaut.',
+        '**Conclusion** : le licenciement est **sans cause réelle et sérieuse** (abusif) → le salarié peut obtenir des indemnités.',
+      ] },
+      { t: 'tip', h: 'Repère', c: 'Le CDI est la norme ; le CDD est l’exception, encadrée et motivée. La rupture suit des procédures strictes.' },
+    ])],
+  },
+  'droit-t8': {
+    sections: [worked('⚖️ Cas pratique — choisir une forme juridique', [
+      { t: 'example', h: 'Situation', c: 'Un entrepreneur veut lancer son activité tout en protégeant son patrimoine personnel en cas de dettes. Que lui conseiller ?' },
+      { t: 'list', c: [
+        '**Règle** : en **entreprise individuelle**, l’entrepreneur et l’entreprise ne forment qu’une personne (patrimoine plus exposé). En **société** (SARL, SAS), la société est une **personne morale** distincte : le patrimoine est séparé et la responsabilité est **limitée aux apports**.',
+        '**Application** : pour protéger son patrimoine personnel, il faut séparer les patrimoines.',
+        '**Conclusion** : créer une **société à responsabilité limitée** (SARL/SAS) est la solution adaptée.',
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'La **propriété industrielle** (brevet, marque) protège l’innovation ; ne la confonds pas avec le droit d’auteur.' },
+    ])],
+  },
+
+  // =========================================================================
+  // ÉCONOMIE (Terminale) — raisonnements et calculs
+  // =========================================================================
+  'eco-t6': {
+    sections: [worked('💶 Exemple — pourquoi et comment l’État intervient', [
+      { t: 'example', h: 'Situation', c: 'En période de fort chômage, faut-il que l’État intervienne dans l’économie ?' },
+      { t: 'list', c: [
+        '**Allouer** : l’État produit des **biens publics** (routes, école, défense) que le marché ne fournit pas seul.',
+        '**Redistribuer** : impôts et prestations réduisent les inégalités.',
+        '**Stabiliser** : face au chômage, il peut soutenir l’activité (dépense publique, baisse d’impôts) → politique de relance.',
+      ] },
+      { t: 'warning', h: 'Nuance', c: 'L’intervention a un coût (déficit, dette). Ne confonds pas **déficit** (flux annuel) et **dette** (stock accumulé).' },
+    ])],
+  },
+  'eco-t7': {
+    sections: [worked('💶 Exemple chiffré — le taux de chômage', [
+      { t: 'example', h: 'Énoncé', c: 'Population active = 30 millions ; nombre de chômeurs = 2,4 millions. Calcule le taux de chômage.' },
+      { t: 'list', c: [
+        '**Taux de chômage** = chômeurs / population active = 2,4 / 30 = 0,08 = **8 %**.',
+        'Rappel : un **chômeur au sens du BIT** est **sans emploi, disponible et à la recherche active** d’un emploi.',
+        'À ne pas confondre avec le **taux d’emploi** (part des personnes en emploi dans la population en âge de travailler).',
+      ] },
+      { t: 'tip', h: 'Attention', c: 'Un **inactif** (étudiant, retraité) n’est pas un chômeur : il ne fait pas partie de la population active.' },
+    ])],
+  },
+  'eco-t8': {
+    sections: [worked('💶 Exemple chiffré — la balance commerciale', [
+      { t: 'example', h: 'Énoncé', c: 'Un pays exporte pour 500 milliards € et importe pour 560 milliards €. Que peut-on dire de sa balance commerciale ?' },
+      { t: 'list', c: [
+        '**Solde commercial** = exportations − importations = 500 − 560 = **−60 milliards €**.',
+        'Le solde est **négatif** → la balance commerciale est **déficitaire** (on importe plus qu’on n’exporte).',
+        '**Nuance** : le libre-échange fait des gagnants **et** des perdants → réponse à nuancer (théorie vs réalité sociale).',
+      ] },
+      { t: 'tip', h: 'Signe', c: 'Garde le **signe** : déficit = solde négatif, excédent = solde positif.' },
+    ])],
+  },
+  'eco-t9': {
+    sections: [worked('💶 Exemple — croissance, développement, soutenabilité', [
+      { t: 'example', h: 'Situation', c: 'Un pays affiche une forte croissance du PIB, mais une pollution qui augmente et des inégalités qui se creusent. Est-ce un vrai « progrès » ?' },
+      { t: 'list', c: [
+        '**Croissance** = augmentation quantitative de la production (PIB) ; **développement** = amélioration qualitative des conditions de vie (mesurée par l’**IDH**).',
+        'La pollution est une **externalité négative** : le marché seul ne la corrige pas → intervention publique nécessaire.',
+        '**Soutenabilité** : une croissance n’est durable que si elle préserve l’environnement et les générations futures.',
+      ] },
+      { t: 'tip', h: 'À distinguer', c: 'PIB (richesse marchande) ≠ bien-être : il ignore les inégalités, l’environnement et le travail non rémunéré → d’où l’IDH.' },
+    ])],
+  },
+
+  // =========================================================================
+  // PHILOSOPHIE — méthode
+  // =========================================================================
+  'philo-notions': {
+    sections: [worked('🤔 Méthode — analyser une notion (ex. la liberté)', [
+      { t: 'list', c: [
+        '**Définir** : donner le sens courant, puis le sens philosophique (être libre = faire ce que l’on veut ? ou se donner ses propres règles ?).',
+        '**Distinguer** : liberté / licence (faire n’importe quoi) ; liberté / déterminisme (sommes-nous déterminés ?).',
+        '**Problématiser** : la vraie liberté est-elle l’absence de contraintes, ou l’obéissance à des règles que l’on se donne (autonomie) ?',
+        '**Illustrer** : un exemple concret ou un auteur (ex. « on n’est pas libre de ne pas être libre », Sartre).',
+      ] },
+      { t: 'tip', h: 'Réflexe', c: 'Une notion se travaille toujours en la **distinguant** d’une notion voisine : c’est ce qui fait la profondeur d’une copie de philo.' },
+    ])],
+  },
+  'philo-methode': {
+    sections: [worked('🤔 Méthode — construire une dissertation', [
+      { t: 'list', c: [
+        '**Analyser le sujet** : définir chaque mot, repérer le problème (ce qui n’est pas évident).',
+        '**Problématique** : transformer le sujet en une vraie question (« peut-on… ? faut-il… ? »).',
+        '**Plan dialectique** : I. Thèse (oui, parce que…) — II. Antithèse (mais…) — III. Dépassement (en réalité…).',
+        '**Argumenter** : chaque partie = une idée + un argument + un exemple (ou un auteur).',
+      ] },
+      { t: 'tip', h: 'Conseil', c: 'L’introduction (amener le sujet → problématique → annonce du plan) et la conclusion (réponse claire) sont ce que le correcteur lit le plus attentivement.' },
+    ])],
+  },
+
+  // =========================================================================
+  // PREMIÈRE — Sciences de gestion et numérique
+  // =========================================================================
+  'p1-sgn-t1': {
+    sections: [worked('💼 Exemple — de l’individu à l’acteur', [
+      { t: 'example', h: 'Cas', c: 'Dans un restaurant, Léa est serveuse : elle prend les commandes, conseille les clients et forme les nouveaux.' },
+      { t: 'list', c: [
+        '**Statut** : sa position dans l’organisation (salariée, serveuse).',
+        '**Rôle** : le comportement attendu (accueillir, servir, conseiller) → elle devient un **acteur** par ce qu’elle fait.',
+        '**Compétences** : savoir (les plats), savoir-faire (le service), savoir-être (le relationnel).',
+      ] },
+      { t: 'tip', h: 'Piège', c: 'On ne réduit pas une personne à son statut : c’est par son **rôle** et ses **compétences** qu’elle agit dans l’organisation.' },
+    ])],
+  },
+  'p1-sgn-t2': {
+    sections: [worked('💻 Exemple — de la donnée à la connaissance', [
+      { t: 'example', h: 'Cas', c: 'Une caisse enregistre « 14/03, produit A, 3 unités, 12 € ».' },
+      { t: 'list', c: [
+        '**Donnée** : brute, isolée (« 3 », « 12 € »).',
+        '**Information** : la donnée mise en contexte (« le 14/03, on a vendu 3 unités de A pour 12 € »).',
+        '**Connaissance** : mobilisable pour décider (« A se vend surtout le week-end → réassortir »).',
+        'Un **PGI/ERP** relie tout via une **base de données unique** → l’information circule sans ressaisie.',
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'Donnée → information → connaissance : chaque étape ajoute du sens et de l’utilité.' },
+    ])],
+  },
+  'p1-sgn-t3': {
+    sections: [worked('💼 Exemple — valeur et performance', [
+      { t: 'example', h: 'Cas', c: 'Un artisan vend un meuble 800 €. Le bois et les fournitures lui ont coûté 300 €.' },
+      { t: 'list', c: [
+        '**Valeur ajoutée** = valeur de la production − consommations intermédiaires = 800 − 300 = **500 €** (la richesse réellement créée).',
+        '**Efficacité** : atteindre l’objectif (le meuble est vendu).',
+        '**Efficience** : l’atteindre en économisant les moyens (moins de chutes de bois, moins de temps).',
+      ] },
+      { t: 'tip', h: 'Ne pas confondre', c: 'Efficacité = le résultat est atteint ; efficience = il est atteint **au meilleur coût**.' },
+    ])],
+  },
+  'p1-sgn-t4': {
+    sections: [worked('💼 Exemple — temps et risque', [
+      { t: 'example', h: 'Cas', c: 'Une entreprise investit 50 000 € dans une machine qui doit rapporter davantage… mais seulement dans quelques années.' },
+      { t: 'list', c: [
+        '**Le temps** : un investissement engage l’avenir ; le gain est différé, pas immédiat.',
+        '**Le risque** : la machine peut tomber en panne, la demande peut baisser → le résultat est incertain.',
+        'Décider, c’est **arbitrer** entre un coût certain aujourd’hui et un gain incertain demain.',
+      ] },
+      { t: 'tip', h: 'Idée clé', c: 'Toute décision de gestion se prend dans l’incertitude : on cherche à réduire le risque, pas à le supprimer.' },
+    ])],
+  },
+
+  // =========================================================================
+  // PREMIÈRE — Droit
+  // =========================================================================
+  'p1-droit-t1': {
+    sections: [worked('⚖️ Exemple — droit et règle de droit', [
+      { t: 'example', h: 'Situation', c: 'Griller un feu rouge : est-ce une faute morale ou juridique ? Quelle différence ?' },
+      { t: 'list', c: [
+        'La **règle de droit** est **générale, obligatoire et sanctionnée** par l’État (amende, retrait de points).',
+        'La **morale**, elle, n’est pas sanctionnée par l’État (seulement par la conscience).',
+        '**Droit objectif** = l’ensemble des règles ; **droits subjectifs** = les prérogatives d’une personne (ex. droit de propriété).',
+      ] },
+      { t: 'tip', h: 'À distinguer', c: 'Ce qui caractérise le droit : la **sanction organisée par l’État**. C’est ce qui le sépare de la morale.' },
+    ])],
+  },
+  'p1-droit-t2': {
+    sections: [worked('⚖️ Exemple — le litige et sa résolution', [
+      { t: 'example', h: 'Situation', c: 'Un client n’est pas livré malgré son paiement : un litige naît avec le vendeur.' },
+      { t: 'list', c: [
+        '**Les parties** : le demandeur (le client) et le défendeur (le vendeur).',
+        '**Modes de résolution** : à l’amiable (négociation, médiation, conciliation) ou en justice (procès).',
+        '**La preuve** : « qui allègue un fait doit le prouver » (facture, contrat, mails).',
+      ] },
+      { t: 'tip', h: 'Réflexe', c: 'Avant le procès, on privilégie les modes **amiables** (plus rapides et moins coûteux).' },
+    ])],
+  },
+  'p1-droit-t3': {
+    sections: [worked('⚖️ Exemple — les personnes juridiques', [
+      { t: 'example', h: 'Cas', c: 'Une jeune femme de 25 ans crée une entreprise sous forme de société.' },
+      { t: 'list', c: [
+        '**Personne physique** : un être humain, doté de la personnalité juridique de la naissance à la mort.',
+        '**Personne morale** : un groupement (société, association) qui a sa propre existence juridique.',
+        '**Capacité** : à 25 ans, elle est majeure et capable → elle peut contracter seule.',
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'La société est une **personne morale** : son patrimoine est distinct de celui de ses associés.' },
+    ])],
+  },
+  'p1-droit-t4': {
+    sections: [worked('⚖️ Exemple — les droits des personnes', [
+      { t: 'example', h: 'Cas', c: 'Une personne possède une maison (bien) et a droit au respect de sa vie privée.' },
+      { t: 'list', c: [
+        '**Droits patrimoniaux** : ils ont une valeur en argent et peuvent se vendre/transmettre (propriété, créances).',
+        '**Droits extrapatrimoniaux** : ils n’ont pas de prix et sont attachés à la personne (droit à la vie privée, à l’image, au nom).',
+        'Les seconds sont **incessibles** : on ne peut pas les vendre.',
+      ] },
+      { t: 'tip', h: 'À distinguer', c: 'Patrimonial = « chiffrable et cessible » ; extrapatrimonial = « attaché à la personne, non monnayable ».' },
+    ])],
+  },
+
+  // =========================================================================
+  // PREMIÈRE — Économie
+  // =========================================================================
+  'p1-eco-t1': {
+    sections: [worked('💶 Exemple — rareté et choix économiques', [
+      { t: 'example', h: 'Situation', c: 'Avec un budget de 50 €, un étudiant hésite entre des livres et des sorties.' },
+      { t: 'list', c: [
+        '**Rareté** : les ressources (ici l’argent) sont limitées face à des besoins illimités.',
+        '**Choix & coût d’opportunité** : choisir les livres, c’est renoncer aux sorties (ce à quoi on renonce = coût d’opportunité).',
+        '**Les agents** (ménages, entreprises, État) font tous des choix sous contrainte de ressources.',
+      ] },
+      { t: 'tip', h: 'Idée fondatrice', c: 'L’économie étudie comment des agents font des **choix** face à la **rareté**.' },
+    ])],
+  },
+  'p1-eco-t2': {
+    sections: [worked('💶 Exemple chiffré — la valeur ajoutée', [
+      { t: 'example', h: 'Énoncé', c: 'Une boulangerie produit pour 300 000 € de pain sur l’année. Elle a acheté pour 110 000 € de farine, d’énergie et de fournitures.' },
+      { t: 'list', c: [
+        '**Valeur ajoutée** = production − consommations intermédiaires = 300 000 − 110 000 = **190 000 €**.',
+        'La VA mesure la **richesse réellement créée** (pas le chiffre d’affaires).',
+        'La somme des VA de toutes les entreprises d’un pays = le **PIB**.',
+      ] },
+      { t: 'tip', h: 'Piège', c: 'Ne confonds pas production (300 000) et valeur ajoutée (190 000) : on retire ce qui a été acheté à d’autres (les consommations intermédiaires).' },
+    ])],
+  },
+  'p1-eco-t3': {
+    sections: [worked('💶 Exemple — la répartition des revenus', [
+      { t: 'example', h: 'Situation', c: 'Un salarié gagne 1 800 € net, touche des allocations et paie des impôts.' },
+      { t: 'list', c: [
+        '**Revenus primaires** : issus de la production — du travail (salaire) ou du capital (loyers, dividendes, intérêts).',
+        '**Redistribution** : l’État prélève (impôts, cotisations) et verse des **prestations** (allocations, retraites) → revenu disponible.',
+        'Objectif : réduire les **inégalités** et couvrir les risques sociaux.',
+      ] },
+      { t: 'tip', h: 'Formule', c: 'Revenu disponible = revenus primaires + prestations reçues − prélèvements obligatoires.' },
+    ])],
+  },
+  'p1-eco-t5': {
+    sections: [worked('💶 Exemple — le marché et le prix d’équilibre', [
+      { t: 'example', h: 'Situation', c: 'Sur un marché, quand le prix d’un produit baisse, les acheteurs sont plus nombreux mais les vendeurs moins motivés.' },
+      { t: 'list', c: [
+        '**Demande** : elle **augmente** quand le prix baisse (courbe décroissante).',
+        '**Offre** : elle **augmente** quand le prix monte (courbe croissante).',
+        '**Prix d’équilibre** : là où offre = demande. Ce n’est pas l’État qui le fixe (marché concurrentiel).',
+        '**Élasticité** : mesure la sensibilité de la demande au prix (garde le signe, raisonne en %).',
+      ] },
+      { t: 'tip', h: 'Voir le schéma', c: 'Le « Schéma du thème » (offre/demande) illustre exactement ce point d’équilibre.' },
+    ])],
+  },
+
+  // =========================================================================
+  // PREMIÈRE — Français (EAF)
+  // =========================================================================
+  'p1-fr-1': {
+    sections: [worked('✒️ Méthode — construire un commentaire', [
+      { t: 'list', c: [
+        '**Lire et repérer les mouvements** du texte (ses grandes étapes de sens).',
+        '**Analyser les procédés** (figures, ponctuation, champs lexicaux) → toujours dire **quel effet** ils produisent.',
+        '**Bâtir un plan** : 2 ou 3 axes de lecture (ex. « un portrait élogieux » / « une critique voilée »).',
+        '**Rédiger** : chaque paragraphe = une idée + une citation + une analyse.',
+      ] },
+      { t: 'tip', h: 'Erreur à éviter', c: 'Ne pas paraphraser (redire le texte). Le commentaire **explique comment** le texte produit du sens.' },
+    ])],
+  },
+  'p1-fr-2': {
+    sections: [worked('✒️ Méthode — contraction & essai', [
+      { t: 'list', c: [
+        '**Contraction** : réduire le texte (souvent au **quart**) en gardant les idées et l’ordre, sans citer ni commenter.',
+        'Rester **fidèle** : ne rien ajouter, ne rien juger ; reformuler avec ses propres mots.',
+        '**Essai** : donner un avis **argumenté** sur une question liée au texte, avec des exemples.',
+        'Compter ses mots : le respect du nombre de mots est noté.',
+      ] },
+      { t: 'tip', h: 'Piège', c: 'Contraction = fidélité (pas d’avis) ; essai = argumentation (ton avis, justifié). Ne mélange pas les deux exercices.' },
     ])],
   },
 }
