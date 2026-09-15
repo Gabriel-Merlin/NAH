@@ -26,6 +26,7 @@ export default function Revise() {
   const [shareCode, setShareCode] = useState('')
   const [importCode, setImportCode] = useState('')
   const [importMsg, setImportMsg] = useState('')
+  const [showImport, setShowImport] = useState(false)
   if (!state.track) return <Navigate to="/" replace />
 
   const queue = useMemo(() => reviewQueue(state, state.track), [state])
@@ -112,57 +113,67 @@ export default function Revise() {
         </section>
       )}
 
-      {/* 3) TES MATIÈRES — pour commencer un nouveau cours (toujours accessible) */}
+      {/* 3) TES MATIÈRES — grille compacte (pour commencer un nouveau cours) */}
       <section className="space-y-2.5">
         <h2 className="px-1 font-display text-lg font-semibold">📚 {t('mySubjects')}</h2>
-        {subjects.map((s) => {
-          const inProgress = startedSubjects.has(s.id)
-          return (
-            <Link key={s.id} to={`/subject/${s.id}`} className="card flex items-center gap-3 p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '22' }} aria-hidden>{s.icon || '📘'}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-semibold">{s.name}</span>
-                <span className="block text-xs text-slate-400">{(s.chapters || []).length} {t('themesCount')}</span>
-              </span>
-              <span className="chip shrink-0" style={{ backgroundColor: s.color + '18', color: s.color }}>{inProgress ? t('continueChip') : t('startChip')}</span>
-              <span className="text-slate-300" aria-hidden>›</span>
-            </Link>
-          )
-        })}
+        <div className="grid grid-cols-2 gap-3">
+          {subjects.map((s) => {
+            const inProgress = startedSubjects.has(s.id)
+            return (
+              <Link key={s.id} to={`/subject/${s.id}`} className="card flex flex-col gap-2 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+                <div className="flex items-center justify-between">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '22' }} aria-hidden>{s.icon || '📘'}</span>
+                  {inProgress && <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: s.color }} title={t('continueChip')} />}
+                </div>
+                <div className="min-w-0">
+                  <span className="block truncate font-display text-sm font-semibold leading-tight">{s.short || s.name}</span>
+                  <span className="block text-xs" style={{ color: s.color }}>{inProgress ? t('continueChip') : t('startChip')}</span>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
       </section>
 
-      {/* 4) MES FLASHCARDS (paquets enregistrés depuis les cours) */}
+      {/* 4) MES FLASHCARDS — compact (options secondaires masquées) */}
       <section className="space-y-2.5">
         <div className="flex items-center justify-between px-1">
           <h2 className="font-display text-lg font-semibold">🃏 {t('myDecks')}</h2>
           {decks.length > 0 && <span className="chip bg-slate-100 text-slate-500 dark:bg-slate-800">{decks.length}</span>}
         </div>
         {decks.length === 0 ? (
-          <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('noDeckYet')}</div>
+          <p className="px-1 text-sm text-slate-400">{t('noDeckYet')}</p>
         ) : (
           decks.map((d) => (
-            <div key={d.id} className="card flex items-center gap-2 p-3.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
-              <button onClick={() => setPlaying(d)} className="min-w-0 flex-1 text-left">
-                <span className="block truncate text-sm font-semibold">{d.title}</span>
-                <span className="block text-xs text-slate-400">{d.cards.length} {t('cardsCount')}</span>
+            <div key={d.id} className="card flex items-center gap-1 p-3">
+              <button onClick={() => setPlaying(d)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-semibold">{d.title}</span>
+                  <span className="block text-xs text-slate-400">{d.cards.length} {t('cardsCount')}</span>
+                </span>
               </button>
-              <button onClick={() => setPlaying(d)} title={t('review')} aria-label={t('review')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-white" style={{ backgroundColor: d.color || 'var(--c-accent)' }}>▶</button>
-              <button onClick={() => setAudio(d)} title={t('audioReview')} aria-label={t('audioReview')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent)' }}>🔊</button>
-              <button onClick={() => share(d)} title={t('shareDeck')} aria-label={t('shareDeck')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent)' }}>📤</button>
-              <button onClick={() => removeDeck(d.id)} title={t('remove')} aria-label={t('remove')} className="shrink-0 text-slate-400 transition hover:text-rose-500">🗑</button>
+              <button onClick={() => setAudio(d)} title={t('audioReview')} aria-label={t('audioReview')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 transition hover:text-slate-700 dark:hover:text-slate-200">🔊</button>
+              <button onClick={() => share(d)} title={t('shareDeck')} aria-label={t('shareDeck')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 transition hover:text-slate-700 dark:hover:text-slate-200">📤</button>
+              <button onClick={() => removeDeck(d.id)} title={t('remove')} aria-label={t('remove')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-300 transition hover:text-rose-500">🗑</button>
             </div>
           ))
         )}
-        <p className="px-1 text-xs text-slate-400">{t('decksHowTo')}</p>
-        <div className="card p-4">
-          <p className="mb-2 text-sm font-semibold">📥 {t('importDeck')}</p>
-          <div className="flex gap-2">
-            <input value={importCode} onChange={(e) => { setImportCode(e.target.value); setImportMsg('') }} placeholder={t('importPlaceholder')} className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-transparent px-3 py-2 text-sm outline-none dark:border-slate-700" />
-            <button onClick={doImport} disabled={!importCode.trim()} className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-40">{t('importBtn')}</button>
+        {showImport ? (
+          <div className="card p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <p className="text-sm font-semibold">📥 {t('importDeck')}</p>
+              <button onClick={() => setShowImport(false)} className="text-slate-400 transition hover:text-slate-600" aria-label={t('quit')}>✕</button>
+            </div>
+            <div className="flex gap-2">
+              <input value={importCode} onChange={(e) => { setImportCode(e.target.value); setImportMsg('') }} placeholder={t('importPlaceholder')} className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-transparent px-3 py-2 text-sm outline-none dark:border-slate-700" />
+              <button onClick={doImport} disabled={!importCode.trim()} className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-40">{t('importBtn')}</button>
+            </div>
+            {importMsg && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{importMsg}</p>}
           </div>
-          {importMsg && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{importMsg}</p>}
-        </div>
+        ) : (
+          <button onClick={() => setShowImport(true)} className="w-full py-1 text-center text-xs text-slate-400 transition hover:text-slate-600">＋ {t('importDeck')}</button>
+        )}
       </section>
 
       {/* 5) OBJECTIF DE LA SEMAINE (compact, en bas) */}
