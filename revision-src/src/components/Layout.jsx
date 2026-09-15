@@ -26,6 +26,14 @@ export default function Layout({ children }) {
   const focus = useFocus()
   const { standalone } = useInstall() // masque le guide d'installation dans l'app installée
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  // Bouton « retour » (croix) universel : présent sur toute page où l'on a
+  // cliqué pour entrer, jamais sur l'accueil / l'écran de choix de filière.
+  const isHomeLike = pathname === '/' || pathname === '/accueil' || pathname === '/changer'
+  const goBack = () => {
+    if (typeof window !== 'undefined' && window.history.state && window.history.state.idx > 0) navigate(-1)
+    else navigate('/accueil')
+  }
   const [searchOpen, setSearchOpen] = useState(false)
   const [dictOpen, setDictOpen] = useState(false)
   const [custOpen, setCustOpen] = useState(false)
@@ -71,6 +79,16 @@ export default function Layout({ children }) {
         }}
       >
         <div className="mx-auto flex max-w-4xl items-center gap-2 px-4 py-2.5">
+          {!isHomeLike && (
+            <button
+              onClick={goBack}
+              aria-label={t('back')}
+              title={t('back')}
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
+            >
+              ✕
+            </button>
+          )}
           <Link to="/accueil" className="mr-auto flex items-center gap-2 font-display text-2xl font-semibold tracking-tight">
             <span aria-hidden style={{ color: 'var(--c-accent)' }}><Icon.Diamond size={15} /></span>
             <span>
