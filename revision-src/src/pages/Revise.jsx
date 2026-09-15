@@ -35,7 +35,10 @@ export default function Revise() {
   const hasRealLesson = (themeId) => {
     const rec = state.chapters[themeId]
     if (!rec) return false
-    if ((rec.quiz || 0) > 0) return true // test du thème
+    if (rec.worked) return true // le thème a été réellement travaillé
+    // Compat anciennes données (avant le drapeau « worked ») : un vrai jeu du
+    // chapitre suffit. On n'utilise PAS le score de quiz seul, qui pouvait venir
+    // d'un bac blanc et remplissait « À réviser » de thèmes jamais étudiés.
     return Object.keys(rec.games || {}).some((id) => !CROSS.has(id))
   }
   const started = queue.filter((q) => hasRealLesson(q.themeId))

@@ -5,6 +5,11 @@ import { saveProgress, isSignedIn, refreshSession, fetchProfile, getSession } fr
 import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
 
+// Modes transverses qui touchent plein de thèmes d'un coup (bac blanc, coach IA,
+// défi, express) : ils enregistrent un score mais NE marquent PAS un thème comme
+// « travaillé », sinon « À réviser » se remplit de thèmes jamais étudiés.
+const CROSS_GAMES = new Set(['exam', 'coach-ia', 'daily', 'express'])
+
 // Champs de progression synchronisés sur le compte (multi-appareil).
 const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks', 'dailyChallenge', 'notes']
 function pickProgress(s) {
@@ -26,7 +31,7 @@ function mergeProgress(a, b) {
     const cur = chapters[cid] || { games: {}, quiz: 0 }
     const games = { ...(cur.games || {}) }
     for (const [gid, pct] of Object.entries(rec.games || {})) games[gid] = Math.max(games[gid] || 0, pct || 0)
-    chapters[cid] = { games, quiz: Math.max(cur.quiz || 0, rec.quiz || 0) }
+    chapters[cid] = { games, quiz: Math.max(cur.quiz || 0, rec.quiz || 0), worked: !!(cur.worked || rec.worked) }
   }
   out.chapters = chapters
   const as = a.streak || { count: 0, last: null }, bs = b.streak || { count: 0, last: null }
@@ -306,6 +311,9 @@ export function StoreProvider({ children }) {
         const ch = (next.chapters[chapterId] ||= { games: {}, quiz: 0 })
         if (quiz) ch.quiz = Math.max(ch.quiz || 0, Math.round(pct))
         else ch.games[gameId] = Math.max(ch.games[gameId] || 0, Math.round(pct))
+        // Marque le thème comme réellement travaillé (leçon/jeu/test du thème),
+        // hors modes transverses — c'est ce drapeau que « À réviser » consulte.
+        if (chapterId && !CROSS_GAMES.has(gameId)) ch.worked = true
         next.xp += Math.round(xp)
         next.coins = (next.coins || 0) + Math.round(xp) // pièces gagnées avec l'XP
         next.totalAnswers += total

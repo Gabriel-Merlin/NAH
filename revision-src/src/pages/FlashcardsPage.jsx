@@ -75,7 +75,7 @@ export default function FlashcardsPage() {
   if (!deck) return <Navigate to="/revision" replace />
 
   const Bar = (
-    <div className="flex items-center gap-3 px-4 pt-4 pb-2">
+    <div className="flex items-center gap-3 px-4 pb-2" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1.5rem)' }}>
       <button onClick={() => navigate('/revision')} aria-label={t('quit')} className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-slate-500 shadow dark:bg-slate-800 dark:text-slate-300">✕</button>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold">{deck.title}</p>
