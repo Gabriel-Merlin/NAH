@@ -1,47 +1,46 @@
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useStore, isoWeekKey, WEEKLY_GOAL } from '../store.jsx'
-import { reviewQueue, reviewStats } from '../data/study.js'
+import { reviewQueue } from '../data/study.js'
+import { subjectsForTrack } from '../data/tracks.js'
 import { ProgressBar } from '../components/ui.jsx'
 import Flashcards from '../games/Flashcards.jsx'
 import AudioReview from '../components/AudioReview.jsx'
 import { encodeDeck, decodeDeck } from '../deckShare.js'
 import { useT } from '../i18n.js'
 
+// Étiquette d'état d'un thème commencé (jamais « nouveau » ici : on ne liste que
+// ce que l'élève a déjà travaillé).
 const REASON = {
   due: { key: 'reasonDue', bg: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300', icon: '⏰' },
   weak: { key: 'reasonWeak', bg: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300', icon: '⚠️' },
-  new: { key: 'reasonNew', bg: 'bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300', icon: '✨' },
-  review: { key: 'reasonReview', bg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300', icon: '🔁' },
+  review: { key: 'reasonReview', bg: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300', icon: '✅' },
 }
 
 export default function Revise() {
-  const { state, derived, addXp, removeDeck, saveDeck, claimWeekly } = useStore()
+  const { state, addXp, removeDeck, saveDeck, claimWeekly } = useStore()
   const t = useT()
   const navigate = useNavigate()
-  const [playing, setPlaying] = useState(null) // paquet en cours (lecteur flashcards)
-  const [audio, setAudio] = useState(null) // paquet en cours (révision audio)
-  const [shareCode, setShareCode] = useState('') // code à partager
+  const [playing, setPlaying] = useState(null)
+  const [audio, setAudio] = useState(null)
+  const [shareCode, setShareCode] = useState('')
   const [importCode, setImportCode] = useState('')
   const [importMsg, setImportMsg] = useState('')
   if (!state.track) return <Navigate to="/" replace />
 
   const queue = useMemo(() => reviewQueue(state, state.track), [state])
-  const stats = reviewStats(queue)
-  const top = queue.slice(0, 14)
-  const first = queue.find((q) => q.reason === 'due') || queue.find((q) => q.reason === 'weak') || queue[0]
+  const started = queue.filter((q) => q.practiced) // uniquement ce qu'on a commencé
+  const first = started[0] // le plus prioritaire à reprendre
+  const hasStarted = started.length > 0
+  const subjects = useMemo(() => subjectsForTrack(state.track).filter((s) => s && !s.comingSoon && (s.chapters || []).length), [state.track])
+  const startedSubjects = useMemo(() => new Set(started.map((s) => s.subjectId)), [started])
+  const decks = state.savedDecks || []
 
   const wk = isoWeekKey()
   const weekDone = state.weekly?.week === wk ? (state.weekly.done?.length || 0) : 0
   const weekPct = Math.min(100, Math.round((weekDone / WEEKLY_GOAL) * 100))
   const weekReached = weekDone >= WEEKLY_GOAL
   const weekClaimed = state.weekly?.rewarded === wk
-
-  const tiles = [
-    { icon: '⏰', label: t('toReviewToday'), value: stats.due, color: '#d97706' },
-    { icon: '⚠️', label: t('weakPoints'), value: stats.weak, color: '#e11d48' },
-    { icon: '✨', label: t('neverSeen'), value: stats.fresh, color: '#7c3aed' },
-  ]
 
   const share = async (deck) => {
     const code = encodeDeck(deck)
@@ -60,22 +59,88 @@ export default function Revise() {
   return (
     <div className="animate-lux space-y-6">
       <header className="text-center">
-        <p className="kicker">🧠 {t('smartRevision')}</p>
-        <h1 className="mt-1 font-display text-[1.9rem] font-medium leading-tight">{t('smartRevision')}</h1>
+        <p className="kicker">🧠 {t('reviseTab')}</p>
+        <h1 className="mt-1 font-display text-[1.9rem] font-medium leading-tight">{t('reviseTab')}</h1>
         <span className="mx-auto mt-3 block h-px w-24 rounded-full" style={{ background: 'linear-gradient(90deg,transparent,#c8a24e,transparent)' }} />
-        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">{t('smartRevisionSub')}</p>
       </header>
 
-      {/* Mes flashcards — bien visibles en haut (paquets enregistrés depuis les cours) */}
+      {/* 1) REPRENDRE ce qu'on a commencé — ou COMMENCER si rien n'est commencé */}
+      {hasStarted ? (
+        <button
+          onClick={() => navigate(`/subject/${first.subjectId}/theme/${first.themeId}`)}
+          className="card card-lux flex w-full items-center gap-4 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl text-2xl text-white" style={{ backgroundColor: first.color }}>▶</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-xs font-semibold uppercase tracking-wide text-slate-400">{t('resumeTitle')}</span>
+            <span className="block truncate font-display text-lg font-semibold leading-tight">{first.themeName}</span>
+            <span className="block truncate text-xs text-slate-500 dark:text-slate-400">{first.subjectName}</span>
+          </span>
+          <span className="text-slate-300" aria-hidden>›</span>
+        </button>
+      ) : (
+        <section className="card card-lux p-6 text-center">
+          <div className="text-4xl" aria-hidden>🚀</div>
+          <h2 className="mt-2 font-display text-xl font-semibold">{t('startTitle')}</h2>
+          <p className="mx-auto mt-1 max-w-xs text-sm text-slate-500 dark:text-slate-400">{t('startSub')}</p>
+          {subjects[0] && (
+            <button onClick={() => navigate(`/subject/${subjects[0].id}`)} className="btn-gold mt-4 w-full !py-3 text-base">
+              📚 {t('startCourseBtn')}
+            </button>
+          )}
+        </section>
+      )}
+
+      {/* 2) À RÉVISER — la liste des thèmes commencés (aucun « nouveau » ici) */}
+      {hasStarted && (
+        <section className="space-y-2.5">
+          <h2 className="px-1 font-display text-lg font-semibold">🔁 {t('toReviseSection')}</h2>
+          {started.slice(0, 20).map((item) => {
+            const r = REASON[item.reason] || REASON.review
+            return (
+              <Link key={item.themeId} to={`/subject/${item.subjectId}/theme/${item.themeId}`} className="card flex items-center gap-3 p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: item.color + '22' }} aria-hidden>{r.icon}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-semibold">{item.themeName}</span>
+                  <span className="block text-xs text-slate-400">{item.subjectName}</span>
+                </span>
+                <span className="hidden w-14 sm:block"><ProgressBar value={item.score} color={item.color} /></span>
+                <span className={`chip shrink-0 ${r.bg}`}>{item.reason === 'review' ? `${item.score}%` : t(r.key)}</span>
+              </Link>
+            )
+          })}
+        </section>
+      )}
+
+      {/* 3) TES MATIÈRES — pour commencer un nouveau cours (toujours accessible) */}
+      <section className="space-y-2.5">
+        <h2 className="px-1 font-display text-lg font-semibold">📚 {t('mySubjects')}</h2>
+        {subjects.map((s) => {
+          const inProgress = startedSubjects.has(s.id)
+          return (
+            <Link key={s.id} to={`/subject/${s.id}`} className="card flex items-center gap-3 p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: s.color + '22' }} aria-hidden>{s.icon || '📘'}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-semibold">{s.name}</span>
+                <span className="block text-xs text-slate-400">{(s.chapters || []).length} {t('themesCount')}</span>
+              </span>
+              <span className="chip shrink-0" style={{ backgroundColor: s.color + '18', color: s.color }}>{inProgress ? t('continueChip') : t('startChip')}</span>
+              <span className="text-slate-300" aria-hidden>›</span>
+            </Link>
+          )
+        })}
+      </section>
+
+      {/* 4) MES FLASHCARDS (paquets enregistrés depuis les cours) */}
       <section className="space-y-2.5">
         <div className="flex items-center justify-between px-1">
           <h2 className="font-display text-lg font-semibold">🃏 {t('myDecks')}</h2>
-          {(state.savedDecks || []).length > 0 && <span className="chip bg-slate-100 text-slate-500 dark:bg-slate-800">{(state.savedDecks || []).length}</span>}
+          {decks.length > 0 && <span className="chip bg-slate-100 text-slate-500 dark:bg-slate-800">{decks.length}</span>}
         </div>
-        {(state.savedDecks || []).length === 0 ? (
+        {decks.length === 0 ? (
           <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('noDeckYet')}</div>
         ) : (
-          (state.savedDecks || []).map((d) => (
+          decks.map((d) => (
             <div key={d.id} className="card flex items-center gap-2 p-3.5">
               <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
               <button onClick={() => setPlaying(d)} className="min-w-0 flex-1 text-left">
@@ -90,7 +155,6 @@ export default function Revise() {
           ))
         )}
         <p className="px-1 text-xs text-slate-400">{t('decksHowTo')}</p>
-        {/* Importer un paquet partagé par un ami */}
         <div className="card p-4">
           <p className="mb-2 text-sm font-semibold">📥 {t('importDeck')}</p>
           <div className="flex gap-2">
@@ -101,8 +165,8 @@ export default function Revise() {
         </div>
       </section>
 
-      {/* Objectif de la semaine */}
-      <section className="card card-lux p-4">
+      {/* 5) OBJECTIF DE LA SEMAINE (compact, en bas) */}
+      <section className="card p-4">
         <div className="mb-2 flex items-center justify-between">
           <span className="font-display font-semibold">🎯 {t('weeklyGoal')}</span>
           <span className="text-sm font-semibold" style={{ color: 'var(--c-accent)' }}>{Math.min(weekDone, WEEKLY_GOAL)} / {WEEKLY_GOAL}</span>
@@ -110,49 +174,14 @@ export default function Revise() {
         <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
           <div className="h-full rounded-full transition-all" style={{ width: `${weekPct}%`, backgroundColor: 'var(--c-accent)' }} />
         </div>
-        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t('weeklyGoalHint').replace('{n}', WEEKLY_GOAL)}</p>
         {weekClaimed ? (
           <p className="mt-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">✅ {t('weeklyClaimed')}</p>
         ) : weekReached ? (
           <button onClick={claimWeekly} className="btn-gold mt-3 w-full !py-2.5 text-sm">🎁 {t('weeklyClaim')}</button>
-        ) : null}
+        ) : (
+          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t('weeklyGoalHint').replace('{n}', WEEKLY_GOAL)}</p>
+        )}
       </section>
-
-      <div className="grid grid-cols-3 gap-3">
-        {tiles.map((s) => (
-          <div key={s.label} className="card flex flex-col items-center justify-center p-4 text-center">
-            <span className="text-2xl" aria-hidden>{s.icon}</span>
-            <span className="mt-1 font-display text-2xl font-semibold" style={{ color: s.color }}>{s.value}</span>
-            <span className="mt-0.5 text-[0.62rem] uppercase tracking-wide text-slate-400">{s.label}</span>
-          </div>
-        ))}
-      </div>
-
-      {first && (
-        <button onClick={() => navigate(`/subject/${first.subjectId}/theme/${first.themeId}`)} className="btn-gold w-full !py-3.5 text-base">
-          ▶ {t('reviseNow')} — {first.themeName}
-        </button>
-      )}
-
-      <section className="space-y-2.5">
-        <h2 className="px-1 font-display text-lg font-medium">{t('priorityList')}</h2>
-        {top.map((item) => {
-          const r = REASON[item.reason] || REASON.review
-          return (
-            <Link key={item.themeId} to={`/subject/${item.subjectId}/theme/${item.themeId}`} className="card flex items-center gap-3 p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: item.color + '22' }} aria-hidden>{r.icon}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-semibold">{item.themeName}</span>
-                <span className="block text-xs text-slate-400">{item.subjectName}</span>
-              </span>
-              <span className={`chip shrink-0 ${r.bg}`}>{t(r.key)}</span>
-              <span className="hidden w-16 sm:block"><ProgressBar value={item.practiced ? item.score : 0} color={item.color} /></span>
-            </Link>
-          )
-        })}
-      </section>
-
-      <p className="text-center text-xs text-slate-400">{t('masteredThemes')} : <span className="font-semibold" style={{ color: 'var(--c-accent)' }}>{derived.chaptersMastered}</span></p>
 
       {/* Lecteur de flashcards */}
       {playing && (
@@ -167,10 +196,8 @@ export default function Revise() {
         </div>
       )}
 
-      {/* Révision audio mains-libres */}
       {audio && <AudioReview items={audio.cards} color={audio.color || '#7c3aed'} title={audio.title} onClose={() => setAudio(null)} />}
 
-      {/* Code de partage */}
       {shareCode && (
         <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-900/50 p-4 pt-16 backdrop-blur-sm" onClick={() => setShareCode('')}>
           <div className="card w-full max-w-md p-5" onClick={(e) => e.stopPropagation()}>
