@@ -381,7 +381,7 @@ function Breadcrumb() {
     } else if (parts[0] === 'coach') {
       items.push({ label: t('coach'), to: '/coach' })
     } else if (parts[0] === 'revision') {
-      items.push({ label: t('smartRevision'), to: '/revision' })
+      items.push({ label: t('reviseTab'), to: '/revision' })
     } else if (parts[0] === 'bac-blanc') {
       items.push({ label: t('mockExam'), to: '/bac-blanc' })
     } else if (parts[0] === 'programme') {
