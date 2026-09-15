@@ -317,6 +317,10 @@ button, a { transition: transform 0.15s cubic-bezier(0.22, 0.68, 0.24, 1); }
   .print-only {
     display: block !important;
   }
+  /* Onglets masqués à l'écran mais imprimés dans la fiche (cours + définitions) */
+  .print-show {
+    display: block !important;
+  }
   .print-header {
     margin-bottom: 12px;
     padding-bottom: 8px;

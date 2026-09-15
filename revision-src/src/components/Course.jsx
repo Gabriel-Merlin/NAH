@@ -78,7 +78,7 @@ export function Intro({ text, color }) {
   )
 }
 
-export function CourseSection({ sec, color, index, themeId, subjectId, sectionIdx }) {
+export function CourseSection({ sec, color, index, themeId, subjectId, sectionIdx, hideDefs = false }) {
   const ref = useRef(null)
   return (
     <section className="card relative p-5">
@@ -101,7 +101,7 @@ export function CourseSection({ sec, color, index, themeId, subjectId, sectionId
             </>
           )}
       </div>
-      <Definitions sec={sec} themeId={themeId} subjectId={subjectId} sectionIdx={sectionIdx ?? index ?? 0} color={color} />
+      {!hideDefs && <Definitions sec={sec} themeId={themeId} subjectId={subjectId} sectionIdx={sectionIdx ?? index ?? 0} color={color} />}
       </div>
     </section>
   )

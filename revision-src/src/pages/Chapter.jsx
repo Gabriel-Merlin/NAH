@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
-import { getChapter, getSubject, themeChapters, flashcardsForSection } from '../data/index.js'
+import { getChapter, getSubject, themeChapters, flashcardsForSection, sectionDefinitions } from '../data/index.js'
 import { useStore, useThemeTimer } from '../store.jsx'
 import { useInstall } from '../pwa.js'
 import { CourseSection, CourseText, saveFiche } from '../components/Course.jsx'
@@ -16,6 +16,7 @@ export default function Chapter() {
   const t = useT()
   const gameLabel = useGameLabel()
   const [activeGame, setActiveGame] = useState(null)
+  const [tab, setTab] = useState('cours') // Cours / Définitions / Exercices
   useThemeTimer(tid) // mesure le temps de révision passé sur ce thème
 
   // Génération stable par visite : on ne régénère (et re-mélange) les exercices
@@ -34,9 +35,11 @@ export default function Chapter() {
     return fc ? [...base, fc] : base
   }, [chapter, standalone, theme])
 
-  // Nouveau chapitre : on referme tout jeu ouvert et on remonte en haut.
+  // Nouveau chapitre : on referme tout jeu ouvert, on revient à l'onglet Cours
+  // et on remonte en haut.
   useEffect(() => {
     setActiveGame(null)
+    setTab('cours')
     window.scrollTo(0, 0)
   }, [tid, cidx])
 
@@ -46,6 +49,12 @@ export default function Chapter() {
   const prev = chapters[i - 1]
   const next = chapters[i + 1]
   const rec = state.chapters[tid]
+  const defBox = sectionDefinitions(chapter.section, tid, sid, chapter.idx)
+  const TABS = [
+    { id: 'cours', icon: '📖', key: 'tabLesson' },
+    { id: 'defs', icon: '📚', key: 'tabDefs' },
+    { id: 'exos', icon: '🎮', key: 'tabExercises' },
+  ]
 
   if (activeGame) {
     return (
@@ -95,61 +104,97 @@ export default function Chapter() {
         </button>
       </div>
 
-      {/* Cours du chapitre */}
-      <CourseSection sec={chapter.section} color={color} sectionIdx={chapter.idx} themeId={tid} subjectId={sid} />
-
-      {/* Flashcards à télécharger dans « Révision » (application installée) */}
-      {standalone && (() => {
-        const deck = games.find((g) => g.type === 'flashcard')
-        if (!deck) return null
-        const saved = (state.savedDecks || []).some((d) => d.id === deck.id)
-        return (
-          <section className="no-print card card-lux flex items-center gap-3 p-4">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>🃏</span>
-            <div className="min-w-0 flex-1">
-              <p className="font-display font-semibold leading-tight">{t('downloadDeckTitle')}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{deck.cards.length} {t('cardsCount')} · {t('downloadDeckHint')}</p>
-            </div>
+      {/* Onglets : Cours · Définitions · Exercices — pour ne rien empiler */}
+      <div className="no-print sticky top-[52px] z-30 -mx-4 border-b border-slate-200 bg-slate-50/90 px-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
+        <div className="flex gap-1">
+          {TABS.map((tb) => (
             <button
-              onClick={() => saveDeck({ id: deck.id, title: `${theme.short || theme.name} · ${chapter.title}`, subjectId: sid, themeId: tid, color, cards: deck.cards })}
-              disabled={saved}
-              className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-60"
-              style={{ backgroundColor: saved ? undefined : color }}
+              key={tb.id}
+              onClick={() => setTab(tb.id)}
+              className={`flex-1 border-b-2 px-2 py-2.5 text-sm font-semibold transition ${tab === tb.id ? 'text-slate-900 dark:text-white' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+              style={tab === tb.id ? { borderColor: color } : undefined}
+              aria-current={tab === tb.id}
             >
-              {saved ? `✓ ${t('deckSaved')}` : `⬇️ ${t('downloadDeck')}`}
+              <span className="mr-1" aria-hidden>{tb.icon}</span>
+              <span>{t(tb.key)}</span>
+              {tb.id === 'exos' && games.length > 0 && <span className="ml-1 text-xs opacity-60">{games.length}</span>}
             </button>
-          </section>
-        )
-      })()}
+          ))}
+        </div>
+      </div>
 
-      {/* Jeux de ce chapitre */}
-      {games.length > 0 && (
-        <section className="no-print space-y-2.5">
-          <h2 className="px-1 font-display text-lg font-bold">🎮 {t('gamesOfChapter')}</h2>
-          {games.map((g) => {
-            const best = rec?.games?.[g.id]
-            return (
+      {/* ONGLET COURS (imprimé dans la fiche PDF) */}
+      <div className={`${tab === 'cours' ? 'space-y-4' : 'hidden'} print-show`}>
+        <CourseSection sec={chapter.section} color={color} sectionIdx={chapter.idx} themeId={tid} subjectId={sid} hideDefs />
+        <p className="no-print px-1 text-xs text-slate-400">📚 {t('keyDefs')} → onglet « {t('tabDefs')} » · 🎮 {t('tabExercises')} → onglet dédié.</p>
+      </div>
+
+      {/* ONGLET DÉFINITIONS (imprimé dans la fiche PDF) */}
+      <div className={`${tab === 'defs' ? '' : 'hidden'} print-show`}>
+        {defBox.defs.length ? (
+          <section className="card p-5">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold">📚 {t('keyDefs')}</h2>
+            <dl className="space-y-3.5">
+              {defBox.defs.map((d, k) => (
+                <div key={k} className="border-l-[3px] pl-3" style={{ borderColor: color }}>
+                  <dt className="font-display font-semibold" style={{ color }}><CourseText text={d.term} /></dt>
+                  <dd className="text-[15px] leading-relaxed text-slate-600 dark:text-slate-300"><CourseText text={d.def} /></dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ) : (
+          <p className="card p-5 text-sm text-slate-500 dark:text-slate-400">{t('noDefsHere')}</p>
+        )}
+      </div>
+
+      {/* ONGLET EXERCICES (jamais imprimé) */}
+      <div className={`${tab === 'exos' ? 'space-y-2.5' : 'hidden'} no-print`}>
+        {standalone && (() => {
+          const deck = games.find((g) => g.type === 'flashcard')
+          if (!deck) return null
+          const saved = (state.savedDecks || []).some((d) => d.id === deck.id)
+          return (
+            <section className="card card-lux flex items-center gap-3 p-4">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>🃏</span>
+              <div className="min-w-0 flex-1">
+                <p className="font-display font-semibold leading-tight">{t('downloadDeckTitle')}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{deck.cards.length} {t('cardsCount')} · {t('downloadDeckHint')}</p>
+              </div>
               <button
-                key={g.id}
-                onClick={() => setActiveGame(g)}
-                className="card flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md"
+                onClick={() => saveDeck({ id: deck.id, title: `${theme.short || theme.name} · ${chapter.title}`, subjectId: sid, themeId: tid, color, cards: deck.cards })}
+                disabled={saved}
+                className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-60"
+                style={{ backgroundColor: saved ? undefined : color }}
               >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>{g.icon || '🎲'}</span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold leading-tight"><CourseText text={g.title} /></span>
-                  <span className="block text-xs text-slate-400">{gameLabel(g.type)}</span>
-                </span>
-                {best != null ? (
-                  <span className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">★ {best}%</span>
-                ) : (
-                  <span className="chip bg-slate-100 text-slate-400 dark:bg-slate-800">{t('new')}</span>
-                )}
-                <span className="text-slate-300" aria-hidden>›</span>
+                {saved ? `✓ ${t('deckSaved')}` : `⬇️ ${t('downloadDeck')}`}
               </button>
-            )
-          })}
-        </section>
-      )}
+            </section>
+          )
+        })()}
+        {games.length > 0 ? games.map((g) => {
+          const best = rec?.games?.[g.id]
+          return (
+            <button
+              key={g.id}
+              onClick={() => setActiveGame(g)}
+              className="card flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>{g.icon || '🎲'}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold leading-tight"><CourseText text={g.title} /></span>
+                <span className="block text-xs text-slate-400">{gameLabel(g.type)}</span>
+              </span>
+              {best != null ? (
+                <span className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">★ {best}%</span>
+              ) : (
+                <span className="chip bg-slate-100 text-slate-400 dark:bg-slate-800">{t('new')}</span>
+              )}
+              <span className="text-slate-300" aria-hidden>›</span>
+            </button>
+          )
+        }) : <p className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('gamesOfChapter')} —</p>}
+      </div>
 
       {/* Navigation entre chapitres */}
       <div className="no-print flex items-center justify-between gap-2 pt-1">
