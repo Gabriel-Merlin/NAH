@@ -13,6 +13,7 @@ import Classe from './pages/Classe.jsx'
 import Profile from './pages/Profile.jsx'
 import Coach from './pages/Coach.jsx'
 import Revise from './pages/Revise.jsx'
+import FlashcardsPage from './pages/FlashcardsPage.jsx'
 import BacBlanc from './pages/BacBlanc.jsx'
 import Programme from './pages/Programme.jsx'
 import GrandOral from './pages/GrandOral.jsx'
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/moi" element={<Profile />} />
         <Route path="/coach" element={<Coach />} />
         <Route path="/revision" element={<Revise />} />
+        <Route path="/revision/deck/:deckId" element={<FlashcardsPage />} />
         <Route path="/bac-blanc" element={<BacBlanc />} />
         <Route path="/programme" element={<Programme />} />
         <Route path="/grand-oral" element={<GrandOral />} />
