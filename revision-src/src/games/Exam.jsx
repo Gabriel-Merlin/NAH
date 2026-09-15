@@ -45,7 +45,10 @@ export default function Exam({ questions, durationSec = 1200, color = '#7c3aed',
       byTheme[tid].n++; if (answers[qi] === q.answer) byTheme[tid].c++
     })
     for (const [tid, v] of Object.entries(byTheme)) {
-      if (tid !== '__x') recordResult({ chapterId: tid, gameId: 'exam', quiz: true, pct: Math.round((v.c / v.n) * 100), correct: v.c, total: v.n, xp: 0 })
+      // On enregistre le bac blanc sous un jeu dédié « exam » (pas comme « quiz »
+      // du thème) : ainsi passer un bac blanc n'ajoute pas un thème dans « À
+      // réviser » tant que la leçon elle-même n'a pas été travaillée.
+      if (tid !== '__x') recordResult({ chapterId: tid, gameId: 'exam', quiz: false, pct: Math.round((v.c / v.n) * 100), correct: v.c, total: v.n, xp: 0 })
     }
     addXp(correct * 5)
   }, [submitted]) // eslint-disable-line react-hooks/exhaustive-deps

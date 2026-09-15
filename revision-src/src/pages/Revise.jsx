@@ -30,7 +30,17 @@ export default function Revise() {
   if (!state.track) return <Navigate to="/" replace />
 
   const queue = useMemo(() => reviewQueue(state, state.track), [state])
-  const started = queue.filter((q) => q.practiced) // uniquement ce qu'on a commencé
+  // Un thème n'est « commencé » que si sa LEÇON a été travaillée directement :
+  // un exercice du thème, ou le test du thème. Les activités transversales (bac
+  // blanc, coach IA, défi, express) ne suffisent PAS à le faire apparaître ici.
+  const CROSS = new Set(['exam', 'coach-ia', 'daily', 'express'])
+  const hasRealLesson = (themeId) => {
+    const rec = state.chapters[themeId]
+    if (!rec) return false
+    if ((rec.quiz || 0) > 0) return true // test du thème
+    return Object.keys(rec.games || {}).some((id) => !CROSS.has(id))
+  }
+  const started = queue.filter((q) => hasRealLesson(q.themeId))
   const first = started[0] // le plus prioritaire à reprendre
   const hasStarted = started.length > 0
   const subjects = useMemo(() => subjectsForTrack(state.track).filter((s) => s && !s.comingSoon && (s.chapters || []).length), [state.track])
