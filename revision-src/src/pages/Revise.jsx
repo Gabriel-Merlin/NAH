@@ -4,7 +4,6 @@ import { useStore, isoWeekKey, WEEKLY_GOAL } from '../store.jsx'
 import { reviewQueue } from '../data/study.js'
 import { subjectsForTrack } from '../data/tracks.js'
 import { ProgressBar } from '../components/ui.jsx'
-import Flashcards from '../games/Flashcards.jsx'
 import AudioReview from '../components/AudioReview.jsx'
 import { encodeDeck, decodeDeck } from '../deckShare.js'
 import { useT } from '../i18n.js'
@@ -18,10 +17,9 @@ const REASON = {
 }
 
 export default function Revise() {
-  const { state, addXp, removeDeck, saveDeck, claimWeekly } = useStore()
+  const { state, removeDeck, saveDeck, claimWeekly } = useStore()
   const t = useT()
   const navigate = useNavigate()
-  const [playing, setPlaying] = useState(null)
   const [audio, setAudio] = useState(null)
   const [shareCode, setShareCode] = useState('')
   const [importCode, setImportCode] = useState('')
@@ -156,7 +154,7 @@ export default function Revise() {
         ) : (
           decks.map((d) => (
             <div key={d.id} className="card flex items-center gap-1 p-3">
-              <button onClick={() => setPlaying(d)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
+              <button onClick={() => navigate(`/revision/deck/${d.id}`)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-semibold">{d.title}</span>
@@ -203,19 +201,6 @@ export default function Revise() {
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t('weeklyGoalHint').replace('{n}', WEEKLY_GOAL)}</p>
         )}
       </section>
-
-      {/* Lecteur de flashcards */}
-      {playing && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/50 p-4 pt-10 backdrop-blur-sm" onClick={() => setPlaying(null)}>
-          <div className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-2 flex items-center justify-between text-white">
-              <span className="truncate font-display text-lg">{playing.title}</span>
-              <button onClick={() => setPlaying(null)} className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-slate-600 shadow" aria-label={t('quit')}>✕</button>
-            </div>
-            <Flashcards game={{ cards: playing.cards }} color={playing.color || '#7c3aed'} onDone={({ correct = 0 }) => { try { addXp(Math.min(10, correct)) } catch { /* */ } setPlaying(null) }} />
-          </div>
-        </div>
-      )}
 
       {audio && <AudioReview items={audio.cards} color={audio.color || '#7c3aed'} title={audio.title} onClose={() => setAudio(null)} />}
 
