@@ -20,6 +20,7 @@ import { THEME_TERMS, subjectFallbackFor } from './keyterms.js'
 import { CAS_PRATIQUES } from './caspratiques.js'
 import { PIEGES } from './pieges.js'
 import { ENRICH } from './enrich.js'
+import { COURS_REELS } from './coursreels.js'
 
 export const SUBJECTS = [
   gestion,
@@ -78,6 +79,11 @@ for (const s of SUBJECTS) {
       if (lesson.resources) c.resources = lesson.resources
       if (lesson.essentiel) c.essentiel = lesson.essentiel
     }
+    // Cours « par l'exemple réel » (matières de gestion) : remplace le corps du
+    // cours par une explication ancrée dans un exemple concret. Les définitions
+    // ne sont plus dans le cours mais uniquement dans l'encadré « Définitions
+    // clés ». Appliqué après LESSONS pour bien remplacer.
+    if (COURS_REELS[c.id]?.length) c.cours = COURS_REELS[c.id]
     // Enrichissement additif (exemples résolus, sections complémentaires,
     // ressources) : on n'écrase rien, on ajoute à la fin.
     const enr = ENRICH[c.id]
