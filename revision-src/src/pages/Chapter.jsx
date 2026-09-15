@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { getChapter, getSubject, themeChapters, flashcardsForSection, sectionDefinitions } from '../data/index.js'
 import { useStore, useThemeTimer } from '../store.jsx'
-import { useInstall } from '../pwa.js'
 import { CourseSection, CourseText, saveFiche } from '../components/Course.jsx'
 import GameHost from '../games/GameHost.jsx'
 import { useT, useGameLabel } from '../i18n.js'
@@ -12,7 +11,6 @@ export default function Chapter() {
   const subject = getSubject(sid)
   const theme = getChapter(tid)
   const { state, saveDeck } = useStore()
-  const { standalone } = useInstall() // flashcards réservées à l'app installée
   const t = useT()
   const gameLabel = useGameLabel()
   const [activeGame, setActiveGame] = useState(null)
@@ -25,15 +23,14 @@ export default function Chapter() {
   const chapters = useMemo(() => (theme ? themeChapters(theme) : []), [theme, cidx]) // eslint-disable-line react-hooks/exhaustive-deps
   const chapter = chapters[Number(cidx)] || null
 
-  // Jeux affichés : ceux du chapitre + (dans l'app installée seulement) des
-  // flashcards générées à partir des notions de la section.
+  // Jeux affichés : ceux du chapitre + des flashcards générées à partir des
+  // notions de la section (disponibles partout, pas seulement dans l'app).
   const games = useMemo(() => {
     if (!chapter) return []
     const base = chapter.games || []
-    if (!standalone) return base
     const fc = flashcardsForSection(chapter.section, theme, chapter.idx)
     return fc ? [...base, fc] : base
-  }, [chapter, standalone, theme])
+  }, [chapter, theme])
 
   // Nouveau chapitre : on referme tout jeu ouvert, on revient à l'onglet Cours
   // et on remonte en haut.
@@ -150,25 +147,32 @@ export default function Chapter() {
 
       {/* ONGLET EXERCICES (jamais imprimé) */}
       <div className={`${tab === 'exos' ? 'space-y-2.5' : 'hidden'} no-print`}>
-        {standalone && (() => {
+        {(() => {
           const deck = games.find((g) => g.type === 'flashcard')
           if (!deck) return null
           const saved = (state.savedDecks || []).some((d) => d.id === deck.id)
           return (
-            <section className="card card-lux flex items-center gap-3 p-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>🃏</span>
-              <div className="min-w-0 flex-1">
-                <p className="font-display font-semibold leading-tight">{t('downloadDeckTitle')}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{deck.cards.length} {t('cardsCount')} · {t('downloadDeckHint')}</p>
+            <section className="card card-lux p-4">
+              <div className="flex items-center gap-3">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>🃏</span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-display font-semibold leading-tight">{t('downloadDeckTitle')}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{deck.cards.length} {t('cardsCount')} · {t('downloadDeckHint')}</p>
+                </div>
+                <button
+                  onClick={() => saveDeck({ id: deck.id, title: `${theme.short || theme.name} · ${chapter.title}`, subjectId: sid, themeId: tid, color, cards: deck.cards })}
+                  disabled={saved}
+                  className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-60"
+                  style={{ backgroundColor: saved ? undefined : color }}
+                >
+                  {saved ? `✓ ${t('deckSaved')}` : `⬇️ ${t('downloadDeck')}`}
+                </button>
               </div>
-              <button
-                onClick={() => saveDeck({ id: deck.id, title: `${theme.short || theme.name} · ${chapter.title}`, subjectId: sid, themeId: tid, color, cards: deck.cards })}
-                disabled={saved}
-                className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-60"
-                style={{ backgroundColor: saved ? undefined : color }}
-              >
-                {saved ? `✓ ${t('deckSaved')}` : `⬇️ ${t('downloadDeck')}`}
-              </button>
+              {saved && (
+                <Link to="/revision" className="mt-3 flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-semibold" style={{ backgroundColor: color + '18', color }}>
+                  <span>📚 {t('deckSavedWhere')}</span><span aria-hidden>→</span>
+                </Link>
+              )}
             </section>
           )
         })()}
