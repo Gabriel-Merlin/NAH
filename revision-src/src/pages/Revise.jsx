@@ -3,7 +3,6 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useStore, isoWeekKey, WEEKLY_GOAL } from '../store.jsx'
 import { reviewQueue, reviewStats } from '../data/study.js'
 import { ProgressBar } from '../components/ui.jsx'
-import { isStandalone } from '../pwa.js'
 import Flashcards from '../games/Flashcards.jsx'
 import AudioReview from '../components/AudioReview.jsx'
 import { encodeDeck, decodeDeck } from '../deckShare.js'
@@ -67,6 +66,41 @@ export default function Revise() {
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">{t('smartRevisionSub')}</p>
       </header>
 
+      {/* Mes flashcards — bien visibles en haut (paquets enregistrés depuis les cours) */}
+      <section className="space-y-2.5">
+        <div className="flex items-center justify-between px-1">
+          <h2 className="font-display text-lg font-semibold">🃏 {t('myDecks')}</h2>
+          {(state.savedDecks || []).length > 0 && <span className="chip bg-slate-100 text-slate-500 dark:bg-slate-800">{(state.savedDecks || []).length}</span>}
+        </div>
+        {(state.savedDecks || []).length === 0 ? (
+          <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('noDeckYet')}</div>
+        ) : (
+          (state.savedDecks || []).map((d) => (
+            <div key={d.id} className="card flex items-center gap-2 p-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
+              <button onClick={() => setPlaying(d)} className="min-w-0 flex-1 text-left">
+                <span className="block truncate text-sm font-semibold">{d.title}</span>
+                <span className="block text-xs text-slate-400">{d.cards.length} {t('cardsCount')}</span>
+              </button>
+              <button onClick={() => setPlaying(d)} title={t('review')} aria-label={t('review')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-white" style={{ backgroundColor: d.color || 'var(--c-accent)' }}>▶</button>
+              <button onClick={() => setAudio(d)} title={t('audioReview')} aria-label={t('audioReview')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent)' }}>🔊</button>
+              <button onClick={() => share(d)} title={t('shareDeck')} aria-label={t('shareDeck')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent)' }}>📤</button>
+              <button onClick={() => removeDeck(d.id)} title={t('remove')} aria-label={t('remove')} className="shrink-0 text-slate-400 transition hover:text-rose-500">🗑</button>
+            </div>
+          ))
+        )}
+        <p className="px-1 text-xs text-slate-400">{t('decksHowTo')}</p>
+        {/* Importer un paquet partagé par un ami */}
+        <div className="card p-4">
+          <p className="mb-2 text-sm font-semibold">📥 {t('importDeck')}</p>
+          <div className="flex gap-2">
+            <input value={importCode} onChange={(e) => { setImportCode(e.target.value); setImportMsg('') }} placeholder={t('importPlaceholder')} className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-transparent px-3 py-2 text-sm outline-none dark:border-slate-700" />
+            <button onClick={doImport} disabled={!importCode.trim()} className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-40">{t('importBtn')}</button>
+          </div>
+          {importMsg && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{importMsg}</p>}
+        </div>
+      </section>
+
       {/* Objectif de la semaine */}
       <section className="card card-lux p-4">
         <div className="mb-2 flex items-center justify-between">
@@ -116,43 +150,6 @@ export default function Revise() {
             </Link>
           )
         })}
-      </section>
-
-      {/* Mes flashcards téléchargées (application installée uniquement) */}
-      <section className="space-y-2.5">
-        <h2 className="px-1 font-display text-lg font-medium">🃏 {t('myDecks')}</h2>
-        {!isStandalone() ? (
-          <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('decksAppOnly')}</div>
-        ) : (
-          <>
-            {(state.savedDecks || []).length === 0 ? (
-              <div className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('noDeckYet')}</div>
-            ) : (
-              (state.savedDecks || []).map((d) => (
-                <div key={d.id} className="card flex items-center gap-2 p-3.5">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: (d.color || '#7c3aed') + '22' }} aria-hidden>🃏</span>
-                  <button onClick={() => setPlaying(d)} className="min-w-0 flex-1 text-left">
-                    <span className="block truncate text-sm font-semibold">{d.title}</span>
-                    <span className="block text-xs text-slate-400">{d.cards.length} {t('cardsCount')}</span>
-                  </button>
-                  <button onClick={() => setPlaying(d)} title={t('review')} aria-label={t('review')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-white" style={{ backgroundColor: d.color || 'var(--c-accent)' }}>▶</button>
-                  <button onClick={() => setAudio(d)} title={t('audioReview')} aria-label={t('audioReview')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent)' }}>🔊</button>
-                  <button onClick={() => share(d)} title={t('shareDeck')} aria-label={t('shareDeck')} className="grid h-9 w-9 shrink-0 place-items-center rounded-full" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent)' }}>📤</button>
-                  <button onClick={() => removeDeck(d.id)} title={t('remove')} aria-label={t('remove')} className="shrink-0 text-slate-400 transition hover:text-rose-500">🗑</button>
-                </div>
-              ))
-            )}
-            {/* Importer un paquet partagé par un ami */}
-            <div className="card p-4">
-              <p className="mb-2 text-sm font-semibold">📥 {t('importDeck')}</p>
-              <div className="flex gap-2">
-                <input value={importCode} onChange={(e) => { setImportCode(e.target.value); setImportMsg('') }} placeholder={t('importPlaceholder')} className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-transparent px-3 py-2 text-sm outline-none dark:border-slate-700" />
-                <button onClick={doImport} disabled={!importCode.trim()} className="btn-primary shrink-0 !min-h-0 !py-2 text-sm disabled:opacity-40">{t('importBtn')}</button>
-              </div>
-              {importMsg && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{importMsg}</p>}
-            </div>
-          </>
-        )}
       </section>
 
       <p className="text-center text-xs text-slate-400">{t('masteredThemes')} : <span className="font-semibold" style={{ color: 'var(--c-accent)' }}>{derived.chaptersMastered}</span></p>
