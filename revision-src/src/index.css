@@ -54,6 +54,23 @@
     background: var(--c-accent);
     color: #fff;
   }
+
+  /* ---- Accessibilité (activée depuis le panneau ♿) ---------------------- */
+  /* Confort dyslexie : police sans-serif lisible + espacements généreux. */
+  html.a11y-dys { --font-display: 'Verdana', 'Tahoma', 'Trebuchet MS', sans-serif; --font-body: 'Verdana', 'Tahoma', 'Trebuchet MS', sans-serif; }
+  html.a11y-dys body { letter-spacing: 0.045em; word-spacing: 0.16em; line-height: 1.8; }
+  html.a11y-dys p, html.a11y-dys li, html.a11y-dys button, html.a11y-dys a, html.a11y-dys label, html.a11y-dys input, html.a11y-dys h1, html.a11y-dys h2, html.a11y-dys h3 { letter-spacing: 0.03em; }
+  html.a11y-dys .font-display { letter-spacing: 0.02em; }
+
+  /* Fort contraste : fonds/texte purs + texte atténué rendu lisible. */
+  html.a11y-contrast { --c-ink: #111111; --c-bg: #ffffff; --c-card: #ffffff; }
+  html.a11y-contrast.dark { --c-ink: #ffffff; --c-bg: #000000; --c-card: #0a0a0a; }
+  html.a11y-contrast .text-slate-400, html.a11y-contrast .text-slate-500, html.a11y-contrast .text-slate-300 { color: var(--c-ink) !important; opacity: 0.85; }
+  html.a11y-contrast a, html.a11y-contrast .btn-ghost { text-decoration-thickness: 2px; }
+  html.a11y-contrast .card { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c-ink) 30%, transparent); }
+
+  /* Grand texte. */
+  html.a11y-big { font-size: 18.5px; }
 }
 
 @layer components {
@@ -170,6 +187,89 @@
   .animate-lux { animation-duration: 0.01ms; }
 }
 
+/* ---------------------------------------------------------------------------
+   Transitions & micro-interactions : une animation à chaque navigation, un
+   retour tactile net sur les éléments cliquables, et une fluidité optimale
+   (transformations accélérées GPU). Tout est désactivé si l'utilisateur a
+   demandé « moins d'animations ».
+--------------------------------------------------------------------------- */
+/* Transition d'entrée rejouée à chaque changement de page (clé = URL). */
+@keyframes page-enter {
+  from { opacity: 0; transform: translate3d(0, 9px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.page-enter { animation: page-enter 0.33s cubic-bezier(0.22, 0.68, 0.24, 1) both; }
+
+/* Toutes les cartes s'animent en douceur (survol/toucher). */
+.card { transition: transform 0.18s cubic-bezier(0.22, 0.68, 0.24, 1), box-shadow 0.22s ease, border-color 0.22s ease; }
+/* Retour tactile : les cartes cliquables s'enfoncent au toucher. */
+a.card:active, button.card:active { transform: scale(0.98); }
+
+/* Retour tactile générique sur les autres éléments interactifs. */
+button:not(.card):active, [role="button"]:active, a.btn-ghost:active { transform: scale(0.97); }
+button, a { transition: transform 0.15s cubic-bezier(0.22, 0.68, 0.24, 1); }
+
+/* Supprime le flash gris au toucher (mobile) pour un rendu plus propre. */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Anneau de focus clair au clavier (navigation intuitive + accessibilité). */
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--c-accent) 72%, transparent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Onglet actif de la barre du bas : pastille + icône qui « respirent ». */
+.tab-pill { transition: background-color 0.22s ease, padding 0.22s cubic-bezier(0.22, 0.68, 0.24, 1); }
+.tab-icon { transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.5, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter { animation-duration: 0.01ms; }
+  .card, button, a, .tab-pill, .tab-icon,
+  a.card:active, button.card:active, button:not(.card):active { transition: none; transform: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Mini-animations des exercices : apparition en cascade des choix, réaction
+   « bonne / mauvaise réponse », petites pastilles ✅/❌ qui rebondissent, et
+   score/gains qui « éclosent ». Le tout reste discret et se désactive si
+   l'utilisateur a demandé « moins d'animations ».
+--------------------------------------------------------------------------- */
+@keyframes choice-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.choice-in { animation: choice-in 0.3s cubic-bezier(0.22, 0.68, 0.24, 1) both; }
+
+/* Bonne réponse : léger « pop » + halo vert qui s'estompe. */
+@keyframes correct-pop {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, #10b981 40%, transparent); }
+  40%  { transform: scale(1.03); box-shadow: 0 0 0 5px color-mix(in srgb, #10b981 22%, transparent); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+.correct-pop { animation: correct-pop 0.55s cubic-bezier(0.34, 1.56, 0.5, 1) both; }
+
+/* Pastille ✅ / ❌ qui rebondit à l'apparition. */
+@keyframes pop-badge {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.pop-badge { display: inline-block; animation: pop-badge 0.42s cubic-bezier(0.34, 1.56, 0.5, 1) both; }
+
+/* Score / gains d'XP qui éclosent à la fin d'un jeu. */
+@keyframes score-pop {
+  0%   { transform: scale(0.55); opacity: 0; }
+  55%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.score-pop { animation: score-pop 0.55s cubic-bezier(0.34, 1.56, 0.5, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .choice-in, .correct-pop, .pop-badge, .score-pop,
+  .animate-shake, .animate-bounce-in, .animate-pop-in, .animate-slide-up { animation: none !important; }
+}
+
 /* Barre de défilement discrète */
 * {
   scrollbar-width: thin;
@@ -213,8 +313,31 @@
     color: #666;
     text-align: center;
   }
+  /* En-tête de la fiche de révision (visible seulement à l'impression) */
+  .print-only {
+    display: block !important;
+  }
+  /* Onglets masqués à l'écran mais imprimés dans la fiche (cours + définitions) */
+  .print-show {
+    display: block !important;
+  }
+  .print-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #c8a24e;
+    color: #333;
+    font-size: 12px;
+  }
+  .print-header .print-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+  }
 }
 .print-footer {
+  display: none;
+}
+.print-only {
   display: none;
 }
 
@@ -232,7 +355,8 @@
   padding: 1.25rem;
   background: #fbfaf7;
   color: #1c1b19;
-  animation: welcome-bg-in 0.7s ease-out both;
+  /* Fond OPAQUE dès la 1re image : on doit voir « Bienvenue » en premier,
+     jamais le contenu du site derrière (les textes gardent leur animation). */
   -webkit-tap-highlight-color: transparent;
 }
 .welcome-hello { margin: auto; }
