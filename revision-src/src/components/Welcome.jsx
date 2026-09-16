@@ -36,7 +36,9 @@ export default function Welcome() {
   const parentMode = location.pathname.startsWith('/parent') || (!state.track && !state.profile?.firstName && (() => { try { return !!localStorage.getItem('stmg_parent_link') } catch { return false } })())
 
   const hasProfile = !!state.profile?.firstName
-  const initialPhase = !hasProfile ? 'form' : (!state.onboarded && state.track ? 'plan' : 'hello')
+  // Le « Bienvenue » ne s'affiche qu'après la CRÉATION du compte : à la
+  // reconnexion ou à la réouverture de l'app, on entre directement.
+  const initialPhase = !hasProfile ? 'form' : (!state.onboarded && state.track ? 'plan' : 'done')
   const [phase, setPhase] = useState(initialPhase) // 'form' | 'plan' | 'hello' | 'done'
   const [leaving, setLeaving] = useState(false)
 
@@ -72,6 +74,10 @@ export default function Welcome() {
   const [lastPick, setLastPick] = useState(null)
 
   const helloName = state.profile?.firstName || firstName.trim()
+
+  // Entrer dans l'app sans écran de bienvenue (utilisé lors d'une simple
+  // connexion / reconnexion, réservant le « Bienvenue » à la création de compte).
+  const skipWelcome = () => { setLeaving(false); setPhase('done'); if (location.pathname === '/') navigate('/accueil') }
 
   // Déconnexion : quand le profil disparaît, on rouvre l'écran de connexion
   // (le composant reste monté, il faut donc réagir au changement).
@@ -193,7 +199,7 @@ export default function Welcome() {
           const joinCode = prof?.class_code || cc
           if (joinCode) setClassCode(joinCode)
         }
-        setPhase('hello')
+        skipWelcome() // connexion (pas création) → pas d'écran de bienvenue
       } else {
         // Compte OAuth déjà authentifié : on ne recrée pas de compte, on complète.
         if (!oauthNew) {
@@ -250,7 +256,7 @@ export default function Welcome() {
       setTeacherClasses(classes)
       setClassCode(classes[0]?.code || prof?.class_code || '')
     } else if (prof?.class_code) setClassCode(prof.class_code)
-    setPhase('hello')
+    skipWelcome() // reconnexion (récupération / OAuth existant) → pas de bienvenue
   }
   loginFromSessionRef.current = loginFromSession
 
