@@ -120,6 +120,48 @@ export async function signIn({ email, password }) {
 
 export function signOut() { clearSession() }
 
+// --- Connexion via un fournisseur (Google, Apple…) -----------------------
+// Le site étant statique, on utilise le flux OAuth « implicite » de Supabase :
+// on redirige vers la page d'autorisation du fournisseur, et au retour les
+// jetons arrivent dans le fragment d'URL (#access_token=…), que l'on consomme
+// au chargement. Les fournisseurs doivent être activés côté Supabase.
+function oauthRedirectTarget() {
+  // On revient sur la même page, sans hash de routage (HashRouter reprend après).
+  return window.location.origin + window.location.pathname
+}
+export function signInWithOAuth(provider) {
+  const url = `${SUPA_URL}/auth/v1/authorize?provider=${encodeURIComponent(provider)}&redirect_to=${encodeURIComponent(oauthRedirectTarget())}`
+  window.location.assign(url)
+}
+// Détecte (de façon synchrone) un retour de fournisseur dans l'URL.
+export function hasOAuthRedirect() {
+  try {
+    const h = (window.location.hash || '').replace(/^#\/?/, '')
+    return /(?:^|&)access_token=/.test(h) || /(?:^|&)error=/.test(h)
+  } catch { return false }
+}
+async function getUser(token) {
+  try {
+    const res = await fetch(`${SUPA_URL}/auth/v1/user`, { headers: { apikey: SUPA_ANON, Authorization: 'Bearer ' + token } })
+    if (!res.ok) return null
+    return await res.json().catch(() => null)
+  } catch { return null }
+}
+// Consomme le retour OAuth : enregistre la session, nettoie l'URL. Renvoie
+// { ok, user } en cas de succès, { error } en cas d'échec, null si rien à faire.
+export async function consumeOAuthRedirect() {
+  const h = (window.location.hash || '').replace(/^#\/?/, '')
+  const params = new URLSearchParams(h)
+  const cleanHash = () => { try { history.replaceState(null, '', window.location.pathname + window.location.search) } catch { /* ignore */ } }
+  if (params.get('error')) { const e = params.get('error_description') || params.get('error'); cleanHash(); return { error: decodeURIComponent(e.replace(/\+/g, ' ')) } }
+  const access_token = params.get('access_token')
+  if (!access_token) return null
+  const user = await getUser(access_token)
+  saveSession({ access_token, refresh_token: params.get('refresh_token'), expires_in: params.get('expires_in'), user })
+  cleanHash()
+  return { ok: true, user }
+}
+
 // Mot de passe oublié : envoie un e-mail de récupération (lien + code OTP selon
 // le modèle d'e-mail configuré dans Supabase).
 export async function requestPasswordReset(email) {

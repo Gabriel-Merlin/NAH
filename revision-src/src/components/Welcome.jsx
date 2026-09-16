@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { LEVELS, subjectsForTrack } from '../data/tracks.js'
 import { useT } from '../i18n.js'
-import { signUp, signIn, fetchProfile, upsertProfile, getSession, requestPasswordReset, verifyRecovery, updatePassword } from '../auth.js'
+import { signUp, signIn, fetchProfile, upsertProfile, getSession, requestPasswordReset, verifyRecovery, updatePassword, signInWithOAuth, hasOAuthRedirect, consumeOAuthRedirect } from '../auth.js'
 import { normalizeCode } from '../leaderboard.js'
 import { createTeacherClass, fetchTeacherClasses } from '../classroom.js'
 
@@ -46,9 +46,11 @@ export default function Welcome() {
   const [level, setLevel] = useState(state.track?.level || null)
   const [specialty, setSpecialty] = useState(state.track?.specialty || null)
 
-  // Compte
-  const [authMode, setAuthMode] = useState('create') // 'create' | 'login'
-  const [role, setRole] = useState('eleve') // 'eleve' | 'prof'
+  // Compte — on affiche « Se connecter » par défaut (comme Google) ; l'inscription
+  // se fait via un bouton clair « Inscrivez-vous ».
+  const [authMode, setAuthMode] = useState('login') // 'create' | 'login'
+  const [role, setRole] = useState('eleve') // 'eleve' | 'prof' | 'parent'
+  const [oauthNew, setOauthNew] = useState(false) // compte OAuth sans profil : à compléter
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [classCodeInput, setClassCodeInput] = useState('')
@@ -90,6 +92,26 @@ export default function Welcome() {
     return () => clearTimeout(id)
   }, [phase])
 
+  // Retour d'un fournisseur (Google/Apple) : on établit la session puis on
+  // termine la connexion (profil existant) ou on fait compléter le profil.
+  const loginFromSessionRef = useRef(() => {})
+  const oauthDone = useRef(false)
+  useEffect(() => {
+    if (oauthDone.current || !hasOAuthRedirect()) return
+    oauthDone.current = true
+    ;(async () => {
+      setBusy(true); setErr(''); setInfo('')
+      const res = await consumeOAuthRedirect()
+      if (!res || res.error) { setBusy(false); if (res?.error) setErr(res.error); return }
+      const prof = await fetchProfile().catch(() => null)
+      if (prof && prof.level) { await loginFromSessionRef.current(); setBusy(false); return }
+      // Nouveau compte OAuth : e-mail pré-rempli, on complète le profil.
+      setEmail(getSession()?.user?.email || '')
+      setAuthMode('create'); setOauthNew(true); setInfo(t('oauthFinish')); setBusy(false)
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (parentMode) return null
   if (phase === 'done') return null
 
@@ -99,10 +121,13 @@ export default function Welcome() {
   const emailOk = /\S+@\S+\.\S+/.test(email.trim())
   const passOk = password.length >= 6
   const isProf = role === 'prof'
+  const isParent = role === 'parent'
   const idOk = isProf
     ? (firstName.trim().length > 0 && !!chosenLevel?.available && taught.length > 0 && nClasses >= 1)
     : (firstName.trim().length > 0 && !!chosenLevel?.available && specialtyOk)
-  const canSubmit = authMode === 'login' ? (emailOk && passOk) : (emailOk && passOk && idOk && consent)
+  const canSubmit = authMode === 'login'
+    ? (emailOk && passOk)
+    : (oauthNew ? (idOk && consent) : (emailOk && passOk && idOk && consent))
   const toggleTaught = (id) => setTaught((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]))
 
   const pickLevel = (l) => {
@@ -164,8 +189,11 @@ export default function Welcome() {
         }
         setPhase('hello')
       } else {
-        const { needsConfirm } = await signUp({ email: email.trim(), password })
-        if (needsConfirm) { setInfo(t('confirmEmailMsg')); setAuthMode('login'); setBusy(false); return }
+        // Compte OAuth déjà authentifié : on ne recrée pas de compte, on complète.
+        if (!oauthNew) {
+          const { needsConfirm } = await signUp({ email: email.trim(), password })
+          if (needsConfirm) { setInfo(t('confirmEmailMsg')); setAuthMode('login'); setBusy(false); return }
+        }
         const fullName = `${firstName.trim()} ${lastName.trim()}`.trim()
         const uid = getSession()?.user?.id
         setAccount({ id: uid, email: email.trim(), role })
@@ -218,6 +246,7 @@ export default function Welcome() {
     } else if (prof?.class_code) setClassCode(prof.class_code)
     setPhase('hello')
   }
+  loginFromSessionRef.current = loginFromSession
 
   // Mot de passe oublié : envoi du code puis réinitialisation.
   const sendReset = async () => {
@@ -311,18 +340,56 @@ export default function Welcome() {
           <button type="button" className={seg(authMode === 'login')} onClick={() => { setAuthMode('login'); setErr(''); setInfo(''); setRecoverStep(null) }}>{t('loginTab')}</button>
         </div>
 
+        {/* Identification via un fournisseur (Google / Apple) */}
+        {!recoverStep && !isParent && (
+          <>
+            <div className="mt-3 grid gap-2">
+              <button type="button" onClick={() => signInWithOAuth('google')}
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden>
+                  <path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.9C34.6 3.1 29.8 1 24 1 14.6 1 6.5 6.4 2.6 14.3l6.9 5.4C11.3 13.7 17.1 9.5 24 9.5z" />
+                  <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-2.8-.4-4H24v7.6h12.7c-.3 2.1-1.6 5.3-4.7 7.4l7.2 5.6c4.3-4 6.3-9.9 6.3-16.6z" />
+                  <path fill="#FBBC05" d="M9.5 28.3c-.5-1.4-.8-2.9-.8-4.3s.3-3 .8-4.3l-6.9-5.4C1.2 17.2.5 20.5.5 24s.7 6.8 2.1 9.7l6.9-5.4z" />
+                  <path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.2-5.6c-2 1.4-4.6 2.4-8.7 2.4-6.9 0-12.7-4.2-14.5-10.1l-6.9 5.4C6.5 41.6 14.6 47 24 47z" />
+                </svg>
+                {t('continueWithGoogle')}
+              </button>
+              <button type="button" onClick={() => signInWithOAuth('apple')}
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-800 bg-black px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-900">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="currentColor">
+                  <path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.76.9-2 1.6-3.02 1.52-.14-1.1.44-2.26 1.12-3 .78-.86 2.12-1.5 3.02-1.52.02.16.02.34 0 .5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.06-1.78-4.05-3.35C-.03 16.9-.29 12.1 1.9 9.5c1.06-1.28 2.7-2.09 4.24-2.09 1.57 0 2.56 1.01 3.86 1.01 1.26 0 2.03-1.01 3.85-1.01 1.36 0 2.8.74 3.83 2.02-3.37 1.85-2.82 6.66.92 7.77z" />
+                </svg>
+                {t('continueWithApple')}
+              </button>
+            </div>
+            <div className="my-3 flex items-center gap-3 text-xs text-slate-400">
+              <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />{t('orSeparator')}<span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+            </div>
+          </>
+        )}
+
         {authMode === 'create' && (
           <>
             <span className="welcome-label">{t('account')}</span>
             <div className="flex flex-wrap gap-2">
               <button type="button" className={seg(role === 'eleve')} onClick={() => setRole('eleve')}>🎓 {t('roleStudent')}</button>
               <button type="button" className={seg(role === 'prof')} onClick={() => setRole('prof')}>🧑‍🏫 {t('roleTeacher')}</button>
+              <button type="button" className={seg(role === 'parent')} onClick={() => setRole('parent')}>👨‍👩‍👧 {t('roleParent')}</button>
             </div>
 
-            <label className="welcome-label" htmlFor="w-first">{t('firstName')}</label>
-            <input id="w-first" className="welcome-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder={t('yourFirstName')} autoComplete="given-name" maxLength={40} />
-            <label className="welcome-label" htmlFor="w-last">{t('lastName')}</label>
-            <input id="w-last" className="welcome-input" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder={t('yourLastName')} autoComplete="family-name" maxLength={40} />
+            {isParent ? (
+              <div className="mt-3 rounded-2xl bg-black/5 p-4 text-sm leading-relaxed text-slate-600 dark:bg-white/5 dark:text-slate-300">
+                <p>{t('parentSignupHint')}</p>
+                <button type="button" className="welcome-cta mt-3" onClick={() => { setPhase('done'); navigate('/parent') }}>👨‍👩‍👧 {t('parentContinue')}</button>
+              </div>
+            ) : (
+              <>
+                <label className="welcome-label" htmlFor="w-first">{t('firstName')}</label>
+                <input id="w-first" className="welcome-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder={t('yourFirstName')} autoComplete="given-name" maxLength={40} />
+                <label className="welcome-label" htmlFor="w-last">{t('lastName')}</label>
+                <input id="w-last" className="welcome-input" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder={t('yourLastName')} autoComplete="family-name" maxLength={40} />
+              </>
+            )}
           </>
         )}
 
@@ -336,10 +403,18 @@ export default function Welcome() {
           </>
         )}
 
-        <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
-        <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} disabled={recoverStep === 'code'} />
+        {oauthNew && (
+          <p className="mt-3 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">✓ {getSession()?.user?.email || ''}</p>
+        )}
 
-        {!recoverStep && (
+        {!isParent && !oauthNew && (
+          <>
+            <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
+            <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} disabled={recoverStep === 'code'} />
+          </>
+        )}
+
+        {!recoverStep && !isParent && !oauthNew && (
           <>
             <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
             <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && canSubmit && !busy && submitForm()} placeholder="••••••••" autoComplete={authMode === 'login' ? 'current-password' : 'new-password'} maxLength={72} />
@@ -363,7 +438,7 @@ export default function Welcome() {
           </>
         )}
 
-        {authMode === 'create' && (
+        {authMode === 'create' && !isParent && (
           <>
             <span className="welcome-label">{isProf ? t('teacherLevel') : t('yourClass')}</span>
             <div className="flex flex-wrap gap-2">
@@ -414,7 +489,7 @@ export default function Welcome() {
           </>
         )}
 
-        {authMode === 'create' && !recoverStep && (
+        {authMode === 'create' && !recoverStep && !isParent && (
           <div className="mt-3">
             <label className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
               <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
@@ -444,10 +519,12 @@ export default function Welcome() {
           </>
         ) : (
           <>
-            <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm()}>
-              {busy ? t('pleaseWait') : authMode === 'login' ? t('loginTab') : t('createMyAccount')}
-            </button>
-            <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setAuthMode(authMode === 'login' ? 'create' : 'login'); setErr(''); setInfo(''); setRecoverStep(null) }}>
+            {!isParent && (
+              <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm()}>
+                {busy ? t('pleaseWait') : authMode === 'login' ? t('loginTab') : oauthNew ? t('finishSignup') : t('createMyAccount')}
+              </button>
+            )}
+            <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setAuthMode(authMode === 'login' ? 'create' : 'login'); setOauthNew(false); setErr(''); setInfo(''); setRecoverStep(null) }}>
               {authMode === 'login' ? t('noAccountYet') : t('haveAccountAlready')}
             </button>
           </>
