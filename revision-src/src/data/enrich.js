@@ -780,6 +780,306 @@ export const ENRICH = {
   },
 
   // =========================================================================
+  // PHILOSOPHIE — cours longs : histoire de la notion, littérature & arts,
+  // dissertation guidée. Ces sections s'ajoutent aux 3 chapitres de base de
+  // chaque notion, pour un cours véritablement approfondi (plusieurs pages).
+  // =========================================================================
+  'philo-art': {
+    sections: [
+      worked('🏛️ Aux sources — une histoire de l’idée d’art', [
+        { t: 'p', c: 'Le mot « art » vient du latin *ars*, qui traduit le grec *tekhnê* : à l’origine, il ne désigne pas du tout ce que nous appelons aujourd’hui l’art, mais tout **savoir-faire**, toute compétence réglée — celle du menuisier comme celle du médecin ou du navigateur. Pendant des siècles, le peintre et le sculpteur furent considérés comme des **artisans**, membres de corporations, exécutant des commandes. L’idée moderne d’un « artiste » singulier, créateur inspiré et libre, est une invention récente, née à la **Renaissance** et pleinement affirmée au **XIXᵉ siècle** avec le romantisme.' },
+        { t: 'p', c: 'Dès l’Antiquité, deux grandes conceptions s’affrontent. Pour **Platon**, l’art est **imitation** (*mimésis*) : le peintre copie un lit particulier, qui n’est lui-même que la copie de l’Idée de lit ; l’œuvre est donc une « copie de copie », deux fois éloignée de la vérité, et le poète, qui flatte les passions, est même banni de la cité idéale de *La République*. Pour **Aristote**, au contraire, l’imitation est naturelle et instructive : la tragédie, en représentant des actions terribles, produit une **catharsis**, une purgation des émotions qui élève l’âme. Ces deux positions — l’art qui trompe / l’art qui forme — traversent toute l’histoire de la pensée.' },
+        { t: 'table', head: ['Époque', 'Ce que devient l’art', 'Idée directrice'], rows: [
+          ['Antiquité', 'Imitation (mimésis) et savoir-faire', 'Platon (méfiance) / Aristote (catharsis)'],
+          ['Moyen Âge', 'Art sacré au service de la foi', 'L’œuvre élève l’âme vers Dieu'],
+          ['Renaissance', 'Perspective, anatomie, « génie »', 'L’artiste égale le savant (Vinci)'],
+          ['XVIIIᵉ s.', 'Naissance de l’esthétique', 'Kant : le jugement de goût'],
+          ['XIXᵉ s.', 'L’art pour l’art, le génie romantique', 'Hugo, Baudelaire, Hegel'],
+          ['XXᵉ s.', 'Ruptures : abstraction, ready-made', 'Duchamp, Kandinsky, l’art conceptuel'],
+        ] },
+        { t: 'p', c: 'Au **XVIIIᵉ siècle**, **Kant** fonde l’**esthétique** comme discipline : le beau n’est ni l’agréable (qui flatte les sens) ni le bon (qui satisfait la raison morale) ; il procure un « plaisir désintéressé » et, chose remarquable, prétend valoir **pour tout le monde** sans reposer sur un concept. **Hegel**, lui, voit dans l’art l’une des voies par lesquelles l’**Esprit** prend conscience de lui-même : l’œuvre n’imite pas, elle **manifeste** une vérité sensible sur l’humanité. Puis le XXᵉ siècle fait exploser toutes les certitudes : avec la *Fontaine* de **Duchamp** (1917), ce n’est plus l’objet ni le métier qui font l’œuvre, mais le **geste** de l’artiste et l’**institution** qui l’expose.' },
+        { t: 'tip', h: 'À retenir', c: 'L’idée d’« art » a une **histoire** : opposer « avant on savait faire, aujourd’hui n’importe quoi est de l’art » est un cliché ; la vraie question est de savoir **ce qui fait la valeur** d’une œuvre à chaque époque.' },
+      ]),
+      worked('📖 L’art dans la littérature et les arts', [
+        { t: 'p', c: 'La littérature n’a cessé d’interroger le pouvoir — et le danger — de l’art. Dans *Le Portrait de Dorian Gray* d’**Oscar Wilde**, un tableau vieillit et se corrompt à la place de son modèle resté jeune : l’œuvre devient le miroir de l’âme, et pose la question du rapport entre **beauté** et **morale**. Chez **Balzac**, *Le Chef-d’œuvre inconnu* met en scène un peintre qui, à force de recherche de la perfection, ne produit plus qu’un chaos de couleurs : l’art peut se perdre dans sa propre exigence.' },
+        { t: 'p', c: 'Chez **Marcel Proust**, dans *À la recherche du temps perdu*, l’art n’est pas un ornement mais un **salut** : seule l’œuvre (la petite phrase de Vinteuil, les toiles d’Elstir) permet de retrouver le temps perdu et de donner un sens à l’existence. **Baudelaire**, dans *Les Fleurs du mal*, revendique de « faire de la boue et d’en tirer de l’or » : l’art transfigure le laid et arrache une beauté au réel le plus sordide. À l’inverse, **Platon** aurait vu là un danger — celui d’aimer les apparences plutôt que la vérité.' },
+        { t: 'example', h: 'Illustration', c: '**Guernica** de Picasso (1937) ne « représente » pas joliment le bombardement d’une ville : par sa déformation, son noir et blanc, ses cris figés, il rend **visible** l’horreur de la guerre mieux qu’une photographie. C’est l’idée de Klee : « L’art ne reproduit pas le visible, il rend visible. »' },
+        { t: 'tip', h: 'Réflexe de dissertation', c: 'Un exemple **littéraire ou artistique précis**, expliqué (pas seulement cité), vaut mieux que dix généralités. Montre **ce que l’œuvre fait**, pas seulement qu’elle existe.' },
+      ]),
+      worked('✍️ Dissertation guidée — « N’y a-t-il de beau que l’utile ? »', [
+        { t: 'p', c: '**Introduction.** On dit souvent d’un objet bien conçu qu’il est « beau parce qu’il est pratique » : une voiture, un outil, un pont. Cela laisserait entendre que la beauté se ramène à l’**utilité**. Pourtant, une fleur inutile, un coucher de soleil, une symphonie nous paraissent beaux sans servir à rien. Le beau se confond-il avec l’utile, ou faut-il, au contraire, qu’une chose soit **inutile** — désintéressée — pour être vraiment belle ?' },
+        { t: 'list', c: [
+          '**I. Le beau semble lié à l’utile.** Ce qui est bien adapté à sa fonction nous plaît (un objet « fonctionnel ») ; l’architecture, le design, l’artisanat unissent forme et usage. Argument : la beauté serait la perfection visible d’une fonction.',
+          '**II. Mais le beau est désintéressé.** Pour **Kant**, le jugement de goût est **sans intérêt** : je ne demande pas à quoi sert une rose pour la trouver belle. L’œuvre d’art ne se réduit jamais à un usage ; un tableau qui ne servirait qu’à « décorer » cesserait d’être une œuvre.',
+          '**III. Dépassement.** Le beau et l’utile ne s’opposent pas terme à terme : une chose peut être belle *et* utile, mais sa beauté ne **vient pas** de son utilité. Le beau ouvre un rapport au monde plus libre — il nous arrache, un instant, à la logique des moyens et des fins.',
+        ] },
+        { t: 'example', h: 'Conclusion rédigée', c: 'L’utile peut être beau, mais la beauté ne se laisse jamais **enfermer** dans l’utilité : elle commence précisément là où cesse le calcul des fins. C’est pourquoi l’art, souverainement inutile, est peut-être ce dont l’homme a le plus besoin.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — l’art et l’esthétique', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Émissions sur le beau, la création, Kant, Hegel.' },
+    ],
+  },
+
+  'philo-justice': {
+    sections: [
+      worked('🏛️ Aux sources — justice, loi et cité', [
+        { t: 'p', c: 'La question de la justice naît avec la **cité** grecque. Dans *La République*, **Platon** fait dire au sophiste **Thrasymaque** que « la justice n’est que l’intérêt du plus fort » : les lois seraient toujours faites par les puissants pour les puissants. Toute la philosophie politique va s’efforcer de réfuter ce **cynisme** — de montrer que le juste ne se réduit pas au rapport de force. Pour Platon, la justice est l’**harmonie** de l’âme et de la cité, où chacun est à sa place ; pour **Aristote**, elle est une **vertu** et se dit de deux façons.' },
+        { t: 'table', head: ['Forme de justice (Aristote)', 'Principe', 'Exemple'], rows: [
+          ['Justice distributive', 'À chacun selon son mérite (égalité proportionnelle)', 'Répartir des récompenses selon le travail fourni'],
+          ['Justice corrective / commutative', 'Rétablir l’égalité rompue', 'Réparer un tort, punir un vol'],
+          ['Équité (epieikeia)', 'Corriger la loi générale dans le cas particulier', 'Adoucir une peine injuste au regard des circonstances'],
+        ] },
+        { t: 'p', c: 'À l’époque moderne, la justice se pense à partir du **contrat**. **Hobbes** part d’un « état de nature » où règne la « guerre de tous contre tous » : les hommes, par peur de la mort, cèdent leur droit à un souverain qui garantit la paix. **Rousseau** refuse cette soumission : le pacte social légitime n’aliène pas la liberté, il la fonde, car obéir à la loi qu’on s’est prescrite, c’est être libre. Au XXᵉ siècle, **John Rawls** propose une expérience de pensée célèbre : sous un « **voile d’ignorance** » (ne sachant pas quelle place on occupera dans la société), quelles règles choisirait-on ? Celles qui protègent le plus **les plus défavorisés**.' },
+        { t: 'tip', h: 'Distinction essentielle', c: '**Légal** (conforme à la loi) ≠ **légitime** (conforme à la justice). Tout le débat politique tient dans cet écart : une loi peut être légale sans être juste.' },
+      ]),
+      worked('📖 La justice en littérature — de l’injustice à la révolte', [
+        { t: 'p', c: 'La littérature donne un visage à l’injustice. Dans *Les Misérables* de **Victor Hugo**, Jean Valjean est condamné au bagne pour un pain volé : le roman dénonce une justice **légale** qui écrase les misérables au lieu de les relever, et oppose la loi implacable de Javert à la **miséricorde** de l’évêque. Chez **Kafka**, *Le Procès* montre un homme arrêté et jugé sans jamais connaître le motif de son accusation : c’est le cauchemar d’une justice devenue **absurde**, machine anonyme qui broie l’individu.' },
+        { t: 'p', c: '**Antigone**, de Sophocle, met en scène le conflit le plus pur : Antigone enterre son frère au mépris de l’interdit du roi Créon, opposant les **lois non écrites** (divines, morales) aux **lois de la cité**. Doit-on obéir à une loi que l’on juge injuste ? La **désobéissance civile** — de Thoreau à Gandhi, de Rosa Parks à Martin Luther King — répond que oui, à condition d’agir publiquement, pacifiquement, et d’accepter la sanction, au nom d’une justice supérieure.' },
+        { t: 'example', h: 'Illustration', c: 'Dans *L’Étranger* de **Camus**, Meursault est condamné moins pour son meurtre que pour n’avoir pas pleuré à l’enterrement de sa mère : la justice juge alors une **conformité sociale**, non un acte. Le roman interroge : que juge-t-on vraiment dans un tribunal ?' },
+        { t: 'warning', h: 'Piège', c: 'Ne pas confondre **la justice** (idéal moral et politique) avec **l’appareil judiciaire** (les tribunaux). On peut trouver une décision de justice… injuste.' },
+      ]),
+      worked('✍️ Dissertation guidée — « Est-il toujours juste d’obéir à la loi ? »', [
+        { t: 'list', c: [
+          '**I. La loi est la condition de la justice.** Sans loi commune, c’est la loi du plus fort (Hobbes) ; la loi, égale pour tous, protège le faible et rend la vie sociale possible. Désobéir, ce serait ouvrir la porte à l’arbitraire de chacun.',
+          '**II. Mais une loi peut être injuste.** L’histoire le prouve (lois ségrégationnistes, lois d’exception) : le légal n’est pas toujours le légitime. Obéir aveuglément peut rendre complice (procès de Nuremberg, Arendt et la « banalité du mal »).',
+          '**III. Dépassement : la désobéissance civile.** Enfreindre **publiquement** une loi injuste, au nom d’une justice supérieure et en acceptant la sanction, n’est pas de l’anarchie : c’est encore respecter l’idée de loi, en appelant à une loi meilleure.',
+        ] },
+        { t: 'example', h: 'Ouverture', c: 'La vraie obéissance n’est pas la soumission : c’est l’adhésion réfléchie à des lois que l’on peut, en conscience, reconnaître comme justes — et, quand elles ne le sont pas, le courage de les contester dans les formes du droit.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — justice, droit, politique', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Rawls, Rousseau, la désobéissance civile.' },
+    ],
+  },
+
+  'philo-liberte': {
+    sections: [
+      worked('🏛️ Aux sources — sommes-nous libres ?', [
+        { t: 'p', c: 'La liberté est peut-être la notion la plus intime et la plus disputée. Le sens commun l’identifie au **libre arbitre** : le pouvoir de choisir sans y être contraint. Mais dès l’Antiquité, les **stoïciens** distinguent ce qui **dépend de nous** (nos jugements, nos désirs) de ce qui **n’en dépend pas** (les événements, la mort, l’opinion d’autrui) : être libre, pour Épictète, ce n’est pas tout pouvoir, c’est ne désirer que ce qui dépend de nous. La liberté devient alors une **conquête intérieure**, non une absence de contraintes.' },
+        { t: 'p', c: 'L’âge classique oppose deux camps. Pour **Descartes**, la liberté est une évidence : le libre arbitre est « la plus haute perfection de l’homme », si grand qu’il nous rend « en quelque façon semblables à Dieu ». Pour **Spinoza**, au contraire, cette liberté est une **illusion** : nous nous croyons libres parce que nous avons conscience de nos actions, mais nous **ignorons les causes** qui nous déterminent — telle la pierre lancée qui, si elle pensait, se croirait libre de tomber. Le **déterminisme** (tout a une cause) semble ainsi menacer la liberté.' },
+        { t: 'table', head: ['Penseur', 'Thèse sur la liberté', 'Formule'], rows: [
+          ['Épictète', 'Liberté = maîtrise de ce qui dépend de nous', '« Ce qui dépend de nous… »'],
+          ['Descartes', 'Le libre arbitre est une évidence', '« La plus haute perfection de l’homme »'],
+          ['Spinoza', 'La liberté est une illusion (déterminisme)', 'La pierre qui se croit libre'],
+          ['Kant', 'Liberté = autonomie (se donner sa loi)', 'Agir par devoir, non par penchant'],
+          ['Sartre', 'L’homme est condamné à être libre', '« L’existence précède l’essence »'],
+        ] },
+        { t: 'p', c: '**Kant** dépasse le conflit : la liberté n’est pas dans le monde des phénomènes (où tout est déterminé), mais dans le domaine **moral**. Être libre, c’est être **autonome** : se donner à soi-même sa propre loi, agir par **devoir** et non par simple penchant. **Sartre**, enfin, radicalise : il n’y a pas de « nature humaine » qui nous excuserait ; « l’existence précède l’essence », nous sommes ce que nous **faisons** de nous, et donc **responsables** — d’où l’angoisse d’une liberté sans mode d’emploi.' },
+        { t: 'tip', h: 'Distinction clé', c: '**Liberté ≠ licence.** Faire tout ce qui passe par la tête, c’est être l’esclave de ses désirs ; l’autonomie (se donner sa loi) est une liberté supérieure.' },
+      ]),
+      worked('📖 La liberté en littérature et en histoire', [
+        { t: 'p', c: 'La littérature explore les prisons visibles et invisibles de l’homme. *1984* de **George Orwell** décrit un État totalitaire qui contrôle jusqu’aux pensées : la liberté y survit dans le simple fait de dire « 2 + 2 = 4 ». *Le Meilleur des mondes* d’**Aldous Huxley** imagine une servitude plus insidieuse encore — une population si divertie et droguée au plaisir qu’elle **aime** sa servitude et ne réclame plus aucune liberté. Deux avertissements complémentaires : on peut asservir par la terreur, mais aussi par le divertissement.' },
+        { t: 'p', c: 'Chez **Sartre**, la pièce *Huis clos* (« l’enfer, c’est les autres ») et le roman *La Nausée* mettent en scène le vertige d’une liberté totale : sans Dieu ni nature pour décider à notre place, l’homme doit **s’inventer**. **Camus**, dans *Le Mythe de Sisyphe*, tire de l’absurde une liberté paradoxale : condamné à pousser éternellement son rocher, Sisyphe est libre parce qu’il **assume** son destin — « il faut imaginer Sisyphe heureux ».' },
+        { t: 'example', h: 'Illustration', c: 'Le fumeur qui dit « je suis libre de fumer » est peut-être l’esclave de son addiction : la conscience d’un choix ne prouve pas la liberté du choix. C’est exactement l’objection de Spinoza.' },
+        { t: 'tip', h: 'Réflexe', c: 'Relier **liberté** et **responsabilité** : si je suis libre, je réponds de mes actes ; nier ma liberté, c’est souvent chercher une excuse (« la mauvaise foi », dit Sartre).' },
+      ]),
+      worked('✍️ Dissertation guidée — « Être libre, est-ce faire ce que l’on veut ? »', [
+        { t: 'list', c: [
+          '**I. Oui : la liberté semble être l’absence d’obstacles.** Être libre, c’est pouvoir agir selon sa volonté, sans contrainte extérieure. La contrainte (physique, sociale) apparaît comme l’ennemie de la liberté.',
+          '**II. Mais suivre ses désirs, c’est en être l’esclave.** Mes envies sont souvent déterminées (habitudes, publicité, passions) : « faire ce que je veux » peut être obéir à des forces qui me dépassent (Spinoza). La liberté suppose donc de se **libérer de soi-même**.',
+          '**III. Dépassement : la liberté comme autonomie.** Être vraiment libre, ce n’est pas suivre tous ses désirs, mais se **donner sa propre loi** (Kant), choisir avec lucidité et assumer ses actes. La loi juste ne supprime pas la liberté : elle la garantit (Montesquieu).',
+        ] },
+        { t: 'example', h: 'Conclusion', c: 'Faire ce que l’on veut n’est qu’une liberté apparente si l’on ne sait pas **pourquoi** on le veut. La liberté accomplie est celle d’un sujet autonome, maître de ses désirs et responsable de ses choix.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — la liberté, le déterminisme', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Spinoza, Sartre, le libre arbitre.' },
+    ],
+  },
+
+  'philo-nature': {
+    sections: [
+      worked('🏛️ Aux sources — nature, culture et condition humaine', [
+        { t: 'p', c: 'Le mot « nature » est piégé, car il a au moins trois sens : ① l’**ensemble de ce qui existe** sans l’homme (l’environnement, le cosmos) ; ② l’**essence** d’une chose (« la nature du triangle ») ; ③ l’**inné**, ce qui est donné à la naissance, par opposition à l’**acquis** (par la culture). Confondre ces sens est la source d’innombrables erreurs de raisonnement.' },
+        { t: 'p', c: 'La grande question anthropologique est celle du couple **nature / culture**. **Rousseau**, dans le *Discours sur l’origine de l’inégalité*, imagine un « homme de la nature » — non pour affirmer qu’il a existé, mais pour **distinguer** ce qui, en nous, vient de la nature et ce qui vient de la société. La **perfectibilité** (la capacité de se transformer, d’apprendre, d’inventer) est ce qui arrache l’homme à l’animalité. **Lévi-Strauss**, plus tard, montrera que l’interdit de l’inceste, universel mais variable, marque précisément le **passage** de la nature à la culture.' },
+        { t: 'table', head: ['Sens de « nature »', 'Opposé', 'Exemple'], rows: [
+          ['L’environnement, le monde non produit par l’homme', 'L’artificiel, la technique', 'Une forêt vierge / un barrage'],
+          ['L’essence d’une chose', 'L’accident, le contingent', '« La nature du cercle »'],
+          ['L’inné', 'L’acquis (la culture)', 'Un réflexe / une langue apprise'],
+        ] },
+        { t: 'p', c: 'Reste le rapport de l’homme **à** la nature. **Descartes** assigne à la science une visée pratique : nous rendre « comme maîtres et possesseurs de la nature », pour la santé et le confort. Trois siècles plus tard, **Hans Jonas** retourne l’ambition en inquiétude : notre **puissance technique** est devenue si grande qu’elle menace la biosphère et les générations futures. D’où un **principe responsabilité** : « agis de telle sorte que les effets de ton action soient compatibles avec la permanence d’une vie authentiquement humaine sur terre ».' },
+        { t: 'warning', h: 'Le piège du « naturel »', c: 'Passer du fait (« c’est naturel ») à la valeur (« c’est bien ») est un **sophisme naturaliste**. Beaucoup de comportements dits « naturels » sont en réalité **culturels**, donc modifiables.' },
+      ]),
+      worked('📖 La nature dans la littérature et la pensée', [
+        { t: 'p', c: 'La sensibilité à la nature a une histoire. Les **romantiques** (Rousseau déjà, puis Chateaubriand, Hugo, Lamartine avec *Le Lac*) font du paysage le miroir de l’âme et le lieu d’un ressourcement contre la société. Le XXᵉ siècle bascule dans l’**inquiétude écologique** : *Printemps silencieux* de Rachel Carson (1962) alerte sur les pesticides, et la philosophie contemporaine (Jonas, Arne Næss et l’« écologie profonde ») repense notre place dans le vivant.' },
+        { t: 'p', c: 'La science-fiction pousse les scénarios à l’extrême : dans de nombreux récits, l’homme, ayant épuisé ou détruit la nature terrestre, doit fuir vers d’autres mondes — façon d’interroger notre rapport de **prédation**. À l’inverse, la pensée de **Spinoza** (« *Deus sive Natura* », Dieu, c’est-à-dire la Nature) invite à ne pas se penser comme un « empire dans un empire » : l’homme est **partie** de la nature, non son souverain extérieur.' },
+        { t: 'example', h: 'Illustration', c: 'Un barrage hydroélectrique produit une énergie « propre » mais noie une vallée et détruit un écosystème : faut-il **maîtriser** la nature (Descartes) ou en assumer la **responsabilité** (Jonas) ? Le cas concret oblige à peser les deux.' },
+        { t: 'tip', h: 'Repère central', c: '**Nature / culture** : ce qui définit l’homme, c’est la culture — mais elle a une base naturelle. L’un ne va pas sans l’autre.' },
+      ]),
+      worked('✍️ Dissertation guidée — « L’homme doit-il dominer la nature ? »', [
+        { t: 'list', c: [
+          '**I. La technique invite à la maîtrise.** Livré à la nature, l’homme est démuni ; la médecine, l’agriculture, l’énergie l’en affranchissent. Descartes : nous rendre « maîtres et possesseurs de la nature » pour vivre mieux.',
+          '**II. Mais cette domination se retourne contre nous.** Épuisement des ressources, dérèglement climatique, extinctions : la maîtrise sans limite devient auto-destruction. La nature n’est pas un simple « stock » exploitable (Heidegger).',
+          '**III. Dépassement : de la domination à la responsabilité.** Il ne s’agit ni de tout exploiter ni de « revenir à la nature », mais d’une **cohabitation** réfléchie : le principe responsabilité de Jonas engage l’avenir de la vie.',
+        ] },
+        { t: 'example', h: 'Conclusion', c: '« Dominer » la nature au sens de la piller est une impasse ; la vraie maîtrise est celle de nos propres pouvoirs — savoir **limiter** notre puissance au nom de ce qui nous dépasse et nous suit.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — nature, culture, écologie', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Rousseau, Lévi-Strauss, Jonas.' },
+    ],
+  },
+
+  'philo-religion': {
+    sections: [
+      worked('🏛️ Aux sources — foi, raison et sacré', [
+        { t: 'p', c: 'La religion (du latin *religare*, relier, ou *relegere*, recueillir) désigne un ensemble de **croyances et de pratiques** qui relient l’homme au **sacré** — ce qui est mis à part, entouré de respect et d’interdits (par opposition au *profane*). Toute la difficulté philosophique tient dans le rapport entre la **foi** et la **raison** : sont-elles ennemies, étrangères, ou complémentaires ?' },
+        { t: 'p', c: 'La distinction décisive est celle du **croire** et du **savoir**. **Croire**, c’est adhérer **sans preuve** (la foi) ; **savoir**, c’est tenir pour vrai **avec preuve** (démonstration, expérience). La foi n’est donc pas un savoir défaillant, un savoir « raté » : c’est un **autre rapport** à la vérité. **Pascal**, savant et croyant, l’exprime d’une formule célèbre : « le cœur a ses raisons que la raison ne connaît point » — il existe un ordre du cœur, irréductible à celui de la démonstration. Son fameux **pari** invite le sceptique à parier sur l’existence de Dieu, l’enjeu (l’infini) valant le risque.' },
+        { t: 'table', head: ['Penseur', 'Regard sur la religion', 'Idée'], rows: [
+          ['Pascal', 'La foi dépasse la raison sans la nier', '« Le cœur a ses raisons… » ; le pari'],
+          ['Marx', 'Critique sociale', '« Opium du peuple » : consolation qui endort'],
+          ['Freud', 'Critique psychologique', 'Illusion née d’un désir de protection'],
+          ['Durkheim', 'Approche sociologique', 'Fonction de lien social, ciment du groupe'],
+        ] },
+        { t: 'p', c: 'La modernité développe une **critique** de la religion. **Marx** y voit « l’opium du peuple » : une consolation illusoire qui détourne les opprimés de transformer leur condition réelle. **Freud** en fait une **illusion** — non un simple mensonge, mais la réalisation d’un désir infantile de protection paternelle. **Durkheim**, lui, en propose une lecture **sociologique** : au-delà de la question de la vérité, la religion remplit une fonction de **cohésion**, elle fait tenir le groupe ensemble. Ces critiques n’épuisent pas la question : elles éclairent les **fonctions** de la religion sans trancher celle de la foi.' },
+        { t: 'warning', h: 'Piège à éviter', c: 'Opposer bêtement « religion = obscurantisme » et « science = vérité ». Le sujet demande de **distinguer les plans** (croire / savoir), pas de disqualifier l’un par l’autre.' },
+      ]),
+      worked('📖 La religion en littérature et en histoire', [
+        { t: 'p', c: 'Le conflit entre foi et raison a une histoire dramatique. En **1633**, **Galilée** est condamné par l’Inquisition pour avoir soutenu, preuves à l’appui, que la Terre tourne : cas d’école d’un affrontement entre l’autorité religieuse et la démarche scientifique. **Voltaire**, au XVIIIᵉ siècle, combat le **fanatisme** et l’intolérance (*Traité sur la tolérance*, après l’affaire Calas), tout en distinguant la foi personnelle du dogmatisme persécuteur.' },
+        { t: 'p', c: 'La grande littérature sonde le **doute** et la foi. **Dostoïevski**, dans *Les Frères Karamazov*, met dans la bouche d’Ivan la plus redoutable objection à Dieu — le « scandale » de la souffrance des enfants innocents — et lui oppose, sans la réfuter, la foi humble d’Aliocha. **Pascal**, dans les *Pensées*, décrit l’homme partagé entre grandeur et misère, « roseau pensant » jeté dans un univers muet, et cherche dans la foi une réponse au silence des « espaces infinis ».' },
+        { t: 'example', h: 'Illustration', c: 'Dire « je crois qu’il fera beau demain » et « je sais que 2 + 2 = 4 », ce n’est pas parler de la même façon de la vérité : l’un espère sans preuve, l’autre démontre. Toute la notion tient dans cette différence.' },
+        { t: 'tip', h: 'Ouverture', c: 'La **laïcité** n’est pas l’hostilité à la religion, mais la neutralité de l’État qui garantit à chacun la liberté de croire — ou de ne pas croire.' },
+      ]),
+      worked('✍️ Dissertation guidée — « La foi est-elle contraire à la raison ? »', [
+        { t: 'list', c: [
+          '**I. Elles semblent s’opposer.** La foi adhère sans preuve, la raison exige des démonstrations ; l’histoire (Galilée) montre des conflits. Croire pourrait sembler renoncer à penser.',
+          '**II. Mais elles n’ont pas le même objet.** Croire ≠ savoir : la foi ne porte pas sur des faits démontrables, mais sur un sens, une espérance. Elle relève d’un autre ordre (Pascal), que la raison ne peut ni prouver ni réfuter.',
+          '**III. Dépassement : foi et raison peuvent se compléter.** La raison peut éclairer la foi (théologie), et la foi peut donner à la raison un horizon ; l’ennemi commun n’est pas la raison ni la foi, mais le **fanatisme** — la foi qui refuse de penser.',
+        ] },
+        { t: 'example', h: 'Conclusion', c: 'La foi n’est contraire à la raison que lorsqu’elle prétend se substituer à elle sur son propre terrain (les faits). Distinguées, elles peuvent coexister ; confondues, elles s’égarent l’une l’autre.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — foi, raison, laïcité', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Pascal, la critique de la religion, la tolérance.' },
+    ],
+  },
+
+  'philo-technique': {
+    sections: [
+      worked('🏛️ Aux sources — l’homme, l’outil et le travail', [
+        { t: 'p', c: 'La technique est l’ensemble des **procédés efficaces** par lesquels l’homme transforme la nature pour produire de l’**utile** — à distinguer de l’art (qui vise le beau) et de la science (qui vise le vrai). Le mythe grec de **Prométhée** l’exprime : l’homme, seul animal sans griffes, sans fourrure ni rapidité, reçoit en compensation le **feu** — la technique — volé aux dieux. La technique n’est donc pas un supplément : elle est **constitutive** de l’humanité. **Bergson** dira que l’intelligence est d’abord « la faculté de fabriquer des outils » ; l’homme est *homo faber* avant d’être *homo sapiens*.' },
+        { t: 'p', c: 'Le **travail**, activité par laquelle l’homme transforme la nature en se transformant lui-même, est au cœur de la réflexion. **Hegel**, dans la « dialectique du maître et de l’esclave », montre que c’est l’**esclave** — celui qui travaille et façonne le monde — qui accède à la conscience de soi, tandis que le maître, purement consommateur, en reste dépendant. **Marx** en tire une critique de l’**aliénation** : dans le travail industriel, l’ouvrier, dépossédé du produit et du sens de son activité, devient étranger à lui-même.' },
+        { t: 'table', head: ['Penseur', 'Sur la technique / le travail', 'Idée'], rows: [
+          ['Bergson', 'L’homme est homo faber', 'L’intelligence fabrique des outils'],
+          ['Hegel', 'Dialectique maître / esclave', 'Le travail humanise et libère'],
+          ['Marx', 'Critique de l’aliénation', 'Le travail industriel peut déshumaniser'],
+          ['Heidegger', 'Critique de la technique moderne', 'La nature réduite à un « fonds » exploitable'],
+          ['Jonas', 'Éthique du futur', 'Le principe responsabilité'],
+        ] },
+        { t: 'p', c: '**Heidegger** porte la critique la plus radicale : la technique **moderne** n’est pas un simple ensemble d’outils, c’est une manière de **dévoiler** le monde qui transforme tout — la nature, et l’homme lui-même — en « fonds » (*Bestand*), en réserve disponible et calculable. Le fleuve n’est plus contemplé, il est « sommé » de fournir de l’énergie. **Jonas**, enfin, tire les conséquences éthiques de la démesure technique : notre pouvoir engage désormais l’existence même de l’humanité future, d’où une responsabilité inédite.' },
+        { t: 'tip', h: 'Distinction clé', c: '**Moyen / fin.** La technique est un **moyen** ; un même couteau soigne ou tue. La vraie question n’est pas « pour ou contre la technique », mais « quel **usage** en faisons-nous ? ».' },
+      ]),
+      worked('📖 La technique en littérature et au cinéma', [
+        { t: 'p', c: 'La littérature a très tôt exprimé la **peur de la créature qui échappe au créateur**. *Frankenstein* de **Mary Shelley** (1818) — sous-titré « le Prométhée moderne » — met en scène un savant qui donne la vie à une créature qu’il ne peut plus contrôler : préfiguration de tous nos débats sur les limites de la science. *Le Meilleur des mondes* de **Huxley** imagine une humanité fabriquée, conditionnée, « heureuse » parce que dépossédée de toute liberté.' },
+        { t: 'p', c: 'Le cinéma prolonge l’interrogation : de *Metropolis* (Lang) à *Blade Runner* et aux récits sur l’intelligence artificielle, la question revient : la machine peut-elle nous **remplacer**, nous **asservir**, ou même devenir « humaine » ? **Rousseau**, dès le *Discours sur les sciences et les arts*, doutait déjà que le progrès technique rende les hommes **meilleurs** : la puissance croît, mais la moralité ne suit pas nécessairement.' },
+        { t: 'example', h: 'Illustration', c: 'Le smartphone nous **libère** (tout savoir, joindre chacun, partout) et nous **asservit** (dépendance, surveillance des données, économie de l’attention). Une seule technique, deux visages : tout dépend de la maîtrise que nous en gardons.' },
+        { t: 'warning', h: 'Piège', c: 'Croire que le **progrès technique** entraîne **automatiquement** le progrès **humain** ou moral. L’histoire du XXᵉ siècle a tragiquement démenti cet optimisme.' },
+      ]),
+      worked('✍️ Dissertation guidée — « La technique nous libère-t-elle ? »', [
+        { t: 'list', c: [
+          '**I. La technique libère de la nécessité naturelle.** Être démuni, l’homme compense sa faiblesse : médecine, transports, moins de pénibilité. Chaque invention élargit le champ de nos possibles (Descartes).',
+          '**II. Mais elle crée de nouvelles servitudes.** Aliénation du travail (Marx), dépendance, réduction du monde à un fonds exploitable (Heidegger), risques inédits (Jonas). La libération se paie de dépendances nouvelles.',
+          '**III. Dépassement : tout dépend de l’usage et de la maîtrise.** La technique est un moyen neutre ; la vraie liberté n’est pas de posséder des machines, mais de **rester maître de nos moyens**, ce qui exige une éthique.',
+        ] },
+        { t: 'example', h: 'Conclusion', c: 'La technique nous libère des contraintes naturelles, mais ne nous rend pas libres par elle-même : elle nous met en demeure de **choisir** ce que nous voulons en faire — et c’est là, précisément, que se joue notre liberté.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — technique, travail, progrès', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Heidegger, Jonas, l’aliénation.' },
+    ],
+  },
+
+  'philo-verite': {
+    sections: [
+      worked('🏛️ Aux sources — vérité, opinion et démonstration', [
+        { t: 'p', c: 'La vérité se définit classiquement comme l’**accord de la pensée avec son objet** (l’*adéquation*). Il faut aussitôt la distinguer de la **réalité** : la réalité est ce qui **est** ; la vérité est une propriété de nos **jugements** sur le réel. Une pierre n’est ni vraie ni fausse ; c’est ce que j’en **dis** qui peut l’être. Il faut aussi la distinguer de l’**opinion** (*doxa*) : une croyance non fondée, même partagée par tous, n’est pas un savoir.' },
+        { t: 'p', c: 'C’est le sens de la célèbre **allégorie de la caverne** de **Platon** : des prisonniers enchaînés prennent les **ombres** projetées sur une paroi pour la réalité ; l’un d’eux se libère, sort, découvre le soleil (l’Idée du Bien, la vérité), puis revient — et on ne le croit pas. Philosopher, c’est cette **conversion** du regard, ce difficile passage de l’apparence au réel, de l’opinion au savoir. **Descartes**, à l’aube de la modernité, propose une autre méthode : le **doute méthodique**. Douter volontairement de tout — des sens, des raisonnements, du monde — jusqu’à trouver une première certitude que le doute ne peut emporter : « je pense, donc je suis » (*cogito*).' },
+        { t: 'table', head: ['Distinction', 'Sens', 'Exemple'], rows: [
+          ['Vérité / réalité', 'Propriété du jugement / ce qui est', '« Il pleut » est vrai si, de fait, il pleut'],
+          ['Opinion / savoir', 'Croyance non fondée / connaissance justifiée', 'Croire vs démontrer'],
+          ['Vérités de raison / de fait (Leibniz)', 'Logiques, nécessaires / vérifiées par l’expérience', '2 + 2 = 4 / « César a franchi le Rubicon »'],
+          ['Objectif / subjectif', 'Vaut pour l’objet, pour tous / dépend du sujet', '« 20 °C » / « il fait bon »'],
+        ] },
+        { t: 'p', c: 'Peut-on **tout** démontrer ? Non. Toute démonstration part d’**axiomes** que l’on ne démontre pas, sous peine de régression à l’infini. **Leibniz** distingue les **vérités de raison** (nécessaires, comme les mathématiques) et les **vérités de fait** (contingentes, vérifiées par l’expérience). Au XXᵉ siècle, **Karl Popper** ajoute un critère décisif pour la science : une théorie n’est scientifique que si elle est **réfutable** (falsifiable) — ce qui ne peut être contredit par aucune expérience n’est pas une science, mais une croyance déguisée.' },
+        { t: 'warning', h: 'Le piège du relativisme', c: '« À chacun sa vérité » confond le **goût** (subjectif) et la **vérité** (qui prétend valoir pour tous). Une vérité ne se décide pas au vote : la Terre ne s’est pas mise à tourner quand la majorité l’a admis.' },
+      ]),
+      worked('📖 La vérité en littérature et dans les sciences', [
+        { t: 'p', c: 'La quête de la vérité, et le mensonge, nourrissent la littérature. **Molière**, dans *Le Misanthrope*, met en scène Alceste, l’homme qui veut dire toujours la vérité, et montre combien la vie sociale repose sur de petits arrangements. **Orwell**, dans *1984*, invente la « novlangue » et le « Ministère de la Vérité » qui **réécrit** le passé : le pouvoir totalitaire ne se contente pas de mentir, il abolit l’idée même d’une vérité indépendante.' },
+        { t: 'p', c: 'L’histoire des sciences illustre le caractère **conquis** et **révisable** de la vérité : longtemps « la Terre est plate » ou « le Soleil tourne autour de la Terre » furent des évidences. Le progrès scientifique procède par **ruptures** (Bachelard parle d’« obstacles épistémologiques » à franchir) : la vérité d’aujourd’hui corrige celle d’hier, sans que cela ruine l’idée de vérité — au contraire, c’est le signe d’une pensée qui se **contrôle** elle-même.' },
+        { t: 'example', h: 'Illustration', c: 'Le doute cartésien n’est pas le scepticisme (qui doute pour ne rien conclure) : c’est un **outil**, une étape pour atteindre le certain. On doute afin de mieux savoir.' },
+        { t: 'tip', h: 'Repère central', c: '**Opinion / savoir.** Une vérité ne dépend pas du nombre de gens qui y croient, mais de ce qui la **fonde** (preuve, expérience, démonstration).' },
+      ]),
+      worked('✍️ Dissertation guidée — « Toutes les opinions se valent-elles ? »', [
+        { t: 'list', c: [
+          '**I. Chacun a droit à son opinion.** La liberté de pensée et d’expression suppose de respecter la diversité des points de vue ; nul ne détient un monopole de la vérité, et le dogmatisme est dangereux.',
+          '**II. Mais l’opinion n’est pas le savoir.** Une opinion non fondée ne vaut pas une connaissance démontrée : sur un fait, toutes les opinions ne se valent pas (Platon oppose la *doxa* à l’*épistémè*). Confondre les deux, c’est ouvrir la porte à la désinformation.',
+          '**III. Dépassement.** Respecter le **droit** d’avoir une opinion n’oblige pas à tenir toutes les opinions pour **également vraies**. La vérité se cherche par l’argumentation et la preuve ; le débat n’a de sens que s’il vise, au-delà des opinions, quelque chose de vrai.',
+        ] },
+        { t: 'example', h: 'Conclusion', c: 'Toutes les opinions ont un droit égal à s’exprimer, mais elles n’ont pas une valeur égale devant la vérité : c’est même parce que la vérité existe que la discussion vaut la peine d’être menée.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — vérité, science, opinion', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Platon, Descartes, Popper, Bachelard.' },
+    ],
+  },
+
+  'philo-methode': {
+    sections: [
+      worked('🧭 La dissertation — méthode complète et détaillée', [
+        { t: 'p', c: 'La dissertation de philosophie n’est ni un exposé de cours, ni une opinion personnelle : c’est une **démonstration** organisée qui répond à **une** question précise. Le correcteur n’attend pas que vous « sachiez » beaucoup de choses, mais que vous sachiez **penser** — analyser, problématiser, argumenter. Voici la marche à suivre, étape par étape.' },
+        { t: 'list', c: [
+          '**1. Analyser le sujet.** Définir chaque mot important (souvent plusieurs sens possibles), repérer les présupposés, délimiter le champ. Un mot mal défini, et toute la copie déraille.',
+          '**2. Problématiser.** Transformer le sujet en un **problème** : montrer que la réponse évidente se heurte à une objection, qu’il y a une **tension** entre deux réponses également défendables. C’est le cœur de l’introduction.',
+          '**3. Construire un plan progressif.** Souvent en trois moments : **thèse** (oui, parce que…) — **antithèse** (mais…) — **dépassement** (en réalité…). Chaque partie doit **faire avancer** la réflexion, pas seulement juxtaposer des avis.',
+          '**4. Argumenter.** Chaque sous-partie = une **idée** + un **argument** qui la justifie + un **exemple** ou un **auteur** qui l’illustre. On explique toujours ce que l’exemple apporte.',
+          '**5. Conclure.** Répondre **clairement** au problème posé (surtout pas « ça dépend » sans plus), puis, éventuellement, ouvrir sur une nouvelle question.',
+        ] },
+        { t: 'example', h: 'Introduction rédigée — « La technique nous libère-t-elle ? »', c: 'Chaque jour, le GPS, le smartphone ou la machine à laver nous épargnent mille efforts : la technique paraît être une puissance de libération. Pourtant, beaucoup se sentent esclaves de leurs écrans ou menacés par les machines. La **technique** désigne l’ensemble des procédés efficaces par lesquels l’homme transforme la nature ; **libérer**, c’est affranchir d’une contrainte. Le problème est donc le suivant : si la technique nous délivre des contraintes naturelles, ne crée-t-elle pas de nouvelles dépendances ? Nous verrons d’abord qu’elle libère de la nature, puis qu’elle peut asservir, enfin que tout dépend de l’usage que nous en faisons.' },
+        { t: 'warning', h: 'Les deux pièges mortels', c: 'Le **hors-sujet** (on répond à côté, faute d’avoir analysé le sujet) et la **récitation** (on déroule le cours sans problématiser). Revenez sans cesse à **la** question posée.' },
+      ]),
+      worked('📖 L’explication de texte — méthode et exemple traité', [
+        { t: 'p', c: 'L’explication de texte consiste à **rendre compte** fidèlement d’un texte philosophique, puis à en **discuter** la portée. On ne donne pas son avis d’emblée : on suit d’abord, pas à pas, la pensée de l’auteur, comme un guide qui éclaire chaque passage.' },
+        { t: 'list', c: [
+          '**① Dégager la thèse** : que veut prouver l’auteur ? En une phrase.',
+          '**② Repérer les mouvements** : découper le texte en étapes logiques (les « moments » de l’argumentation), repérés par les connecteurs (« mais », « donc », « car », « ainsi »).',
+          '**③ Expliquer** : reformuler et éclairer chaque étape, définir les concepts employés, montrer comment l’auteur passe de l’un à l’autre.',
+          '**④ Éclairer les exemples** et le vocabulaire technique.',
+          '**⑤ Discuter** : la thèse est-elle convaincante ? Quelles objections ? Quelle portée ?',
+        ] },
+        { t: 'example', h: 'Exemple traité — Pascal, le « roseau pensant »', c: '« L’homme n’est qu’un roseau, le plus faible de la nature ; mais c’est un roseau pensant. » **Thèse** : la grandeur de l’homme tient non à sa force mais à sa pensée. **Mouvements** : (a) « le plus faible de la nature » = la fragilité physique (un souffle suffit à le tuer) ; (b) le « **mais** » renverse tout : « roseau **pensant** » = la pensée fait sa dignité. **Explication** : l’homme est supérieur à l’univers qui l’écrase parce qu’il **le sait**, tandis que l’univers l’ignore. **Discussion** : où placer la dignité humaine ? Dans la conscience plutôt que dans la force — ce qui relie ce texte aux notions de conscience et de nature.' },
+        { t: 'tip', h: 'Réflexe', c: 'Souligner les **connecteurs logiques** (« mais », « donc », « car ») : ils dessinent la charpente du texte et vous donnent le plan de votre explication.' },
+      ]),
+      worked('👤 Galerie d’auteurs — une idée par philosophe', [
+        { t: 'p', c: 'Inutile de connaître des dizaines d’auteurs : quelques-uns, **bien maîtrisés** (une idée, une formule, un exemple chacun), suffisent à nourrir n’importe quelle copie. Voici une galerie de repères, de l’Antiquité au XXᵉ siècle.' },
+        { t: 'table', head: ['Auteur', 'Idée clé', 'Notions concernées'], rows: [
+          ['Platon', 'Allégorie de la caverne : des ombres à la vérité', 'Vérité, art'],
+          ['Aristote', 'La justice comme équité ; l’homme « animal politique »', 'Justice'],
+          ['Épictète', 'Distinguer ce qui dépend de nous', 'Liberté, bonheur'],
+          ['Descartes', 'Doute méthodique, cogito, maîtrise de la nature', 'Vérité, technique'],
+          ['Pascal', 'Le « roseau pensant » ; les raisons du cœur', 'Religion, nature'],
+          ['Spinoza', 'La liberté comme illusion (déterminisme)', 'Liberté'],
+          ['Rousseau', 'Nature / culture ; le contrat social', 'Justice, liberté, nature'],
+          ['Kant', 'L’autonomie ; le jugement de goût désintéressé', 'Liberté, art'],
+          ['Hegel', 'Dialectique maître / esclave ; l’art manifeste l’Esprit', 'Technique, art'],
+          ['Marx', 'Aliénation ; religion « opium du peuple »', 'Technique, religion'],
+          ['Nietzsche', 'Critique de la morale et des « arrière-mondes »', 'Vérité, religion'],
+          ['Freud', 'L’inconscient ; la religion comme illusion', 'Conscience, religion'],
+          ['Heidegger', 'La technique moderne réduit le monde à un « fonds »', 'Technique'],
+          ['Sartre', 'L’existence précède l’essence : liberté et responsabilité', 'Liberté'],
+          ['Arendt', 'La « banalité du mal » ; l’action politique', 'Justice, politique'],
+          ['Jonas', 'Le principe responsabilité envers l’avenir', 'Nature, technique'],
+        ] },
+        { t: 'tip', h: 'Stratégie payante', c: 'Reliez chaque auteur à **une notion** et à **un exemple**. Le jour du bac, vous mobiliserez la bonne référence au bon endroit, expliquée — jamais plaquée.' },
+      ]),
+    ],
+    resources: [
+      { label: 'Éduscol — sujets & annales de philosophie (voie techno)', url: 'https://eduscol.education.fr/', kind: 'doc', note: 'Le programme officiel et des sujets pour s’entraîner.' },
+    ],
+  },
+
+
+  // =========================================================================
   // PREMIÈRE — Sciences de gestion et numérique
   // =========================================================================
   'p1-sgn-t1': {
