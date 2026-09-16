@@ -75,10 +75,6 @@ export default function Welcome() {
 
   const helloName = state.profile?.firstName || firstName.trim()
 
-  // Entrer dans l'app sans écran de bienvenue (utilisé lors d'une simple
-  // connexion / reconnexion, réservant le « Bienvenue » à la création de compte).
-  const skipWelcome = () => { setLeaving(false); setPhase('done'); if (location.pathname === '/') navigate('/accueil') }
-
   // Déconnexion : quand le profil disparaît, on rouvre l'écran de connexion
   // (le composant reste monté, il faut donc réagir au changement).
   useEffect(() => {
@@ -199,7 +195,7 @@ export default function Welcome() {
           const joinCode = prof?.class_code || cc
           if (joinCode) setClassCode(joinCode)
         }
-        skipWelcome() // connexion (pas création) → pas d'écran de bienvenue
+        setPhase('hello') // connexion → on réaffiche « Bienvenue » à chaque entrée
       } else {
         // Compte OAuth déjà authentifié : on ne recrée pas de compte, on complète.
         if (!oauthNew) {
@@ -256,7 +252,7 @@ export default function Welcome() {
       setTeacherClasses(classes)
       setClassCode(classes[0]?.code || prof?.class_code || '')
     } else if (prof?.class_code) setClassCode(prof.class_code)
-    skipWelcome() // reconnexion (récupération / OAuth existant) → pas de bienvenue
+    setPhase('hello') // reconnexion (récupération / OAuth existant) → « Bienvenue »
   }
   loginFromSessionRef.current = loginFromSession
 

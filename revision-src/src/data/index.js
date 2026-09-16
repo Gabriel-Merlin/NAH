@@ -22,6 +22,7 @@ import { PIEGES } from './pieges.js'
 import { ENRICH } from './enrich.js'
 import { COURS_REELS } from './coursreels.js'
 import { PHILO_LONG } from './philocours.js'
+import { APPROF } from './approfondir.js'
 
 export const SUBJECTS = [
   gestion,
@@ -96,6 +97,10 @@ for (const s of SUBJECTS) {
     // à la suite (définitions approfondies, thèses, textes commentés, dissertations).
     const plong = PHILO_LONG[c.id]
     if (plong?.length) c.cours = [...(c.cours || []), ...plong]
+    // Cours « approfondis » du tronc STMG (Gestion-Finance, Management, Droit,
+    // Économie, Maths) : plusieurs chapitres développés ajoutés à la suite.
+    const appr = APPROF[c.id]
+    if (appr?.length) c.cours = [...(c.cours || []), ...appr]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
