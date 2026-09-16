@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useParams, Navigate } from 'react-router-dom'
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom'
 import { getChapter, getSubject, themeChapters, flashcardsForSection, sectionDefinitions } from '../data/index.js'
 import { useStore, useThemeTimer } from '../store.jsx'
-import { CourseSection, CourseText, saveFiche } from '../components/Course.jsx'
+import { PaginatedCourse, CourseText, saveFiche } from '../components/Course.jsx'
 import GameHost from '../games/GameHost.jsx'
 import { useT, useGameLabel } from '../i18n.js'
 
@@ -12,6 +12,7 @@ export default function Chapter() {
   const theme = getChapter(tid)
   const { state, saveDeck } = useStore()
   const t = useT()
+  const navigate = useNavigate()
   const gameLabel = useGameLabel()
   const [activeGame, setActiveGame] = useState(null)
   const [tab, setTab] = useState('cours') // Cours / Définitions / Exercices
@@ -85,21 +86,25 @@ export default function Chapter() {
           <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em]" style={{ color }}><CourseText text={theme.name} /> · {t('chapter')} {i + 1}/{chapters.length}</p>
           <h1 className="font-display text-2xl font-medium leading-tight"><CourseText text={chapter.title} /></h1>
         </div>
-        <Link
-          to={`/subject/${sid}/theme/${tid}`}
-          aria-label={t('backToChapters')}
-          title={t('backToChapters')}
-          className="no-print grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-lg text-slate-500 transition hover:bg-slate-200 hover:text-slate-800 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
-        >
-          ✕
-        </Link>
+        <div className="no-print flex shrink-0 items-center gap-1.5">
+          <button
+            onClick={saveFiche}
+            aria-label={t('savePdf')}
+            title={t('savePdf')}
+            className="grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-base text-slate-500 transition hover:bg-slate-200 hover:text-slate-800 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
+          >
+            🖨️
+          </button>
+          <Link
+            to={`/subject/${sid}/theme/${tid}`}
+            aria-label={t('backToChapters')}
+            title={t('backToChapters')}
+            className="grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-lg text-slate-500 transition hover:bg-slate-200 hover:text-slate-800 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
+          >
+            ✕
+          </Link>
+        </div>
       </header>
-
-      <div className="no-print flex justify-end">
-        <button onClick={saveFiche} className="btn-ghost !min-h-0 !py-2 text-sm" title="Ouvre la fenêtre d’impression pour enregistrer au format PDF">
-          🖨️ {t('savePdf')}
-        </button>
-      </div>
 
       {/* Onglets : Cours · Définitions · Exercices — pour ne rien empiler */}
       <div className="no-print sticky top-[52px] z-30 -mx-4 border-b border-slate-200 bg-slate-50/90 px-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
@@ -120,10 +125,16 @@ export default function Chapter() {
         </div>
       </div>
 
-      {/* ONGLET COURS (imprimé dans la fiche PDF) */}
-      <div className={`${tab === 'cours' ? 'space-y-4' : 'hidden'} print-show`}>
-        <CourseSection sec={chapter.section} color={color} sectionIdx={chapter.idx} themeId={tid} subjectId={sid} hideDefs />
-        <p className="no-print px-1 text-xs text-slate-400">📚 {t('keyDefs')} → onglet « {t('tabDefs')} » · 🎮 {t('tabExercises')} → onglet dédié.</p>
+      {/* ONGLET COURS — lecteur paginé, épuré (imprimé dans la fiche PDF) */}
+      <div className={`${tab === 'cours' ? '' : 'hidden'} print-show`}>
+        <PaginatedCourse
+          sec={chapter.section}
+          color={color}
+          prevLabel={prev ? t('previous') : null}
+          nextLabel={next ? t('nextChapter') : t('takeTest')}
+          onPrev={prev ? () => navigate(`/subject/${sid}/theme/${tid}/chapter/${prev.idx}`) : null}
+          onNext={() => navigate(next ? `/subject/${sid}/theme/${tid}/chapter/${next.idx}` : `/subject/${sid}/theme/${tid}?tab=test`)}
+        />
       </div>
 
       {/* ONGLET DÉFINITIONS (imprimé dans la fiche PDF) */}
@@ -200,17 +211,20 @@ export default function Chapter() {
         }) : <p className="card p-5 text-center text-sm text-slate-500 dark:text-slate-400">{t('gamesOfChapter')} —</p>}
       </div>
 
-      {/* Navigation entre chapitres */}
-      <div className="no-print flex items-center justify-between gap-2 pt-1">
-        {prev ? (
-          <Link to={`/subject/${sid}/theme/${tid}/chapter/${prev.idx}`} className="btn-ghost !min-h-0 flex-1 !py-2.5 text-sm">← {t('previous')}</Link>
-        ) : <span className="flex-1" />}
-        {next ? (
-          <Link to={`/subject/${sid}/theme/${tid}/chapter/${next.idx}`} className="btn-primary !min-h-0 flex-1 !py-2.5 text-sm text-white" style={{ backgroundColor: color }}>{t('nextChapter')} →</Link>
-        ) : (
-          <Link to={`/subject/${sid}/theme/${tid}?tab=test`} className="btn-primary !min-h-0 flex-1 !py-2.5 text-sm text-white" style={{ backgroundColor: color }}>{t('takeTest')} 🏁</Link>
-        )}
-      </div>
+      {/* Navigation entre chapitres — le lecteur Cours a sa propre pagination,
+          on ne l'affiche donc que pour les onglets Définitions / Exercices. */}
+      {tab !== 'cours' && (
+        <div className="no-print flex items-center justify-between gap-2 pt-1">
+          {prev ? (
+            <Link to={`/subject/${sid}/theme/${tid}/chapter/${prev.idx}`} className="btn-ghost !min-h-0 flex-1 !py-2.5 text-sm">← {t('previous')}</Link>
+          ) : <span className="flex-1" />}
+          {next ? (
+            <Link to={`/subject/${sid}/theme/${tid}/chapter/${next.idx}`} className="btn-primary !min-h-0 flex-1 !py-2.5 text-sm text-white" style={{ backgroundColor: color }}>{t('nextChapter')} →</Link>
+          ) : (
+            <Link to={`/subject/${sid}/theme/${tid}?tab=test`} className="btn-primary !min-h-0 flex-1 !py-2.5 text-sm text-white" style={{ backgroundColor: color }}>{t('takeTest')} 🏁</Link>
+          )}
+        </div>
+      )}
 
       <p className="print-footer">
         {state.profile?.firstName ? `Fiche de révision de ${state.profile.firstName}${state.profile.lastName ? ' ' + state.profile.lastName : ''} · ` : ''}

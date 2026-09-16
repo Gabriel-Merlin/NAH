@@ -107,6 +107,106 @@ export function CourseSection({ sec, color, index, themeId, subjectId, sectionId
   )
 }
 
+// Normalise une section (nouveau format `blocks` ou ancien `intro/points/formula`)
+// en une simple liste de blocs, pour la lecture paginée.
+function sectionToBlocks(sec) {
+  if (sec.blocks?.length) return sec.blocks
+  const out = []
+  if (sec.intro) out.push({ t: 'p', c: sec.intro })
+  if (sec.points?.length) out.push({ t: 'list', c: sec.points })
+  if (sec.formula) out.push({ t: 'formula', c: sec.formula })
+  return out.length ? out : [{ t: 'p', c: '' }]
+}
+
+// Découpe les blocs en « pages » de lecture (2 à 3 blocs légers, ou 1 bloc lourd),
+// pour un cours aéré, lu page par page plutôt qu'en un seul long défilement.
+const BLOCK_WEIGHT = { p: 1, list: 1.4, example: 1.5, tip: 1.4, warning: 1.4, table: 2.2, figure: 2.2, frise: 2.2, formula: 1 }
+function paginateBlocks(blocks, max = 2.4) {
+  const pages = []
+  let cur = []
+  let w = 0
+  for (const b of blocks) {
+    const bw = BLOCK_WEIGHT[b.t] || 1
+    if (cur.length && w + bw > max) { pages.push(cur); cur = []; w = 0 }
+    cur.push(b)
+    w += bw
+  }
+  if (cur.length) pages.push(cur)
+  return pages.length ? pages : [[]]
+}
+
+// Lecteur de cours paginé, épuré et « luxueux » : une poignée de blocs par page,
+// pagination élégante, transitions douces. À l'impression, toutes les pages sont
+// dépliées (fiche PDF complète).
+export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNext }) {
+  const t = useT()
+  // Pages recalculées à chaque changement de section (nouveau chapitre).
+  const [list, setList] = useState(() => paginateBlocks(sectionToBlocks(sec)))
+  const [page, setPage] = useState(0)
+  const bodyRef = useRef(null)
+  useEffect(() => { setList(paginateBlocks(sectionToBlocks(sec))); setPage(0) }, [sec])
+  const last = list.length - 1
+  const toTop = () => { try { window.scrollTo({ top: 0, behavior: 'smooth' }) } catch { window.scrollTo(0, 0) } }
+  const goPrev = () => { if (page > 0) { setPage(page - 1); toTop() } else onPrev?.() }
+  const goNext = () => { if (page < last) { setPage(page + 1); toTop() } else onNext?.() }
+  const atStart = page === 0 && !onPrev
+  const endCaption = page === last && onNext ? nextLabel : null
+
+  return (
+    <section className="reader">
+      <div className="card relative overflow-hidden !rounded-[1.75rem] p-6 sm:p-8" style={{ boxShadow: '0 20px 50px -30px rgba(0,0,0,.35)' }}>
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }} aria-hidden />
+        <ReadAloud getText={() => bodyRef.current?.innerText || ''} className="no-print absolute right-4 top-4" />
+        <div ref={bodyRef}>
+          {list.map((pg, k) => (
+            <div key={k} className={`${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-5`}>
+              {pg.map((b, j) => <Block key={j} b={b} color={color} />)}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Pagination élégante */}
+      <div className="no-print mt-5 flex items-center justify-between gap-3">
+        <button
+          onClick={goPrev}
+          disabled={atStart}
+          aria-label={t('previous')}
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-slate-200 bg-white text-lg text-slate-500 shadow-sm transition hover:bg-slate-50 disabled:opacity-30 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+        >
+          ‹
+        </button>
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="flex items-center gap-1.5">
+            {list.map((_, k) => (
+              <span
+                key={k}
+                className="h-1.5 rounded-full transition-all"
+                style={{ width: k === page ? 22 : 6, backgroundColor: k === page ? color : 'color-mix(in srgb, currentColor 22%, transparent)' }}
+                aria-hidden
+              />
+            ))}
+          </div>
+          <span className="text-[11px] font-medium text-slate-400">
+            {endCaption || `${t('pageWord')} ${page + 1} / ${list.length}`}
+          </span>
+        </div>
+        <button
+          onClick={goNext}
+          aria-label={page === last ? (nextLabel || t('nextChapter')) : t('next')}
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-lg text-white shadow-md transition hover:brightness-110"
+          style={{ backgroundColor: color }}
+        >
+          ›
+        </button>
+      </div>
+      {prevLabel && page === 0 && onPrev && (
+        <p className="no-print mt-2 text-center text-[11px] text-slate-400">‹ {prevLabel}</p>
+      )}
+    </section>
+  )
+}
+
 // Encadré « Définitions clés » : 5 définitions utiles pour cette section (tirées
 // du cours puis complétées par la banque du thème). Rendu sous chaque cours.
 export function Definitions({ sec, themeId, subjectId, sectionIdx = 0, color }) {
