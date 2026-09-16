@@ -342,21 +342,35 @@ function MobileMenu({ className = '', state, isDark, standalone, lang, first, la
                 </div>
               </div>
             )}
-            {signedIn && <Item icon="🏠" label={t('mySpace')} to="/moi" />}
-            <Item icon="⚡" label={t('dailyChallenge')} to="/defi" />
-            <Item icon="⏱️" label={t('expressMode')} to="/express" />
-            <Item icon="📐" label={t('formulasTitle')} to="/formules" />
+            {/* Navigation essentielle. Les autres outils (défi, express, coach IA,
+                boutique, amis, formules, bac blanc…) sont regroupés sur l'accueil
+                pour ne pas surcharger ce menu. */}
+            <Item icon="🏠" label={t('home')} to="/accueil" />
+            <Item icon="👤" label={t('mySpace')} to="/moi" />
             <Item icon="🧭" label={t('methodoTitle')} to="/methodo" />
-            <Item icon="🤖" label={t('coachAI')} to="/coach-ia" />
-            <Item icon="🛍️" label={t('shop')} to="/boutique" />
-            <Item icon="🤝" label={t('friends')} to="/amis" />
             <Item icon="👨‍👩‍👧" label={t('parentSpace')} to="/parent" />
-            <Item icon="🔍" label={t('search')} onClick={onSearch} />
-            <Item icon="📖" label={t('dictionary')} onClick={onDict} />
-            <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
             {!standalone && <Item icon="🎓" label={t('startGuide')} to="/guide" />}
-            <Item icon="♿" label={t('accessibility')} onClick={onA11y} />
-            <Item icon={isDark ? '☀️' : '🌙'} label={isDark ? t('light') : t('dark')} onClick={onToggleTheme} />
+
+            {/* Réglages rapides, en icônes (gain de place) */}
+            <div className="flex items-center justify-around gap-1 border-t border-slate-100 px-2 py-2 dark:border-slate-800">
+              {[
+                { k: 'search', icon: '🔍', on: onSearch },
+                { k: 'dictionary', icon: '📖', on: onDict },
+                { k: 'customize', icon: '🎨', on: onCustomize },
+                { k: 'accessibility', icon: '♿', on: onA11y },
+                { k: isDark ? 'light' : 'dark', icon: isDark ? '☀️' : '🌙', on: onToggleTheme, keepOpen: true },
+              ].map((b) => (
+                <button
+                  key={b.k}
+                  onClick={() => { if (b.keepOpen) b.on?.(); else run(b.on)() }}
+                  aria-label={t(b.k)}
+                  title={t(b.k)}
+                  className="grid h-10 w-10 place-items-center rounded-xl text-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  {b.icon}
+                </button>
+              ))}
+            </div>
             <div className="border-t border-slate-100 px-4 py-2.5 dark:border-slate-800">
               <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('language')}</p>
               <div className="flex gap-1.5">
