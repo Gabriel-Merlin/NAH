@@ -615,10 +615,19 @@ export function useStore() {
 // Compte le temps de révision réellement passé (page au premier plan) sur un
 // thème et l'ajoute au store (par paliers, à la sortie et au passage en arrière-
 // plan). Utilisé par les pages Thème/Chapitre. Ne compte pas l'onglet caché.
-export function useThemeTimer(themeId) {
+// Clé « fourre-tout » : le temps passé à réviser hors d'un thème précis (bac
+// blanc, révision express, coach IA, défi, flashcards sans thème). Filtrée des
+// barres « temps par thème » (pas un vrai thème), mais comptée dans le temps
+// total → elle alimente bien les récompenses de temps.
+export const STUDY_BUCKET = '__study'
+
+// Mesure le temps ACTIF (onglet visible) passé sur une activité et l'ajoute au
+// compteur `bucket` de `themeTime`. Passer un id de thème pour l'attribuer au
+// thème ; sinon on retombe sur le fourre-tout STUDY_BUCKET.
+function useActivityTimer(bucket) {
   const { addThemeTime } = useStore()
   useEffect(() => {
-    if (!themeId) return
+    if (!bucket) return
     let acc = 0
     let last = Date.now()
     let visible = typeof document === 'undefined' ? true : !document.hidden
@@ -627,7 +636,7 @@ export function useThemeTimer(themeId) {
       if (visible) acc += (now - last) / 1000
       last = now
     }
-    const flush = () => { tick(); if (acc >= 5) { addThemeTime(themeId, acc); acc = 0 } }
+    const flush = () => { tick(); if (acc >= 5) { addThemeTime(bucket, acc); acc = 0 } }
     const onVis = () => {
       tick()
       const nowHidden = document.hidden
@@ -644,8 +653,16 @@ export function useThemeTimer(themeId) {
       document.removeEventListener('visibilitychange', onVis)
       window.removeEventListener('pagehide', flush)
     }
-  }, [themeId, addThemeTime])
+  }, [bucket, addThemeTime])
 }
+
+// Temps passé sur un thème (page cours/thème + exercices du chapitre).
+export function useThemeTimer(themeId) { useActivityTimer(themeId || null) }
+
+// Temps passé à réviser hors d'un thème précis (bac blanc, express, coach IA,
+// défi, flashcards) : attribué au thème si on en connaît un, sinon au
+// fourre-tout — dans tous les cas compté pour les récompenses de temps.
+export function useStudyTimer(themeId = null) { useActivityTimer(themeId || STUDY_BUCKET) }
 
 // ---- Calculs de progression dérivés de l'état ----------------------------
 // Score d'un chapitre = moyenne des meilleurs scores de ses jeux + quiz

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useStore } from '../store.jsx'
+import { useStore, useStudyTimer } from '../store.jsx'
 import { buildDailyChallenge } from '../data/dailyChallenge.js'
 import Qcm from '../games/Qcm.jsx'
 import { Confetti, Stars } from '../components/ui.jsx'
@@ -10,6 +10,7 @@ const todayKey = () => new Date().toISOString().slice(0, 10)
 
 export default function DailyChallenge() {
   const { state, completeDailyChallenge } = useStore()
+  useStudyTimer() // le temps du défi du jour compte pour les récompenses
   const t = useT()
   const navigate = useNavigate()
   const today = todayKey()

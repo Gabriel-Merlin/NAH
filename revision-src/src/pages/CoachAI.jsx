@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { useStore } from '../store.jsx'
+import { useStore, useStudyTimer } from '../store.jsx'
 import { analyzeStudent, buildTraining } from '../data/coachAI.js'
 import { ProgressBar } from '../components/ui.jsx'
 import { useT } from '../i18n.js'
@@ -16,6 +16,7 @@ const REASON = {
 export default function CoachAI() {
   const { state } = useStore()
   const t = useT()
+  useStudyTimer() // le temps de l'entraînement coach IA compte pour les récompenses
   const [training, setTraining] = useState(null)
   if (!state.track) return <Navigate to="/" replace />
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useParams, useNavigate, Navigate } from 'react-router-dom'
-import { useStore } from '../store.jsx'
+import { useStore, useStudyTimer } from '../store.jsx'
 import { shuffle } from '../games/common.jsx'
 import { useT } from '../i18n.js'
 
@@ -14,6 +14,9 @@ export default function FlashcardsPage() {
   const { state, addXp } = useStore()
   const t = useT()
   const deck = (state.savedDecks || []).find((d) => d.id === deckId)
+  // Le temps passé à réviser des flashcards compte pour les récompenses
+  // (attribué au thème du paquet si connu, sinon au compteur d'étude général).
+  useStudyTimer(deck?.themeId || null)
 
   const [queue, setQueue] = useState(() => (deck ? shuffle(deck.cards) : []))
   const [i, setI] = useState(0)

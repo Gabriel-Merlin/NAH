@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useStore } from '../store.jsx'
+import { useStore, useStudyTimer } from '../store.jsx'
 import { buildExam, examSubjects } from '../data/study.js'
 import Exam from '../games/Exam.jsx'
 import { useT } from '../i18n.js'
@@ -14,6 +14,7 @@ const DURATIONS = [
 export default function BacBlanc() {
   const { state, recordExamSeen } = useStore()
   const t = useT()
+  useStudyTimer() // le temps du bac blanc compte pour les récompenses
   if (!state.track) return <Navigate to="/" replace />
 
   const subjects = examSubjects(state.track)

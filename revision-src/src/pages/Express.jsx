@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useStore } from '../store.jsx'
+import { useStore, useStudyTimer } from '../store.jsx'
 import { buildExam } from '../data/study.js'
 import { Confetti, Stars } from '../components/ui.jsx'
 import { useT } from '../i18n.js'
@@ -10,6 +10,7 @@ const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.max(0, s % 60)).padStart
 
 export default function Express() {
   const { state, addXp } = useStore()
+  useStudyTimer() // le temps de la révision express compte pour les récompenses
   const t = useT()
   const navigate = useNavigate()
   const accent = '#c8a24e'
