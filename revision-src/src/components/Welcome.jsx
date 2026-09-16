@@ -52,6 +52,7 @@ export default function Welcome() {
   const [role, setRole] = useState('eleve') // 'eleve' | 'prof' | 'parent'
   const [oauthNew, setOauthNew] = useState(false) // compte OAuth sans profil : à compléter
   const [providers, setProviders] = useState({}) // fournisseurs OAuth activés côté Supabase
+  const [signupStep, setSignupStep] = useState(1) // inscription en étapes : 1 compte · 2 identité · 3 études
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [classCodeInput, setClassCodeInput] = useState('')
@@ -110,9 +111,9 @@ export default function Welcome() {
       if (!res || res.error) { setBusy(false); if (res?.error) setErr(res.error); return }
       const prof = await fetchProfile().catch(() => null)
       if (prof && prof.level) { await loginFromSessionRef.current(); setBusy(false); return }
-      // Nouveau compte OAuth : e-mail pré-rempli, on complète le profil.
+      // Nouveau compte OAuth : e-mail pré-rempli, on complète le profil (étape 2).
       setEmail(getSession()?.user?.email || '')
-      setAuthMode('create'); setOauthNew(true); setInfo(t('oauthFinish')); setBusy(false)
+      setAuthMode('create'); setOauthNew(true); setSignupStep(2); setInfo(t('oauthFinish')); setBusy(false)
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -332,110 +333,66 @@ export default function Welcome() {
 
   // ----- Inscription / connexion -----
   const seg = (active) => `welcome-pill ${active ? 'is-active' : ''}`
+
+  // Boutons « Continuer avec … » (uniquement les fournisseurs activés).
+  const oauthButtons = (!isParent && (providers.google || providers.apple)) ? (
+    <>
+      <div className="mt-3 grid gap-2">
+        {providers.google && (
+          <button type="button" onClick={() => signInWithOAuth('google')}
+            className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+            <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden>
+              <path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.9C34.6 3.1 29.8 1 24 1 14.6 1 6.5 6.4 2.6 14.3l6.9 5.4C11.3 13.7 17.1 9.5 24 9.5z" />
+              <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-2.8-.4-4H24v7.6h12.7c-.3 2.1-1.6 5.3-4.7 7.4l7.2 5.6c4.3-4 6.3-9.9 6.3-16.6z" />
+              <path fill="#FBBC05" d="M9.5 28.3c-.5-1.4-.8-2.9-.8-4.3s.3-3 .8-4.3l-6.9-5.4C1.2 17.2.5 20.5.5 24s.7 6.8 2.1 9.7l6.9-5.4z" />
+              <path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.2-5.6c-2 1.4-4.6 2.4-8.7 2.4-6.9 0-12.7-4.2-14.5-10.1l-6.9 5.4C6.5 41.6 14.6 47 24 47z" />
+            </svg>
+            {t('continueWithGoogle')}
+          </button>
+        )}
+        {providers.apple && (
+          <button type="button" onClick={() => signInWithOAuth('apple')}
+            className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-800 bg-black px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-900">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="currentColor">
+              <path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.76.9-2 1.6-3.02 1.52-.14-1.1.44-2.26 1.12-3 .78-.86 2.12-1.5 3.02-1.52.02.16.02.34 0 .5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.06-1.78-4.05-3.35C-.03 16.9-.29 12.1 1.9 9.5c1.06-1.28 2.7-2.09 4.24-2.09 1.57 0 2.56 1.01 3.86 1.01 1.26 0 2.03-1.01 3.85-1.01 1.36 0 2.8.74 3.83 2.02-3.37 1.85-2.82 6.66.92 7.77z" />
+            </svg>
+            {t('continueWithApple')}
+          </button>
+        )}
+      </div>
+      <div className="my-3 flex items-center gap-3 text-xs text-slate-400">
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />{t('orSeparator')}<span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+      </div>
+    </>
+  ) : null
+
+  // Validité par étape de l'inscription.
+  const step1Ok = emailOk && passOk
+  const step2Ok = firstName.trim().length > 0
+  const step3Ok = consent && (isProf ? (!!chosenLevel?.available && taught.length > 0 && nClasses >= 1) : (!!chosenLevel?.available && specialtyOk))
+  const goLogin = () => { setAuthMode('login'); setOauthNew(false); setSignupStep(1); setErr(''); setInfo(''); setRecoverStep(null) }
+  const goCreate = () => { setAuthMode('create'); setSignupStep(1); setErr(''); setInfo(''); setRecoverStep(null) }
+  const backBtn = 'rounded-2xl border border-slate-300 px-5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800'
+  const stepDots = (
+    <div className="mb-1 mt-2 flex items-center justify-center gap-1.5" aria-hidden>
+      {[1, 2, 3].map((n) => (
+        <span key={n} className={`h-1.5 rounded-full transition-all ${n === signupStep ? 'w-6 bg-[#c8a24e]' : n < signupStep ? 'w-2.5 bg-[#c8a24e]/60' : 'w-2.5 bg-slate-300 dark:bg-slate-600'}`} />
+      ))}
+    </div>
+  )
+
   return (
-    <div className="welcome-root no-print" role="dialog" aria-label={t('letsMeet')}>
+    <div className="welcome-root no-print" role="dialog" aria-label={authMode === 'login' ? t('loginTab') : t('letsMeet')}>
       <div className="welcome-card">
         <p className="welcome-brand">RévizSTMG</p>
-        <h1 className="welcome-h">{authMode === 'login' ? t('loginTab') : t('letsMeet')}</h1>
-        <p className="welcome-sub">{authMode === 'login' ? t('loginSub') : t('accountRequired')}</p>
 
-        {/* Créer un compte / Se connecter */}
-        <div className="mt-3 flex gap-2">
-          <button type="button" className={seg(authMode === 'create')} onClick={() => { setAuthMode('create'); setErr(''); setInfo(''); setRecoverStep(null) }}>{t('createAccount')}</button>
-          <button type="button" className={seg(authMode === 'login')} onClick={() => { setAuthMode('login'); setErr(''); setInfo(''); setRecoverStep(null) }}>{t('loginTab')}</button>
-        </div>
-
-        {/* Identification via un fournisseur : uniquement ceux activés côté Supabase. */}
-        {!recoverStep && !isParent && (providers.google || providers.apple) && (
+        {/* ---------- Mot de passe oublié ---------- */}
+        {recoverStep ? (
           <>
-            <div className="mt-3 grid gap-2">
-              {providers.google && (
-                <button type="button" onClick={() => signInWithOAuth('google')}
-                  className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
-                  <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden>
-                    <path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.9C34.6 3.1 29.8 1 24 1 14.6 1 6.5 6.4 2.6 14.3l6.9 5.4C11.3 13.7 17.1 9.5 24 9.5z" />
-                    <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-2.8-.4-4H24v7.6h12.7c-.3 2.1-1.6 5.3-4.7 7.4l7.2 5.6c4.3-4 6.3-9.9 6.3-16.6z" />
-                    <path fill="#FBBC05" d="M9.5 28.3c-.5-1.4-.8-2.9-.8-4.3s.3-3 .8-4.3l-6.9-5.4C1.2 17.2.5 20.5.5 24s.7 6.8 2.1 9.7l6.9-5.4z" />
-                    <path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.2-5.6c-2 1.4-4.6 2.4-8.7 2.4-6.9 0-12.7-4.2-14.5-10.1l-6.9 5.4C6.5 41.6 14.6 47 24 47z" />
-                  </svg>
-                  {t('continueWithGoogle')}
-                </button>
-              )}
-              {providers.apple && (
-                <button type="button" onClick={() => signInWithOAuth('apple')}
-                  className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-800 bg-black px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-900">
-                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="currentColor">
-                    <path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.76.9-2 1.6-3.02 1.52-.14-1.1.44-2.26 1.12-3 .78-.86 2.12-1.5 3.02-1.52.02.16.02.34 0 .5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.06-1.78-4.05-3.35C-.03 16.9-.29 12.1 1.9 9.5c1.06-1.28 2.7-2.09 4.24-2.09 1.57 0 2.56 1.01 3.86 1.01 1.26 0 2.03-1.01 3.85-1.01 1.36 0 2.8.74 3.83 2.02-3.37 1.85-2.82 6.66.92 7.77z" />
-                  </svg>
-                  {t('continueWithApple')}
-                </button>
-              )}
-            </div>
-            <div className="my-3 flex items-center gap-3 text-xs text-slate-400">
-              <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />{t('orSeparator')}<span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-            </div>
-          </>
-        )}
-
-        {authMode === 'create' && (
-          <>
-            <span className="welcome-label">{t('account')}</span>
-            <div className="flex flex-wrap gap-2">
-              <button type="button" className={seg(role === 'eleve')} onClick={() => setRole('eleve')}>🎓 {t('roleStudent')}</button>
-              <button type="button" className={seg(role === 'prof')} onClick={() => setRole('prof')}>🧑‍🏫 {t('roleTeacher')}</button>
-              <button type="button" className={seg(role === 'parent')} onClick={() => setRole('parent')}>👨‍👩‍👧 {t('roleParent')}</button>
-            </div>
-
-            {isParent ? (
-              <div className="mt-3 rounded-2xl bg-black/5 p-4 text-sm leading-relaxed text-slate-600 dark:bg-white/5 dark:text-slate-300">
-                <p>{t('parentSignupHint')}</p>
-                <button type="button" className="welcome-cta mt-3" onClick={() => { setPhase('done'); navigate('/parent') }}>👨‍👩‍👧 {t('parentContinue')}</button>
-              </div>
-            ) : (
-              <>
-                <label className="welcome-label" htmlFor="w-first">{t('firstName')}</label>
-                <input id="w-first" className="welcome-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder={t('yourFirstName')} autoComplete="given-name" maxLength={40} />
-                <label className="welcome-label" htmlFor="w-last">{t('lastName')}</label>
-                <input id="w-last" className="welcome-input" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder={t('yourLastName')} autoComplete="family-name" maxLength={40} />
-              </>
-            )}
-          </>
-        )}
-
-        {authMode === 'login' && !recoverStep && (
-          <>
-            <span className="welcome-label">{t('iAm')}</span>
-            <div className="flex flex-wrap gap-2">
-              <button type="button" className={seg(role === 'eleve')} onClick={() => setRole('eleve')}>🎓 {t('roleStudent')}</button>
-              <button type="button" className={seg(role === 'prof')} onClick={() => setRole('prof')}>🧑‍🏫 {t('roleTeacher')}</button>
-            </div>
-          </>
-        )}
-
-        {oauthNew && (
-          <p className="mt-3 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">✓ {getSession()?.user?.email || ''}</p>
-        )}
-
-        {!isParent && !oauthNew && (
-          <>
+            <h1 className="welcome-h">{t('forgotPassword')}</h1>
+            <p className="welcome-sub">{recoverStep === 'request' ? t('resetIntro') : t('resetCodeIntro')}</p>
             <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
             <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} disabled={recoverStep === 'code'} />
-          </>
-        )}
-
-        {!recoverStep && !isParent && !oauthNew && (
-          <>
-            <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
-            <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && canSubmit && !busy && submitForm()} placeholder="••••••••" autoComplete={authMode === 'login' ? 'current-password' : 'new-password'} maxLength={72} />
-            {authMode === 'login' && (
-              <button type="button" className="mt-2 text-left text-sm font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]" onClick={() => { setRecoverStep('request'); setErr(''); setInfo('') }}>{t('forgotPassword')}</button>
-            )}
-          </>
-        )}
-
-        {recoverStep && (
-          <>
-            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{recoverStep === 'request' ? t('resetIntro') : t('resetCodeIntro')}</p>
             {recoverStep === 'code' && (
               <>
                 <label className="welcome-label" htmlFor="w-code">{t('recoveryCode')}</label>
@@ -444,98 +401,129 @@ export default function Welcome() {
                 <input id="w-newpass" className="welcome-input" type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && !busy && doReset()} placeholder="••••••••" autoComplete="new-password" maxLength={72} />
               </>
             )}
-          </>
-        )}
-
-        {authMode === 'create' && !isParent && (
-          <>
-            <span className="welcome-label">{isProf ? t('teacherLevel') : t('yourClass')}</span>
-            <div className="flex flex-wrap gap-2">
-              {LEVELS.map((l) => (
-                <button key={l.id} type="button" disabled={!l.available} onClick={() => pickLevel(l)} className={seg(level === l.id)}>
-                  {l.icon} {l.name}{!l.available && ` · ${t('soon')}`}
-                </button>
-              ))}
-            </div>
-
-            {!isProf && needsSpecialty && (
-              <>
-                <span className="welcome-label">{t('yourSpecialty')}</span>
-                <div className="flex flex-wrap gap-2">
-                  {chosenLevel.specialties.map((sp) => (
-                    <button key={sp.id} type="button" disabled={!sp.available} onClick={() => sp.available && setSpecialty(sp.id)} className={seg(specialty === sp.id)}>
-                      {sp.icon} {sp.name}{!sp.available && ` · ${t('toCome')}`}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {isProf ? (
-              <>
-                <span className="welcome-label">{t('whatDoYouTeach')}</span>
-                <div className="flex flex-wrap gap-2">
-                  {TAUGHT.map((s) => (
-                    <button key={s.id} type="button" onClick={() => toggleTaught(s.id)} className={seg(taught.includes(s.id))}>
-                      {s.icon} {s.label}
-                    </button>
-                  ))}
-                </div>
-                <span className="welcome-label">{t('howManyClasses')}</span>
-                <div className="flex flex-wrap gap-2">
-                  {[1, 2, 3, 4, 5, 6].map((n) => (
-                    <button key={n} type="button" onClick={() => setNClasses(n)} className={seg(nClasses === n)}>{n}</button>
-                  ))}
-                </div>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">🔑 {t('codesWillBeGenerated')}</p>
-              </>
-            ) : (
-              <>
-                <label className="welcome-label" htmlFor="w-cc">{t('classCodeOptional')}</label>
-                <input id="w-cc" className="welcome-input" value={classCodeInput} onChange={(e) => setClassCodeInput(e.target.value)} placeholder="ex : stmg-a3k9p" maxLength={24} />
-              </>
-            )}
-          </>
-        )}
-
-        {authMode === 'create' && !recoverStep && !isParent && (
-          <div className="mt-3">
-            <label className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>
-                {t('consentText')}{' '}
-                <button type="button" onClick={() => setShowPrivacy((v) => !v)} className="font-semibold text-[#98761f] underline dark:text-[#d9bd77]">{t('readPrivacy')}</button>
-              </span>
-            </label>
-            {showPrivacy && (
-              <div className="mt-2 max-h-40 overflow-y-auto rounded-xl bg-black/5 p-3 text-xs leading-relaxed text-slate-600 dark:bg-white/5 dark:text-slate-300">
-                {t('privacySummary')}
-              </div>
-            )}
-          </div>
-        )}
-
-        {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
-        {info && <p className="mt-3 text-sm font-semibold text-emerald-700">{info}</p>}
-
-        {recoverStep ? (
-          <>
+            {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
+            {info && <p className="mt-3 text-sm font-semibold text-emerald-700">{info}</p>}
             <button type="button" className="welcome-cta" disabled={busy || (recoverStep === 'request' ? !emailOk : (code.trim().length < 4 || newPass.length < 6))} onClick={() => (recoverStep === 'request' ? sendReset() : doReset())}>
               {busy ? t('pleaseWait') : recoverStep === 'request' ? t('sendResetCode') : t('resetPassword')}
             </button>
             {recoverStep === 'code' && <button type="button" className="welcome-skip" disabled={busy} onClick={sendReset}>{t('resendCode')}</button>}
             <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setRecoverStep(null); setErr(''); setInfo('') }}>{t('backToLogin')}</button>
           </>
-        ) : (
+        ) : authMode === 'login' ? (
+          /* ---------- Connexion ---------- */
           <>
-            {!isParent && (
-              <button type="button" className="welcome-cta" disabled={!canSubmit || busy} onClick={() => submitForm()}>
-                {busy ? t('pleaseWait') : authMode === 'login' ? t('loginTab') : oauthNew ? t('finishSignup') : t('createMyAccount')}
-              </button>
+            <h1 className="welcome-h">{t('loginTab')}</h1>
+            <p className="welcome-sub">{t('loginSub')}</p>
+            {oauthButtons}
+            <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
+            <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} />
+            <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
+            <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && step1Ok && !busy && submitForm()} placeholder="••••••••" autoComplete="current-password" maxLength={72} />
+            <button type="button" className="mt-2 text-left text-sm font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]" onClick={() => { setRecoverStep('request'); setErr(''); setInfo('') }}>{t('forgotPassword')}</button>
+            {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
+            {info && <p className="mt-3 text-sm font-semibold text-emerald-700">{info}</p>}
+            <button type="button" className="welcome-cta" disabled={!step1Ok || busy} onClick={() => submitForm()}>{busy ? t('pleaseWait') : t('loginTab')}</button>
+            <button type="button" className="welcome-skip" disabled={busy} onClick={goCreate}>{t('noAccountYet')}</button>
+          </>
+        ) : (
+          /* ---------- Inscription en étapes ---------- */
+          <>
+            <h1 className="welcome-h">{t('letsMeet')}</h1>
+            {!isParent && stepDots}
+
+            {signupStep === 1 && (
+              <>
+                <span className="welcome-label">{t('account')}</span>
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" className={seg(role === 'eleve')} onClick={() => setRole('eleve')}>🎓 {t('roleStudent')}</button>
+                  <button type="button" className={seg(role === 'prof')} onClick={() => setRole('prof')}>🧑‍🏫 {t('roleTeacher')}</button>
+                  <button type="button" className={seg(role === 'parent')} onClick={() => setRole('parent')}>👨‍👩‍👧 {t('roleParent')}</button>
+                </div>
+
+                {isParent ? (
+                  <div className="mt-3 rounded-2xl bg-black/5 p-4 text-sm leading-relaxed text-slate-600 dark:bg-white/5 dark:text-slate-300">
+                    <p>{t('parentSignupHint')}</p>
+                    <button type="button" className="welcome-cta mt-3" onClick={() => { setPhase('done'); navigate('/parent') }}>👨‍👩‍👧 {t('parentContinue')}</button>
+                  </div>
+                ) : (
+                  <>
+                    {oauthButtons}
+                    <label className="welcome-label" htmlFor="w-email">{t('emailField')}</label>
+                    <input id="w-email" className="welcome-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="prenom.nom@exemple.fr" autoComplete="email" maxLength={80} />
+                    <label className="welcome-label" htmlFor="w-pass">{t('passwordField')}</label>
+                    <input id="w-pass" className="welcome-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && step1Ok && setSignupStep(2)} placeholder="••••••••" autoComplete="new-password" maxLength={72} />
+                    {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
+                    <button type="button" className="welcome-cta" disabled={!step1Ok} onClick={() => { setErr(''); setSignupStep(2) }}>{t('next')}</button>
+                  </>
+                )}
+              </>
             )}
-            <button type="button" className="welcome-skip" disabled={busy} onClick={() => { setAuthMode(authMode === 'login' ? 'create' : 'login'); setOauthNew(false); setErr(''); setInfo(''); setRecoverStep(null) }}>
-              {authMode === 'login' ? t('noAccountYet') : t('haveAccountAlready')}
-            </button>
+
+            {signupStep === 2 && (
+              <>
+                {oauthNew && <p className="mt-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">✓ {getSession()?.user?.email || ''}</p>}
+                <label className="welcome-label" htmlFor="w-first">{t('firstName')}</label>
+                <input id="w-first" className="welcome-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder={t('yourFirstName')} autoComplete="given-name" maxLength={40} />
+                <label className="welcome-label" htmlFor="w-last">{t('lastName')}</label>
+                <input id="w-last" className="welcome-input" value={lastName} onChange={(e) => setLastName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && step2Ok && setSignupStep(3)} placeholder={t('yourLastName')} autoComplete="family-name" maxLength={40} />
+                <div className="mt-3 flex gap-2">
+                  {!oauthNew && <button type="button" className={backBtn} onClick={() => setSignupStep(1)}>{t('back')}</button>}
+                  <button type="button" className="welcome-cta !mt-0 flex-1" disabled={!step2Ok} onClick={() => setSignupStep(3)}>{t('next')}</button>
+                </div>
+              </>
+            )}
+
+            {signupStep === 3 && (
+              <>
+                <span className="welcome-label">{isProf ? t('teacherLevel') : t('yourClass')}</span>
+                <div className="flex flex-wrap gap-2">
+                  {LEVELS.map((l) => (
+                    <button key={l.id} type="button" disabled={!l.available} onClick={() => pickLevel(l)} className={seg(level === l.id)}>{l.icon} {l.name}{!l.available && ` · ${t('soon')}`}</button>
+                  ))}
+                </div>
+                {!isProf && needsSpecialty && (
+                  <>
+                    <span className="welcome-label">{t('yourSpecialty')}</span>
+                    <div className="flex flex-wrap gap-2">
+                      {chosenLevel.specialties.map((sp) => (
+                        <button key={sp.id} type="button" disabled={!sp.available} onClick={() => sp.available && setSpecialty(sp.id)} className={seg(specialty === sp.id)}>{sp.icon} {sp.name}{!sp.available && ` · ${t('toCome')}`}</button>
+                      ))}
+                    </div>
+                  </>
+                )}
+                {isProf ? (
+                  <>
+                    <span className="welcome-label">{t('whatDoYouTeach')}</span>
+                    <div className="flex flex-wrap gap-2">
+                      {TAUGHT.map((s) => (<button key={s.id} type="button" onClick={() => toggleTaught(s.id)} className={seg(taught.includes(s.id))}>{s.icon} {s.label}</button>))}
+                    </div>
+                    <span className="welcome-label">{t('howManyClasses')}</span>
+                    <div className="flex flex-wrap gap-2">{[1, 2, 3, 4, 5, 6].map((n) => (<button key={n} type="button" onClick={() => setNClasses(n)} className={seg(nClasses === n)}>{n}</button>))}</div>
+                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">🔑 {t('codesWillBeGenerated')}</p>
+                  </>
+                ) : (
+                  <>
+                    <label className="welcome-label" htmlFor="w-cc">{t('classCodeOptional')}</label>
+                    <input id="w-cc" className="welcome-input" value={classCodeInput} onChange={(e) => setClassCodeInput(e.target.value)} placeholder="ex : stmg-a3k9p" maxLength={24} />
+                  </>
+                )}
+                <div className="mt-3">
+                  <label className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{t('consentText')}{' '}<button type="button" onClick={() => setShowPrivacy((v) => !v)} className="font-semibold text-[#98761f] underline dark:text-[#d9bd77]">{t('readPrivacy')}</button></span>
+                  </label>
+                  {showPrivacy && <div className="mt-2 max-h-40 overflow-y-auto rounded-xl bg-black/5 p-3 text-xs leading-relaxed text-slate-600 dark:bg-white/5 dark:text-slate-300">{t('privacySummary')}</div>}
+                </div>
+                {err && <p className="mt-3 text-sm font-semibold text-rose-600">{err}</p>}
+                {info && <p className="mt-3 text-sm font-semibold text-emerald-700">{info}</p>}
+                <div className="mt-3 flex gap-2">
+                  <button type="button" className={backBtn} disabled={busy} onClick={() => setSignupStep(2)}>{t('back')}</button>
+                  <button type="button" className="welcome-cta !mt-0 flex-1" disabled={!step3Ok || busy} onClick={() => submitForm()}>{busy ? t('pleaseWait') : oauthNew ? t('finishSignup') : t('createMyAccount')}</button>
+                </div>
+              </>
+            )}
+
+            {!isParent && <button type="button" className="welcome-skip" disabled={busy} onClick={goLogin}>{t('haveAccountAlready')}</button>}
           </>
         )}
       </div>
