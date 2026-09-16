@@ -130,8 +130,12 @@ function oauthRedirectTarget() {
   return window.location.origin + window.location.pathname
 }
 export function signInWithOAuth(provider) {
-  const url = `${SUPA_URL}/auth/v1/authorize?provider=${encodeURIComponent(provider)}&redirect_to=${encodeURIComponent(oauthRedirectTarget())}`
-  window.location.assign(url)
+  const params = new URLSearchParams({ provider, redirect_to: oauthRedirectTarget() })
+  // Google : forcer le SÉLECTEUR de compte (« Choisissez un compte ») pour que
+  // l'utilisateur choisisse directement parmi ses comptes déjà connectés, sans
+  // ressaisir e-mail/mot de passe Google.
+  if (provider === 'google') params.set('prompt', 'select_account')
+  window.location.assign(`${SUPA_URL}/auth/v1/authorize?${params.toString()}`)
 }
 // Fournisseurs OAuth réellement activés côté Supabase (pour n'afficher que les
 // boutons qui fonctionnent). Renvoie p.ex. { google: true, apple: false, … }.
