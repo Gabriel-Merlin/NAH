@@ -133,6 +133,17 @@ export function signInWithOAuth(provider) {
   const url = `${SUPA_URL}/auth/v1/authorize?provider=${encodeURIComponent(provider)}&redirect_to=${encodeURIComponent(oauthRedirectTarget())}`
   window.location.assign(url)
 }
+// Fournisseurs OAuth réellement activés côté Supabase (pour n'afficher que les
+// boutons qui fonctionnent). Renvoie p.ex. { google: true, apple: false, … }.
+export async function fetchAuthProviders() {
+  try {
+    const res = await fetch(`${SUPA_URL}/auth/v1/settings`, { headers: { apikey: SUPA_ANON } })
+    if (!res.ok) return {}
+    const data = await res.json().catch(() => ({}))
+    return data.external || {}
+  } catch { return {} }
+}
+
 // Détecte (de façon synchrone) un retour de fournisseur dans l'URL.
 export function hasOAuthRedirect() {
   try {

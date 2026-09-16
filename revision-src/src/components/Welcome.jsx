@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store.jsx'
 import { LEVELS, subjectsForTrack } from '../data/tracks.js'
 import { useT } from '../i18n.js'
-import { signUp, signIn, fetchProfile, upsertProfile, getSession, requestPasswordReset, verifyRecovery, updatePassword, signInWithOAuth, hasOAuthRedirect, consumeOAuthRedirect } from '../auth.js'
+import { signUp, signIn, fetchProfile, upsertProfile, getSession, requestPasswordReset, verifyRecovery, updatePassword, signInWithOAuth, hasOAuthRedirect, consumeOAuthRedirect, fetchAuthProviders } from '../auth.js'
 import { normalizeCode } from '../leaderboard.js'
 import { createTeacherClass, fetchTeacherClasses } from '../classroom.js'
 
@@ -51,6 +51,7 @@ export default function Welcome() {
   const [authMode, setAuthMode] = useState('login') // 'create' | 'login'
   const [role, setRole] = useState('eleve') // 'eleve' | 'prof' | 'parent'
   const [oauthNew, setOauthNew] = useState(false) // compte OAuth sans profil : à compléter
+  const [providers, setProviders] = useState({}) // fournisseurs OAuth activés côté Supabase
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [classCodeInput, setClassCodeInput] = useState('')
@@ -91,6 +92,10 @@ export default function Welcome() {
     const id = setTimeout(() => finishRef.current(), 4600)
     return () => clearTimeout(id)
   }, [phase])
+
+  // Quels fournisseurs OAuth sont réellement activés : on n'affiche que
+  // ces boutons-là (sinon un clic renverrait « provider is not enabled »).
+  useEffect(() => { fetchAuthProviders().then(setProviders).catch(() => {}) }, [])
 
   // Retour d'un fournisseur (Google/Apple) : on établit la session puis on
   // termine la connexion (profil existant) ou on fait compléter le profil.
@@ -340,27 +345,31 @@ export default function Welcome() {
           <button type="button" className={seg(authMode === 'login')} onClick={() => { setAuthMode('login'); setErr(''); setInfo(''); setRecoverStep(null) }}>{t('loginTab')}</button>
         </div>
 
-        {/* Identification via un fournisseur (Google / Apple) */}
-        {!recoverStep && !isParent && (
+        {/* Identification via un fournisseur : uniquement ceux activés côté Supabase. */}
+        {!recoverStep && !isParent && (providers.google || providers.apple) && (
           <>
             <div className="mt-3 grid gap-2">
-              <button type="button" onClick={() => signInWithOAuth('google')}
-                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
-                <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden>
-                  <path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.9C34.6 3.1 29.8 1 24 1 14.6 1 6.5 6.4 2.6 14.3l6.9 5.4C11.3 13.7 17.1 9.5 24 9.5z" />
-                  <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-2.8-.4-4H24v7.6h12.7c-.3 2.1-1.6 5.3-4.7 7.4l7.2 5.6c4.3-4 6.3-9.9 6.3-16.6z" />
-                  <path fill="#FBBC05" d="M9.5 28.3c-.5-1.4-.8-2.9-.8-4.3s.3-3 .8-4.3l-6.9-5.4C1.2 17.2.5 20.5.5 24s.7 6.8 2.1 9.7l6.9-5.4z" />
-                  <path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.2-5.6c-2 1.4-4.6 2.4-8.7 2.4-6.9 0-12.7-4.2-14.5-10.1l-6.9 5.4C6.5 41.6 14.6 47 24 47z" />
-                </svg>
-                {t('continueWithGoogle')}
-              </button>
-              <button type="button" onClick={() => signInWithOAuth('apple')}
-                className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-800 bg-black px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-900">
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="currentColor">
-                  <path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.76.9-2 1.6-3.02 1.52-.14-1.1.44-2.26 1.12-3 .78-.86 2.12-1.5 3.02-1.52.02.16.02.34 0 .5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.06-1.78-4.05-3.35C-.03 16.9-.29 12.1 1.9 9.5c1.06-1.28 2.7-2.09 4.24-2.09 1.57 0 2.56 1.01 3.86 1.01 1.26 0 2.03-1.01 3.85-1.01 1.36 0 2.8.74 3.83 2.02-3.37 1.85-2.82 6.66.92 7.77z" />
-                </svg>
-                {t('continueWithApple')}
-              </button>
+              {providers.google && (
+                <button type="button" onClick={() => signInWithOAuth('google')}
+                  className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                  <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden>
+                    <path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.9C34.6 3.1 29.8 1 24 1 14.6 1 6.5 6.4 2.6 14.3l6.9 5.4C11.3 13.7 17.1 9.5 24 9.5z" />
+                    <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-2.8-.4-4H24v7.6h12.7c-.3 2.1-1.6 5.3-4.7 7.4l7.2 5.6c4.3-4 6.3-9.9 6.3-16.6z" />
+                    <path fill="#FBBC05" d="M9.5 28.3c-.5-1.4-.8-2.9-.8-4.3s.3-3 .8-4.3l-6.9-5.4C1.2 17.2.5 20.5.5 24s.7 6.8 2.1 9.7l6.9-5.4z" />
+                    <path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.2-5.6c-2 1.4-4.6 2.4-8.7 2.4-6.9 0-12.7-4.2-14.5-10.1l-6.9 5.4C6.5 41.6 14.6 47 24 47z" />
+                  </svg>
+                  {t('continueWithGoogle')}
+                </button>
+              )}
+              {providers.apple && (
+                <button type="button" onClick={() => signInWithOAuth('apple')}
+                  className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-800 bg-black px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-900">
+                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden fill="currentColor">
+                    <path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.76.9-2 1.6-3.02 1.52-.14-1.1.44-2.26 1.12-3 .78-.86 2.12-1.5 3.02-1.52.02.16.02.34 0 .5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.06-1.78-4.05-3.35C-.03 16.9-.29 12.1 1.9 9.5c1.06-1.28 2.7-2.09 4.24-2.09 1.57 0 2.56 1.01 3.86 1.01 1.26 0 2.03-1.01 3.85-1.01 1.36 0 2.8.74 3.83 2.02-3.37 1.85-2.82 6.66.92 7.77z" />
+                  </svg>
+                  {t('continueWithApple')}
+                </button>
+              )}
             </div>
             <div className="my-3 flex items-center gap-3 text-xs text-slate-400">
               <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />{t('orSeparator')}<span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
