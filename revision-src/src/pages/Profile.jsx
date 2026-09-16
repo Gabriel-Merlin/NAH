@@ -11,6 +11,7 @@ import { InstallCard, AppBadge } from '../components/InstallApp.jsx'
 import { ProgressCurve, ThemeTimeBars } from '../components/StatsCharts.jsx'
 import { isStandalone } from '../pwa.js'
 import { ensurePermission, notify, notifSupported } from '../notify.js'
+import { parentCode, PARENT_READY } from '../parent.js'
 
 // « Mon espace » : la page personnelle de l'élève — identité, statistiques,
 // badges, favoris et accès rapide. Distincte de la personnalisation (apparence).
@@ -18,7 +19,12 @@ export default function Profile() {
   const { state, derived, resetAll } = useStore()
   const t = useT()
   const [busy, setBusy] = useState(false)
+  const [codeCopied, setCodeCopied] = useState(false)
   if (!state.track) return <Navigate to="/" replace />
+
+  const copyParentCode = async () => {
+    try { await navigator.clipboard.writeText(parentCode()); setCodeCopied(true); setTimeout(() => setCodeCopied(false), 1800) } catch { /* copie indisponible */ }
+  }
 
   const deleteAccount = async () => {
     if (busy) return
@@ -125,6 +131,18 @@ export default function Profile() {
           </div>
         )}
       </section>
+
+      {/* Suivi parental : code à donner à ses parents */}
+      {PARENT_READY && (
+        <section className="card p-5">
+          <h2 className="font-display text-xl font-medium">👨‍👩‍👧 {t('studentParentCard')}</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('studentParentHelp')}</p>
+          <div className="mt-3 flex items-center gap-3">
+            <span className="rounded-xl bg-slate-100 px-4 py-2 font-mono text-xl font-bold tracking-widest dark:bg-slate-800">{parentCode()}</span>
+            <button onClick={copyParentCode} className="btn-ghost text-sm">{codeCopied ? `✓ ${t('copied')}` : t('copyCode')}</button>
+          </div>
+        </section>
+      )}
 
       {/* Raccourcis */}
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-2">

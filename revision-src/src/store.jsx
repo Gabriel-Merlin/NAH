@@ -4,6 +4,8 @@ import { BADGES } from './badges.js'
 import { saveProgress, isSignedIn, refreshSession, fetchProfile, getSession } from './auth.js'
 import { srsUpdate, todayKey as srsToday } from './data/srs.js'
 import { dailyRewardFor } from './data/rewards.js'
+import { subjectsForTrack, trackLabel } from './data/tracks.js'
+import { publishChildStats, PARENT_READY } from './parent.js'
 
 // Modes transverses qui touchent plein de thèmes d'un coup (bac blanc, coach IA,
 // défi, express) : ils enregistrent un score mais NE marquent PAS un thème comme
@@ -250,6 +252,16 @@ export function StoreProvider({ children }) {
     return () => clearTimeout(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.account?.id, state.xp, state.chapters, state.badges, state.favorites, state.streak, state.weekly, state.totalAnswers, state.correctAnswers, state.lastChapter])
+
+  // Espace parent : l'élève publie un instantané de ses stats (temps, série,
+  // XP, matières, badges…) sous son « code parent ». Anti-rebond ~3 s, silencieux
+  // et facultatif — c'est ce que le parent relié consulte en lecture seule.
+  useEffect(() => {
+    if (!PARENT_READY || !state.track) return
+    const id = setTimeout(() => { publishChildStats(buildChildSnapshot(state, deriveAll(state))).catch(() => {}) }, 3000)
+    return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.track, state.xp, state.streak, state.chapters, state.themeTime, state.weekly, state.badges, state.bacDate, state.profile])
 
   const evaluateBadges = useCallback((next) => {
     const derived = deriveAll(next)
@@ -698,6 +710,32 @@ export function globalScore(state) {
   if (!SUBJECTS.length) return 0
   const sum = SUBJECTS.reduce((a, s) => a + subjectScore(state, s.id), 0)
   return Math.round(sum / SUBJECTS.length)
+}
+
+// Instantané des stats de l'élève pour l'espace parent (lecture seule).
+export function buildChildSnapshot(state, derived) {
+  const subs = subjectsForTrack(state.track).filter((s) => s && !s.comingSoon && (s.chapters || []).length)
+  const subjects = subs.map((s) => ({
+    short: s.short || s.name,
+    color: s.color,
+    score: derived?.bySubject?.[s.id] || 0,
+    time: (s.chapters || []).reduce((a, c) => a + (state.themeTime?.[c.id] || 0), 0),
+  }))
+  const totalTime = Object.values(state.themeTime || {}).reduce((a, b) => a + (b || 0), 0)
+  const name = [state.profile?.firstName, state.profile?.lastName].filter(Boolean).join(' ').trim() || 'Élève'
+  return {
+    name,
+    xp: state.xp || 0,
+    level: derived?.level || 0,
+    streak: state.streak?.count || 0,
+    coursesWeek: derived?.weeklyCourses || 0,
+    weeklyGoal: WEEKLY_GOAL,
+    totalTime,
+    bacDate: state.bacDate || null,
+    badges: (state.badges || []).length,
+    track: trackLabel(state.track),
+    subjects,
+  }
 }
 
 function deriveAll(state) {

@@ -13,7 +13,9 @@ import Classe from './pages/Classe.jsx'
 import Profile from './pages/Profile.jsx'
 import Coach from './pages/Coach.jsx'
 import Revise from './pages/Revise.jsx'
+import Parent from './pages/Parent.jsx'
 import FlashcardsPage from './pages/FlashcardsPage.jsx'
+import { getLinkedChild } from './parent.js'
 import BacBlanc from './pages/BacBlanc.jsx'
 import Programme from './pages/Programme.jsx'
 import GrandOral from './pages/GrandOral.jsx'
@@ -42,6 +44,9 @@ function OldChapterRedirect() {
 function RootEntry() {
   const { state } = useStore()
   if (state.track) return <Navigate to="/accueil" replace />
+  // Un parent déjà relié à un enfant (et sans filière élève) ouvre directement
+  // son espace de suivi.
+  if (getLinkedChild()) return <Navigate to="/parent" replace />
   return <Landing />
 }
 
@@ -63,6 +68,7 @@ export default function App() {
         <Route path="/coach" element={<Coach />} />
         <Route path="/revision" element={<Revise />} />
         <Route path="/revision/deck/:deckId" element={<FlashcardsPage />} />
+        <Route path="/parent" element={<Parent />} />
         <Route path="/bac-blanc" element={<BacBlanc />} />
         <Route path="/programme" element={<Programme />} />
         <Route path="/grand-oral" element={<GrandOral />} />

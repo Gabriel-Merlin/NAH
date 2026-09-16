@@ -31,6 +31,10 @@ export default function Welcome() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  // Mode parent : sur l'espace parent (ou parent déjà relié), on ne montre jamais
+  // l'accueil d'inscription élève — le parent n'a pas de compte élève à créer.
+  const parentMode = location.pathname.startsWith('/parent') || (!state.track && !state.profile?.firstName && (() => { try { return !!localStorage.getItem('stmg_parent_link') } catch { return false } })())
+
   const hasProfile = !!state.profile?.firstName
   const initialPhase = !hasProfile ? 'form' : (!state.onboarded && state.track ? 'plan' : 'hello')
   const [phase, setPhase] = useState(initialPhase) // 'form' | 'plan' | 'hello' | 'done'
@@ -73,11 +77,11 @@ export default function Welcome() {
   }, [hasProfile])
 
   useEffect(() => {
-    if (phase === 'done') return
+    if (phase === 'done' || parentMode) return
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = prev }
-  }, [phase])
+  }, [phase, parentMode])
 
   const finishRef = useRef(() => {})
   useEffect(() => {
@@ -86,6 +90,7 @@ export default function Welcome() {
     return () => clearTimeout(id)
   }, [phase])
 
+  if (parentMode) return null
   if (phase === 'done') return null
 
   const chosenLevel = LEVELS.find((l) => l.id === level) || null

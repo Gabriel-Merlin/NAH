@@ -350,6 +350,7 @@ function MobileMenu({ className = '', state, isDark, standalone, lang, first, la
             <Item icon="🤖" label={t('coachAI')} to="/coach-ia" />
             <Item icon="🛍️" label={t('shop')} to="/boutique" />
             <Item icon="🤝" label={t('friends')} to="/amis" />
+            <Item icon="👨‍👩‍👧" label={t('parentSpace')} to="/parent" />
             <Item icon="🔍" label={t('search')} onClick={onSearch} />
             <Item icon="📖" label={t('dictionary')} onClick={onDict} />
             <Item icon="🎨" label={t('customizeProfile')} onClick={onCustomize} />
@@ -421,6 +422,8 @@ function Breadcrumb() {
       items.push({ label: t('startGuide'), to: '/guide' })
     } else if (parts[0] === 'amis') {
       items.push({ label: t('friends'), to: '/amis' })
+    } else if (parts[0] === 'parent') {
+      items.push({ label: t('parentSpace'), to: '/parent' })
     }
     return items
   }, [pathname, t])
