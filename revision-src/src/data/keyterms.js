@@ -210,11 +210,17 @@ export const THEME_TERMS = {
   'philo-notions': [
     ['La liberté', 'Pouvoir d’agir selon sa volonté ; s’oppose au déterminisme et suppose la responsabilité.'],
     ['La justice', 'Ce qui est conforme au droit et à l’équité ; distinguer légal et légitime.'],
-    ['Le bonheur', 'État de satisfaction durable et complet, fin recherchée par la volonté.'],
-    ['La conscience', 'Connaissance immédiate que le sujet a de lui-même et du monde.'],
-    ['Le travail', 'Activité par laquelle l’homme transforme la nature et se transforme lui-même.'],
     ['La vérité', 'Accord de la pensée avec son objet ; s’oppose à l’erreur et à l’illusion.'],
     ['La technique', 'Ensemble des procédés efficaces produits par l’homme pour maîtriser la nature.'],
+    ['L’art', 'Activité de création d’œuvres visant une valeur esthétique, non l’utilité.'],
+    ['La nature', 'Ce qui n’est pas produit par l’homme ; aussi l’essence d’une chose, ou l’inné (≠ culture).'],
+    ['La religion', 'Ensemble de croyances et de pratiques reliant l’homme au sacré.'],
+    ['Légal / légitime', 'Conforme à la loi (légal) / conforme à la justice (légitime) : une loi peut être l’un sans l’autre.'],
+    ['Autonomie', 'Se donner à soi-même sa propre loi (Kant) ; à distinguer de la licence.'],
+    ['Déterminisme', 'Thèse selon laquelle tout événement a une cause ; interroge la réalité de la liberté.'],
+    ['Croire / savoir', 'Adhérer sans preuve (croire) / tenir pour vrai avec preuve (savoir).'],
+    ['La conscience', 'Connaissance immédiate que le sujet a de lui-même et du monde.'],
+    ['Le travail', 'Activité par laquelle l’homme transforme la nature et se transforme lui-même.'],
   ],
   'philo-methode': [
     ['Problématique', 'Question précise, née d’une tension, qui structure toute la réflexion.'],
@@ -223,6 +229,10 @@ export const THEME_TERMS = {
     ['Concept', 'Idée générale et abstraite définie avec précision.'],
     ['Dissertation', 'Démonstration organisée qui répond à un sujet par étapes argumentées.'],
     ['Explication de texte', 'Analyse ordonnée qui dégage la thèse, les arguments et les enjeux d’un texte.'],
+    ['Dialectique', 'Progression de la pensée par étapes : thèse, antithèse, dépassement.'],
+    ['Dépassement (synthèse)', 'Troisième moment qui résout la tension entre thèse et antithèse par une idée plus juste.'],
+    ['Doute méthodique', 'Chez Descartes, douter volontairement de tout pour atteindre une première certitude.'],
+    ['Repère', 'Paire de termes opposés (absolu/relatif, légal/légitime…) servant à préciser une notion.'],
   ],
 
   // ===================== TERMINALE — HISTOIRE-GÉOGRAPHIE =====================

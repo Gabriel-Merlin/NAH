@@ -783,26 +783,171 @@ export const ENRICH = {
   // PHILOSOPHIE — méthode
   // =========================================================================
   'philo-notions': {
-    sections: [worked('🤔 Méthode — analyser une notion (ex. la liberté)', [
-      { t: 'list', c: [
-        '**Définir** : donner le sens courant, puis le sens philosophique (être libre = faire ce que l’on veut ? ou se donner ses propres règles ?).',
-        '**Distinguer** : liberté / licence (faire n’importe quoi) ; liberté / déterminisme (sommes-nous déterminés ?).',
-        '**Problématiser** : la vraie liberté est-elle l’absence de contraintes, ou l’obéissance à des règles que l’on se donne (autonomie) ?',
-        '**Illustrer** : un exemple concret ou un auteur (ex. « on n’est pas libre de ne pas être libre », Sartre).',
-      ] },
-      { t: 'tip', h: 'Réflexe', c: 'Une notion se travaille toujours en la **distinguant** d’une notion voisine : c’est ce qui fait la profondeur d’une copie de philo.' },
-    ])],
+    sections: [
+      worked('🤔 Méthode — analyser une notion (ex. la liberté)', [
+        { t: 'list', c: [
+          '**Définir** : donner le sens courant, puis le sens philosophique (être libre = faire ce que l’on veut ? ou se donner ses propres règles ?).',
+          '**Distinguer** : liberté / licence (faire n’importe quoi) ; liberté / déterminisme (sommes-nous déterminés ?).',
+          '**Problématiser** : la vraie liberté est-elle l’absence de contraintes, ou l’obéissance à des règles que l’on se donne (autonomie) ?',
+          '**Illustrer** : un exemple concret ou un auteur (ex. « on n’est pas libre de ne pas être libre », Sartre).',
+        ] },
+        { t: 'tip', h: 'Réflexe', c: 'Une notion se travaille toujours en la **distinguant** d’une notion voisine : c’est ce qui fait la profondeur d’une copie de philo.' },
+      ]),
+      worked('🎨 L’art — l’exemple de la « Fontaine » de Duchamp', [
+        { t: 'example', h: 'Situation', c: 'En 1917, Marcel Duchamp expose un simple urinoir industriel, retourné et signé « R. Mutt », qu’il intitule « Fontaine ». Un objet ordinaire devient une œuvre exposée dans les musées du monde entier.' },
+        { t: 'list', c: [
+          '**La distinction clé** : *art / artisanat*. L’artisan fabrique des objets **utiles** en suivant un modèle ; l’artiste crée une œuvre **singulière**, qui vaut pour elle-même et non pour son usage.',
+          '**Le problème** : qu’est-ce qui fait qu’une chose est une œuvre d’art ? L’objet lui-même, le geste de l’artiste, ou le regard de l’institution (le musée) qui le consacre ?',
+          '**Deux thèses opposées** : pour **Platon**, l’art n’est qu’une **imitation** trompeuse du réel (une copie de copie qui nous éloigne de la vérité) ; pour **Hegel**, l’art **manifeste** l’esprit : il donne à penser et dit une vérité sur l’homme.',
+          '**Le beau est-il subjectif ?** Pour **Kant**, dire « c’est beau » n’est pas dire « ça me plaît » : le jugement de goût est **subjectif mais prétend valoir pour tous** (universalité sans concept).',
+        ] },
+        { t: 'tip', h: 'Citation utile', c: '« L’art ne reproduit pas le visible, il rend visible. » (Paul Klee)' },
+      ]),
+      worked('⚖️ La justice — l’exemple de Rosa Parks', [
+        { t: 'example', h: 'Situation', c: 'En 1955, à Montgomery (États-Unis), Rosa Parks refuse de céder sa place à un passager blanc dans le bus. Elle enfreint une loi bien réelle… mais une loi que l’histoire jugera injuste.' },
+        { t: 'list', c: [
+          '**La distinction décisive** : *légal / légitime*. Est **légal** ce qui est conforme à la loi en vigueur ; est **légitime** ce qui est conforme à la justice. La ségrégation était **légale** mais **illégitime**.',
+          '**Justice = égalité ?** **Aristote** distingue l’égalité **arithmétique** (la même chose pour tous) et l’égalité **proportionnelle** (à chacun selon son mérite ou son besoin). L’**équité** corrige la loi générale quand elle devient injuste dans un cas particulier.',
+          '**Peut-il être juste de désobéir ?** Oui, par la **désobéissance civile** : enfreindre publiquement une loi injuste au nom d’une justice supérieure. Le risque : si chacun juge « sa » loi injuste, c’est l’anarchie.',
+          '**La force fait-elle le droit ?** Pour **Rousseau**, non : « le plus fort n’est jamais assez fort pour être toujours le maître, s’il ne transforme sa force en droit ». Le droit doit **limiter** la force, pas la servir.',
+        ] },
+        { t: 'tip', h: 'Piège à éviter', c: 'Ne pas confondre **la justice** (idéal moral et politique) et **la justice au sens des tribunaux** (l’institution judiciaire).' },
+      ]),
+      worked('🕊️ La liberté — l’exemple du fumeur', [
+        { t: 'example', h: 'Situation', c: '« Je suis libre de fumer si je veux. » Mais ce fumeur est dépendant à la nicotine. Agit-il vraiment librement, ou son addiction décide-t-elle à sa place ?' },
+        { t: 'list', c: [
+          '**Sens courant / sens philosophique** : la liberté n’est pas la **licence** (faire n’importe quoi au gré de ses envies), mais l’**autonomie** : se donner à soi-même sa propre loi (**Kant**).',
+          '**Liberté / déterminisme** : le déterminisme affirme que tout a une cause. **Spinoza** : nous nous croyons libres parce que nous **ignorons les causes** qui nous déterminent (comme une pierre lancée qui se croirait libre de tomber).',
+          '**Sommes-nous libres ?** Pour **Sartre**, « l’homme est condamné à être libre » : il n’y a pas de nature humaine pour nous excuser ; nous sommes **responsables** de ce que nous faisons de nous-mêmes.',
+          '**Liberté et loi** : la loi limite-t-elle ou garantit-elle la liberté ? Sans loi, c’est la liberté du plus fort qui écrase celle des autres : « la liberté consiste à pouvoir faire tout ce que les lois permettent » (**Montesquieu**).',
+        ] },
+        { t: 'tip', h: 'Citation utile', c: '« L’homme est condamné à être libre. » (Sartre) — libre veut dire ici responsable, sans excuse.' },
+      ]),
+      worked('🌿 La nature — l’exemple du barrage', [
+        { t: 'example', h: 'Situation', c: 'Un barrage hydroélectrique produit une électricité « propre »… mais noie une vallée et détruit un écosystème entier. Faut-il « respecter la nature » ou la mettre à notre service ?' },
+        { t: 'list', c: [
+          '**Trois sens du mot « nature »** : ① ce qui n’est pas produit par l’homme (l’environnement) ; ② l’**essence** d’une chose (« la nature de… ») ; ③ l’**inné**, par opposition à l’**acquis** (par culture).',
+          '**La distinction clé** : *nature / culture*. L’homme est un être de **culture** (langage, techniques, institutions) qui se distingue de l’animal ; **Rousseau** oppose l’homme naturel et l’homme social.',
+          '**Maîtriser ou respecter la nature ?** **Descartes** veut nous rendre « comme maîtres et possesseurs de la nature ». La critique écologique (**Hans Jonas**) répond par un **principe responsabilité** envers les générations futures.',
+          '**« C’est naturel » = c’est bien ?** Non : confondre le fait (naturel) et la valeur (juste) est un **sophisme naturaliste**. Beaucoup de comportements dits « naturels » sont en réalité **culturels**, donc modifiables.',
+        ] },
+        { t: 'tip', h: 'Piège à éviter', c: '« C’est dans la nature humaine » sert souvent à justifier ce qui n’est en fait qu’une habitude culturelle.' },
+      ]),
+      worked('✝️ La religion — l’exemple de Galilée', [
+        { t: 'example', h: 'Situation', c: 'En 1633, Galilée est condamné par l’Église pour avoir soutenu, preuves à l’appui, que la Terre tourne autour du Soleil. Un cas d’école du conflit entre la foi et la raison scientifique.' },
+        { t: 'list', c: [
+          '**Définir** : la religion est un ensemble de **croyances et de pratiques** reliant l’homme au **sacré** (du latin *religare*, relier).',
+          '**La distinction clé** : *croire / savoir*. **Croire**, c’est adhérer **sans preuve** (la foi) ; **savoir**, c’est tenir pour vrai **avec preuve** (démonstration, expérience). La foi n’est pas un savoir raté : c’est un **autre rapport** à la vérité.',
+          '**Foi et raison sont-elles ennemies ?** **Pascal** : « le cœur a ses raisons que la raison ne connaît point » — la foi dépasse la raison sans la contredire.',
+          '**Regards critiques sur la religion** : **Marx** (« opium du peuple » : une consolation qui endort la révolte) ; **Freud** (une illusion née d’un désir de protection) ; **Durkheim** (un puissant **lien social** qui soude le groupe).',
+        ] },
+        { t: 'tip', h: 'Citation utile', c: '« Le cœur a ses raisons que la raison ne connaît point. » (Pascal)' },
+      ]),
+      worked('🔧 La technique — l’exemple du smartphone', [
+        { t: 'example', h: 'Situation', c: 'Le smartphone nous libère (tout savoir, partout, joindre n’importe qui) et nous asservit (dépendance aux notifications, surveillance des données). Une seule technique, deux visages.' },
+        { t: 'list', c: [
+          '**Définir** : la technique est l’ensemble des **procédés efficaces** par lesquels l’homme transforme la nature pour produire de l’**utile** (≠ l’art qui vise le beau, ≠ la science qui vise le vrai). L’homme est *homo faber*, l’animal qui fabrique des outils (**Bergson**).',
+          '**Elle libère** : elle nous affranchit des contraintes naturelles — la médecine soigne, les transports rapprochent, les machines réduisent la pénibilité.',
+          '**Elle asservit** : **Heidegger** montre que la technique moderne traite la nature (et l’homme) comme un simple **stock exploitable** ; **Jonas** alerte sur des risques inédits (nucléaire, climat).',
+          '**Progrès technique = progrès moral ?** **Rousseau** en doute : les sciences et les arts n’ont pas rendu les hommes meilleurs. La technique est un **moyen** : tout dépend de l’**usage** (un même couteau soigne ou tue).',
+        ] },
+        { t: 'tip', h: 'Piège à éviter', c: 'La technique n’est ni bonne ni mauvaise **en soi** : la vraie question porte sur l’**usage** et la **maîtrise** que nous en gardons.' },
+      ]),
+      worked('🔍 La vérité — l’exemple de « la Terre est plate »', [
+        { t: 'example', h: 'Situation', c: '« La Terre est plate » fut longtemps une opinion répandue. Mais une vérité ne se décide pas à la majorité : elle se **démontre** ou se **vérifie**.' },
+        { t: 'list', c: [
+          '**Définir** : la vérité est l’**accord de la pensée avec son objet** (adéquation). À distinguer de la **réalité** : la réalité est ce qui **est** ; la vérité est une propriété de nos **jugements** sur le réel.',
+          '**Opinion / savoir** : l’**opinion** (*doxa*) est une croyance non fondée ; le **savoir** est justifié. **Platon** : sortir de la **caverne**, passer des ombres (les apparences) à la lumière (les Idées).',
+          '**Peut-on tout démontrer ?** Non : toute démonstration part d’**axiomes** que l’on ne démontre pas ; et les **vérités de fait** se vérifient par l’expérience, pas par pure logique (**Leibniz** : vérités de raison / vérités de fait).',
+          '**Le rôle du doute** : **Descartes** doute volontairement de tout (**doute méthodique**) pour atteindre une première certitude indubitable : « je pense, donc je suis ». Douter est ici un **outil**, non du scepticisme.',
+        ] },
+        { t: 'tip', h: 'Citation utile', c: '« Je pense, donc je suis. » (Descartes) — la première vérité que le doute ne peut pas emporter.' },
+      ]),
+      worked('🧭 Les repères — les distinctions à mobiliser', [
+        { t: 'p', c: 'Un **repère** est une paire d’opposés qui aide à préciser une notion. En glisser un, au bon endroit, montre que l’on **pense avec rigueur** — et rapporte des points.' },
+        { t: 'table', head: ['Repère', 'Ce qu’il oppose', 'Exemple'], rows: [
+          ['Absolu / relatif', 'indépendant de tout / dépend d’un point de vue', '« Tout est relatif » : mais cette affirmation, est-elle absolue ?'],
+          ['Objectif / subjectif', 'vaut pour l’objet, pour tous / dépend du sujet', '« Il fait 20 °C » (objectif) vs « il fait bon » (subjectif).'],
+          ['Légal / légitime', 'conforme à la loi / conforme à la justice', 'La ségrégation était légale, mais illégitime.'],
+          ['Croire / savoir', 'adhérer sans preuve / tenir pour vrai avec preuve', 'Je crois qu’il fera beau ; je sais que 2 + 2 = 4.'],
+          ['Universel / particulier', 'pour tous les cas / pour certains', '« Tous les hommes sont mortels » vs « Socrate est mort ».'],
+          ['Cause / fin', 'ce qui produit (avant) / le but (en vue de quoi)', 'La pluie (cause) ; se protéger (fin) → je prends un parapluie.'],
+          ['Contingent / nécessaire', 'peut être ou ne pas être / ne peut être autrement', 'Naître un mardi (contingent) ; 2 + 2 = 4 (nécessaire).'],
+        ] },
+        { t: 'tip', h: 'Au bac', c: 'Mobiliser **une distinction précise** (surtout légal/légitime, croire/savoir, nature/culture) éclaire immédiatement une copie.' },
+      ]),
+    ],
+    resources: [
+      { label: 'France Culture — « Les chemins de la philosophie »', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Une notion ou un auteur expliqués en ~55 min.' },
+      { label: 'Lumni — Philosophie', url: 'https://www.lumni.fr/', kind: 'video', note: 'Cherche « liberté », « justice », « vérité », « art »…' },
+      { label: 'Philosophie Magazine — le lexique des notions', url: 'https://www.philomag.com/lexique', kind: 'link', note: 'Définitions claires des notions et des repères.' },
+    ],
   },
   'philo-methode': {
-    sections: [worked('🤔 Méthode — construire une dissertation', [
-      { t: 'list', c: [
-        '**Analyser le sujet** : définir chaque mot, repérer le problème (ce qui n’est pas évident).',
-        '**Problématique** : transformer le sujet en une vraie question (« peut-on… ? faut-il… ? »).',
-        '**Plan dialectique** : I. Thèse (oui, parce que…) — II. Antithèse (mais…) — III. Dépassement (en réalité…).',
-        '**Argumenter** : chaque partie = une idée + un argument + un exemple (ou un auteur).',
-      ] },
-      { t: 'tip', h: 'Conseil', c: 'L’introduction (amener le sujet → problématique → annonce du plan) et la conclusion (réponse claire) sont ce que le correcteur lit le plus attentivement.' },
-    ])],
+    sections: [
+      worked('🤔 Méthode — construire une dissertation', [
+        { t: 'list', c: [
+          '**Analyser le sujet** : définir chaque mot, repérer le problème (ce qui n’est pas évident).',
+          '**Problématique** : transformer le sujet en une vraie question (« peut-on… ? faut-il… ? »).',
+          '**Plan dialectique** : I. Thèse (oui, parce que…) — II. Antithèse (mais…) — III. Dépassement (en réalité…).',
+          '**Argumenter** : chaque partie = une idée + un argument + un exemple (ou un auteur).',
+        ] },
+        { t: 'tip', h: 'Conseil', c: 'L’introduction (amener le sujet → problématique → annonce du plan) et la conclusion (réponse claire) sont ce que le correcteur lit le plus attentivement.' },
+      ]),
+      worked('✍️ Dissertation entièrement traitée — « La technique nous libère-t-elle ? »', [
+        { t: 'p', c: '**① Introduction rédigée** (amener → définir → problématiser → annoncer) :' },
+        { t: 'example', h: 'Introduction', c: 'Chaque jour, le GPS, le smartphone ou la machine à laver nous épargnent mille efforts : la technique paraît être une puissance de libération. Pourtant, beaucoup se sentent esclaves de leurs écrans, ou menacés par les machines. La **technique** désigne l’ensemble des procédés efficaces par lesquels l’homme transforme la nature pour satisfaire ses besoins ; **libérer**, c’est affranchir d’une contrainte. Le problème est donc le suivant : si la technique nous délivre des contraintes naturelles, ne crée-t-elle pas de nouvelles formes de dépendance ? Nous verrons d’abord qu’elle libère l’homme de la nécessité naturelle, puis qu’elle peut au contraire l’asservir, enfin que tout dépend de l’usage que nous en faisons.' },
+        { t: 'p', c: '**② Plan détaillé** (chaque partie : une idée + un argument + un exemple/auteur) :' },
+        { t: 'list', c: [
+          '**I. La technique libère de la nature.** Argument : l’homme, être démuni, compense sa faiblesse. Exemple : médecine, transports, outils. Auteur : **Descartes** (« maîtres et possesseurs de la nature »).',
+          '**II. Mais elle peut asservir.** Argument : elle crée dépendance, aliénation et dangers nouveaux. Exemple : le travail à la chaîne, la dépendance aux écrans, le risque nucléaire. Auteurs : **Heidegger**, **Jonas**.',
+          '**III. Tout dépend de l’usage et de la maîtrise.** Argument : la technique est un moyen, pas une fin ; le progrès technique n’est pas le progrès moral. Auteur : **Rousseau** ; idée d’une **éthique de la responsabilité**.',
+        ] },
+        { t: 'p', c: '**③ Un paragraphe entièrement rédigé** (début du I) :' },
+        { t: 'example', h: 'Paragraphe modèle', c: 'En premier lieu, la technique arrache l’homme à la dureté de la nature. Livré à ses seules forces, l’homme est un être démuni : sans griffes ni fourrure, exposé au froid, à la faim et à la maladie. La technique compense cette faiblesse originelle : le feu réchauffe, l’outil prolonge la main, la médecine recule la mort. Ainsi Descartes assigne-t-il à la science une visée pratique — nous rendre « comme maîtres et possesseurs de la nature » — non par orgueil, mais pour « la conservation de la santé ». De ce point de vue, chaque invention est une conquête de liberté : elle élargit le champ de nos possibles.' },
+        { t: 'example', h: 'Conclusion', c: 'La technique nous libère bien des contraintes naturelles, mais cette libération se paie de dépendances nouvelles : elle n’est donc pas libératrice **par elle-même**. Tout dépend de l’usage, car un même outil peut émanciper ou aliéner. La vraie liberté n’est pas de posséder des machines, mais de rester **maître de nos moyens**.' },
+        { t: 'tip', h: 'À reproduire', c: 'Ce schéma (intro en 4 temps · 3 parties idée+argument+exemple · conclusion qui tranche) marche pour **n’importe quel sujet**.' },
+      ]),
+      worked('📖 Explication de texte traitée — Pascal, le « roseau pensant »', [
+        { t: 'example', h: 'Le texte', c: '« L’homme n’est qu’un roseau, le plus faible de la nature ; mais c’est un roseau pensant. » (Pascal, *Pensées*)' },
+        { t: 'list', c: [
+          '**① Dégager la thèse** : la grandeur de l’homme ne tient pas à sa force, mais à sa **pensée**.',
+          '**② Suivre les mouvements** : (a) « un roseau, le plus faible de la nature » = la fragilité physique (un souffle suffit à le tuer) ; (b) le « **mais** » renverse tout : « un roseau **pensant** » = la pensée fait sa dignité.',
+          '**③ Expliquer** : Pascal oppose la faiblesse du **corps** à la puissance de l’**esprit**. L’homme est supérieur à l’univers qui l’écrase, car il **le sait** — l’univers, lui, l’ignore.',
+          '**④ Discuter l’enjeu** : où placer la dignité humaine ? Dans la conscience plutôt que dans la force. Liens avec les notions de **conscience**, de **nature** et de **religion**.',
+        ] },
+        { t: 'tip', h: 'Réflexe', c: 'Toujours repérer les **mots de liaison** (« mais », « donc », « car ») : ils marquent les mouvements et la logique du texte.' },
+      ]),
+      worked('💬 Les citations essentielles (à replacer au bon endroit)', [
+        { t: 'table', head: ['Notion', 'Citation', 'Auteur'], rows: [
+          ['Liberté', '« L’homme est condamné à être libre. »', 'Sartre'],
+          ['Vérité', '« Je pense, donc je suis. »', 'Descartes'],
+          ['Technique / Nature', '« Nous rendre comme maîtres et possesseurs de la nature. »', 'Descartes'],
+          ['Art', '« L’art ne reproduit pas le visible, il rend visible. »', 'Klee'],
+          ['Justice', '« Le plus fort n’est jamais assez fort… s’il ne transforme sa force en droit. »', 'Rousseau'],
+          ['Religion', '« Le cœur a ses raisons que la raison ne connaît point. »', 'Pascal'],
+        ] },
+        { t: 'tip', h: 'Conseil', c: 'Mieux vaut **2 ou 3 citations comprises et bien placées** qu’une longue liste récitée. On explique toujours ce que la citation apporte.' },
+      ]),
+      worked('👤 Les auteurs incontournables', [
+        { t: 'table', head: ['Auteur', 'Idée clé', 'Notions'], rows: [
+          ['Platon', 'Allégorie de la caverne : passer des apparences à la vérité.', 'Vérité, art'],
+          ['Aristote', 'La justice comme équité ; l’homme « animal politique ».', 'Justice'],
+          ['Descartes', 'Doute méthodique, cogito, maîtrise de la nature.', 'Vérité, technique'],
+          ['Pascal', 'Le « roseau pensant » ; les raisons du cœur.', 'Religion, nature'],
+          ['Rousseau', 'Nature / culture ; le contrat social.', 'Justice, liberté'],
+          ['Kant', 'L’autonomie ; le jugement de goût.', 'Liberté, art'],
+          ['Sartre', 'L’existence précède l’essence : liberté et responsabilité.', 'Liberté'],
+          ['Freud', 'L’inconscient ; la religion comme illusion.', 'Conscience, religion'],
+        ] },
+        { t: 'tip', h: 'Stratégie', c: 'Connaître **une idée précise par auteur** vaut mieux que dix noms cités sans contenu.' },
+      ]),
+    ],
+    resources: [
+      { label: 'Éduscol — programme & sujets de philosophie (voie techno)', url: 'https://eduscol.education.fr/', kind: 'doc', note: 'Le programme officiel et des exemples de sujets.' },
+      { label: 'France Culture — « Les chemins de la philosophie »', url: 'https://www.radiofrance.fr/franceculture/podcasts/les-chemins-de-la-philosophie', kind: 'link', note: 'Idéal pour nourrir ses exemples et ses auteurs.' },
+      { label: 'Lumni — méthode de la dissertation et du texte', url: 'https://www.lumni.fr/', kind: 'video', note: 'Cherche « dissertation philosophie » et « explication de texte ».' },
+    ],
   },
 
   // =========================================================================
