@@ -21,6 +21,7 @@ import { CAS_PRATIQUES } from './caspratiques.js'
 import { PIEGES } from './pieges.js'
 import { ENRICH } from './enrich.js'
 import { COURS_REELS } from './coursreels.js'
+import { PHILO_LONG } from './philocours.js'
 
 export const SUBJECTS = [
   gestion,
@@ -91,6 +92,10 @@ for (const s of SUBJECTS) {
       if (enr.sections?.length) c.cours = [...(c.cours || []), ...enr.sections]
       if (enr.resources?.length) c.resources = [...(c.resources || []), ...enr.resources]
     }
+    // Cours « longue durée » de philosophie : sections supplémentaires ajoutées
+    // à la suite (définitions approfondies, thèses, textes commentés, dissertations).
+    const plong = PHILO_LONG[c.id]
+    if (plong?.length) c.cours = [...(c.cours || []), ...plong]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }

@@ -41,6 +41,14 @@ export default function Theme() {
   const score = chapterScore(state, tid)
   const rec = state.chapters[tid]
   const fav = state.favorites.includes(tid)
+  // Progression d'un chapitre = moyenne des meilleurs scores de SES exercices
+  // (null si le chapitre est un pur cours sans exercice).
+  const chapterProgress = (c) => {
+    const gs = c.games || []
+    if (!gs.length) return null
+    const vals = gs.map((g) => rec?.games?.[g.id] || 0)
+    return Math.round(vals.reduce((a, b) => a + b, 0) / gs.length)
+  }
 
   if (themeExam) {
     return (
@@ -100,9 +108,54 @@ export default function Theme() {
       </div>
 
       {tab === 'chapitres' && (
-        <div className="space-y-4">
+        <div className="space-y-5">
           <Intro text={theme.intro} color={color} />
-          <DeckDownload deck={deckForTheme(tid)} color={color} label={t('downloadThemeDeck')} />
+
+          {/* LE COURS — sommaire clair des chapitres (le cœur de la page) */}
+          <section className="space-y-2.5">
+            <div className="flex items-baseline justify-between gap-2 px-1">
+              <h2 className="font-display text-lg font-semibold">📖 {t('courseInChapters')}</h2>
+              <span className="shrink-0 text-xs font-semibold text-slate-400">{chapters.length} {t(chapters.length > 1 ? 'chaptersWord' : 'chapterWord')}</span>
+            </div>
+            <p className="px-1 text-xs text-slate-500 dark:text-slate-400">{t('chooseChapterHint')}</p>
+            <ol className="space-y-2.5">
+              {chapters.map((c) => {
+                const prog = chapterProgress(c)
+                const done = prog != null && prog >= 90
+                const nEx = c.games.length
+                return (
+                  <Link
+                    key={c.id}
+                    to={`/subject/${sid}/theme/${tid}/chapter/${c.idx}`}
+                    className="card group flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md"
+                  >
+                    <span
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-black text-white shadow-sm"
+                      style={{ backgroundColor: done ? '#16a34a' : color }}
+                      aria-hidden
+                    >
+                      {done ? '✓' : c.idx + 1}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-semibold leading-snug"><CourseText text={c.title} /></span>
+                      <span className="mt-0.5 flex items-center gap-2 text-xs text-slate-400">
+                        <span>📘 {t('course')}</span>
+                        {nEx > 0 && <span>· 🎮 {nEx} {t(nEx > 1 ? 'exercisesWord' : 'exerciseWord')}</span>}
+                      </span>
+                      {prog != null && prog > 0 && (
+                        <span className="mt-1.5 block max-w-[220px]"><ProgressBar value={prog} color={done ? '#16a34a' : color} /></span>
+                      )}
+                    </span>
+                    <span className="text-lg text-slate-300 transition group-hover:translate-x-0.5" aria-hidden>›</span>
+                  </Link>
+                )
+              })}
+            </ol>
+          </section>
+
+          <Essentiel items={theme.essentiel} color={color} />
+
+          {/* Aller plus loin : test du thème, pièges, ressources, notes */}
           {themeExamSize(tid) >= 4 && (
             <button onClick={() => setThemeExam(buildThemeExam(tid))} className="card card-lux flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md">
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl" style={{ backgroundColor: color + '22' }}>📝</span>
@@ -125,6 +178,8 @@ export default function Theme() {
               </ul>
             </section>
           )}
+          <Resources items={theme.resources} />
+          <DeckDownload deck={deckForTheme(tid)} color={color} label={t('downloadThemeDeck')} />
           {/* Notes personnelles de l'élève sur ce thème (sauvegardées & synchronisées) */}
           <section className="card p-4">
             <h3 className="mb-2 flex items-center gap-2 font-display text-base font-semibold">📝 {t('myNotes')}</h3>
@@ -137,25 +192,6 @@ export default function Theme() {
             />
             <p className="mt-1.5 text-xs text-slate-400">💾 {t('myNotesHint')}</p>
           </section>
-          <div className="space-y-2.5">
-            <p className="px-1 text-sm text-slate-500 dark:text-slate-400">{t('chooseChapter')}</p>
-            {chapters.map((c) => (
-              <Link
-                key={c.id}
-                to={`/subject/${sid}/theme/${tid}/chapter/${c.idx}`}
-                className="card flex w-full items-center gap-3 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-sm font-black text-white" style={{ backgroundColor: color }}>{c.idx + 1}</span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold leading-tight"><CourseText text={c.title} /></span>
-                  <span className="block text-xs text-slate-400">{c.games.length > 0 ? `${c.games.length} ${t(c.games.length > 1 ? 'gamePlur' : 'gameSing')}` : t('course')}</span>
-                </span>
-                <span className="text-slate-300" aria-hidden>›</span>
-              </Link>
-            ))}
-          </div>
-          <Essentiel items={theme.essentiel} color={color} />
-          <Resources items={theme.resources} />
         </div>
       )}
 
