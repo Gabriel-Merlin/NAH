@@ -47,6 +47,16 @@ export const SUBJECTS = [
 // pas encore défini à ce stade du fichier).
 function _strip(x) { return String(x || '').replace(/\*\*/g, '').replace(/\*/g, '').trim() }
 
+// Catégorie d'un chapitre approfondi d'après son intitulé, pour le ranger dans
+// une section repliable de la page thème (méthodes de calcul, études de cas,
+// ou cours approfondi par défaut).
+export function courseGroupOf(h) {
+  const s = String(h || '')
+  if (/MÉTHODE|comment calculer/i.test(s)) return 'methode'
+  if (/étude de cas|cas pratique/i.test(s)) return 'cas'
+  return 'approf'
+}
+
 // Intro « plan du thème » synthétique : oriente l'élève quand aucune intro n'a
 // été rédigée à la main. Construite à partir des seuls intitulés de sections
 // (contenu déjà relu) → aucun risque d'erreur factuelle.
@@ -99,8 +109,10 @@ for (const s of SUBJECTS) {
     if (plong?.length) c.cours = [...(c.cours || []), ...plong]
     // Cours « approfondis » du tronc STMG (Gestion-Finance, Management, Droit,
     // Économie, Maths) : plusieurs chapitres développés ajoutés à la suite.
+    // Chaque section reçoit un « group » (approf / methode / cas) pour être
+    // rangée dans une catégorie repliable sur la page du thème.
     const appr = APPROF[c.id]
-    if (appr?.length) c.cours = [...(c.cours || []), ...appr]
+    if (appr?.length) c.cours = [...(c.cours || []), ...appr.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }

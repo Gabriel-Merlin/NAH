@@ -27,6 +27,8 @@ export default function Theme() {
   const [searchParams] = useSearchParams()
   const [tab, setTab] = useState(searchParams.get('tab') === 'test' ? 'test' : 'chapitres')
   const [themeExam, setThemeExam] = useState(null) // questions du bac blanc de thème
+  const [openCats, setOpenCats] = useState({}) // catégories de chapitres dépliées
+  useEffect(() => { setOpenCats({}) }, [tid]) // on repart d'un état neuf par thème
   useThemeTimer(tid) // mesure le temps de révision passé sur ce thème
 
   useEffect(() => {
@@ -109,15 +111,27 @@ export default function Theme() {
 
       {tab === 'chapitres' && (
         <div className="space-y-5">
-          {/* LE COURS — sommaire clair des chapitres (le cœur de la page) */}
-          <section className="space-y-2.5">
+          {/* LE COURS — chapitres rangés par catégories repliables */}
+          <section className="space-y-3">
             <div className="flex items-baseline justify-between gap-2 px-1">
               <h2 className="font-display text-lg font-semibold">📖 {t('courseInChapters')}</h2>
               <span className="shrink-0 text-xs font-semibold text-slate-400">{chapters.length} {t(chapters.length > 1 ? 'chaptersWord' : 'chapterWord')}</span>
             </div>
             <p className="px-1 text-xs text-slate-500 dark:text-slate-400">{t('chooseChapterHint')}</p>
-            <ol className="space-y-2.5">
-              {chapters.map((c) => {
+
+            {(() => {
+              const CATS = [
+                { id: 'cours', label: `📘 ${t('catCourse')}` },
+                { id: 'approf', label: `📚 ${t('catDeep')}` },
+                { id: 'methode', label: `🧮 ${t('catMethod')}` },
+                { id: 'cas', label: `📝 ${t('catCases')}` },
+              ]
+              const groups = CATS
+                .map((cat) => ({ ...cat, items: chapters.filter((c) => (c.section?.group || 'cours') === cat.id) }))
+                .filter((g) => g.items.length)
+              const single = groups.length <= 1
+
+              const renderChapter = (c, n) => {
                 const prog = chapterProgress(c)
                 const done = prog != null && prog >= 90
                 const nEx = c.games.length
@@ -132,7 +146,7 @@ export default function Theme() {
                       style={{ backgroundColor: done ? '#16a34a' : color }}
                       aria-hidden
                     >
-                      {done ? '✓' : c.idx + 1}
+                      {done ? '✓' : n}
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block font-semibold leading-snug"><CourseText text={c.title} /></span>
@@ -147,8 +161,34 @@ export default function Theme() {
                     <span className="text-lg text-slate-300 transition group-hover:translate-x-0.5" aria-hidden>›</span>
                   </Link>
                 )
-              })}
-            </ol>
+              }
+
+              return groups.map((g, gi) => {
+                const isOpen = single || (openCats[g.id] !== undefined ? openCats[g.id] : gi === 0)
+                const doneCount = g.items.filter((c) => { const p = chapterProgress(c); return p != null && p >= 90 }).length
+                return (
+                  <section key={g.id} className="space-y-2.5">
+                    {!single && (
+                      <button
+                        type="button"
+                        onClick={() => setOpenCats((o) => ({ ...o, [g.id]: !isOpen }))}
+                        className="flex w-full items-center gap-2 rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-left transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900"
+                        aria-expanded={isOpen}
+                      >
+                        <span className="min-w-0 flex-1 font-display font-semibold">{g.label}</span>
+                        <span className="shrink-0 text-xs font-semibold text-slate-400">{doneCount}/{g.items.length}</span>
+                        <span className="shrink-0 text-slate-400 transition" aria-hidden>{isOpen ? '▾' : '▸'}</span>
+                      </button>
+                    )}
+                    {isOpen && (
+                      <ol className="space-y-2.5">
+                        {g.items.map((c, i) => renderChapter(c, i + 1))}
+                      </ol>
+                    )}
+                  </section>
+                )
+              })
+            })()}
           </section>
 
           <Essentiel items={theme.essentiel} color={color} />
