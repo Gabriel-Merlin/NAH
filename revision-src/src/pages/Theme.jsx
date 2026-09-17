@@ -6,7 +6,7 @@ import { PIEGES } from '../data/pieges.js'
 import { useStore, useThemeTimer, chapterScore, starsFromScore } from '../store.jsx'
 import { ProgressBar, Stars } from '../components/ui.jsx'
 import { Rich } from '../components/ui.jsx'
-import { Intro, Essentiel, Resources, CourseText } from '../components/Course.jsx'
+import { Essentiel, Resources, CourseText } from '../components/Course.jsx'
 import { DeckDownload } from '../components/DeckDownload.jsx'
 import ThemeTest from '../games/ThemeTest.jsx'
 import Exam from '../games/Exam.jsx'
@@ -109,8 +109,6 @@ export default function Theme() {
 
       {tab === 'chapitres' && (
         <div className="space-y-5">
-          <Intro text={theme.intro} color={color} />
-
           {/* LE COURS — sommaire clair des chapitres (le cœur de la page) */}
           <section className="space-y-2.5">
             <div className="flex items-baseline justify-between gap-2 px-1">
