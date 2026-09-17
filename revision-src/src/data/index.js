@@ -23,6 +23,7 @@ import { ENRICH } from './enrich.js'
 import { COURS_REELS } from './coursreels.js'
 import { PHILO_LONG } from './philocours.js'
 import { APPROF } from './approfondir.js'
+import { APPROF2 } from './approfondir2.js'
 
 export const SUBJECTS = [
   gestion,
@@ -113,6 +114,8 @@ for (const s of SUBJECTS) {
     // rangée dans une catégorie repliable sur la page du thème.
     const appr = APPROF[c.id]
     if (appr?.length) c.cours = [...(c.cours || []), ...appr.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
+    const appr2 = APPROF2[c.id]
+    if (appr2?.length) c.cours = [...(c.cours || []), ...appr2.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
