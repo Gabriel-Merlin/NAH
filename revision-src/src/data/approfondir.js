@@ -211,6 +211,53 @@ export const APPROF = {
       { t: 'p', c: '**Commentaire.** L’achat (charge) est enregistré pour le **net financier** ; l’escompte obtenu est un **produit financier** ; la TVA déductible est une **créance** sur l’État ; le règlement solde simplement la dette fournisseur sans créer de charge.' },
       { t: 'tip', h: 'Méthode', c: 'Toujours : 1) calculer le **net à payer** (réductions puis TVA), 2) écriture de **facture** (charges/produits + TVA + tiers), 3) écriture de **règlement** (tiers ↔ banque). Vérifier l’équilibre débit = crédit à chaque fois.' },
     ]),
+    S('🧮 MÉTHODE — Comment calculer la TVA, pas à pas', [
+      { t: 'p', c: 'Objectif de ce chapitre : savoir **calculer une TVA dans tous les sens**. C’est LA compétence de base de la gestion, et elle tombe à tous les sujets. Il n’y a en réalité que **trois formules** à connaître, et une règle : on part toujours du **HT** (hors taxes), on ajoute la TVA, on obtient le **TTC** (toutes taxes comprises).' },
+      { t: 'formula', c: '① TVA = HT × taux\n② TTC = HT × (1 + taux)   →  ex. TTC = HT × 1,20 à 20 %\n③ HT = TTC ÷ (1 + taux)   →  ex. HT = TTC ÷ 1,20 à 20 %' },
+      { t: 'p', c: 'Le **taux** s’écrit en nombre décimal dans les calculs : 20 % = 0,20 ; 10 % = 0,10 ; 5,5 % = 0,055. Le coefficient « 1 + taux » (1,20 ; 1,10 ; 1,055) sert à passer du HT au TTC **en une seule multiplication**.' },
+      { t: 'example', h: 'Cas 1 — je connais le HT, je cherche la TVA et le TTC', c: 'Un article coûte **200 € HT**, TVA à 20 %.\nÉtape 1 — TVA = 200 × 0,20 = **40 €**.\nÉtape 2 — TTC = 200 + 40 = **240 €** (ou directement 200 × 1,20 = 240 €).' },
+      { t: 'example', h: 'Cas 2 — je connais le TTC, je cherche le HT et la TVA', c: 'Une facture indique **240 € TTC**, TVA à 20 %.\nÉtape 1 — HT = 240 ÷ 1,20 = **200 €**.\nÉtape 2 — TVA = 240 − 200 = **40 €** (ou 200 × 0,20 = 40 €).' },
+      { t: 'warning', h: 'LE piège à éviter absolument', c: 'Pour retrouver le HT à partir du TTC, on **DIVISE par 1,20** — on ne « retire pas 20 % ». Retirer 20 % de 240 donnerait 240 − 48 = 192 €, ce qui est **FAUX**. La bonne réponse est 240 ÷ 1,20 = 200 €.' },
+      { t: 'p', c: 'Attention au **taux applicable** : il change selon le produit. On multiplie toujours par le **bon** coefficient.' },
+      { t: 'table', head: ['Taux', 'Coefficient (1+taux)', 'Exemples'], rows: [
+        ['20 %', '1,20', 'La plupart des biens et services'],
+        ['10 %', '1,10', 'Restauration, transport'],
+        ['5,5 %', '1,055', 'Alimentation, livres'],
+        ['2,1 %', '1,021', 'Médicaments remboursés, presse'],
+      ] },
+      { t: 'example', h: 'Cas 3 — la TVA à reverser à l’État (TVA à décaisser)', c: 'Sur le mois : ventes 10 000 € HT → **TVA collectée** = 10 000 × 0,20 = 2 000 €.\nAchats 6 000 € HT → **TVA déductible** = 6 000 × 0,20 = 1 200 €.\nTVA à décaisser = collectée − déductible = 2 000 − 1 200 = **800 €** à reverser à l’État.' },
+      { t: 'tip', h: 'Astuce calculatrice', c: 'HT → TTC : « × 1,20 ». TTC → HT : « ÷ 1,20 ». TTC → TVA seule : « × 20 ÷ 120 » (soit ÷ 6 à 20 %). Vérifie toujours : HT + TVA doit **redonner** le TTC.' },
+    ]),
+    S('🧮 MÉTHODE — Calculer le net à payer d’une facture', [
+      { t: 'p', c: 'Une facture se calcule **dans un ordre précis** : d’abord les réductions commerciales, puis la réduction financière (escompte), puis la TVA. Suivre l’ordre garantit un résultat juste.' },
+      { t: 'list', c: [
+        '**Étape 1** — Net commercial = Brut HT − Rabais − Remise − Ristourne.',
+        '**Étape 2** — Net financier = Net commercial − Escompte.',
+        '**Étape 3** — TVA = Net financier × taux.',
+        '**Étape 4** — Net à payer TTC = Net financier + TVA.',
+      ] },
+      { t: 'example', h: 'Exemple entièrement déroulé', c: 'Brut 1 000 € HT ; remise 10 % ; escompte 2 % ; TVA 20 %.\n① Net commercial = 1 000 − (1 000 × 10 %) = 1 000 − 100 = **900 €**.\n② Escompte = 900 × 2 % = 18 € → Net financier = 900 − 18 = **882 €**.\n③ TVA = 882 × 0,20 = **176,40 €**.\n④ Net à payer = 882 + 176,40 = **1 058,40 € TTC**.' },
+      { t: 'warning', h: 'Ordre à respecter', c: 'La **remise se calcule sur le brut**, l’**escompte sur le net commercial**, et la **TVA sur le net financier** (après toutes les réductions). Calculer la TVA sur le brut donnerait un résultat faux.' },
+      { t: 'tip', h: 'Contrôle', c: 'Le net à payer doit être **cohérent** : légèrement supérieur au net financier (à cause de la TVA), et inférieur au brut + TVA (à cause des réductions).' },
+    ]),
+    S('🧮 MÉTHODE — Calculer un amortissement', [
+      { t: 'p', c: 'Amortir, c’est répartir le coût d’une immobilisation sur sa durée d’usage. En STMG, on utilise l’**amortissement linéaire** : la même somme (l’**annuité**) chaque année.' },
+      { t: 'formula', c: 'Annuité = Valeur d’origine ÷ Durée d’utilisation\nVNC (valeur nette comptable) = Valeur d’origine − Cumul des amortissements' },
+      { t: 'list', c: [
+        '**Étape 1** — Déterminer la **valeur d’origine** (prix HT + frais accessoires : transport, installation).',
+        '**Étape 2** — Calculer l’**annuité** = valeur d’origine ÷ durée.',
+        '**Étape 3** — Dresser le **plan d’amortissement** (annuité, cumul, VNC année par année).',
+      ] },
+      { t: 'example', h: 'Exemple déroulé', c: 'Machine : 20 000 € + 2 000 € d’installation = **22 000 €** de valeur d’origine, durée 5 ans.\nAnnuité = 22 000 ÷ 5 = **4 400 €/an**.' },
+      { t: 'table', head: ['Année', 'Annuité', 'Cumul', 'VNC'], rows: [
+        ['1', '4 400', '4 400', '17 600'],
+        ['2', '4 400', '8 800', '13 200'],
+        ['3', '4 400', '13 200', '8 800'],
+        ['4', '4 400', '17 600', '4 400'],
+        ['5', '4 400', '22 000', '0'],
+      ] },
+      { t: 'tip', h: 'Contrôle', c: 'En fin de plan, le cumul des amortissements = valeur d’origine, et la **VNC = 0**. Si ce n’est pas le cas, il y a une erreur dans l’annuité ou la durée.' },
+    ]),
   ],
 
   // ---- Thème 2 — Analyser la situation de l'entreprise --------------
@@ -354,6 +401,43 @@ export const APPROF = {
       { t: 'p', c: '**Commentaire.** La VA (350 000 €) est en grande partie absorbée par les **charges de personnel** (220 000 €, soit 63 % de la VA) : c’est cohérent pour une entreprise de main-d’œuvre. L’EBE positif (120 000 €) montre une exploitation **saine**. La CAF (80 000 €) dépasse largement le résultat net grâce aux amortissements : *Delta* dispose de **80 000 €** pour investir ou rembourser ses dettes.' },
       { t: 'tip', h: 'Méthode', c: 'Dérouler les SIG **dans l’ordre** (VA → EBE → …), puis calculer la CAF (résultat + dotations). Toujours **interpréter** : part des charges de personnel dans la VA, santé de l’EBE, marge de manœuvre offerte par la CAF.' },
     ]),
+    S('🧮 MÉTHODE — Calculer FRNG, BFR et Trésorerie', [
+      { t: 'p', c: 'Les trois indicateurs d’équilibre financier se calculent **dans l’ordre** : FRNG, puis BFR, puis Trésorerie nette (TN). Le dernier sert aussi de **vérification**.' },
+      { t: 'formula', c: '① FRNG = Ressources stables − Emplois stables\n② BFR = (Stocks + Créances clients) − Dettes fournisseurs\n③ Trésorerie nette = FRNG − BFR' },
+      { t: 'list', c: [
+        '**Étape 1** — Repérer dans le bilan fonctionnel le **haut** (stable) et le **bas** (circulant).',
+        '**Étape 2** — Calculer le **FRNG** (le « matelas » de financement durable).',
+        '**Étape 3** — Calculer le **BFR** (l’argent immobilisé par l’exploitation).',
+        '**Étape 4** — En déduire la **TN** et **vérifier** avec TN = Trésorerie active − Trésorerie passive.',
+      ] },
+      { t: 'example', h: 'Exemple entièrement déroulé (en k€)', c: 'Ressources stables 400 ; Emplois stables 320 ; Stocks 50 ; Créances clients 80 ; Dettes fournisseurs 60 ; Banque 30 ; Découvert 20.\n① FRNG = 400 − 320 = **80**.\n② BFR = (50 + 80) − 60 = **70**.\n③ TN = 80 − 70 = **10**.\nVérif : Banque − Découvert = 30 − 20 = **10** ✓.' },
+      { t: 'tip', h: 'Interprétation', c: 'TN positive (ici +10) = l’entreprise a de la trésorerie disponible. TN négative = elle vit sur des découverts. Le FRNG doit **couvrir** le BFR.' },
+      { t: 'warning', h: 'Contrôle indispensable', c: 'Les deux façons de calculer la TN doivent donner **le même nombre**. Si FRNG − BFR ≠ Trésorerie active − Trésorerie passive, il y a une erreur dans le classement des postes.' },
+    ]),
+    S('🧮 MÉTHODE — Calculer les SIG et la CAF', [
+      { t: 'p', c: 'On calcule les soldes intermédiaires **en cascade**, chacun servant au suivant, jusqu’au résultat. Puis on en tire la CAF.' },
+      { t: 'formula', c: 'Marge commerciale = Ventes − Coût d’achat des marchandises vendues\nValeur ajoutée = Production − Consommations en provenance de tiers\nEBE = VA + subventions − impôts et taxes − charges de personnel\nCAF = Résultat net + Dotations aux amortissements − Reprises' },
+      { t: 'example', h: 'Exemple déroulé', c: 'Production 600 000 ; consommations tiers 250 000 ; impôts et taxes 10 000 ; charges de personnel 220 000 ; dotations 30 000 ; résultat net 50 000.\n① VA = 600 000 − 250 000 = **350 000 €**.\n② EBE = 350 000 − 10 000 − 220 000 = **120 000 €**.\n③ CAF = 50 000 + 30 000 = **80 000 €**.' },
+      { t: 'list', c: [
+        '**Étape 1** — Calculer la **VA** (richesse créée).',
+        '**Étape 2** — Descendre à l’**EBE** (performance d’exploitation pure).',
+        '**Étape 3** — Calculer la **CAF** (résultat net + charges non décaissées).',
+        '**Étape 4** — Interpréter : part des salaires dans la VA, niveau de l’EBE, capacité à investir/rembourser (CAF).',
+      ] },
+      { t: 'tip', h: 'Astuce CAF', c: 'La CAF **ajoute** les amortissements au résultat car ce sont des charges « sur le papier » qui ne sortent pas de la caisse. Une entreprise peu bénéficiaire mais fortement amortie peut avoir une **grosse CAF**.' },
+    ]),
+    S('🧮 MÉTHODE — Calculer et interpréter un ratio', [
+      { t: 'p', c: 'Un ratio ne « vaut » que si on l’**interprète**. La méthode : poser la formule, calculer, puis conclure par une phrase (« cela signifie que… donc c’est bon/inquiétant car… »).' },
+      { t: 'table', head: ['Ratio', 'Formule', 'Bon repère'], rows: [
+        ['Taux de marge nette', 'Résultat net ÷ CA × 100', 'Le plus élevé possible'],
+        ['Autonomie financière', 'Capitaux propres ÷ Total bilan', '> 30 %'],
+        ['Taux d’endettement', 'Dettes financières ÷ Capitaux propres', '< 1'],
+        ['Délai clients', 'Créances ÷ CA TTC × 360', 'Le plus court possible'],
+        ['Capacité de remboursement', 'Dettes financières ÷ CAF', '< 4 ans'],
+      ] },
+      { t: 'example', h: 'Exemple + interprétation', c: 'Créances clients 90 000 € ; CA TTC 720 000 €.\nDélai clients = 90 000 ÷ 720 000 × 360 = **45 jours**.\nInterprétation : les clients paient en moyenne à **45 jours**. C’est correct, mais le raccourcir libérerait de la trésorerie (réduction du BFR).' },
+      { t: 'tip', h: 'À retenir', c: 'Toujours 3 temps : **formule → calcul (avec unité) → interprétation**. Un ratio calculé mais non commenté ne rapporte que la moitié des points.' },
+    ]),
   ],
 
   // ---- Thème 3 — Accompagner la prise de décision -------------------
@@ -482,6 +566,37 @@ export const APPROF = {
       { t: 'example', h: 'Étape 3 — Prix de vente', c: 'Marge de 25 % : prix = 31,50 × 1,25 = **39,375 €**, arrondi à **39,38 €** HT.' },
       { t: 'p', c: '**Commentaire.** À 39,38 € HT, chaque article dégage 39,38 − 31,50 ≈ **7,88 €** de marge. Ce prix couvre **toutes** les charges (directes et indirectes) : il est **soutenable durablement**. Pour une commande ponctuelle en capacité disponible, l’entreprise pourrait toutefois accepter un prix plus bas, jusqu’au **coût marginal**.' },
       { t: 'tip', h: 'Méthode', c: '1) Calculer le **coût d’unité d’œuvre** et imputer les charges **indirectes**. 2) Ajouter les charges **directes** → coût complet. 3) Appliquer la **marge** pour le prix. 4) **Commenter** : prix durable (coût complet) vs décision ponctuelle (coût marginal).' },
+    ]),
+    S('🧮 MÉTHODE — Calculer un seuil de rentabilité', [
+      { t: 'p', c: 'Le seuil de rentabilité est le chiffre d’affaires (ou le nombre d’unités) à atteindre pour un résultat **nul**. Deux façons de le calculer selon les données de l’énoncé.' },
+      { t: 'formula', c: 'Taux de MCV = (CA − Charges variables) ÷ CA\nSeuil (en €) = Charges fixes ÷ Taux de MCV\nSeuil (en quantité) = Charges fixes ÷ Marge sur coût variable unitaire' },
+      { t: 'list', c: [
+        '**Si l’énoncé donne des totaux annuels** (CA, charges variables, charges fixes) → calculer le **taux de MCV**, puis le seuil **en euros**.',
+        '**Si l’énoncé donne un prix et un coût unitaires** → calculer la **MCV unitaire**, puis le seuil **en quantité**.',
+      ] },
+      { t: 'example', h: 'Exemple en euros', c: 'CA 200 000 € ; charges variables 120 000 € ; charges fixes 60 000 €.\n① MCV = 200 000 − 120 000 = 80 000 € → taux = 80 000 ÷ 200 000 = **0,40**.\n② Seuil = 60 000 ÷ 0,40 = **150 000 €** de CA.\nVérif : 150 000 × 0,40 = 60 000 = charges fixes → résultat nul ✓.' },
+      { t: 'example', h: 'Exemple en quantité', c: 'Prix 8 €/burger ; coût variable 3 €/burger ; charges fixes 4 000 €/mois.\n① MCV unitaire = 8 − 3 = **5 €**.\n② Seuil = 4 000 ÷ 5 = **800 burgers/mois**.' },
+      { t: 'p', c: 'Bonus — le **point mort** (la date où le seuil est atteint) : Point mort = Seuil ÷ CA annuel × 360. Ex. 150 000 ÷ 200 000 × 360 = 270 jours ≈ **fin septembre**.' },
+      { t: 'warning', h: 'Piège', c: 'Seuil **en euros** → diviser par le **taux** de MCV. Seuil **en quantité** → diviser par la **MCV unitaire**. Ne pas mélanger les deux.' },
+    ]),
+    S('🧮 MÉTHODE — Calculer marge, taux de marge et taux de marque', [
+      { t: 'p', c: 'Trois notions **souvent confondues**. La **marge** est un montant en euros ; le **taux de marge** et le **taux de marque** sont des pourcentages, mais calculés sur une base différente.' },
+      { t: 'formula', c: 'Marge commerciale = Prix de vente HT − Coût d’achat HT\nTaux de marge = Marge ÷ Coût d’achat × 100\nTaux de marque = Marge ÷ Prix de vente × 100' },
+      { t: 'example', h: 'Exemple déroulé', c: 'Coût d’achat 60 € HT ; prix de vente 100 € HT.\nMarge = 100 − 60 = **40 €**.\nTaux de marge = 40 ÷ 60 × 100 = **66,7 %** (par rapport au coût d’achat).\nTaux de marque = 40 ÷ 100 × 100 = **40 %** (par rapport au prix de vente).' },
+      { t: 'p', c: 'La différence de base explique tout : le **taux de marge** se rapporte au **coût** (« je gagne 66,7 % de ce que j’ai payé »), le **taux de marque** au **prix de vente** (« la marge représente 40 % du prix affiché »). Le taux de marge est **toujours supérieur** au taux de marque.' },
+      { t: 'tip', h: 'Retrouver un prix', c: 'À partir du coût d’achat et d’un taux de marge : Prix de vente = Coût × (1 + taux de marge). Ex. 60 × 1,667 ≈ **100 €**.' },
+      { t: 'warning', h: 'Piège classique', c: 'Ne pas confondre taux de **marge** (÷ coût d’achat) et taux de **marque** (÷ prix de vente). L’énoncé précise toujours lequel — lire attentivement.' },
+    ]),
+    S('🧮 MÉTHODE — Calculer un coût complet', [
+      { t: 'p', c: 'Le coût complet additionne toutes les charges d’un produit : les **directes** (affectées sans calcul) et les **indirectes** (réparties via les centres d’analyse). Méthode en 3 temps.' },
+      { t: 'list', c: [
+        '**Étape 1** — Recenser les charges **directes** (matières, main-d’œuvre directe).',
+        '**Étape 2** — Répartir les charges **indirectes** : coût d’unité d’œuvre = total du centre ÷ nombre d’unités d’œuvre, puis imputer selon la consommation du produit.',
+        '**Étape 3** — Additionner : coût complet = directes + indirectes imputées.',
+      ] },
+      { t: 'example', h: 'Exemple déroulé', c: 'Directes : matières 14 €/u + main-d’œuvre 10 €/u = 24 €/u.\nIndirectes : centre production 45 000 € pour 3 000 h-machine → coût d’unité d’œuvre = 45 000 ÷ 3 000 = **15 €/h**. Le produit consomme 0,5 h → 15 × 0,5 = **7,50 €**.\nCoût complet = 24 + 7,50 = **31,50 €/u**.' },
+      { t: 'p', c: 'Pour fixer le **prix de vente** : appliquer la marge visée. Ex. marge 25 % → 31,50 × 1,25 ≈ **39,38 € HT**.' },
+      { t: 'tip', h: 'À retenir', c: 'La difficulté est la **répartition** des charges indirectes : toujours passer par le **coût d’unité d’œuvre**. Le coût complet sert à fixer un **prix durable** ; pour une décision ponctuelle, revenir au **coût marginal**.' },
     ]),
   ],
 
@@ -1330,6 +1445,551 @@ export const APPROF = {
       { t: 'example', h: 'Partie B — intervalle de confiance', c: 'n = 625, f = 0,52. 1/√625 = 1/25 = 0,04.\nIntervalle : [0,52 − 0,04 ; 0,52 + 0,04] = **[0,48 ; 0,56]**.' },
       { t: 'p', c: '**Interprétation de B.** La vraie proportion d’intentions favorables est estimée entre **48 % et 56 %** avec 95 % de confiance. Comme l’intervalle **contient 50 %**, on ne peut pas affirmer que la majorité est favorable : le résultat n’est **pas significatif**.' },
       { t: 'tip', h: 'Méthode « normale / estimation »', c: 'Loi normale → identifier **μ et σ**, reconnaître les plages 68/95/99,7 % ou utiliser la **calculatrice**. Estimation → **f ± 1/√n**, puis **interpréter** l’intervalle (précision, franchissement d’un seuil comme 50 %).' },
+    ]),
+  ],
+
+  // #####################################################################
+  // MERCATIQUE (Terminale STMG — spécialité)
+  // #####################################################################
+
+  // ---- Thème 1 — Mercatique et consommateurs -----------------------
+  'mkg-t1': [
+    S('🧠 Comprendre le consommateur : besoins et mobiles', [
+      { t: 'p', c: 'La **mercatique** (ou marketing) est l’ensemble des actions destinées à **détecter, analyser et satisfaire les besoins** des consommateurs, dans le but d’atteindre les objectifs de l’entreprise (vendre, fidéliser, se différencier). Tout part donc de la compréhension du **consommateur**.' },
+      { t: 'p', c: 'Un **besoin** est une sensation de manque. **Maslow** les hiérarchise en une pyramide : besoins physiologiques, de sécurité, d’appartenance, d’estime, d’accomplissement. Un produit peut répondre à plusieurs niveaux à la fois (une voiture = se déplacer, mais aussi statut social).' },
+      { t: 'table', head: ['Notion', 'Définition'], rows: [
+        ['Besoin', 'Sensation de manque (dormir, se nourrir, appartenir)'],
+        ['Motivation / mobile', 'Force qui POUSSE à l’achat'],
+        ['Frein', 'Force qui RETIENT (peur, risque, prix)'],
+        ['Attente', 'Ce que le client espère précisément du produit'],
+      ] },
+      { t: 'p', c: 'Les **mobiles** d’achat sont classés : **hédonistes** (se faire plaisir), **oblatifs** (faire plaisir aux autres, offrir) et d’**auto-expression** (montrer qui l’on est). Les **freins** sont les **peurs** (risque perçu), les **inhibitions** (culpabilité) et les **risques** (financier, de performance).' },
+      { t: 'tip', h: 'À retenir', c: 'Un achat = équilibre entre **mobiles** (qui poussent) et **freins** (qui retiennent). Le rôle de la mercatique est de **renforcer les mobiles** et de **lever les freins** (essai gratuit, garantie, avis clients).' },
+    ]),
+    S('🛒 Le processus et les facteurs d’achat', [
+      { t: 'p', c: 'L’achat n’est pas instantané : c’est un **processus** en plusieurs étapes que la mercatique cherche à accompagner à chaque instant.' },
+      { t: 'list', c: [
+        '**1. Reconnaissance du besoin** : le consommateur prend conscience d’un manque.',
+        '**2. Recherche d’informations** : avis, comparateurs, publicité, entourage.',
+        '**3. Évaluation des solutions** : comparaison des offres selon des critères.',
+        '**4. Décision d’achat** : le passage à l’acte.',
+        '**5. Évaluation post-achat** : satisfaction ou regret → fidélité ou non.',
+      ] },
+      { t: 'p', c: 'La décision est influencée par des **facteurs** : **individuels** (âge, personnalité, style de vie), **psychologiques** (perception, apprentissage) et **socioculturels** (famille, groupes de référence, culture, effets de mode). D’où le fait qu’« on n’achète pas tous de la même façon ».' },
+      { t: 'p', c: 'On distingue aussi les **types d’achat** : **réfléchi** (voiture, choix long), **impulsif** (en caisse, sans réflexion), **routinier** (courses habituelles). Chaque type appelle une mercatique différente.' },
+      { t: 'tip', h: 'À retenir', c: 'La satisfaction **post-achat** est décisive : un client satisfait revient et recommande ; un client déçu part et « fait du bruit ». Fidéliser coûte moins cher que conquérir.' },
+    ]),
+    S('📊 Étudier le comportement : les études', [
+      { t: 'p', c: 'Pour connaître les consommateurs, l’entreprise réalise des **études de marché**. On les classe en deux grandes familles complémentaires.' },
+      { t: 'table', head: ['Étude', 'Question', 'Outils'], rows: [
+        ['Quantitative', 'COMBIEN ? (mesurer)', 'Sondage, questionnaire sur grand échantillon'],
+        ['Qualitative', 'POURQUOI ? (comprendre)', 'Entretiens, réunions de groupe (focus group)'],
+      ] },
+      { t: 'p', c: 'L’étude **quantitative** donne des chiffres représentatifs (part de marché, taux de notoriété) ; l’étude **qualitative** explore les motivations profondes et les freins. Les données peuvent être **primaires** (recueillies pour l’étude) ou **secondaires** (déjà existantes : INSEE, rapports).' },
+      { t: 'p', c: 'Aujourd’hui, le **big data** et les traces numériques (historique d’achat, navigation) complètent ces études : l’entreprise connaît le consommateur « en temps réel ».' },
+      { t: 'tip', h: 'À retenir', c: 'Quanti = **mesurer** (combien) ; quali = **comprendre** (pourquoi). Les deux se complètent : on explore en quali, on valide en quanti.' },
+    ]),
+    S('🛍️ Étude de cas guidée — comprendre un achat', [
+      { t: 'p', c: '**Énoncé.** Des clients font la queue toute une nuit pour acheter le dernier smartphone d’une grande marque. Analysez les besoins, mobiles et freins en jeu.' },
+      { t: 'example', h: 'Étape 1 — Besoins', c: 'Besoin fonctionnel (communiquer) mais surtout besoins d’**estime** et d’**appartenance** (posséder l’objet à la mode, appartenir à la communauté de la marque).' },
+      { t: 'example', h: 'Étape 2 — Mobiles', c: 'Mobile **hédoniste** (plaisir de la nouveauté), mobile d’**auto-expression** (montrer son statut, son appartenance à une « tribu » de fans).' },
+      { t: 'example', h: 'Étape 3 — Freins', c: 'Frein **financier** (prix élevé) et **risque** (attente, rupture de stock), largement compensés ici par la force des mobiles et l’effet de rareté organisé.' },
+      { t: 'p', c: '**Commentaire.** La marque a transformé l’achat en **événement** : la file d’attente devient une preuve sociale qui renforce le désir. C’est une mercatique de la **désirabilité** qui joue sur l’image et l’appartenance bien plus que sur la fonction.' },
+      { t: 'tip', h: 'Méthode', c: 'Pour analyser un achat : identifier le **besoin** (Maslow), les **mobiles**, les **freins**, puis montrer comment la mercatique **agit** dessus.' },
+    ]),
+  ],
+
+  // ---- Thème 2 — Mercatique et marchés -----------------------------
+  'mkg-t2': [
+    S('🎯 Le marché : offre, demande, environnement', [
+      { t: 'p', c: 'Le **marché** est le lieu (physique ou non) de rencontre entre une **offre** (les entreprises qui vendent) et une **demande** (les clients qui achètent). L’analyser, c’est mesurer sa taille, sa structure et son évolution.' },
+      { t: 'list', c: [
+        '**La demande** : clients actuels + non-consommateurs relatifs (qui pourraient acheter) ; on écarte les non-consommateurs absolus (qui n’achèteront jamais).',
+        '**L’offre** : les concurrents (directs et indirects) et leur pouvoir de marché.',
+        '**L’environnement** : facteurs PESTEL (politique, économique, socioculturel, technologique, écologique, légal) qui influencent le marché.',
+      ] },
+      { t: 'p', c: 'On mesure sa position par la **part de marché** : la place de l’entreprise sur son marché.' },
+      { t: 'formula', c: 'Part de marché (%) = (Ventes de l’entreprise ÷ Ventes totales du marché) × 100' },
+      { t: 'example', h: 'Calcul', c: 'Ventes de l’entreprise 3 M€ ; ventes totales du marché 25 M€.\nPart de marché = 3 ÷ 25 × 100 = **12 %**.' },
+      { t: 'tip', h: 'À retenir', c: 'La demande ne se limite pas aux clients actuels : les **non-consommateurs relatifs** sont le potentiel de croissance. La **part de marché** situe l’entreprise face à ses concurrents.' },
+    ]),
+    S('✂️ Segmenter, cibler, positionner (SCP)', [
+      { t: 'p', c: 'Une entreprise ne peut pas plaire à tout le monde. La démarche **SCP** structure son approche du marché en trois temps.' },
+      { t: 'table', head: ['Étape', 'Question', 'Résultat'], rows: [
+        ['Segmentation', 'Comment découper le marché ?', 'Des groupes homogènes (segments)'],
+        ['Ciblage', 'Quel(s) segment(s) viser ?', 'La cible'],
+        ['Positionnement', 'Quelle image donner ?', 'Une place claire dans l’esprit du client'],
+      ] },
+      { t: 'p', c: 'La **segmentation** découpe le marché en groupes homogènes selon des critères (âge, revenu, style de vie, usage). Le **ciblage** choisit le ou les segments à conquérir. Le **positionnement** définit l’image et la place que l’on veut occuper dans l’esprit du client, par rapport aux concurrents.' },
+      { t: 'example', h: 'Illustration', c: 'Vinted (occasion, budget serré, éco-responsable), Rolex (luxe, statut), McDo (rapide, familial, prix bas) ne visent **pas la même cible** et ont chacun un **positionnement** très distinct. C’est ce qui évite qu’ils se concurrencent frontalement.' },
+      { t: 'tip', h: 'À retenir', c: 'SCP = **Segmenter → Cibler → Positionner**. Un bon positionnement est **clair, distinctif et crédible** : il répond à « pourquoi me choisir plutôt qu’un autre ? ».' },
+    ]),
+    S('🔎 La veille et l’étude de marché', [
+      { t: 'p', c: 'Le marché évolue en permanence : l’entreprise doit exercer une **veille** (surveillance continue de la concurrence, des tendances, des technologies) pour ne pas se faire dépasser. La veille alimente les décisions stratégiques.' },
+      { t: 'p', c: 'Avant de lancer un produit ou d’entrer sur un marché, on réalise une **étude de marché** qui croise l’analyse de la **demande**, de l’**offre** et de l’**environnement**. Elle réduit le risque en vérifiant qu’il existe bien des clients prêts à acheter.' },
+      { t: 'list', c: [
+        'Analyser la **demande** : qui, combien, quels besoins, quel budget ?',
+        'Analyser l’**offre** : quels concurrents, à quels prix, quelle différenciation possible ?',
+        'Analyser l’**environnement** : réglementation, tendances, technologies.',
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'La **veille** est continue ; l’**étude de marché** est ponctuelle (avant une décision). Toutes deux visent à **décider en connaissance de cause**, pas au hasard.' },
+    ]),
+    S('🛍️ Étude de cas guidée — segmenter et cibler', [
+      { t: 'p', c: '**Énoncé.** Une marque de vêtements veut lancer une nouvelle ligne. Elle hésite entre viser « tout le monde » ou un segment précis. Que recommander ?' },
+      { t: 'example', h: 'Étape 1 — Segmentation', c: 'Découper le marché : par âge (ados / jeunes actifs / seniors), par style (sportif / chic / éco-responsable), par budget. On obtient des **segments homogènes**.' },
+      { t: 'example', h: 'Étape 2 — Ciblage', c: 'Viser « tout le monde » dilue le message et le budget. Mieux vaut **cibler** un segment porteur (ex. jeunes actifs sensibles à l’éco-responsabilité) où la marque peut se différencier.' },
+      { t: 'p', c: '**Étape 3 — Positionnement.** Adopter un positionnement clair (« mode responsable et accessible ») et le décliner dans tout le mix (produit, prix, distribution, communication). **Recommandation** : cibler plutôt que s’éparpiller, car un positionnement fort attire une clientèle fidèle.' },
+      { t: 'tip', h: 'Méthode', c: 'Toujours : **segmenter** (critères) → **cibler** (choix justifié) → **positionner** (image distinctive) → vérifier la **cohérence** avec le mix.' },
+    ]),
+  ],
+
+  // ---- Thème 3 — La mercatique opérationnelle (le mix) -------------
+  'mkg-t3': [
+    S('🎁 Le marketing mix : les 4P', [
+      { t: 'p', c: 'La **mercatique opérationnelle** met en œuvre la stratégie par des actions concrètes, résumées par le **marketing mix** ou les **4P** : Product, Price, Place, Promotion. La clé est leur **cohérence** : les 4P doivent « raconter la même histoire ».' },
+      { t: 'table', head: ['P', 'En français', 'Décisions'], rows: [
+        ['Product', 'Produit', 'Gamme, qualité, design, marque, services'],
+        ['Price', 'Prix', 'Niveau, stratégie, réductions'],
+        ['Place', 'Distribution', 'Circuits, points de vente, logistique'],
+        ['Promotion', 'Communication', 'Publicité, promotions, réseaux sociaux'],
+      ] },
+      { t: 'p', c: 'La **cohérence** est essentielle : une Rolex (produit de luxe) doit avoir un **prix** élevé, une **distribution** sélective (boutiques exclusives) et une **communication** haut de gamme. La vendre en supermarché à prix cassé détruirait son image.' },
+      { t: 'tip', h: 'À retenir', c: 'Les 4P = **Produit, Prix, Distribution (Place), Communication (Promotion)**. Ils doivent être **cohérents** entre eux et avec le **positionnement**.' },
+    ]),
+    S('🏷️ La politique de prix', [
+      { t: 'p', c: 'Le **prix** est le seul P qui **rapporte** de l’argent (les autres en coûtent). Il envoie aussi un signal de **qualité** et de **positionnement**. Trois grandes stratégies existent au lancement.' },
+      { t: 'table', head: ['Stratégie', 'Principe', 'Quand'], rows: [
+        ['Écrémage', 'Prix élevé, cibler une clientèle prête à payer', 'Produit innovant, image premium'],
+        ['Pénétration', 'Prix bas pour conquérir vite un large marché', 'Marché de masse, volumes'],
+        ['Alignement', 'Se caler sur le prix du marché', 'Marché concurrentiel banalisé'],
+      ] },
+      { t: 'p', c: 'Le prix se fixe en tenant compte de trois éléments : le **coût** (il doit couvrir le coût de revient), la **demande** (ce que le client est prêt à payer), et la **concurrence**. L’**élasticité-prix** mesure la sensibilité de la demande : si une hausse de prix fait beaucoup chuter les ventes, la demande est **élastique**.' },
+      { t: 'example', h: 'Écrémage vs pénétration', c: 'Un smartphone haut de gamme lancé cher = **écrémage** (marge élevée, image). Un abonnement streaming lancé à prix cassé pour capter vite des millions d’abonnés = **pénétration**.' },
+      { t: 'tip', h: 'À retenir', c: 'Prix = coût + demande + concurrence. **Écrémage** (prix haut, image) vs **pénétration** (prix bas, volume). Le prix doit rester **cohérent** avec le positionnement.' },
+    ]),
+    S('📦 Produit, distribution et communication', [
+      { t: 'p', c: 'La **politique de produit** gère la **gamme** (l’ensemble des produits), le **cycle de vie** (lancement → croissance → maturité → déclin) et la **marque** (nom, logo, image, promesse). La marque crée de la valeur et fidélise.' },
+      { t: 'p', c: 'La **politique de distribution** choisit les **circuits** pour amener le produit au client : circuit **direct** (du producteur au client, sans intermédiaire), **court** (un intermédiaire), **long** (plusieurs). L’intensité peut être **intensive** (partout), **sélective** (points choisis) ou **exclusive** (rares distributeurs).' },
+      { t: 'p', c: 'La **politique de communication** fait connaître et aimer le produit. On distingue les moyens **média** (TV, radio, presse, affichage, internet) et **hors-média** (promotion des ventes, relations publiques, marketing direct, réseaux sociaux).' },
+      { t: 'table', head: ['Circuit', 'Intermédiaires', 'Exemple'], rows: [
+        ['Direct', 'Aucun', 'Vente à la ferme, site du fabricant'],
+        ['Court', 'Un', 'Producteur → détaillant'],
+        ['Long', 'Plusieurs', 'Producteur → grossiste → détaillant'],
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'Produit (gamme, cycle de vie, marque) + Distribution (circuits, intensité) + Communication (média/hors-média). Chaque choix doit rester **cohérent** avec les trois autres P.' },
+    ]),
+    S('🛍️ Étude de cas guidée — la cohérence du mix', [
+      { t: 'p', c: '**Énoncé.** Une marque de café haut de gamme veut se lancer. Proposez un mix cohérent (4P).' },
+      { t: 'list', c: [
+        '**Produit** : café d’origine, torréfaction artisanale, packaging soigné, marque évocatrice.',
+        '**Prix** : stratégie d’**écrémage** (prix élevé) cohérent avec le positionnement premium.',
+        '**Distribution** : **sélective** (épiceries fines, boutique, site propre), pas la grande distribution discount.',
+        '**Communication** : storytelling sur l’origine et le savoir-faire, réseaux sociaux esthétiques, dégustations.',
+      ] },
+      { t: 'p', c: '**Commentaire.** Les 4P « racontent la même histoire » : le premium. Un seul P incohérent (ex. vendre en hard-discount) suffirait à **détruire** le positionnement. La force d’un mix vient de sa **cohérence d’ensemble**.' },
+      { t: 'tip', h: 'Méthode', c: 'Construire un mix = décliner les **4P** en veillant à leur **cohérence** avec le **positionnement** choisi. Justifier chaque choix.' },
+    ]),
+  ],
+
+  // ---- Thème 4 — Mercatique et société -----------------------------
+  'mkg-t4': [
+    S('📱 La mercatique numérique et les données', [
+      { t: 'p', c: 'Le numérique a **transformé** la mercatique. L’entreprise dispose désormais d’une masse de **données** (data) sur les consommateurs : historique d’achat, navigation, géolocalisation, réseaux sociaux. Elle peut personnaliser ses offres « one-to-one ».' },
+      { t: 'list', c: [
+        '**Personnalisation** : recommandations sur mesure (« vous aimerez aussi… »).',
+        '**Ciblage publicitaire** : publicités adaptées à chaque profil.',
+        '**Relation client** : réseaux sociaux, chatbots, e-mails ciblés.',
+        '**Mesure en temps réel** : taux de clic, de conversion, panier moyen.',
+      ] },
+      { t: 'p', c: 'Cette puissance soulève des **enjeux** : protection de la **vie privée**, encadrée par le **RGPD** (consentement, droit à l’effacement), et risque de **manipulation** (« Amazon sait ce que tu veux avant toi »). La donnée est un atout **et** une responsabilité.' },
+      { t: 'tip', h: 'À retenir', c: 'La data permet une mercatique **personnalisée et mesurable**, mais impose le respect du **RGPD** et de l’éthique. Le consentement du consommateur est obligatoire.' },
+    ]),
+    S('🌱 Mercatique durable et éthique', [
+      { t: 'p', c: 'Les consommateurs attendent des entreprises qu’elles soient **responsables**. La **mercatique durable** intègre les préoccupations sociales et environnementales dans l’offre : produits éco-conçus, circuits courts, transparence.' },
+      { t: 'p', c: 'Mais attention au **greenwashing** (écoblanchiment) : communiquer sur des engagements verts sans les tenir réellement. C’est un **risque majeur** de réputation : les consommateurs et les ONG le débusquent vite, et le retour de bâton peut être violent.' },
+      { t: 'table', head: ['Démarche sincère', 'Greenwashing'], rows: [
+        ['Engagements mesurés et prouvés', 'Slogans vagues (« éco », « vert »)'],
+        ['Transparence sur les limites', 'On cache l’essentiel'],
+        ['Cohérence sur toute l’activité', 'Une action verte, le reste polluant'],
+      ] },
+      { t: 'p', c: 'La **e-réputation** (image sur internet) est devenue centrale : avis clients, commentaires, bad buzz. Une entreprise doit la **surveiller** et y répondre. Un « bad buzz » peut détruire des années d’efforts en quelques heures.' },
+      { t: 'tip', h: 'À retenir', c: 'Mercatique durable **sincère** = avantage concurrentiel ; **greenwashing** = risque de réputation. La e-réputation se **surveille** et se **cultive**.' },
+    ]),
+    S('🔗 Les nouveaux parcours d’achat', [
+      { t: 'p', c: 'Le parcours d’achat est devenu **omnicanal** : le client passe sans cesse du magasin au site, à l’application, aux réseaux sociaux. Il se renseigne en ligne et achète en boutique (ou l’inverse). L’entreprise doit offrir une **expérience fluide** sur tous les canaux.' },
+      { t: 'list', c: [
+        '**Web-to-store** : chercher en ligne, acheter en magasin (click & collect).',
+        '**Store-to-web** : voir en magasin, acheter en ligne.',
+        '**Marketing d’influence** : des créateurs de contenu recommandent des produits à leur communauté.',
+      ] },
+      { t: 'p', c: 'Les **réseaux sociaux** sont à la fois un canal de **communication**, de **vente** (social commerce) et de **service client**. L’influence et les avis pèsent souvent plus que la publicité traditionnelle, jugée moins crédible.' },
+      { t: 'tip', h: 'À retenir', c: 'Le consommateur est **omnicanal** : il faut une expérience **cohérente et fluide** en ligne et en magasin. L’**influence** et les **avis** sont devenus des leviers majeurs.' },
+    ]),
+    S('🛍️ Étude de cas guidée — data et éthique', [
+      { t: 'p', c: '**Énoncé.** Un site e-commerce utilise les données de navigation pour recommander des produits et cibler ses publicités. Analysez les avantages et les limites.' },
+      { t: 'example', h: 'Étape 1 — Avantages', c: 'Personnalisation (meilleure expérience client), efficacité publicitaire (moins de gaspillage), fidélisation, mesure en temps réel des performances.' },
+      { t: 'example', h: 'Étape 2 — Limites et risques', c: 'Atteinte à la **vie privée**, sentiment de surveillance, dépendance aux algorithmes, risque juridique si le **RGPD** n’est pas respecté (consentement, sécurité des données).' },
+      { t: 'p', c: '**Recommandation.** Exploiter la data **dans le respect du RGPD** : recueillir le consentement, être transparent, sécuriser les données, laisser le choix au client. Une exploitation éthique **renforce la confiance** — donc, à terme, la performance.' },
+      { t: 'tip', h: 'Méthode', c: 'Pour tout sujet « numérique/data » : peser **avantages** (personnalisation, mesure) et **limites** (vie privée, RGPD, éthique), puis recommander un usage **responsable**.' },
+    ]),
+  ],
+
+  // #####################################################################
+  // RESSOURCES HUMAINES & COMMUNICATION (Terminale STMG — spécialité)
+  // #####################################################################
+
+  // ---- Thème 1 — Mobiliser les ressources humaines -----------------
+  'rh-t1': [
+    S('💪 La motivation au travail', [
+      { t: 'p', c: 'Une entreprise ne vaut que par les femmes et les hommes qui la font vivre. **Mobiliser les ressources humaines**, c’est donner aux salariés l’envie et les moyens de s’investir. Au cœur : la **motivation**, ce qui pousse une personne à agir et à se dépasser.' },
+      { t: 'table', head: ['Théorie', 'Idée clé'], rows: [
+        ['Taylor (OST)', 'La motivation = le salaire (« l’homme au travail »)'],
+        ['Maslow', 'On est motivé par des besoins hiérarchisés (pyramide)'],
+        ['Herzberg', 'Facteurs d’hygiène (évitent l’insatisfaction) ≠ facteurs de motivation (donnent l’envie)'],
+        ['Mayo', 'Les relations sociales et la reconnaissance motivent (effet Hawthorne)'],
+      ] },
+      { t: 'p', c: 'La distinction d’**Herzberg** est essentielle : les **facteurs d’hygiène** (salaire, conditions de travail, sécurité) évitent le mécontentement mais ne motivent pas durablement ; les **facteurs de motivation** (responsabilités, reconnaissance, intérêt du travail, évolution) sont les vrais moteurs de l’engagement.' },
+      { t: 'p', c: 'Concrètement, l’entreprise dispose de **leviers** : rémunération (fixe, variable, primes, participation), reconnaissance, autonomie, perspectives d’évolution, ambiance et sens du travail.' },
+      { t: 'tip', h: 'À retenir', c: 'Un bon salaire évite l’insatisfaction (facteur d’**hygiène**) mais ne suffit pas à **motiver** : la reconnaissance, l’intérêt du travail et l’évolution (facteurs de **motivation**) sont décisifs.' },
+    ]),
+    S('🎓 Les compétences et leur développement', [
+      { t: 'p', c: 'La **compétence** est la capacité à mobiliser des ressources pour agir efficacement dans une situation de travail. Elle se décompose classiquement en trois dimensions.' },
+      { t: 'list', c: [
+        '**Savoir** : les connaissances théoriques (ce que je sais).',
+        '**Savoir-faire** : la maîtrise pratique (ce que je sais faire).',
+        '**Savoir-être** : les attitudes et comportements (rigueur, écoute, esprit d’équipe).',
+      ] },
+      { t: 'p', c: 'Une compétence ne se résume donc **pas** à un diplôme : elle se **construit** et s’**entretient**. L’entreprise développe les compétences par la **formation**, le **tutorat**, la **mobilité** interne et l’**expérience**.' },
+      { t: 'p', c: 'La **GPEC** (Gestion Prévisionnelle des Emplois et des Compétences) anticipe les besoins futurs : quels métiers vont évoluer ou disparaître, quelles compétences faudra-t-il ? Elle permet d’adapter les effectifs et de former **à l’avance**, plutôt que de subir.' },
+      { t: 'tip', h: 'À retenir', c: 'Compétence = **savoir + savoir-faire + savoir-être**. La **GPEC** anticipe les besoins ; la **formation** développe les compétences tout au long de la carrière.' },
+    ]),
+    S('💶 Rémunération et parcours professionnel', [
+      { t: 'p', c: 'La **rémunération** est à la fois un coût pour l’entreprise, un revenu pour le salarié et un puissant outil de **motivation** et de **fidélisation**. Elle ne se limite pas au salaire de base.' },
+      { t: 'table', head: ['Composante', 'Exemple'], rows: [
+        ['Salaire fixe', 'Le salaire de base mensuel'],
+        ['Part variable', 'Primes d’objectifs, commissions'],
+        ['Périphériques', 'Participation, intéressement, avantages en nature'],
+        ['Reconnaissance non monétaire', 'Évolution, autonomie, remerciements'],
+      ] },
+      { t: 'p', c: 'Une politique de rémunération doit être perçue comme **équitable** (en interne comme face au marché) : un sentiment d’injustice démotive fortement. Le **parcours professionnel** (évolution, promotions, mobilité) est également un levier majeur : il donne des perspectives et retient les talents.' },
+      { t: 'tip', h: 'À retenir', c: 'La rémunération motive **si elle est perçue comme équitable**. La combiner avec des perspectives d’**évolution** (parcours) est bien plus efficace que le seul salaire.' },
+    ]),
+    S('🧑‍💼 Étude de cas guidée — motiver une équipe', [
+      { t: 'p', c: '**Énoncé.** Dans une entreprise, le turnover est élevé et les salariés se disent démotivés malgré des salaires corrects. Analysez et proposez des solutions.' },
+      { t: 'example', h: 'Étape 1 — Diagnostic', c: 'Salaires corrects = facteur d’**hygiène** satisfait, mais démotivation persistante → ce sont les **facteurs de motivation** (Herzberg) qui manquent : reconnaissance, intérêt du travail, perspectives.' },
+      { t: 'example', h: 'Étape 2 — Solutions', c: 'Enrichir les tâches (plus de responsabilités), reconnaître les réussites, offrir des perspectives d’**évolution** (GPEC, formation), donner plus d’**autonomie** et de sens.' },
+      { t: 'p', c: '**Commentaire.** Augmenter encore les salaires aurait peu d’effet (le facteur d’hygiène est déjà couvert). C’est en agissant sur les **facteurs de motivation** que l’entreprise réduira le turnover et remobilisera ses équipes.' },
+      { t: 'tip', h: 'Méthode', c: 'Diagnostiquer avec **Herzberg/Maslow** (hygiène ou motivation ?), puis proposer des leviers **ciblés**. Toujours relier la solution au problème identifié.' },
+    ]),
+  ],
+
+  // ---- Thème 2 — Cohésion et conflits ------------------------------
+  'rh-t2': [
+    S('🤝 Le groupe, l’équipe et la cohésion', [
+      { t: 'p', c: 'Une organisation fonctionne par **groupes** et **équipes**. Un **groupe** est un ensemble de personnes en interaction ; une **équipe** est un groupe orienté vers un **objectif commun**, avec une complémentarité des rôles. La **cohésion** est la force qui unit ses membres.' },
+      { t: 'p', c: 'Une équipe **cohésive** est plus performante : meilleure communication, entraide, motivation collective. Mais une cohésion **excessive** a ses dangers : le **conformisme** (on n’ose plus contredire) et la **pensée de groupe** (« groupthink »), qui étouffent l’esprit critique et mènent à de mauvaises décisions.' },
+      { t: 'list', c: [
+        'Facteurs de cohésion : objectif partagé, communication, reconnaissance, taille raisonnable, réussite commune.',
+        'Risques d’une cohésion excessive : conformisme, rejet des avis divergents, prise de risque irrationnelle.',
+      ] },
+      { t: 'p', c: 'La **culture d’entreprise** (valeurs, rites, histoire, symboles partagés) renforce la cohésion et le sentiment d’appartenance. Elle donne une identité commune et guide les comportements.' },
+      { t: 'tip', h: 'À retenir', c: 'La cohésion est un atout **jusqu’à un certain point** : trop de cohésion tue le débat (conformisme, pensée de groupe). Une équipe performante sait rester **soudée ET critique**.' },
+    ]),
+    S('⚔️ Comprendre et gérer les conflits', [
+      { t: 'p', c: 'Le **conflit** est une opposition entre des personnes ou des groupes. Il n’est pas forcément négatif : un conflit bien géré peut **révéler des problèmes** et faire progresser. Mal géré, il dégrade le climat et la performance.' },
+      { t: 'table', head: ['Type de conflit', 'Origine'], rows: [
+        ['D’intérêts', 'Objectifs ou avantages incompatibles'],
+        ['De valeurs', 'Visions ou principes opposés'],
+        ['De personnes', 'Incompatibilités relationnelles'],
+        ['De pouvoir', 'Lutte pour l’influence ou les ressources'],
+      ] },
+      { t: 'p', c: 'Plusieurs **modes de résolution** existent, du plus subi au plus constructif : le **recours hiérarchique** (le chef tranche), la **négociation** (les parties cherchent un accord), la **médiation** (un tiers neutre aide au dialogue), l’**arbitrage** (un tiers décide). La négociation « gagnant-gagnant » est souvent la plus durable.' },
+      { t: 'example', h: 'Illustration', c: 'Deux services se disputent un budget (conflit d’intérêts). Le manager organise une **négociation** : chacun expose ses besoins, on cherche un compromis qui satisfait l’essentiel des deux → solution acceptée et durable, plutôt qu’une décision imposée mal vécue.' },
+      { t: 'tip', h: 'À retenir', c: 'Un conflit peut être **constructif** s’il est géré. Privilégier la **négociation/médiation** (gagnant-gagnant) au recours hiérarchique, qui règle vite mais laisse des rancœurs.' },
+    ]),
+    S('🌐 La culture et le climat d’équipe', [
+      { t: 'p', c: 'La **culture d’entreprise** est l’ensemble des **valeurs, croyances, rites et symboles** partagés par les membres. Elle se transmet (histoire du fondateur, héros internes, rituels) et façonne les comportements « ici, on fait comme ça ».' },
+      { t: 'list', c: [
+        '**Avantages** : sentiment d’appartenance, cohésion, repères communs, image externe.',
+        '**Limites** : résistance au changement, exclusion de ceux qui ne « rentrent pas dans le moule ».',
+      ] },
+      { t: 'p', c: 'La culture influence directement la **cohésion** et la **gestion des conflits** : une culture du dialogue prévient les tensions ; une culture rigide les aggrave. Le manager est un **relais** de la culture, mais aussi celui qui doit la faire **évoluer** quand elle freine l’adaptation.' },
+      { t: 'tip', h: 'À retenir', c: 'La culture d’entreprise **soude** mais peut **enfermer**. Une bonne culture favorise la cohésion **et** l’ouverture au changement.' },
+    ]),
+    S('🧑‍💼 Étude de cas guidée — gérer un conflit', [
+      { t: 'p', c: '**Énoncé.** Deux salariés d’une même équipe sont en conflit ouvert, ce qui perturbe tout le service. Le manager doit intervenir. Que faire ?' },
+      { t: 'example', h: 'Étape 1 — Identifier le conflit', c: 'Déterminer sa nature : conflit de **personnes** ? d’**intérêts** ? de **valeurs** ? Ici, tension relationnelle qui déborde sur le travail collectif.' },
+      { t: 'example', h: 'Étape 2 — Choisir le mode de résolution', c: 'Plutôt que d’imposer une sanction (recours hiérarchique), organiser une **médiation** : réunir les deux parties, faire exprimer les griefs, chercher un terrain d’entente.' },
+      { t: 'p', c: '**Étape 3 — Prévenir la rechute.** Clarifier les rôles, poser des règles de fonctionnement, restaurer la communication. **Commentaire** : un conflit traité par le dialogue renforce l’équipe ; ignoré ou mal tranché, il pourrit le climat et fait fuir les talents.' },
+      { t: 'tip', h: 'Méthode', c: 'Conflit : 1) **identifier** sa nature, 2) choisir le **mode de résolution** adapté (négociation/médiation de préférence), 3) **prévenir** la rechute. Toujours viser un climat restauré.' },
+    ]),
+  ],
+
+  // ---- Thème 3 — La communication ----------------------------------
+  'rh-t3': [
+    S('📣 Les formes de communication', [
+      { t: 'p', c: 'La **communication** est l’ensemble des échanges d’informations au sein et autour de l’organisation. Bien communiquer est vital : cela mobilise les équipes, construit l’image et prévient les crises. On distingue plusieurs formes.' },
+      { t: 'table', head: ['Critère', 'Type', 'Exemple'], rows: [
+        ['Destinataire', 'Interne', 'Vers les salariés (note, intranet, réunion)'],
+        ['Destinataire', 'Externe', 'Vers les clients, partenaires, public'],
+        ['Objet', 'Commerciale', 'Vendre un produit (publicité)'],
+        ['Objet', 'Institutionnelle', 'Valoriser l’image de l’organisation'],
+        ['Cadre', 'Formelle', 'Officielle, écrite, hiérarchique'],
+        ['Cadre', 'Informelle', 'Spontanée (« radio couloir »)'],
+      ] },
+      { t: 'p', c: 'La **communication globale** cherche la **cohérence** entre tous ces messages : ce que l’entreprise dit en interne, à ses clients et au public ne doit pas se contredire. Une incohérence détruit la crédibilité.' },
+      { t: 'tip', h: 'À retenir', c: 'Interne (salariés) ≠ externe (public) ; commerciale (vendre) ≠ institutionnelle (image). La **communication globale** vise la **cohérence** de tous les messages.' },
+    ]),
+    S('🔄 Le processus et les canaux', [
+      { t: 'p', c: 'Communiquer, c’est transmettre un **message** d’un **émetteur** à un **récepteur** via un **canal**, en attendant un **retour** (feed-back). À chaque étape, des **bruits** (parasites, malentendus) peuvent déformer le message.' },
+      { t: 'list', c: [
+        '**Émetteur** → **message** (codé) → **canal** → **récepteur** (qui décode) → **feed-back**.',
+        '**Bruit** : tout ce qui perturbe (vocabulaire flou, mauvaise écoute, canal inadapté).',
+      ] },
+      { t: 'p', c: 'Le choix du **canal** est stratégique : un mail pour une info simple, une réunion pour un sujet sensible, l’affichage pour une consigne générale. Un canal inadapté (ex. annoncer un licenciement par SMS) peut ruiner le message et blesser.' },
+      { t: 'p', c: 'Les **réseaux sociaux** ont bouleversé la communication externe : l’entreprise n’a plus le monopole de son image, les clients s’expriment, partagent, notent. La communication est devenue **interactive** et **immédiate**.' },
+      { t: 'tip', h: 'À retenir', c: 'Communiquer efficacement = message **clair**, canal **adapté**, écoute du **feed-back**, et réduction des **bruits**. Le récepteur décode toujours à sa façon : vérifier qu’il a compris.' },
+    ]),
+    S('🚨 La communication de crise', [
+      { t: 'p', c: 'Une **crise** (accident, scandale, bad buzz) peut frapper toute organisation. La **communication de crise** vise à **limiter les dégâts** sur l’image et à restaurer la confiance. Mal gérée, une crise peut être fatale à la réputation.' },
+      { t: 'list', c: [
+        '**Réagir vite** : le silence est interprété comme un aveu ou du mépris.',
+        '**Être transparent et honnête** : reconnaître les faits, ne pas mentir (le mensonge, une fois découvert, aggrave tout).',
+        '**Assumer et agir** : présenter des excuses si nécessaire, annoncer des mesures correctives.',
+        '**Parler d’une seule voix** : un porte-parole identifié, un message cohérent.',
+      ] },
+      { t: 'example', h: 'Bad buzz', c: 'Une marque fait l’objet d’une vague de critiques sur les réseaux sociaux. Si elle **ignore** ou supprime les commentaires → la colère enfle. Si elle **répond vite, reconnaît** le problème et **agit** → elle peut retourner la situation et même renforcer sa crédibilité.' },
+      { t: 'tip', h: 'À retenir', c: 'Communication de crise = **vitesse + transparence + cohérence**. Le silence et le mensonge sont les pires réactions. L’e-réputation se joue en quelques heures.' },
+    ]),
+    S('🧑‍💼 Étude de cas guidée — une communication efficace', [
+      { t: 'p', c: '**Énoncé.** Une entreprise doit annoncer à ses salariés une réorganisation importante. Comment communiquer efficacement ?' },
+      { t: 'example', h: 'Étape 1 — Type et objectif', c: 'Communication **interne**, **formelle**, sur un sujet **sensible** : objectif = informer clairement, rassurer, éviter les rumeurs (« radio couloir »).' },
+      { t: 'example', h: 'Étape 2 — Canal et message', c: 'Privilégier une **réunion** (canal riche, permet le dialogue) plutôt qu’un simple mail. Message **clair, honnête**, expliquant le pourquoi et les conséquences concrètes.' },
+      { t: 'p', c: '**Étape 3 — Feed-back.** Ouvrir un temps de **questions**, écouter les inquiétudes, prévoir un suivi. **Commentaire** : une réorganisation mal communiquée (par mail, sans explication) génère angoisse et rumeurs ; bien communiquée, elle limite la résistance au changement.' },
+      { t: 'tip', h: 'Méthode', c: 'Identifier **type/objectif** → choisir le **canal adapté** (riche pour un sujet sensible) → soigner le **message** (clair, honnête) → organiser le **feed-back**.' },
+    ]),
+  ],
+
+  // ---- Thème 4 — Coordination et conditions de travail -------------
+  'rh-t4': [
+    S('⚙️ Coordonner le travail', [
+      { t: 'p', c: 'Dès qu’une organisation grandit, il faut **coordonner** le travail réparti entre les personnes et les services. **Mintzberg** a identifié plusieurs **mécanismes de coordination**.' },
+      { t: 'table', head: ['Mécanisme', 'Principe'], rows: [
+        ['Ajustement mutuel', 'On se coordonne en communiquant directement (petites équipes)'],
+        ['Supervision directe', 'Un chef donne les ordres et contrôle'],
+        ['Standardisation des procédés', 'Des procédures écrites (mode opératoire)'],
+        ['Standardisation des résultats', 'On fixe des objectifs, libre à chacun de les atteindre'],
+        ['Standardisation des qualifications', 'On recrute des experts formés (hôpital)'],
+      ] },
+      { t: 'p', c: 'Le bon mécanisme dépend du contexte : l’**ajustement mutuel** convient aux petites structures ou aux tâches complexes ; la **standardisation** aux grandes organisations et aux tâches répétitives. La **structure** de l’entreprise (fonctionnelle, divisionnelle, matricielle) organise cette coordination.' },
+      { t: 'tip', h: 'À retenir', c: 'Coordonner = faire travailler ensemble. Petites équipes → **ajustement mutuel** ; grandes organisations → **supervision** et **standardisation**.' },
+    ]),
+    S('🏥 Conditions de travail et QVT', [
+      { t: 'p', c: 'Les **conditions de travail** regroupent tout ce qui entoure l’activité : environnement physique (bruit, sécurité, ergonomie), rythme, horaires, charge mentale, relations. Elles influencent fortement la **santé**, la **motivation** et la **performance**.' },
+      { t: 'p', c: 'La **QVT (qualité de vie au travail)** est une démarche visant à améliorer à la fois le **bien-être des salariés** et l’**efficacité** de l’organisation. Elle inclut l’équilibre vie pro/vie perso, le télétravail, la prévention des **risques psychosociaux** (stress, burn-out, harcèlement).' },
+      { t: 'list', c: [
+        'De bonnes conditions → moins d’absentéisme, moins d’accidents, plus d’engagement.',
+        'De mauvaises conditions → stress, turnover, accidents, baisse de productivité.',
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'La QVT n’est pas un « luxe » : de bonnes conditions de travail **améliorent la performance** (moins d’absentéisme, plus de motivation). Bien-être et efficacité vont de pair.' },
+    ]),
+    S('📊 Mesurer le climat social et le coût du travail', [
+      { t: 'p', c: 'Le **climat social** est l’ambiance générale des relations dans l’entreprise. Il ne se « ressent » pas seulement : il se **mesure** avec des **indicateurs** objectifs, que le manager surveille comme un tableau de bord.' },
+      { t: 'table', head: ['Indicateur', 'Ce qu’il révèle'], rows: [
+        ['Taux d’absentéisme', 'Démotivation, mauvaises conditions'],
+        ['Taux de turnover (rotation)', 'Départs fréquents = malaise, perte de talents'],
+        ['Nombre de conflits / grèves', 'Tensions sociales'],
+        ['Taux d’accidents du travail', 'Problèmes de sécurité/conditions'],
+      ] },
+      { t: 'p', c: 'Côté coûts, il faut distinguer le **salaire net** perçu et le **coût total** pour l’employeur (brut + cotisations patronales). Le **coût du travail** dépasse largement le net : c’est un enjeu de compétitivité et de décision d’embauche.' },
+      { t: 'formula', c: 'Coût total employeur = Salaire brut + Cotisations patronales' },
+      { t: 'example', h: 'Calcul', c: 'Fiche de paie : net 1 800 €. Le brut est d’environ 2 300 €, et le coût total pour l’employeur (avec ~42 % de charges patronales) d’environ **3 260 €**. L’écart net/coût total est considérable.' },
+      { t: 'tip', h: 'À retenir', c: 'Un climat social se **pilote** avec des indicateurs (absentéisme, turnover). Le **coût du travail** (brut + charges patronales) est bien supérieur au net versé.' },
+    ]),
+    S('🧑‍💼 Étude de cas guidée — coût du travail & climat', [
+      { t: 'p', c: '**Énoncé.** Une entreprise constate un absentéisme et un turnover en hausse. La direction envisage de « serrer » encore les coûts. Analysez.' },
+      { t: 'example', h: 'Étape 1 — Lire les indicateurs', c: 'Absentéisme + turnover élevés = signaux d’un **climat social dégradé** : démotivation, mauvaises conditions, manque de reconnaissance.' },
+      { t: 'example', h: 'Étape 2 — Le piège', c: 'Réduire encore les coûts (salaires, effectifs) risque d’**aggraver** le malaise → plus d’absences et de départs → coûts cachés (remplacements, formation, perte de compétences).' },
+      { t: 'p', c: '**Étape 3 — Recommandation.** Investir dans la **QVT** et la reconnaissance pour restaurer le climat. Un climat sain réduit l’absentéisme et le turnover, donc **baisse les coûts cachés** — bien plus efficacement qu’une compression brutale. Bien-être et performance sont **liés**.' },
+      { t: 'tip', h: 'Méthode', c: 'Lire les **indicateurs** du climat social → en déduire le problème → montrer les **coûts cachés** d’une mauvaise décision → recommander une action sur la **QVT/reconnaissance**.' },
+    ]),
+  ],
+
+  // #####################################################################
+  // SYSTÈMES D'INFORMATION DE GESTION — SIG (Terminale STMG — spécialité)
+  // #####################################################################
+
+  // ---- Thème 1 — Le système d'information dans l'organisation -------
+  'sig-t1': [
+    S('💻 Qu’est-ce qu’un système d’information ?', [
+      { t: 'p', c: 'Le **système d’information (SI)** est l’ensemble des ressources (humaines, matérielles, logicielles) qui permettent de **collecter, stocker, traiter et diffuser** l’information dans une organisation. C’est le « système nerveux » de l’entreprise : sans lui, impossible de décider et de coordonner.' },
+      { t: 'table', head: ['Fonction du SI', 'Exemple'], rows: [
+        ['Collecter', 'Saisir une commande, scanner un produit'],
+        ['Stocker', 'Enregistrer dans une base de données'],
+        ['Traiter', 'Calculer un total, éditer une facture'],
+        ['Diffuser', 'Envoyer l’info au bon service, au client'],
+      ] },
+      { t: 'p', c: 'Il faut distinguer **donnée**, **information** et **connaissance** : la **donnée** est un fait brut (« 42 »), l’**information** est une donnée mise en contexte (« 42 ventes aujourd’hui »), la **connaissance** est l’information interprétée pour décider (« les ventes montent, il faut réapprovisionner »).' },
+      { t: 'tip', h: 'À retenir', c: 'Le SI = **collecter → stocker → traiter → diffuser** l’information. Il transforme des **données** brutes en **information** utile puis en **connaissance** pour décider.' },
+    ]),
+    S('📈 Le SI, outil d’aide à la décision', [
+      { t: 'p', c: 'La finalité du SI est d’**aider à la décision** à tous les niveaux. Un bon SI fournit la **bonne information**, à la **bonne personne**, au **bon moment**, sous une forme **exploitable**.' },
+      { t: 'list', c: [
+        'Au niveau **opérationnel** : suivre les stocks, les commandes, la production au quotidien.',
+        'Au niveau **stratégique** : tableaux de bord, analyses de tendances pour les dirigeants.',
+      ] },
+      { t: 'p', c: 'Le **PGI (progiciel de gestion intégré)**, ou ERP, est un logiciel unique qui gère toutes les fonctions de l’entreprise (ventes, achats, stocks, comptabilité, RH) autour d’une **base de données commune**. Avantage : une **seule saisie** met à jour tous les services → cohérence et gain de temps ; inconvénient : coût et rigidité.' },
+      { t: 'p', c: 'Un SI de **qualité** repose sur des données **fiables, à jour, complètes et sécurisées**. Une donnée fausse (« garbage in, garbage out ») mène à une mauvaise décision.' },
+      { t: 'tip', h: 'À retenir', c: 'Un **PGI/ERP** centralise l’information dans une **base commune** : une saisie, tous les services à jour. La **qualité des données** conditionne la qualité des décisions.' },
+    ]),
+    S('🔗 Processus et représentation du SI', [
+      { t: 'p', c: 'Le fonctionnement de l’organisation s’analyse en **processus** : une suite d’activités qui transforment des entrées en sorties (ex. le processus « traiter une commande » : réception → vérification stock → préparation → facturation → expédition).' },
+      { t: 'p', c: 'On **représente** ces processus par des schémas (diagrammes de flux) qui montrent qui fait quoi, dans quel ordre, et quelles informations circulent. Cette modélisation aide à **repérer les dysfonctionnements** (étapes inutiles, ressaisies, goulots) et à **améliorer** l’organisation.' },
+      { t: 'example', h: 'Illustration — une commande', c: 'Une commande McDo : saisie sur la borne (collecte) → transmission en cuisine (diffusion) → suivi de préparation (traitement) → encaissement (traitement) → mise à jour des stocks (stockage). Le SI relie tous ces maillons en temps réel.' },
+      { t: 'tip', h: 'À retenir', c: 'Un **processus** transforme des entrées en sorties via une suite d’activités. Le **modéliser** permet de repérer et corriger les dysfonctionnements.' },
+    ]),
+    S('💻 Étude de cas guidée — le SI à l’œuvre', [
+      { t: 'p', c: '**Énoncé.** Un commerce constate des erreurs de stock (ruptures et sur-stocks) car chaque service (caisse, réserve, achats) tient ses propres tableaux. Analysez et proposez.' },
+      { t: 'example', h: 'Étape 1 — Le problème', c: 'Des **données éclatées et non partagées** : chaque service a sa version, d’où des incohérences. Le SI ne remplit pas sa fonction de diffusion d’une information fiable et commune.' },
+      { t: 'example', h: 'Étape 2 — Solution', c: 'Mettre en place un **PGI** (base de données commune) : une vente en caisse met à jour **automatiquement** le stock et alerte les achats. Une seule information, partagée, à jour.' },
+      { t: 'p', c: '**Commentaire.** Le PGI supprime les ressaisies et les incohérences, fiabilise les stocks et aide à décider (réapprovisionnement au bon moment). Coût et conduite du changement sont les principales limites à anticiper.' },
+      { t: 'tip', h: 'Méthode', c: 'Repérer le **dysfonctionnement du SI** (données non partagées, ressaisies) → proposer une solution (PGI, base commune) → peser **avantages et limites**.' },
+    ]),
+  ],
+
+  // ---- Thème 2 — Les bases de données et le langage SQL ------------
+  'sig-t2': [
+    S('🗄️ Le modèle relationnel', [
+      { t: 'p', c: 'Une **base de données** organise et stocke l’information de façon structurée pour la retrouver facilement. Le modèle le plus répandu est le **modèle relationnel** : les données sont rangées dans des **tables** (comme des tableaux).' },
+      { t: 'table', head: ['Terme', 'Signification'], rows: [
+        ['Table (relation)', 'Un tableau de données (ex. CLIENTS)'],
+        ['Enregistrement (ligne)', 'Un élément (ex. un client précis)'],
+        ['Champ (colonne)', 'Une caractéristique (nom, ville, email)'],
+        ['Clé primaire', 'Identifiant unique de chaque enregistrement (ex. id_client)'],
+        ['Clé étrangère', 'Champ qui référence la clé primaire d’une autre table (lien)'],
+      ] },
+      { t: 'p', c: 'La **clé primaire** identifie de façon **unique** chaque ligne (deux clients ne peuvent avoir le même id). La **clé étrangère** crée les **relations** entre tables : par exemple, une table COMMANDES contient l’id_client (clé étrangère) qui pointe vers la table CLIENTS. C’est ce qui évite de tout répéter.' },
+      { t: 'tip', h: 'À retenir', c: 'Base relationnelle = **tables** liées par des **clés**. Clé **primaire** = identifiant unique ; clé **étrangère** = lien vers une autre table.' },
+    ]),
+    S('🔍 Le langage SQL : interroger la base', [
+      { t: 'p', c: 'Le **SQL (Structured Query Language)** est le langage qui permet de **poser des questions** à une base de données (« requêtes »). La requête de base sélectionne des colonnes, dans une table, selon une condition.' },
+      { t: 'formula', c: 'SELECT colonnes\nFROM table\nWHERE condition\nORDER BY colonne ;' },
+      { t: 'list', c: [
+        '**SELECT** : les colonnes à afficher (SELECT * = toutes).',
+        '**FROM** : la table concernée.',
+        '**WHERE** : la condition de filtrage (=, <, >, AND, OR, LIKE).',
+        '**ORDER BY** : le tri (ASC croissant, DESC décroissant).',
+      ] },
+      { t: 'example', h: 'Requête simple', c: 'Afficher le nom et la ville des clients de Paris, triés par nom :\nSELECT nom, ville\nFROM CLIENTS\nWHERE ville = \'Paris\'\nORDER BY nom ;' },
+      { t: 'tip', h: 'À retenir', c: 'Structure de base : **SELECT** (quoi) **FROM** (où) **WHERE** (quelle condition) **ORDER BY** (quel tri). Ne pas oublier le **point-virgule** final et les **guillemets** autour du texte.' },
+    ]),
+    S('🧮 Fonctions d’agrégation et jointures', [
+      { t: 'p', c: 'Le SQL permet aussi de **calculer** sur des ensembles de lignes grâce aux **fonctions d’agrégation**, et de **croiser** plusieurs tables avec les **jointures**.' },
+      { t: 'table', head: ['Fonction', 'Rôle'], rows: [
+        ['COUNT()', 'Compter le nombre de lignes'],
+        ['SUM()', 'Additionner une colonne'],
+        ['AVG()', 'Calculer une moyenne'],
+        ['MAX() / MIN()', 'Valeur maximale / minimale'],
+      ] },
+      { t: 'example', h: 'Agrégation', c: 'Chiffre d’affaires total des commandes :\nSELECT SUM(montant) FROM COMMANDES ;\nNombre de clients parisiens :\nSELECT COUNT(*) FROM CLIENTS WHERE ville = \'Paris\' ;' },
+      { t: 'p', c: 'La **jointure** relie deux tables via leur clé commune pour combiner leurs informations. On précise l’égalité des clés dans le WHERE (ou avec JOIN … ON).' },
+      { t: 'example', h: 'Jointure', c: 'Nom du client et montant de ses commandes :\nSELECT CLIENTS.nom, COMMANDES.montant\nFROM CLIENTS, COMMANDES\nWHERE CLIENTS.id_client = COMMANDES.id_client ;' },
+      { t: 'tip', h: 'À retenir', c: 'Agrégation = **calculer** (COUNT, SUM, AVG…). Jointure = **croiser** deux tables via leur **clé commune**. Souvent combinées avec GROUP BY pour des totaux par catégorie.' },
+    ]),
+    S('💻 Étude de cas guidée — écrire une requête SQL', [
+      { t: 'p', c: '**Énoncé.** Base avec une table PRODUITS(id_produit, nom, prix, categorie). Écrire les requêtes demandées.' },
+      { t: 'example', h: 'Q1 — Produits de moins de 10 €, triés par prix', c: 'SELECT nom, prix\nFROM PRODUITS\nWHERE prix < 10\nORDER BY prix ASC ;' },
+      { t: 'example', h: 'Q2 — Nombre de produits dans la catégorie « Boissons »', c: 'SELECT COUNT(*)\nFROM PRODUITS\nWHERE categorie = \'Boissons\' ;' },
+      { t: 'example', h: 'Q3 — Prix moyen des produits par catégorie', c: 'SELECT categorie, AVG(prix)\nFROM PRODUITS\nGROUP BY categorie ;' },
+      { t: 'tip', h: 'Méthode', c: 'Traduire la question en SQL : **quoi** afficher (SELECT), **où** (FROM), **quelle condition** (WHERE), **quel tri/regroupement** (ORDER BY / GROUP BY). Vérifier guillemets et point-virgule.' },
+    ]),
+  ],
+
+  // ---- Thème 3 — Travail collaboratif et intelligence collective ---
+  'sig-t3': [
+    S('🤝 Le travail collaboratif et ses outils', [
+      { t: 'p', c: 'Le **travail collaboratif** consiste à travailler **ensemble**, à plusieurs, sur un objectif commun, en s’appuyant sur des **outils numériques** qui permettent de partager, coéditer et communiquer à distance et en temps réel.' },
+      { t: 'list', c: [
+        '**Partage de fichiers** : cloud (Drive, espaces partagés) accessibles partout.',
+        '**Coédition** : plusieurs personnes modifient le même document simultanément.',
+        '**Communication** : messagerie, visioconférence, espaces de discussion.',
+        '**Gestion de projet** : agendas partagés, tableaux de tâches, suivi.',
+      ] },
+      { t: 'p', c: 'Ces outils reposent souvent sur le **cloud** (informatique « en nuage ») : les données et applications sont hébergées sur des serveurs distants, accessibles via internet. Avantages : accessibilité, mise à jour automatique, pas d’installation ; limites : dépendance à la connexion et au prestataire, questions de **sécurité**.' },
+      { t: 'tip', h: 'À retenir', c: 'Le travail collaboratif = **partager, coéditer, communiquer** grâce au numérique (souvent via le **cloud**). Il gagne en efficacité mais pose des enjeux de sécurité et de dépendance.' },
+    ]),
+    S('🧠 L’intelligence collective', [
+      { t: 'p', c: 'L’**intelligence collective** est la capacité d’un groupe à produire, ensemble, plus et mieux que la somme des individus. Le numérique la démultiplie en connectant des contributeurs du monde entier.' },
+      { t: 'example', h: 'Illustration — Wikipédia', c: 'Wikipédia est écrite et corrigée par des **millions de contributeurs** bénévoles. Aucun individu ne pourrait produire une telle encyclopédie : c’est l’**intelligence collective**, organisée par des outils numériques et des règles communes.' },
+      { t: 'list', c: [
+        '**Conditions de réussite** : objectif partagé, règles claires, outils adaptés, diversité des contributeurs, modération.',
+        '**Risques** : désinformation, contributions de mauvaise qualité, conflits, besoin de **contrôle** et de **validation**.',
+      ] },
+      { t: 'p', c: 'Pour l’entreprise, l’intelligence collective se traduit par le **crowdsourcing** (faire appel à la foule), les plateformes d’idées internes, les communautés de clients. Bien encadrée, elle stimule l’**innovation**.' },
+      { t: 'tip', h: 'À retenir', c: 'Intelligence collective = le groupe produit **plus que la somme** des individus, grâce au numérique. Elle exige des **règles** et une **modération** pour rester fiable.' },
+    ]),
+    S('🔄 La transformation numérique du travail', [
+      { t: 'p', c: 'Le numérique **transforme** en profondeur l’organisation du travail. De nouvelles formes apparaissent : **télétravail**, flexibilité des horaires et des lieux, automatisation des tâches répétitives, nouveaux métiers.' },
+      { t: 'table', head: ['Opportunités', 'Risques'], rows: [
+        ['Flexibilité, gain de temps', 'Frontière vie pro/perso brouillée'],
+        ['Collaboration à distance', 'Isolement, perte de lien social'],
+        ['Automatisation des tâches pénibles', 'Disparition de certains emplois'],
+        ['Accès à l’information partout', 'Surcharge informationnelle, sécurité'],
+      ] },
+      { t: 'p', c: 'Cette transformation appelle de nouvelles **compétences numériques** et une **conduite du changement** : accompagner les salariés, former, préserver le lien social et le **droit à la déconnexion**. Subie, elle fragilise ; anticipée, elle est une opportunité.' },
+      { t: 'tip', h: 'À retenir', c: 'La transformation numérique offre **flexibilité et efficacité** mais brouille les frontières et exige de nouvelles compétences. Le **droit à la déconnexion** protège l’équilibre des salariés.' },
+    ]),
+    S('💻 Étude de cas guidée — le travail collaboratif', [
+      { t: 'p', c: '**Énoncé.** Une PME dont les équipes sont réparties sur plusieurs sites peine à coordonner ses projets (versions de fichiers multiples, mails perdus). Que proposer ?' },
+      { t: 'example', h: 'Étape 1 — Le problème', c: 'Absence d’outils collaboratifs : fichiers en plusieurs versions, information éparpillée, coordination difficile entre sites distants.' },
+      { t: 'example', h: 'Étape 2 — Solution', c: 'Déployer une **plateforme collaborative** (cloud partagé + coédition + gestion de tâches + visioconférence) : un seul document à jour, un suivi de projet commun, une communication centralisée.' },
+      { t: 'p', c: '**Commentaire.** Les gains : fin des versions multiples, collaboration en temps réel, meilleure coordination. À anticiper : la **formation** des équipes, la **sécurité** des données (cloud) et l’**accompagnement du changement**.' },
+      { t: 'tip', h: 'Méthode', c: 'Repérer le **problème de coordination** → proposer des **outils collaboratifs** adaptés → peser **bénéfices** (temps réel, cohérence) et **limites** (sécurité, formation).' },
+    ]),
+  ],
+
+  // ---- Thème 4 — Réseaux, sécurité et applications ------------------
+  'sig-t4': [
+    S('🌐 Réseaux et architecture', [
+      { t: 'p', c: 'Un **réseau** relie des ordinateurs pour qu’ils **communiquent** et **partagent** des ressources (fichiers, imprimantes, accès internet). Sans réseau, pas de SI moderne, pas de travail collaboratif, pas d’internet.' },
+      { t: 'p', c: 'L’architecture la plus courante est le modèle **client-serveur** : des postes **clients** (ordinateurs, téléphones) envoient des requêtes à un **serveur** (une machine puissante) qui les traite et renvoie les réponses. Internet en est l’exemple géant.' },
+      { t: 'list', c: [
+        '**Client** : demande un service (afficher une page, ouvrir un fichier).',
+        '**Serveur** : fournit le service (héberge le site, la base, les fichiers).',
+        '**Protocole** : les règles communes de communication (HTTP, IP…).',
+      ] },
+      { t: 'tip', h: 'À retenir', c: 'Modèle **client-serveur** : le client **demande**, le serveur **fournit**. Un réseau permet de **partager** ressources et informations — mais élargit aussi la **surface d’attaque**.' },
+    ]),
+    S('🔐 La sécurité du système d’information', [
+      { t: 'p', c: 'Plus le SI est connecté, plus il est **vulnérable**. La sécurité vise trois objectifs, souvent résumés par le triangle **DIC** (ou CIA).' },
+      { t: 'table', head: ['Objectif', 'Signification'], rows: [
+        ['Disponibilité', 'L’information est accessible quand on en a besoin'],
+        ['Intégrité', 'L’information n’est pas altérée ou falsifiée'],
+        ['Confidentialité', 'Seules les personnes autorisées y accèdent'],
+      ] },
+      { t: 'p', c: 'Les **menaces** sont nombreuses : **phishing** (hameçonnage : faux message pour voler des identifiants), **ransomware** (rançongiciel : chiffre les données et exige une rançon), **malwares** (virus), vol de données, pannes. « La faille, c’est souvent l’**humain** » : un clic imprudent suffit.' },
+      { t: 'example', h: 'Illustration', c: 'Un hôpital paralysé par un **ransomware** : ses données sont chiffrées, les soins perturbés. L’attaque a souvent commencé par un simple **e-mail de phishing** ouvert par un employé.' },
+      { t: 'tip', h: 'À retenir', c: 'Sécurité = **Disponibilité + Intégrité + Confidentialité (DIC)**. Menaces phares : **phishing** et **ransomware**. Le maillon faible est souvent **humain**.' },
+    ]),
+    S('🛡️ Se protéger et le cadre légal (RGPD)', [
+      { t: 'p', c: 'Face aux menaces, l’organisation met en place des **mesures de protection** techniques et humaines. Aucune n’est suffisante seule : c’est leur **combinaison** qui protège.' },
+      { t: 'list', c: [
+        '**Mots de passe forts** et authentification à deux facteurs.',
+        '**Sauvegardes régulières** (pour restaurer après une attaque ou une panne).',
+        '**Pare-feu** et **antivirus** à jour.',
+        '**Mises à jour** des logiciels (corriger les failles).',
+        '**Sensibilisation** des utilisateurs (reconnaître un phishing).',
+        '**Gestion des droits d’accès** (chacun n’accède qu’à ce qui le concerne).',
+      ] },
+      { t: 'p', c: 'Le **RGPD (Règlement Général sur la Protection des Données)** encadre le traitement des **données personnelles** en Europe. Il impose : le **consentement**, la **finalité** (n’utiliser les données que dans le but annoncé), la **minimisation** (ne collecter que le nécessaire), la **sécurité**, et les **droits** des personnes (accès, rectification, effacement). Son non-respect expose à de lourdes **sanctions**.' },
+      { t: 'tip', h: 'À retenir', c: 'Se protéger = **combiner** sauvegardes, mots de passe, pare-feu, mises à jour et **sensibilisation**. Le **RGPD** impose consentement, finalité, minimisation, sécurité et droits des personnes.' },
+    ]),
+    S('💻 Étude de cas guidée — sécuriser le SI', [
+      { t: 'p', c: '**Énoncé.** Une entreprise a subi une attaque : un salarié a cliqué sur un lien frauduleux, des données ont été chiffrées et une rançon est réclamée. Analysez et proposez un plan de prévention.' },
+      { t: 'example', h: 'Étape 1 — Identifier l’attaque', c: 'Un **ransomware**, déclenché par un **phishing** (le lien frauduleux). Les objectifs de sécurité touchés : **disponibilité** (données inaccessibles) et potentiellement **confidentialité**.' },
+      { t: 'example', h: 'Étape 2 — Réagir', c: 'Isoler les machines infectées, ne pas payer la rançon (aucune garantie), **restaurer** à partir des **sauvegardes**, prévenir la CNIL si des données personnelles sont concernées (RGPD).' },
+      { t: 'p', c: '**Étape 3 — Prévention.** Sauvegardes régulières et **hors ligne**, mises à jour, pare-feu/antivirus, mots de passe forts, gestion des droits, et surtout **sensibilisation** des salariés au phishing. **Commentaire** : la meilleure défense combine **technique** et **humain**, car la faille initiale est presque toujours humaine.' },
+      { t: 'tip', h: 'Méthode', c: 'Identifier l’**attaque** et l’objectif DIC touché → **réagir** (isoler, restaurer, alerter) → **prévenir** par des mesures combinées (technique + humaine).' },
     ]),
   ],
 }
