@@ -36,9 +36,11 @@ export default function Welcome() {
   const parentMode = location.pathname.startsWith('/parent') || (!state.track && !state.profile?.firstName && (() => { try { return !!localStorage.getItem('stmg_parent_link') } catch { return false } })())
 
   const hasProfile = !!state.profile?.firstName
-  // Le « Bienvenue » ne s'affiche qu'après la CRÉATION du compte : à la
-  // reconnexion ou à la réouverture de l'app, on entre directement.
-  const initialPhase = !hasProfile ? 'form' : (!state.onboarded && state.track ? 'plan' : 'done')
+  // Écran d'accueil : « form » si aucun compte, « plan » si le compte existe
+  // mais que l'onboarding n'est pas fini, sinon « hello » — le « Bienvenue »
+  // s'affiche donc AUSSI au lancement du site (réouverture) pour un élève déjà
+  // inscrit, avant de révéler l'application.
+  const initialPhase = !hasProfile ? 'form' : (!state.onboarded && state.track ? 'plan' : 'hello')
   const [phase, setPhase] = useState(initialPhase) // 'form' | 'plan' | 'hello' | 'done'
   const [leaving, setLeaving] = useState(false)
 
