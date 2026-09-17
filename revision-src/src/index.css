@@ -187,6 +187,13 @@
   .animate-lux { animation-duration: 0.01ms; }
 }
 
+/* Lecteur « feuille » : texte plus grand et plus aéré en plein écran. */
+.reader-full { animation: lux-enter 0.28s ease both; }
+.reader-full p { font-size: 1.05rem; line-height: 1.8; }
+.reader-full li { font-size: 1.03rem; line-height: 1.75; }
+.reader-full table { font-size: 0.98rem; }
+.reader-full .formula { font-size: 1.1rem; }
+
 /* ---------------------------------------------------------------------------
    Transitions & micro-interactions : une animation à chaque navigation, un
    retour tactile net sur les éléments cliquables, et une fluidité optimale

@@ -118,10 +118,24 @@ function sectionToBlocks(sec) {
   return out.length ? out : [{ t: 'p', c: '' }]
 }
 
-// Découpe les blocs en « pages » de lecture (2 à 3 blocs légers, ou 1 bloc lourd),
-// pour un cours aéré, lu page par page plutôt qu'en un seul long défilement.
+// Découpe les blocs en « pages » de lecture (une à deux idées par feuille),
+// pour un cours aéré, lu feuille par feuille plutôt qu'en un seul long défilement.
 const BLOCK_WEIGHT = { p: 1, list: 1.4, example: 1.5, tip: 1.4, warning: 1.4, table: 2.2, figure: 2.2, frise: 2.2, formula: 1 }
-function paginateBlocks(blocks, max = 2.4) {
+// Répartit un tableau en k lots aussi équilibrés que possible.
+function splitEven(arr, k) {
+  const out = []
+  let start = 0
+  for (let i = 0; i < k; i++) {
+    const size = Math.ceil((arr.length - start) / (k - i))
+    out.push(arr.slice(start, start + size))
+    start += size
+  }
+  return out.filter((g) => g.length)
+}
+// Pagination : d'abord un découpage « au poids » (feuilles aérées) ; si le
+// chapitre est assez fourni mais tient sur moins de `minPages` feuilles, on le
+// répartit équitablement pour garantir un minimum de feuilles (≈ 5).
+function paginateBlocks(blocks, max = 2, minPages = 5) {
   const pages = []
   let cur = []
   let w = 0
@@ -132,6 +146,9 @@ function paginateBlocks(blocks, max = 2.4) {
     w += bw
   }
   if (cur.length) pages.push(cur)
+  if (pages.length < minPages && blocks.length >= minPages) {
+    return splitEven(blocks, Math.min(minPages, blocks.length))
+  }
   return pages.length ? pages : [[]]
 }
 
@@ -143,65 +160,119 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
   // Pages recalculées à chaque changement de section (nouveau chapitre).
   const [list, setList] = useState(() => paginateBlocks(sectionToBlocks(sec)))
   const [page, setPage] = useState(0)
+  const [full, setFull] = useState(false) // lecture plein écran « feuille »
   const bodyRef = useRef(null)
+  const fullRef = useRef(null)
   useEffect(() => { setList(paginateBlocks(sectionToBlocks(sec))); setPage(0) }, [sec])
   const last = list.length - 1
-  const toTop = () => { try { window.scrollTo({ top: 0, behavior: 'smooth' }) } catch { window.scrollTo(0, 0) } }
-  const goPrev = () => { if (page > 0) { setPage(page - 1); toTop() } else onPrev?.() }
-  const goNext = () => { if (page < last) { setPage(page + 1); toTop() } else onNext?.() }
+  const toTop = (ref) => { try { (ref?.current || window).scrollTo({ top: 0, behavior: 'smooth' }) } catch { (ref?.current || window).scrollTo(0, 0) } }
+  const goPrev = () => { if (page > 0) { setPage(page - 1); toTop(full ? fullRef : null) } else { setFull(false); onPrev?.() } }
+  const goNext = () => { if (page < last) { setPage(page + 1); toTop(full ? fullRef : null) } else { setFull(false); onNext?.() } }
   const atStart = page === 0 && !onPrev
   const endCaption = page === last && onNext ? nextLabel : null
 
+  // Verrou du défilement de l'app quand la feuille est en plein écran.
+  useEffect(() => {
+    if (!full) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => { if (e.key === 'Escape') setFull(false); if (e.key === 'ArrowRight') goNext(); if (e.key === 'ArrowLeft') goPrev() }
+    window.addEventListener('keydown', onKey)
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
+  })
+
+  // Barre de pagination (réutilisée en vue normale et en plein écran).
+  const pager = (
+    <div className="no-print flex items-center justify-between gap-3">
+      <button
+        onClick={goPrev}
+        disabled={atStart}
+        aria-label={t('previous')}
+        className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-slate-200 bg-white text-xl text-slate-500 shadow-sm transition hover:bg-slate-50 disabled:opacity-30 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+      >
+        ‹
+      </button>
+      <div className="flex flex-col items-center gap-1.5">
+        <div className="flex flex-wrap items-center justify-center gap-1.5">
+          {list.map((_, k) => (
+            <span
+              key={k}
+              onClick={() => setPage(k)}
+              className="h-1.5 cursor-pointer rounded-full transition-all"
+              style={{ width: k === page ? 22 : 6, backgroundColor: k === page ? color : 'color-mix(in srgb, currentColor 22%, transparent)' }}
+              aria-hidden
+            />
+          ))}
+        </div>
+        <span className="text-[11px] font-medium text-slate-400">
+          {endCaption || `${t('pageWord')} ${page + 1} / ${list.length}`}
+        </span>
+      </div>
+      <button
+        onClick={goNext}
+        aria-label={page === last ? (nextLabel || t('nextChapter')) : t('next')}
+        className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-xl text-white shadow-md transition hover:brightness-110"
+        style={{ backgroundColor: color }}
+      >
+        ›
+      </button>
+    </div>
+  )
+
   return (
     <section className="reader">
-      <div className="card relative overflow-hidden !rounded-[1.75rem] p-6 sm:p-8" style={{ boxShadow: '0 20px 50px -30px rgba(0,0,0,.35)' }}>
+      {/* Feuille (vue normale) — grande, façon page A4, on appuie pour l'ouvrir en plein écran */}
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setFull(true)}
+        onKeyDown={(e) => { if (e.key === 'Enter') setFull(true) }}
+        className="reader-sheet card relative flex min-h-[62vh] cursor-zoom-in flex-col overflow-hidden !rounded-[1.75rem] p-6 sm:p-9"
+        style={{ boxShadow: '0 24px 60px -34px rgba(0,0,0,.4)' }}
+        aria-label={t('tapToOpen')}
+      >
         <span className="pointer-events-none absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }} aria-hidden />
-        <ReadAloud getText={() => bodyRef.current?.innerText || ''} className="no-print absolute right-4 top-4" />
-        <div ref={bodyRef}>
+        <div className="no-print absolute right-4 top-4" onClick={(e) => e.stopPropagation()}>
+          <ReadAloud getText={() => bodyRef.current?.innerText || ''} />
+        </div>
+        <div ref={bodyRef} className="flex-1">
           {list.map((pg, k) => (
-            <div key={k} className={`${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-5`}>
+            <div key={k} className={`${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-6`}>
               {pg.map((b, j) => <Block key={j} b={b} color={color} />)}
             </div>
           ))}
         </div>
+        <span className="no-print mt-4 flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-400">⤢ {t('tapToOpen')}</span>
       </div>
 
-      {/* Pagination élégante */}
-      <div className="no-print mt-5 flex items-center justify-between gap-3">
-        <button
-          onClick={goPrev}
-          disabled={atStart}
-          aria-label={t('previous')}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-slate-200 bg-white text-lg text-slate-500 shadow-sm transition hover:bg-slate-50 disabled:opacity-30 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
-        >
-          ‹
-        </button>
-        <div className="flex flex-col items-center gap-1.5">
-          <div className="flex items-center gap-1.5">
-            {list.map((_, k) => (
-              <span
-                key={k}
-                className="h-1.5 rounded-full transition-all"
-                style={{ width: k === page ? 22 : 6, backgroundColor: k === page ? color : 'color-mix(in srgb, currentColor 22%, transparent)' }}
-                aria-hidden
-              />
-            ))}
-          </div>
-          <span className="text-[11px] font-medium text-slate-400">
-            {endCaption || `${t('pageWord')} ${page + 1} / ${list.length}`}
-          </span>
-        </div>
-        <button
-          onClick={goNext}
-          aria-label={page === last ? (nextLabel || t('nextChapter')) : t('next')}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-lg text-white shadow-md transition hover:brightness-110"
-          style={{ backgroundColor: color }}
-        >
-          ›
-        </button>
-      </div>
+      <div className="mt-5">{pager}</div>
       {prevLabel && page === 0 && onPrev && (
         <p className="no-print mt-2 text-center text-[11px] text-slate-400">‹ {prevLabel}</p>
+      )}
+
+      {/* Lecture plein écran : la feuille remplit l'écran */}
+      {full && (
+        <div className="reader-full no-print fixed inset-0 z-[80] flex flex-col bg-slate-200/95 backdrop-blur-sm dark:bg-slate-950/95" role="dialog" aria-modal="true">
+          <div className="flex items-center justify-between px-4 py-3">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{endCaption || `${t('pageWord')} ${page + 1} / ${list.length}`}</span>
+            <button
+              onClick={() => setFull(false)}
+              aria-label={t('close')}
+              className="grid h-10 w-10 place-items-center rounded-full border border-slate-300 bg-white text-lg text-slate-600 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+            >
+              ✕
+            </button>
+          </div>
+          <div ref={fullRef} className="flex-1 overflow-y-auto px-3 pb-4 sm:px-6">
+            <div className="reader-sheet mx-auto w-full max-w-[760px] rounded-[1.5rem] bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-12" style={{ minHeight: 'calc(100% - 0.5rem)' }}>
+              <span className="pointer-events-none mb-6 block h-1 w-16 rounded-full" style={{ background: color }} aria-hidden />
+              <div className="animate-lux space-y-7 text-[1.06rem] leading-relaxed">
+                {(list[page] || []).map((b, j) => <Block key={j} b={b} color={color} />)}
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-slate-300/60 px-4 py-3 dark:border-slate-800">{pager}</div>
+        </div>
       )}
     </section>
   )
