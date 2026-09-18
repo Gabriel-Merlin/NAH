@@ -118,24 +118,10 @@ function sectionToBlocks(sec) {
   return out.length ? out : [{ t: 'p', c: '' }]
 }
 
-// Découpe les blocs en « pages » de lecture (une à deux idées par feuille),
-// pour un cours aéré, lu feuille par feuille plutôt qu'en un seul long défilement.
+// Découpe les blocs en « pages » de lecture BIEN REMPLIES (plusieurs blocs par
+// feuille), pour un cours aéré mais jamais vide, lu feuille par feuille.
 const BLOCK_WEIGHT = { p: 1, list: 1.4, example: 1.5, tip: 1.4, warning: 1.4, table: 2.2, figure: 2.2, frise: 2.2, formula: 1 }
-// Répartit un tableau en k lots aussi équilibrés que possible.
-function splitEven(arr, k) {
-  const out = []
-  let start = 0
-  for (let i = 0; i < k; i++) {
-    const size = Math.ceil((arr.length - start) / (k - i))
-    out.push(arr.slice(start, start + size))
-    start += size
-  }
-  return out.filter((g) => g.length)
-}
-// Pagination : d'abord un découpage « au poids » (feuilles aérées) ; si le
-// chapitre est assez fourni mais tient sur moins de `minPages` feuilles, on le
-// répartit équitablement pour garantir un minimum de feuilles (≈ 5).
-function paginateBlocks(blocks, max = 2, minPages = 5) {
+function paginateBlocks(blocks, max = 3.6) {
   const pages = []
   let cur = []
   let w = 0
@@ -146,8 +132,11 @@ function paginateBlocks(blocks, max = 2, minPages = 5) {
     w += bw
   }
   if (cur.length) pages.push(cur)
-  if (pages.length < minPages && blocks.length >= minPages) {
-    return splitEven(blocks, Math.min(minPages, blocks.length))
+  // Éviter une dernière feuille trop maigre : on la fusionne avec la précédente.
+  if (pages.length > 1) {
+    const lastPage = pages[pages.length - 1]
+    const lw = lastPage.reduce((s, b) => s + (BLOCK_WEIGHT[b.t] || 1), 0)
+    if (lw <= 1.2) { pages[pages.length - 2] = pages[pages.length - 2].concat(lastPage); pages.pop() }
   }
   return pages.length ? pages : [[]]
 }
@@ -227,7 +216,7 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
         tabIndex={0}
         onClick={() => setFull(true)}
         onKeyDown={(e) => { if (e.key === 'Enter') setFull(true) }}
-        className="reader-sheet card relative flex min-h-[62vh] cursor-zoom-in flex-col overflow-hidden !rounded-[1.75rem] p-6 sm:p-9"
+        className="reader-sheet card relative cursor-zoom-in overflow-hidden !rounded-[1.75rem] p-6 sm:p-8"
         style={{ boxShadow: '0 24px 60px -34px rgba(0,0,0,.4)' }}
         aria-label={t('tapToOpen')}
       >
@@ -235,14 +224,14 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
         <div className="no-print absolute right-4 top-4" onClick={(e) => e.stopPropagation()}>
           <ReadAloud getText={() => bodyRef.current?.innerText || ''} />
         </div>
-        <div ref={bodyRef} className="flex-1">
+        <div ref={bodyRef}>
           {list.map((pg, k) => (
-            <div key={k} className={`${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-6`}>
+            <div key={k} className={`${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-5`}>
               {pg.map((b, j) => <Block key={j} b={b} color={color} />)}
             </div>
           ))}
         </div>
-        <span className="no-print mt-4 flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-400">⤢ {t('tapToOpen')}</span>
+        <span className="no-print mt-5 flex items-center justify-center gap-1.5 border-t border-slate-100 pt-4 text-[11px] font-medium text-slate-400 dark:border-slate-800">⤢ {t('tapToOpen')}</span>
       </div>
 
       <div className="mt-5">{pager}</div>
@@ -263,10 +252,10 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
               ✕
             </button>
           </div>
-          <div ref={fullRef} className="flex-1 overflow-y-auto px-3 pb-4 sm:px-6">
-            <div className="reader-sheet mx-auto w-full max-w-[760px] rounded-[1.5rem] bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-12" style={{ minHeight: 'calc(100% - 0.5rem)' }}>
+          <div ref={fullRef} className="flex-1 overflow-y-auto px-3 pb-6 sm:px-6">
+            <div className="reader-sheet mx-auto my-2 w-full max-w-[760px] rounded-[1.5rem] bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-12">
               <span className="pointer-events-none mb-6 block h-1 w-16 rounded-full" style={{ background: color }} aria-hidden />
-              <div className="animate-lux space-y-7 text-[1.06rem] leading-relaxed">
+              <div className="animate-lux space-y-6 text-[1.06rem] leading-relaxed">
                 {(list[page] || []).map((b, j) => <Block key={j} b={b} color={color} />)}
               </div>
             </div>
