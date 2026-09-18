@@ -6,6 +6,7 @@
 // Les briques (Intro, CourseSection, Essentiel, Resources, Block) sont
 // exportées pour être réutilisées par les pages Thème et Chapitre.
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Rich } from './ui.jsx'
 import Infographic from './Infographic.jsx'
 import { useLang, useAutoTranslate, useT } from '../i18n.js'
@@ -118,30 +119,29 @@ function sectionToBlocks(sec) {
   return out.length ? out : [{ t: 'p', c: '' }]
 }
 
-// Découpe les blocs en « pages » de lecture. Objectif : un cours long se lit sur
-// PLUSIEURS feuilles (visées : 5 à 8 par chapitre), chacune ajustée à son
-// contenu (le lecteur n'impose plus de hauteur, donc aucune feuille n'est vide).
+// Découpe les blocs en « feuilles » BIEN REMPLIES : ~3 blocs par feuille, de sorte
+// que chaque feuille soit pleine. La feuille s'ajuste ensuite exactement à son
+// contenu (le lecteur n'impose pas de hauteur), donc aucun espace vide en bas.
 const BLOCK_WEIGHT = { p: 1, list: 1.4, example: 1.5, tip: 1.4, warning: 1.4, table: 2.2, figure: 2.2, frise: 2.2, formula: 1 }
-// Répartit un tableau en k lots aussi équilibrés que possible (par nombre de blocs).
-function splitEven(arr, k) {
-  const out = []
-  let start = 0
-  for (let i = 0; i < k; i++) {
-    const size = Math.ceil((arr.length - start) / (k - i))
-    out.push(arr.slice(start, start + size))
-    start += size
+function paginateBlocks(blocks, max = 3.6) {
+  const pages = []
+  let cur = []
+  let w = 0
+  for (const b of blocks) {
+    const bw = BLOCK_WEIGHT[b.t] || 1
+    if (cur.length && w + bw > max) { pages.push(cur); cur = []; w = 0 }
+    cur.push(b)
+    w += bw
   }
-  return out.filter((g) => g.length)
-}
-function paginateBlocks(blocks, minPages = 5, maxPages = 8) {
-  const n = blocks.length
-  if (n <= 1) return [blocks.length ? blocks : []]
-  // Une idée par feuille : on vise 5 à 8 feuilles par chapitre. Dès qu'un chapitre
-  // a au moins 5 blocs, il se lit sur 5 à 8 feuilles ; on ne demande jamais plus
-  // de feuilles qu'il n'y a de blocs (donc aucune feuille vide).
-  let target = Math.min(maxPages, Math.max(minPages, n))
-  target = Math.min(target, n)
-  return splitEven(blocks, target)
+  if (cur.length) pages.push(cur)
+  // Fusionne une dernière feuille trop maigre avec la précédente (jamais de feuille
+  // presque vide en fin de chapitre).
+  if (pages.length > 1) {
+    const lp = pages[pages.length - 1]
+    const lw = lp.reduce((s, b) => s + (BLOCK_WEIGHT[b.t] || 1), 0)
+    if (lw <= 1.4) { pages[pages.length - 2] = pages[pages.length - 2].concat(lp); pages.pop() }
+  }
+  return pages.length ? pages : [[]]
 }
 
 // Lecteur de cours paginé, épuré et « luxueux » : une poignée de blocs par page,
@@ -171,7 +171,14 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
     const onKey = (e) => { if (e.key === 'Escape') setFull(false); if (e.key === 'ArrowRight') goNext(); if (e.key === 'ArrowLeft') goPrev() }
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [full, page])
+
+  // À l'ouverture du plein écran (et à chaque changement de feuille), on affiche
+  // toujours le HAUT de la feuille (corrige le haut coupé).
+  useEffect(() => {
+    if (full && fullRef.current) fullRef.current.scrollTop = 0
+  }, [full, page])
 
   // Barre de pagination (réutilisée en vue normale et en plein écran).
   const pager = (
@@ -224,7 +231,7 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
         tabIndex={0}
         onClick={() => setFull(true)}
         onKeyDown={(e) => { if (e.key === 'Enter') setFull(true) }}
-        className="reader-a4 reader-sheet card relative flex min-h-[64vh] cursor-zoom-in flex-col overflow-hidden !rounded-2xl p-6 sm:p-10"
+        className="reader-a4 reader-sheet card relative cursor-zoom-in overflow-hidden !rounded-2xl p-6 sm:p-9"
         style={{ boxShadow: '0 24px 60px -34px rgba(0,0,0,.4)' }}
         aria-label={t('tapToOpen')}
       >
@@ -232,7 +239,7 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
         <div className="no-print absolute right-4 top-4" onClick={(e) => e.stopPropagation()}>
           <ReadAloud getText={() => bodyRef.current?.innerText || ''} />
         </div>
-        <div ref={bodyRef} className="flex-1">
+        <div ref={bodyRef}>
           {list.map((pg, k) => (
             <div key={k} className={`reader-print-page ${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-5`}>
               {pg.map((b, j) => <Block key={j} b={b} color={color} />)}
@@ -250,8 +257,10 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
         <p className="no-print mt-2 text-center text-[11px] text-slate-400">‹ {prevLabel}</p>
       )}
 
-      {/* Lecture plein écran : la feuille remplit l'écran */}
-      {full && (
+      {/* Lecture plein écran : la feuille remplit l'écran. Rendue dans <body> via un
+          portail pour rester au-dessus de tout (aucun ancêtre transformé ne peut
+          décaler le « fixed » : corrige le haut de la feuille coupé). */}
+      {full && createPortal((
         <div className="reader-full no-print fixed inset-0 z-[80] flex flex-col bg-slate-200/95 backdrop-blur-sm dark:bg-slate-950/95" role="dialog" aria-modal="true">
           <div className="flex items-center justify-between px-4 py-3">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{endCaption || `${t('pageWord')} ${page + 1} / ${list.length}`}</span>
@@ -263,10 +272,10 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
               ✕
             </button>
           </div>
-          <div ref={fullRef} className="flex-1 overflow-y-auto px-3 pb-6 sm:px-6">
-            <div className="reader-a4-full mx-auto my-2 flex w-full max-w-[720px] flex-col rounded-xl bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-14" style={{ minHeight: 'min(72vh, calc(720px * 1.414))' }}>
+          <div ref={fullRef} className="flex-1 overflow-y-auto px-3 pb-6 pt-1 sm:px-6">
+            <div className="reader-a4-full mx-auto my-2 w-full max-w-[720px] rounded-xl bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-12">
               <span className="pointer-events-none mb-6 block h-1 w-16 rounded-full" style={{ background: color }} aria-hidden />
-              <div className="animate-lux flex-1 space-y-6 text-[1.06rem] leading-relaxed">
+              <div className="animate-lux space-y-6 text-[1.06rem] leading-relaxed">
                 {(list[page] || []).map((b, j) => <Block key={j} b={b} color={color} />)}
               </div>
               <div className="mt-8 border-t border-slate-200 pt-3 text-right text-[11px] font-medium text-slate-400 dark:border-slate-700">{t('pageWord')} {page + 1} / {list.length}</div>
@@ -274,7 +283,7 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
           </div>
           <div className="border-t border-slate-300/60 px-4 py-3 dark:border-slate-800">{pager}</div>
         </div>
-      )}
+      ), document.body)}
     </section>
   )
 }
