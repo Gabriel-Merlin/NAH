@@ -695,3 +695,41 @@ html.dark .frise-label { color: #d4ccbd; }
   .frise { border-color: #d8cbae; background: #fffdf8 !important; }
   .frise-item { break-inside: avoid; page-break-inside: avoid; }
 }
+
+/* ---------------------------------------------------------------------------
+   Impression / PDF sur de vraies feuilles A4 : chaque « feuille » du lecteur
+   de cours s'imprime sur une page A4 dédiée, en papier blanc bien lisible.
+--------------------------------------------------------------------------- */
+@page {
+  size: A4 portrait;
+  margin: 16mm 15mm;
+}
+@media print {
+  /* La feuille A4 à l'écran redevient une page papier simple à l'impression. */
+  .reader-a4 {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+  .reader-a4 > span[aria-hidden] { display: none !important; }
+  /* Chaque page de cours occupe sa propre feuille A4. */
+  .reader-print-page {
+    display: block !important;
+    break-after: page;
+    page-break-after: always;
+    break-inside: avoid-page;
+  }
+  .reader-print-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  /* Texte plus grand et confortable sur le papier. */
+  .reader-print-page p,
+  .reader-print-page li { font-size: 12.5pt; line-height: 1.6; }
+  .reader-print-page table { font-size: 11.5pt; width: 100%; }
+  .reader-print-page .formula { font-size: 13pt; }
+  .reader-a4 .space-y-5 > * + * { margin-top: 14px; }
+}

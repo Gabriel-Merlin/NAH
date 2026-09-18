@@ -213,13 +213,18 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
 
   return (
     <section className="reader">
-      {/* Feuille (vue normale) — grande, façon page A4, on appuie pour l'ouvrir en plein écran */}
+      {/* En-tête imprimé (visible uniquement à l'impression, en haut de chaque fiche) */}
+      <div className="print-only print-header" style={{ display: 'none' }}>
+        <div className="print-title"><CourseText text={sec.h || ''} /></div>
+      </div>
+
+      {/* Feuille A4 (vue normale) — grande page « papier », on appuie pour l'ouvrir en plein écran */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => setFull(true)}
         onKeyDown={(e) => { if (e.key === 'Enter') setFull(true) }}
-        className="reader-sheet card relative cursor-zoom-in overflow-hidden !rounded-[1.75rem] p-6 sm:p-8"
+        className="reader-a4 reader-sheet card relative flex min-h-[64vh] cursor-zoom-in flex-col overflow-hidden !rounded-2xl p-6 sm:p-10"
         style={{ boxShadow: '0 24px 60px -34px rgba(0,0,0,.4)' }}
         aria-label={t('tapToOpen')}
       >
@@ -227,14 +232,17 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
         <div className="no-print absolute right-4 top-4" onClick={(e) => e.stopPropagation()}>
           <ReadAloud getText={() => bodyRef.current?.innerText || ''} />
         </div>
-        <div ref={bodyRef}>
+        <div ref={bodyRef} className="flex-1">
           {list.map((pg, k) => (
-            <div key={k} className={`${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-5`}>
+            <div key={k} className={`reader-print-page ${page === k ? 'block animate-lux' : 'hidden'} print-show space-y-5`}>
               {pg.map((b, j) => <Block key={j} b={b} color={color} />)}
             </div>
           ))}
         </div>
-        <span className="no-print mt-5 flex items-center justify-center gap-1.5 border-t border-slate-100 pt-4 text-[11px] font-medium text-slate-400 dark:border-slate-800">⤢ {t('tapToOpen')}</span>
+        <div className="no-print mt-6 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 text-[11px] font-medium text-slate-400 dark:border-slate-800">
+          <span className="flex items-center gap-1">⤢ {t('tapToOpen')}</span>
+          <span>{t('pageWord')} {page + 1} / {list.length}</span>
+        </div>
       </div>
 
       <div className="mt-5">{pager}</div>
@@ -256,11 +264,12 @@ export function PaginatedCourse({ sec, color, prevLabel, nextLabel, onPrev, onNe
             </button>
           </div>
           <div ref={fullRef} className="flex-1 overflow-y-auto px-3 pb-6 sm:px-6">
-            <div className="reader-sheet mx-auto my-2 w-full max-w-[760px] rounded-[1.5rem] bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-12">
+            <div className="reader-a4-full mx-auto my-2 flex w-full max-w-[720px] flex-col rounded-xl bg-white p-6 shadow-2xl dark:bg-slate-900 sm:p-14" style={{ minHeight: 'min(72vh, calc(720px * 1.414))' }}>
               <span className="pointer-events-none mb-6 block h-1 w-16 rounded-full" style={{ background: color }} aria-hidden />
-              <div className="animate-lux space-y-6 text-[1.06rem] leading-relaxed">
+              <div className="animate-lux flex-1 space-y-6 text-[1.06rem] leading-relaxed">
                 {(list[page] || []).map((b, j) => <Block key={j} b={b} color={color} />)}
               </div>
+              <div className="mt-8 border-t border-slate-200 pt-3 text-right text-[11px] font-medium text-slate-400 dark:border-slate-700">{t('pageWord')} {page + 1} / {list.length}</div>
             </div>
           </div>
           <div className="border-t border-slate-300/60 px-4 py-3 dark:border-slate-800">{pager}</div>
