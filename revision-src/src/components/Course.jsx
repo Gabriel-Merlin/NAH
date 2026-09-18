@@ -118,27 +118,30 @@ function sectionToBlocks(sec) {
   return out.length ? out : [{ t: 'p', c: '' }]
 }
 
-// Découpe les blocs en « pages » de lecture BIEN REMPLIES (plusieurs blocs par
-// feuille), pour un cours aéré mais jamais vide, lu feuille par feuille.
+// Découpe les blocs en « pages » de lecture. Objectif : un cours long se lit sur
+// PLUSIEURS feuilles (visées : 5 à 8 par chapitre), chacune ajustée à son
+// contenu (le lecteur n'impose plus de hauteur, donc aucune feuille n'est vide).
 const BLOCK_WEIGHT = { p: 1, list: 1.4, example: 1.5, tip: 1.4, warning: 1.4, table: 2.2, figure: 2.2, frise: 2.2, formula: 1 }
-function paginateBlocks(blocks, max = 3.6) {
-  const pages = []
-  let cur = []
-  let w = 0
-  for (const b of blocks) {
-    const bw = BLOCK_WEIGHT[b.t] || 1
-    if (cur.length && w + bw > max) { pages.push(cur); cur = []; w = 0 }
-    cur.push(b)
-    w += bw
+// Répartit un tableau en k lots aussi équilibrés que possible (par nombre de blocs).
+function splitEven(arr, k) {
+  const out = []
+  let start = 0
+  for (let i = 0; i < k; i++) {
+    const size = Math.ceil((arr.length - start) / (k - i))
+    out.push(arr.slice(start, start + size))
+    start += size
   }
-  if (cur.length) pages.push(cur)
-  // Éviter une dernière feuille trop maigre : on la fusionne avec la précédente.
-  if (pages.length > 1) {
-    const lastPage = pages[pages.length - 1]
-    const lw = lastPage.reduce((s, b) => s + (BLOCK_WEIGHT[b.t] || 1), 0)
-    if (lw <= 1.2) { pages[pages.length - 2] = pages[pages.length - 2].concat(lastPage); pages.pop() }
-  }
-  return pages.length ? pages : [[]]
+  return out.filter((g) => g.length)
+}
+function paginateBlocks(blocks, minPages = 5, maxPages = 8) {
+  const n = blocks.length
+  if (n <= 1) return [blocks.length ? blocks : []]
+  // Une idée par feuille : on vise 5 à 8 feuilles par chapitre. Dès qu'un chapitre
+  // a au moins 5 blocs, il se lit sur 5 à 8 feuilles ; on ne demande jamais plus
+  // de feuilles qu'il n'y a de blocs (donc aucune feuille vide).
+  let target = Math.min(maxPages, Math.max(minPages, n))
+  target = Math.min(target, n)
+  return splitEven(blocks, target)
 }
 
 // Lecteur de cours paginé, épuré et « luxueux » : une poignée de blocs par page,
