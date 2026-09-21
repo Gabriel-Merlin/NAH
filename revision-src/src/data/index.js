@@ -26,6 +26,7 @@ import { APPROF } from './approfondir.js'
 import { APPROF2 } from './approfondir2.js'
 import { APPROF3 } from './approfondir3.js'
 import { APPROF4 } from './approfondir4.js'
+import { SICSI } from './sicsi.js'
 
 export const SUBJECTS = [
   gestion,
@@ -122,6 +123,10 @@ for (const s of SUBJECTS) {
     if (appr3?.length) c.cours = [...(c.cours || []), ...appr3.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
     const appr4 = APPROF4[c.id]
     if (appr4?.length) c.cours = [...(c.cours || []), ...appr4.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
+    // SIC & SI : chapitres du programme rattachés à la catégorie principale
+    // « 📘 Le cours » (pas de « group » → première catégorie, ouverte).
+    const sicsi = SICSI[c.id]
+    if (sicsi?.length) c.cours = [...(c.cours || []), ...sicsi]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
