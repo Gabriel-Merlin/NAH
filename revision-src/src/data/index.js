@@ -25,6 +25,7 @@ import { PHILO_LONG } from './philocours.js'
 import { APPROF } from './approfondir.js'
 import { APPROF2 } from './approfondir2.js'
 import { APPROF3 } from './approfondir3.js'
+import { APPROF4 } from './approfondir4.js'
 
 export const SUBJECTS = [
   gestion,
@@ -119,6 +120,8 @@ for (const s of SUBJECTS) {
     if (appr2?.length) c.cours = [...(c.cours || []), ...appr2.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
     const appr3 = APPROF3[c.id]
     if (appr3?.length) c.cours = [...(c.cours || []), ...appr3.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
+    const appr4 = APPROF4[c.id]
+    if (appr4?.length) c.cours = [...(c.cours || []), ...appr4.map((s) => ({ ...s, group: courseGroupOf(s.h) }))]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
