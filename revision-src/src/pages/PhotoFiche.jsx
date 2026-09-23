@@ -3,6 +3,7 @@ import { Navigate, Link } from 'react-router-dom'
 import { useStore, useStudyTimer } from '../store.jsx'
 import { buildFiche } from '../data/ficheAI.js'
 import { ocrImages, cleanOcrText } from '../ocr.js'
+import { analyzeWithVision } from '../ficheVision.js'
 import { useT } from '../i18n.js'
 
 // Petit titre de section de fiche.
@@ -74,6 +75,7 @@ export default function PhotoFiche() {
   const [rawText, setRawText] = useState('')
   const [title, setTitle] = useState('')
   const [ocr, setOcr] = useState({ status: 'idle', progress: 0, msg: '' })
+  const [ai, setAi] = useState({ status: 'idle', msg: '' })
   const [fiche, setFiche] = useState(null)
   const [msg, setMsg] = useState('')
   const [openId, setOpenId] = useState(null)
@@ -114,6 +116,30 @@ export default function PhotoFiche() {
     setFiche(f); setMsg(''); setOpenId(null)
   }
 
+  // Analyse IA (vision) : lit la photo côté serveur (Claude) — gère tableaux,
+  // petit texte, manuscrit. Retombe sur l'OCR si non configurée.
+  const runVision = async () => {
+    if (!photos.length) return
+    setAi({ status: 'running', msg: '' }); setMsg(''); setOpenId(null)
+    try {
+      const f = await analyzeWithVision(photos.map((p) => p.file))
+      const flashcards = (f.definitions || []).map((d) => ({ front: d.term, back: d.def }))
+      const has = (f.questions?.length || f.keyInfo?.length || f.definitions?.length)
+      setFiche({ title: (f.title || title || 'Ma fiche de révision'), empty: !has, questions: f.questions || [], keyInfo: f.keyInfo || [], definitions: f.definitions || [], flashcards })
+      setAi({ status: 'done', msg: '' })
+    } catch (e) {
+      const code = e?.code
+      setAi({
+        status: 'error',
+        msg: code === 'not_configured'
+          ? 'L’analyse IA n’est pas encore activée sur le serveur. Utilise la lecture classique ci-dessous (ou active-la, voir la doc).'
+          : code === 'network'
+            ? 'Connexion impossible. Vérifie ta connexion, ou utilise la lecture classique ci-dessous.'
+            : 'L’analyse IA a échoué cette fois. Utilise la lecture classique ci-dessous.',
+      })
+    }
+  }
+
   const doSave = () => {
     if (!fiche || fiche.empty) return
     const id = 'fiche-' + Date.now()
@@ -134,7 +160,7 @@ export default function PhotoFiche() {
 
   const reset = () => {
     photos.forEach((p) => { try { URL.revokeObjectURL(p.url) } catch { /* */ } })
-    setPhotos([]); setRawText(''); setTitle(''); setFiche(null); setOcr({ status: 'idle', progress: 0, msg: '' }); setMsg('')
+    setPhotos([]); setRawText(''); setTitle(''); setFiche(null); setOcr({ status: 'idle', progress: 0, msg: '' }); setAi({ status: 'idle', msg: '' }); setMsg('')
   }
 
   const opened = openId ? fiches.find((f) => f.id === openId) : null
@@ -165,8 +191,18 @@ export default function PhotoFiche() {
                 </div>
               ))}
             </div>
-            <button onClick={runOcr} disabled={ocr.status === 'running'} className="btn-primary mt-4 w-full text-white disabled:opacity-60" style={{ backgroundColor: 'var(--c-accent)' }}>
-              {ocr.status === 'running' ? `Lecture du texte… ${ocr.progress}%` : '🔎 Lire le texte des photos'}
+            <button onClick={runVision} disabled={ai.status === 'running'} className="btn-gold mt-4 w-full !py-3.5 text-base disabled:opacity-60">
+              {ai.status === 'running' ? '✨ Analyse par l’IA en cours…' : '✨ Analyser avec l’IA (recommandé)'}
+            </button>
+            <p className="mt-1.5 text-center text-[11px] text-slate-400">Lit même les tableaux, le petit texte et l’écriture manuscrite.</p>
+            {ai.msg && <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">{ai.msg}</p>}
+
+            <div className="my-3 flex items-center gap-3 text-[11px] uppercase tracking-wider text-slate-400">
+              <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />ou<span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+            </div>
+
+            <button onClick={runOcr} disabled={ocr.status === 'running'} className="w-full rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition hover:bg-slate-50 disabled:opacity-60 dark:hover:bg-slate-800" style={{ borderColor: 'color-mix(in srgb, var(--c-accent) 40%, var(--c-line, #ddd))', color: 'var(--c-accent)' }}>
+              {ocr.status === 'running' ? `Lecture classique… ${ocr.progress}%` : '🔎 Lecture classique (hors ligne)'}
             </button>
             {ocr.status === 'running' && (
               <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
