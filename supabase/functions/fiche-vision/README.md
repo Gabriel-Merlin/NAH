@@ -1,54 +1,68 @@
 # Fiche par photo — analyse IA (vision)
 
 Cette *Edge Function* Supabase lit une photo de cours / sujet STMG avec une **IA
-de vision** (Claude d'Anthropic) et renvoie une fiche structurée
-(`questions`, `keyInfo`, `definitions`). Contrairement à l'OCR embarqué, elle
-lit correctement les **tableaux, le texte petit et l'écriture manuscrite**.
+de vision** et renvoie une fiche structurée (`questions`, `keyInfo`,
+`definitions`). Contrairement à l'OCR embarqué, elle lit correctement les
+**tableaux, le texte petit et l'écriture manuscrite**.
 
-La clé d'API reste **côté serveur** (secret Supabase) : elle n'est jamais dans
-l'application ni visible par les élèves.
+Deux fournisseurs possibles, choisis automatiquement selon la clé configurée :
 
-## Mise en place (une seule fois)
+| Fournisseur | Secret à définir | Coût |
+|---|---|---|
+| **Google Gemini** (recommandé) | `GEMINI_API_KEY` | **Gratuit** dans la limite du quota |
+| Anthropic Claude | `ANTHROPIC_API_KEY` | Payant (~1 à 3 centimes/photo) |
 
-Prérequis : le [CLI Supabase](https://supabase.com/docs/guides/cli) et une clé
-d'API Anthropic (https://console.anthropic.com → *API Keys*).
+Si les deux clés sont présentes, **Gemini** est utilisé.
+La clé reste **côté serveur** (secret Supabase) : jamais dans l'application.
+
+## Mise en place gratuite avec Gemini (une seule fois, ~5 min)
+
+1. Crée une **clé API gratuite** sur Google AI Studio : https://aistudio.google.com/apikey
+2. Installe le [CLI Supabase](https://supabase.com/docs/guides/cli), puis :
 
 ```bash
-# 1) Se placer à la racine du dépôt puis se relier au projet Supabase
+# à la racine du dépôt
 supabase link --project-ref wyydagcjkbivtbuhbzon
-
-# 2) Déployer la fonction (accès public : pas de JWT requis)
 supabase functions deploy fiche-vision --no-verify-jwt
+supabase secrets set GEMINI_API_KEY=AIza...        # ta clé Google (gratuite)
 
-# 3) Renseigner la clé API Anthropic (reste secrète, côté serveur)
-supabase secrets set ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
-
-# 4) (Facultatif) Choisir un modèle moins cher pour réduire les coûts
-#    Par défaut : claude-opus-5 (meilleure lecture). Alternative économique :
-supabase secrets set FICHE_MODEL=claude-haiku-4-5
+# (facultatif) choisir le modèle Gemini — défaut : gemini-2.0-flash
+supabase secrets set GEMINI_MODEL=gemini-2.0-flash
 ```
 
-C'est tout : dans l'appli, le bouton **« ✨ Analyser avec l'IA »** de la page
-*Fiche par photo* fonctionne alors pour tous les élèves.
+C'est tout : le bouton **« ✨ Analyser avec l'IA »** de la page *Fiche par photo*
+fonctionne alors, **gratuitement**, pour tous les élèves.
 
-## Coût
+## Bon à savoir sur le gratuit (Gemini)
 
-Chaque analyse = 1 appel à l'API Anthropic, facturé sur **ta** clé.
-- `claude-opus-5` (défaut) : lecture optimale, ~1 à 3 centimes par photo.
-- `claude-haiku-4-5` : ~5× moins cher, très correct pour du texte imprimé.
+- **Quota** : l'offre gratuite est limitée (nombre de requêtes par minute et par
+  jour). Largement suffisant pour un usage personnel ; plus juste si toute une
+  classe l'utilise en même temps. Les limites à jour :
+  https://ai.google.dev/gemini-api/docs/rate-limits
+- **Confidentialité** : sur l'offre **gratuite**, Google peut utiliser les
+  contenus pour améliorer ses services. Pour des cours de STMG ce n'est pas
+  sensible ; évite d'y envoyer des documents personnels. L'offre payante de
+  Google, elle, n'utilise pas les données.
 
-Tu peux changer de modèle à tout moment via `FICHE_MODEL` (étape 4), puis
-`supabase functions deploy fiche-vision` n'est **pas** nécessaire (les secrets
-sont pris en compte immédiatement).
+## Alternative payante mais privée (Anthropic Claude)
 
-## Sécurité / bonnes pratiques
+```bash
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-...   # console.anthropic.com
+# (facultatif) modèle moins cher : supabase secrets set FICHE_MODEL=claude-haiku-4-5
+```
 
-- La fonction est publique (`--no-verify-jwt`) pour que n'importe quel élève
-  puisse l'appeler avec la clé anonyme de l'appli. Pour limiter les coûts, tu
-  peux plus tard : exiger le JWT (élèves connectés), ajouter une limite de débit,
-  ou réserver cette fonction à l'offre payante (paywall).
-- Aucune donnée n'est stockée : la photo est envoyée à l'API, la fiche est
-  renvoyée, rien n'est conservé.
+Retire simplement `GEMINI_API_KEY` (ou ne le mets pas) pour forcer Claude.
+
+## Sécurité / coûts
+
+- La fonction est publique (`--no-verify-jwt`) pour que chaque élève puisse
+  l'appeler avec la clé anonyme de l'appli. Pour maîtriser l'usage, tu pourras
+  plus tard : exiger la connexion (JWT), ajouter une limite de débit, ou
+  réserver l'IA à l'offre payante (paywall).
+- Aucune donnée n'est stockée : la photo est envoyée à l'IA, la fiche est
+  renvoyée, rien n'est conservé côté fonction.
+- Changer un secret (`supabase secrets set ...`) est pris en compte
+  immédiatement, sans redéployer.
 
 ## Test rapide
 
@@ -59,6 +73,6 @@ curl -s -X POST \
   -d '{"images":["data:image/jpeg;base64,/9j/..."]}'
 ```
 
-Réponse attendue : `{ "fiche": { "title": "...", "questions": [...], "keyInfo": [...], "definitions": [...] } }`.
-Si la clé n'est pas configurée : `{ "error": "not_configured" }` (l'appli bascule
-alors automatiquement sur la lecture OCR).
+Réponse attendue : `{ "fiche": { ... }, "provider": "gemini" }`.
+Si aucune clé n'est configurée : `{ "error": "not_configured" }` (l'appli
+bascule alors automatiquement sur la lecture OCR embarquée).
