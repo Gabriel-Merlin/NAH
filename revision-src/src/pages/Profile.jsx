@@ -188,6 +188,23 @@ export default function Profile() {
         </button>
       </section>
 
+      {/* Préférences & accessibilité */}
+      <section>
+        <h2 className="mb-3 px-1 font-display text-xl font-medium">⚙️ {t('preferences')}</h2>
+        <div className="card divide-y divide-slate-100 p-0 dark:divide-slate-800">
+          <button onClick={() => window.dispatchEvent(new CustomEvent('stmg-open-a11y'))} className="flex w-full items-center gap-3 p-4 text-left transition hover:bg-slate-50 dark:hover:bg-slate-800/50">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-100 text-lg dark:bg-slate-800" aria-hidden>♿</span>
+            <span className="min-w-0 flex-1"><span className="block font-display font-semibold">{t('accessibility')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('prefA11yHint')}</span></span>
+            <span className="text-slate-300" aria-hidden>›</span>
+          </button>
+          <button onClick={() => window.dispatchEvent(new CustomEvent('stmg-open-customizer'))} className="flex w-full items-center gap-3 p-4 text-left transition hover:bg-slate-50 dark:hover:bg-slate-800/50">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-100 text-lg dark:bg-slate-800" aria-hidden>🧩</span>
+            <span className="min-w-0 flex-1"><span className="block font-display font-semibold">{t('prefTabs')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('prefTabsHint')}</span></span>
+            <span className="text-slate-300" aria-hidden>›</span>
+          </button>
+        </div>
+      </section>
+
       {/* Installer l'application (PWA) */}
       <section>
         <h2 className="mb-3 px-1 font-display text-xl font-medium">{t('installApp')}</h2>

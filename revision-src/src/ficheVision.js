@@ -52,5 +52,5 @@ export async function analyzeWithVision(files) {
     e.code = data?.error || (res.status === 404 ? 'not_configured' : `http_${res.status}`)
     throw e
   }
-  return data.fiche
+  return { fiche: data.fiche, provider: data.provider || 'ia' }
 }

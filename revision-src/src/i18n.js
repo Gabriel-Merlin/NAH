@@ -251,6 +251,7 @@ const FR = {
   aiLvlBeginner: 'Débutant', aiLvlProgress: 'En progrès', aiLvlConfirmed: 'Confirmé', aiLvlExpert: 'Expert', aiLevelTag: 'Ton niveau',
   aiThemesDone: 'thèmes travaillés', aiViewPlanMore: 'Voir tout le plan', aiViewPlanLess: 'Réduire',
   photoFiche: 'Fiche par photo', photoFicheSub: 'Photo → fiche',
+  preferences: 'Préférences', prefA11yHint: 'Police adaptée (dys), fort contraste, lecture à voix haute', prefTabs: 'Personnaliser les onglets', prefTabsHint: 'Choisis les raccourcis de la barre du bas',
   timerTitle: 'Minuteur de révision', minShort: 'min', presetsLabel: 'Réglages rapides',
   preset_classic: 'Classique', preset_balanced: 'Équilibré', preset_marathon: 'Marathon', preset_custom: 'Perso',
   startTimer: 'Démarrer', pauseTimer: 'Pause', resetTimer: 'Réinitialiser', skipPhase: 'Passer',

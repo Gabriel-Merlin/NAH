@@ -77,6 +77,7 @@ export default function PhotoFiche() {
   const [ocr, setOcr] = useState({ status: 'idle', progress: 0, msg: '' })
   const [ai, setAi] = useState({ status: 'idle', msg: '' })
   const [fiche, setFiche] = useState(null)
+  const [ficheSource, setFicheSource] = useState(null) // 'ia' | 'ocr' | 'texte'
   const [msg, setMsg] = useState('')
   const [openId, setOpenId] = useState(null)
   const fileRef = useRef(null)
@@ -113,7 +114,7 @@ export default function PhotoFiche() {
 
   const generate = () => {
     const f = buildFiche(rawText, { title })
-    setFiche(f); setMsg(''); setOpenId(null)
+    setFiche(f); setFicheSource(ocr.status === 'done' ? 'ocr' : 'texte'); setMsg(''); setOpenId(null)
   }
 
   // Analyse IA (vision) : lit la photo côté serveur (Claude) — gère tableaux,
@@ -122,10 +123,11 @@ export default function PhotoFiche() {
     if (!photos.length) return
     setAi({ status: 'running', msg: '' }); setMsg(''); setOpenId(null)
     try {
-      const f = await analyzeWithVision(photos.map((p) => p.file))
+      const { fiche: f } = await analyzeWithVision(photos.map((p) => p.file))
       const flashcards = (f.definitions || []).map((d) => ({ front: d.term, back: d.def }))
       const has = (f.questions?.length || f.keyInfo?.length || f.definitions?.length)
       setFiche({ title: (f.title || title || 'Ma fiche de révision'), empty: !has, questions: f.questions || [], keyInfo: f.keyInfo || [], definitions: f.definitions || [], flashcards })
+      setFicheSource('ia')
       setAi({ status: 'done', msg: '' })
     } catch (e) {
       const code = e?.code
@@ -144,7 +146,7 @@ export default function PhotoFiche() {
     if (!fiche || fiche.empty) return
     const id = 'fiche-' + Date.now()
     saveFiche({
-      id, title: fiche.title, createdAt: Date.now(), source: photos.length ? 'photo' : 'texte',
+      id, title: fiche.title, createdAt: Date.now(), source: ficheSource === 'ia' ? 'ia' : photos.length ? 'photo' : 'texte',
       text: (rawText || '').slice(0, 8000),
       sections: { questions: fiche.questions, definitions: fiche.definitions, keyInfo: fiche.keyInfo },
       flashcards: fiche.flashcards || [],
@@ -160,7 +162,7 @@ export default function PhotoFiche() {
 
   const reset = () => {
     photos.forEach((p) => { try { URL.revokeObjectURL(p.url) } catch { /* */ } })
-    setPhotos([]); setRawText(''); setTitle(''); setFiche(null); setOcr({ status: 'idle', progress: 0, msg: '' }); setAi({ status: 'idle', msg: '' }); setMsg('')
+    setPhotos([]); setRawText(''); setTitle(''); setFiche(null); setFicheSource(null); setOcr({ status: 'idle', progress: 0, msg: '' }); setAi({ status: 'idle', msg: '' }); setMsg('')
   }
 
   const opened = openId ? fiches.find((f) => f.id === openId) : null
@@ -236,7 +238,7 @@ export default function PhotoFiche() {
             <>
               <div className="mb-1 flex items-start justify-between gap-2">
                 <h2 className="font-display text-2xl font-semibold leading-tight">{fiche.title}</h2>
-                <span className="chip shrink-0" style={{ backgroundColor: 'var(--c-accent)22', color: 'var(--c-accent)' }}>Fiche</span>
+                <span className="chip shrink-0" style={{ backgroundColor: 'var(--c-accent)22', color: 'var(--c-accent)' }}>{ficheSource === 'ia' ? '✨ IA' : ficheSource === 'ocr' ? '🔎 OCR' : '✍️ Fiche'}</span>
               </div>
               <span className="mb-4 block h-0.5 w-16 rounded-full" style={{ backgroundColor: 'var(--c-accent)' }} />
               {fiche.lowQuality && (
@@ -265,7 +267,7 @@ export default function PhotoFiche() {
             <div key={f.id} className="card p-0">
               <div className="flex items-center gap-1 p-3">
                 <button onClick={() => setOpenId(openId === f.id ? null : f.id)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: 'var(--c-accent)22' }} aria-hidden>{f.source === 'photo' ? '📸' : '📝'}</span>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: 'var(--c-accent)22' }} aria-hidden>{f.source === 'ia' ? '✨' : f.source === 'photo' ? '📸' : '📝'}</span>
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-semibold">{f.title}</span>
                     <span className="block text-xs text-slate-400">{(f.sections?.questions?.length || 0)} questions · {(f.sections?.definitions?.length || 0)} définitions</span>

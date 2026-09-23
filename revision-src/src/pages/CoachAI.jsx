@@ -32,10 +32,11 @@ export default function CoachAI() {
   const [training, setTraining] = useState(null)
   const [subjectFilter, setSubjectFilter] = useState('')
   const [planOpen, setPlanOpen] = useState(false)
+  const [perDay, setPerDay] = useState(3) // intensité du plan : thèmes par jour
   if (!state.track) return <Navigate to="/" replace />
 
   const a = useMemo(() => analyzeStudent(state, state.track), [state])
-  const plan = useMemo(() => buildStudyPlan(state, state.track, { perDay: 3, maxDays: 30 }), [state])
+  const plan = useMemo(() => buildStudyPlan(state, state.track, { perDay, maxDays: 30 }), [state, perDay])
   const advice = useMemo(() => coachAdvice(a), [a])
   const subjects = useMemo(() => coachSubjects(state.track), [state.track])
 
@@ -157,6 +158,16 @@ export default function CoachAI() {
                 <span>{a.daysToBac != null ? t('aiBacIn').replace('{n}', a.daysToBac) : t('aiSetBac')}</span>
                 <input type="date" value={state.bacDate || ''} onChange={(e) => setBacDate(e.target.value)} className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs dark:border-slate-700 dark:bg-slate-800" />
               </label>
+            </div>
+            <div className="mb-3 flex items-center gap-2 px-1">
+              <span className="text-xs text-slate-400">Intensité :</span>
+              {[2, 3, 4].map((n) => (
+                <button key={n} onClick={() => setPerDay(n)} aria-pressed={perDay === n}
+                  className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition ${perDay === n ? 'text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+                  style={perDay === n ? { backgroundColor: 'var(--c-accent)' } : undefined}>
+                  {n}/jour
+                </button>
+              ))}
             </div>
             <p className="mb-3 px-1 text-xs text-slate-400">{t('aiPlanSub')}</p>
             {plan.days.length === 0 ? (
