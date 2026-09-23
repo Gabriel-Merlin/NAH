@@ -5,61 +5,74 @@ import { buildFiche } from '../data/ficheAI.js'
 import { ocrImages } from '../ocr.js'
 import { useT } from '../i18n.js'
 
-// Affichage d'une fiche structurée (générée ou enregistrée).
+// Petit titre de section de fiche.
+function SecHead({ icon, children }) {
+  return (
+    <h3 className="mb-2.5 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em]" style={{ color: 'var(--c-accent)' }}>
+      <span aria-hidden>{icon}</span>{children}
+    </h3>
+  )
+}
+
+// Affichage d'une fiche structurée (générée ou enregistrée), façon fiche propre.
 function FicheView({ fiche }) {
   if (!fiche) return null
+  const hasBody = fiche.summary || fiche.definitions?.length || fiche.keyPoints?.length || fiche.facts?.length
+  if (!hasBody) return <p className="text-center text-sm text-slate-500 dark:text-slate-400">Aucun contenu exploitable n’a pu être extrait. Reprends une photo plus nette, ou complète le texte.</p>
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {fiche.summary && (
-        <div>
-          <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">📌 En bref</h3>
-          <p className="text-sm text-slate-700 dark:text-slate-200">{fiche.summary}</p>
-        </div>
+        <p className="rounded-r-lg border-l-[3px] py-1 pl-3.5 text-[15px] italic leading-relaxed text-slate-600 dark:text-slate-300" style={{ borderColor: 'var(--c-accent)' }}>{fiche.summary}</p>
       )}
+
       {fiche.definitions?.length > 0 && (
-        <div>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">📖 Définitions clés</h3>
-          <div className="space-y-2">
+        <section>
+          <SecHead icon="📖">Définitions clés</SecHead>
+          <dl className="space-y-3.5">
             {fiche.definitions.map((d, i) => (
-              <div key={i} className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
-                <p className="text-sm font-semibold" style={{ color: 'var(--c-accent)' }}>{d.term}</p>
-                <p className="mt-0.5 text-sm text-slate-700 dark:text-slate-200">{d.def}</p>
+              <div key={i}>
+                <dt className="text-[15px] font-semibold text-slate-900 dark:text-slate-50">{d.term}</dt>
+                <dd className="mt-0.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{d.def}</dd>
               </div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </section>
       )}
+
       {fiche.keyPoints?.length > 0 && (
-        <div>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">💡 Points clés</h3>
-          <ul className="space-y-1.5">
+        <section>
+          <SecHead icon="💡">Points clés</SecHead>
+          <ol className="space-y-2.5">
             {fiche.keyPoints.map((p, i) => (
-              <li key={i} className="flex gap-2 text-sm text-slate-700 dark:text-slate-200">
-                <span className="shrink-0" style={{ color: 'var(--c-accent)' }}>•</span><span>{p}</span>
+              <li key={i} className="flex gap-3">
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full text-[11px] font-bold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>{i + 1}</span>
+                <span className="text-sm leading-relaxed text-slate-700 dark:text-slate-200">{p}</span>
               </li>
             ))}
-          </ul>
-        </div>
+          </ol>
+        </section>
       )}
+
       {fiche.facts?.length > 0 && (
-        <div>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">🔢 Repères à mémoriser</h3>
-          <ul className="space-y-1.5">
+        <section>
+          <SecHead icon="🔢">Repères à mémoriser</SecHead>
+          <ul className="flex flex-col gap-2">
             {fiche.facts.map((f, i) => (
-              <li key={i} className="flex gap-2 text-sm text-slate-700 dark:text-slate-200">
-                <span className="shrink-0">📌</span><span>{f}</span>
+              <li key={i} className="flex items-start gap-2.5 rounded-xl bg-slate-50 px-3.5 py-2.5 text-sm leading-relaxed text-slate-700 dark:bg-slate-800/60 dark:text-slate-200">
+                <span className="shrink-0" aria-hidden>📌</span><span>{f}</span>
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       )}
+
       {fiche.keywords?.length > 0 && (
-        <div>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">🏷️ Mots-clés</h3>
+        <section>
+          <SecHead icon="🏷️">Mots-clés</SecHead>
           <div className="flex flex-wrap gap-1.5">
-            {fiche.keywords.map((k, i) => <span key={i} className="chip bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">{k}</span>)}
+            {fiche.keywords.map((k, i) => <span key={i} className="rounded-full px-2.5 py-1 text-xs font-medium" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 12%, transparent)', color: 'var(--c-accent)' }}>{k}</span>)}
           </div>
-        </div>
+        </section>
       )}
     </div>
   )
@@ -191,10 +204,16 @@ export default function PhotoFiche() {
             <p className="text-center text-sm text-slate-500 dark:text-slate-400">Le texte est trop court. Ajoute plus de contenu, puis regénère.</p>
           ) : (
             <>
-              <div className="mb-3 flex items-start justify-between gap-2">
-                <h2 className="font-display text-xl font-semibold leading-tight">{fiche.title}</h2>
+              <div className="mb-1 flex items-start justify-between gap-2">
+                <h2 className="font-display text-2xl font-semibold leading-tight">{fiche.title}</h2>
                 <span className="chip shrink-0" style={{ backgroundColor: 'var(--c-accent)22', color: 'var(--c-accent)' }}>Fiche</span>
               </div>
+              <span className="mb-4 block h-0.5 w-16 rounded-full" style={{ backgroundColor: 'var(--c-accent)' }} />
+              {fiche.lowQuality && (
+                <div className="mb-4 rounded-xl border border-amber-300/60 bg-amber-50 p-3 text-xs leading-relaxed text-amber-700 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-300">
+                  ⚠️ Le texte lu semble incomplet ou peu net. Pour une meilleure fiche : reprends une photo bien à plat, nette et éclairée, ou corrige le texte ci-dessus, puis régénère.
+                </div>
+              )}
               <FicheView fiche={fiche} />
               <div className="mt-5 flex flex-col gap-2 sm:flex-row">
                 <button onClick={doSave} className="btn-primary flex-1 text-white" style={{ backgroundColor: 'var(--c-accent)' }}>💾 Enregistrer la fiche</button>
