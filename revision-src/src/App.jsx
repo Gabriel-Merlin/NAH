@@ -20,6 +20,7 @@ import BacBlanc from './pages/BacBlanc.jsx'
 import Programme from './pages/Programme.jsx'
 import GrandOral from './pages/GrandOral.jsx'
 import CoachAI from './pages/CoachAI.jsx'
+import PhotoFiche from './pages/PhotoFiche.jsx'
 import DailyChallenge from './pages/DailyChallenge.jsx'
 import Express from './pages/Express.jsx'
 import Formulas from './pages/Formulas.jsx'
@@ -73,6 +74,7 @@ export default function App() {
         <Route path="/programme" element={<Programme />} />
         <Route path="/grand-oral" element={<GrandOral />} />
         <Route path="/coach-ia" element={<CoachAI />} />
+        <Route path="/fiches-photo" element={<PhotoFiche />} />
         <Route path="/defi" element={<DailyChallenge />} />
         <Route path="/express" element={<Express />} />
         <Route path="/formules" element={<Formulas />} />

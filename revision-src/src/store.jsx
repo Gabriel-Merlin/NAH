@@ -13,7 +13,7 @@ import { publishChildStats, PARENT_READY } from './parent.js'
 const CROSS_GAMES = new Set(['exam', 'coach-ia', 'daily', 'express'])
 
 // Champs de progression synchronisés sur le compte (multi-appareil).
-const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks', 'dailyChallenge', 'notes']
+const PROGRESS_KEYS = ['xp', 'streak', 'badges', 'chapters', 'favorites', 'lastChapter', 'totalAnswers', 'correctAnswers', 'weekly', 'srs', 'bacDate', 'coins', 'owned', 'freezes', 'history', 'themeTime', 'savedDecks', 'dailyChallenge', 'notes', 'fiches']
 function pickProgress(s) {
   const out = {}
   for (const k of PROGRESS_KEYS) out[k] = s[k]
@@ -70,6 +70,14 @@ function mergeProgress(a, b) {
     if (!prev || (d.savedAt || 0) >= (prev.savedAt || 0)) decks.set(d.id, d)
   }
   out.savedDecks = [...decks.values()]
+  // Fiches de révision générées depuis une photo : union par id (version récente).
+  const fiches = new Map()
+  for (const f of [...(a.fiches || []), ...(b.fiches || [])]) {
+    if (!f || !f.id) continue
+    const prev = fiches.get(f.id)
+    if (!prev || (f.createdAt || 0) >= (prev.createdAt || 0)) fiches.set(f.id, f)
+  }
+  out.fiches = [...fiches.values()]
   // Défi du jour : on garde la date la plus récente et la meilleure série.
   const ad = a.dailyChallenge || {}, bd = b.dailyChallenge || {}
   const recent = (bd.last || '') > (ad.last || '') ? bd : ad
@@ -136,6 +144,7 @@ const emptyState = () => ({
   savedDecks: [], // paquets de flashcards téléchargés (app) : { id, title, subjectId, themeId, cards, savedAt }
   dailyChallenge: { last: null, streak: 0, best: 0, lastBonus: 0 }, // défi du jour (série + récompense)
   notes: {}, // { [themeId]: texte } — notes personnelles de l'élève par thème
+  fiches: [], // fiches de révision créées depuis une photo : { id, title, createdAt, source, sections }
 })
 
 // Objectif hebdomadaire : nombre de chapitres distincts à travailler dans la
@@ -468,6 +477,17 @@ export function StoreProvider({ children }) {
   }, [])
   const removeDeck = useCallback((id) => setState((p) => ({ ...p, savedDecks: (p.savedDecks || []).filter((d) => d.id !== id) })), [])
 
+  // Fiches de révision générées depuis une photo (OCR + structuration locale).
+  // On ajoute/actualise par id et on plafonne la bibliothèque.
+  const saveFiche = useCallback((fiche) => {
+    if (!fiche || !fiche.id) return
+    setState((p) => {
+      const rest = (p.fiches || []).filter((f) => f.id !== fiche.id)
+      return { ...p, fiches: [{ ...fiche, createdAt: fiche.createdAt || Date.now() }, ...rest].slice(0, 60) }
+    })
+  }, [])
+  const removeFiche = useCallback((id) => setState((p) => ({ ...p, fiches: (p.fiches || []).filter((f) => f.id !== id) })), [])
+
   // Couleurs personnalisées : fusionne des overrides ({bg,ink,accent,card}).
   const setCustomTheme = useCallback((patch) => setState((p) => ({
     ...p,
@@ -608,6 +628,8 @@ export function StoreProvider({ children }) {
     addThemeTime,
     saveDeck,
     removeDeck,
+    saveFiche,
+    removeFiche,
     claimWeekly,
     completeDailyChallenge,
     setNote,

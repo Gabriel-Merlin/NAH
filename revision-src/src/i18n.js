@@ -250,6 +250,7 @@ const FR = {
   aiAdviceTitle: 'Les conseils de ton coach', aiTargetSubject: 'Cibler une matière', aiAllSubjects: 'Toute la filière',
   aiLvlBeginner: 'Débutant', aiLvlProgress: 'En progrès', aiLvlConfirmed: 'Confirmé', aiLvlExpert: 'Expert', aiLevelTag: 'Ton niveau',
   aiThemesDone: 'thèmes travaillés', aiViewPlanMore: 'Voir tout le plan', aiViewPlanLess: 'Réduire',
+  photoFiche: 'Fiche par photo', photoFicheSub: 'Photo → fiche',
   timerTitle: 'Minuteur de révision', minShort: 'min', presetsLabel: 'Réglages rapides',
   preset_classic: 'Classique', preset_balanced: 'Équilibré', preset_marathon: 'Marathon', preset_custom: 'Perso',
   startTimer: 'Démarrer', pauseTimer: 'Pause', resetTimer: 'Réinitialiser', skipPhase: 'Passer',

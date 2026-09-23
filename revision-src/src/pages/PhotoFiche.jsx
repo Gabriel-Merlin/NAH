@@ -1,0 +1,241 @@
+import { useRef, useState } from 'react'
+import { Navigate, Link } from 'react-router-dom'
+import { useStore, useStudyTimer } from '../store.jsx'
+import { buildFiche } from '../data/ficheAI.js'
+import { ocrImages } from '../ocr.js'
+import { useT } from '../i18n.js'
+
+// Affichage d'une fiche structurée (générée ou enregistrée).
+function FicheView({ fiche }) {
+  if (!fiche) return null
+  return (
+    <div className="space-y-4">
+      {fiche.summary && (
+        <div>
+          <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">📌 En bref</h3>
+          <p className="text-sm text-slate-700 dark:text-slate-200">{fiche.summary}</p>
+        </div>
+      )}
+      {fiche.definitions?.length > 0 && (
+        <div>
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">📖 Définitions clés</h3>
+          <div className="space-y-2">
+            {fiche.definitions.map((d, i) => (
+              <div key={i} className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
+                <p className="text-sm font-semibold" style={{ color: 'var(--c-accent)' }}>{d.term}</p>
+                <p className="mt-0.5 text-sm text-slate-700 dark:text-slate-200">{d.def}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {fiche.keyPoints?.length > 0 && (
+        <div>
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">💡 Points clés</h3>
+          <ul className="space-y-1.5">
+            {fiche.keyPoints.map((p, i) => (
+              <li key={i} className="flex gap-2 text-sm text-slate-700 dark:text-slate-200">
+                <span className="shrink-0" style={{ color: 'var(--c-accent)' }}>•</span><span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {fiche.facts?.length > 0 && (
+        <div>
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">🔢 Repères à mémoriser</h3>
+          <ul className="space-y-1.5">
+            {fiche.facts.map((f, i) => (
+              <li key={i} className="flex gap-2 text-sm text-slate-700 dark:text-slate-200">
+                <span className="shrink-0">📌</span><span>{f}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {fiche.keywords?.length > 0 && (
+        <div>
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">🏷️ Mots-clés</h3>
+          <div className="flex flex-wrap gap-1.5">
+            {fiche.keywords.map((k, i) => <span key={i} className="chip bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">{k}</span>)}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function PhotoFiche() {
+  const { state, saveFiche, removeFiche, saveDeck } = useStore()
+  const t = useT()
+  useStudyTimer()
+  const [photos, setPhotos] = useState([]) // { file, url }
+  const [rawText, setRawText] = useState('')
+  const [title, setTitle] = useState('')
+  const [ocr, setOcr] = useState({ status: 'idle', progress: 0, msg: '' })
+  const [fiche, setFiche] = useState(null)
+  const [msg, setMsg] = useState('')
+  const [openId, setOpenId] = useState(null)
+  const fileRef = useRef(null)
+  if (!state.track) return <Navigate to="/" replace />
+
+  const fiches = state.fiches || []
+
+  const addPhotos = (files) => {
+    const arr = [...files].filter((f) => f.type?.startsWith('image/')).map((f) => ({ file: f, url: URL.createObjectURL(f) }))
+    setPhotos((p) => [...p, ...arr].slice(0, 8))
+  }
+  const removePhoto = (i) => setPhotos((p) => { try { URL.revokeObjectURL(p[i]?.url) } catch { /* */ } return p.filter((_, k) => k !== i) })
+
+  const runOcr = async () => {
+    if (!photos.length) return
+    setOcr({ status: 'running', progress: 0, msg: '' })
+    try {
+      const text = await ocrImages(photos.map((p) => p.file), {
+        onProgress: (i, n, r) => setOcr({ status: 'running', progress: Math.round(((i + r) / n) * 100), msg: '' }),
+      })
+      if (text) { setRawText((prev) => (prev ? prev + '\n\n' : '') + text); setOcr({ status: 'done', progress: 100, msg: '' }) }
+      else setOcr({ status: 'error', progress: 0, msg: 'Aucun texte détecté. Prends une photo plus nette et bien cadrée, ou saisis le texte ci-dessous.' })
+    } catch {
+      const off = typeof navigator !== 'undefined' && !navigator.onLine
+      setOcr({ status: 'error', progress: 0, msg: off ? 'Lecture automatique indisponible hors ligne. Tu peux saisir ou coller ton texte ci-dessous.' : 'Lecture impossible cette fois. Saisis ou colle ton texte ci-dessous — la fiche se génère quand même.' })
+    }
+  }
+
+  const generate = () => {
+    const f = buildFiche(rawText, { title })
+    setFiche(f); setMsg(''); setOpenId(null)
+  }
+
+  const doSave = () => {
+    if (!fiche || fiche.empty) return
+    const id = 'fiche-' + Date.now()
+    saveFiche({
+      id, title: fiche.title, createdAt: Date.now(), source: photos.length ? 'photo' : 'texte',
+      text: (rawText || '').slice(0, 8000),
+      sections: { summary: fiche.summary, keyPoints: fiche.keyPoints, definitions: fiche.definitions, facts: fiche.facts, keywords: fiche.keywords },
+      flashcards: fiche.flashcards || [],
+    })
+    setMsg('Fiche enregistrée ✅')
+  }
+  const makeDeck = (src) => {
+    const cards = (src.flashcards || []).filter((c) => c.front && c.back)
+    if (!cards.length) { setMsg('Pas assez de définitions pour des flashcards.'); return }
+    saveDeck({ id: 'fichedeck-' + Date.now(), title: '📸 ' + (src.title || 'Fiche'), cards })
+    setMsg(`Flashcards créées ✅ (onglet Révision · ${cards.length} cartes)`)
+  }
+
+  const reset = () => {
+    photos.forEach((p) => { try { URL.revokeObjectURL(p.url) } catch { /* */ } })
+    setPhotos([]); setRawText(''); setTitle(''); setFiche(null); setOcr({ status: 'idle', progress: 0, msg: '' }); setMsg('')
+  }
+
+  const opened = openId ? fiches.find((f) => f.id === openId) : null
+  const openedFiche = opened ? { title: opened.title, empty: false, ...opened.sections, flashcards: opened.flashcards } : null
+
+  return (
+    <div className="animate-lux space-y-6">
+      <header className="text-center">
+        <p className="kicker">📸 {t('photoFiche')}</p>
+        <h1 className="mt-1 font-display text-[1.9rem] font-medium leading-tight">Ta fiche à partir d’une photo</h1>
+        <span className="mx-auto mt-3 block h-px w-24 rounded-full" style={{ background: 'linear-gradient(90deg,transparent,#c8a24e,transparent)' }} />
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Prends ton cours en photo : l’appli lit le texte et en fait une fiche de révision structurée.</p>
+      </header>
+
+      {/* Étape 1 — Photo */}
+      <section className="card card-lux p-5">
+        <h2 className="mb-1 font-display text-lg font-semibold">1. Photographie ton cours 📷</h2>
+        <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">Une ou plusieurs pages (jusqu’à 8). Cadre bien, à plat, avec de la lumière.</p>
+        <input ref={fileRef} type="file" accept="image/*" capture="environment" multiple className="hidden" onChange={(e) => { addPhotos(e.target.files); e.target.value = '' }} />
+        <button onClick={() => fileRef.current?.click()} className="btn-gold w-full !py-3.5 text-base">📷 Ajouter une photo</button>
+        {photos.length > 0 && (
+          <>
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              {photos.map((p, i) => (
+                <div key={i} className="relative aspect-square overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+                  <img src={p.url} alt={`Page ${i + 1}`} className="h-full w-full object-cover" />
+                  <button onClick={() => removePhoto(i)} aria-label="Retirer" className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/60 text-xs text-white">✕</button>
+                </div>
+              ))}
+            </div>
+            <button onClick={runOcr} disabled={ocr.status === 'running'} className="btn-primary mt-4 w-full text-white disabled:opacity-60" style={{ backgroundColor: 'var(--c-accent)' }}>
+              {ocr.status === 'running' ? `Lecture du texte… ${ocr.progress}%` : '🔎 Lire le texte des photos'}
+            </button>
+            {ocr.status === 'running' && (
+              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                <div className="h-full rounded-full transition-all" style={{ width: `${ocr.progress}%`, backgroundColor: 'var(--c-accent)' }} />
+              </div>
+            )}
+            {ocr.msg && <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">{ocr.msg}</p>}
+          </>
+        )}
+      </section>
+
+      {/* Étape 2 — Texte */}
+      <section className="card card-lux p-5">
+        <h2 className="mb-1 font-display text-lg font-semibold">2. Vérifie le texte ✏️</h2>
+        <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">Corrige les erreurs de lecture si besoin — ou saisis / colle directement ton cours ici (sans photo).</p>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre de la fiche (optionnel)" className="mb-3 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800" />
+        <textarea value={rawText} onChange={(e) => setRawText(e.target.value)} rows={8} placeholder="Le texte de ton cours apparaîtra ici après la lecture des photos. Tu peux aussi l’écrire ou le coller directement." className="w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[color:var(--c-accent)] dark:border-slate-700 dark:bg-slate-800" />
+        <div className="mt-2 flex items-center justify-between">
+          <span className="text-xs text-slate-400">{rawText.trim().length} caractères</span>
+          {(rawText || photos.length > 0) && <button onClick={reset} className="text-xs font-semibold text-rose-500 hover:underline">↺ Tout recommencer</button>}
+        </div>
+        <button onClick={generate} disabled={rawText.trim().length < 20} className="btn-gold mt-4 w-full !py-3.5 text-base disabled:opacity-50">✨ Générer ma fiche de révision</button>
+      </section>
+
+      {/* Résultat */}
+      {fiche && (
+        <section className="card card-lux p-5">
+          {fiche.empty ? (
+            <p className="text-center text-sm text-slate-500 dark:text-slate-400">Le texte est trop court. Ajoute plus de contenu, puis regénère.</p>
+          ) : (
+            <>
+              <div className="mb-3 flex items-start justify-between gap-2">
+                <h2 className="font-display text-xl font-semibold leading-tight">{fiche.title}</h2>
+                <span className="chip shrink-0" style={{ backgroundColor: 'var(--c-accent)22', color: 'var(--c-accent)' }}>Fiche</span>
+              </div>
+              <FicheView fiche={fiche} />
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                <button onClick={doSave} className="btn-primary flex-1 text-white" style={{ backgroundColor: 'var(--c-accent)' }}>💾 Enregistrer la fiche</button>
+                {fiche.flashcards?.length > 0 && <button onClick={() => makeDeck(fiche)} className="flex-1 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition hover:bg-slate-50 dark:hover:bg-slate-800" style={{ borderColor: 'var(--c-accent)', color: 'var(--c-accent)' }}>🃏 Créer {fiche.flashcards.length} flashcards</button>}
+              </div>
+              {msg && <p className="mt-3 text-center text-sm font-semibold text-emerald-600 dark:text-emerald-400">{msg}</p>}
+            </>
+          )}
+        </section>
+      )}
+
+      <p className="text-center text-xs text-slate-400">🔒 Tout est traité sur ton appareil : tes photos ne sont envoyées nulle part.</p>
+
+      {/* Fiches enregistrées */}
+      {fiches.length > 0 && (
+        <section className="space-y-2.5">
+          <h2 className="px-1 font-display text-lg font-semibold">📚 Mes fiches ({fiches.length})</h2>
+          {fiches.map((f) => (
+            <div key={f.id} className="card p-0">
+              <div className="flex items-center gap-1 p-3">
+                <button onClick={() => setOpenId(openId === f.id ? null : f.id)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: 'var(--c-accent)22' }} aria-hidden>{f.source === 'photo' ? '📸' : '📝'}</span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-semibold">{f.title}</span>
+                    <span className="block text-xs text-slate-400">{(f.sections?.definitions?.length || 0)} définitions · {(f.sections?.keyPoints?.length || 0)} points clés</span>
+                  </span>
+                </button>
+                <button onClick={() => makeDeck({ title: f.title, flashcards: f.flashcards })} title="Créer des flashcards" aria-label="Créer des flashcards" className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 transition hover:text-slate-700 dark:hover:text-slate-200">🃏</button>
+                <button onClick={() => { if (confirm('Supprimer cette fiche ?')) { removeFiche(f.id); if (openId === f.id) setOpenId(null) } }} title="Supprimer" aria-label="Supprimer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-300 transition hover:text-rose-500">🗑</button>
+              </div>
+              {openId === f.id && openedFiche && (
+                <div className="border-t border-slate-100 p-4 dark:border-slate-800"><FicheView fiche={openedFiche} /></div>
+              )}
+            </div>
+          ))}
+        </section>
+      )}
+
+      <div className="text-center">
+        <Link to="/revision" className="text-sm font-semibold text-[#98761f] hover:underline dark:text-[#d9bd77]">← Retour à la révision</Link>
+      </div>
+    </div>
+  )
+}
