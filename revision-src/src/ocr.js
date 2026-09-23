@@ -6,6 +6,38 @@
 const TESS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js'
 let loaderPromise = null
 
+// Nettoie le texte brut de l'OCR : retire les symboles parasites et ne garde que
+// les lignes réellement lisibles (assez de vrais mots). Une photo trop petite ou
+// floue produit du charabia « | : > = » que l'on jette ici plutôt que de
+// l'afficher. Renvoie { text, ratio } où ratio = part de texte conservée.
+export function cleanOcrText(raw) {
+  if (!raw) return { text: '', ratio: 0 }
+  const kept = []
+  for (const rawLine of raw.split(/\n/)) {
+    // Retire les symboles typiques du bruit OCR.
+    const l = rawLine
+      .replace(/[|<>~_*=\\/{}\[\]©®™°§¶•·►◄▪→…]+/g, ' ')
+      .replace(/["“”«»]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/\s+([.,;:!?%€])/g, '$1')
+      .trim()
+    if (l.length < 4) continue
+    const words = l.split(' ').filter(Boolean)
+    const compact = l.replace(/\s/g, '')
+    const letters = (compact.match(/[a-zà-ÿ]/gi) || []).length
+    if (letters / compact.length < 0.64) continue
+    // « Vrais » mots : au moins 3 lettres, avec une voyelle.
+    const real = words.filter((w) => /^[A-Za-zÀ-ÿ][a-zà-ÿA-ZÀ-Ö'’.-]*[.,;:!?%]?$/.test(w) && /[aeiouyàâäéèêëïîôöùûü]/i.test(w) && w.replace(/[^A-Za-zÀ-ÿ]/g, '').length >= 3).length
+    if (real < 3 || real / words.length < 0.6) continue
+    // Trop de petits fragments (1-2 lettres) = ligne non fiable.
+    if (words.filter((w) => w.replace(/[^A-Za-zÀ-ÿ]/g, '').length <= 2).length > words.length * 0.34) continue
+    kept.push(l)
+  }
+  const text = kept.join('\n').replace(/\n{2,}/g, '\n').trim()
+  const rawLen = raw.replace(/\s/g, '').length || 1
+  return { text, ratio: text.replace(/\s/g, '').length / rawLen }
+}
+
 function loadTesseract() {
   if (typeof window !== 'undefined' && window.Tesseract) return Promise.resolve(window.Tesseract)
   if (loaderPromise) return loaderPromise

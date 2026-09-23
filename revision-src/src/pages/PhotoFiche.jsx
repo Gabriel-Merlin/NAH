@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import { useStore, useStudyTimer } from '../store.jsx'
 import { buildFiche } from '../data/ficheAI.js'
-import { ocrImages } from '../ocr.js'
+import { ocrImages, cleanOcrText } from '../ocr.js'
 import { useT } from '../i18n.js'
 
 // Petit titre de section de fiche.
@@ -92,11 +92,17 @@ export default function PhotoFiche() {
     if (!photos.length) return
     setOcr({ status: 'running', progress: 0, msg: '' })
     try {
-      const text = await ocrImages(photos.map((p) => p.file), {
+      const raw = await ocrImages(photos.map((p) => p.file), {
         onProgress: (i, n, r) => setOcr({ status: 'running', progress: Math.round(((i + r) / n) * 100), msg: '' }),
       })
-      if (text) { setRawText((prev) => (prev ? prev + '\n\n' : '') + text); setOcr({ status: 'done', progress: 100, msg: '' }) }
-      else setOcr({ status: 'error', progress: 0, msg: 'Aucun texte détecté. Prends une photo plus nette et bien cadrée, ou saisis le texte ci-dessous.' })
+      // On ne garde que les lignes réellement lisibles (on jette les symboles/charabia).
+      const { text, ratio } = cleanOcrText(raw)
+      if (text && text.length >= 30) {
+        setRawText((prev) => (prev ? prev + '\n' : '') + text)
+        setOcr({ status: 'done', progress: 100, msg: ratio < 0.55 ? 'Une partie du texte était illisible et a été écartée. Vérifie ce qui reste ci-dessous et complète si besoin.' : '' })
+      } else {
+        setOcr({ status: 'error', progress: 0, msg: 'La photo n’a pas pu être lue (texte trop petit, flou ou tableau). Rapproche-toi, mets de la lumière et reprends une photo bien nette — ou saisis le texte ci-dessous.' })
+      }
     } catch {
       const off = typeof navigator !== 'undefined' && !navigator.onLine
       setOcr({ status: 'error', progress: 0, msg: off ? 'Lecture automatique indisponible hors ligne. Tu peux saisir ou coller ton texte ci-dessous.' : 'Lecture impossible cette fois. Saisis ou colle ton texte ci-dessous — la fiche se génère quand même.' })
