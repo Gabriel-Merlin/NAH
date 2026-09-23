@@ -107,6 +107,27 @@ export default function Revise() {
       {hasStarted && (
         <section className="space-y-2.5">
           <h2 className="px-1 font-display text-lg font-semibold">🔁 {t('toReviseSection')}</h2>
+          {(() => {
+            const dueN = started.filter((s) => s.reason === 'due').length
+            const weakN = started.filter((s) => s.reason === 'weak').length
+            const okN = started.filter((s) => s.reason === 'review').length
+            return (dueN + weakN) > 0 ? (
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-xl bg-amber-50 p-2.5 text-center dark:bg-amber-950/40">
+                  <div className="text-lg font-bold text-amber-600 dark:text-amber-300">{dueN}</div>
+                  <div className="text-[11px] leading-tight text-amber-700/80 dark:text-amber-300/80">à revoir aujourd’hui</div>
+                </div>
+                <div className="rounded-xl bg-rose-50 p-2.5 text-center dark:bg-rose-950/40">
+                  <div className="text-lg font-bold text-rose-600 dark:text-rose-300">{weakN}</div>
+                  <div className="text-[11px] leading-tight text-rose-700/80 dark:text-rose-300/80">à renforcer</div>
+                </div>
+                <div className="rounded-xl bg-emerald-50 p-2.5 text-center dark:bg-emerald-950/40">
+                  <div className="text-lg font-bold text-emerald-600 dark:text-emerald-300">{okN}</div>
+                  <div className="text-[11px] leading-tight text-emerald-700/80 dark:text-emerald-300/80">bien acquis</div>
+                </div>
+              </div>
+            ) : null
+          })()}
           {started.slice(0, 20).map((item) => {
             const r = REASON[item.reason] || REASON.review
             return (

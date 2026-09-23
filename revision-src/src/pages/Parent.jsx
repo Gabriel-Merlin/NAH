@@ -17,6 +17,24 @@ function relativeTime(iso, lang) {
   return rtf.format(-Math.round(h / 24), 'day')
 }
 
+// Synthèse automatique pour le parent : lecture de l'engagement + points forts
+// et points à renforcer, dérivés des données de l'enfant.
+function parentSynthesis(child) {
+  const subs = Array.isArray(child.subjects) ? child.subjects : []
+  const strengths = subs.filter((s) => (s.score || 0) >= 75).sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 3)
+  const toWork = subs.filter((s) => (s.score || 0) < 55).sort((a, b) => (a.score || 0) - (b.score || 0)).slice(0, 3)
+  const name = child.name || 'Votre enfant'
+  const days = child.last_active ? Math.floor((Date.now() - new Date(child.last_active).getTime()) / 86400000) : null
+  const streak = child.streak || 0
+  const week = child.courses_week || 0
+  let tone, message
+  if (days != null && days >= 5) { tone = 'warn'; message = `${name} ne s’est pas connecté·e depuis ${days} jours. Un petit encouragement peut relancer la dynamique 💛.` }
+  else if (streak >= 5 || week >= 5) { tone = 'good'; message = `${name} révise avec régularité — ${streak} jour(s) de suite et ${week} thème(s) cette semaine. Beau travail 👏.` }
+  else if (week >= 2) { tone = 'ok'; message = `${name} a travaillé ${week} thème(s) cette semaine. Encouragez la régularité : 15 min par jour suffisent.` }
+  else { tone = 'warn'; message = `Peu d’activité cette semaine. Fixez ensemble un petit objectif quotidien pour garder le rythme.` }
+  return { tone, message, strengths, toWork }
+}
+
 function StatTile({ icon, label, value, sub, color }) {
   return (
     <div className="card p-4 text-center">
@@ -132,6 +150,37 @@ export default function Parent() {
                 <StatTile icon="🏅" label={t('parentBadges')} value={child.badges || 0} color="#7c3aed" />
                 {bacDays != null && bacDays >= 0 && <StatTile icon="📅" label={t('parentBacIn')} value={bacDays} sub={t('parentDaysShort')} color="#e11d48" />}
               </section>
+
+              {(() => {
+                const syn = parentSynthesis(child)
+                const tc = syn.tone === 'good' ? '#059669' : syn.tone === 'warn' ? '#e11d48' : '#0891b2'
+                return (
+                  <section className="card p-5" style={{ boxShadow: 'inset 0 0 0 1px color-mix(in srgb, ' + tc + ' 35%, transparent)' }}>
+                    <h2 className="mb-2 flex items-center gap-2 font-display text-lg font-semibold">🧭 Synthèse de la semaine</h2>
+                    <p className="text-sm text-slate-700 dark:text-slate-200">{syn.message}</p>
+                    {(syn.strengths.length > 0 || syn.toWork.length > 0) && (
+                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                        {syn.strengths.length > 0 && (
+                          <div>
+                            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">💪 Points forts</p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {syn.strengths.map((s, i) => <span key={i} className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{s.short} · {s.score || 0}%</span>)}
+                            </div>
+                          </div>
+                        )}
+                        {syn.toWork.length > 0 && (
+                          <div>
+                            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-rose-600 dark:text-rose-400">🎯 À renforcer</p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {syn.toWork.map((s, i) => <span key={i} className="chip bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300">{s.short} · {s.score || 0}%</span>)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </section>
+                )
+              })()}
 
               {Array.isArray(child.subjects) && child.subjects.length > 0 && (
                 <section className="card space-y-3 p-5">

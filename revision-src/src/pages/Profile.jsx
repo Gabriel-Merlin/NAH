@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { useStore } from '../store.jsx'
-import { trackLabel, trackIcon } from '../data/tracks.js'
+import { useStore, subjectScore } from '../store.jsx'
+import { trackLabel, trackIcon, subjectsForTrack } from '../data/tracks.js'
 import { badgeById } from '../badges.js'
 import { Ring, ProgressBar, Icon } from '../components/ui.jsx'
 import { useT } from '../i18n.js'
@@ -110,6 +110,23 @@ export default function Profile() {
         <div>
           <h2 className="mb-3 px-1 font-display text-xl font-medium">⏱️ {t('timePerTheme')}</h2>
           <ThemeTimeBars themeTime={state.themeTime} />
+        </div>
+        <div>
+          <h2 className="mb-3 px-1 font-display text-xl font-medium">📚 {t('aiBySubject')}</h2>
+          <div className="card space-y-3 p-4">
+            {subjectsForTrack(state.track).filter((s) => s && !s.comingSoon && (s.chapters || []).length).map((s) => {
+              const sc = subjectScore(state, s.id)
+              return (
+                <div key={s.id}>
+                  <div className="mb-1 flex items-baseline justify-between gap-2">
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium">{s.icon || '📘'} {s.short || s.name}</span>
+                    <span className="shrink-0 text-xs font-semibold tabular-nums" style={{ color: s.color }}>{sc}%</span>
+                  </div>
+                  <ProgressBar value={sc} color={s.color} height={7} />
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
 

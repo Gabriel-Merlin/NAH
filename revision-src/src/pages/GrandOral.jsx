@@ -16,6 +16,12 @@ const GO_QUESTIONS = {
       { q: 'Comment le management peut-il transformer un conflit en opportunité ?', angle: 'Distingue conflit latent/ouvert, puis les modes de résolution (négociation, médiation, arbitrage). Illustre avec un cas d’entreprise.' },
       { q: 'La communication interne améliore-t-elle vraiment la cohésion d’une équipe ?', angle: 'Relie communication formelle/informelle, schéma de communication et performance sociale (turnover, absentéisme).' },
       { q: 'Le télétravail renforce-t-il ou fragilise-t-il l’implication des salariés ?', angle: 'Pèse autonomie et qualité de vie contre risques d’isolement et de perte de cohésion. Nuance selon les métiers.' },
+      { q: 'La marque employeur est-elle un levier de recrutement décisif ?', angle: 'Relie image externe, attractivité et fidélisation. Montre qu’une bonne réputation attire mais doit être tenue en interne.' },
+      { q: 'Peut-on manager efficacement sans autorité hiérarchique ?', angle: 'Distingue pouvoir et autorité ; mobilise les styles de management (Likert) et le management participatif / le leadership.' },
+      { q: 'La formation est-elle un coût ou un investissement pour l’entreprise ?', angle: 'Oppose la vue comptable (charge) et la vue stratégique (compétences, employabilité, performance). Parle de GPEC.' },
+      { q: 'La reconnaissance au travail est-elle plus efficace qu’une prime ?', angle: 'Mobilise Maslow / Herzberg : reconnaissance = besoin d’estime. Nuance selon les profils et les situations.' },
+      { q: 'La diversité en entreprise est-elle une contrainte ou une richesse ?', angle: 'Relie non-discrimination (cadre légal), performance collective et image. Montre l’intérêt managérial de la diversité.' },
+      { q: 'Le bien-être au travail améliore-t-il vraiment la performance ?', angle: 'Relie QVT, motivation, absentéisme et productivité. Nuance : conditions nécessaires mais pas suffisantes.' },
     ],
   },
   mercatique: {
@@ -25,6 +31,12 @@ const GO_QUESTIONS = {
       { q: 'Fidéliser coûte-t-il vraiment moins cher que conquérir de nouveaux clients ?', angle: 'Compare coûts d’acquisition et de fidélisation, valeur à vie du client, programmes de fidélité. Appuie-toi sur des chiffres.' },
       { q: 'Le marketing responsable est-il un argument commercial ou une conviction ?', angle: 'Interroge la frontière avec le greenwashing ; relie mercatique responsable, image de marque et attentes des consommateurs.' },
       { q: 'Comment une marque crée-t-elle de la valeur perçue aux yeux du consommateur ?', angle: 'Mobilise le mix (4P), le positionnement et la valeur perçue vs valeur réelle. Prends une marque que tu connais.' },
+      { q: 'Le prix est-il vraiment le premier critère d’achat ?', angle: 'Oppose prix et valeur perçue, image, qualité, engagement. Montre des cas où le consommateur paie plus cher volontairement.' },
+      { q: 'Le marketing d’influence est-il efficace et éthique ?', angle: 'Pèse portée/ciblage/authenticité contre risques (manque de transparence, faux avis, obligation de mention publicitaire).' },
+      { q: 'La personnalisation de l’offre est-elle une chance ou une intrusion ?', angle: 'Relie données clients, expérience sur-mesure et RGPD / vie privée. Trouve l’équilibre pertinence / respect.' },
+      { q: 'Le marketing peut-il créer un besoin de toutes pièces ?', angle: 'Distingue besoin (Maslow) et désir/demande. Le marketing révèle et oriente plus qu’il ne crée un besoin fondamental.' },
+      { q: 'Les avis clients font-ils la pluie et le beau temps d’une marque ?', angle: 'Relie e-réputation, preuve sociale, décision d’achat. Nuance : faux avis, gestion des avis négatifs.' },
+      { q: 'L’expérience en magasin résiste-t-elle au e-commerce ?', angle: 'Oppose et combine physique/digital (phygital, drive, click & collect). Montre le rôle de l’expérience et du conseil.' },
     ],
   },
   'gestion-finance': {
@@ -34,6 +46,12 @@ const GO_QUESTIONS = {
       { q: 'Pourquoi la trésorerie est-elle vitale, même pour une entreprise rentable ?', angle: 'Explique le décalage encaissements/décaissements, le BFR et le risque de cessation de paiement.' },
       { q: 'L’endettement est-il toujours un risque pour l’entreprise ?', angle: 'Distingue effet de levier (l’endettement finance la croissance) et surendettement. Relie au coût du capital.' },
       { q: 'Comment les documents comptables aident-ils à la prise de décision ?', angle: 'Montre le rôle du bilan, du compte de résultat et des SIG comme outils d’analyse et de pilotage.' },
+      { q: 'La rentabilité est-elle le seul objectif d’une entreprise ?', angle: 'Oppose performance financière et performances sociale/environnementale (RSE, parties prenantes). Élargis la notion de performance.' },
+      { q: 'Le seuil de rentabilité est-il un outil de décision fiable ?', angle: 'Explique charges fixes/variables, marge sur coût variable, point mort. Montre ses limites (hypothèses, court terme).' },
+      { q: 'Faut-il toujours investir pour se développer ?', angle: 'Relie investissement, financement, rentabilité attendue et risque. Nuance : croissance maîtrisée vs fuite en avant.' },
+      { q: 'La performance financière est-elle compatible avec la RSE ?', angle: 'Montre les coûts à court terme et les gains à long terme (image, fidélité, économies, financement responsable).' },
+      { q: 'Le besoin en fonds de roulement (BFR) est-il un ennemi de l’entreprise ?', angle: 'Explique BFR = stocks + créances − dettes ; montre que le maîtriser (délais, stocks) protège la trésorerie.' },
+      { q: 'Comment financer sa croissance sans mettre l’entreprise en danger ?', angle: 'Compare autofinancement, emprunt, augmentation de capital ; relie au FRNG, à l’équilibre financier et au risque.' },
     ],
   },
   sig: {
@@ -41,8 +59,25 @@ const GO_QUESTIONS = {
     items: [
       { q: 'Le partage des données améliore-t-il vraiment la prise de décision ?', angle: 'Relie SI, intelligence collective et information de qualité (fiable, pertinente, actuelle). Nuance avec la surcharge d’information.' },
       { q: 'Faut-il tout dématérialiser dans une organisation ?', angle: 'Balance gains (temps, place, workflow) et limites (sécurité, valeur juridique, fracture numérique).' },
-      { q: 'La sécurité des systèmes d’information est-elle d’abord un problème technique ou humain ?', angle: 'Mobilise le triptyque CID puis montre que la faille est souvent humaine (phishing, mot de passe faible).' },
+      { q: 'La sécurité des systèmes d’information est-elle d’abord un problème technique ou humain ?', angle: 'Mobilise le triptyque D.I.C. puis montre que la faille est souvent humaine (phishing, mot de passe faible).' },
       { q: 'Un PGI rend-il l’entreprise plus performante ou plus dépendante ?', angle: 'Oppose intégration/cohérence des données et coût/dépendance au fournisseur. Conclus sur un arbitrage.' },
+      { q: 'Les données personnelles sont-elles suffisamment protégées ?', angle: 'Mobilise le RGPD (consentement, finalité, droit à l’oubli) et le rôle de la CNIL. Nuance entre droit et pratiques réelles.' },
+      { q: 'L’intelligence artificielle va-t-elle remplacer les métiers de la gestion ?', angle: 'Distingue tâches automatisables et compétences humaines (jugement, relation). Parle transformation plutôt que disparition.' },
+      { q: 'Le cloud est-il une opportunité ou un risque pour l’entreprise ?', angle: 'Pèse accessibilité/coût/souplesse contre dépendance, sécurité et localisation des données.' },
+      { q: 'La qualité des données conditionne-t-elle la qualité des décisions ?', angle: '« Garbage in, garbage out » : relie fiabilité, actualité, complétude des données et pertinence des décisions.' },
+      { q: 'Trop d’information tue-t-elle l’information ?', angle: 'Aborde l’infobésité, le tri, les tableaux de bord et l’aide à la décision. L’enjeu : la bonne info au bon moment.' },
+      { q: 'Une base de données est-elle le vrai patrimoine de l’entreprise ?', angle: 'Montre la valeur stratégique des données (clients, ventes) et les enjeux de protection, de sauvegarde et d’exploitation.' },
+    ],
+  },
+  transversal: {
+    label: 'Transversales', icon: '🔀',
+    items: [
+      { q: 'Le numérique transforme-t-il en profondeur les organisations ?', angle: 'Croise SI, mercatique digitale, télétravail et nouveaux modèles. Montre les gains ET les bouleversements (emplois, compétences).' },
+      { q: 'La RSE est-elle un coût ou un avantage concurrentiel ?', angle: 'Relie développement durable, image, attentes des parties prenantes et performance globale. Prends un exemple d’entreprise.' },
+      { q: 'La performance d’une organisation se mesure-t-elle seulement en chiffres ?', angle: 'Oppose performance financière et performances sociale/environnementale. Élargis avec les parties prenantes.' },
+      { q: 'Le client a-t-il vraiment le pouvoir dans l’entreprise d’aujourd’hui ?', angle: 'Croise avis en ligne, personnalisation, co-création. Nuance : le pouvoir est réel mais encadré par les stratégies des marques.' },
+      { q: 'L’humain reste-t-il la première richesse de l’organisation ?', angle: 'Relie GRH, motivation, compétences et automatisation. Montre la complémentarité humain / technologie.' },
+      { q: 'Une entreprise peut-elle concilier profit et éthique ?', angle: 'Croise RSE, gouvernance, image et rentabilité. Montre que l’éthique peut devenir un levier de performance durable.' },
     ],
   },
 }
@@ -85,6 +120,64 @@ const CONSEILS = [
   { icon: '🧱', t: 'Structure, structure, structure', d: 'Annonce ton plan (« Je vais répondre en deux temps… »). Un jury suit d’autant mieux qu’il sait où tu vas.' },
   { icon: '🗂️', t: 'Un exemple par idée', d: 'Chaque argument doit être illustré (cas d’entreprise, chiffre, situation vécue). L’exemple rend ton propos vivant et crédible.' },
 ]
+
+// Grille d'auto-évaluation : l'élève se note sur les 4 critères du jury,
+// obtient une note /20 indicative et un conseil ciblé sur son point faible.
+const EVAL_CRIT = [
+  { key: 'oral', icon: '🗣️', label: 'Qualité orale', tip: 'Répète debout, ralentis le débit, fais des pauses au lieu des « euh », regarde devant toi.' },
+  { key: 'argu', icon: '🧩', label: 'Argumentation', tip: 'Annonce ton plan, une idée + un exemple par partie, et une conclusion qui ouvre.' },
+  { key: 'connais', icon: '📚', label: 'Connaissances', tip: 'Révise les notions clés de ta spécialité liées à la question pour tenir l’échange avec le jury.' },
+  { key: 'projet', icon: '🎯', label: 'Projet motivé', tip: 'Prépare 3-4 phrases sincères : pourquoi ce sujet, ce qu’il révèle de ton projet d’études.' },
+]
+
+function SelfEval() {
+  const [notes, setNotes] = useState({ oral: 0, argu: 0, connais: 0, projet: 0 })
+  const done = Object.values(notes).every((v) => v > 0)
+  const score = Object.values(notes).reduce((s, v) => s + v, 0) // /20
+  const verdict = score >= 17 ? { t: 'Prêt·e pour le jour J 🎉', c: '#059669' }
+    : score >= 14 ? { t: 'Solide — peaufine les détails 👍', c: '#0891b2' }
+      : score >= 10 ? { t: 'En bonne voie — continue à t’entraîner 💪', c: '#d97706' }
+        : { t: 'À retravailler — vise la régularité 🔁', c: '#e11d48' }
+  const weakest = done ? EVAL_CRIT.reduce((a, b) => (notes[b.key] < notes[a.key] ? b : a)) : null
+
+  return (
+    <section className="card card-lux p-5 sm:p-6">
+      <h2 className="mb-1 font-display text-xl font-medium">📝 M’auto-évaluer comme le jury</h2>
+      <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">Après ton passage blanc, note-toi honnêtement de 1 à 5 sur chaque critère. Tu obtiens une note indicative sur 20 et un conseil ciblé.</p>
+      <div className="space-y-3">
+        {EVAL_CRIT.map((c) => (
+          <div key={c.key} className="flex flex-wrap items-center justify-between gap-2">
+            <span className="flex items-center gap-2 text-sm font-medium"><span aria-hidden>{c.icon}</span> {c.label}</span>
+            <div className="flex gap-1.5">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  onClick={() => setNotes((p) => ({ ...p, [c.key]: n }))}
+                  aria-label={`${c.label} : ${n} sur 5`}
+                  aria-pressed={notes[c.key] === n}
+                  className="grid h-8 w-8 place-items-center rounded-lg text-sm font-semibold transition"
+                  style={notes[c.key] >= n ? { backgroundColor: 'var(--c-accent)', color: '#fff' } : { backgroundColor: 'color-mix(in srgb, var(--c-accent) 12%, transparent)', color: 'var(--c-accent)' }}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      {done && (
+        <div className="mt-5 rounded-2xl p-4 text-center" style={{ backgroundColor: 'color-mix(in srgb, ' + verdict.c + ' 12%, transparent)' }}>
+          <p className="font-display text-4xl font-bold tabular-nums" style={{ color: verdict.c }}>{score}<span className="text-xl">/20</span></p>
+          <p className="mt-1 font-semibold" style={{ color: verdict.c }}>{verdict.t}</p>
+          {weakest && score < 20 && (
+            <p className="mx-auto mt-2 max-w-md text-sm text-slate-600 dark:text-slate-300"><span className="font-semibold">À travailler en priorité — {weakest.label} :</span> {weakest.tip}</p>
+          )}
+          <button onClick={() => setNotes({ oral: 0, argu: 0, connais: 0, projet: 0 })} className="mt-3 text-xs font-semibold text-slate-500 hover:underline dark:text-slate-400">↺ Refaire une auto-évaluation</button>
+        </div>
+      )}
+    </section>
+  )
+}
 
 function two(n) { return String(n).padStart(2, '0') }
 
@@ -310,6 +403,9 @@ export default function GrandOral() {
 
         <AudioRecorder />
       </section>
+
+      {/* ---- Auto-évaluation ---- */}
+      <SelfEval />
 
       {/* ---- Étapes de préparation ---- */}
       <section>
