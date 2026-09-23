@@ -103,64 +103,61 @@ function findDefinitions(text) {
   return defs.slice(0, 20)
 }
 
-// Repères chiffrés / dates / formules à mémoriser.
-function findFacts(text) {
-  const facts = []
-  const seen = new Set()
-  const add = (s) => { const k = s.toLowerCase().trim(); if (k && !seen.has(k)) { seen.add(k); facts.push(s.trim()) } }
-  for (const s of sentences(text)) {
-    const hasYear = /\b(1[0-9]{3}|20[0-9]{2})\b/.test(s)
-    const hasPct = /\d+[\s,.]?\d*\s?%/.test(s)
-    const hasFormula = /[=]/.test(s) && /[a-zà-ÿ]/i.test(s)
-    const hasMoney = /\d+[\s,.]?\d*\s?(€|euros?|k€|M€|milliards?|millions?)/i.test(s)
-    const hasCentury = /\b[IVX]{1,4}(?:e|ᵉ|ème)\s+siècle/i.test(s)
-    if (hasYear || hasPct || hasFormula || hasMoney || hasCentury) add(s)
-  }
-  return facts.slice(0, 8)
+// Questions / consignes de l'énoncé. On garde les interrogations directes ET les
+// consignes à l'impératif (« Identifiez… », « Calculez… »), même noyées dans du
+// bruit OCR. C'est l'essentiel d'un sujet d'étude de cas.
+const CONSIGNES = 'identifiez|identifier|calculez|calculer|déterminez|déterminer|analysez|analyser|justifiez|justifier|montrez|montrer|expliquez|expliquer|présentez|présenter|rédigez|rédiger|complétez|compléter|comparez|comparer|précisez|préciser|caractérisez|caractériser|distinguez|distinguer|repérez|repérer|citez|citer|définissez|définir|indiquez|indiquer|proposez|proposer|évaluez|évaluer|commentez|commenter|qualifiez|qualifier|vérifiez|vérifier|interprétez|interpréter|étudiez|étudier|recensez|formulez|formuler|nommez|nommer|relevez|relever|dressez|dresser|schématisez|schématiser|rappelez|rappeler|décrivez|décrire|énoncez|énumérez|énumérer|repérez'
+
+function cleanQuestion(q) {
+  return q
+    .replace(/^\s*(?:question|q)\s*n?[°º]?\s*\d+\s*[).:–\-]*\s*/i, '')
+    .replace(/^\s*\d+\s*[).:–\-]\s*/, '')
+    .replace(/^[\s\-•—>*|]+/, '')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
-// Idées clés : phrases importantes (connecteurs logiques, densité de mots-clés),
-// hors définitions déjà extraites.
-function findKeyPoints(text, defTerms, keywords) {
-  const kwset = new Set(keywords.map((k) => k.toLowerCase()))
-  const scored = sentences(text).map((s) => {
-    const low = s.toLowerCase()
-    let score = 0
-    if (/\b(donc|ainsi|c'est-à-dire|en effet|par conséquent|il faut|on distingue|permet de|repose sur|se caractérise|à retenir|notamment|se traduit|entraîne|dépend)\b/.test(low)) score += 2
-    for (const k of kwset) if (low.includes(k)) score += 1
-    if (s.length > 60 && s.length < 200) score += 1
-    for (const dt of defTerms) if (low.includes(dt.toLowerCase())) score -= 1 // évite de répéter une définition
-    return { s, score }
-  })
-  scored.sort((a, b) => b.score - a.score)
+function findQuestions(text) {
+  const ft = flatten(text)
   const out = []
   const seen = new Set()
-  for (const { s } of scored) {
-    const k = s.toLowerCase().slice(0, 40)
-    if (seen.has(k)) continue
-    seen.add(k)
-    out.push(s)
-    if (out.length >= 8) break
+  const add = (raw) => {
+    let q = cleanQuestion(raw)
+    // Ne garde que la dernière phrase de l'unité : la question elle-même.
+    const bits = q.split(/(?<=[.!])\s+/)
+    q = cleanQuestion(bits[bits.length - 1])
+    if (q.length < 12 || q.length > 240 || !isProse(q)) return
+    if (!/\?$/.test(q)) q = q.replace(/\s*[.]+$/, '')
+    const key = q.toLowerCase().slice(0, 60)
+    if (seen.has(key)) return
+    seen.add(key)
+    out.push(q.charAt(0).toUpperCase() + q.slice(1))
   }
-  return out
+  // 1) Interrogations directes (se terminent par « ? »).
+  for (const u of ft.split(/\n+/)) for (const s of u.split(/(?<=\?)\s+/)) if (/\?\s*$/.test(s)) add(s)
+  // 2) Consignes à l'impératif : on repart du verbe jusqu'à la fin de la phrase.
+  const reImp = new RegExp('\\b(' + CONSIGNES + ')\\b[^?.!\\n]{6,220}[?.!]?', 'gi')
+  let m
+  while ((m = reImp.exec(ft)) && out.length < 25) add(m[0])
+  return out.slice(0, 15)
 }
 
-// Mots-clés : termes significatifs les plus fréquents.
-function findKeywords(text) {
-  const freq = {}
-  const words = text.toLowerCase().match(/[a-zà-ÿ][a-zà-ÿ'’-]{3,}/gi) || []
-  for (const w0 of words) {
-    const w = w0.replace(/['’-]+$/, '')
-    if (w.length < 4 || STOP.has(w)) continue
-    if (!/[aeiouyàâäéèêëïîôöùûü]/.test(w)) continue // pas de voyelle = charabia OCR
-    if (/(.)\1\1/.test(w)) continue // 3 lettres identiques d'affilée = bruit
-    freq[w] = (freq[w] || 0) + 1
+// Informations importantes des documents : ce qui porte une donnée (chiffre, %,
+// €, ratio, date, formule) ou un fait de gestion clé. Le reste est ignoré.
+const KEYTERMS_INFO = /\b(chiffre d'affaires|résultat|bénéfice|perte|marge|taux|rentabilité|montant|effectifs?|salariés?|part de marché|capitaux|capital|dette|emprunt|trésorerie|croissance|investissement|financement|coût|prix|stocks?|création|fondée?|siège|filiales?|dividende|autonomie financière|solvabilité|actif|passif|bilan)\b/i
+
+const reConsigneStart = new RegExp('^\\s*(?:\\d+\\s*[).:\\-–]\\s*)?(?:' + CONSIGNES + ')\\b', 'i')
+
+function findKeyInfo(text) {
+  const out = []
+  const seen = new Set()
+  const add = (s) => { const k = s.toLowerCase().slice(0, 50); if (!seen.has(k)) { seen.add(k); out.push(s) } }
+  for (const s of sentences(text)) {
+    if (/\?\s*$/.test(s) || reConsigneStart.test(s)) continue // questions/consignes traitées à part
+    const num = /\b(1[0-9]{3}|20[0-9]{2})\b/.test(s) || /\d+[\s,.]?\d*\s?%/.test(s) || /[=]/.test(s) || /\d+[\s,.]?\d*\s?(€|euros?|k€|M€|milliards?|millions?)/i.test(s) || /\d+\s*[/÷]\s*\d+/.test(s) || /\b[IVX]{1,4}(?:e|ᵉ|ème)\s+siècle/i.test(s)
+    if (num || KEYTERMS_INFO.test(s)) add(s)
   }
-  return Object.entries(freq)
-    .filter(([, n]) => n >= 2)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 12)
-    .map(([w]) => w)
+  return out.slice(0, 12)
 }
 
 function guessTitle(text) {
@@ -175,29 +172,20 @@ function guessTitle(text) {
 export function buildFiche(rawText, { title } = {}) {
   const text = clean(rawText)
   if (text.replace(/\s/g, '').length < 20) {
-    return { title: title || 'Ma fiche de révision', empty: true, summary: '', keyPoints: [], definitions: [], facts: [], keywords: [], flashcards: [] }
+    return { title: title || 'Ma fiche de révision', empty: true, questions: [], definitions: [], keyInfo: [], flashcards: [] }
   }
   const definitions = findDefinitions(text)
-  const keywords = findKeywords(text)
-  const facts = findFacts(text)
-  const defTerms = definitions.map((d) => d.term)
-  const keyPoints = findKeyPoints(text, defTerms, keywords)
-  const allS = sentences(text)
-  const summary = allS.slice(0, 2).join(' ')
-  const flashcards = [
-    ...definitions.map((d) => ({ front: d.term, back: d.def })),
-    ...keywords.slice(0, 6).filter((k) => !definitions.some((d) => d.term.toLowerCase() === k)).map((k) => ({ front: `Que retenir sur « ${k} » ?`, back: keyPoints.find((p) => p.toLowerCase().includes(k)) || '' })).filter((c) => c.back),
-  ].slice(0, 40)
-  const kept = definitions.length + keyPoints.length + facts.length
+  const questions = findQuestions(text)
+  const keyInfo = findKeyInfo(text)
+  const flashcards = definitions.map((d) => ({ front: d.term, back: d.def })).slice(0, 40)
+  const kept = definitions.length + questions.length + keyInfo.length
   return {
     title: (title && title.trim()) || guessTitle(text),
     empty: false,
-    lowQuality: kept < 3, // très peu de contenu propre : texte probablement mal lu
-    summary,
-    keyPoints,
+    lowQuality: kept < 2, // très peu d'éléments utiles : texte probablement mal lu
+    questions,
     definitions,
-    facts,
-    keywords,
+    keyInfo,
     flashcards,
     charCount: text.length,
   }

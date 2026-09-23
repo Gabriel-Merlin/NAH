@@ -14,50 +14,33 @@ function SecHead({ icon, children }) {
   )
 }
 
-// Affichage d'une fiche structurée (générée ou enregistrée), façon fiche propre.
+// Affichage d'une fiche structurée (générée ou enregistrée) : on garde
+// l'essentiel d'un sujet — questions, informations importantes, définitions.
 function FicheView({ fiche }) {
   if (!fiche) return null
-  const hasBody = fiche.summary || fiche.definitions?.length || fiche.keyPoints?.length || fiche.facts?.length
-  if (!hasBody) return <p className="text-center text-sm text-slate-500 dark:text-slate-400">Aucun contenu exploitable n’a pu être extrait. Reprends une photo plus nette, ou complète le texte.</p>
+  const hasBody = fiche.questions?.length || fiche.definitions?.length || fiche.keyInfo?.length
+  if (!hasBody) return <p className="text-center text-sm text-slate-500 dark:text-slate-400">Aucun élément exploitable n’a pu être extrait. Reprends une photo plus nette, ou complète le texte.</p>
   return (
     <div className="space-y-6">
-      {fiche.summary && (
-        <p className="rounded-r-lg border-l-[3px] py-1 pl-3.5 text-[15px] italic leading-relaxed text-slate-600 dark:text-slate-300" style={{ borderColor: 'var(--c-accent)' }}>{fiche.summary}</p>
-      )}
-
-      {fiche.definitions?.length > 0 && (
+      {fiche.questions?.length > 0 && (
         <section>
-          <SecHead icon="📖">Définitions clés</SecHead>
-          <dl className="space-y-3.5">
-            {fiche.definitions.map((d, i) => (
-              <div key={i}>
-                <dt className="text-[15px] font-semibold text-slate-900 dark:text-slate-50">{d.term}</dt>
-                <dd className="mt-0.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{d.def}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-      )}
-
-      {fiche.keyPoints?.length > 0 && (
-        <section>
-          <SecHead icon="💡">Points clés</SecHead>
+          <SecHead icon="📝">Questions à traiter</SecHead>
           <ol className="space-y-2.5">
-            {fiche.keyPoints.map((p, i) => (
+            {fiche.questions.map((q, i) => (
               <li key={i} className="flex gap-3">
                 <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full text-[11px] font-bold text-white" style={{ backgroundColor: 'var(--c-accent)' }}>{i + 1}</span>
-                <span className="text-sm leading-relaxed text-slate-700 dark:text-slate-200">{p}</span>
+                <span className="text-sm font-medium leading-relaxed text-slate-800 dark:text-slate-100">{q}</span>
               </li>
             ))}
           </ol>
         </section>
       )}
 
-      {fiche.facts?.length > 0 && (
+      {fiche.keyInfo?.length > 0 && (
         <section>
-          <SecHead icon="🔢">Repères à mémoriser</SecHead>
+          <SecHead icon="📄">Informations importantes</SecHead>
           <ul className="flex flex-col gap-2">
-            {fiche.facts.map((f, i) => (
+            {fiche.keyInfo.map((f, i) => (
               <li key={i} className="flex items-start gap-2.5 rounded-xl bg-slate-50 px-3.5 py-2.5 text-sm leading-relaxed text-slate-700 dark:bg-slate-800/60 dark:text-slate-200">
                 <span className="shrink-0" aria-hidden>📌</span><span>{f}</span>
               </li>
@@ -66,12 +49,17 @@ function FicheView({ fiche }) {
         </section>
       )}
 
-      {fiche.keywords?.length > 0 && (
+      {fiche.definitions?.length > 0 && (
         <section>
-          <SecHead icon="🏷️">Mots-clés</SecHead>
-          <div className="flex flex-wrap gap-1.5">
-            {fiche.keywords.map((k, i) => <span key={i} className="rounded-full px-2.5 py-1 text-xs font-medium" style={{ backgroundColor: 'color-mix(in srgb, var(--c-accent) 12%, transparent)', color: 'var(--c-accent)' }}>{k}</span>)}
-          </div>
+          <SecHead icon="📖">Définitions associées</SecHead>
+          <dl className="space-y-3.5">
+            {fiche.definitions.map((d, i) => (
+              <div key={i}>
+                <dt className="text-[15px] font-semibold text-slate-900 dark:text-slate-50">{d.term}</dt>
+                <dd className="mt-0.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{d.def}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       )}
     </div>
@@ -126,7 +114,7 @@ export default function PhotoFiche() {
     saveFiche({
       id, title: fiche.title, createdAt: Date.now(), source: photos.length ? 'photo' : 'texte',
       text: (rawText || '').slice(0, 8000),
-      sections: { summary: fiche.summary, keyPoints: fiche.keyPoints, definitions: fiche.definitions, facts: fiche.facts, keywords: fiche.keywords },
+      sections: { questions: fiche.questions, definitions: fiche.definitions, keyInfo: fiche.keyInfo },
       flashcards: fiche.flashcards || [],
     })
     setMsg('Fiche enregistrée ✅')
@@ -152,7 +140,7 @@ export default function PhotoFiche() {
         <p className="kicker">📸 {t('photoFiche')}</p>
         <h1 className="mt-1 font-display text-[1.9rem] font-medium leading-tight">Ta fiche à partir d’une photo</h1>
         <span className="mx-auto mt-3 block h-px w-24 rounded-full" style={{ background: 'linear-gradient(90deg,transparent,#c8a24e,transparent)' }} />
-        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Prends ton cours en photo : l’appli lit le texte et en fait une fiche de révision structurée.</p>
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Photographie ton cours ou ton sujet : l’appli en retient l’essentiel — les <strong>questions</strong>, les <strong>informations importantes</strong> et les <strong>définitions</strong>.</p>
       </header>
 
       {/* Étape 1 — Photo */}
@@ -238,7 +226,7 @@ export default function PhotoFiche() {
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg" style={{ backgroundColor: 'var(--c-accent)22' }} aria-hidden>{f.source === 'photo' ? '📸' : '📝'}</span>
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-semibold">{f.title}</span>
-                    <span className="block text-xs text-slate-400">{(f.sections?.definitions?.length || 0)} définitions · {(f.sections?.keyPoints?.length || 0)} points clés</span>
+                    <span className="block text-xs text-slate-400">{(f.sections?.questions?.length || 0)} questions · {(f.sections?.definitions?.length || 0)} définitions</span>
                   </span>
                 </button>
                 <button onClick={() => makeDeck({ title: f.title, flashcards: f.flashcards })} title="Créer des flashcards" aria-label="Créer des flashcards" className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 transition hover:text-slate-700 dark:hover:text-slate-200">🃏</button>
