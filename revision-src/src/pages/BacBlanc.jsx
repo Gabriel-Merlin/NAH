@@ -6,9 +6,11 @@ import Exam from '../games/Exam.jsx'
 import { useT } from '../i18n.js'
 
 const DURATIONS = [
+  { min: 10, q: 8 },
   { min: 15, q: 12 },
   { min: 30, q: 20 },
   { min: 45, q: 30 },
+  { min: 60, q: 40 },
 ]
 
 export default function BacBlanc() {
@@ -19,7 +21,7 @@ export default function BacBlanc() {
 
   const subjects = examSubjects(state.track)
   const [subjectId, setSubjectId] = useState('all') // 'all' | subjectId
-  const [dur, setDur] = useState(DURATIONS[1])
+  const [dur, setDur] = useState(DURATIONS[2])
   const [exam, setExam] = useState(null) // { questions, durationSec }
 
   const start = () => {
@@ -62,7 +64,7 @@ export default function BacBlanc() {
         </div>
 
         <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-400">{t('duration')}</p>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {DURATIONS.map((d) => (
             <button key={d.min} onClick={() => setDur(d)} className={`rounded-xl px-3 py-2.5 text-center text-sm font-semibold transition ${dur.min === d.min ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`} style={dur.min === d.min ? { backgroundColor: 'var(--c-accent)' } : undefined}>
               {d.min} {t('minShort')}<br /><span className="opacity-70">{d.q} {t('questionsShort')}</span>

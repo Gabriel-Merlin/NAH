@@ -33,6 +33,7 @@ export default function CoachAI() {
   const [subjectFilter, setSubjectFilter] = useState('')
   const [planOpen, setPlanOpen] = useState(false)
   const [perDay, setPerDay] = useState(3) // intensité du plan : thèmes par jour
+  const [sessionLen, setSessionLen] = useState(12) // nombre de questions par entraînement
   if (!state.track) return <Navigate to="/" replace />
 
   const a = useMemo(() => analyzeStudent(state, state.track), [state])
@@ -41,7 +42,7 @@ export default function CoachAI() {
   const subjects = useMemo(() => coachSubjects(state.track), [state.track])
 
   const start = () => {
-    const tr = buildTraining(state, state.track, 12, subjectFilter || null)
+    const tr = buildTraining(state, state.track, sessionLen, subjectFilter || null)
     if (tr.sequence.length) setTraining(tr)
   }
 
@@ -263,6 +264,16 @@ export default function CoachAI() {
               <option value="">{t('aiAllSubjects')}</option>
               {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
+            <label className="mb-2 block text-xs font-medium text-slate-500 dark:text-slate-400">Longueur de la séance</label>
+            <div className="mb-4 grid grid-cols-3 gap-2">
+              {[{ n: 8, l: 'Express' }, { n: 12, l: 'Standard' }, { n: 20, l: 'Intensif' }].map((o) => (
+                <button key={o.n} onClick={() => setSessionLen(o.n)} aria-pressed={sessionLen === o.n}
+                  className={`rounded-xl px-2 py-2 text-center text-xs font-semibold transition ${sessionLen === o.n ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+                  style={sessionLen === o.n ? { backgroundColor: 'var(--c-accent)' } : undefined}>
+                  {o.l}<br /><span className="opacity-70">{o.n} questions</span>
+                </button>
+              ))}
+            </div>
             <button onClick={start} className="btn-gold w-full !py-4 text-base">⚡ {t('aiStart')}</button>
             <p className="mt-3 text-center text-xs text-slate-400">🔒 {t('aiLocal')}</p>
           </section>

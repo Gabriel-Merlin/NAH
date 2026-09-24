@@ -16,9 +16,10 @@ import { parentCode, PARENT_READY } from '../parent.js'
 // « Mon espace » : la page personnelle de l'élève — identité, statistiques,
 // badges, favoris et accès rapide. Distincte de la personnalisation (apparence).
 export default function Profile() {
-  const { state, derived, resetAll } = useStore()
+  const { state, derived, resetAll, setBacDate } = useStore()
   const t = useT()
   const [busy, setBusy] = useState(false)
+  const bacDays = state.bacDate ? Math.ceil((new Date(state.bacDate + 'T00:00:00') - Date.now()) / 86400000) : null
   const [codeCopied, setCodeCopied] = useState(false)
   if (!state.track) return <Navigate to="/" replace />
 
@@ -202,6 +203,11 @@ export default function Profile() {
             <span className="min-w-0 flex-1"><span className="block font-display font-semibold">{t('prefTabs')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{t('prefTabsHint')}</span></span>
             <span className="text-slate-300" aria-hidden>›</span>
           </button>
+          <div className="flex items-center gap-3 p-4">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-100 text-lg dark:bg-slate-800" aria-hidden>📅</span>
+            <span className="min-w-0 flex-1"><span className="block font-display font-semibold">{t('prefBac')}</span><span className="block text-xs text-slate-500 dark:text-slate-400">{bacDays != null && bacDays >= 0 ? `J-${bacDays} · ${t('prefBacHint')}` : t('prefBacHint')}</span></span>
+            <input type="date" value={state.bacDate || ''} onChange={(e) => setBacDate(e.target.value)} className="shrink-0 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-800" />
+          </div>
         </div>
       </section>
 

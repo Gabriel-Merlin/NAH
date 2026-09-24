@@ -372,6 +372,14 @@ export default function GrandOral() {
             </button>
           ))}
         </div>
+        <div className="mb-5 flex items-center justify-center gap-3">
+          <span className="text-xs text-slate-500 dark:text-slate-400">Durée libre :</span>
+          <div className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-2 py-1 dark:border-slate-700">
+            <button onClick={() => pickPractice(Math.max(1, activeMin - 1))} aria-label="Moins une minute" className="grid h-7 w-7 place-items-center rounded-lg bg-slate-100 text-lg font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">−</button>
+            <span className="w-14 text-center text-sm font-semibold tabular-nums">{activeMin} min</span>
+            <button onClick={() => pickPractice(Math.min(30, activeMin + 1))} aria-label="Plus une minute" className="grid h-7 w-7 place-items-center rounded-lg bg-slate-100 text-lg font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">+</button>
+          </div>
+        </div>
         <div className="flex flex-col items-center">
           <Ring
             value={pct}
