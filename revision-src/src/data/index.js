@@ -28,6 +28,7 @@ import { APPROF3 } from './approfondir3.js'
 import { APPROF4 } from './approfondir4.js'
 import { SICSI } from './sicsi.js'
 import { HIST_DEEP } from './histoiredeep.js'
+import { MGMT_DEEP } from './managementdeep.js'
 
 export const SUBJECTS = [
   gestion,
@@ -132,6 +133,10 @@ for (const s of SUBJECTS) {
     // catégorie principale « 📘 Le cours » (pas de « group »).
     const hdeep = HIST_DEEP[c.id]
     if (hdeep?.length) c.cours = [...hdeep, ...(c.cours || [])]
+    // Management : cours complet (chapitres développés) en tête de la catégorie
+    // principale « 📘 Le cours » (pas de « group »).
+    const mdeep = MGMT_DEEP[c.id]
+    if (mdeep?.length) c.cours = [...mdeep, ...(c.cours || [])]
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
