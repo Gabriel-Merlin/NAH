@@ -9,44 +9,21 @@ export const MGMT_DEEP = {
   // THÈME 1 — LES ORGANISATIONS ET L’ACTIVITÉ DE PRODUCTION
   // #####################################################################
   'mgmt-t1': [
-    S('🏢 Qu’est-ce qu’une organisation ? Types et finalités', [
-      { t: 'p', c: 'Le management est l’art de **conduire une organisation** : fixer des objectifs, mobiliser des ressources et coordonner les acteurs pour atteindre un but. Avant de manager, il faut comprendre **ce qu’est une organisation** et **pourquoi elle existe**.' },
-      { t: 'p', c: 'Une **organisation** est un **groupe de personnes** qui met en commun des **moyens** (humains, financiers, matériels) et coordonne ses actions pour atteindre des **objectifs communs**. Toute organisation a une **frontière** (qui en fait partie ou non), des **règles** et une **finalité**.' },
-      { t: 'p', c: 'On distingue traditionnellement **trois grands types d’organisations**, selon qui les crée et dans quel but.' },
-      { t: 'table', head: ['Type d’organisation', 'Exemples', 'Finalité dominante'], rows: [
-        ['Entreprise privée', 'PME, multinationale, artisan', 'Réaliser un **profit** (finalité lucrative)'],
-        ['Organisation publique', 'Mairie, hôpital public, école, État', 'Rendre un **service public** d’intérêt général'],
-        ['Organisation de la société civile', 'Association, ONG, syndicat, fondation', 'Défendre une **cause**, un intérêt collectif (non lucratif)'],
-      ] },
-      { t: 'p', c: 'La **finalité** est la **raison d’être** de l’organisation, sa vocation profonde et durable. Il ne faut pas la confondre avec les **objectifs**, qui sont des buts précis, chiffrés et datés au service de cette finalité.' },
-      { t: 'list', c: [
-        'Finalité **lucrative** : réaliser et pérenniser un **profit** (la plupart des entreprises privées).',
-        'Finalité **non lucrative** : rendre un **service** sans rechercher le profit (organisations publiques, associations).',
-        'Finalité **sociétale** : intégrer des préoccupations **sociales et environnementales** (RSE) — de plus en plus présente dans tous les types.',
-      ] },
-      { t: 'example', h: 'Une même activité, des finalités différentes', c: 'Une **clinique privée** (entreprise) cherche à être rentable ; un **hôpital public** vise l’accès aux soins pour tous ; une **association** de santé défend une cause. Même secteur, trois finalités différentes qui orientent tout le management.' },
-      { t: 'p', c: 'Chaque organisation poursuit aussi une **mission** (ce qu’elle fait, pour qui) et se fixe des **objectifs** mesurables. Le rôle du dirigeant est de traduire la finalité en objectifs concrets, puis en actions.' },
-      { t: 'warning', h: 'Piège fréquent', c: 'Ne confonds pas **finalité** (raison d’être, durable et générale) et **objectif** (but précis, chiffré, daté). Exemple : finalité = « offrir une mobilité durable » ; objectif = « vendre 5 000 vélos cette année ».' },
-      { t: 'tip', h: 'À retenir', c: 'Une **organisation** = des personnes + des moyens + des objectifs communs. Trois types : **entreprise privée** (lucrative), **organisation publique** (service public), **société civile** (associations, ONG…). La **finalité** est la raison d’être ; les **objectifs** en découlent.' },
-    ]),
-
-    S('🎯 La performance : efficacité, efficience, création de valeur', [
-      { t: 'p', c: 'Une organisation doit être **performante** pour durer. La performance mesure sa capacité à **atteindre ses objectifs** en **utilisant bien ses ressources**. C’est une notion centrale du management, qui repose sur deux piliers à ne jamais confondre.' },
-      { t: 'table', head: ['Notion', 'Définition', 'Question posée'], rows: [
-        ['Efficacité', 'Atteindre l’objectif fixé', '« A-t-on atteint le but ? »'],
-        ['Efficience', 'Atteindre l’objectif au moindre coût (bon usage des moyens)', '« À quel prix / avec quels moyens ? »'],
-      ] },
-      { t: 'example', h: 'Efficace mais pas efficient', c: 'Une entreprise livre ses 1 000 commandes dans les délais (**efficace**) mais en payant énormément d’heures supplémentaires et en gaspillant des matières. Elle a atteint l’objectif, mais **au prix fort** : elle n’est pas **efficiente**. La performance vise les deux à la fois.' },
-      { t: 'p', c: 'La performance ne se réduit pas à l’aspect financier. On parle aujourd’hui de **performance globale**, qui combine trois dimensions complémentaires.' },
+    S('🎯 La création de valeur et la performance globale', [
+      { t: 'p', c: 'L’activité de production est avant tout un processus de **création de valeur** : l’organisation transforme des ressources en biens ou services qui ont **plus de valeur** pour le client (ou l’usager) que ce qu’ils ont coûté. Cette création de richesse conditionne sa survie et son développement.' },
+      { t: 'p', c: 'La **valeur ajoutée** mesure la richesse réellement créée : c’est la différence entre la **valeur de la production** et la **valeur des consommations** achetées à l’extérieur (matières, énergie, services). Elle sert ensuite à **rémunérer les acteurs** (salariés, État via les impôts, apporteurs de capitaux) et à **investir**. Une organisation crée de la richesse pour elle-même **et** pour la société.' },
+      { t: 'p', c: 'Michael **Porter** a modélisé cette logique avec la **chaîne de valeur** : l’ensemble des **activités** (approvisionnement, production, logistique, marketing, service…) qui, mises bout à bout, créent de la valeur pour le client. En analysant sa chaîne de valeur, l’organisation repère les activités les plus **créatrices de valeur**, celles à améliorer, à internaliser ou à **externaliser**.' },
+      { t: 'example', h: 'La chaîne de valeur d’un fabricant de vélos', c: 'Achat des composants → assemblage → contrôle qualité → distribution → service après-vente. Chaque maillon ajoute de la valeur. Si le SAV est excellent, il crée un avantage que le client est prêt à payer plus cher.' },
+      { t: 'p', c: 'La performance ne se réduit plus à l’aspect financier. On parle aujourd’hui de **performance globale** : elle combine **trois dimensions** complémentaires, et parfois en tension, que le management doit chercher à concilier.' },
       { t: 'table', head: ['Dimension de la performance', 'Ce qu’elle mesure'], rows: [
         ['Économique / financière', 'Rentabilité, chiffre d’affaires, profit, part de marché'],
         ['Sociale', 'Conditions de travail, motivation, faible turnover, climat social'],
         ['Environnementale', 'Empreinte écologique, économies d’énergie, éco-conception'],
       ] },
-      { t: 'p', c: 'La performance passe par la **création de valeur** : l’organisation transforme des ressources en biens ou services qui ont **plus de valeur** pour le client que ce qu’ils ont coûté. La différence est la **valeur ajoutée**.' },
-      { t: 'p', c: 'Michael **Porter** a modélisé cette logique avec la **chaîne de valeur** : l’ensemble des **activités** (approvisionnement, production, logistique, marketing, service…) qui, mises bout à bout, créent de la valeur pour le client. Analyser sa chaîne de valeur permet de repérer les activités les plus créatrices de valeur et celles à améliorer ou externaliser.' },
-      { t: 'example', h: 'La chaîne de valeur d’un fabricant de vélos', c: 'Achat des composants → assemblage → contrôle qualité → distribution → service après-vente. Chaque maillon ajoute de la valeur. Si le SAV est excellent, il crée un avantage que le client est prêt à payer plus cher.' },
-      { t: 'tip', h: 'À retenir', c: '**Efficacité** = atteindre l’objectif ; **efficience** = l’atteindre au moindre coût. La **performance globale** combine l’économique, le social et l’environnemental. L’organisation **crée de la valeur** le long de sa **chaîne de valeur** (Porter).' },
+      { t: 'p', c: 'Une organisation peut être **rentable** à court terme tout en dégradant sa performance **sociale** (mauvaises conditions de travail) ou **environnementale** (pollution). La performance globale invite à **concilier les trois** pour être durable — logique qui prolonge la **RSE** (thème 3).' },
+      { t: 'example', h: 'Concilier les trois performances', c: 'Une entreprise qui investit dans des machines moins énergivores réduit ses coûts (économique), améliore les conditions de travail (sociale) et son empreinte (environnementale) : les trois performances progressent ensemble.' },
+      { t: 'warning', h: 'À ne pas confondre', c: 'La **valeur ajoutée** (richesse créée par l’organisation) n’est pas le **chiffre d’affaires** (total des ventes) ni le **bénéfice** (ce qui reste après toutes les charges). Une forte VA peut coexister avec un faible bénéfice si les charges de personnel et financières sont élevées.' },
+      { t: 'tip', h: 'À retenir', c: 'L’organisation **crée de la valeur** en transformant des ressources ; la **valeur ajoutée** = valeur de la production − consommations externes. La **chaîne de valeur** (Porter) repère les activités créatrices de valeur. La **performance globale** combine l’**économique**, le **social** et l’**environnemental**.' },
     ]),
 
     S('🧩 Les ressources et les compétences de l’organisation', [

@@ -14,29 +14,22 @@ export const management = {
       keywords: 'types organisations finalité performance efficacité efficience ressources chaîne de valeur compétitivité prix hors-prix',
       cours: [
         {
-          h: 'Types et finalités',
+          h: 'Ressources et création de valeur',
           points: [
-            'Types : entreprises privées ; organisations publiques (État, collectivités) ; organisations de la société civile (associations, ONG, syndicats).',
-            'Finalités : lucrative (profit), non lucrative (intérêt général, service public), sociétale (**RSE**).',
-          ],
-        },
-        {
-          h: 'Performance et ressources',
-          points: [
-            '**Efficacité** = atteindre l’objectif ; **efficience** = l’atteindre au moindre coût.',
             'Ressources : financières, humaines, matérielles, immatérielles (compétences, savoir-faire, marque, image, brevets).',
-            'Chaîne de valeur et création de valeur ; performance financière.',
+            '**Chaîne de valeur** (Porter) et **valeur ajoutée** ; **performance globale** (économique, sociale, environnementale).',
           ],
         },
         {
-          h: 'Compétitivité',
+          h: 'Compétitivité et avantage concurrentiel',
           points: [
-            'Compétitivité-**prix** (proposer un prix plus bas).',
+            'Compétitivité-**prix** (maîtrise des coûts, prix plus bas).',
             'Compétitivité **hors-prix** (qualité, innovation, image, délais).',
+            '**Avantage concurrentiel** (Porter) : par les coûts, par la différenciation ou par la focalisation.',
           ],
         },
       ],
-      formulas: ['Efficacité = atteindre l’objectif · Efficience = l’atteindre au moindre coût'],
+      formulas: ['Valeur ajoutée = valeur de la production − consommations intermédiaires externes'],
       games: [
         {
           id: 'mgmt-t1-qcm',

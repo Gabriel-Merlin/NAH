@@ -87,6 +87,28 @@ function synthEssentiel(chapter) {
   return items.length >= 3 ? items : null
 }
 
+// Cours de Terminale = uniquement des notions de Terminale. Certaines sections,
+// héritées des modules, ne font que reprendre des PRÉREQUIS de Première (« qu'est-ce
+// qu'une organisation », types/finalités, efficacité/efficience, facteurs de
+// production…). On les MASQUE du cours affiché, sans les supprimer des modules :
+// les notions de Première restent dans la banque d'exercices (keyterms.js), donc
+// les EXERCICES peuvent toujours les mobiliser pour formuler des questions de
+// Terminale — mais l'élève ne relit plus ces bases dans le cours.
+// Pour en masquer d'autres : ajouter un motif (titre de section) au thème concerné.
+const PREREQ_SECTIONS = {
+  'mgmt-t1': [
+    /Decathlon.*trois logiques/i,
+    /Ce qui fait tourner une organisation/i,
+    /Exemple traité[^]*caractériser une organisation/i,
+    /Qu[’'`]est-ce qu[’'`]une organisation[^]*trois types/i,
+    /Finalité, performance et parties prenantes/i,
+    /Produire[^]*facteurs et combinaison productive/i,
+    /Étude de cas guidée[^]*caractériser et diagnostiquer/i,
+    /Mesurer la performance/i,
+    /Organiser la production/i,
+  ],
+}
+
 export const ALL_CHAPTERS = {}
 for (const s of SUBJECTS) {
   for (const c of s.chapters) {
@@ -137,6 +159,13 @@ for (const s of SUBJECTS) {
     // principale « 📘 Le cours » (pas de « group »).
     const mdeep = MGMT_DEEP[c.id]
     if (mdeep?.length) c.cours = [...mdeep, ...(c.cours || [])]
+    // Masquage des sections « prérequis de Première » (voir PREREQ_SECTIONS) :
+    // le cours de Terminale n'affiche que du niveau Terminale. Les notions
+    // restent dans la banque d'exercices → toujours mobilisables en exercice.
+    const prereq = PREREQ_SECTIONS[c.id]
+    if (prereq?.length && Array.isArray(c.cours)) {
+      c.cours = c.cours.filter((sec) => !prereq.some((rx) => rx.test(_strip(sec.h))))
+    }
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
