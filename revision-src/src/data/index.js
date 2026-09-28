@@ -281,25 +281,70 @@ function trouFromBold(sec) {
   return out
 }
 
+// Un tableau à 2 colonnes est-il une VRAIE table « terme → définition » (→ bon
+// pour définitions clés, flashcards, QCM notions) ou une COMPARAISON de deux
+// colonnes parallèles (atouts / risques, interne / externe, actif / passif,
+// avant / après…) ? Une comparaison ne doit JAMAIS devenir une paire
+// terme→définition : cela fabrique de fausses définitions (« un atout » : « un
+// risque »). On la détecte pour la transformer plutôt en exercice de tri.
+const _accents = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+const _norm = (s) => _accents(stripMd(String(s || ''))).toLowerCase().trim()
+const CONTRAST_RE = /\b(risques?|limites?|inconv[ée]nients?|freins?|menaces?|faiblesses?|greenwashing|d[ée]rives?)\b/i
+const OPP_LEFT_RE = /^(atouts?|avantages?|forces?|opportunit[ée]s?|mobiles?|emplois?|actif|interne|b[ée]n[ée]fices?|points? forts?)\b/
+const OPP_RIGHT_RE = /^(risques?|limites?|inconv[ée]nients?|freins?|menaces?|faiblesses?|ressources?|passif|externe|greenwashing|points? faibles?)\b/
+const _STOP2 = new Set(['avec', 'dans', 'pour', 'cette', 'leur', 'sont', 'plus', 'type', 'types', 'selon', 'entre', 'quoi', 'chez'])
+function twoColKind(head) {
+  const h0 = _norm((head || [])[0])
+  const h1 = _norm((head || [])[1])
+  if (!h0 || !h1) return 'def'
+  // 1) Vraie définition (priorité) : l'entête l'annonce explicitement.
+  if (/definition|\bsens\b|signif|designe|veut dire|c.?est quoi/.test(h1)) return 'def'
+  if (/\bnotion|\bterme|\bmot\b|concept|vocabulaire|sigle|acronyme/.test(h0)) return 'def'
+  // 2) Comparaison : marqueur de contraste, opposition gauche↔droite, entête
+  //    temporel « avant / après », ou mot fort commun aux deux titres.
+  if (CONTRAST_RE.test(h0) || CONTRAST_RE.test(h1)) return 'compare'
+  if (OPP_LEFT_RE.test(h0) && OPP_RIGHT_RE.test(h1)) return 'compare'
+  if (/^avant\b/.test(h0) && /^(apres|avec|aujourd|maintenant|desormais|depuis)/.test(h1)) return 'compare'
+  const toks0 = new Set(h0.split(/[^a-z0-9]+/).filter((w) => w.length >= 4 && !_STOP2.has(w)))
+  if (h1.split(/[^a-z0-9]+/).some((w) => w.length >= 4 && !_STOP2.has(w) && toks0.has(w))) return 'compare'
+  return 'def'
+}
+
 // Extrait toutes les « matières premières » exploitables d'une section :
-// paires de dates, paires notion→définition, lignes de tableaux larges. Sert de
-// base à TOUS les exercices générés du chapitre.
+// paires de dates, paires notion→définition, lignes de tableaux larges, et
+// tableaux de comparaison (deux colonnes parallèles). Sert de base à TOUS les
+// exercices générés du chapitre.
 function sectionPairs(sec) {
   const blocks = sec.blocks || []
   const isDateHead = (h) => /date|année/i.test(h || '')
   const datePairs = [] // { d, e }
   const defPairs = []  // { term, def }
   const widePairs = [] // { q, a, e }
+  const compareTables = [] // { labelA, labelB, itemsA, itemsB }
   for (const b of blocks) {
     if (b.t === 'table' && isDateHead((b.head || [])[0])) {
       for (const r of b.rows || []) if (r[0] && r[1]) datePairs.push({ d: stripMd(String(r[0])), e: stripMd(String(r[1])) })
     } else if (b.t === 'frise') {
       for (const e of b.events || []) if (e.date && e.label) datePairs.push({ d: stripMd(e.date), e: stripMd(e.label) })
     } else if (b.t === 'table' && (b.head || []).length === 2 && !isDateHead((b.head || [])[0])) {
-      for (const r of b.rows || []) {
-        const term = stripMd(String(r[0] || ''))
-        const def = stripMd(String(r[1] || ''))
-        if (term && def && term.length <= 60) defPairs.push({ term, def })
+      if (twoColKind(b.head) === 'compare') {
+        const labelA = stripMd(String((b.head || [])[0] || ''))
+        const labelB = stripMd(String((b.head || [])[1] || ''))
+        const itemsA = []
+        const itemsB = []
+        for (const r of b.rows || []) {
+          const a = stripMd(String(r[0] || ''))
+          const c = stripMd(String(r[1] || ''))
+          if (a) itemsA.push(a)
+          if (c) itemsB.push(c)
+        }
+        if (labelA && labelB && itemsA.length && itemsB.length) compareTables.push({ labelA, labelB, itemsA, itemsB })
+      } else {
+        for (const r of b.rows || []) {
+          const term = stripMd(String(r[0] || ''))
+          const def = stripMd(String(r[1] || ''))
+          if (term && def && term.length <= 60) defPairs.push({ term, def })
+        }
       }
     } else if (b.t === 'table') {
       const w = (b.head || []).length
@@ -308,7 +353,7 @@ function sectionPairs(sec) {
         for (const r of b.rows || []) {
           const entry = stripMd(String(r[0] || ''))
           const rest = r.slice(1).map((x) => stripMd(String(x || ''))).filter(Boolean).join(' — ')
-          if (entry && rest && entry.length <= 40) widePairs.push({ q: `${label} — « ${entry} » : ?`, a: rest, e: `${entry} → ${rest}` })
+          if (entry && rest && entry.length <= 40) widePairs.push({ q: `${label ? label + ' — ' : ''}« ${entry} » : ?`, a: rest, e: `${entry} → ${rest}` })
         }
       }
     }
@@ -329,7 +374,7 @@ function sectionPairs(sec) {
   // Dédoublonnage des définitions (même terme répété).
   const seen = new Set()
   const uniqDefs = defPairs.filter((p) => { const k = p.term.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true })
-  return { datePairs, defPairs: uniqDefs, widePairs }
+  return { datePairs, defPairs: uniqDefs, widePairs, compareTables }
 }
 
 // Fabrique un exercice « à écrire » (type saisie) à partir d'items
@@ -447,7 +492,7 @@ function enrichedDefPool(defPairs, themeId, idx) {
 // le contenu, lui, est mélangé/tronqué à chaque partie — jamais deux fois le même.
 function sectionExercises(sec, theme, idx) {
   const base = `${theme.id}::${idx}`
-  const { datePairs, defPairs, widePairs } = sectionPairs(sec)
+  const { datePairs, defPairs, widePairs, compareTables } = sectionPairs(sec)
   const richDefs = enrichedDefPool(defPairs, theme.id, idx)
   const out = []
   const uniqEvents = [...new Set(datePairs.map((p) => p.e))]
@@ -519,6 +564,30 @@ function sectionExercises(sec, theme, idx) {
     const sTrou = saisieFromItems(trou.map((q) => ({ prompt: `Complète par le mot exact :\n${q.text}`, answer: q.answer, explain: q.explain })), `${base}::strou`, 'Complète — à écrire', '✍️')
     if (sTrou) out.push(sTrou)
   }
+
+  // 5) Tri (classification) à partir des tableaux de COMPARAISON du cours (deux
+  //    colonnes parallèles : atouts / risques, interne / externe, actif / passif,
+  //    avant / après…). Ces tableaux ne deviennent jamais des définitions ; on en
+  //    fait un exercice où l'élève range chaque élément dans la bonne colonne.
+  const clean = (t) => stripMd(String(t || '')).replace(/\s+/g, ' ').trim()
+  compareTables.forEach((ct, ci) => {
+    const a = [...new Set(ct.itemsA.map(clean))].filter((t) => t.length >= 2 && t.length <= 70).slice(0, 4)
+    const b = [...new Set(ct.itemsB.map(clean))].filter((t) => t.length >= 2 && t.length <= 70).slice(0, 4)
+    if (a.length < 2 || b.length < 2) return
+    const labelA = shortenDef(clean(ct.labelA), 42)
+    const labelB = shortenDef(clean(ct.labelB), 42)
+    if (labelA.toLowerCase() === labelB.toLowerCase()) return
+    const items = shuffle([...a.map((t) => ({ text: t, cat: 'a' })), ...b.map((t) => ({ text: t, cat: 'b' }))])
+    out.push({
+      id: `${base}::tri${ci}`,
+      type: 'tri',
+      title: `Tri — ${labelA} ou ${labelB} ?`,
+      icon: '🗂️',
+      instruction: 'Classe chaque élément dans la bonne colonne.',
+      categories: [{ id: 'a', label: labelA }, { id: 'b', label: labelB }],
+      items,
+    })
+  })
 
   return out
 }
