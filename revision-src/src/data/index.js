@@ -109,6 +109,64 @@ const PREREQ_SECTIONS = {
   ],
 }
 
+// Dédoublonnage des sections de cours. Après empilement de plusieurs modules
+// (cours de base, « cours réels », approfondir ×4, enrich…), un même sujet
+// pouvait apparaître 2 à 4 fois dans un thème (« Nombre dérivé et tangente »,
+// « La RSE et le développement durable »…). On regroupe les sections de MÊME
+// nature (leçon / exemple / méthode / cas) portant sur le MÊME sujet et on ne
+// garde que la version la plus complète, ancrée dans la catégorie la plus
+// visible (« Le cours » de préférence). Réversible : retirer l'appel suffit.
+const _dnorm = (h) => String(h || '').replace(/\*\*/g, '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ')
+const _DEDUP_STOP = new Set(['le', 'la', 'les', 'd', 'de', 'des', 'du', 'un', 'une', 'et', 'au', 'aux', 'en', 'dans', 'sa', 'ses', 'son', 'pour', 'par', 'sur', 'ou', 'exemple', 'exemples', 'exercice', 'exercices', 'traite', 'traitee', 'guide', 'guidee', 'methode', 'cas', 'pratique', 'etude', 'type', 'chiffre', 'chiffree'])
+const _GPRIO = { '': 0, approf: 1, methode: 2, cas: 3 }
+function _dkeys(h) { return new Set(_dnorm(h).split(/\s+/).filter((w) => w.length >= 3 && !_DEDUP_STOP.has(w))) }
+function _djac(a, b) { if (!a.size || !b.size) return 0; let i = 0; for (const x of a) if (b.has(x)) i++; return i / (new Set([...a, ...b]).size) }
+function _dkind(h, g) {
+  const t = _dnorm(h)
+  if (/cas pratique|etude de cas/.test(t) || g === 'cas') return 'case'
+  if (/methode/.test(t) || g === 'methode') return 'method'
+  if (/exemple|exercice type|exercice guide|exercice traite/.test(t)) return 'example'
+  return 'lesson'
+}
+function _dweight(sec) {
+  let w = 0
+  for (const b of sec.blocks || []) {
+    if (typeof b.c === 'string') w += b.c.length
+    else if (Array.isArray(b.c)) w += b.c.join('').length
+    if (b.rows) w += JSON.stringify(b.rows).length
+  }
+  if (Array.isArray(sec.points)) w += sec.points.join('').length
+  return w
+}
+function dedupeCourse(cours) {
+  if (!Array.isArray(cours) || cours.length < 2) return cours
+  const secs = cours.map((sec, i) => ({ i, sec, k: _dkind(sec.h, sec.group), g: sec.group || '', kw: _dkeys(sec.h), w: _dweight(sec) }))
+  const parent = secs.map((_, i) => i)
+  const find = (x) => (parent[x] === x ? x : (parent[x] = find(parent[x])))
+  for (let a = 0; a < secs.length; a++)
+    for (let b = a + 1; b < secs.length; b++)
+      if (secs[a].k === secs[b].k && secs[a].kw.size >= 2 && secs[b].kw.size >= 2 && _djac(secs[a].kw, secs[b].kw) >= 0.62)
+        parent[find(b)] = find(a)
+  const clusters = new Map()
+  secs.forEach((s, i) => { const r = find(i); if (!clusters.has(r)) clusters.set(r, []); clusters.get(r).push(s) })
+  const emit = new Map()
+  const drop = new Set()
+  for (const members of clusters.values()) {
+    if (members.length < 2) continue
+    const rich = members.reduce((p, x) => (x.w > p.w ? x : p))
+    const anchor = members.reduce((p, x) => {
+      const gp = _GPRIO[x.g] ?? 1
+      const pp = _GPRIO[p.g] ?? 1
+      return gp !== pp ? (gp < pp ? x : p) : (x.i < p.i ? x : p)
+    })
+    emit.set(anchor.i, { ...rich.sec, group: anchor.g || undefined })
+    for (const x of members) if (x.i !== anchor.i) drop.add(x.i)
+  }
+  const out = []
+  secs.forEach((s) => { if (drop.has(s.i)) return; out.push(emit.get(s.i) || s.sec) })
+  return out
+}
+
 export const ALL_CHAPTERS = {}
 for (const s of SUBJECTS) {
   for (const c of s.chapters) {
@@ -166,6 +224,9 @@ for (const s of SUBJECTS) {
     if (prereq?.length && Array.isArray(c.cours)) {
       c.cours = c.cours.filter((sec) => !prereq.some((rx) => rx.test(_strip(sec.h))))
     }
+    // Dédoublonnage : un même sujet ne doit apparaître qu'une fois (version la
+    // plus complète). Voir dedupeCourse plus haut.
+    if (Array.isArray(c.cours) && c.cours.length > 1) c.cours = dedupeCourse(c.cours)
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
