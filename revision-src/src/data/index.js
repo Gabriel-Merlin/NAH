@@ -227,6 +227,14 @@ for (const s of SUBJECTS) {
     // Dédoublonnage : un même sujet ne doit apparaître qu'une fois (version la
     // plus complète). Voir dedupeCourse plus haut.
     if (Array.isArray(c.cours) && c.cours.length > 1) c.cours = dedupeCourse(c.cours)
+    // Lisibilité : ouvrir le cours par son accroche concrète (les « cours réels »
+    // sont écrits comme des mises en situation d'introduction). On remonte ces
+    // sections en tête de la catégorie « 📘 Le cours ».
+    const hookHeads = new Set((COURS_REELS[c.id] || []).map((s) => s.h))
+    if (hookHeads.size && Array.isArray(c.cours) && c.cours.length > 1) {
+      const isHook = (s) => !s.group && hookHeads.has(s.h)
+      c.cours = [...c.cours.filter(isHook), ...c.cours.filter((s) => !isHook(s))]
+    }
     // Filet universel « cours clair » : toute page de thème s'ouvre sur une intro
     // et se referme sur un mémo « L'essentiel », même sans cours rédigé à la main.
     if (!c.intro) { const i = synthIntro(c); if (i) c.intro = i }
@@ -404,9 +412,20 @@ function twoColKind(head) {
 // paires de dates, paires notion→définition, lignes de tableaux larges, et
 // tableaux de comparaison (deux colonnes parallèles). Sert de base à TOUS les
 // exercices générés du chapitre.
+// Une chaîne n'est-elle qu'une date / un repère chronologique (année, période,
+// date complète) ? Sert à ne PAS transformer un repère de date en « définition »
+// (« Plan Marshall : 1947 » n'est pas une définition mais une date).
+function isBareDate(s) {
+  const t = String(s || '').trim()
+  if (!t || t.length > 28) return false
+  return /^(vers\s+|env\.?\s+|~|avant\s+|apr[èe]s\s+|d[èe]s\s+)?-?\d{3,4}(\s*[-–—/]\s*\d{2,4})?$/i.test(t)
+    || /^(\d{1,2}(er)?\s+)?[a-zàâéèêîïôûçäëüö]+\s+-?\d{3,4}$/i.test(t)
+    || /^(le\s+)?\d{1,2}[\/.]\d{1,2}[\/.]\d{2,4}$/.test(t)
+}
+
 function sectionPairs(sec) {
   const blocks = sec.blocks || []
-  const isDateHead = (h) => /date|année/i.test(h || '')
+  const isDateHead = (h) => /date|année|chronolog/i.test(h || '')
   const datePairs = [] // { d, e }
   const defPairs = []  // { term, def }
   const widePairs = [] // { q, a, e }
@@ -460,6 +479,15 @@ function sectionPairs(sec) {
     const term = stripMd(m[1]).replace(/[;,.]$/, '').trim()
     const def = stripMd(m[2]).replace(/[;.]$/, '').trim()
     if (term && def.length > 3 && term.length <= 50) defPairs.push({ term, def })
+  }
+  // Un « repère chronologique » n'est pas une définition : si le terme OU la
+  // définition n'est qu'une date, on bascule la paire vers les dates (elle
+  // alimentera un QCM de dates, pas un QCM de notions). Évite « Plan Marshall :
+  // 1947 » présenté comme une définition, et les années parasites en distracteurs.
+  for (let i = defPairs.length - 1; i >= 0; i--) {
+    const p = defPairs[i]
+    if (isBareDate(p.def)) { datePairs.push({ d: p.def, e: p.term }); defPairs.splice(i, 1) }
+    else if (isBareDate(p.term)) { datePairs.push({ d: p.term, e: p.def }); defPairs.splice(i, 1) }
   }
   // Dédoublonnage des définitions (même terme répété).
   const seen = new Set()
