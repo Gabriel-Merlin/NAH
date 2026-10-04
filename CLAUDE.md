@@ -1,47 +1,20 @@
 # CLAUDE.md
 
-Ce dépôt contient deux projets distincts :
+Ce dépôt contient **NAH**, le site du lycée Marceau contre le harcèlement : HTML, CSS
+et JS sans framework, servi par GitHub Pages depuis `main`. Documentation :
+`README.md`.
 
-- **NAH** (racine) : site du lycée Marceau contre le harcèlement. HTML, CSS et JS
-  sans framework. Documentation : `README.md`.
-- **RévizSTMG** : application de révision du bac STMG. Le code est dans `revision-src/`
-  et la version compilée dans `revision/`. Documentation : `revision-src/README.md`.
-
-Ne mélangez pas les deux. Une demande sur « le site », les cours ou les exercices
-concerne presque toujours RévizSTMG.
-
-## RévizSTMG : commandes
-
-```bash
-cd revision-src
-npm install
-npm run dev      # http://localhost:5173, routes sous /#/
-npm run build    # vide puis régénère ../revision/ (fichier unique + PWA)
-```
-
-- `revision/` est généré : ne le modifiez jamais à la main, relancez le build.
-- Il n'y a pas de tests automatiques. Après une modification, vérifiez dans un
-  navigateur le parcours concerné.
-
-## RévizSTMG : contenu
-
-- Le contenu est dans `revision-src/src/data/`, avec un fichier par matière.
-- `data/index.js` assemble les matières, applique les couches d'enrichissement et
-  génère les exercices et les flashcards à partir du texte des cours.
-- Les cours de Terminale ne contiennent que des notions de Terminale. Les notions de
-  Première servent seulement à formuler des exercices.
-- N'inventez aucune notion : tout doit correspondre au programme officiel de STMG.
-- L'interface et le contenu sont en français.
+**RévizSTMG n'est plus ici.** L'application de révision du bac STMG vit dans le
+dépôt `revizstmg/revizstmg.github.io`. Toute demande sur les cours, les exercices ou
+l'app de révision se traite dans ce dépôt-là. Ici, il ne reste que
+`revision/index.html`, une page qui redirige l'ancienne adresse vers
+https://revizstmg.github.io.
 
 ## Supabase
 
-- NAH et RévizSTMG partagent le projet `wyydagcjkbivtbuhbzon`.
+- NAH partage le projet `wyydagcjkbivtbuhbzon` avec RévizSTMG. Ne touchez pas aux
+  tables de RévizSTMG (`profiles`, `leaderboard`, `friend_*`, `class_*`,
+  `child_stats`).
 - La clé « anon » est publique : chaque table doit avoir des règles RLS.
 - `supabase/schema.sql` est incomplet. Avant de modifier la base, vérifiez son état
   réel sur Supabase.
-
-## Mise en ligne
-
-- Développez sur une branche de travail.
-- La production est la branche `main`. Quand `revision/` change sur `main`, le
-  workflow `sync-revizstmg.yml` publie l'application sur https://revizstmg.github.io.

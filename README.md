@@ -7,10 +7,11 @@ un groupe d'élèves du **Lycée Marceau** à Chartres (28).
 
 **URL de production :** https://gabriel-merlin.github.io/NAH/
 
-> **Ce dépôt héberge aussi RévizSTMG**, l'application de révision du bac STMG
-> (code dans `revision-src/`, version compilée dans `revision/`, en ligne sur
-> https://revizstmg.github.io). Sa documentation :
-> [revision-src/README.md](revision-src/README.md).
+> **RévizSTMG a quitté ce dépôt.** L'application de révision du bac STMG vit
+> désormais dans [revizstmg/revizstmg.github.io](https://github.com/revizstmg/revizstmg.github.io)
+> (en ligne sur https://revizstmg.github.io). L'ancienne adresse
+> `/NAH/revision/` redirige vers le nouveau site. Les deux projets partagent
+> encore le même projet Supabase.
 
 ---
 
