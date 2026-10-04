@@ -7,6 +7,11 @@ un groupe d'élèves du **Lycée Marceau** à Chartres (28).
 
 **URL de production :** https://gabriel-merlin.github.io/NAH/
 
+> **Ce dépôt héberge aussi RévizSTMG**, l'application de révision du bac STMG
+> (code dans `revision-src/`, version compilée dans `revision/`, en ligne sur
+> https://revizstmg.github.io). Sa documentation :
+> [revision-src/README.md](revision-src/README.md).
+
 ---
 
 ## ✨ Pages du site
